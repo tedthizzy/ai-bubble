@@ -155,6 +155,10 @@ review-queue *FLAGS:
 materiality-adjudication *FLAGS:
     uv run python scripts/build_materiality_adjudication_packets.py {{FLAGS}}
 
+# Build conservative automated decisions for materiality adjudication packets.
+materiality-adjudication-decisions *FLAGS:
+    uv run python scripts/build_materiality_adjudication_decisions.py {{FLAGS}}
+
 # Build source-backed quarter timing signals for crack-window triage.
 timing-signals *FLAGS:
     uv run python scripts/build_timing_signals.py {{FLAGS}}

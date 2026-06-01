@@ -301,7 +301,7 @@ Use `--overwrite` only for an intentional full rebuild.
 just capital-evidence data/edgar_acquisition
 ```
 
-EDGAR candidate extraction uses context-supported deal notional, not the largest dollar number in a filing. Corporate scale metrics such as AUM, remaining performance obligations, generic investment commitments, fundraising commitments, and outstanding balance-sheet totals are rejected as deal notional unless a later review overrides them.
+EDGAR candidate extraction uses context-supported deal notional, not the largest dollar number in a filing. Corporate scale metrics such as AUM, remaining performance obligations, generic investment commitments, fundraising commitments, and outstanding balance-sheet totals are rejected as deal notional unless later adjudication overrides them.
 
 Production source data is guarded by an invariant: source rows and deal nodes must be backed by an actual source URI and cannot use inferred provenance.
 
@@ -320,7 +320,7 @@ export EDGAR_IDENTITY="Your Name your.email@example.com"
 just entity-universe --data-dir data --output-dir data/entity_universe
 ```
 
-This writes `entity_mentions.csv`, `entities.csv`, and `expanded_edgar_ciks.csv`. Rows preserve source URI, retrieval timestamp, content hash, document id, and record index so expanded CIKs remain traceable to real corpus evidence. Use the expanded CIK CSV as the next input for larger EDGAR manifest runs after reviewing the highest-impact matches.
+This writes `entity_mentions.csv`, `entities.csv`, and `expanded_edgar_ciks.csv`. Rows preserve source URI, retrieval timestamp, content hash, document id, and record index so expanded CIKs remain traceable to real corpus evidence. Use the expanded CIK CSV as the next input for larger EDGAR manifest runs after adjudicating the highest-impact matches.
 
 ```bash
 just edgar-manifest --all-public --cik-csv data/entity_universe/expanded_edgar_ciks.csv --since 2024-01-01 --include-exhibits --max-workers 32
@@ -370,7 +370,7 @@ Acquisition is parallel by default. `source-acquire` uses a bounded worker pool 
 Acquisition summary JSONs persist the actual worker count, SEC/non-SEC request-rate settings, per-domain concurrency settings, retry count, and resume status used for each run.
 
 The current operational corpus snapshot is tracked in `docs/acquisition_status.md`.
-Update that file after material acquisition, extraction, review-queue, timing, or
+Update that file after material acquisition, extraction, adjudication-queue, timing, or
 report refreshes so the docs stay tied to measured source coverage instead of
 stale ambition.
 
@@ -421,8 +421,8 @@ just capital-evidence data/capital --as-of 2026-12-31 --near-term-end 2029-12-31
 The extracted deal rows can also be compiled into a source-backed capital
 exposure graph. This writes entity nodes, counterparty edges, and a summary of
 top obligors, risk bearers, exposure edges, connected components, unmapped
-high-notional deals, skipped generic counterparties, source URIs, and review
-status. The summary also separates direct AI/data-center keyword edges and
+high-notional deals, skipped generic counterparties, source URIs, and
+adjudication status. The summary also separates direct AI/data-center keyword edges and
 watchlist-entity edges from the broader acquired capital network, so unrelated
 corporate financing does not silently become an AI-infrastructure conclusion.
 It also writes `capital_contract_nodes.csv` and `capital_contract_edges.csv`,
@@ -437,7 +437,7 @@ just capital-exposure-graph --data-dir data --output-dir data/graph
 The contract-structure graph can then be joined to the source-backed ownership
 graph to create a conservative contract/ownership contagion path artifact. The
 join is currently exact legal-name matching only; unmatched high-impact
-guarantee and collateral paths are still retained as contract-only review items.
+guarantee and collateral paths are still retained as contract-only adjudication items.
 Outputs are written to `data/reports/contract_contagion_paths.csv` and
 `data/reports/contract_contagion_summary.json`, with SEC/GLEIF source URIs,
 content hashes, adjudication statuses, notional exposure, ownership path depth, and
@@ -471,9 +471,9 @@ match audits, contract/ownership contagion paths, and compute economics rows.
 It writes `data/reports/review_queue.csv` and
 `data/reports/review_queue_summary.json`; every item keeps source URI, content
 hash, page or section, source confidence, adjudication status, ecosystem
-relevance tags, and a review-group id for duplicate-aware triage. The summary
-separates raw pending capital notional from review-grouped notional, separately
-tracks pending contract-tranche review notional, separately tracks pending
+relevance tags, and a legacy review-group id for duplicate-aware triage. The summary
+separates raw pending capital notional from adjudication-grouped notional, separately
+tracks pending contract-tranche adjudication notional, separately tracks pending
 contagion-path exposure, and breaks out the
 AI-infrastructure-relevant subset so broad corporate financing does not silently
 dominate the Burry worklist:
@@ -496,6 +496,18 @@ decision questions/fields for automated adjudication. It writes
 
 ```bash
 just materiality-adjudication --data-dir data --output-dir data/reports --limit 100
+```
+
+The packet set can then be adjudicated into conservative decision rows. This
+does not convert unresolved rows into final metrics; it separates
+source-supported blockers from rows that still need deeper extraction, quote
+retrieval, duplicate/aggregate splitting, counterparty-role extraction,
+collateral/guarantee scoping, or explicit rate/maturity evidence. It writes
+`data/reports/materiality_adjudication_decisions.csv` and
+`data/reports/materiality_adjudication_decision_summary.json`:
+
+```bash
+just materiality-adjudication-decisions --data-dir data --output-dir data/reports
 ```
 
 The crack-window timing layer then combines source-backed capital and tranche

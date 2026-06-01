@@ -22,7 +22,7 @@ class ExtractionState(TypedDict):
     extracted_deals: list[dict[str, Any]]
     extracted_risks: list[dict[str, Any]]
     confidence: float
-    requires_human_review: bool
+    requires_llm_adjudication: bool
     errors: list[str]
 
 
@@ -50,20 +50,20 @@ def llm_extract(state: ExtractionState) -> ExtractionState:
         state["confidence"] = 0.82
     else:
         state["confidence"] = 0.6
-        state["requires_human_review"] = True
+        state["requires_llm_adjudication"] = True
 
     return state
 
 
 def decide(state: ExtractionState) -> str:
-    if state.get("requires_human_review") or state.get("confidence", 0) < 0.7:
-        return "human_review"
+    if state.get("requires_llm_adjudication") or state.get("confidence", 0) < 0.7:
+        return "llm_adjudication"
     return "finalize"
 
 
 def finalize(state: ExtractionState) -> ExtractionState:
     if state.get("extracted_risks"):
-        state["requires_human_review"] = any(
+        state["requires_llm_adjudication"] = any(
             r.get("red_flag_score", 0) > 0.85 for r in state["extracted_risks"]
         )
     return state
@@ -77,7 +77,11 @@ workflow.add_node("finalize", finalize)
 
 workflow.set_entry_point("fetch")
 workflow.add_edge("fetch", "llm")
-workflow.add_conditional_edges("llm", decide, {"human_review": "finalize", "finalize": "finalize"})
+workflow.add_conditional_edges(
+    "llm",
+    decide,
+    {"llm_adjudication": "finalize", "finalize": "finalize"},
+)
 workflow.add_edge("finalize", END)
 
 extraction_graph = workflow.compile()
@@ -91,7 +95,7 @@ def run_edgar_extraction(cik: str, narrative_text: str = "") -> ExtractionState:
         "extracted_deals": [],
         "extracted_risks": [],
         "confidence": 0.0,
-        "requires_human_review": False,
+        "requires_llm_adjudication": False,
         "errors": [],
     }
     return cast("ExtractionState", extraction_graph.invoke(initial))

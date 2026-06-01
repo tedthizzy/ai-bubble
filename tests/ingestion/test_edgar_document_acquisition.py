@@ -103,7 +103,7 @@ def _assert_credit_candidate(candidate: DealCandidate) -> None:
     assert candidate.key_terms["counterparty_extraction_status"] == "role_extracted"
     assert candidate.key_terms["document_type"] == "exhibit"
     assert candidate.key_terms["parent_primary_document"] == "form8k.htm"
-    assert candidate.key_terms["requires_human_review"] is True
+    assert candidate.key_terms["requires_llm_adjudication"] is True
 
 
 def test_acquire_edgar_documents_writes_raw_docs_inventory_and_deal_candidates(tmp_path: Path):

@@ -35,7 +35,7 @@ def test_review_queue_prioritizes_source_backed_pending_items(tmp_path: Path) ->
                 "content_hash": "hash-credit",
                 "key_terms": json.dumps(
                     {
-                        "requires_human_review": True,
+                        "requires_llm_adjudication": True,
                         "notional_context_kind": "candidate_notional",
                         "extraction_method": "deterministic_edgar_agreement_v1",
                     }
@@ -345,7 +345,7 @@ def test_review_queue_groups_repeated_aggregate_capital_candidates(tmp_path: Pat
                 "content_hash": "hash-a",
                 "key_terms": json.dumps(
                     {
-                        "requires_human_review": True,
+                        "requires_llm_adjudication": True,
                         "notional_context_kind": "aggregate_lease_obligation",
                         "accession_number": "0001",
                     }
@@ -363,7 +363,7 @@ def test_review_queue_groups_repeated_aggregate_capital_candidates(tmp_path: Pat
                 "content_hash": "hash-b",
                 "key_terms": json.dumps(
                     {
-                        "requires_human_review": True,
+                        "requires_llm_adjudication": True,
                         "notional_context_kind": "aggregate_lease_obligation",
                         "accession_number": "0002",
                     }

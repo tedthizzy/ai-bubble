@@ -191,7 +191,7 @@ def _capital_review_items(
         extraction_method = str(key_terms.get("extraction_method") or "").strip()
         if context_kind:
             reasons.append(f"notional context: {context_kind}")
-        if key_terms.get("requires_human_review"):
+        if key_terms.get("requires_llm_adjudication") or key_terms.get("requires_human_review"):
             reasons.append("source extraction marked requires LLM adjudication")
         if extraction_method:
             reasons.append(f"extraction method: {extraction_method}")

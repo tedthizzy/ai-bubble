@@ -350,6 +350,18 @@ def load_materiality_adjudication_summary(data_dirs: list[str]) -> dict[str, Any
     return {}
 
 
+def load_materiality_adjudication_decision_summary(data_dirs: list[str]) -> dict[str, Any]:
+    """Load optional automated materiality adjudication decision summary."""
+
+    for root in data_dirs:
+        summary_path = Path(root) / "reports" / "materiality_adjudication_decision_summary.json"
+        if summary_path.exists():
+            loaded = json.loads(summary_path.read_text())
+            if isinstance(loaded, dict):
+                return loaded
+    return {}
+
+
 def load_timing_signal_summary(data_dirs: list[str]) -> dict[str, Any]:
     """Load optional source-backed crack-window timing signal summary."""
 
@@ -389,6 +401,9 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:
     review_queue_summary = load_review_queue_summary(resolved_data_dirs)
     materiality_adjudication_summary = load_materiality_adjudication_summary(
         resolved_data_dirs,
+    )
+    materiality_adjudication_decision_summary = load_materiality_adjudication_decision_summary(
+        resolved_data_dirs
     )
     timing_signal_summary = load_timing_signal_summary(resolved_data_dirs)
     source_invariant_audit = load_source_invariant_audit(resolved_data_dirs)
@@ -592,6 +607,31 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:
         ),
         "materiality_adjudication_total_exposure_basis_usd": (
             materiality_adjudication_summary.get("total_exposure_basis_usd", 0)
+        ),
+        "materiality_adjudication_decisions": materiality_adjudication_decision_summary.get(
+            "decisions",
+            0,
+        ),
+        "materiality_adjudication_supported_as_material_blocker": (
+            materiality_adjudication_decision_summary.get(
+                "supported_as_material_blocker",
+                0,
+            )
+        ),
+        "materiality_adjudication_needs_deeper_extraction": (
+            materiality_adjudication_decision_summary.get("needs_deeper_extraction", 0)
+        ),
+        "materiality_adjudication_source_quote_backed_decisions": (
+            materiality_adjudication_decision_summary.get("source_quote_backed_decisions", 0)
+        ),
+        "materiality_adjudication_approved_for_metric_use": (
+            materiality_adjudication_decision_summary.get("approved_for_metric_use", 0)
+        ),
+        "materiality_adjudication_final_metric_supported_amount_usd": (
+            materiality_adjudication_decision_summary.get(
+                "final_metric_supported_amount_usd",
+                0,
+            )
         ),
         "timing_signal_count": timing_signal_summary.get("signals", 0),
         "timing_signal_source_backed_count": timing_signal_summary.get(
@@ -993,6 +1033,7 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:
         "contract_contagion_paths": contract_contagion_summary,
         "review_queue": review_queue_summary,
         "materiality_adjudication": materiality_adjudication_summary,
+        "materiality_adjudication_decisions": materiality_adjudication_decision_summary,
         "timing_signals": timing_signal_summary,
         "source_invariant_audit": source_invariant_audit,
         "capital_scope": capital_scope_summary_dict,
@@ -1029,6 +1070,11 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:
                 f"The materiality-first pass has packaged "
                 f"{materiality_adjudication_summary.get('packets', 0)} top blockers "
                 f"for automated LLM adjudication. "
+                f"The automated adjudication decision pass has source-quote-backed "
+                f"{materiality_adjudication_decision_summary.get('source_quote_backed_decisions', 0)} "
+                f"packet decisions and currently approves "
+                f"{materiality_adjudication_decision_summary.get('approved_for_metric_use', 0)} "
+                f"for final metric use. "
                 f"The timing calendar currently has "
                 f"{timing_signal_summary.get('source_backed_signals', 0)} "
                 f"source-backed crack-window signals. "
@@ -1095,6 +1141,9 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:
                     "top_packets",
                     [],
                 )[:10],
+                "top_materiality_adjudication_decisions": (
+                    materiality_adjudication_decision_summary.get("top_decisions", [])[:10]
+                ),
                 "top_distinct_capital_review_queue_items": review_queue_summary.get(
                     "top_distinct_capital_items",
                     [],
@@ -1206,6 +1255,9 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:
                 "current_top_review_queue_items": review_queue_summary.get("top_items", [])[:10],
                 "current_top_materiality_adjudication_packets": (
                     materiality_adjudication_summary.get("top_packets", [])[:10]
+                ),
+                "current_top_materiality_adjudication_decisions": (
+                    materiality_adjudication_decision_summary.get("top_decisions", [])[:10]
                 ),
                 "current_refinancing_wall_review_status": {
                     "reviewed_debt_like_notional_usd": (
@@ -1391,6 +1443,9 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:
                 "current_top_materiality_adjudication_packets": (
                     materiality_adjudication_summary.get("top_packets", [])[:10]
                 ),
+                "current_top_materiality_adjudication_decisions": (
+                    materiality_adjudication_decision_summary.get("top_decisions", [])[:10]
+                ),
                 "current_top_debt_service_weak_links": weak_link_summary.get(
                     "top_debt_service_weak_links",
                     [],
@@ -1527,6 +1582,9 @@ def main() -> None:
 
 ## Materiality Adjudication
 {json.dumps(report["materiality_adjudication"], indent=2)}
+
+## Materiality Adjudication Decisions
+{json.dumps(report["materiality_adjudication_decisions"], indent=2)}
 
 ## Timing Signals
 {json.dumps(report["timing_signals"], indent=2)}

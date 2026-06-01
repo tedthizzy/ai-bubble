@@ -461,18 +461,41 @@ def _exposure_basis_usd(row: dict[str, str]) -> float:
 
 def _query_terms(row: dict[str, str]) -> list[str]:
     values = [
-        _field(row, "entity"),
         _field(row, "counterparty"),
         _field(row, "project_name"),
         _field(row, "deal_id"),
         _field(row, "source_row_id"),
+        _field(row, "subcategory").replace("_", " "),
+        _field(row, "reason"),
+        _field(row, "recommended_action"),
+        _field(row, "entity"),
     ]
+    category_terms = {
+        "capital": ["committed", "lease", "facility", "notional", "maturity", "borrower"],
+        "contract": ["collateral", "guarantor", "maturity", "interest", "tranche"],
+        "contagion": ["guarantee", "collateral", "non-recourse", "subsidiary", "parent"],
+        "physical": ["interconnection", "queue", "permit", "capacity", "megawatt"],
+        "compute": ["gpu", "depreciation", "useful life", "rental", "supply"],
+        "weak_link": ["maturity", "interest", "debt", "stress", "collateral"],
+    }
+    values.extend(category_terms.get(_field(row, "category"), []))
     terms: list[str] = []
     for value in values:
         terms.extend(
             term
             for term in re.split(r"[^A-Za-z0-9.$-]+", value)
-            if len(term) >= 4 and term.lower() not in {"inc", "corp", "company", "llc"}
+            if len(term) >= 4
+            and term.lower()
+            not in {
+                "inc",
+                "corp",
+                "company",
+                "llc",
+                "pending",
+                "adjudication",
+                "status",
+                "source",
+            }
         )
     return terms
 
@@ -482,14 +505,24 @@ def _best_snippet(text: str, terms: list[str], snippet_chars: int) -> str:
     if not normalized:
         return ""
     lowered = normalized.lower()
-    start = 0
-    for term in terms:
-        index = lowered.find(term.lower())
-        if index >= 0:
-            start = max(0, index - snippet_chars // 3)
-            break
+    unique_terms = list(dict.fromkeys(term.lower() for term in terms if len(term) >= 4))
+    candidate_starts = [0]
+    for term in unique_terms:
+        index = lowered.find(term)
+        while index >= 0 and len(candidate_starts) < 80:
+            candidate_starts.append(max(0, index - snippet_chars // 3))
+            index = lowered.find(term, index + len(term))
+    start = max(
+        candidate_starts,
+        key=lambda candidate: _snippet_score(lowered, candidate, snippet_chars, unique_terms),
+    )
     end = min(len(normalized), start + snippet_chars)
     return normalized[start:end].strip()
+
+
+def _snippet_score(text: str, start: int, snippet_chars: int, terms: list[str]) -> int:
+    window = text[start : start + snippet_chars]
+    return sum(1 for term in terms if term in window)
 
 
 def _normalize_text(text: str) -> str:

@@ -753,7 +753,7 @@ def extract_deal_candidate(
             "role_extracted" if counterparty_roles else "not_extracted"
         ),
         "counterparty_roles": counterparty_roles,
-        "requires_human_review": True,
+        "requires_llm_adjudication": True,
     }
     title = _candidate_title(manifest_row, deal_type)
 

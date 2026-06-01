@@ -167,7 +167,7 @@ def test_capital_structure_surfaces_high_notional_pending_review_candidates() ->
         notional_amount_usd=75_000_000_000,
         maturity_date=date(2028, 12, 15),
         key_terms={
-            "requires_human_review": True,
+            "requires_llm_adjudication": True,
             "extraction_method": "deterministic_edgar_agreement_v1",
         },
         provenance=_prov("sec:outlier-facility", status=HumanReviewStatus.PENDING),
@@ -203,7 +203,7 @@ def test_capital_structure_dedupes_repeated_aggregate_obligation_candidates() ->
             key_terms={
                 "accession_number": accession,
                 "notional_context_kind": "aggregate_lease_obligation",
-                "requires_human_review": True,
+                "requires_llm_adjudication": True,
                 "extraction_method": "deterministic_edgar_agreement_v1",
             },
             provenance=_prov(source_uri, status=HumanReviewStatus.PENDING),

@@ -8,6 +8,10 @@ from bubble.analysis.materiality_adjudication import (
     build_materiality_adjudication_packets,
     write_materiality_adjudication_packets,
 )
+from bubble.analysis.materiality_adjudication_results import (
+    build_materiality_adjudication_decisions,
+    write_materiality_adjudication_decisions,
+)
 
 
 def _write_csv(path: Path, rows: list[dict[str, object]]) -> None:
@@ -189,3 +193,128 @@ def test_write_materiality_adjudication_packets(tmp_path: Path) -> None:
     summary = json.loads(Path(outputs["summary_json"]).read_text())
     assert summary["packets"] == 1
     assert summary["categories"] == {"compute": 1}
+
+
+def test_materiality_adjudication_decisions_are_conservative(tmp_path: Path) -> None:
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-1",
+                "rank": 1,
+                "review_id": "review-1",
+                "review_group_id": "group-1",
+                "priority": "critical",
+                "category": "capital",
+                "subcategory": "high_notional_debt_like_candidate",
+                "ecosystem_relevance": "direct_ai_infra",
+                "entity": "CoreWeave",
+                "counterparty": "Apollo Credit",
+                "exposure_basis_usd": "30000000000",
+                "reason": "source-backed committed financing candidate",
+                "recommended_action": "Confirm maturity, recourse, and collateral",
+                "source_uri": "https://www.sec.gov/coreweave-credit.htm",
+                "source_uris": json.dumps(["https://www.sec.gov/coreweave-credit.htm"]),
+                "content_hash": "a" * 64,
+                "content_hashes": json.dumps(["a" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/coreweave-credit.htm",
+                            "content_hash": "a" * 64,
+                            "document_id": "coreweave-credit.htm",
+                            "snippet": (
+                                "CoreWeave entered into a committed senior secured "
+                                "credit agreement with Apollo Credit. The facility "
+                                "is secured by collateral and contains guarantor terms."
+                            ),
+                        }
+                    ]
+                ),
+            },
+            {
+                "packet_id": "packet-2",
+                "rank": 2,
+                "review_id": "review-2",
+                "review_group_id": "group-2",
+                "priority": "critical",
+                "category": "capital",
+                "subcategory": "high_notional_debt_like_candidate",
+                "ecosystem_relevance": "direct_ai_infra",
+                "entity": "Alphabet Inc.",
+                "counterparty": "",
+                "exposure_basis_usd": "75600000000",
+                "reason": (
+                    "notional context: aggregate_lease_obligation; source extraction "
+                    "marked requires LLM adjudication"
+                ),
+                "recommended_action": "Confirm whether row is duplicate or aggregate obligation",
+                "source_uri": "https://www.sec.gov/alphabet-prospectus.htm",
+                "source_uris": json.dumps(["https://www.sec.gov/alphabet-prospectus.htm"]),
+                "content_hash": "b" * 64,
+                "content_hashes": json.dumps(["b" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/alphabet-prospectus.htm",
+                            "content_hash": "b" * 64,
+                            "document_id": "alphabet-prospectus.htm",
+                            "snippet": (
+                                "This preliminary prospectus supplement is not complete "
+                                "and may be changed before the notes are offered."
+                            ),
+                        }
+                    ]
+                ),
+            },
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    assert batch.summary.decisions == 2
+    assert batch.summary.source_quote_backed_decisions == 2
+    assert batch.summary.supported_as_material_blocker == 1
+    assert batch.summary.needs_deeper_extraction == 1
+    assert batch.summary.approved_for_metric_use == 1
+    assert batch.decisions[0].decision == "supported_as_material_blocker"
+    assert batch.decisions[0].metric_use_status == "approved_for_metric_use"
+    assert batch.decisions[0].supported_amount_usd == 30_000_000_000
+    assert batch.decisions[1].decision == "needs_deeper_extraction"
+    assert batch.decisions[1].metric_use_status == "blocked_pending_extraction"
+    assert "split aggregate disclosure" in batch.decisions[1].remaining_gap
+
+
+def test_write_materiality_adjudication_decisions(tmp_path: Path) -> None:
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-1",
+                "rank": 1,
+                "review_id": "review-1",
+                "review_group_id": "group-1",
+                "priority": "high",
+                "category": "compute",
+                "subcategory": "gpu_depreciation_policy",
+                "ecosystem_relevance": "compute_economics",
+                "entity": "Hyperscaler",
+                "exposure_basis_usd": "1000000000",
+                "source_uri": "https://www.sec.gov/10k.htm",
+                "content_hash": "d" * 64,
+                "evidence_snippets": "[]",
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions([tmp_path])
+    outputs = write_materiality_adjudication_decisions(batch, tmp_path / "reports")
+
+    assert Path(outputs["decisions_csv"]).exists()
+    assert Path(outputs["summary_json"]).exists()
+    summary = json.loads(Path(outputs["summary_json"]).read_text())
+    assert summary["decisions"] == 1
+    assert summary["needs_source_retrieval"] == 1

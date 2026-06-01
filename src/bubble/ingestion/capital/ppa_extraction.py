@@ -246,7 +246,7 @@ def _key_terms(row: dict[str, str], *, amount_mw: float | None) -> dict[str, Any
         "source_artifact_id": row.get("source_id", ""),
         "source_artifact_local_path": row.get("local_path", ""),
         "source_record_index": row.get("record_index", ""),
-        "requires_human_review": True,
+        "requires_llm_adjudication": True,
     }
 
 

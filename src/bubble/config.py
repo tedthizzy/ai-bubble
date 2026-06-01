@@ -55,8 +55,8 @@ class BubbleSettings(BaseSettings):
         default_factory=lambda: ["0000789019", "0001018724", "0001326801", "0001045810"],
         alias="BUBBLE_WATCHLIST_CIKS",
     )
-    human_review_threshold: float = Field(
-        default=0.75, alias="BUBBLE_HUMAN_REVIEW_THRESHOLD", ge=0.0, le=1.0
+    llm_adjudication_threshold: float = Field(
+        default=0.75, alias="BUBBLE_LLM_ADJUDICATION_THRESHOLD", ge=0.0, le=1.0
     )
     max_llm_cost_per_run_usd: float = Field(default=25.0, alias="BUBBLE_MAX_LLM_COST_PER_RUN_USD")
 

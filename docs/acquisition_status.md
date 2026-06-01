@@ -1,29 +1,29 @@
 # Acquisition Status
 
-Last updated: 2026-06-01 18:08 UTC.
+Last updated: 2026-06-01 18:18 UTC.
 
 This file is the operational snapshot for the current evidence corpus. Treat it
 as a run log, not as a final investment conclusion.
 
 ## Current Corpus
 
-- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260601-1808.md`
+- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260601-1818.md`
 - Evidence gate: not high-confidence final.
-- Source invariant audit: passed, 57 CSV files and 8,758,896 rows scanned, 0 violations, 0 warnings.
+- Source invariant audit: passed, 58 CSV files and 8,758,996 rows scanned, 0 violations, 0 warnings.
 - Generated report assets are internal evidence artifacts; the user-facing
   deliverable remains a high-level chat summary once the evidence supports it.
 - Source catalog artifacts: 586 / 586 attempted in the latest broad public-source run.
 - Latest source-catalog extracted rows: 4,878,655.
 - Covered filings: 197,243.
 - Raw source documents: 53,682.
-- Source-backed normalized entities: 7,690,577.
+- Source-backed normalized entities: 789,787.
 - Expanded SEC CIK candidates: 2,356.
 - Projects: 17,226.
 - Source-backed deals: 57,363.
 - Source-backed contract tranches: 1,194.
 - Source-backed compute rows: 166.
 - Source-backed timing signals: 2,946.
-- Pending source-backed review items: 2,800.
+- Pending source-backed adjudication items: 2,800.
 - Ownership graph: 425,765 LEI nodes, 425,679 named nodes, and 643,828 source-backed relationships.
 - Contract-structure graph: 73,186 nodes and 145,756 source-backed edges.
 - Contract/ownership contagion paths: 1,983 source-backed paths, including
@@ -32,6 +32,10 @@ as a run log, not as a final investment conclusion.
 - Materiality-first LLM adjudication packets: 100 top blockers packaged, all
   100 source-backed with local evidence snippets, 77 AI-infra relevant, and
   $7.486T of total exposure-basis across the packet set.
+- Automated materiality adjudication decisions: 100 decisions, 84 with resolved
+  text quotes, 9 supported as material blockers, 75 requiring deeper extraction,
+  16 requiring source retrieval/non-binary parsed evidence, and 0 approved for
+  final metric use.
 
 ## Phase Transition Readiness
 
@@ -68,6 +72,8 @@ Ready now:
   edges to GLEIF legal-control paths where exact legal-name matches exist
 - materiality-ranked LLM adjudication packet outputs for the top 100 blocker
   items, with source snippets and explicit decision fields
+- automated materiality adjudication decision outputs that separate
+  source-supported blockers from rows still blocked for final metric use
 
 Must move next:
 
@@ -78,13 +84,16 @@ Must move next:
 - continued actual document acquisition and contract-level extraction for
   leases, debt, guarantees, collateral, tranches, PPAs, construction, and
   project-finance terms
-- materiality-ranked LLM adjudication before any high-confidence bubble conclusion
+- deeper extraction for the materiality adjudication decision gaps: aggregate
+  obligation splitting, named counterparty roles, collateral scope, recourse and
+  guarantee scope, explicit rate/maturity evidence, and quote-resolved physical
+  queue/permit linkage
 - deeper contagion modeling that joins contract edges, ownership/SPV edges,
   guarantee/collateral terms, maturities, and physical execution risks beyond
   exact legal-name matches
-- triage of the 230 pending contract-tranche review items before relying on
+- triage of the 230 pending contract-tranche adjudication items before relying on
   tranche-level downside-bearer or waterfall conclusions
-- triage of the 155 pending contract-contagion review items before relying on
+- triage of the 155 pending contract-contagion adjudication items before relying on
   full contagion paths
 - source-backed GPU depreciation, TAM, payback, EPS, and chip-supply evidence
 
@@ -271,12 +280,12 @@ Timing layer:
 - Compute amount 2024-2030: $219.41B.
 - Tranche-backed capital timing descriptions: 453.
 
-Review queue:
+Adjudication queue:
 
 - Critical items: 39.
 - High items: 409.
 - AI-infra-relevant items: 588.
-- Contract-tranche review items: 230.
+- Contract-tranche adjudication items: 230.
 - Pending capital distinct notional: $10.903T.
 - Pending AI-infra-relevant distinct capital notional: $793.04B.
 - Pending contract-tranche notional: $556.98B.

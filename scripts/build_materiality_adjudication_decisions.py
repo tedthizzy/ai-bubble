@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Build source-backed LLM adjudication queue artifacts."""
+"""Build automated decisions for materiality-ranked adjudication packets."""
 
 from __future__ import annotations
 
@@ -7,7 +7,10 @@ import argparse
 import json
 from pathlib import Path
 
-from bubble.analysis.review_queue import build_review_queue, write_review_queue
+from bubble.analysis.materiality_adjudication_results import (
+    build_materiality_adjudication_decisions,
+    write_materiality_adjudication_decisions,
+)
 
 
 def main() -> None:
@@ -20,20 +23,11 @@ def main() -> None:
         help="Data root to scan; may be supplied more than once.",
     )
     parser.add_argument("--output-dir", type=Path, default=Path("data/reports"))
-    parser.add_argument(
-        "--capital-review-threshold-usd",
-        type=float,
-        default=1_000_000_000,
-        help="Minimum pending debt-like notional amount to queue for capital adjudication.",
-    )
     args = parser.parse_args()
 
     data_dirs = args.data_dir or [Path("data")]
-    batch = build_review_queue(
-        data_dirs,
-        capital_review_threshold_usd=args.capital_review_threshold_usd,
-    )
-    outputs = write_review_queue(batch, args.output_dir)
+    batch = build_materiality_adjudication_decisions(data_dirs)
+    outputs = write_materiality_adjudication_decisions(batch, args.output_dir)
     print(json.dumps({**batch.summary.to_dict(), "outputs": outputs}, indent=2))
 
 

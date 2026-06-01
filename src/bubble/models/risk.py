@@ -42,8 +42,8 @@ class Risk(BubbleBaseModel):
     """
     A materialized risk or red flag.
 
-    The system tries to auto-generate these from filings + cross-checks.
-    Human analysts add the ones the models miss.
+    The system tries to auto-generate these from filings, cross-checks, and
+    automated LLM adjudication.
     """
 
     category: RiskCategory
@@ -64,7 +64,7 @@ class Risk(BubbleBaseModel):
     benign_conditions: list[str] = Field(default_factory=list)
 
     is_material_to_thesis: bool = False
-    requires_human_review: bool = True
+    requires_llm_adjudication: bool = Field(default=True, alias="requires_human_review")
 
     def is_high_severity(self) -> bool:
         return self.severity >= 0.7 or self.red_flag_score >= 0.8
