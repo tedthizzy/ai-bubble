@@ -336,7 +336,11 @@ This reads the existing manifest, fetches SEC archive directory indexes only for
 selected high-signal parent filings, and writes
 `data/manifests/edgar_exhibit_manifest_YYYYMMDD-HHMMSS.csv`. Use the output with
 `just edgar-acquire` to download EX-10, EX-4, EX-2, and EX-99 contract-level
-documents into the same source-backed EDGAR acquisition corpus.
+documents into the same source-backed EDGAR acquisition corpus. The EDGAR
+acquirer writes both `deals.csv` and `tranches.csv` when source text supports
+tranche-level debt/bond terms, and enriches deal rows with collateral snippets,
+guarantors, SPV/non-recourse flags, source URI, content hash, accession context,
+and pending-review status.
 
 For non-EDGAR sources, use a real source catalog:
 
@@ -359,7 +363,7 @@ Live public source listings can be resolved into concrete artifact URLs at catal
 just source-catalog --resolve-dynamic-public-sources --output data/source_catalogs/source_catalog.csv
 ```
 
-Coverage reporting separates queued catalog targets from acquired artifacts, so the report can say how many filings, entities, projects, and source-backed deals are actually covered while also showing how much acquisition work is waiting. Derived graph node/edge outputs are reported through graph summaries and are not folded back into raw source coverage counts.
+Coverage reporting separates queued catalog targets from acquired artifacts, so the report can say how many filings, entities, projects, source-backed deals, and source-backed contract tranches are actually covered while also showing how much acquisition work is waiting. Derived graph node/edge outputs are reported through graph summaries and are not folded back into raw source coverage counts.
 
 Acquisition is parallel by default. `source-acquire` uses a bounded worker pool (`--max-workers`, default 64), per-domain concurrency gates, retries with exponential backoff, and resume mode so existing raw artifacts are parsed without redownloading. SEC-hosted URLs require `EDGAR_IDENTITY` and are capped below the SEC's published 10 requests/second fair-access limit by default (`--sec-requests-per-second 8`; see SEC Developer Resources: https://www.sec.gov/about/developer-resources).
 Acquisition summary JSONs persist the actual worker count, SEC/non-SEC request-rate settings, per-domain concurrency settings, retry count, and resume status used for each run.
@@ -457,12 +461,12 @@ silently dominate the Burry worklist:
 just review-queue --data-dir data --output-dir data/reports
 ```
 
-The crack-window timing layer then combines source-backed capital maturities,
-physical COD/queue dates, EPS depreciation timing, and chip delivery windows
-into a quarter stress calendar. It writes `data/reports/timing_signals.csv`,
-`data/reports/timing_signal_quarters.csv`, and
-`data/reports/timing_signal_summary.json`; every signal requires source URI and
-content hash provenance and is treated as a candidate timing indicator until
+The crack-window timing layer then combines source-backed capital and tranche
+maturities, physical COD/queue dates, EPS depreciation timing, and chip delivery
+windows into a quarter stress calendar. It writes
+`data/reports/timing_signals.csv`, `data/reports/timing_signal_quarters.csv`,
+and `data/reports/timing_signal_summary.json`; every signal requires source URI
+and content hash provenance and is treated as a candidate timing indicator until
 reviewed:
 
 ```bash
@@ -472,7 +476,7 @@ just timing-signals --data-dir data --output-dir data/reports
 Expected files:
 
 - `deals.csv` with one row per lease, debt facility, bond, PPA, guarantee, or other contract
-- `tranches.csv` with optional tranche-level debt terms linked by `deal_id`
+- `tranches.csv` with optional tranche-level debt/bond terms linked by `deal_id`
 
 Every row must include `source_uri`; optional `source_type`, `source_confidence`, `human_review_status`, `page_or_section`, and `content_hash` fields feed the evidence gate. Use `counterparty_roles` and `key_terms` as JSON objects so roles, guarantees, SPVs, and lease classification flags remain structured.
 

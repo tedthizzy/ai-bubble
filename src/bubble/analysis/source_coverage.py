@@ -34,6 +34,7 @@ CORPUS_BY_EXACT_FILENAME = {
     "construction_observations.csv": "construction_observations",
     "deals.csv": "extracted_deals",
     "extracted_deals.csv": "extracted_deals",
+    "tranches.csv": "contract_tranches",
     "ppas.csv": "ppas",
     "lease_agreements.csv": "lease_agreements",
     "lei_records.csv": "lei_records",
@@ -89,6 +90,8 @@ class SourceCoverageReport:
     source_backed_compute_rows: int
     extracted_deals: int
     source_backed_deals: int
+    contract_tranches: int
+    source_backed_contract_tranches: int
     catalog_sources: int
     catalog_sources_by_corpus: dict[str, int]
     catalog_files: list[str]
@@ -133,6 +136,7 @@ def build_source_coverage_report(  # noqa: PLR0912, PLR0915
         "eps_depreciation_impacts": [],
         "chip_supply_observations": [],
         "extracted_deals": [],
+        "contract_tranches": [],
     }
     raw_rows_by_corpus: Counter[str] = Counter()
     entities: set[str] = set()
@@ -147,6 +151,8 @@ def build_source_coverage_report(  # noqa: PLR0912, PLR0915
     ppa_deal_keys: set[str] = set()
     lease_deal_keys: set[str] = set()
     source_backed_deal_keys: set[str] = set()
+    contract_tranche_keys: set[str] = set()
+    source_backed_contract_tranche_keys: set[str] = set()
     project_keys: set[str] = set()
     queue_record_keys: set[str] = set()
     permit_record_keys: set[str] = set()
@@ -184,6 +190,10 @@ def build_source_coverage_report(  # noqa: PLR0912, PLR0915
             source_backed_deal_keys.update(deal_scan["source_backed_deal_keys"])
             for deal_type, keys in deal_scan["deal_type_keys"].items():
                 deal_type_keys[deal_type].update(keys)
+        elif corpus == "contract_tranches":
+            tranche_scan = _scan_tranche_rows(rows, entities)
+            contract_tranche_keys.update(tranche_scan["tranche_keys"])
+            source_backed_contract_tranche_keys.update(tranche_scan["source_backed_tranche_keys"])
         elif corpus == "projects":
             project_keys.update(_add_project_entities(entities, rows))
             if not has_tracker_files:
@@ -284,6 +294,7 @@ def build_source_coverage_report(  # noqa: PLR0912, PLR0915
         "tracker_records": counts["tracker_records"],
         "compute_economics": len(source_backed_compute_row_keys),
         "extracted_deals": counts["extracted_deals"],
+        "contract_tranches": len(contract_tranche_keys),
     }
     missing = [name for name, count in required_corpora.items() if count == 0]
 
@@ -314,6 +325,8 @@ def build_source_coverage_report(  # noqa: PLR0912, PLR0915
         source_backed_compute_rows=len(source_backed_compute_row_keys),
         extracted_deals=counts["extracted_deals"],
         source_backed_deals=len(source_backed_deal_keys),
+        contract_tranches=len(contract_tranche_keys),
+        source_backed_contract_tranches=len(source_backed_contract_tranche_keys),
         catalog_sources=sum(catalog_sources_by_corpus.values()),
         catalog_sources_by_corpus=dict(sorted(catalog_sources_by_corpus.items())),
         catalog_files=sorted(catalog_files),
@@ -429,6 +442,22 @@ def _scan_deal_rows(rows: list[dict[str, str]], entities: set[str]) -> dict[str,
     }
 
 
+def _scan_tranche_rows(rows: list[dict[str, str]], entities: set[str]) -> dict[str, set[str]]:
+    tranche_keys: set[str] = set()
+    source_backed_tranche_keys: set[str] = set()
+    for row in rows:
+        key = _tranche_key(row)
+        tranche_keys.add(key)
+        if _is_source_backed(row):
+            source_backed_tranche_keys.add(key)
+        for guarantor in _split(row.get("guarantors")):
+            _add_entity(entities, guarantor)
+    return {
+        "tranche_keys": tranche_keys,
+        "source_backed_tranche_keys": source_backed_tranche_keys,
+    }
+
+
 def _deal_key(row: dict[str, str], *, default_type: str) -> str:
     deal_id = (row.get("deal_id") or row.get("source_deal_id") or "").strip().lower()
     if deal_id:
@@ -447,6 +476,16 @@ def _deal_key(row: dict[str, str], *, default_type: str) -> str:
     if source_uri or content_hash or record_index:
         return f"{default_type}:{source_uri}:{content_hash}:{record_index}"
     return f"{default_type}:row:{json.dumps(row, sort_keys=True)}"
+
+
+def _tranche_key(row: dict[str, str]) -> str:
+    deal_id = (row.get("deal_id") or "").strip().lower()
+    tranche_id = (row.get("tranche_id") or row.get("name") or "").strip().lower()
+    source_uri = (row.get("source_uri") or "").strip().lower()
+    content_hash = (row.get("content_hash") or "").strip().lower()
+    if deal_id or tranche_id or source_uri or content_hash:
+        return f"tranche:{deal_id}:{tranche_id}:{source_uri}:{content_hash}"
+    return f"tranche:row:{json.dumps(row, sort_keys=True)}"
 
 
 def _source_record_key(row: dict[str, str]) -> str:

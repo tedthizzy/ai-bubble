@@ -5,7 +5,10 @@ from typing import TYPE_CHECKING
 
 from bubble.ingestion.capital import load_capital_evidence
 from bubble.ingestion.edgar.document_acquisition import (
+    DealCandidate,
+    EdgarAcquisitionBatch,
     acquire_edgar_documents_from_manifest,
+    extract_collateral_descriptions,
     extract_counterparty_roles,
     extract_deal_candidate,
     extract_deal_notional_usd,
@@ -68,6 +71,41 @@ def _write_manifest_rows(path: Path, rows: list[dict[str, str]]) -> None:
         writer.writerows(rows)
 
 
+def _assert_credit_acquisition_summary(batch: EdgarAcquisitionBatch) -> None:
+    assert batch.summary.manifest_rows == 2
+    assert batch.summary.documents_attempted == 1
+    assert batch.summary.documents_downloaded == 1
+    assert batch.summary.deal_candidates == 1
+    assert batch.summary.tranche_candidates == 1
+    assert batch.summary.workers == 1
+    assert batch.summary.sec_requests_per_second == 7.5
+    assert batch.summary.sec_domain_concurrency == 5
+    assert batch.summary.retry_attempts == 5
+    assert batch.summary.resume_enabled is True
+
+
+def _assert_credit_candidate(candidate: DealCandidate) -> None:
+    assert candidate.deal_type == DealType.DEBT_FACILITY
+    assert candidate.notional_amount_usd == 1_500_000_000
+    assert candidate.maturity_date and candidate.maturity_date.isoformat() == "2028-06-30"
+    assert candidate.counterparty_roles["borrower"] == ["Example AI Infrastructure Corp"]
+    assert candidate.counterparty_roles["lender"] == ["lenders party thereto"]
+    assert candidate.counterparty_roles["administrative_agent"] == ["JPMorgan Chase Bank, N.A."]
+    assert candidate.counterparty_roles["financier"] == ["JPMorgan Chase Bank, N.A."]
+    assert candidate.counterparty_roles["guarantor"] == ["Example Parent LLC"]
+    assert candidate.guarantees == ["Example Parent LLC"]
+    assert candidate.collateral
+    assert candidate.is_non_recourse is True
+    assert candidate.key_terms["interest_rate"] == 0.0725
+    assert candidate.key_terms["non_recourse"] is True
+    assert candidate.key_terms["off_balance_sheet"] is True
+    assert candidate.key_terms["notional_context_kind"] == "transaction_facility"
+    assert candidate.key_terms["counterparty_extraction_status"] == "role_extracted"
+    assert candidate.key_terms["document_type"] == "exhibit"
+    assert candidate.key_terms["parent_primary_document"] == "form8k.htm"
+    assert candidate.key_terms["requires_human_review"] is True
+
+
 def test_acquire_edgar_documents_writes_raw_docs_inventory_and_deal_candidates(tmp_path: Path):
     manifest = tmp_path / "manifest.csv"
     _write_manifest(manifest)
@@ -79,6 +117,9 @@ def test_acquire_edgar_documents_writes_raw_docs_inventory_and_deal_candidates(t
     provides a $1.5 billion senior secured term loan facility for a data center project.
     The term loan matures on June 30, 2028.
     Loans bear interest at 7.25% per annum.
+    The obligations are non-recourse and secured by first-priority liens on
+    substantially all data center collateral. Example Parent LLC, as Guarantor,
+    guarantees the obligations.
     </body></html>
     """
 
@@ -101,15 +142,7 @@ def test_acquire_edgar_documents_writes_raw_docs_inventory_and_deal_candidates(t
     assert calls == [
         "https://www.sec.gov/Archives/edgar/data/123/000000000026000002/credit-agreement.htm"
     ]
-    assert batch.summary.manifest_rows == 2
-    assert batch.summary.documents_attempted == 1
-    assert batch.summary.documents_downloaded == 1
-    assert batch.summary.deal_candidates == 1
-    assert batch.summary.workers == 1
-    assert batch.summary.sec_requests_per_second == 7.5
-    assert batch.summary.sec_domain_concurrency == 5
-    assert batch.summary.retry_attempts == 5
-    assert batch.summary.resume_enabled is True
+    _assert_credit_acquisition_summary(batch)
 
     document = batch.documents[0]
     assert document.local_path.endswith(
@@ -119,26 +152,21 @@ def test_acquire_edgar_documents_writes_raw_docs_inventory_and_deal_candidates(t
     assert document.parent_primary_document == "form8k.htm"
     assert (tmp_path / "acquired" / "deals.csv").exists()
     assert (tmp_path / "acquired" / "edgar_document_inventory.csv").exists()
+    assert (tmp_path / "acquired" / "tranches.csv").exists()
 
     candidate = batch.deal_candidates[0]
-    assert candidate.deal_type == DealType.DEBT_FACILITY
-    assert candidate.notional_amount_usd == 1_500_000_000
-    assert candidate.maturity_date and candidate.maturity_date.isoformat() == "2028-06-30"
-    assert candidate.counterparty_roles["borrower"] == ["Example AI Infrastructure Corp"]
-    assert candidate.counterparty_roles["lender"] == ["lenders party thereto"]
-    assert candidate.counterparty_roles["administrative_agent"] == ["JPMorgan Chase Bank, N.A."]
-    assert candidate.counterparty_roles["financier"] == ["JPMorgan Chase Bank, N.A."]
-    assert candidate.key_terms["interest_rate"] == 0.0725
-    assert candidate.key_terms["notional_context_kind"] == "transaction_facility"
-    assert candidate.key_terms["counterparty_extraction_status"] == "role_extracted"
-    assert candidate.key_terms["document_type"] == "exhibit"
-    assert candidate.key_terms["parent_primary_document"] == "form8k.htm"
-    assert candidate.key_terms["requires_human_review"] is True
+    _assert_credit_candidate(candidate)
 
     capital_batch = load_capital_evidence(tmp_path / "acquired")
     assert len(capital_batch.deals) == 1
     assert capital_batch.deals[0].provenance.source_uri == calls[0]
     assert capital_batch.deals[0].deal_type == DealType.DEBT_FACILITY
+    assert len(capital_batch.deals[0].debt_tranches) == 1
+    assert capital_batch.deals[0].debt_tranches[0].notional_usd == 1_500_000_000
+    assert capital_batch.deals[0].debt_tranches[0].interest_rate == 0.0725
+    assert capital_batch.deals[0].debt_tranches[0].maturity.isoformat() == "2028-06-30"
+    assert capital_batch.deals[0].is_non_recourse is True
+    assert capital_batch.deals[0].guarantees == ["Example Parent LLC"]
     assert capital_batch.deals[0].counterparty_roles["administrative_agent"] == [
         "JPMorgan Chase Bank, N.A."
     ]
@@ -263,6 +291,9 @@ def test_document_text_and_term_extractors_handle_common_sec_language():
     )
     assert extract_interest_rate("Withholding may apply at a rate of 25% under tax rules.") is None
     assert extract_interest_rate("The notes bear interest at 25.00% per annum.") is None
+    assert extract_collateral_descriptions(
+        "The facility is senior secured and secured by first-priority liens on collateral."
+    )
 
 
 def test_deal_notional_extractor_ignores_aum_and_selects_contract_amount():

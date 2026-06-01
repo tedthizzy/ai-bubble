@@ -168,3 +168,68 @@ def test_write_timing_signal_outputs_csv_and_summary(tmp_path: Path) -> None:
     assert summary["signals"] == 1
     assert summary["source_backed_signals"] == 1
     assert summary["physical_capacity_mw_2024_2030"] == 650
+
+
+def test_timing_signals_use_tranche_maturities_when_available(tmp_path: Path) -> None:
+    _write_csv(
+        tmp_path / "edgar_acquisition" / "deals.csv",
+        [
+            {
+                "deal_id": "deal-coreweave-tranched",
+                "deal_type": "debt_facility",
+                "title": "CoreWeave AI data center credit agreement",
+                "primary_party": "CoreWeave",
+                "counterparty_roles": json.dumps({"lender": ["Apollo Credit"]}),
+                "source_uri": "https://www.sec.gov/credit.htm",
+                "source_type": "sec_edgar",
+                "source_confidence": "0.87",
+                "human_review_status": "pending",
+                "page_or_section": "8-K exhibit",
+                "content_hash": "hash-credit",
+                "key_terms": json.dumps({"notional_context_kind": "transaction_facility"}),
+            }
+        ],
+    )
+    _write_csv(
+        tmp_path / "edgar_acquisition" / "tranches.csv",
+        [
+            {
+                "deal_id": "deal-coreweave-tranched",
+                "tranche_id": "A",
+                "name": "Term Loan A",
+                "notional_usd": "5000000000",
+                "maturity": "2026-03-31",
+                "source_uri": "https://www.sec.gov/credit.htm#tranche-a",
+                "source_type": "sec_edgar",
+                "source_confidence": "0.86",
+                "human_review_status": "pending",
+                "page_or_section": "tranche A",
+                "content_hash": "hash-tranche-a",
+            },
+            {
+                "deal_id": "deal-coreweave-tranched",
+                "tranche_id": "B",
+                "name": "Term Loan B",
+                "notional_usd": "7000000000",
+                "maturity": "2027-06-30",
+                "source_uri": "https://www.sec.gov/credit.htm#tranche-b",
+                "source_type": "sec_edgar",
+                "source_confidence": "0.86",
+                "human_review_status": "pending",
+                "page_or_section": "tranche B",
+                "content_hash": "hash-tranche-b",
+            },
+        ],
+    )
+
+    batch = build_timing_signal_batch([tmp_path])
+
+    assert batch.summary.signals == 2
+    assert batch.summary.signal_types == {"refinancing_maturity": 2}
+    assert batch.summary.capital_refinancing_usd_2024_2030 == 12_000_000_000
+    assert {signal.quarter for signal in batch.signals} == {"2026-Q1", "2027-Q2"}
+    assert {signal.content_hash for signal in batch.signals} == {
+        "hash-tranche-a",
+        "hash-tranche-b",
+    }
+    assert all("tranche Term Loan" in signal.description for signal in batch.signals)

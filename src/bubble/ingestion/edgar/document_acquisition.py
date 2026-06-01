@@ -189,6 +189,10 @@ class DealCandidate:
     page_or_section: str
     content_hash: str
     key_terms: dict[str, Any]
+    collateral: list[str]
+    guarantees: list[str]
+    is_non_recourse: bool | None
+    bankruptcy_remote_spv: bool | None
 
     def to_capital_csv_row(self) -> dict[str, Any]:
         return {
@@ -198,9 +202,20 @@ class DealCandidate:
             "parties": "|".join(self.parties),
             "primary_party": self.parties[0] if self.parties else "",
             "counterparty_roles": json.dumps(self.counterparty_roles, sort_keys=True),
+            "announced_date": "",
+            "effective_date": "",
             "notional_amount_usd": self.notional_amount_usd or "",
             "maturity_date": self.maturity_date.isoformat() if self.maturity_date else "",
             "currency": "USD",
+            "key_terms": json.dumps(self.key_terms, sort_keys=True),
+            "collateral": "|".join(self.collateral),
+            "guarantees": "|".join(self.guarantees),
+            "linked_projects": "",
+            "linked_assets": "",
+            "is_related_party": "",
+            "concentration_risk_flag": "",
+            "is_non_recourse": _bool_csv(self.is_non_recourse),
+            "bankruptcy_remote_spv": _bool_csv(self.bankruptcy_remote_spv),
             "source_uri": self.source_uri,
             "source_type": SourceType.SEC_EDGAR.value,
             "source_confidence": self.source_confidence,
@@ -208,7 +223,32 @@ class DealCandidate:
             "page_or_section": self.page_or_section,
             "content_hash": self.content_hash,
             "confidence": self.confidence,
-            "key_terms": json.dumps(self.key_terms, sort_keys=True),
+        }
+
+    def to_tranche_csv_row(self) -> dict[str, Any] | None:
+        if self.deal_type not in {DealType.DEBT_FACILITY, DealType.BOND}:
+            return None
+        if self.notional_amount_usd is None:
+            return None
+
+        return {
+            "deal_id": self.deal_id,
+            "tranche_id": "primary",
+            "name": _tranche_name(self.deal_type, self.key_terms),
+            "seniority": _tranche_seniority(self.key_terms),
+            "notional_usd": self.notional_amount_usd,
+            "interest_rate": self.key_terms.get("interest_rate") or "",
+            "maturity": self.maturity_date.isoformat() if self.maturity_date else "",
+            "recourse": "false" if self.is_non_recourse else "",
+            "collateral_description": " | ".join(self.collateral),
+            "guarantors": "|".join(self.guarantees),
+            "source_uri": self.source_uri,
+            "source_type": SourceType.SEC_EDGAR.value,
+            "source_confidence": self.source_confidence,
+            "human_review_status": HumanReviewStatus.PENDING.value,
+            "page_or_section": self.page_or_section,
+            "content_hash": self.content_hash,
+            "confidence": self.confidence,
         }
 
 
@@ -221,6 +261,7 @@ class EdgarAcquisitionSummary:
     documents_downloaded: int
     documents_resumed: int
     deal_candidates: int
+    tranche_candidates: int
     total_bytes: int
     workers: int
     sec_requests_per_second: float
@@ -283,9 +324,20 @@ class EdgarAcquisitionBatch:
             "parties",
             "primary_party",
             "counterparty_roles",
+            "announced_date",
+            "effective_date",
             "notional_amount_usd",
             "maturity_date",
             "currency",
+            "key_terms",
+            "collateral",
+            "guarantees",
+            "linked_projects",
+            "linked_assets",
+            "is_related_party",
+            "concentration_risk_flag",
+            "is_non_recourse",
+            "bankruptcy_remote_spv",
             "source_uri",
             "source_type",
             "source_confidence",
@@ -293,11 +345,49 @@ class EdgarAcquisitionBatch:
             "page_or_section",
             "content_hash",
             "confidence",
-            "key_terms",
         ]
         rows = [candidate.to_capital_csv_row() for candidate in self.deal_candidates]
         if merge_existing:
             rows = _merge_existing_csv_rows(output, rows, key_fields=("deal_id",))
+        with output.open("w", newline="") as f:
+            writer = csv.DictWriter(f, fieldnames=fieldnames)
+            writer.writeheader()
+            writer.writerows({key: row.get(key, "") for key in fieldnames} for row in rows)
+        return output
+
+    def write_tranches_csv(self, path: str | Path, *, merge_existing: bool = False) -> Path:
+        output = Path(path)
+        output.parent.mkdir(parents=True, exist_ok=True)
+        fieldnames = [
+            "deal_id",
+            "tranche_id",
+            "name",
+            "seniority",
+            "notional_usd",
+            "interest_rate",
+            "maturity",
+            "recourse",
+            "collateral_description",
+            "guarantors",
+            "source_uri",
+            "source_type",
+            "source_confidence",
+            "human_review_status",
+            "page_or_section",
+            "content_hash",
+            "confidence",
+        ]
+        rows = [
+            row
+            for candidate in self.deal_candidates
+            if (row := candidate.to_tranche_csv_row()) is not None
+        ]
+        if merge_existing:
+            rows = _merge_existing_csv_rows(
+                output,
+                rows,
+                key_fields=("deal_id", "tranche_id", "source_uri", "content_hash"),
+            )
         with output.open("w", newline="") as f:
             writer = csv.DictWriter(f, fieldnames=fieldnames)
             writer.writeheader()
@@ -322,10 +412,15 @@ class EdgarAcquisitionBatch:
             merge_existing=merge_existing,
         )
         deals = self.write_deals_csv(base / "deals.csv", merge_existing=merge_existing)
+        tranches = self.write_tranches_csv(
+            base / "tranches.csv",
+            merge_existing=merge_existing,
+        )
         summary = self.write_summary_json(base / "edgar_document_acquisition.summary.json")
         return {
             "inventory_csv": str(inventory),
             "deals_csv": str(deals),
+            "tranches_csv": str(tranches),
             "summary_json": str(summary),
         }
 
@@ -474,6 +569,7 @@ def acquire_edgar_documents_from_manifest(
         documents_downloaded=len(documents),
         documents_resumed=sum(result.resumed for result in results),
         deal_candidates=len(candidates),
+        tranche_candidates=sum(1 for candidate in candidates if candidate.to_tranche_csv_row()),
         total_bytes=sum(document.byte_count for document in documents),
         workers=worker_count,
         sec_requests_per_second=sec_requests_per_second,
@@ -610,6 +706,11 @@ def extract_deal_candidate(
         company_name=company_name,
     )
     parties = _parties_from_roles(company_name, counterparty_roles)
+    collateral = extract_collateral_descriptions(text)
+    guarantees = _guarantees_from_roles(counterparty_roles)
+    is_non_recourse = _detect_non_recourse(text)
+    bankruptcy_remote_spv = _detect_bankruptcy_remote_spv(text)
+    spv_signal = _detect_spv_signal(text, counterparty_roles=counterparty_roles)
     source_uri = manifest_row.get("filing_url", "")
     accession = manifest_row.get("accession_number", "unknown-accession")
     deal_id = (
@@ -635,6 +736,12 @@ def extract_deal_candidate(
         "parent_primary_document": manifest_row.get("parent_primary_document", ""),
         "document_local_path": str(local_path),
         "interest_rate": interest_rate,
+        "collateral_descriptions": collateral,
+        "guarantees": guarantees,
+        "non_recourse": bool(is_non_recourse),
+        "bankruptcy_remote_spv": bool(bankruptcy_remote_spv),
+        "spv": bool(spv_signal),
+        "off_balance_sheet": bool(is_non_recourse or bankruptcy_remote_spv or spv_signal),
         "notional_extraction_method": (
             "contextual_deal_notional_v1" if amount_candidate else "no_contextual_notional"
         ),
@@ -664,6 +771,10 @@ def extract_deal_candidate(
         page_or_section=f"{manifest_row.get('form', '')} {accession} {manifest_row.get('primary_document', '')}".strip(),
         content_hash=content_hash,
         key_terms=key_terms,
+        collateral=collateral,
+        guarantees=guarantees,
+        is_non_recourse=is_non_recourse,
+        bankruptcy_remote_spv=bankruptcy_remote_spv,
     )
 
 
@@ -1316,6 +1427,136 @@ def extract_interest_rate(text: str) -> float | None:
     if rate_decimal <= 0 or rate_decimal > MAX_EXTRACTED_INTEREST_RATE_DECIMAL:
         return None
     return rate_decimal
+
+
+def extract_collateral_descriptions(text: str, *, max_descriptions: int = 3) -> list[str]:
+    """Extract short source-text snippets that indicate collateral/security terms."""
+
+    snippet = text[:300_000]
+    patterns = [
+        re.compile(r"\bsenior secured\b", re.IGNORECASE),
+        re.compile(r"\bsecured by\b", re.IGNORECASE),
+        re.compile(r"\bcollateral\b", re.IGNORECASE),
+        re.compile(r"\bsecurity interest\b", re.IGNORECASE),
+        re.compile(r"\bfirst(?:-|\s+)priority lien\b", re.IGNORECASE),
+        re.compile(r"\bfirst(?:-|\s+)lien\b", re.IGNORECASE),
+        re.compile(r"\bsecond(?:-|\s+)lien\b", re.IGNORECASE),
+        re.compile(r"\bpledge(?:d|s)?\b", re.IGNORECASE),
+    ]
+    descriptions: list[str] = []
+    seen: set[str] = set()
+    for pattern in patterns:
+        for match in pattern.finditer(snippet):
+            context = _short_context_excerpt(
+                _amount_sentence_context(snippet, match.start(), match.end()),
+                max_length=260,
+            )
+            key = context.lower()
+            if not context or key in seen:
+                continue
+            seen.add(key)
+            descriptions.append(context)
+            if len(descriptions) >= max_descriptions:
+                return descriptions
+    return descriptions
+
+
+def _guarantees_from_roles(counterparty_roles: Mapping[str, Sequence[str]]) -> list[str]:
+    guarantees: list[str] = []
+    for role, entities in counterparty_roles.items():
+        normalized_role = role.lower().replace("_", " ")
+        if "guarant" not in normalized_role and "guarantee" not in normalized_role:
+            continue
+        for entity in entities:
+            cleaned = str(entity).strip()
+            if cleaned and cleaned not in guarantees:
+                guarantees.append(cleaned)
+    return guarantees
+
+
+def _detect_non_recourse(text: str) -> bool | None:
+    snippet = text[:300_000]
+    if re.search(r"\bnon[-\s]?recourse\b", snippet, flags=re.IGNORECASE):
+        return True
+    return None
+
+
+def _detect_bankruptcy_remote_spv(text: str) -> bool | None:
+    snippet = text[:300_000]
+    if re.search(r"\bbankruptcy[-\s]?remote\b", snippet, flags=re.IGNORECASE):
+        return True
+    if re.search(
+        r"\bspecial purpose (?:entity|company|vehicle|subsidiar(?:y|ies))\b",
+        snippet,
+        flags=re.IGNORECASE,
+    ):
+        return True
+    return None
+
+
+def _detect_spv_signal(
+    text: str,
+    *,
+    counterparty_roles: Mapping[str, Sequence[str]],
+) -> bool:
+    snippet = text[:300_000]
+    if re.search(
+        r"\b(?:spv|special purpose (?:entity|company|vehicle|subsidiar(?:y|ies)))\b",
+        snippet,
+        flags=re.IGNORECASE,
+    ):
+        return True
+    role_entities = [entity for entities in counterparty_roles.values() for entity in entities]
+    return any(_looks_like_spv_entity(str(entity)) for entity in role_entities)
+
+
+def _looks_like_spv_entity(entity: str) -> bool:
+    lower = entity.lower()
+    return any(
+        term in lower
+        for term in (
+            " spv",
+            "special purpose",
+            "financing",
+            "funding",
+            "issuer",
+            "trust ",
+            "asset",
+            "receivables",
+        )
+    )
+
+
+def _bool_csv(value: bool | None) -> str:
+    if value is None:
+        return ""
+    return "true" if value else "false"
+
+
+def _tranche_name(deal_type: DealType, key_terms: Mapping[str, Any]) -> str:
+    context_kind = str(key_terms.get("notional_context_kind") or "").strip()
+    if deal_type == DealType.BOND:
+        return "Notes"
+    if context_kind == "transaction_facility":
+        return "Debt facility"
+    if context_kind == "transaction_principal":
+        return "Principal tranche"
+    return "Primary tranche"
+
+
+def _tranche_seniority(key_terms: Mapping[str, Any]) -> int:
+    search = " ".join(
+        [
+            str(key_terms.get("notional_context_excerpt") or ""),
+            str(key_terms.get("title") or ""),
+            " ".join(str(term) for term in key_terms.get("collateral_descriptions") or []),
+        ]
+    ).lower()
+    if "subordinated" in search:
+        return 3
+    if "mezzanine" in search or "second lien" in search:
+        return 2
+    return 1
 
 
 def normalize_document_text(raw: bytes) -> str:

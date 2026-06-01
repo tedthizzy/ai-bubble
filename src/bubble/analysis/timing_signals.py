@@ -166,6 +166,12 @@ def write_timing_signal_batch(
 def _capital_refinancing_signals(roots: list[Path]) -> list[TimingSignal]:
     signals: list[TimingSignal] = []
     seen_deals: set[str] = set()
+    tranches_by_deal = _tranche_rows_by_deal(
+        _read_rows(
+            roots,
+            [Path("edgar_acquisition") / "tranches.csv", Path("capital") / "tranches.csv"],
+        )
+    )
     rows = _read_rows(
         roots,
         [Path("edgar_acquisition") / "deals.csv", Path("capital") / "deals.csv"],
@@ -179,67 +185,131 @@ def _capital_refinancing_signals(roots: list[Path]) -> list[TimingSignal]:
         deal_type = _field(row, "deal_type")
         if deal_type not in DEBT_LIKE_DEAL_TYPES:
             continue
-        notional = _float(row.get("notional_amount_usd"))
-        if notional <= 0:
-            continue
-        maturity = _parse_date(_field(row, "maturity_date"))
-        if maturity is None or not _in_horizon(maturity):
-            continue
-        key_terms = _json_dict(row.get("key_terms"))
-        relevance_tags = _relevance_tags(
-            " ".join(
-                [
-                    _field(row, "primary_party"),
-                    _counterparty_from_row(row),
-                    _field(row, "title"),
-                    _field(row, "page_or_section"),
-                    row.get("key_terms") or "",
-                ]
+        tranche_rows = tranches_by_deal.get(deal_id, [])
+        tranche_signals = [
+            signal
+            for tranche in tranche_rows
+            if (
+                signal := _capital_refinancing_signal(
+                    row,
+                    tranche,
+                    use_tranche=True,
+                )
             )
-        )
-        ecosystem_relevance = _ecosystem_relevance(relevance_tags)
-        source_uri = _field(row, "source_uri")
-        content_hash = _field(row, "content_hash")
-        if not _has_source_provenance(source_uri, content_hash):
-            continue
-        context_kind = str(key_terms.get("notional_context_kind") or "").strip()
-        description_parts = [
-            f"{deal_type} maturity",
-            f"notional ${notional:,.0f}",
-            f"context {context_kind}" if context_kind else "",
+            is not None
         ]
-        signals.append(
-            TimingSignal(
-                signal_id=_signal_id("capital", deal_id, source_uri, content_hash, maturity),
-                quarter=_quarter(maturity),
-                signal_date=maturity.isoformat(),
-                category="capital",
-                signal_type="refinancing_maturity",
-                severity=_capital_severity(notional, ecosystem_relevance),
-                ecosystem_relevance=ecosystem_relevance,
-                relevance_tags=relevance_tags,
-                entity=_field(row, "primary_party"),
-                counterparty=_counterparty_from_row(row),
-                project_id="",
-                project_name="",
-                deal_id=deal_id,
-                amount_usd=round(notional, 2),
-                capacity_mw=0.0,
-                risk_score=0.0,
-                description=_reason(description_parts),
-                source_uri=source_uri,
-                source_uris=(source_uri,) if source_uri else (),
-                content_hash=content_hash,
-                content_hashes=(content_hash,) if content_hash else (),
-                page_or_section=_field(row, "page_or_section"),
-                evidence_tier="source_backed_pending_review"
-                if _field(row, "human_review_status") == "pending"
-                else "source_backed_reviewed",
-                human_review_status=_field(row, "human_review_status") or "pending",
-                source_confidence=_float(row.get("source_confidence") or row.get("confidence")),
-            )
-        )
+        if tranche_signals:
+            signals.extend(tranche_signals)
+            continue
+
+        if _float(row.get("notional_amount_usd")) <= 0:
+            continue
+        signal = _capital_refinancing_signal(row, row, use_tranche=False)
+        if signal:
+            signals.append(signal)
     return signals
+
+
+def _capital_refinancing_signal(
+    deal_row: dict[str, str],
+    source_row: dict[str, str],
+    *,
+    use_tranche: bool,
+) -> TimingSignal | None:
+    deal_id = _field(deal_row, "deal_id")
+    deal_type = _field(deal_row, "deal_type")
+    notional = _float(
+        source_row.get("notional_usd") if use_tranche else source_row.get("notional_amount_usd")
+    )
+    if notional <= 0:
+        return None
+    maturity = _parse_date(_field(source_row, "maturity" if use_tranche else "maturity_date"))
+    if maturity is None or not _in_horizon(maturity):
+        return None
+    key_terms = _json_dict(deal_row.get("key_terms"))
+    relevance_tags = _relevance_tags(
+        " ".join(
+            [
+                _field(deal_row, "primary_party"),
+                _counterparty_from_row(deal_row),
+                _field(deal_row, "title"),
+                _field(deal_row, "page_or_section"),
+                deal_row.get("key_terms") or "",
+                _field(source_row, "name"),
+                _field(source_row, "collateral_description"),
+                _field(source_row, "guarantors"),
+            ]
+        )
+    )
+    ecosystem_relevance = _ecosystem_relevance(relevance_tags)
+    source_uri = _field(source_row, "source_uri") or _field(deal_row, "source_uri")
+    content_hash = _field(source_row, "content_hash") or _field(deal_row, "content_hash")
+    if not _has_source_provenance(source_uri, content_hash):
+        return None
+    context_kind = str(key_terms.get("notional_context_kind") or "").strip()
+    tranche_name = _field(source_row, "name") if use_tranche else ""
+    description_parts = [
+        f"{deal_type} {'tranche ' if use_tranche else ''}maturity",
+        f"tranche {tranche_name}" if tranche_name else "",
+        f"notional ${notional:,.0f}",
+        f"context {context_kind}" if context_kind else "",
+    ]
+    return TimingSignal(
+        signal_id=_signal_id(
+            "capital_tranche" if use_tranche else "capital",
+            deal_id,
+            _field(source_row, "tranche_id") if use_tranche else "",
+            source_uri,
+            content_hash,
+            maturity,
+        ),
+        quarter=_quarter(maturity),
+        signal_date=maturity.isoformat(),
+        category="capital",
+        signal_type="refinancing_maturity",
+        severity=_capital_severity(notional, ecosystem_relevance),
+        ecosystem_relevance=ecosystem_relevance,
+        relevance_tags=relevance_tags,
+        entity=_field(deal_row, "primary_party"),
+        counterparty=_counterparty_from_row(deal_row),
+        project_id="",
+        project_name="",
+        deal_id=deal_id,
+        amount_usd=round(notional, 2),
+        capacity_mw=0.0,
+        risk_score=0.0,
+        description=_reason(description_parts),
+        source_uri=source_uri,
+        source_uris=(source_uri,) if source_uri else (),
+        content_hash=content_hash,
+        content_hashes=(content_hash,) if content_hash else (),
+        page_or_section=_field(source_row, "page_or_section")
+        or _field(deal_row, "page_or_section"),
+        evidence_tier="source_backed_pending_review"
+        if (_field(source_row, "human_review_status") or _field(deal_row, "human_review_status"))
+        == "pending"
+        else "source_backed_reviewed",
+        human_review_status=(
+            _field(source_row, "human_review_status")
+            or _field(deal_row, "human_review_status")
+            or "pending"
+        ),
+        source_confidence=_float(
+            source_row.get("source_confidence")
+            or deal_row.get("source_confidence")
+            or source_row.get("confidence")
+            or deal_row.get("confidence")
+        ),
+    )
+
+
+def _tranche_rows_by_deal(rows: list[dict[str, str]]) -> dict[str, list[dict[str, str]]]:
+    by_deal: dict[str, list[dict[str, str]]] = defaultdict(list)
+    for row in rows:
+        deal_id = _field(row, "deal_id")
+        if deal_id:
+            by_deal[deal_id].append(row)
+    return by_deal
 
 
 def _physical_cod_signals(roots: list[Path]) -> list[TimingSignal]:

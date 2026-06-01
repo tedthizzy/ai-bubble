@@ -1,15 +1,15 @@
 # Acquisition Status
 
-Last updated: 2026-06-01 16:45 UTC.
+Last updated: 2026-06-01 17:01 UTC.
 
 This file is the operational snapshot for the current evidence corpus. Treat it
 as a run log, not as a final investment conclusion.
 
 ## Current Corpus
 
-- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260601-1645.md`
+- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260601-1701.md`
 - Evidence gate: not high-confidence final.
-- Source invariant audit: passed, 52 CSV files and 8,534,133 rows scanned, 0 violations, 0 warnings.
+- Source invariant audit: passed, 53 CSV files and 8,537,486 rows scanned, 0 violations, 0 warnings.
 - Source catalog artifacts: 586 / 586 attempted in the latest broad public-source run.
 - Latest source-catalog extracted rows: 4,878,655.
 - Covered filings: 197,243.
@@ -18,6 +18,7 @@ as a run log, not as a final investment conclusion.
 - Expanded SEC CIK candidates: 2,356.
 - Projects: 17,226.
 - Source-backed deals: 57,363.
+- Source-backed contract tranches: 1,194.
 - Source-backed compute rows: 166.
 - Source-backed timing signals: 2,946.
 - Pending source-backed review items: 2,415.
@@ -39,14 +40,16 @@ Ready now:
   names
 - review queue, capital exposure graph, weak-link, timing, and compute-economics
   scaffolding
+- contract-level EDGAR enrichment for first-pass debt/bond tranches, collateral
+  snippets, guarantors, SPV/non-recourse flags, rates, and maturities
 
 Must move next:
 
 - continued EDGAR/source acquisition as an always-on workstream for future
   filings, lower-priority backlog rows, and new source catalogs
 - exhibit-enabled EDGAR manifests for EX-2, EX-4, EX-10, and EX-99 documents
-- contract-level extraction for leases, debt, guarantees, collateral, tranches,
-  PPAs, construction, and project-finance terms
+- continued contract-level extraction for leases, debt, guarantees, collateral,
+  tranches, PPAs, construction, and project-finance terms
 - human review triage before any high-confidence bubble conclusion
 - deeper contagion modeling that joins contract edges, ownership/SPV edges,
   guarantee/collateral terms, maturities, and physical execution risks
@@ -72,11 +75,16 @@ Manifest:
   disclosure exhibits
 - errors: 0
 
-Acquisition:
+Acquisition and contract enrichment:
 
 - documents attempted/downloaded: 2,551 / 2,551
-- documents resumed: 323
+- documents resumed in latest enrichment pass: 2,551
 - deal candidates extracted in the run: 2,198
+- contract tranches materialized: 1,194
+- tranche rows with interest rate: 570
+- tranche rows with maturity: 683
+- tranche rows with collateral description: 945
+- tranche rows with guarantors: 42
 - bytes downloaded/read: 1,009,835,015
 - errors: 0
 - worker pool: 64
@@ -209,11 +217,12 @@ Timing layer:
 - AI-infra capital refinancing 2024-2030: $269.02B.
 - Physical capacity 2024-2030: 177,293 MW.
 - Compute amount 2024-2030: $219.41B.
+- Tranche-backed capital timing descriptions: 453.
 
 Review queue:
 
 - Critical items: 38.
-- High items: 396.
+- High items: 397.
 - AI-infra-relevant items: 584.
 - Pending capital distinct notional: $10.903T.
 - Pending AI-infra-relevant distinct capital notional: $793.04B.
@@ -222,7 +231,7 @@ Review queue:
 Weak links:
 
 - Candidates: 514.
-- High or critical candidates: 15.
+- High or critical candidates: 16.
 - Capital candidates: 206.
 - Physical candidates: 250.
 - Combined capital/physical candidates: 39.
@@ -240,14 +249,13 @@ Compute economics:
 
 ## Next Acquisition Priorities
 
-1. Build the exhibit-enabled follow-on manifest from the expanded CIK set with
+1. Build the next exhibit-enabled follow-on manifest from the expanded CIK set with
    `scripts/build_edgar_exhibit_manifest.py`, lowering the parent relevance
-   threshold from 120 toward 75 after the current high-signal exhibit tranche is
-   triaged.
-2. Extract contract-level lease, debt, guarantee, collateral, tranche, PPA,
-   construction, and project-finance rows from acquired exhibits, keeping every
-   metric tied to source URI, retrieval timestamp, content hash, accession,
-   document id, and row/page context.
+   threshold from 120 toward 75 after the current high-signal exhibit tranche and
+   tranche rows are triaged.
+2. Expand contract-level extraction beyond the first deterministic tranche pass:
+   lease economics, debt waterfalls, guarantee scope, collateral packages, PPA
+   contract terms, construction obligations, and project-finance covenants.
 3. Rebuild the review queue after each material acquisition or extraction run;
    clear or corroborate critical/high items before upgrading any conclusion to
    high confidence.

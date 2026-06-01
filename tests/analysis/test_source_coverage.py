@@ -70,6 +70,20 @@ def test_source_coverage_counts_real_corpora_and_missing_gaps(tmp_path: Path):
         ],
     )
     _write_csv(
+        tmp_path / "capital" / "tranches.csv",
+        [
+            {
+                "deal_id": "lease-1",
+                "tranche_id": "primary",
+                "name": "Primary tranche",
+                "notional_usd": "1000000",
+                "guarantors": "Guarantor LLC",
+                "source_uri": "sec:lease#tranche",
+                "source_type": "sec_edgar",
+            }
+        ],
+    )
+    _write_csv(
         tmp_path / "source_rows" / "lei_records.csv",
         [
             {
@@ -156,6 +170,8 @@ def test_source_coverage_counts_real_corpora_and_missing_gaps(tmp_path: Path):
     assert report.chip_supply_observations == 1
     assert report.extracted_deals == 2
     assert report.source_backed_deals == 2
+    assert report.contract_tranches == 1
+    assert report.source_backed_contract_tranches == 1
     assert report.catalog_sources == 2
     assert report.catalog_sources_by_corpus == {"filings": 1, "queue_records": 1}
     assert report.catalog_files == [str(tmp_path / "source_catalog.csv")]
@@ -171,9 +187,7 @@ def test_source_coverage_counts_real_corpora_and_missing_gaps(tmp_path: Path):
 def test_source_coverage_does_not_count_derived_graph_outputs_as_source_rows(
     tmp_path: Path,
 ):
-    gleif_uri = (
-        "https://leidata.gleif.org/api/v1/concatenated-files/rr/get/41249/zip"
-    )
+    gleif_uri = "https://leidata.gleif.org/api/v1/concatenated-files/rr/get/41249/zip"
     _write_csv(
         tmp_path / "source_acquisition" / "source_rows" / "ownership_records.csv",
         [
