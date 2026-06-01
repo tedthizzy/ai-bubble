@@ -1,13 +1,13 @@
 # Acquisition Status
 
-Last updated: 2026-06-01 23:04 UTC.
+Last updated: 2026-06-01 23:11 UTC.
 
 This file is the operational snapshot for the current evidence corpus. Treat it
 as a run log, not as a final investment conclusion.
 
 ## Current Corpus
 
-- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260601-2304.md`
+- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260601-2311.md`
 - Evidence gate: not high-confidence final.
 - Source invariant audit: passed at 2026-06-01 21:55 UTC, 59 CSV files
   and 8,905,760 rows scanned, 0 violations, 0 warnings.
@@ -34,15 +34,15 @@ as a run log, not as a final investment conclusion.
   250 source-backed with local evidence snippets, 182 AI-infra relevant, and
   $53.666T of total exposure-basis across the packet set.
 - Automated materiality adjudication decisions: 250 decisions, 250 with resolved
-  text quotes, 66 supported as material blockers, 184 requiring deeper extraction,
-  0 requiring source retrieval/non-binary parsed evidence, and 36 source-backed
-  rows approved for metric use. Those 36 rows total $3.553T as row-level
-  supported amounts and currently remain $3.553T after latest-snapshot metric
-  dedupe across 36 metric groups; they are not treated as individual contracts
+  text quotes, 78 supported as material blockers, 172 requiring deeper extraction,
+  0 requiring source retrieval/non-binary parsed evidence, and 48 source-backed
+  rows approved for metric use. Those 48 rows total $3.669T as row-level
+  supported amounts and currently remain $3.669T after latest-snapshot metric
+  dedupe across 48 metric groups; they are not treated as individual contracts
   unless contract terms are separately extracted.
-- Top remaining decision gaps are now collateral scope (34), named
-  counterparty role extraction (26), aggregate-to-committed split (25),
-  recourse/guarantee scope (24), and missing underlying term-level clauses (19).
+- Top remaining decision gaps are now named counterparty role extraction (26),
+  aggregate-to-committed split (25), recourse/guarantee scope (24),
+  collateral scope (22), and missing underlying term-level clauses (19).
 
 ## Phase Transition Readiness
 
@@ -103,6 +103,9 @@ Ready now:
 - aggregate/shelf-capacity rows now block first on aggregate-to-committed split
   without stacking term-level counterparty/collateral/recourse gaps until a
   specific contract-level source row is extracted
+- note-offering bond rows can now clear counterparty and collateral gaps when
+  source quote context is prospectus/indenture note issuance without bilateral
+  lender-agent language, reducing false bilateral assumptions
 
 Must move next:
 

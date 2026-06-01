@@ -1051,6 +1051,64 @@ def test_materiality_adjudication_treats_unsecured_notes_as_scope_resolved(
     assert decision.metric_use_status == "approved_for_metric_use"
 
 
+def test_materiality_adjudication_treats_note_offering_counterparty_as_non_bilateral(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-note-offering",
+                "rank": 1,
+                "review_id": "review-note-offering",
+                "review_group_id": "group-note-offering",
+                "priority": "high",
+                "category": "capital",
+                "subcategory": "high_notional_debt_like_candidate",
+                "ecosystem_relevance": "watchlist_entity",
+                "entity": "Example Issuer Inc.",
+                "counterparty": "",
+                "exposure_basis_usd": "30000000000",
+                "reason": (
+                    "pending adjudication status: pending; debt-like deal type: bond; "
+                    "notional $30,000,000,000; notional context: transaction_principal; "
+                    "commitment scope: specific_transaction_commitment"
+                ),
+                "recommended_action": "Confirm maturity and pricing terms",
+                "source_uri": "https://www.sec.gov/example-note-offering.htm",
+                "source_uris": json.dumps(["https://www.sec.gov/example-note-offering.htm"]),
+                "content_hash": "4" * 64,
+                "content_hashes": json.dumps(["4" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/example-note-offering.htm",
+                            "content_hash": "4" * 64,
+                            "document_id": "example-note-offering.htm",
+                            "snippet": (
+                                "PROSPECTUS SUPPLEMENT Example Issuer Inc. $30,000,000,000 "
+                                "aggregate principal amount of senior notes due 2035. "
+                                "The notes are issued under an indenture."
+                            ),
+                        }
+                    ]
+                ),
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    decision = batch.decisions[0]
+    assert "extract named counterparty and role" not in decision.remaining_gap
+    assert "determine collateral scope" not in decision.remaining_gap
+    assert "determine recourse and guarantee scope" not in decision.remaining_gap
+    assert decision.metric_use_status == "approved_for_metric_use"
+
+
 def test_materiality_adjudication_infers_counterparty_from_quote_role_clause(
     tmp_path: Path,
 ) -> None:

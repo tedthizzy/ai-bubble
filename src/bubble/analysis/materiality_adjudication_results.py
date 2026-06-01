@@ -261,7 +261,11 @@ def _category_gaps(packet: dict[str, str], text: str) -> list[str]:
         # contract-level source row is extracted.
         return gaps
     if category in {"capital", "contract"}:
-        if not _field(packet, "counterparty") and not _inferred_counterparty_from_quote(text):
+        if (
+            not _field(packet, "counterparty")
+            and not _inferred_counterparty_from_quote(text)
+            and not _is_note_offering_without_named_counterparty(packet, text_lower, reason_text)
+        ):
             gaps.append("extract named counterparty and role")
         unsecured_scope_present = _contains_any(
             text_lower,
@@ -272,6 +276,10 @@ def _category_gaps(packet: dict[str, str], text: str) -> list[str]:
                 "none of which was secured debt",
                 "without collateral",
             ],
+        )
+        unsecured_scope_present = (
+            unsecured_scope_present
+            or _is_note_offering_without_collateral_scope(packet, text_lower, reason_text)
         )
         issuer_note_scope_present = _contains_any(text_lower, ["indenture", "issuer"]) and _contains_any(
             text_lower, ["notes", "noteholders"]
@@ -336,6 +344,68 @@ def _category_gaps(packet: dict[str, str], text: str) -> list[str]:
     ):
         gaps.append("attach direct compute-economics source evidence")
     return gaps
+
+
+def _is_note_offering_without_named_counterparty(
+    packet: dict[str, str],
+    text_lower: str,
+    reason_text: str,
+) -> bool:
+    if not _contains_any(reason_text, ["debt-like deal type: bond", "tranche: notes"]):
+        return False
+    if _contains_any(
+        text_lower,
+        [
+            "credit agreement",
+            "administrative agent",
+            "collateral agent",
+            "lenders party thereto",
+            "revolving credit",
+            "term loan",
+            "bridge loan",
+        ],
+    ):
+        return False
+    return _contains_any(
+        text_lower,
+        [
+            "prospectus",
+            "notes due",
+            "senior notes",
+            "indenture",
+            "noteholders",
+        ],
+    )
+
+
+def _is_note_offering_without_collateral_scope(
+    packet: dict[str, str],
+    text_lower: str,
+    reason_text: str,
+) -> bool:
+    if not _contains_any(reason_text, ["debt-like deal type: bond", "tranche: notes"]):
+        return False
+    if _contains_any(text_lower, ["secured notes", "collateral", "security interest", "pledge"]):
+        return False
+    if _contains_any(
+        text_lower,
+        [
+            "senior unsecured",
+            "unsecured obligations",
+            "none of which was secured debt",
+            "without collateral",
+            "structurally senior",
+        ],
+    ):
+        return True
+    if _contains_any(text_lower, ["senior notes due", "notes due"]) and _contains_any(
+        text_lower,
+        ["prospectus", "offering", "aggregate principal amount"],
+    ):
+        return True
+    return _contains_any(text_lower, ["indenture"]) and _contains_any(
+        text_lower, ["notes", "noteholders"]
+    )
 
 
 def _required_next_extraction(packet: dict[str, str], quote: str, gaps: list[str]) -> str:
