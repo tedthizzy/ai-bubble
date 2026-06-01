@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import csv
 import json
+import zipfile
 from pathlib import Path
 
 from bubble.analysis.materiality_adjudication import (
@@ -193,6 +194,87 @@ def test_write_materiality_adjudication_packets(tmp_path: Path) -> None:
     summary = json.loads(Path(outputs["summary_json"]).read_text())
     assert summary["packets"] == 1
     assert summary["categories"] == {"compute": 1}
+
+
+def test_materiality_packets_extract_xlsx_artifact_snippets(tmp_path: Path) -> None:
+    xlsx_path = (
+        tmp_path / "data" / "source_acquisition" / "raw" / "queue_records" / "queue-sample.xlsx"
+    )
+    xlsx_path.parent.mkdir(parents=True, exist_ok=True)
+    with zipfile.ZipFile(xlsx_path, "w") as archive:
+        archive.writestr(
+            "xl/sharedStrings.xml",
+            (
+                '<?xml version="1.0" encoding="UTF-8"?>'
+                '<sst xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">'
+                "<si><t>Project Name</t></si>"
+                "<si><t>Customer</t></si>"
+                "<si><t>Requested MW</t></si>"
+                "<si><t>ZeroC Data Centers LLC</t></si>"
+                "<si><t>3000</t></si>"
+                "</sst>"
+            ),
+        )
+        archive.writestr(
+            "xl/worksheets/sheet1.xml",
+            (
+                '<?xml version="1.0" encoding="UTF-8"?>'
+                '<worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">'
+                "<sheetData>"
+                '<row r="1"><c r="A1" t="s"><v>0</v></c><c r="B1" t="s"><v>1</v></c>'
+                '<c r="C1" t="s"><v>2</v></c></row>'
+                '<row r="2"><c r="A2" t="s"><v>3</v></c><c r="B2" t="s"><v>3</v></c>'
+                '<c r="C2" t="s"><v>4</v></c></row>'
+                "</sheetData></worksheet>"
+            ),
+        )
+
+    _write_csv(
+        tmp_path / "data" / "source_acquisition" / "source_artifact_inventory.csv",
+        [
+            {
+                "source_uri": "https://www.nyiso.com/documents/20142/1407078/NYISO-Interconnection-Queue.xlsx",
+                "local_path": str(xlsx_path),
+                "content_hash": "9" * 64,
+                "document_id": "nyiso_queue_sample",
+            }
+        ],
+    )
+    _write_csv(
+        tmp_path / "data" / "reports" / "review_queue.csv",
+        [
+            {
+                "review_id": "review-xlsx",
+                "review_group_id": "group-xlsx",
+                "priority": "high",
+                "category": "physical",
+                "subcategory": "queue_project_match",
+                "ecosystem_relevance": "physical_execution",
+                "entity": "ZeroC",
+                "counterparty": "ZeroC Data Centers LLC",
+                "project_id": "project-xlsx",
+                "project_name": "ZeroC Campus",
+                "source_row_id": "queue-row-1",
+                "capacity_mw": "3000",
+                "reason": "pending queue-to-project match; match status: strong_match",
+                "recommended_action": "Confirm queue linkage",
+                "source_uri": "https://www.nyiso.com/documents/20142/1407078/NYISO-Interconnection-Queue.xlsx",
+                "source_uris": json.dumps(
+                    ["https://www.nyiso.com/documents/20142/1407078/NYISO-Interconnection-Queue.xlsx"]
+                ),
+                "content_hash": "9" * 64,
+                "content_hashes": json.dumps(["9" * 64]),
+                "human_review_status": "pending",
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_packets([tmp_path / "data"], limit=1)
+
+    assert batch.packets[0].evidence_snippets
+    snippet = batch.packets[0].evidence_snippets[0].snippet
+    assert "ZeroC Data Centers LLC" in snippet
+    assert "3000" in snippet
 
 
 def test_materiality_packet_snippet_targets_source_backed_aggregate_lease_amount(

@@ -13,10 +13,12 @@ import html
 import json
 import math
 import re
+import zipfile
 from collections import Counter
 from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any
+from xml.etree import ElementTree
 
 REVIEWED_STATUSES = {"approved", "overridden", "rejected"}
 PRIORITY_RANK = {"critical": 4, "high": 3, "medium": 2, "watch": 1}
@@ -27,6 +29,7 @@ AI_RELEVANCE_RANK = {
     "compute_economics": 3,
     "not_tagged": 0,
 }
+_TEXT_CACHE: dict[str, str] = {}
 
 
 @dataclass(frozen=True)
@@ -559,10 +562,89 @@ def _normalize_text(text: str) -> str:
 
 
 def _read_text(path: Path) -> str:
+    cached = _TEXT_CACHE.get(str(path))
+    if cached is not None:
+        return cached
     try:
-        return path.read_text(errors="ignore")
+        text = _read_xlsx_text(path)
+        if not text:
+            text = path.read_text(errors="ignore")
     except OSError:
+        text = ""
+    _TEXT_CACHE[str(path)] = text
+    return text
+
+
+def _read_xlsx_text(path: Path) -> str:
+    suffix = path.suffix.lower()
+    if suffix not in {".xlsx", ".xlsm", ".xltx", ".xltm", ".bin"}:
         return ""
+    try:
+        with zipfile.ZipFile(path) as archive:
+            sheet_names = sorted(
+                name
+                for name in archive.namelist()
+                if name.startswith("xl/worksheets/sheet") and name.endswith(".xml")
+            )
+            if not sheet_names:
+                return ""
+            shared_strings = _xlsx_shared_strings(archive)
+            rows: list[str] = []
+            for sheet_name in sheet_names:
+                rows.extend(_xlsx_sheet_rows(archive, sheet_name, shared_strings))
+                if len(rows) >= 25_000:
+                    break
+            return "\n".join(rows[:25_000])
+    except (OSError, zipfile.BadZipFile, ElementTree.ParseError):
+        return ""
+
+
+def _xlsx_shared_strings(archive: zipfile.ZipFile) -> list[str]:
+    path = "xl/sharedStrings.xml"
+    if path not in archive.namelist():
+        return []
+    raw = archive.read(path)
+    root = ElementTree.fromstring(raw)
+    namespace = "{http://schemas.openxmlformats.org/spreadsheetml/2006/main}"
+    strings: list[str] = []
+    for item in root.findall(f"{namespace}si"):
+        parts = [node.text or "" for node in item.findall(f".//{namespace}t")]
+        strings.append("".join(parts).strip())
+    return strings
+
+
+def _xlsx_sheet_rows(
+    archive: zipfile.ZipFile,
+    sheet_name: str,
+    shared_strings: list[str],
+) -> list[str]:
+    raw = archive.read(sheet_name)
+    root = ElementTree.fromstring(raw)
+    namespace = "{http://schemas.openxmlformats.org/spreadsheetml/2006/main}"
+    rows: list[str] = []
+    for row in root.findall(f".//{namespace}row"):
+        values: list[str] = []
+        for cell in row.findall(f"{namespace}c"):
+            raw_value = cell.findtext(f"{namespace}v", default="").strip()
+            inline_value = "".join(
+                node.text or "" for node in cell.findall(f".//{namespace}is/{namespace}t")
+            ).strip()
+            value = inline_value or raw_value
+            if not value:
+                continue
+            if cell.get("t") == "s":
+                try:
+                    shared_value = shared_strings[int(value)]
+                except (ValueError, IndexError):
+                    shared_value = value
+                values.append(shared_value)
+            else:
+                values.append(value)
+        if values:
+            rows.append(" | ".join(values))
+        if len(rows) >= 4_000:
+            break
+    return rows
 
 
 def _source_uris(row: dict[str, str]) -> list[str]:
