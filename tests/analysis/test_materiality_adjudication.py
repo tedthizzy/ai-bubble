@@ -347,6 +347,98 @@ def test_materiality_packet_snippet_targets_source_backed_aggregate_lease_amount
     assert "not yet recorded on our consolidated balance sheets" in snippet
 
 
+def test_materiality_packet_prioritizes_contract_clause_snippet_for_non_specific_candidate(
+    tmp_path: Path,
+) -> None:
+    generic_path = tmp_path / "data" / "edgar_acquisition" / "documents" / "generic.htm"
+    agreement_path = tmp_path / "data" / "edgar_acquisition" / "documents" / "agreement.htm"
+    generic_path.parent.mkdir(parents=True, exist_ok=True)
+    generic_path.write_text(
+        """
+        EX-99.1 Exhibit 99.1
+        Forward-looking statements. About Example Issuer, Inc.
+        This press release includes selected operating metrics and outlook commentary.
+        """
+    )
+    agreement_path.write_text(
+        """
+        On March 2, 2026, Example Issuer, Inc. entered into a Credit Agreement
+        with Bank of Example, N.A., as administrative agent.
+        The revolving credit facility is senior secured and includes a maturity
+        schedule through 2030.
+        """
+    )
+    _write_csv(
+        tmp_path / "data" / "edgar_acquisition" / "edgar_document_inventory.csv",
+        [
+            {
+                "filing_url": "https://www.sec.gov/example-generic.htm",
+                "local_path": str(generic_path),
+                "content_hash": "1" * 64,
+                "primary_document": "generic.htm",
+                "accession_number": "0001-26-000010",
+            },
+            {
+                "filing_url": "https://www.sec.gov/example-agreement.htm",
+                "local_path": str(agreement_path),
+                "content_hash": "2" * 64,
+                "primary_document": "agreement.htm",
+                "accession_number": "0001-26-000011",
+            },
+        ],
+    )
+    _write_csv(
+        tmp_path / "data" / "reports" / "review_queue.csv",
+        [
+            {
+                "review_id": "review-non-specific",
+                "review_group_id": "group-non-specific",
+                "priority": "critical",
+                "category": "capital",
+                "subcategory": "high_notional_debt_like_candidate",
+                "ecosystem_relevance": "direct_ai_infra",
+                "entity": "Example Issuer, Inc.",
+                "counterparty": "",
+                "deal_id": "deal-non-specific",
+                "source_row_id": "row-non-specific",
+                "notional_amount_usd": "25000000000",
+                "exposure_usd": "0",
+                "capacity_mw": "0",
+                "risk_score": "0.2",
+                "reason": (
+                    "pending adjudication status: pending; debt-like deal type: bond; "
+                    "notional $25,000,000,000; notional context: candidate_notional; "
+                    "commitment scope: candidate_requires_adjudication; "
+                    "source extraction marked requires LLM adjudication"
+                ),
+                "recommended_action": "Acquire agreement-level clauses for commitment terms",
+                "source_uri": "https://www.sec.gov/example-generic.htm",
+                "source_uris": json.dumps(
+                    [
+                        "https://www.sec.gov/example-generic.htm",
+                        "https://www.sec.gov/example-agreement.htm",
+                    ]
+                ),
+                "content_hash": "1" * 64,
+                "content_hashes": json.dumps(["1" * 64, "2" * 64]),
+                "human_review_status": "pending",
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_packets(
+        [tmp_path / "data"],
+        limit=1,
+        snippets_per_packet=1,
+    )
+
+    assert batch.packets[0].evidence_snippets
+    snippet = batch.packets[0].evidence_snippets[0].snippet.lower()
+    assert "credit agreement" in snippet
+    assert "administrative agent" in snippet
+    assert "forward-looking statements" not in snippet
+
+
 def test_materiality_adjudication_decisions_are_conservative(tmp_path: Path) -> None:
     _write_csv(
         tmp_path / "reports" / "materiality_adjudication_packets.csv",

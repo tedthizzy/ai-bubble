@@ -1,6 +1,6 @@
 # Acquisition Status
 
-Last updated: 2026-06-01 22:52 UTC.
+Last updated: 2026-06-01 22:58 UTC.
 
 This file is the operational snapshot for the current evidence corpus. Treat it
 as a run log, not as a final investment conclusion.
@@ -9,7 +9,7 @@ as a run log, not as a final investment conclusion.
 
 - Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260601-2252.md`
 - Evidence gate: not high-confidence final.
-- Source invariant audit: passed at 2026-06-01 22:10 UTC, 59 CSV files
+- Source invariant audit: passed at 2026-06-01 21:55 UTC, 59 CSV files
   and 8,905,760 rows scanned, 0 violations, 0 warnings.
 - Generated report assets are internal evidence artifacts; the user-facing
   deliverable remains a high-level chat summary once the evidence supports it.
@@ -34,12 +34,15 @@ as a run log, not as a final investment conclusion.
   250 source-backed with local evidence snippets, 182 AI-infra relevant, and
   $53.666T of total exposure-basis across the packet set.
 - Automated materiality adjudication decisions: 250 decisions, 250 with resolved
-  text quotes, 68 supported as material blockers, 182 requiring deeper extraction,
-  0 requiring source retrieval/non-binary parsed evidence, and 38 source-backed
-  rows approved for metric use. Those 38 rows total $3.704T as row-level
-  supported amounts, but dedupe to $3.603T of current supported metric exposure
-  across 36 metric groups; they are not treated as individual contracts unless
-  contract terms are separately extracted.
+  text quotes, 66 supported as material blockers, 184 requiring deeper extraction,
+  0 requiring source retrieval/non-binary parsed evidence, and 36 source-backed
+  rows approved for metric use. Those 36 rows total $3.553T as row-level
+  supported amounts and currently remain $3.553T after latest-snapshot metric
+  dedupe across 36 metric groups; they are not treated as individual contracts
+  unless contract terms are separately extracted.
+- Top remaining decision gaps are now collateral scope (43), recourse/guarantee
+  scope (34), named counterparty role extraction (30), aggregate-to-committed
+  split (25), and missing underlying term-level clauses (19).
 
 ## Phase Transition Readiness
 
@@ -94,6 +97,9 @@ Ready now:
   `acquire underlying agreement or debt schedule clause for term-level extraction`
   gap when quote text lacks term-level contract evidence, reducing false
   precision on collateral/recourse/counterparty fields
+- packet evidence snippets now use cross-artifact scoring and term-focused
+  prioritization so clause-level contract text is preferred over low-signal
+  boilerplate snippets when adjudicating materiality blockers
 
 Must move next:
 

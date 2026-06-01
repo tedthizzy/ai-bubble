@@ -337,7 +337,7 @@ def _evidence_snippets(
     snippets_per_packet: int,
     snippet_chars: int,
 ) -> list[EvidenceSnippet]:
-    snippets: list[EvidenceSnippet] = []
+    scored_snippets: list[tuple[int, EvidenceSnippet]] = []
     seen_paths: set[str] = set()
     source_uris = _source_uris(row)
     content_hashes = _content_hashes(row)
@@ -356,17 +356,43 @@ def _evidence_snippets(
         text = _read_text(path)
         if not text:
             continue
-        snippets.append(
-            EvidenceSnippet(
-                source_uri=artifact.get("source_uri", "") or source_uris[0],
-                content_hash=artifact.get("content_hash", "")
-                or (content_hashes[0] if content_hashes else ""),
-                local_path=str(path),
-                document_id=artifact.get("document_id", ""),
-                accession_number=artifact.get("accession_number", ""),
-                snippet=_best_snippet(text, _query_terms(row), snippet_chars),
-            )
+        snippet_text = _best_row_snippet(row, text, snippet_chars)
+        if not snippet_text:
+            continue
+        snippet = EvidenceSnippet(
+            source_uri=artifact.get("source_uri", "") or source_uris[0],
+            content_hash=artifact.get("content_hash", "")
+            or (content_hashes[0] if content_hashes else ""),
+            local_path=str(path),
+            document_id=artifact.get("document_id", ""),
+            accession_number=artifact.get("accession_number", ""),
+            snippet=snippet_text,
         )
+        scored_snippets.append((_evidence_snippet_score(row, snippet_text), snippet))
+
+    if not scored_snippets:
+        return []
+
+    scored_snippets.sort(
+        key=lambda item: (
+            item[0],
+            _capital_term_hit_count(item[1].snippet),
+            len(item[1].snippet),
+        ),
+        reverse=True,
+    )
+    snippets: list[EvidenceSnippet] = []
+    seen_values: set[tuple[str, str, str]] = set()
+    for _, snippet in scored_snippets:
+        dedupe_key = (
+            snippet.source_uri,
+            snippet.content_hash,
+            snippet.snippet[:180],
+        )
+        if dedupe_key in seen_values:
+            continue
+        seen_values.add(dedupe_key)
+        snippets.append(snippet)
         if len(snippets) >= snippets_per_packet:
             break
     return snippets
@@ -549,6 +575,90 @@ def _best_snippet(text: str, terms: list[str], snippet_chars: int) -> str:
     return normalized[start:end].strip()
 
 
+def _best_row_snippet(row: dict[str, str], text: str, snippet_chars: int) -> str:
+    base = _best_snippet(text, _query_terms(row), snippet_chars)
+    if not _is_non_specific_capital_candidate_row(row):
+        return base
+    contract_terms = _capital_term_query_terms(row)
+    contract_candidate = _best_snippet(text, contract_terms, snippet_chars)
+    if _capital_term_hit_count(contract_candidate) > _capital_term_hit_count(base):
+        return contract_candidate
+    return base
+
+
+def _evidence_snippet_score(row: dict[str, str], snippet: str) -> int:
+    lower_terms = list(dict.fromkeys(term.lower() for term in _query_terms(row) if len(term) >= 4))
+    score = _snippet_score(snippet.lower(), 0, len(snippet), lower_terms)
+    if _field(row, "category") in {"capital", "contract"}:
+        score += _capital_term_hit_count(snippet) * 8
+    if _is_non_specific_capital_candidate_row(row):
+        term_hits = _capital_term_hit_count(snippet)
+        if term_hits == 0:
+            score -= 30
+        score += term_hits * 6
+    score -= _boilerplate_penalty(snippet) * 7
+    return score
+
+
+def _capital_term_query_terms(row: dict[str, str]) -> list[str]:
+    terms = [
+        "credit agreement",
+        "revolving credit facility",
+        "term loan",
+        "indenture",
+        "administrative agent",
+        "collateral agent",
+        "secured",
+        "unsecured",
+        "guarantee",
+        "guarantor",
+        "maturity",
+        "interest rate",
+        "coupon",
+        "notes due",
+        "principal amount",
+        "entered into",
+    ]
+    terms.extend(_amount_query_terms(_exposure_basis_usd(row)))
+    return terms
+
+
+def _capital_term_hit_count(snippet: str) -> int:
+    lowered = snippet.lower()
+    markers = [
+        "credit agreement",
+        "revolving credit facility",
+        "term loan",
+        "indenture",
+        "administrative agent",
+        "collateral agent",
+        "secured",
+        "unsecured",
+        "guarantee",
+        "guarantor",
+        "maturity",
+        "interest rate",
+        "coupon",
+        "notes due",
+        "principal amount",
+        "entered into",
+    ]
+    return sum(1 for marker in markers if marker in lowered)
+
+
+def _boilerplate_penalty(snippet: str) -> int:
+    lowered = snippet.lower()
+    markers = [
+        "forward-looking statements",
+        "about ",
+        "table of contents",
+        "exhibit 99",
+        "prospectus supplement",
+        "risk factors",
+    ]
+    return sum(1 for marker in markers if marker in lowered)
+
+
 def _snippet_score(text: str, start: int, snippet_chars: int, terms: list[str]) -> int:
     window = text[start : start + snippet_chars]
     return sum(1 for term in terms if term in window)
@@ -666,6 +776,20 @@ def _content_hashes(row: dict[str, str]) -> list[str]:
 def _is_reviewed_status(status: str) -> bool:
     statuses = [part.strip().lower() for part in status.replace(";", "|").split("|")]
     return any(status in REVIEWED_STATUSES for status in statuses)
+
+
+def _is_non_specific_capital_candidate_row(row: dict[str, str]) -> bool:
+    if _field(row, "category") != "capital":
+        return False
+    reason = _field(row, "reason").lower()
+    return any(
+        marker in reason
+        for marker in [
+            "commitment scope: candidate_requires_adjudication",
+            "notional context: candidate_notional",
+            "source extraction marked requires llm adjudication",
+        ]
+    )
 
 
 def _packet_id(*parts: Any) -> str:
