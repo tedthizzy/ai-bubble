@@ -15,7 +15,10 @@ from bubble.ingestion.sources.eia import latest_eia_860m_catalog_row
 from bubble.ingestion.sources.ercot import latest_ercot_gis_catalog_row
 from bubble.ingestion.sources.ferc import latest_ferc_entities_to_ppas_catalog_rows
 from bubble.ingestion.sources.fractracker import latest_fractracker_data_center_catalog_rows
-from bubble.ingestion.sources.gleif import latest_gleif_rr_catalog_row
+from bubble.ingestion.sources.gleif import (
+    latest_gleif_lei_catalog_row,
+    latest_gleif_rr_catalog_row,
+)
 from bubble.ingestion.sources.iso_ne import latest_iso_ne_public_queue_catalog_row
 from bubble.models.base import SourceType
 
@@ -270,6 +273,7 @@ def build_seed_source_catalog(
         public_rows.extend(
             latest_fractracker_data_center_catalog_rows(fetch_json=fractracker_fetch_json)
         )
+        public_rows.append(latest_gleif_lei_catalog_row(fetch_json=gleif_fetch_json))
         public_rows.append(latest_gleif_rr_catalog_row(fetch_json=gleif_fetch_json))
         public_rows.append(latest_iso_ne_public_queue_catalog_row(fetch_text=iso_ne_fetch_text))
     curated_rows: list[dict[str, str]] = []

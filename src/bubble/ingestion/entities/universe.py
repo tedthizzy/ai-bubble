@@ -158,12 +158,77 @@ class _SecNameIndex:
 
 SOURCE_SPECS = (
     EntitySourceSpec(
+        relative_path="source_acquisition/source_rows/lei_records.csv",
+        source_table="lei_records",
+        fields=(
+            ("Entity_LegalName", "lei_legal_name"),
+            ("Entity_OtherEntityNames_OtherEntityName", "lei_other_name"),
+            (
+                "Entity_TransliteratedOtherEntityNames_TransliteratedOtherEntityName",
+                "lei_transliterated_name",
+            ),
+        ),
+    ),
+    EntitySourceSpec(
+        relative_path="source_acquisition/source_rows/filings.csv",
+        source_table="filings",
+        fields=(("name", "sec_submission_name"),),
+    ),
+    EntitySourceSpec(
         relative_path="source_acquisition/source_rows/ppas.csv",
         source_table="ppas",
         fields=(
             ("Reporting_Entity_Name", "reporting_entity"),
             ("Entity_Name", "seller_or_entity"),
             ("Counterparty_Name", "counterparty"),
+        ),
+    ),
+    EntitySourceSpec(
+        relative_path="source_acquisition/source_rows/tracker_records.csv",
+        source_table="tracker_records",
+        fields=(
+            ("sponsors", "sponsor"),
+            ("operators", "operator"),
+            ("tenants", "tenant"),
+            ("operator_name", "operator"),
+            ("tenant", "tenant"),
+            ("power_source", "power_source"),
+        ),
+    ),
+    EntitySourceSpec(
+        relative_path="source_acquisition/source_rows/queue_records.csv",
+        source_table="queue_records",
+        fields=(
+            ("Developer/Interconnection Customer", "developer"),
+            ("Owner/Developer", "owner_or_developer"),
+            ("Interconnection Customer Name", "interconnection_customer"),
+            ("Interconnection Customer", "interconnection_customer"),
+            ("Interconnecting Entity", "interconnecting_entity"),
+            ("Transmission Owner", "transmission_owner"),
+            ("TransmissionOwner", "transmission_owner"),
+            ("TO at POI", "transmission_owner"),
+            ("PTO", "transmission_owner"),
+            ("Utility", "utility"),
+        ),
+    ),
+    EntitySourceSpec(
+        relative_path="source_acquisition/source_rows/permit_records.csv",
+        source_table="permit_records",
+        fields=(
+            ("FACILITY_NAME", "facility"),
+            ("FAC_NAME", "facility"),
+            ("OWNER_NAME", "owner"),
+            ("PERMITTEE", "permittee"),
+        ),
+    ),
+    EntitySourceSpec(
+        relative_path="source_acquisition/source_rows/equipment_records.csv",
+        source_table="equipment_records",
+        fields=(
+            ("Entity Name", "entity"),
+            ("Plant transmission or distribution system owner name", "grid_owner"),
+            ("Utility name", "utility"),
+            ("Balancing Authority Name", "balancing_authority"),
         ),
     ),
     EntitySourceSpec(
@@ -239,6 +304,7 @@ def build_entity_universe(
         identity=identity,
     )
     sec_index = _sec_name_index(sec_reference.rows)
+    ownership_lei_ids = _ownership_lei_ids(base)
 
     aggregates: dict[str, EntityAggregate] = {}
     mention_rows: list[dict[str, str]] = []
@@ -253,6 +319,11 @@ def build_entity_universe(
             reader = csv.DictReader(f)
             for row in reader:
                 source_rows_scanned += 1
+                if spec.source_table == "lei_records" and not _include_lei_row(
+                    row,
+                    ownership_lei_ids,
+                ):
+                    continue
                 for field_name, role in spec.fields:
                     for name in _entity_names_from_cell(row.get(field_name, "")):
                         normalized = normalize_entity_name(name)
@@ -574,6 +645,26 @@ def _expanded_cik_rows(
     return rows[:max_rows] if max_rows is not None else rows
 
 
+def _ownership_lei_ids(base: Path) -> set[str]:
+    path = base / "source_acquisition" / "source_rows" / "ownership_records.csv"
+    if not path.exists():
+        return set()
+    ids: set[str] = set()
+    with path.open(newline="", errors="ignore") as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            for field in ("Relationship_StartNode_NodeID", "Relationship_EndNode_NodeID"):
+                lei = (row.get(field) or "").strip()
+                if lei:
+                    ids.add(lei)
+    return ids
+
+
+def _include_lei_row(row: dict[str, str], ownership_lei_ids: set[str]) -> bool:
+    lei = (row.get("LEI") or row.get("lei") or "").strip()
+    return bool(lei and (not ownership_lei_ids or lei in ownership_lei_ids))
+
+
 def _evidence_row(
     row: dict[str, str],
     *,
@@ -594,6 +685,7 @@ def _evidence_row(
         "retrieved_at": row.get("retrieved_at", "").strip(),
         "content_hash": row.get("content_hash", "").strip(),
         "document_id": row.get("document_id", "").strip(),
+        "source_entity_id": row.get("LEI", "").strip() or row.get("entity_id", "").strip(),
         "filing_accession": row.get("filing_accession", "").strip(),
         "local_path": row.get("local_path", "").strip(),
         "record_index": row.get("record_index", "").strip(),

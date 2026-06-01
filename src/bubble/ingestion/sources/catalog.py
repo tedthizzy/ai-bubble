@@ -3,6 +3,7 @@ Generic source catalog acquisition.
 
 A source catalog is a CSV of real source artifacts to acquire. Each row names a
 corpus (filings, permits, ppas, leases, queue_records, ownership_records,
+lei_records,
 tracker_records, extracted_deals, projects, etc.), a source URI, and parser hints.
 The acquisition output keeps raw artifacts and normalized extracted rows tied to
 source URI, retrieval timestamp, content hash, and document/source ids.
@@ -50,6 +51,7 @@ ALLOWED_CORPORA = {
     "construction_observations",
     "ppas",
     "lease_agreements",
+    "lei_records",
     "ownership_records",
     "tracker_records",
     "extracted_deals",

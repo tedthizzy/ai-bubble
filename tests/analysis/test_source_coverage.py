@@ -69,6 +69,17 @@ def test_source_coverage_counts_real_corpora_and_missing_gaps(tmp_path: Path):
             },
         ],
     )
+    _write_csv(
+        tmp_path / "source_rows" / "lei_records.csv",
+        [
+            {
+                "LEI": "CHILDLEI1234567890",
+                "Entity_LegalName": "Child Compute LLC",
+                "source_uri": "https://leidata.gleif.org/api/v1/concatenated-files/lei2/get/1/zip",
+                "source_type": "gleif",
+            }
+        ],
+    )
     _write_csv(tmp_path / "ownership_records.csv", [{"entity": "A", "owner": "Parent"}])
     _write_csv(tmp_path / "tracker_records.csv", [{"project_id": "p1", "name": "Campus"}])
     _write_csv(
@@ -135,6 +146,7 @@ def test_source_coverage_counts_real_corpora_and_missing_gaps(tmp_path: Path):
     assert report.equipment_records == 1
     assert report.permit_records == 1
     assert report.lease_agreements == 1
+    assert report.lei_records == 1
     assert report.ppas == 1
     assert report.ownership_records == 1
     assert report.tracker_records == 1

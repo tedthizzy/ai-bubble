@@ -1,4 +1,4 @@
-"""GLEIF source resolvers for public legal-entity ownership relationship records."""
+"""GLEIF source resolvers for public legal-entity and ownership records."""
 
 from __future__ import annotations
 
@@ -11,6 +11,10 @@ from bubble.models.base import SourceType
 
 GLEIF_RR_LIST_URL = "https://leidata.gleif.org/api/v1/concatenated-files/rr"
 GLEIF_RR_DOWNLOAD_URL = "https://leidata.gleif.org/api/v1/concatenated-files/rr/get/{file_id}/zip"
+GLEIF_LEI_LIST_URL = "https://leidata.gleif.org/api/v1/concatenated-files/lei2"
+GLEIF_LEI_DOWNLOAD_URL = (
+    "https://leidata.gleif.org/api/v1/concatenated-files/lei2/get/{file_id}/zip"
+)
 GLEIF_CONCATENATED_FILES_PAGE = (
     "https://www.gleif.org/en/lei-data/gleif-concatenated-file/download-the-concatenated-file"
 )
@@ -49,16 +53,60 @@ def latest_gleif_rr_catalog_row(*, fetch_json: JsonFetcher | None = None) -> dic
     }
 
 
+def latest_gleif_lei_catalog_row(*, fetch_json: JsonFetcher | None = None) -> dict[str, str]:
+    """Resolve GLEIF's latest LEI-CDF legal-entity reference zip into a catalog row."""
+
+    document = resolve_latest_gleif_lei_document(fetch_json=fetch_json)
+    file_id = str(document["id"])
+    content_date = str(document.get("content_date", ""))
+    record_count = str(document.get("record_count", ""))
+    cdf_version = str(document.get("cdf_version", ""))
+    return {
+        "source_id": f"gleif-lei-cdf-{file_id}",
+        "corpus": "lei_records",
+        "source_uri": GLEIF_LEI_DOWNLOAD_URL.format(file_id=file_id),
+        "source_type": SourceType.GLEIF.value,
+        "parser": "zip",
+        "document_id": f"gleif_lei_cdf_{file_id}",
+        "entity_id": "",
+        "project_id": "",
+        "filing_accession": "",
+        "meta_publisher": "Global Legal Entity Identifier Foundation",
+        "meta_title": "GLEIF Level 1 LEI-CDF Legal Entity Concatenated File",
+        "meta_content_date": content_date,
+        "meta_record_count": record_count,
+        "meta_cdf_version": cdf_version,
+        "meta_resolved_from_uri": GLEIF_LEI_LIST_URL,
+        "meta_source_page": GLEIF_CONCATENATED_FILES_PAGE,
+        "meta_zip_member_name_prefix": content_date[:10].replace("-", ""),
+        "meta_zip_xml_record_tag": "LEIRecord",
+    }
+
+
 def resolve_latest_gleif_rr_document(*, fetch_json: JsonFetcher | None = None) -> dict[str, Any]:
     """Return the latest GLEIF relationship-record concatenated file metadata."""
 
-    payload = (fetch_json or _fetch_json)(GLEIF_RR_LIST_URL)
+    return _resolve_latest_gleif_document(GLEIF_RR_LIST_URL, fetch_json=fetch_json)
+
+
+def resolve_latest_gleif_lei_document(*, fetch_json: JsonFetcher | None = None) -> dict[str, Any]:
+    """Return the latest GLEIF legal-entity reference concatenated file metadata."""
+
+    return _resolve_latest_gleif_document(GLEIF_LEI_LIST_URL, fetch_json=fetch_json)
+
+
+def _resolve_latest_gleif_document(
+    list_url: str,
+    *,
+    fetch_json: JsonFetcher | None = None,
+) -> dict[str, Any]:
+    payload = (fetch_json or _fetch_json)(list_url)
     documents = payload.get("data")
     if not isinstance(documents, Sequence) or isinstance(documents, str | bytes):
-        raise ValueError("GLEIF RR list did not return a data array")
+        raise ValueError("GLEIF list did not return a data array")
     candidates = [document for document in documents if isinstance(document, Mapping)]
     if not candidates:
-        raise ValueError("GLEIF RR list did not contain any documents")
+        raise ValueError("GLEIF list did not contain any documents")
     selected = max(candidates, key=lambda document: str(document.get("content_date", "")))
     return dict(selected)
 

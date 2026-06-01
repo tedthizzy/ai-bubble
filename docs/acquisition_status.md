@@ -1,6 +1,6 @@
 # Acquisition Status
 
-Last updated: 2026-06-01 13:55 UTC.
+Last updated: 2026-06-01 14:20 UTC.
 
 This file is the operational snapshot for the current evidence corpus. Treat it
 as a run log, not as a final investment conclusion.
@@ -10,18 +10,35 @@ as a run log, not as a final investment conclusion.
 - Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260601-1355.md`
 - Evidence gate: not high-confidence final.
 - Source invariant audit: passed, 49 CSV files and 3,266,269 rows scanned, 0 violations, 0 warnings.
-- Acquired source artifacts: 25,852 / 25,852 attempted.
+- Source catalog artifacts: 586 / 586 attempted in the latest broad public-source run.
+- Latest source-catalog extracted rows: 4,878,655.
 - Covered filings: 41,688.
 - Raw source documents: 25,852.
-- Source-backed normalized entities: 7,237.
+- Source-backed normalized entities: 789,787.
+- Expanded SEC CIK candidates: 2,356.
 - Projects: 17,226.
 - Source-backed deals: 49,717.
 - Source-backed compute rows: 166.
 - Source-backed timing signals: 1,324.
 - Pending source-backed review items: 1,437.
-- Ownership graph: 425,746 LEI nodes and 643,807 source-backed relationships.
+- Ownership graph: 425,765 LEI nodes, 425,679 named nodes, and 643,828 source-backed relationships.
 
-## Latest EDGAR Run
+## Latest EDGAR Manifest Run
+
+Manifest:
+
+- `data/manifests/edgar_filing_manifest_20260601-142009.csv`
+- 166,653 document rows from 166,653 filings.
+- 2,356 source-backed CIKs requested; 2,354 returned.
+- Window: 2024-01-02 through 2026-06-01.
+- Burry-relevant filings: 28,084.
+- Exhibit indexes were not included in this broad pass.
+- Errors: 0.
+
+This is the next EDGAR acquisition backlog. The prior high-relevance acquired
+tranche remains documented below for continuity.
+
+## Prior EDGAR Acquisition Run
 
 Manifest:
 
@@ -85,13 +102,15 @@ Capital exposure graph:
 
 Ownership graph:
 
-- Rows scanned: 650,357.
-- Nodes: 425,746.
-- Source-backed relationships: 643,807.
-- Active relationships: 469,175.
-- Direct consolidation edges: 183,847.
-- Ultimate consolidation edges: 191,832.
-- Fully corroborated relationships: 415,814.
+- Rows scanned: 650,379.
+- Nodes: 425,765.
+- Named nodes: 425,679.
+- Active legal-entity nodes: 379,395.
+- Source-backed relationships: 643,828.
+- Active relationships: 469,194.
+- Direct consolidation edges: 183,849.
+- Ultimate consolidation edges: 191,834.
+- Fully corroborated relationships: 415,829.
 - Quantified relationships: 63,448.
 - Outputs: `data/graph/ownership_nodes.csv`, `data/graph/ownership_edges.csv`, and `data/graph/ownership_graph_summary.json`.
 
@@ -121,8 +140,8 @@ Compute economics:
 
 ## Next Acquisition Priorities
 
-1. Expand the entity universe beyond the current 141 high-confidence CIK matches
-   and build the next EDGAR manifest from those new CIKs.
+1. Acquire documents from `data/manifests/edgar_filing_manifest_20260601-142009.csv`,
+   prioritizing score >= 75 first, then score >= 50.
 2. Add more source catalogs for state PUCs, local zoning/air permits, data-center
    leases, equipment financing, and project-level utility filings.
 3. Improve named counterparty extraction on large unmatched EDGAR rows, especially

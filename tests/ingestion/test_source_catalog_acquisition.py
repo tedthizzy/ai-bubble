@@ -398,6 +398,55 @@ def test_source_catalog_streams_selected_zip_xml_members(tmp_path: Path):
     assert "Relationship_StartNode_NodeID" in text.splitlines()[0]
 
 
+def test_source_catalog_streams_gleif_lei_reference_zip(tmp_path: Path):
+    source = tmp_path / "gleif-lei.zip"
+    with zipfile.ZipFile(source, "w") as archive:
+        archive.writestr(
+            "20260601-gleif-concatenated-file-lei2.xml",
+            """<?xml version="1.0" encoding="UTF-8"?>
+            <lei:LEIData xmlns:lei="http://www.gleif.org/data/schema/leidata/2016">
+              <lei:LEIRecords>
+                <lei:LEIRecord>
+                  <lei:LEI>CHILDLEI1234567890</lei:LEI>
+                  <lei:Entity>
+                    <lei:LegalName>Child Compute LLC</lei:LegalName>
+                    <lei:EntityStatus>ACTIVE</lei:EntityStatus>
+                    <lei:LegalJurisdiction>US-DE</lei:LegalJurisdiction>
+                  </lei:Entity>
+                  <lei:Registration>
+                    <lei:RegistrationStatus>ISSUED</lei:RegistrationStatus>
+                  </lei:Registration>
+                </lei:LEIRecord>
+              </lei:LEIRecords>
+            </lei:LEIData>
+            """,
+        )
+    catalog = tmp_path / "source_catalog.csv"
+    _write_csv(
+        catalog,
+        [
+            {
+                "source_id": "gleif-lei",
+                "corpus": "lei_records",
+                "source_uri": source.as_uri(),
+                "source_type": "gleif",
+                "parser": "zip",
+                "meta_zip_member_name_prefix": "20260601",
+                "meta_zip_xml_record_tag": "LEIRecord",
+            }
+        ],
+    )
+
+    batch = acquire_source_catalog(catalog, output_dir=tmp_path / "acquired")
+
+    assert batch.summary.extracted_rows == 1
+    lei_rows = tmp_path / "acquired" / "source_rows" / "lei_records.csv"
+    text = lei_rows.read_text()
+    assert "CHILDLEI1234567890" in text
+    assert "Child Compute LLC" in text
+    assert "Entity_LegalName" in text.splitlines()[0]
+
+
 def test_source_catalog_uses_explicit_file_extension_for_extensionless_urls(tmp_path: Path):
     catalog = tmp_path / "source_catalog.csv"
     _write_csv(

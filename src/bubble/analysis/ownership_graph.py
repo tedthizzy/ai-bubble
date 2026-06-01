@@ -19,6 +19,10 @@ class OwnershipNode:
 
     node_id: str
     node_id_type: str
+    legal_name: str
+    entity_status: str
+    registration_status: str
+    legal_jurisdiction: str
     relationship_count: int
     parent_edge_count: int
     child_edge_count: int
@@ -78,6 +82,8 @@ class OwnershipGraphSummary:
     quantified_relationships: int
     nodes: int
     lei_nodes: int
+    named_nodes: int
+    active_legal_entity_nodes: int
     source_uri_count: int
     content_hash_count: int
     top_parents_by_child_count: list[dict[str, Any]]
@@ -115,7 +121,29 @@ def load_ownership_rows(data_dirs: Iterable[str | Path]) -> list[dict[str, str]]
     return rows
 
 
-def build_ownership_graph(rows: Iterable[Mapping[str, str]]) -> OwnershipGraph:
+def load_lei_reference_rows(data_dirs: Iterable[str | Path]) -> Iterable[dict[str, str]]:
+    """Load source-backed LEI reference rows from known data directories."""
+
+    seen_paths: set[Path] = set()
+    for data_dir in data_dirs:
+        root = Path(data_dir)
+        for path in (
+            root / "source_acquisition" / "source_rows" / "lei_records.csv",
+            root / "lei_records.csv",
+        ):
+            if not path.exists() or path in seen_paths:
+                continue
+            seen_paths.add(path)
+            with path.open(newline="", errors="ignore") as f:
+                for row in csv.DictReader(f):
+                    yield dict(row)
+
+
+def build_ownership_graph(
+    rows: Iterable[Mapping[str, str]],
+    *,
+    lei_rows: Iterable[Mapping[str, str]] | None = None,
+) -> OwnershipGraph:
     """Build a deterministic ownership/consolidation graph from source rows."""
 
     edges: list[OwnershipEdge] = []
@@ -149,11 +177,30 @@ def build_ownership_graph(rows: Iterable[Mapping[str, str]]) -> OwnershipGraph:
             content_hashes.add(edge.content_hash)
             node_content_hashes[edge.child_id].add(edge.content_hash)
             node_content_hashes[edge.parent_id].add(edge.content_hash)
+    lei_reference = _lei_reference(lei_rows or [], allowed_ids=set(role_counts))
+    for node_id, reference in lei_reference.items():
+        if node_id not in role_counts:
+            continue
+        source_uri = reference.get("source_uri", "")
+        content_hash = reference.get("content_hash", "")
+        if source_uri:
+            source_uris.add(source_uri)
+            node_source_uris[node_id].add(source_uri)
+        if content_hash:
+            content_hashes.add(content_hash)
+            node_content_hashes[node_id].add(content_hash)
 
     nodes = [
         OwnershipNode(
             node_id=node_id,
             node_id_type=node_types.get(node_id, ""),
+            legal_name=lei_reference.get(node_id, {}).get("legal_name", ""),
+            entity_status=lei_reference.get(node_id, {}).get("entity_status", ""),
+            registration_status=lei_reference.get(node_id, {}).get(
+                "registration_status",
+                "",
+            ),
+            legal_jurisdiction=lei_reference.get(node_id, {}).get("legal_jurisdiction", ""),
             relationship_count=sum(role_counts[node_id].values()),
             parent_edge_count=role_counts[node_id]["parent"],
             child_edge_count=role_counts[node_id]["child"],
@@ -196,6 +243,8 @@ def build_ownership_graph(rows: Iterable[Mapping[str, str]]) -> OwnershipGraph:
         quantified_relationships=sum(1 for edge in edges if edge.quantifier_amount is not None),
         nodes=len(nodes),
         lei_nodes=sum(1 for node in nodes if node.node_id_type == "LEI"),
+        named_nodes=sum(1 for node in nodes if node.legal_name),
+        active_legal_entity_nodes=sum(1 for node in nodes if node.entity_status == "ACTIVE"),
         source_uri_count=len(source_uris),
         content_hash_count=len(content_hashes),
         top_parents_by_child_count=_top_counter(parent_counts),
@@ -297,6 +346,37 @@ def _top_counter(counter: Counter[str], limit: int = 25) -> list[dict[str, Any]]
         {"node_id": node_id, "relationship_count": count}
         for node_id, count in counter.most_common(limit)
     ]
+
+
+def _lei_reference(
+    rows: Iterable[Mapping[str, str]],
+    *,
+    allowed_ids: set[str] | None = None,
+) -> dict[str, dict[str, str]]:
+    reference: dict[str, dict[str, str]] = {}
+    for row in rows:
+        lei = _first(row, "LEI", "lei")
+        if not lei:
+            continue
+        if allowed_ids is not None and lei not in allowed_ids:
+            continue
+        reference[lei] = {
+            "legal_name": _first(row, "Entity_LegalName", "legal_name", "name"),
+            "entity_status": _first(row, "Entity_EntityStatus", "entity_status"),
+            "registration_status": _first(
+                row,
+                "Registration_RegistrationStatus",
+                "registration_status",
+            ),
+            "legal_jurisdiction": _first(
+                row,
+                "Entity_LegalJurisdiction",
+                "legal_jurisdiction",
+            ),
+            "source_uri": _first(row, "source_uri"),
+            "content_hash": _first(row, "content_hash"),
+        }
+    return reference
 
 
 def _write_csv(path: Path, rows: list[dict[str, Any]]) -> None:

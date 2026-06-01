@@ -561,6 +561,7 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:
         "queue_records": coverage.queue_records,
         "equipment_records": coverage.equipment_records,
         "permit_records": coverage.permit_records,
+        "lei_records": coverage.lei_records,
         "ownership_records": coverage.ownership_records,
         "tracker_records": coverage.tracker_records,
         "ppas": coverage.ppas,

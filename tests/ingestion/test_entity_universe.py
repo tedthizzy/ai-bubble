@@ -119,3 +119,75 @@ def test_build_entity_universe_requires_sec_reference_when_fetch_disabled(tmp_pa
         assert "SEC reference JSON is required" in str(exc)
     else:  # pragma: no cover
         raise AssertionError("Expected missing SEC reference to fail")
+
+
+def test_build_entity_universe_uses_lei_reference_only_for_observed_ownership_nodes(
+    tmp_path: Path,
+) -> None:
+    data_dir = tmp_path / "data"
+    _write_csv(
+        data_dir / "source_acquisition" / "source_rows" / "ownership_records.csv",
+        [
+            {
+                "Relationship_StartNode_NodeID": "MSFTLEI1234567890",
+                "Relationship_EndNode_NodeID": "PARENTLEI12345678",
+                "source_uri": "https://leidata.gleif.org/api/v1/concatenated-files/rr/get/1/zip",
+                "source_type": "gleif",
+                "retrieved_at": "2026-06-01T00:00:00+00:00",
+                "content_hash": HASH,
+                "record_index": "1",
+            }
+        ],
+    )
+    _write_csv(
+        data_dir / "source_acquisition" / "source_rows" / "lei_records.csv",
+        [
+            {
+                "LEI": "MSFTLEI1234567890",
+                "Entity_LegalName": "Microsoft Corporation",
+                "Entity_EntityStatus": "ACTIVE",
+                "Registration_RegistrationStatus": "ISSUED",
+                "source_uri": "https://leidata.gleif.org/api/v1/concatenated-files/lei2/get/1/zip",
+                "source_type": "gleif",
+                "retrieved_at": "2026-06-01T00:00:00+00:00",
+                "content_hash": HASH,
+                "record_index": "1",
+            },
+            {
+                "LEI": "UNOBSERVEDLEI12345",
+                "Entity_LegalName": "Unobserved Holding Company",
+                "source_uri": "https://leidata.gleif.org/api/v1/concatenated-files/lei2/get/1/zip",
+                "source_type": "gleif",
+                "retrieved_at": "2026-06-01T00:00:00+00:00",
+                "content_hash": HASH,
+                "record_index": "2",
+            },
+        ],
+    )
+    sec_reference = tmp_path / "sec_company_tickers_exchange.json"
+    sec_reference.write_text(
+        json.dumps(
+            {
+                "fields": ["cik", "name", "ticker", "exchange"],
+                "data": [[789019, "MICROSOFT CORP", "MSFT", "Nasdaq"]],
+            }
+        )
+    )
+
+    summary = build_entity_universe(
+        data_dir,
+        output_dir=tmp_path / "entity_universe",
+        sec_reference_json=sec_reference,
+        fetch_sec_reference=False,
+    )
+
+    assert summary.source_rows_scanned == 2
+    assert summary.mentions_extracted == 1
+    assert summary.cik_matches == 1
+
+    entities = _read_csv(tmp_path / "entity_universe" / "entities.csv")
+    assert [row["canonical_name"] for row in entities] == ["Microsoft Corporation"]
+    assert entities[0]["matched_cik"] == "0000789019"
+
+    mentions = _read_csv(tmp_path / "entity_universe" / "entity_mentions.csv")
+    assert mentions[0]["source_entity_id"] == "MSFTLEI1234567890"

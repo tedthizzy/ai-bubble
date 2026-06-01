@@ -141,16 +141,29 @@ def test_build_seed_source_catalog_resolves_dynamic_public_queue_target(tmp_path
       </script>
     </html>
     """
-    gleif_payload = {
-        "data": [
-            {
-                "id": 41249,
-                "type": "rr",
-                "content_date": "2026-05-31 09:00:01",
-                "record_count": 650357,
-                "cdf_version": "RR_2.1",
-            }
-        ]
+    gleif_payloads = {
+        "lei": {
+            "data": [
+                {
+                    "id": 41255,
+                    "type": "lei2",
+                    "content_date": "2026-06-01 09:00:02",
+                    "record_count": 3326141,
+                    "cdf_version": "LEI_3.1",
+                }
+            ]
+        },
+        "rr": {
+            "data": [
+                {
+                    "id": 41249,
+                    "type": "rr",
+                    "content_date": "2026-05-31 09:00:01",
+                    "record_count": 650357,
+                    "cdf_version": "RR_2.1",
+                }
+            ]
+        },
     }
     ferc_next_data = {
         "props": {
@@ -180,6 +193,9 @@ def test_build_seed_source_catalog_resolves_dynamic_public_queue_target(tmp_path
             return fractracker_payloads["count"]
         return fractracker_payloads["layer"]
 
+    def gleif_fetch_json(url: str) -> dict[str, object]:
+        return gleif_payloads["lei"] if url.endswith("/lei2") else gleif_payloads["rr"]
+
     summary = build_seed_source_catalog(
         output,
         ciks=["0000789019"],
@@ -190,16 +206,17 @@ def test_build_seed_source_catalog_resolves_dynamic_public_queue_target(tmp_path
         ferc_fetch_text=lambda _url: ferc_html,
         ferc_fetch_json=lambda _url, _body: {"rowData": [], "totalCount": 3},
         fractracker_fetch_json=fractracker_fetch_json,
-        gleif_fetch_json=lambda _url: gleif_payload,
+        gleif_fetch_json=gleif_fetch_json,
         iso_ne_fetch_text=lambda _url: iso_ne_html,
     )
 
     rows = _read_csv(output)
-    assert summary.catalog_rows == 16
-    assert summary.public_sources == 15
+    assert summary.catalog_rows == 17
+    assert summary.public_sources == 16
     assert summary.corpora == {
         "equipment_records": 2,
         "filings": 1,
+        "lei_records": 1,
         "ownership_records": 1,
         "permit_records": 1,
         "ppas": 1,
@@ -216,8 +233,11 @@ def test_build_seed_source_catalog_resolves_dynamic_public_queue_target(tmp_path
     assert rows[12]["meta_json_records_path"] == "features"
     assert rows[12]["meta_json_flatten_records"] == "true"
     assert rows[13]["source_id"] == "fractracker-data-centers-000002-000003"
-    assert rows[14]["source_id"] == "gleif-rr-cdf-41249"
+    assert rows[14]["source_id"] == "gleif-lei-cdf-41255"
     assert rows[14]["source_type"] == "gleif"
-    assert rows[14]["meta_zip_xml_record_tag"] == "RelationshipRecord"
-    assert rows[15]["source_id"] == "iso-ne-public-queue-639158688000000000"
-    assert rows[15]["meta_http_header_cookie"] == "AspxAutoDetectCookieSupport=1"
+    assert rows[14]["meta_zip_xml_record_tag"] == "LEIRecord"
+    assert rows[15]["source_id"] == "gleif-rr-cdf-41249"
+    assert rows[15]["source_type"] == "gleif"
+    assert rows[15]["meta_zip_xml_record_tag"] == "RelationshipRecord"
+    assert rows[16]["source_id"] == "iso-ne-public-queue-639158688000000000"
+    assert rows[16]["meta_http_header_cookie"] == "AspxAutoDetectCookieSupport=1"

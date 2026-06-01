@@ -46,7 +46,19 @@ def test_ownership_graph_builds_source_backed_consolidation_edges(tmp_path: Path
         },
     ]
 
-    graph = build_ownership_graph(rows)
+    lei_rows = [
+        {
+            "LEI": "CHILDLEI1234567890",
+            "Entity_LegalName": "Child Compute LLC",
+            "Entity_EntityStatus": "ACTIVE",
+            "Registration_RegistrationStatus": "ISSUED",
+            "Entity_LegalJurisdiction": "US-DE",
+            "source_uri": "https://leidata.gleif.org/api/v1/concatenated-files/lei2/get/1/zip",
+            "content_hash": "hash-lei",
+        }
+    ]
+
+    graph = build_ownership_graph(rows, lei_rows=lei_rows)
 
     assert graph.summary.rows_scanned == 2
     assert graph.summary.relationships == 2
@@ -58,16 +70,21 @@ def test_ownership_graph_builds_source_backed_consolidation_edges(tmp_path: Path
     assert graph.summary.quantified_relationships == 1
     assert graph.summary.nodes == 3
     assert graph.summary.lei_nodes == 3
+    assert graph.summary.named_nodes == 1
+    assert graph.summary.active_legal_entity_nodes == 1
     assert graph.edges[0].child_id == "CHILDLEI1234567890"
     assert graph.edges[0].quantifier_amount == 99.9
     assert graph.nodes[0].node_id == "CHILDLEI1234567890"
+    assert graph.nodes[0].legal_name == "Child Compute LLC"
+    assert graph.nodes[0].entity_status == "ACTIVE"
     assert graph.nodes[0].child_edge_count == 2
-    assert graph.nodes[0].source_uri_count == 1
+    assert graph.nodes[0].source_uri_count == 2
     assert (
         graph.nodes[0].source_uris
-        == "https://leidata.gleif.org/api/v1/concatenated-files/rr/get/1/zip"
+        == "https://leidata.gleif.org/api/v1/concatenated-files/lei2/get/1/zip|"
+        "https://leidata.gleif.org/api/v1/concatenated-files/rr/get/1/zip"
     )
-    assert graph.nodes[0].content_hashes == "hash-1"
+    assert graph.nodes[0].content_hashes == "hash-1|hash-lei"
 
     outputs = write_ownership_graph(graph, tmp_path)
     assert Path(outputs["nodes_csv"]).exists()

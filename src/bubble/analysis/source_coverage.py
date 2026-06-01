@@ -36,6 +36,7 @@ CORPUS_BY_EXACT_FILENAME = {
     "extracted_deals.csv": "extracted_deals",
     "ppas.csv": "ppas",
     "lease_agreements.csv": "lease_agreements",
+    "lei_records.csv": "lei_records",
     "ownership_records.csv": "ownership_records",
     "tracker_records.csv": "tracker_records",
     "compute_assets.csv": "compute_assets",
@@ -74,6 +75,7 @@ class SourceCoverageReport:
     construction_observations: int
     ppas: int
     lease_agreements: int
+    lei_records: int
     ownership_records: int
     tracker_records: int
     compute_assets: int
@@ -120,6 +122,7 @@ def build_source_coverage_report(  # noqa: PLR0912, PLR0915
         "construction_observations": [],
         "ppas": [],
         "lease_agreements": [],
+        "lei_records": [],
         "ownership_records": [],
         "tracker_records": [],
         "compute_assets": [],
@@ -214,6 +217,8 @@ def build_source_coverage_report(  # noqa: PLR0912, PLR0915
                 _deal_key(row, default_type="lease") for row in rows if _is_source_backed(row)
             )
             _add_lease_entities(entities, rows)
+        elif corpus == "lei_records":
+            _add_lei_entities(entities, rows)
         elif corpus == "ownership_records":
             _add_ownership_entities(entities, rows)
         elif corpus == "tracker_records":
@@ -274,6 +279,7 @@ def build_source_coverage_report(  # noqa: PLR0912, PLR0915
         "permit_records": counts["permit_records"],
         "ppas": ppas,
         "lease_agreements": leases,
+        "lei_records": counts["lei_records"],
         "ownership_records": counts["ownership_records"],
         "tracker_records": counts["tracker_records"],
         "compute_economics": len(source_backed_compute_row_keys),
@@ -294,6 +300,7 @@ def build_source_coverage_report(  # noqa: PLR0912, PLR0915
         construction_observations=counts["construction_observations"],
         ppas=ppas,
         lease_agreements=leases,
+        lei_records=counts["lei_records"],
         ownership_records=counts["ownership_records"],
         tracker_records=counts["tracker_records"],
         compute_assets=counts["compute_assets"],
@@ -547,6 +554,17 @@ def _add_lease_entities(entities: set[str], rows: list[dict[str, str]]) -> None:
                     _add_entity(entities, party)
             else:
                 _add_entity(entities, row.get(entity_key))
+
+
+def _add_lei_entities(entities: set[str], rows: list[dict[str, str]]) -> None:
+    for row in rows:
+        for entity_key in [
+            "Entity_LegalName",
+            "Entity_OtherEntityNames_OtherEntityName",
+            "Entity_TransliteratedOtherEntityNames_TransliteratedOtherEntityName",
+            "LEI",
+        ]:
+            _add_entity(entities, row.get(entity_key))
 
 
 def _add_project_entities(entities: set[str], rows: list[dict[str, str]]) -> set[str]:

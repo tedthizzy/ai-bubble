@@ -9,6 +9,7 @@ from pathlib import Path
 
 from bubble.analysis.ownership_graph import (
     build_ownership_graph,
+    load_lei_reference_rows,
     load_ownership_rows,
     write_ownership_graph,
 )
@@ -28,7 +29,8 @@ def main() -> None:
 
     data_dirs = args.data_dir or [Path("data")]
     rows = load_ownership_rows(data_dirs)
-    graph = build_ownership_graph(rows)
+    lei_rows = load_lei_reference_rows(data_dirs)
+    graph = build_ownership_graph(rows, lei_rows=lei_rows)
     outputs = write_ownership_graph(graph, args.output_dir)
     print(json.dumps({**graph.summary.to_dict(), "outputs": outputs}, indent=2, sort_keys=True))
 
