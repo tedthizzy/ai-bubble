@@ -983,6 +983,8 @@ def _requires_aggregate_split(packet: dict[str, str], quote: str) -> bool:
         return False
     text = _combined_text(packet, quote)
     reason = _field(packet, "reason").lower()
+    if _looks_like_debt_outstanding_snapshot(text):
+        return True
     explicit_specific_markers = [
         "commitment scope: specific_transaction_commitment",
         "notional context: transaction_",
@@ -1017,6 +1019,29 @@ def _requires_aggregate_split(packet: dict[str, str], quote: str) -> bool:
     if _contains_any(text, explicit_non_specific_markers):
         return True
     return "aggregate" in text
+
+
+def _looks_like_debt_outstanding_snapshot(text: str) -> bool:
+    return _contains_any(
+        text,
+        [
+            "total principal debt outstanding",
+            "total consolidated long-term debt",
+            "total liabilities",
+            "debt due within one year",
+            "on an as adjusted basis",
+            "had approximately",
+            "including $",
+        ],
+    ) and _contains_any(
+        text,
+        [
+            "outstanding",
+            "consolidated indebtedness",
+            "consolidated long-term debt",
+            "total liabilities",
+        ],
+    )
 
 
 def _as_of_date(text: str) -> date | None:

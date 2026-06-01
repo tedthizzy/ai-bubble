@@ -1,13 +1,13 @@
 # Acquisition Status
 
-Last updated: 2026-06-01 23:11 UTC.
+Last updated: 2026-06-01 23:16 UTC.
 
 This file is the operational snapshot for the current evidence corpus. Treat it
 as a run log, not as a final investment conclusion.
 
 ## Current Corpus
 
-- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260601-2311.md`
+- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260601-2316.md`
 - Evidence gate: not high-confidence final.
 - Source invariant audit: passed at 2026-06-01 21:55 UTC, 59 CSV files
   and 8,905,760 rows scanned, 0 violations, 0 warnings.
@@ -40,9 +40,9 @@ as a run log, not as a final investment conclusion.
   supported amounts and currently remain $3.669T after latest-snapshot metric
   dedupe across 48 metric groups; they are not treated as individual contracts
   unless contract terms are separately extracted.
-- Top remaining decision gaps are now named counterparty role extraction (26),
-  aggregate-to-committed split (25), recourse/guarantee scope (24),
-  collateral scope (22), and missing underlying term-level clauses (19).
+- Top remaining decision gaps are now aggregate-to-committed split (31), named
+  counterparty role extraction (22), recourse/guarantee scope (22), missing
+  underlying term-level clauses (19), and collateral scope (18).
 
 ## Phase Transition Readiness
 
@@ -106,6 +106,9 @@ Ready now:
 - note-offering bond rows can now clear counterparty and collateral gaps when
   source quote context is prospectus/indenture note issuance without bilateral
   lender-agent language, reducing false bilateral assumptions
+- issuer-level debt-outstanding snapshots now route to aggregate-to-committed
+  split blocking even when upstream context labeled the amount as
+  transaction-principal, reducing false contract-level counterparty requirements
 
 Must move next:
 

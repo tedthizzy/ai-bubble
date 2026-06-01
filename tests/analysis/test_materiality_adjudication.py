@@ -942,6 +942,64 @@ def test_materiality_adjudication_routes_non_specific_candidate_to_term_acquisit
     assert "determine collateral scope" not in decision.remaining_gap
 
 
+def test_materiality_adjudication_routes_aggregate_debt_snapshot_to_split_gap(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-aggregate-debt-snapshot",
+                "rank": 1,
+                "review_id": "review-aggregate-debt-snapshot",
+                "review_group_id": "group-aggregate-debt-snapshot",
+                "priority": "critical",
+                "category": "capital",
+                "subcategory": "high_notional_debt_like_candidate",
+                "ecosystem_relevance": "not_tagged",
+                "entity": "Example Debt Issuer, Inc.",
+                "counterparty": "",
+                "exposure_basis_usd": "103994000000",
+                "reason": (
+                    "pending adjudication status: pending; debt-like deal type: debt_facility; "
+                    "notional $103,994,000,000; notional context: transaction_principal; "
+                    "source extraction marked requires LLM adjudication"
+                ),
+                "recommended_action": "Confirm debt terms",
+                "source_uri": "https://www.sec.gov/example-debt-snapshot.htm",
+                "source_uris": json.dumps(["https://www.sec.gov/example-debt-snapshot.htm"]),
+                "content_hash": "9" * 64,
+                "content_hashes": json.dumps(["9" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/example-debt-snapshot.htm",
+                            "content_hash": "9" * 64,
+                            "document_id": "example-debt-snapshot.htm",
+                            "snippet": (
+                                "As of March 31, 2025, the Corporation's total consolidated "
+                                "long-term debt and debt due within one year was, in aggregate "
+                                "principal amount, approximately $103,994 million outstanding."
+                            ),
+                        }
+                    ]
+                ),
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    decision = batch.decisions[0]
+    assert "split aggregate disclosure" in decision.remaining_gap
+    assert "extract named counterparty and role" not in decision.remaining_gap
+    assert "determine recourse and guarantee scope" not in decision.remaining_gap
+    assert "determine collateral scope" not in decision.remaining_gap
+
+
 def test_materiality_adjudication_uses_contract_reason_flags_for_scope_terms(
     tmp_path: Path,
 ) -> None:
