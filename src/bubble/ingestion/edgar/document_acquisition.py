@@ -1144,7 +1144,18 @@ def extract_deal_notional_candidate(text: str, *, deal_type: DealType) -> Notion
         seen.add(key)
         context = _amount_sentence_context(snippet, match.start(), match.end()).lower()
         positive_terms = _notional_positive_terms(context, deal_type=deal_type)
-        rejected_terms = _notional_rejected_terms(context)
+        rejected_terms = [
+            *_notional_rejected_terms(context),
+            *_amount_specific_rejected_terms(match, value, context),
+        ]
+        series_candidate = _series_component_sum_candidate(
+            snippet,
+            match,
+            aggregate_value=value,
+            deal_type=deal_type,
+        )
+        if series_candidate:
+            candidates.append(series_candidate)
         if rejected_terms or not positive_terms:
             continue
         score = len(positive_terms)
@@ -1161,6 +1172,60 @@ def extract_deal_notional_candidate(text: str, *, deal_type: DealType) -> Notion
     if not candidates:
         return None
     return max(candidates, key=lambda candidate: (candidate.score, candidate.value_usd))
+
+
+def _series_component_sum_candidate(
+    text: str,
+    aggregate_match: re.Match[str],
+    *,
+    aggregate_value: float,
+    deal_type: DealType,
+) -> NotionalCandidate | None:
+    """Recover series-level principal sum when an aggregate unit is internally inconsistent."""
+
+    if deal_type != DealType.BOND:
+        return None
+    if not _looks_like_scaled_billion_mismatch(aggregate_match, aggregate_value):
+        return None
+    window = text[aggregate_match.start() : aggregate_match.end() + 4_000]
+    window_lower = window.lower()
+    if "in two series" not in window_lower and "in three series" not in window_lower:
+        return None
+
+    component_values: list[float] = []
+    component_terms: list[str] = []
+    for match in _amount_matches(window):
+        if match.start() == 0:
+            continue
+        value = _amount_to_usd(match.group("num"), match.group("unit"))
+        if not 100_000_000 <= value <= aggregate_value / 10:
+            continue
+        context = _amount_sentence_context(window, match.start(), match.end()).lower()
+        positive_terms = _notional_positive_terms(context, deal_type=deal_type)
+        if not positive_terms or _notional_rejected_terms(context):
+            continue
+        component_values.append(value)
+        component_terms.extend(positive_terms)
+
+    if len(component_values) < 2:
+        return None
+    component_sum = sum(component_values)
+    scaled_aggregate = aggregate_value / 1_000
+    if not scaled_aggregate * 0.95 <= component_sum <= scaled_aggregate * 1.05:
+        return None
+    terms = list(dict.fromkeys([*component_terms, "series component principal sum"]))
+    context_excerpt = _short_context_excerpt(
+        " ".join(window.split())
+        + " [aggregate billion unit scale mismatch; using source series principal sum]"
+    )
+    return NotionalCandidate(
+        value_usd=component_sum,
+        score=len(terms) + 4,
+        positive_terms=terms,
+        rejected_terms=[],
+        context_kind="transaction_principal_series_sum",
+        context_excerpt=context_excerpt,
+    )
 
 
 def _amount_sentence_context(text: str, start: int, end: int) -> str:
@@ -1350,6 +1415,29 @@ def _notional_rejected_terms(context: str) -> list[str]:
     if _looks_like_balance_sheet_debt_snapshot(context):
         matches.append("balance sheet debt snapshot")
     return matches
+
+
+def _amount_specific_rejected_terms(
+    match: re.Match[str],
+    value_usd: float,
+    context: str,
+) -> list[str]:
+    if _looks_like_scaled_billion_mismatch(match, value_usd) and (
+        "in two series" in context or "in three series" in context
+    ):
+        return ["suspicious billion unit scale mismatch"]
+    return []
+
+
+def _looks_like_scaled_billion_mismatch(match: re.Match[str], value_usd: float) -> bool:
+    unit = (match.group("unit") or "").lower()
+    if unit not in {"billion", "bn"}:
+        return False
+    try:
+        numeric = float(match.group("num").replace(",", ""))
+    except ValueError:
+        return False
+    return numeric >= 1_000 and value_usd >= 1_000_000_000_000
 
 
 def _looks_like_balance_sheet_debt_snapshot(context: str) -> bool:

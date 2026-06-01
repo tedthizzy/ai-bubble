@@ -307,6 +307,24 @@ def test_deal_notional_extractor_ignores_aum_and_selects_contract_amount():
     assert extract_deal_notional_usd(text, deal_type=DealType.BOND) == 750_000_000
 
 
+def test_deal_notional_extractor_uses_series_sum_when_aggregate_unit_is_inconsistent():
+    text = normalize_document_text(
+        b"""
+        Also in September 2025, we concurrently offered and issued an aggregate of
+        $3,162.5 billion in convertible notes, in two series: $1,581,250,000
+        aggregate principal amount of 1.00% convertible notes due 2030 and
+        $1,581,250,000 aggregate principal amount of 2.75% convertible notes due
+        2032, in each case including the exercise of the initial purchasers'
+        option to purchase additional Notes.
+        """
+    )
+
+    candidate = extract_deal_notional_usd(text, deal_type=DealType.BOND)
+
+    assert extract_largest_notional_usd(text) == 3_162_500_000_000
+    assert candidate == 3_162_500_000
+
+
 def test_deal_notional_extractor_returns_none_without_deal_amount_context():
     text = (
         "Credit agreement risk factors are described below. As of September 30, 2025, "
