@@ -25,7 +25,7 @@ def main() -> None:
     parser.add_argument("--output-dir", type=Path, default=Path("data/reports"))
     parser.add_argument("--min-notional-usd", type=float, default=1_000_000_000)
     parser.add_argument("--max-ownership-depth", type=int, default=3)
-    parser.add_argument("--max-paths", type=int, default=10_000)
+    parser.add_argument("--max-paths", type=int, default=50_000)
     args = parser.parse_args()
 
     data_dirs = args.data_dir or [Path("data")]

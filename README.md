@@ -341,7 +341,10 @@ documents into the same source-backed EDGAR acquisition corpus. The EDGAR
 acquirer writes both `deals.csv` and `tranches.csv` when source text supports
 tranche-level debt/bond terms, and enriches deal rows with collateral snippets,
 guarantors, SPV/non-recourse flags, source URI, content hash, accession context,
-and pending-adjudication status.
+and pending-adjudication status. A single debt/security document can emit
+multiple `tranches.csv` rows when explicit source text names separate term
+loan, revolver, or note-series amounts; otherwise the extractor falls back to
+one primary tranche candidate.
 
 For non-EDGAR sources, use a real source catalog:
 
@@ -445,8 +448,11 @@ content hashes, adjudication statuses, notional exposure, ownership path depth, 
 risk flags preserved on each row:
 
 ```bash
-just contract-contagion-paths --data-dir data --output-dir data/reports
+just contract-contagion-paths --data-dir data --output-dir data/reports --max-paths 50000
 ```
+
+The default path cap is 50,000 so broad contract graphs are not silently clipped
+at the first 10,000 source-backed paths.
 
 Acquired ownership records can also be compiled into a source-backed legal
 entity ownership and consolidation graph. The graph currently targets GLEIF
@@ -496,7 +502,7 @@ decision questions/fields for automated adjudication. It writes
 `data/reports/materiality_adjudication_summary.json`:
 
 ```bash
-just materiality-adjudication --data-dir data --output-dir data/reports --limit 100
+just materiality-adjudication --data-dir data --output-dir data/reports --limit 250 --snippets-per-packet 3
 ```
 
 The packet set can then be adjudicated into conservative decision rows. This
@@ -526,7 +532,9 @@ just timing-signals --data-dir data --output-dir data/reports
 Expected files:
 
 - `deals.csv` with one row per lease, debt facility, bond, PPA, guarantee, or other contract
-- `tranches.csv` with optional tranche-level debt/bond terms linked by `deal_id`
+- `tranches.csv` with optional tranche-level debt/bond terms linked by `deal_id`;
+  a source document may contribute multiple tranche rows when separate
+  facility/series terms are explicit
 
 Every row must include `source_uri`; optional `source_type`, `source_confidence`, `human_review_status` adjudication status, `page_or_section`, and `content_hash` fields feed the evidence gate. Use `counterparty_roles` and `key_terms` as JSON objects so roles, guarantees, SPVs, and lease classification flags remain structured.
 

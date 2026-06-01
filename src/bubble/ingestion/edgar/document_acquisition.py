@@ -173,8 +173,26 @@ class EdgarDocumentRecord:
 
 
 @dataclass(frozen=True)
+class DebtTrancheCandidate:
+    """Source-backed tranche row extracted from explicit debt/security contract text."""
+
+    tranche_id: str
+    name: str
+    seniority: int
+    notional_usd: float
+    interest_rate: float | None
+    maturity_date: date | None
+    recourse: bool | None
+    collateral_description: str
+    guarantors: list[str]
+    confidence: float
+    source_excerpt: str
+    extraction_method: str
+
+
+@dataclass(frozen=True)
 class DealCandidate:
-    """Pending-review capital/deal evidence extracted from one EDGAR document."""
+    """Pending-adjudication capital/deal evidence extracted from one EDGAR document."""
 
     deal_id: str
     deal_type: DealType
@@ -193,6 +211,7 @@ class DealCandidate:
     guarantees: list[str]
     is_non_recourse: bool | None
     bankruptcy_remote_spv: bool | None
+    tranches: list[DebtTrancheCandidate]
 
     def to_capital_csv_row(self) -> dict[str, Any]:
         return {
@@ -226,30 +245,36 @@ class DealCandidate:
         }
 
     def to_tranche_csv_row(self) -> dict[str, Any] | None:
-        if self.deal_type not in {DealType.DEBT_FACILITY, DealType.BOND}:
-            return None
-        if self.notional_amount_usd is None:
-            return None
+        rows = self.to_tranche_csv_rows()
+        return rows[0] if rows else None
 
-        return {
-            "deal_id": self.deal_id,
-            "tranche_id": "primary",
-            "name": _tranche_name(self.deal_type, self.key_terms),
-            "seniority": _tranche_seniority(self.key_terms),
-            "notional_usd": self.notional_amount_usd,
-            "interest_rate": self.key_terms.get("interest_rate") or "",
-            "maturity": self.maturity_date.isoformat() if self.maturity_date else "",
-            "recourse": "false" if self.is_non_recourse else "",
-            "collateral_description": " | ".join(self.collateral),
-            "guarantors": "|".join(self.guarantees),
-            "source_uri": self.source_uri,
-            "source_type": SourceType.SEC_EDGAR.value,
-            "source_confidence": self.source_confidence,
-            "human_review_status": HumanReviewStatus.PENDING.value,
-            "page_or_section": self.page_or_section,
-            "content_hash": self.content_hash,
-            "confidence": self.confidence,
-        }
+    def to_tranche_csv_rows(self) -> list[dict[str, Any]]:
+        if self.deal_type not in {DealType.DEBT_FACILITY, DealType.BOND}:
+            return []
+        return [
+            {
+                "deal_id": self.deal_id,
+                "tranche_id": tranche.tranche_id,
+                "name": tranche.name,
+                "seniority": tranche.seniority,
+                "notional_usd": tranche.notional_usd,
+                "interest_rate": tranche.interest_rate or "",
+                "maturity": tranche.maturity_date.isoformat() if tranche.maturity_date else "",
+                "recourse": _bool_csv(tranche.recourse),
+                "collateral_description": tranche.collateral_description,
+                "guarantors": "|".join(tranche.guarantors),
+                "source_excerpt": tranche.source_excerpt,
+                "extraction_method": tranche.extraction_method,
+                "source_uri": self.source_uri,
+                "source_type": SourceType.SEC_EDGAR.value,
+                "source_confidence": self.source_confidence,
+                "human_review_status": HumanReviewStatus.PENDING.value,
+                "page_or_section": self.page_or_section,
+                "content_hash": self.content_hash,
+                "confidence": min(self.confidence, tranche.confidence),
+            }
+            for tranche in self.tranches
+        ]
 
 
 @dataclass(frozen=True)
@@ -369,6 +394,8 @@ class EdgarAcquisitionBatch:
             "recourse",
             "collateral_description",
             "guarantors",
+            "source_excerpt",
+            "extraction_method",
             "source_uri",
             "source_type",
             "source_confidence",
@@ -378,9 +405,7 @@ class EdgarAcquisitionBatch:
             "confidence",
         ]
         rows = [
-            row
-            for candidate in self.deal_candidates
-            if (row := candidate.to_tranche_csv_row()) is not None
+            row for candidate in self.deal_candidates for row in candidate.to_tranche_csv_rows()
         ]
         if merge_existing:
             rows = _merge_existing_csv_rows(
@@ -577,7 +602,7 @@ def acquire_edgar_documents_from_manifest(
         documents_downloaded=len(documents),
         documents_resumed=sum(result.resumed for result in results),
         deal_candidates=len(candidates),
-        tranche_candidates=sum(1 for candidate in candidates if candidate.to_tranche_csv_row()),
+        tranche_candidates=sum(len(candidate.to_tranche_csv_rows()) for candidate in candidates),
         total_bytes=sum(document.byte_count for document in documents),
         workers=worker_count,
         sec_requests_per_second=sec_requests_per_second,
@@ -763,6 +788,25 @@ def extract_deal_candidate(
         "counterparty_roles": counterparty_roles,
         "requires_llm_adjudication": True,
     }
+    tranches = extract_debt_tranche_candidates(
+        text=text,
+        deal_type=deal_type,
+        notional_amount_usd=amount,
+        fallback_maturity_date=maturity,
+        fallback_interest_rate=interest_rate,
+        collateral=collateral,
+        guarantees=guarantees,
+        is_non_recourse=is_non_recourse,
+        key_terms=key_terms,
+    )
+    explicit_tranche_total = _explicit_tranche_total(tranches)
+    if explicit_tranche_total and (amount is None or explicit_tranche_total > amount):
+        amount = explicit_tranche_total
+        key_terms["notional_extraction_method"] = "explicit_tranche_sum_v1"
+        key_terms["notional_context_kind"] = "transaction_tranche_sum"
+        key_terms["notional_context_excerpt"] = " | ".join(
+            tranche.source_excerpt for tranche in tranches if tranche.source_excerpt
+        )[:500]
     title = _candidate_title(manifest_row, deal_type)
 
     return DealCandidate(
@@ -783,6 +827,7 @@ def extract_deal_candidate(
         guarantees=guarantees,
         is_non_recourse=is_non_recourse,
         bankruptcy_remote_spv=bankruptcy_remote_spv,
+        tranches=tranches,
     )
 
 
@@ -1485,6 +1530,311 @@ def _looks_like_balance_sheet_debt_snapshot(context: str) -> bool:
             "total consolidated indebtedness",
         )
     )
+
+
+def extract_debt_tranche_candidates(
+    *,
+    text: str,
+    deal_type: DealType,
+    notional_amount_usd: float | None,
+    fallback_maturity_date: date | None,
+    fallback_interest_rate: float | None,
+    collateral: Sequence[str],
+    guarantees: Sequence[str],
+    is_non_recourse: bool | None,
+    key_terms: Mapping[str, Any],
+) -> list[DebtTrancheCandidate]:
+    """Extract explicit debt/bond tranches, falling back to one primary tranche."""
+
+    if deal_type not in {DealType.DEBT_FACILITY, DealType.BOND}:
+        return []
+    if notional_amount_usd is None:
+        return []
+
+    explicit = _explicit_debt_tranche_candidates(
+        text=text,
+        deal_type=deal_type,
+        fallback_maturity_date=fallback_maturity_date,
+        fallback_interest_rate=fallback_interest_rate,
+        collateral=collateral,
+        guarantees=guarantees,
+        is_non_recourse=is_non_recourse,
+    )
+    if _explicit_tranches_are_plausible(explicit, deal_notional=notional_amount_usd):
+        return explicit
+
+    return [
+        DebtTrancheCandidate(
+            tranche_id="primary",
+            name=_tranche_name(deal_type, key_terms),
+            seniority=_tranche_seniority(key_terms),
+            notional_usd=notional_amount_usd,
+            interest_rate=fallback_interest_rate,
+            maturity_date=fallback_maturity_date,
+            recourse=False if is_non_recourse else None,
+            collateral_description=" | ".join(collateral),
+            guarantors=list(guarantees),
+            confidence=0.72,
+            source_excerpt=str(key_terms.get("notional_context_excerpt") or ""),
+            extraction_method="single_document_primary_tranche_fallback_v1",
+        )
+    ]
+
+
+def _explicit_debt_tranche_candidates(
+    *,
+    text: str,
+    deal_type: DealType,
+    fallback_maturity_date: date | None,
+    fallback_interest_rate: float | None,
+    collateral: Sequence[str],
+    guarantees: Sequence[str],
+    is_non_recourse: bool | None,
+) -> list[DebtTrancheCandidate]:
+    snippet = text[:300_000]
+    candidates: list[DebtTrancheCandidate] = []
+    for match in _amount_matches(snippet):
+        value = _amount_to_usd(match.group("num"), match.group("unit"))
+        if not 1_000_000 <= value <= 10_000_000_000_000:
+            continue
+        context = _amount_sentence_context(snippet, match.start(), match.end())
+        context_lower = context.lower()
+        if _notional_rejected_terms(context_lower):
+            continue
+        if not _notional_positive_terms(context_lower, deal_type=deal_type):
+            continue
+        if _looks_like_parent_aggregate_with_components(snippet, match):
+            continue
+        window_start = max(0, match.start() - 180)
+        window_end = min(len(snippet), match.end() + 240)
+        window = snippet[window_start:window_end]
+        amount_start = match.start() - window_start
+        amount_end = match.end() - window_start
+        tranche_name = _best_explicit_tranche_name(
+            window,
+            amount_start=amount_start,
+            amount_end=amount_end,
+            deal_type=deal_type,
+        )
+        if not tranche_name:
+            continue
+        tranche_id = _tranche_id_from_name(tranche_name)
+        interest_rate = (
+            _interest_rate_from_context(tranche_name)
+            or _interest_rate_from_context(window)
+            or fallback_interest_rate
+        )
+        maturity_date = _maturity_date_from_context(window) or fallback_maturity_date
+        collateral_description = " | ".join(
+            extract_collateral_descriptions(window, max_descriptions=1) or list(collateral)
+        )
+        candidates.append(
+            DebtTrancheCandidate(
+                tranche_id=tranche_id,
+                name=tranche_name,
+                seniority=_tranche_seniority(
+                    {
+                        "notional_context_excerpt": context,
+                        "collateral_descriptions": [collateral_description],
+                    }
+                ),
+                notional_usd=value,
+                interest_rate=interest_rate,
+                maturity_date=maturity_date,
+                recourse=False if is_non_recourse else None,
+                collateral_description=collateral_description,
+                guarantors=list(guarantees),
+                confidence=0.78,
+                source_excerpt=_short_context_excerpt(context),
+                extraction_method="explicit_debt_tranche_context_v1",
+            )
+        )
+    return _dedupe_explicit_tranche_candidates(candidates)
+
+
+def _explicit_tranches_are_plausible(
+    tranches: Sequence[DebtTrancheCandidate],
+    *,
+    deal_notional: float,
+) -> bool:
+    if not tranches:
+        return False
+    if len(tranches) == 1:
+        return True
+    tranche_total = sum(tranche.notional_usd for tranche in tranches)
+    return tranche_total <= deal_notional * 5
+
+
+def _explicit_tranche_total(tranches: Sequence[DebtTrancheCandidate]) -> float | None:
+    explicit = [
+        tranche
+        for tranche in tranches
+        if tranche.extraction_method == "explicit_debt_tranche_context_v1"
+    ]
+    if len(explicit) < 2:
+        return None
+    return round(sum(tranche.notional_usd for tranche in explicit), 2)
+
+
+def _looks_like_parent_aggregate_with_components(text: str, match: re.Match[str]) -> bool:
+    window = text[match.start() : min(len(text), match.end() + 700)].lower()
+    if not any(
+        phrase in window
+        for phrase in (
+            "consisting of",
+            "comprised of",
+            "composed of",
+            "in two series",
+            "in three series",
+            "in four series",
+        )
+    ):
+        return False
+    return len(_amount_matches(window)) >= 3
+
+
+def _best_explicit_tranche_name(
+    window: str,
+    *,
+    amount_start: int,
+    amount_end: int,
+    deal_type: DealType,
+) -> str | None:
+    patterns = _explicit_tranche_name_patterns(deal_type)
+    matches: list[tuple[int, int, int, str]] = []
+    for pattern in patterns:
+        for match in pattern.finditer(window):
+            name = _display_tranche_name(match.group("name"))
+            if not name:
+                continue
+            if match.end("name") < amount_start:
+                distance = amount_start - match.end("name")
+                side_rank = 2
+            elif match.start("name") > amount_end:
+                distance = match.start("name") - amount_end
+                side_rank = 0
+            else:
+                distance = 0
+                side_rank = 1
+            matches.append((side_rank, distance, -len(name), name))
+    if not matches:
+        return None
+    matches.sort()
+    return matches[0][3]
+
+
+def _explicit_tranche_name_patterns(deal_type: DealType) -> list[re.Pattern[str]]:
+    if deal_type == DealType.DEBT_FACILITY:
+        return [
+            re.compile(
+                r"\b(?P<name>(?:delayed\s+draw\s+)?term\s+loan\s+facilit(?:y|ies))\b",
+                re.IGNORECASE,
+            ),
+            re.compile(
+                r"\b(?P<name>revolving\s+(?:credit\s+)?facilit(?:y|ies))\b",
+                re.IGNORECASE,
+            ),
+            re.compile(r"\b(?P<name>revolver)\b", re.IGNORECASE),
+            re.compile(
+                r"\b(?P<name>(?:term|revolving)\s+loan\s+commitments?)\b",
+                re.IGNORECASE,
+            ),
+        ]
+    if deal_type == DealType.BOND:
+        return [
+            re.compile(
+                r"\b(?P<name>(?:\d{1,2}(?:\.\d+)?%\s+)?(?:convertible\s+)?"
+                r"(?:(?:senior|secured|unsecured|subordinated)\s+)?"
+                r"notes?(?:\s+due\s+(?:[A-Z][a-z]+\s+\d{1,2},\s+\d{4}|\d{4}))?)\b",
+                re.IGNORECASE,
+            )
+        ]
+    return []
+
+
+def _display_tranche_name(raw: str) -> str:
+    cleaned = " ".join(raw.split()).strip(" ,.;:")
+    if not cleaned:
+        return ""
+    lower = cleaned.lower()
+    replacements = {
+        "revolver": "Revolver",
+        "term loan facility": "Term loan facility",
+        "term loan facilities": "Term loan facilities",
+        "delayed draw term loan facility": "Delayed draw term loan facility",
+        "revolving credit facility": "Revolving credit facility",
+        "revolving facility": "Revolving facility",
+        "term loan commitment": "Term loan commitment",
+        "term loan commitments": "Term loan commitments",
+        "revolving loan commitment": "Revolving loan commitment",
+        "revolving loan commitments": "Revolving loan commitments",
+    }
+    if lower in replacements:
+        return replacements[lower]
+    return cleaned[0].upper() + cleaned[1:]
+
+
+def _tranche_id_from_name(name: str) -> str:
+    slug = re.sub(r"[^a-z0-9]+", "_", name.lower()).strip("_")
+    return slug or "explicit_tranche"
+
+
+def _interest_rate_from_context(context: str) -> float | None:
+    rate = extract_interest_rate(context)
+    if rate is not None:
+        return rate
+    if not re.search(r"\bnotes?\b", context, flags=re.IGNORECASE):
+        return None
+    match = re.search(
+        r"\b(?P<rate>\d{1,2}(?:\.\d+)?)\s*%\s+(?:convertible\s+)?"
+        r"(?:(?:senior|secured|unsecured|subordinated)\s+)?notes?\b",
+        context,
+        flags=re.IGNORECASE,
+    )
+    if not match:
+        return None
+    rate_decimal = round(float(match.group("rate")) / 100, 6)
+    if rate_decimal <= 0 or rate_decimal > MAX_EXTRACTED_INTEREST_RATE_DECIMAL:
+        return None
+    return rate_decimal
+
+
+def _maturity_date_from_context(context: str) -> date | None:
+    return extract_maturity_date(context)
+
+
+def _dedupe_explicit_tranche_candidates(
+    candidates: Sequence[DebtTrancheCandidate],
+) -> list[DebtTrancheCandidate]:
+    deduped: list[DebtTrancheCandidate] = []
+    seen: set[tuple[str, float]] = set()
+    id_counts: Counter[str] = Counter()
+    for candidate in candidates:
+        key = (candidate.tranche_id, round(candidate.notional_usd, 2))
+        if key in seen:
+            continue
+        seen.add(key)
+        id_counts[candidate.tranche_id] += 1
+        if id_counts[candidate.tranche_id] == 1:
+            deduped.append(candidate)
+            continue
+        deduped.append(
+            DebtTrancheCandidate(
+                tranche_id=f"{candidate.tranche_id}_{id_counts[candidate.tranche_id]}",
+                name=candidate.name,
+                seniority=candidate.seniority,
+                notional_usd=candidate.notional_usd,
+                interest_rate=candidate.interest_rate,
+                maturity_date=candidate.maturity_date,
+                recourse=candidate.recourse,
+                collateral_description=candidate.collateral_description,
+                guarantors=candidate.guarantors,
+                confidence=candidate.confidence,
+                source_excerpt=candidate.source_excerpt,
+                extraction_method=candidate.extraction_method,
+            )
+        )
+    return deduped
 
 
 def extract_maturity_date(text: str) -> date | None:

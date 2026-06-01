@@ -1,16 +1,16 @@
 # Acquisition Status
 
-Last updated: 2026-06-01 20:36 UTC.
+Last updated: 2026-06-01 20:56 UTC.
 
 This file is the operational snapshot for the current evidence corpus. Treat it
 as a run log, not as a final investment conclusion.
 
 ## Current Corpus
 
-- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260601-2034.md`
+- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260601-2055.md`
 - Evidence gate: not high-confidence final.
-- Source invariant audit: passed at 2026-06-01 20:36 UTC, 59 CSV files
-  and 8,879,511 rows scanned, 0 violations, 0 warnings.
+- Source invariant audit: passed at 2026-06-01 20:56 UTC, 59 CSV files
+  and 8,904,363 rows scanned, 0 violations, 0 warnings.
 - Generated report assets are internal evidence artifacts; the user-facing
   deliverable remains a high-level chat summary once the evidence supports it.
 - Source catalog artifacts: 586 / 586 attempted in the latest broad public-source run.
@@ -21,25 +21,25 @@ as a run log, not as a final investment conclusion.
 - Expanded SEC CIK candidates: 2,356.
 - Projects: 17,226.
 - Source-backed deals: 62,950.
-- Source-backed contract tranches: 6,839.
+- Source-backed contract tranches: 10,040.
 - Source-backed compute rows: 166.
-- Source-backed timing signals: 3,812.
-- Pending source-backed adjudication items: 6,189.
+- Source-backed timing signals: 3,860.
+- Pending source-backed adjudication items: 7,375.
 - Ownership graph: 425,765 LEI nodes, 425,679 named nodes, and 643,828 source-backed relationships.
-- Contract-structure graph: 95,229 nodes and 190,804 source-backed edges.
-- Contract/ownership contagion paths: 8,443 source-backed paths, including
-  1,602 ownership-expanded paths, 6,841 contract-only paths, 349 AI-infra
-  relevant paths, and 230 high-or-critical paths.
-- Materiality-first LLM adjudication packets: 100 top blockers packaged, all
-  100 source-backed with local evidence snippets, 76 AI-infra relevant, and
-  $25.729T of total exposure-basis across the packet set.
-- Automated materiality adjudication decisions: 100 decisions, 89 with resolved
-  text quotes, 21 supported as material blockers, 68 requiring deeper extraction,
-  11 requiring source retrieval/non-binary parsed evidence, and 3 source-backed
-  aggregate obligation snapshot rows approved for metric use. Those 3 rows total
-  $176.675B as historical snapshots, but dedupe to $75.6B of current supported
-  aggregate metric exposure across 1 latest-snapshot metric group; they are not
-  treated as individual contracts.
+- Contract-structure graph: 98,571 nodes and 205,469 source-backed edges.
+- Contract/ownership contagion paths: 10,553 source-backed paths, including
+  1,972 ownership-expanded paths, 8,581 contract-only paths, 419 AI-infra
+  relevant paths, and 253 high-or-critical paths.
+- Materiality-first LLM adjudication packets: 250 top blockers packaged, all
+  250 source-backed with local evidence snippets, 185 AI-infra relevant, and
+  $30.279T of total exposure-basis across the packet set.
+- Automated materiality adjudication decisions: 250 decisions, 224 with resolved
+  text quotes, 31 supported as material blockers, 193 requiring deeper extraction,
+  26 requiring source retrieval/non-binary parsed evidence, and 5 source-backed
+  rows approved for metric use. Those 5 rows total $181.885B as row-level
+  supported amounts, but dedupe to $80.81B of current supported metric exposure
+  across 3 metric groups; they are not treated as individual contracts unless
+  contract terms are separately extracted.
 
 ## Phase Transition Readiness
 
@@ -49,7 +49,7 @@ workstream rather than be treated as complete.
 
 The operating rule for the next phase is materiality-first, not
 completeness-first. Broad acquisition should continue in parallel, but report
-confidence should come from LLM-adjudicating the top 50-100 material exposures:
+confidence should come from LLM-adjudicating the top material exposures:
 largest AI/data-center lease obligations, largest debt facilities and bonds,
 largest SPV or non-recourse structures, largest physical power constraints, and
 largest compute depreciation, TAM, payback, EPS, and chip-supply claims.
@@ -72,11 +72,13 @@ Ready now:
   scaffolding
 - contract-level EDGAR enrichment for first-pass debt/bond tranches, collateral
   snippets, guarantors, SPV/non-recourse flags, rates, and maturities
+- multi-tranche EDGAR enrichment where explicit source text names separate term
+  loan, revolver, or note-series amounts inside a single debt/security document
 - source-backed contract-structure graph outputs for deal, tranche, collateral,
   guarantor, project/asset, non-recourse, and bankruptcy-remote/SPV terms
 - source-backed contract/ownership contagion path outputs joining SEC contract
   edges to GLEIF legal-control paths where exact legal-name matches exist
-- materiality-ranked LLM adjudication packet outputs for the top 100 blocker
+- materiality-ranked LLM adjudication packet outputs for the top 250 blocker
   items, with source snippets and explicit decision fields
 - automated materiality adjudication decision outputs that separate
   source-supported blockers from rows still blocked for final metric use
@@ -89,8 +91,8 @@ Must move next:
 
 - continued EDGAR/source acquisition as an always-on workstream for future
   filings, lower-priority backlog rows, and new source catalogs
-- expanded exhibit-enabled EDGAR manifests for EX-2, EX-4, EX-10, and EX-99
-  documents beyond the first high-signal tranche
+- lower-score exhibit tails, new filings, and newly discovered CIKs when
+  materiality gaps justify more SEC acquisition
 - continued actual document acquisition and contract-level extraction for
   leases, debt, guarantees, collateral, tranches, PPAs, construction, and
   project-finance terms
@@ -101,9 +103,9 @@ Must move next:
 - deeper contagion modeling that joins contract edges, ownership/SPV edges,
   guarantee/collateral terms, maturities, and physical execution risks beyond
   exact legal-name matches
-- triage of the 1,809 pending contract-tranche adjudication items before relying on
+- triage of the 2,506 pending contract-tranche adjudication items before relying on
   tranche-level downside-bearer or waterfall conclusions
-- triage of the 1,441 pending contract-contagion adjudication items before relying on
+- triage of the 1,763 pending contract-contagion adjudication items before relying on
   full contagion paths
 - broadened source-backed GPU depreciation, TAM, payback, EPS, and chip-supply
   evidence beyond the first EDGAR-derived row set
@@ -134,12 +136,12 @@ Broad exhibit manifest completed 2026-06-01 19:59 UTC:
 - SEC request lane: 8 requests/second and 8-domain concurrency
 - source primary manifest: `data/manifests/edgar_filing_manifest_20260601-142009.csv`
 
-Broad exhibit document acquisition completed 2026-06-01 20:28 UTC:
+Broad exhibit document acquisition/reparse refreshed 2026-06-01 20:49 UTC:
 
 - documents attempted/downloaded: 16,981 / 16,981
-- documents resumed in latest enrichment pass: 4,003
+- documents resumed in latest enrichment pass: 16,981
 - deal candidates extracted in the run: 8,493
-- contract tranches materialized in the run: 3,498
+- contract tranches materialized in the run: 5,128
 - deal mix: 4,168 debt facilities, 1,522 bonds, 710 PPAs, 435 leases,
   144 land acquisitions, 25 guarantees, 23 construction contracts, and 1,466
   other candidates
@@ -152,6 +154,12 @@ Broad exhibit document acquisition completed 2026-06-01 20:28 UTC:
 Post-acquisition local extraction refreshed `data/capital/lease_agreements.csv`
 to 768 source-backed lease agreements and refreshed compute-economics extraction
 against 66,072 EDGAR inventory documents.
+
+The latest reparse added explicit multi-tranche extraction for debt/security
+documents. When a single exhibit names separate term loan, revolver, or note
+series amounts, `data/edgar_acquisition/tranches.csv` now carries separate
+source-backed tranche rows instead of only one primary fallback tranche. The
+fallback still applies when the source text does not clearly separate tranches.
 
 Prior focused exhibit run:
 
@@ -194,9 +202,9 @@ Completed 2026-06-01 18:35 UTC:
 - documents attempted/downloaded: 28,084 / 28,084
 - documents resumed in latest enrichment pass: 28,084
 - deal candidates extracted: 6,882
-- contract tranches materialized: 3,341 in the primary-document run; 6,839
-  total source-backed tranche rows after the broad exhibit, focused exhibit, and
-  primary passes
+- contract tranches materialized: 3,341 in the primary-document run; 10,040
+  total source-backed tranche rows after the broad exhibit multi-tranche reparse,
+  focused exhibit, and primary passes
 - bytes downloaded/read: 29,417,355,227
 - errors: 0
 - worker pool: 64
@@ -207,8 +215,9 @@ Completed 2026-06-01 18:35 UTC:
 - latest summary: `data/edgar_acquisition/edgar_document_acquisition.summary.json`
 
 This run acquired primary documents only because the broad manifest did not
-include exhibit indexes. The next EDGAR pass should build an exhibit-enabled
-manifest from the same expanded CIK set and prioritize contract exhibits.
+include exhibit indexes. The broad score >= 75 exhibit manifest has since been
+built and acquired; further EDGAR expansion should now be driven by materiality
+gaps, lower-score exhibit tails, new filings, or newly discovered CIKs.
 
 The latest enrichment pass also corrected a material notional extraction edge
 case where a malformed SEC paragraph combined a billion-scale aggregate phrase
@@ -216,6 +225,10 @@ with explicit series principal amounts. The parser now rejects the inconsistent
 aggregate candidate and uses the source-backed series principal sum instead.
 The affected Nebius row is now carried as a $3.1625B series-sum candidate, not
 as a trillion-scale blocker.
+
+The same tranche logic now also promotes a source-backed sum of explicit
+component tranches to the deal notional when the prior amount picker latched
+onto only one component of a multi-tranche facility.
 
 ## Latest EDGAR Manifest Run
 
@@ -290,21 +303,21 @@ Capital exposure graph:
 
 - Nodes: 6,635.
 - Source-backed edges: 10,084.
-- Total edge notional: $7.849T.
-- AI-infra-relevant notional: $642.03B.
+- Total edge notional: $10.449T.
+- AI-infra-relevant notional: $659.03B.
 - AI-infra-relevant edges: 217.
-- Contract-structure nodes: 95,229.
-- Source-backed contract-structure edges: 190,804.
+- Contract-structure nodes: 98,571.
+- Source-backed contract-structure edges: 205,469.
 - Deal contract nodes: 62,950.
-- Tranche contract nodes: 6,839.
-- Collateral contract nodes: 14,014.
-- Guarantee contract edges: 882.
-- Collateral contract edges: 31,312.
-- Non-recourse deal/tranche contract nodes: 2,035.
-- Bankruptcy-remote/SPV deal/tranche contract nodes: 975.
-- SPV-flagged deal/tranche contract nodes: 23,092.
-- Tranche nodes with maturity: 4,054.
-- Tranche nodes with interest rate: 3,327.
+- Tranche contract nodes: 10,040.
+- Collateral contract nodes: 14,155.
+- Guarantee contract edges: 1,064.
+- Collateral contract edges: 37,255.
+- Non-recourse deal/tranche contract nodes: 2,585.
+- Bankruptcy-remote/SPV deal/tranche contract nodes: 1,277.
+- SPV-flagged deal/tranche contract nodes: 26,293.
+- Tranche nodes with maturity: 6,026.
+- Tranche nodes with interest rate: 5,071.
 - Outputs: `data/graph/capital_exposure_nodes.csv`,
   `data/graph/capital_exposure_edges.csv`,
   `data/graph/capital_contract_nodes.csv`,
@@ -329,45 +342,58 @@ Timing layer:
 
 - Peak stress quarter: 2026-Q2.
 - Candidate stress window: 2025-Q3 to 2027-Q3.
-- Capital refinancing 2024-2030: $13.780T.
+- Capital refinancing 2024-2030: $13.919T.
 - AI-infra capital refinancing 2024-2030: $292.29B.
 - Physical capacity 2024-2030: 177,293 MW.
 - Compute amount 2024-2030: $219.41B.
-- Source-backed timing signals: 3,812.
-- Critical/high timing signals: 163.
+- Source-backed timing signals: 3,860.
+- Critical/high timing signals: 165.
 - AI-infra-relevant timing signals: 313.
 
 Adjudication queue:
 
-- Critical items: 87.
-- High items: 930.
-- AI-infra-relevant items: 732.
-- Contract-tranche adjudication items: 1,809.
-- Pending capital distinct notional: $19.774T.
-- Pending AI-infra-relevant distinct capital notional: $819.02B.
-- Pending contract-tranche notional: $17.078T.
-- Pending contract-contagion path exposure: $97.428T.
+- Critical items: 91.
+- High items: 1,027.
+- AI-infra-relevant items: 764.
+- Contract-tranche adjudication items: 2,506.
+- Pending capital distinct notional: $20.586T.
+- Pending AI-infra-relevant distinct capital notional: $834.92B.
+- Pending contract-tranche notional: $18.868T.
+- Pending contract-contagion path exposure: $102.484T.
 - Pending compute claim amount: $398.24B.
-- Materiality decisions: 21 source-supported blockers, 68 requiring deeper
-  extraction, 11 requiring source retrieval/non-binary parsed evidence, and 3
-  approved aggregate obligation snapshots.
-- Automated aggregate snapshot rows approved for metric use: $176.675B across 3
-  source-backed lease-obligation snapshots.
-- Deduped automated final metric support: $75.6B across 1 latest-snapshot metric
-  group.
+- Materiality packets: 250 source-backed packets, 185 AI-infra relevant, all
+  with local evidence snippets.
+- Materiality decisions: 31 source-supported blockers, 193 requiring deeper
+  extraction, 26 requiring source retrieval/non-binary parsed evidence, and 5
+  rows approved for metric use.
+- Automated row-level supported amount approved for metric use: $181.885B.
+- Deduped automated final metric support: $80.81B across 3 latest-snapshot
+  metric groups.
 - Stricter quote-level contagion gating now blocks 30 contagion/legal-path rows until the
   evidence quote itself supports the legal-entity path and risk-transfer
   mechanism.
 
+Contract/ownership contagion:
+
+- Source-backed paths: 10,553.
+- Ownership-expanded paths: 1,972.
+- Contract-only paths: 8,581.
+- AI-infra-relevant paths: 419.
+- High/critical paths: 253.
+- Total path notional: $119.462T.
+- AI-infra-relevant path notional: $2.971T.
+- Default path cap raised to 50,000 so this layer is not clipped at the prior
+  10,000-path script default.
+
 Weak links:
 
 - Candidates: 528.
-- High or critical candidates: 25.
+- High or critical candidates: 27.
 - Capital candidates: 217.
 - Physical candidates: 250.
 - Combined capital/physical candidates: 42.
 - Debt-service candidates: 19.
-- AI-infra-relevant weak-link notional: $642.03B.
+- AI-infra-relevant weak-link notional: $659.03B.
 
 Compute economics:
 

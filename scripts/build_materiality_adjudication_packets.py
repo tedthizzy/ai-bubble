@@ -23,8 +23,8 @@ def main() -> None:
         help="Data root to scan; may be supplied more than once.",
     )
     parser.add_argument("--output-dir", type=Path, default=Path("data/reports"))
-    parser.add_argument("--limit", type=int, default=100)
-    parser.add_argument("--snippets-per-packet", type=int, default=2)
+    parser.add_argument("--limit", type=int, default=250)
+    parser.add_argument("--snippets-per-packet", type=int, default=3)
     parser.add_argument("--snippet-chars", type=int, default=1_200)
     args = parser.parse_args()
 

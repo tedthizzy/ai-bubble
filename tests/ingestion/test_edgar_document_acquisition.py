@@ -325,6 +325,84 @@ def test_deal_notional_extractor_uses_series_sum_when_aggregate_unit_is_inconsis
     assert candidate == 3_162_500_000
 
 
+def test_deal_candidate_extracts_multiple_credit_facility_tranches(tmp_path: Path):
+    candidate = extract_deal_candidate(
+        {
+            "cik": "0000000123",
+            "company_name": "Example AI Infrastructure Corp",
+            "form": "8-K",
+            "accession_number": "0000000000-26-000012",
+            "items": "1.01|2.03|9.01",
+            "primary_document": "credit-agreement.htm",
+            "document_type": "exhibit",
+            "filing_url": "https://www.sec.gov/Archives/edgar/data/123/000000000026000012/credit-agreement.htm",
+            "relevance_score": "180",
+        },
+        normalize_document_text(
+            b"""
+            CREDIT AGREEMENT among Example AI Infrastructure Corp, as Borrower,
+            the lenders party thereto, and JPMorgan Chase Bank, N.A., as Administrative Agent,
+            provides senior secured credit facilities in an aggregate principal amount of
+            $1.5 billion, consisting of a $1.0 billion term loan facility and a
+            $500 million revolving credit facility. The facilities mature on June 30, 2028.
+            Loans bear interest at 7.25% per annum. The obligations are non-recourse and
+            secured by first-priority liens on substantially all data center collateral.
+            Example Parent LLC, as Guarantor, guarantees the obligations.
+            """
+        ),
+        "hash",
+        tmp_path / "credit-agreement.htm",
+    )
+
+    assert candidate
+    rows = candidate.to_tranche_csv_rows()
+    assert [(row["tranche_id"], row["notional_usd"]) for row in rows] == [
+        ("term_loan_facility", 1_000_000_000),
+        ("revolving_credit_facility", 500_000_000),
+    ]
+    assert {row["interest_rate"] for row in rows} == {0.0725}
+    assert {row["maturity"] for row in rows} == {"2028-06-30"}
+    assert {row["recourse"] for row in rows} == {"false"}
+    assert all(row["source_excerpt"] for row in rows)
+    assert all(row["extraction_method"] == "explicit_debt_tranche_context_v1" for row in rows)
+
+
+def test_deal_candidate_extracts_multiple_bond_series_tranches(tmp_path: Path):
+    candidate = extract_deal_candidate(
+        {
+            "cik": "0000000123",
+            "company_name": "Example Issuer Inc.",
+            "form": "8-K",
+            "accession_number": "0000000000-26-000013",
+            "items": "8.01|9.01",
+            "primary_document": "ex4-1.htm",
+            "document_type": "exhibit",
+            "filing_url": "https://www.sec.gov/Archives/edgar/data/123/000000000026000013/ex4-1.htm",
+            "relevance_score": "170",
+        },
+        normalize_document_text(
+            b"""
+            Indenture by and between Example Issuer Inc., as Issuer, and
+            U.S. Bank Trust Company, National Association, as Trustee. We concurrently
+            offered and issued an aggregate of $3,162.5 billion in convertible notes,
+            in two series: $1,581,250,000 aggregate principal amount of 1.00%
+            convertible notes due 2030 and $1,581,250,000 aggregate principal amount
+            of 2.75% convertible notes due 2032.
+            """
+        ),
+        "hash",
+        tmp_path / "ex4-1.htm",
+    )
+
+    assert candidate
+    assert candidate.notional_amount_usd == 3_162_500_000
+    rows = candidate.to_tranche_csv_rows()
+    assert [(row["name"], row["notional_usd"], row["interest_rate"]) for row in rows] == [
+        ("1.00% convertible notes due 2030", 1_581_250_000, 0.01),
+        ("2.75% convertible notes due 2032", 1_581_250_000, 0.0275),
+    ]
+
+
 def test_deal_notional_extractor_returns_none_without_deal_amount_context():
     text = (
         "Credit agreement risk factors are described below. As of September 30, 2025, "
