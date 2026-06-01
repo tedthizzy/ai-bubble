@@ -784,6 +784,68 @@ def test_materiality_adjudication_does_not_flag_split_for_specific_transaction_p
     assert "split aggregate disclosure" not in batch.decisions[0].remaining_gap
 
 
+def test_materiality_adjudication_routes_non_specific_candidate_to_term_acquisition_gap(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-candidate-non-specific",
+                "rank": 1,
+                "review_id": "review-candidate-non-specific",
+                "review_group_id": "group-candidate-non-specific",
+                "priority": "high",
+                "category": "capital",
+                "subcategory": "high_notional_debt_like_candidate",
+                "ecosystem_relevance": "direct_ai_infra",
+                "entity": "Example Issuer, Inc.",
+                "counterparty": "",
+                "exposure_basis_usd": "471000000000",
+                "reason": (
+                    "pending adjudication status: pending; debt-like deal type: bond; "
+                    "notional $471,000,000,000; notional context: candidate_notional; "
+                    "commitment scope: candidate_requires_adjudication; "
+                    "source extraction marked requires LLM adjudication"
+                ),
+                "recommended_action": "Confirm whether this is a specific committed obligation",
+                "source_uri": "https://www.sec.gov/example-candidate.htm",
+                "source_uris": json.dumps(["https://www.sec.gov/example-candidate.htm"]),
+                "content_hash": "a" * 64,
+                "content_hashes": json.dumps(["a" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/example-candidate.htm",
+                            "content_hash": "a" * 64,
+                            "document_id": "example-candidate.htm",
+                            "snippet": (
+                                "This presentation contains forward-looking statements and "
+                                "selected operating metrics."
+                            ),
+                        }
+                    ]
+                ),
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    decision = batch.decisions[0]
+    assert "split aggregate disclosure" in decision.remaining_gap
+    assert (
+        "acquire underlying agreement or debt schedule clause for term-level extraction"
+        in decision.remaining_gap
+    )
+    assert "extract named counterparty and role" not in decision.remaining_gap
+    assert "determine recourse and guarantee scope" not in decision.remaining_gap
+    assert "determine collateral scope" not in decision.remaining_gap
+
+
 def test_materiality_adjudication_uses_contract_reason_flags_for_scope_terms(
     tmp_path: Path,
 ) -> None:

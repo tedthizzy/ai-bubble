@@ -250,6 +250,11 @@ def _category_gaps(packet: dict[str, str], text: str) -> list[str]:
     gaps: list[str] = []
     if category == "capital" and _is_source_backed_aggregate_obligation_snapshot(packet, text):
         return gaps
+    if category == "capital" and _is_non_specific_capital_candidate_without_term_evidence(
+        packet, text
+    ):
+        gaps.append("acquire underlying agreement or debt schedule clause for term-level extraction")
+        return gaps
     if category in {"capital", "contract"}:
         if not _field(packet, "counterparty") and not _inferred_counterparty_from_quote(text):
             gaps.append("extract named counterparty and role")
@@ -903,20 +908,6 @@ def _requires_aggregate_split(packet: dict[str, str], quote: str) -> bool:
         return False
     text = _combined_text(packet, quote)
     reason = _field(packet, "reason").lower()
-    explicit_non_specific_markers = [
-        "commitment scope: aggregate_snapshot_non_specific",
-        "commitment scope: shelf_capacity_non_specific",
-        "notional context: aggregate_lease_obligation",
-        "notional context: aggregate_commitment_snapshot",
-        "notional context: aggregate_shelf_capacity",
-        "shelf capacity",
-        "from time to time, we may offer",
-        "may issue up to",
-        "registration statement",
-    ]
-    if _contains_any(text, explicit_non_specific_markers):
-        return True
-
     explicit_specific_markers = [
         "commitment scope: specific_transaction_commitment",
         "notional context: transaction_",
@@ -934,6 +925,22 @@ def _requires_aggregate_split(packet: dict[str, str], quote: str) -> bool:
         return False
     if _contains_any(text, ["tranche", "credit agreement", "term loan", "revolver", "indenture"]):
         return False
+
+    explicit_non_specific_markers = [
+        "commitment scope: aggregate_snapshot_non_specific",
+        "commitment scope: shelf_capacity_non_specific",
+        "commitment scope: candidate_requires_adjudication",
+        "notional context: aggregate_lease_obligation",
+        "notional context: aggregate_commitment_snapshot",
+        "notional context: aggregate_shelf_capacity",
+        "notional context: candidate_notional",
+        "shelf capacity",
+        "from time to time, we may offer",
+        "may issue up to",
+        "registration statement",
+    ]
+    if _contains_any(text, explicit_non_specific_markers):
+        return True
     return "aggregate" in text
 
 
@@ -978,6 +985,47 @@ def _date_from_regex(text: str, pattern: str) -> date | None:
 
 def _contains_any(text: str, needles: list[str]) -> bool:
     return any(needle in text for needle in needles)
+
+
+def _is_non_specific_capital_candidate_without_term_evidence(
+    packet: dict[str, str],
+    quote: str,
+) -> bool:
+    if _field(packet, "category") != "capital":
+        return False
+    reason = _field(packet, "reason").lower()
+    if not _contains_any(
+        reason,
+        [
+            "commitment scope: candidate_requires_adjudication",
+            "notional context: candidate_notional",
+            "source extraction marked requires llm adjudication",
+        ],
+    ):
+        return False
+    quote_text = quote.lower()
+    term_level_markers = [
+        "credit agreement",
+        "facility",
+        "term loan",
+        "revolver",
+        "indenture",
+        "trustee",
+        "administrative agent",
+        "collateral agent",
+        "lenders party thereto",
+        "entered into",
+        "secured",
+        "unsecured",
+        "collateral",
+        "guarantee",
+        "guarantor",
+        "maturity",
+        "interest rate",
+        "coupon",
+        "notes due",
+    ]
+    return not _contains_any(quote_text, term_level_markers)
 
 
 def _normalize(value: str) -> str:

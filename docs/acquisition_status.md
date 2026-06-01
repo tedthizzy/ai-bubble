@@ -1,13 +1,13 @@
 # Acquisition Status
 
-Last updated: 2026-06-01 22:44 UTC.
+Last updated: 2026-06-01 22:52 UTC.
 
 This file is the operational snapshot for the current evidence corpus. Treat it
 as a run log, not as a final investment conclusion.
 
 ## Current Corpus
 
-- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260601-2244.md`
+- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260601-2252.md`
 - Evidence gate: not high-confidence final.
 - Source invariant audit: passed at 2026-06-01 22:10 UTC, 59 CSV files
   and 8,905,760 rows scanned, 0 violations, 0 warnings.
@@ -90,6 +90,10 @@ Ready now:
   and payment schedules are extracted
 - role-clause counterparty inference now auto-populates agent/trustee
   counterparties from source quotes when `counterparty` fields are blank
+- non-specific capital candidate rows now route to an explicit
+  `acquire underlying agreement or debt schedule clause for term-level extraction`
+  gap when quote text lacks term-level contract evidence, reducing false
+  precision on collateral/recourse/counterparty fields
 
 Must move next:
 
