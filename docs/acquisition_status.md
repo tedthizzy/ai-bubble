@@ -1,13 +1,13 @@
 # Acquisition Status
 
-Last updated: 2026-06-01 23:22 UTC.
+Last updated: 2026-06-01 23:26 UTC.
 
 This file is the operational snapshot for the current evidence corpus. Treat it
 as a run log, not as a final investment conclusion.
 
 ## Current Corpus
 
-- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260601-2321.md`
+- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260601-2326.md`
 - Evidence gate: not high-confidence final.
 - Source invariant audit: passed at 2026-06-01 21:55 UTC, 59 CSV files
   and 8,905,760 rows scanned, 0 violations, 0 warnings.
@@ -34,16 +34,17 @@ as a run log, not as a final investment conclusion.
   250 source-backed with local evidence snippets, 182 AI-infra relevant, and
   $53.666T of total exposure-basis across the packet set.
 - Automated materiality adjudication decisions: 250 decisions, 250 with resolved
-  text quotes, 78 supported as material blockers, 172 requiring deeper extraction,
+  text quotes, 82 supported as material blockers, 168 requiring deeper extraction,
   0 requiring source retrieval/non-binary parsed evidence, and 48 source-backed
   rows approved for metric use. Those 48 rows total $3.669T as row-level
   supported amounts and currently remain $3.669T after latest-snapshot metric
   dedupe across 48 metric groups; they are not treated as individual contracts
   unless contract terms are separately extracted.
 - Top remaining decision gaps are now aggregate-to-committed split (33),
-  missing underlying term-level clauses (27), legal-entity path/risk-transfer
-  validation (18), collateral scope (16), queue/permit/interconnection linkage
-  (16), recourse/guarantee scope (13), and named counterparty role extraction (12).
+  missing underlying term-level clauses (32), collateral scope (16),
+  queue/permit/interconnection linkage (16), recourse/guarantee scope (13),
+  named counterparty role extraction (12), and legal-entity path/risk-transfer
+  validation (9).
 
 ## Phase Transition Readiness
 
@@ -113,6 +114,9 @@ Ready now:
 - generic prospectus/equity-offering boilerplate rows now route to split or
   term-level evidence acquisition gaps instead of stacking synthetic-looking
   counterparty/recourse/collateral requirements
+- ownership-expanded contagion rows with SEC contract evidence plus source-backed
+  LEI ownership-path artifacts now clear legal-entity validation gaps when the
+  ownership/control chain is explicitly encoded in adjudication context
 
 Must move next:
 

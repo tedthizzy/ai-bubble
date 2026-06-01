@@ -588,6 +588,120 @@ def test_materiality_adjudication_requires_quote_level_contagion_evidence(
     assert "validate legal-entity path" in batch.decisions[0].remaining_gap
 
 
+def test_materiality_adjudication_accepts_source_backed_ownership_expanded_contagion_path(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-contagion-ownership-expanded",
+                "rank": 1,
+                "review_id": "review-contagion-ownership-expanded",
+                "review_group_id": "group-contagion-ownership-expanded",
+                "priority": "high",
+                "category": "contagion",
+                "subcategory": "ownership_expanded",
+                "ecosystem_relevance": "direct_ai_infra",
+                "entity": "Example Financing Bank",
+                "counterparty": "Example Borrower",
+                "exposure_basis_usd": "20000000000",
+                "reason": (
+                    "ownership expanded contagion path; contract relationship: TRANCHE_RISK_BEARER; "
+                    "notional $20,000,000,000; ownership/control path depth 1; "
+                    "risk flags: collateralized, non_recourse, maturity_wall"
+                ),
+                "recommended_action": "Validate legal-entity path and risk transfer mechanism",
+                "source_uri": "https://www.sec.gov/example-bridge-loan.htm",
+                "source_uris": json.dumps(
+                    [
+                        "https://www.sec.gov/example-bridge-loan.htm",
+                        "https://leidata.gleif.org/api/v1/concatenated-files/rr/get/41258/zip",
+                    ]
+                ),
+                "content_hash": "5" * 64,
+                "content_hashes": json.dumps(["5" * 64, "6" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/example-bridge-loan.htm",
+                            "content_hash": "5" * 64,
+                            "document_id": "example-bridge-loan.htm",
+                            "snippet": (
+                                "Bridge Loan Credit Agreement dated March 2, 2026 among Example Borrower, "
+                                "the guarantors party thereto, and the lenders from time to time party thereto."
+                            ),
+                        }
+                    ]
+                ),
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+    decision = batch.decisions[0]
+    assert "validate legal-entity path" not in decision.remaining_gap
+
+
+def test_materiality_adjudication_routes_contagion_boilerplate_to_term_evidence_gap(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-contagion-boilerplate",
+                "rank": 1,
+                "review_id": "review-contagion-boilerplate",
+                "review_group_id": "group-contagion-boilerplate",
+                "priority": "high",
+                "category": "contagion",
+                "subcategory": "contract_only",
+                "ecosystem_relevance": "watchlist_entity",
+                "entity": "Example Issuer",
+                "counterparty": "Example Notes",
+                "exposure_basis_usd": "25000000000",
+                "reason": (
+                    "contract only contagion path; contract relationship: SECURED_BY_COLLATERAL; "
+                    "notional $25,000,000,000; risk flags: collateralized, spv_signal, tranched"
+                ),
+                "recommended_action": "Validate legal-entity path and risk transfer mechanism",
+                "source_uri": "https://www.sec.gov/example-prospectus.htm",
+                "source_uris": json.dumps(["https://www.sec.gov/example-prospectus.htm"]),
+                "content_hash": "8" * 64,
+                "content_hashes": json.dumps(["8" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/example-prospectus.htm",
+                            "content_hash": "8" * 64,
+                            "document_id": "example-prospectus.htm",
+                            "snippet": (
+                                "PROSPECTUS SUPPLEMENT. DTC facilitates post-trade settlement "
+                                "through electronic book-entry transfers and pledges."
+                            ),
+                        }
+                    ]
+                ),
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+    decision = batch.decisions[0]
+    assert (
+        "acquire underlying agreement or debt schedule clause for term-level extraction"
+        in decision.remaining_gap
+    )
+    assert "validate legal-entity path" not in decision.remaining_gap
+
+
 def test_materiality_adjudication_approves_source_backed_aggregate_obligation_snapshot(
     tmp_path: Path,
 ) -> None:

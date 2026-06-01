@@ -325,7 +325,10 @@ def _category_gaps(packet: dict[str, str], text: str) -> list[str]:
     if category == "contagion" and not _contains_any(
         text_lower, ["parent", "subsidiary", "guarantee"]
     ):
-        gaps.append("validate legal-entity path and risk transfer mechanism")
+        if _looks_like_non_contract_financing_disclosure(text_lower):
+            gaps.append("acquire underlying agreement or debt schedule clause for term-level extraction")
+        elif not _has_source_backed_ownership_path(packet, text_lower):
+            gaps.append("validate legal-entity path and risk transfer mechanism")
     if category == "physical" and not _contains_any(
         text_lower, ["queue", "permit", "interconnection"]
     ):
@@ -453,8 +456,22 @@ def _looks_like_non_contract_financing_disclosure(text: str) -> bool:
         "capital appreciation",
         "estimated commission with respect to the fund's common shares",
         "terms of the debt securities will include",
+        "dtc also facilitates",
+        "post-trade settlement",
+        "book-entry transfers and pledges",
     ]
     return _contains_any(text, generic_markers)
+
+
+def _has_source_backed_ownership_path(packet: dict[str, str], text: str) -> bool:
+    reason = _field(packet, "reason").lower()
+    if not _contains_any(reason, ["ownership expanded contagion path", "ownership/control path depth"]):
+        return False
+    source_uris = " ".join(_json_list(packet.get("source_uris"))).lower()
+    has_sec = "sec.gov" in source_uris
+    has_lei = "leidata.gleif.org" in source_uris
+    has_path_depth = _contains_any(reason, ["ownership/control path depth", "contract relationship:"])
+    return has_sec and has_lei and has_path_depth
 
 
 def _required_next_extraction(packet: dict[str, str], quote: str, gaps: list[str]) -> str:
