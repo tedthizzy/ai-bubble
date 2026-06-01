@@ -1,13 +1,13 @@
 # Acquisition Status
 
-Last updated: 2026-06-01 23:16 UTC.
+Last updated: 2026-06-01 23:22 UTC.
 
 This file is the operational snapshot for the current evidence corpus. Treat it
 as a run log, not as a final investment conclusion.
 
 ## Current Corpus
 
-- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260601-2316.md`
+- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260601-2321.md`
 - Evidence gate: not high-confidence final.
 - Source invariant audit: passed at 2026-06-01 21:55 UTC, 59 CSV files
   and 8,905,760 rows scanned, 0 violations, 0 warnings.
@@ -40,9 +40,10 @@ as a run log, not as a final investment conclusion.
   supported amounts and currently remain $3.669T after latest-snapshot metric
   dedupe across 48 metric groups; they are not treated as individual contracts
   unless contract terms are separately extracted.
-- Top remaining decision gaps are now aggregate-to-committed split (31), named
-  counterparty role extraction (22), recourse/guarantee scope (22), missing
-  underlying term-level clauses (19), and collateral scope (18).
+- Top remaining decision gaps are now aggregate-to-committed split (33),
+  missing underlying term-level clauses (27), legal-entity path/risk-transfer
+  validation (18), collateral scope (16), queue/permit/interconnection linkage
+  (16), recourse/guarantee scope (13), and named counterparty role extraction (12).
 
 ## Phase Transition Readiness
 
@@ -109,6 +110,9 @@ Ready now:
 - issuer-level debt-outstanding snapshots now route to aggregate-to-committed
   split blocking even when upstream context labeled the amount as
   transaction-principal, reducing false contract-level counterparty requirements
+- generic prospectus/equity-offering boilerplate rows now route to split or
+  term-level evidence acquisition gaps instead of stacking synthetic-looking
+  counterparty/recourse/collateral requirements
 
 Must move next:
 

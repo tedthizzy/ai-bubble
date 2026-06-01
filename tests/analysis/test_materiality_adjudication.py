@@ -1167,6 +1167,124 @@ def test_materiality_adjudication_treats_note_offering_counterparty_as_non_bilat
     assert decision.metric_use_status == "approved_for_metric_use"
 
 
+def test_materiality_adjudication_routes_generic_contract_boilerplate_to_term_evidence_gap(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-generic-contract-boilerplate",
+                "rank": 1,
+                "review_id": "review-generic-contract-boilerplate",
+                "review_group_id": "group-generic-contract-boilerplate",
+                "priority": "critical",
+                "category": "contract",
+                "subcategory": "contract_tranche_terms",
+                "ecosystem_relevance": "not_tagged",
+                "entity": "Example Fund",
+                "counterparty": "",
+                "exposure_basis_usd": "100000000000",
+                "reason": (
+                    "pending contract tranche review; tranche: Primary tranche; "
+                    "notional $100,000,000,000; collateral terms present"
+                ),
+                "recommended_action": "Confirm contract edge",
+                "source_uri": "https://www.sec.gov/example-generic-contract.htm",
+                "source_uris": json.dumps(["https://www.sec.gov/example-generic-contract.htm"]),
+                "content_hash": "6" * 64,
+                "content_hashes": json.dumps(["6" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/example-generic-contract.htm",
+                            "content_hash": "6" * 64,
+                            "document_id": "example-generic-contract.htm",
+                            "snippet": (
+                                "PROSPECTUS SUPPLEMENT Common Shares. "
+                                "The securities may be offered by us or by selling "
+                                "security holders. Those terms may include maturity and interest."
+                            ),
+                        }
+                    ]
+                ),
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    decision = batch.decisions[0]
+    assert (
+        "acquire underlying agreement or debt schedule clause for term-level extraction"
+        in decision.remaining_gap
+    )
+    assert "extract named counterparty and role" not in decision.remaining_gap
+    assert "determine recourse and guarantee scope" not in decision.remaining_gap
+    assert "determine collateral scope" not in decision.remaining_gap
+
+
+def test_materiality_adjudication_routes_generic_capital_boilerplate_to_split_gap(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-generic-capital-boilerplate",
+                "rank": 1,
+                "review_id": "review-generic-capital-boilerplate",
+                "review_group_id": "group-generic-capital-boilerplate",
+                "priority": "critical",
+                "category": "capital",
+                "subcategory": "high_notional_debt_like_candidate",
+                "ecosystem_relevance": "not_tagged",
+                "entity": "Example Issuer",
+                "counterparty": "",
+                "exposure_basis_usd": "156000000000",
+                "reason": (
+                    "pending adjudication status: pending; debt-like deal type: debt_facility; "
+                    "notional $156,000,000,000; notional context: transaction_principal; "
+                    "source extraction marked requires LLM adjudication"
+                ),
+                "recommended_action": "Confirm debt terms",
+                "source_uri": "https://www.sec.gov/example-generic-capital.htm",
+                "source_uris": json.dumps(["https://www.sec.gov/example-generic-capital.htm"]),
+                "content_hash": "7" * 64,
+                "content_hashes": json.dumps(["7" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/example-generic-capital.htm",
+                            "content_hash": "7" * 64,
+                            "document_id": "example-generic-capital.htm",
+                            "snippet": (
+                                "The terms of the debt securities will include those set forth "
+                                "in the indenture. The securities may be offered by us or by "
+                                "selling security holders."
+                            ),
+                        }
+                    ]
+                ),
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    decision = batch.decisions[0]
+    assert "split aggregate disclosure" in decision.remaining_gap
+    assert "extract named counterparty and role" not in decision.remaining_gap
+    assert "determine recourse and guarantee scope" not in decision.remaining_gap
+    assert "determine collateral scope" not in decision.remaining_gap
+
+
 def test_materiality_adjudication_infers_counterparty_from_quote_role_clause(
     tmp_path: Path,
 ) -> None:

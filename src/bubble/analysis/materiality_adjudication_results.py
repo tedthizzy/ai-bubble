@@ -248,18 +248,9 @@ def _category_gaps(packet: dict[str, str], text: str) -> list[str]:
     reason_text = _field(packet, "reason").lower()
     counterparty_text = _field(packet, "counterparty").lower()
     gaps: list[str] = []
-    if category == "capital" and _is_source_backed_aggregate_obligation_snapshot(packet, text):
-        return gaps
-    if category == "capital" and _is_non_specific_capital_candidate_without_term_evidence(
-        packet, text
-    ):
-        gaps.append("acquire underlying agreement or debt schedule clause for term-level extraction")
-        return gaps
-    if category == "capital" and _requires_aggregate_split(packet, text):
-        # Aggregate/shelf rows are blocked on committed-obligation splitting first.
-        # Do not stack term-level party/collateral/recourse gaps until a specific
-        # contract-level source row is extracted.
-        return gaps
+    early_gap = _early_category_gap(packet, text, text_lower)
+    if early_gap is not None:
+        return [early_gap] if early_gap else gaps
     if category in {"capital", "contract"}:
         if (
             not _field(packet, "counterparty")
@@ -346,6 +337,28 @@ def _category_gaps(packet: dict[str, str], text: str) -> list[str]:
     return gaps
 
 
+def _early_category_gap(packet: dict[str, str], text: str, text_lower: str) -> str | None:
+    category = _field(packet, "category")
+    if category == "capital" and _is_source_backed_aggregate_obligation_snapshot(packet, text):
+        return ""
+    if category == "capital" and _is_non_specific_capital_candidate_without_term_evidence(
+        packet, text
+    ):
+        return "acquire underlying agreement or debt schedule clause for term-level extraction"
+    if category in {"capital", "contract"} and _looks_like_non_contract_financing_disclosure(
+        text_lower
+    ):
+        if category == "capital":
+            return "split aggregate disclosure from specific committed obligation"
+        return "acquire underlying agreement or debt schedule clause for term-level extraction"
+    if category == "capital" and _requires_aggregate_split(packet, text):
+        # Aggregate/shelf rows are blocked on committed-obligation splitting first.
+        # Do not stack term-level party/collateral/recourse gaps until a specific
+        # contract-level source row is extracted.
+        return ""
+    return None
+
+
 def _is_note_offering_without_named_counterparty(
     packet: dict[str, str],
     text_lower: str,
@@ -406,6 +419,42 @@ def _is_note_offering_without_collateral_scope(
     return _contains_any(text_lower, ["indenture"]) and _contains_any(
         text_lower, ["notes", "noteholders"]
     )
+
+
+def _looks_like_non_contract_financing_disclosure(text: str) -> bool:
+    if _contains_any(
+        text,
+        [
+            "entered into a credit agreement",
+            "credit agreement dated",
+            "administrative agent",
+            "collateral agent",
+            "lenders party thereto",
+            "term loan",
+            "revolving credit",
+            "bridge loan",
+            "facility agreement",
+            "as trustee",
+        ],
+    ):
+        return False
+    generic_markers = [
+        "the securities may be offered by us or by selling security holders",
+        "those terms may include",
+        "common shares",
+        "ordinary shares",
+        "equity distribution agreement",
+        "controlled equity offering",
+        "purchase contracts",
+        "warrants",
+        "depositary shares",
+        "before you invest in our common stock",
+        "investment objective is to generate current income",
+        "capital appreciation",
+        "estimated commission with respect to the fund's common shares",
+        "terms of the debt securities will include",
+    ]
+    return _contains_any(text, generic_markers)
 
 
 def _required_next_extraction(packet: dict[str, str], quote: str, gaps: list[str]) -> str:
