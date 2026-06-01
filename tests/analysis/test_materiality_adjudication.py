@@ -837,6 +837,62 @@ def test_materiality_adjudication_uses_contract_reason_flags_for_scope_terms(
     assert decision.metric_use_status == "approved_for_metric_use"
 
 
+def test_materiality_adjudication_treats_unsecured_notes_as_scope_resolved(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-unsecured-notes",
+                "rank": 1,
+                "review_id": "review-unsecured-notes",
+                "review_group_id": "group-unsecured-notes",
+                "priority": "high",
+                "category": "capital",
+                "subcategory": "high_notional_debt_like_candidate",
+                "ecosystem_relevance": "not_tagged",
+                "entity": "Example Issuer Inc.",
+                "counterparty": "noteholders",
+                "exposure_basis_usd": "12000000000",
+                "reason": (
+                    "pending adjudication status: pending; debt-like deal type: bond; "
+                    "notional $12,000,000,000; notional context: transaction_principal; "
+                    "commitment scope: specific_transaction_commitment"
+                ),
+                "recommended_action": "Confirm maturity and pricing terms",
+                "source_uri": "https://www.sec.gov/example-unsecured.htm",
+                "source_uris": json.dumps(["https://www.sec.gov/example-unsecured.htm"]),
+                "content_hash": "2" * 64,
+                "content_hashes": json.dumps(["2" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/example-unsecured.htm",
+                            "content_hash": "2" * 64,
+                            "document_id": "example-unsecured.htm",
+                            "snippet": (
+                                "The notes are senior unsecured obligations of the issuer "
+                                "and are issued under an indenture."
+                            ),
+                        }
+                    ]
+                ),
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    decision = batch.decisions[0]
+    assert "determine recourse and guarantee scope" not in decision.remaining_gap
+    assert "determine collateral scope" not in decision.remaining_gap
+    assert decision.metric_use_status == "approved_for_metric_use"
+
+
 def test_write_materiality_adjudication_decisions(tmp_path: Path) -> None:
     _write_csv(
         tmp_path / "reports" / "materiality_adjudication_packets.csv",

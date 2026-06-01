@@ -245,12 +245,43 @@ def _remaining_gaps(packet: dict[str, str], quote: str) -> list[str]:
 def _category_gaps(packet: dict[str, str], text: str) -> list[str]:
     category = _field(packet, "category")
     reason_text = _field(packet, "reason").lower()
+    counterparty_text = _field(packet, "counterparty").lower()
     gaps: list[str] = []
     if category == "capital" and _is_source_backed_aggregate_obligation_snapshot(packet, text):
         return gaps
     if category in {"capital", "contract"}:
         if not _field(packet, "counterparty"):
             gaps.append("extract named counterparty and role")
+        unsecured_scope_present = _contains_any(
+            text,
+            [
+                "senior unsecured",
+                "unsecured general obligations",
+                "unsecured obligations",
+                "none of which was secured debt",
+                "without collateral",
+            ],
+        )
+        issuer_note_scope_present = _contains_any(text, ["indenture", "issuer"]) and _contains_any(
+            text, ["notes", "noteholders"]
+        )
+        secured_lender_scope_present = _contains_any(
+            reason_text,
+            [
+                "pending contract tranche review; tranche:",
+                "transaction_facility",
+                "transaction_principal",
+            ],
+        ) and _contains_any(
+            counterparty_text,
+            [
+                "lender",
+                "lenders",
+                "administrative agent",
+                "collateral agent",
+                "noteholders",
+            ],
+        )
         guarantee_scope_present = _contains_any(
             reason_text,
             [
@@ -259,8 +290,12 @@ def _category_gaps(packet: dict[str, str], text: str) -> list[str]:
                 "guarantee terms present",
             ],
         )
-        if not guarantee_scope_present and not _contains_any(
-            text, ["recourse", "non-recourse", "guarantee", "guarantor"]
+        if not (
+            guarantee_scope_present
+            or unsecured_scope_present
+            or issuer_note_scope_present
+            or secured_lender_scope_present
+            or _contains_any(text, ["recourse", "non-recourse", "guarantee", "guarantor"])
         ):
             gaps.append("determine recourse and guarantee scope")
         collateral_scope_present = _contains_any(
@@ -271,8 +306,10 @@ def _category_gaps(packet: dict[str, str], text: str) -> list[str]:
                 "secured terms present",
             ],
         )
-        if not collateral_scope_present and not _contains_any(
-            text, ["collateral", "secured", "security interest", "pledge"]
+        if not (
+            collateral_scope_present
+            or unsecured_scope_present
+            or _contains_any(text, ["collateral", "secured", "security interest", "pledge"])
         ):
             gaps.append("determine collateral scope")
     if category == "contagion" and not _contains_any(text, ["parent", "subsidiary", "guarantee"]):

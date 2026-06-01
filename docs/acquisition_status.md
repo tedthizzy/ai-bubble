@@ -1,13 +1,13 @@
 # Acquisition Status
 
-Last updated: 2026-06-01 22:28 UTC.
+Last updated: 2026-06-01 22:34 UTC.
 
 This file is the operational snapshot for the current evidence corpus. Treat it
 as a run log, not as a final investment conclusion.
 
 ## Current Corpus
 
-- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260601-2228.md`
+- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260601-2234.md`
 - Evidence gate: not high-confidence final.
 - Source invariant audit: passed at 2026-06-01 22:10 UTC, 59 CSV files
   and 8,905,760 rows scanned, 0 violations, 0 warnings.
@@ -34,11 +34,11 @@ as a run log, not as a final investment conclusion.
   250 source-backed with local evidence snippets, 182 AI-infra relevant, and
   $53.666T of total exposure-basis across the packet set.
 - Automated materiality adjudication decisions: 250 decisions, 250 with resolved
-  text quotes, 51 supported as material blockers, 199 requiring deeper extraction,
-  0 requiring source retrieval/non-binary parsed evidence, and 21 source-backed
-  rows approved for metric use. Those 21 rows total $1.682T as row-level
-  supported amounts, but dedupe to $1.581T of current supported metric exposure
-  across 19 metric groups; they are not treated as individual contracts unless
+  text quotes, 68 supported as material blockers, 182 requiring deeper extraction,
+  0 requiring source retrieval/non-binary parsed evidence, and 38 source-backed
+  rows approved for metric use. Those 38 rows total $3.704T as row-level
+  supported amounts, but dedupe to $3.603T of current supported metric exposure
+  across 36 metric groups; they are not treated as individual contracts unless
   contract terms are separately extracted.
 
 ## Phase Transition Readiness
@@ -377,17 +377,20 @@ Adjudication queue:
 - Pending compute claim amount: $398.24B.
 - Materiality packets: 250 source-backed packets, 182 AI-infra relevant, all
   with local evidence snippets.
-- Materiality decisions: 51 source-supported blockers, 199 requiring deeper
-  extraction, 0 requiring source retrieval/non-binary parsed evidence, and 21
+- Materiality decisions: 68 source-supported blockers, 182 requiring deeper
+  extraction, 0 requiring source retrieval/non-binary parsed evidence, and 38
   rows approved for metric use.
-- Automated row-level supported amount approved for metric use: $1.682T.
-- Deduped automated final metric support: $1.581T across 19 latest-snapshot
+- Automated row-level supported amount approved for metric use: $3.704T.
+- Deduped automated final metric support: $3.603T across 36 latest-snapshot
   metric groups.
 - XLSX source quote recovery removed the prior source-retrieval bucket in this
   top-250 set; all current decisions now carry quote-backed evidence refs.
 - Aggregate-splitting false positives remain materially reduced; current
   "split aggregate disclosure" gaps are concentrated in rows that still look
   non-specific or shelf-like.
+- Recourse/guarantee unresolved gaps dropped from 90 to 54 in this pass after
+  adding conservative scope-resolution rules for unsecured note/indenture
+  structures and lender-scoped specific commitments.
 - Contagion/legal-path adjudication still blocks unresolved legal-path and
   risk-transfer claims until explicit source quotes support the path.
 
