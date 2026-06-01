@@ -304,7 +304,7 @@ class BubbleGraphClient:
         return []
 
     # =====================================================================
-    # Review Queue (core human-in-the-loop requirement)
+    # LLM adjudication queue
     # =====================================================================
     def add_to_review_queue(
         self,

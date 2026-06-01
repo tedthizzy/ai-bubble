@@ -147,9 +147,13 @@ contract-contagion-paths *FLAGS:
 weak-links *FLAGS:
     uv run python scripts/build_weak_links.py {{FLAGS}}
 
-# Build source-backed human-review queue from capital, weak-link, physical, and compute blockers.
+# Build source-backed LLM adjudication queue from capital, weak-link, physical, and compute blockers.
 review-queue *FLAGS:
     uv run python scripts/build_review_queue.py {{FLAGS}}
+
+# Build top materiality-ranked LLM adjudication packets from the adjudication queue.
+materiality-adjudication *FLAGS:
+    uv run python scripts/build_materiality_adjudication_packets.py {{FLAGS}}
 
 # Build source-backed quarter timing signals for crack-window triage.
 timing-signals *FLAGS:
@@ -228,7 +232,7 @@ gobig-demo:
     uv run streamlit run src/bubble/ui/streamlit_app.py --server.port 8501
 
 # Evidence-gated Go Big report. This is not a final high-confidence answer until
-# the evidence gate has measured, corroborated, and human-approved the key claims.
+# the evidence gate has measured, corroborated, and LLM-adjudicated the key claims.
 final-delivery:
     @echo "=== EVIDENCE-GATED BURRY REPORT (Go Big Mode) ==="
     uv run python scripts/generate_final_burry_report.py

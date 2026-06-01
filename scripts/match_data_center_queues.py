@@ -32,7 +32,7 @@ def main() -> None:
         type=Path,
         default=Path("data/physical/queue_projects.csv"),
         help=(
-            "Pending-review physical project rows created from unmatched direct load "
+            "Pending-adjudication physical project rows created from unmatched direct load "
             "and data-center-driven supporting generation queue records"
         ),
     )

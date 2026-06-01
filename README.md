@@ -120,10 +120,10 @@ The end state is a system that can answer questions like:
 - **edgartools** — best-in-class SEC EDGAR access (structured XBRL + filings)
 - **Docling** — high-fidelity PDF/table/layout parsing (2026 standard)
 - **instructor + Claude 4 / Grok / o3** — schema-enforced structured extraction + multi-verifier
-- **LangGraph** — state machines for complex document reasoning + human checkpoints
+- **LangGraph** — state machines for complex document reasoning + LLM adjudication checkpoints
 - **Neo4j 5 + APOC + GDS** — graph + graph algorithms (centrality, shortest path for contagion, community)
 - **Prefect 3** — long-running, scheduled, observable orchestration
-- **Streamlit** — rapid forensic UI (review queue, scenario simulator, graph explorer, Burry reports)
+- **Streamlit** — rapid forensic UI (adjudication queue, scenario simulator, graph explorer, Burry reports)
 - **MinIO + Postgres** — raw artifacts + operational metadata/queues/audit
 
 Full details in the approved implementation plan (`~/.grok/sessions/.../plan.md`).
@@ -157,7 +157,7 @@ just ingest-msft
 # 7. Generate first Burry-style report (red flags, assumptions, stress scenarios)
 just burry-report MSFT
 
-# 8. Launch the forensic dashboard + review queue
+# 8. Launch the forensic dashboard + adjudication queue
 just ui
 # Open http://localhost:8501
 ```
@@ -181,7 +181,7 @@ See the detailed structure in the implementation plan. Key directories:
 
 ## The "Burry Test"
 
-Can the system, with minimal human guidance, surface the same class of concerns a human forensic analyst would on a fresh 10-K or 8-K?
+Can the system, with minimal operator guidance, surface the same class of concerns a forensic analyst would on a fresh 10-K or 8-K?
 
 - Off-balance-sheet leverage via SPVs and guarantees
 - Optimistic utilization / depreciation / power cost assumptions
@@ -205,9 +205,9 @@ The resulting `PhysicalRiskAssessment` carries provenance, evidence tier, source
 
 Physical capacity summaries also isolate active interconnection queue records explicitly tied to data-center, hyperscale, AI, or compute-campus load. The report separates direct data-center load requests from generation projects justified by data-center load growth, preserving queue ID, source URI, content hash, in-service date, customer, POI, and a short source excerpt for the top rows.
 
-`match_data_center_queues.py` links those queue rows back to tracker-backed campus records when name, customer, county/state, and capacity evidence are strong enough. It writes a full pending-review match audit to `data/physical/queue_project_matches.csv` and writes strong project-linked rows to `data/physical/queues.csv` for physical-risk scoring. Unmatched direct data-center load rows and explicitly data-center-driven supporting generation rows can also produce pending-review `data/physical/queue_projects.csv` rows, with the official queue record as provenance, so real queue evidence is not discarded while waiting for tracker corroboration.
+`match_data_center_queues.py` links those queue rows back to tracker-backed campus records when name, customer, county/state, and capacity evidence are strong enough. It writes a full pending-adjudication match audit to `data/physical/queue_project_matches.csv` and writes strong project-linked rows to `data/physical/queues.csv` for physical-risk scoring. Unmatched direct data-center load rows and explicitly data-center-driven supporting generation rows can also produce pending-adjudication `data/physical/queue_projects.csv` rows, with the official queue record as provenance, so real queue evidence is not discarded while waiting for tracker corroboration.
 
-`match_physical_records.py` applies the same conservative source-linking pattern to EPA ICIS-Air permit rows and EPA/EIA generator records. It writes pending-review audits to `data/physical/permit_project_matches.csv` and `data/physical/equipment_project_matches.csv`, then writes only strong project-linked rows to `data/physical/permits.csv` and `data/physical/equipment.csv`.
+`match_physical_records.py` applies the same conservative source-linking pattern to EPA ICIS-Air permit rows and EPA/EIA generator records. It writes pending-adjudication audits to `data/physical/permit_project_matches.csv` and `data/physical/equipment_project_matches.csv`, then writes only strong project-linked rows to `data/physical/permits.csv` and `data/physical/equipment.csv`.
 
 `physical_risk_summary.py` runs the project-level scoring path in parallel and writes `data/reports/physical_risk_summary.json`, including counts for assets with queue, permit, equipment, and observation evidence; source-backed queue capacity linked to projects; top blockers; and top risk projects.
 
@@ -283,14 +283,14 @@ This writes a timestamped manifest under `data/manifests/` with one row per fili
 
 The manifest is an acquisition backlog, not extracted evidence. It tells the system which filings should be parsed next and quantifies source coverage gaps before any ecosystem-scale claim can be upgraded.
 
-Download the prioritized source documents and emit pending-review deal candidates:
+Download the prioritized source documents and emit pending-adjudication deal candidates:
 
 ```bash
 export EDGAR_IDENTITY="Your Name your.email@example.com"
 just edgar-acquire data/manifests/edgar_filing_manifest_YYYYMMDD-HHMMSS.csv --output-dir data/edgar_acquisition --max-workers 32 --sec-domain-concurrency 8 --sec-requests-per-second 8
 ```
 
-This stores raw EDGAR documents under `data/edgar_acquisition/documents/`, writes `edgar_document_inventory.csv` with source URI, retrieval timestamp, accession/document id, byte count, and content hash, and writes a capital-loader-compatible `deals.csv` with extracted pending-review rows. The output directory can be passed directly to:
+This stores raw EDGAR documents under `data/edgar_acquisition/documents/`, writes `edgar_document_inventory.csv` with source URI, retrieval timestamp, accession/document id, byte count, and content hash, and writes a capital-loader-compatible `deals.csv` with extracted pending-adjudication rows. The output directory can be passed directly to:
 
 The EDGAR commands use a global worker pool for local parsing/resume throughput while the per-domain limiter keeps `sec.gov` requests bounded. Increase `--max-workers` for local CPU-heavy parsing, but keep `--sec-domain-concurrency` and `--sec-requests-per-second` at or below the SEC fair-access lane.
 Delta EDGAR acquisitions merge into the existing inventory and deal CSVs by
@@ -341,7 +341,7 @@ documents into the same source-backed EDGAR acquisition corpus. The EDGAR
 acquirer writes both `deals.csv` and `tranches.csv` when source text supports
 tranche-level debt/bond terms, and enriches deal rows with collateral snippets,
 guarantors, SPV/non-recourse flags, source URI, content hash, accession context,
-and pending-review status.
+and pending-adjudication status.
 
 For non-EDGAR sources, use a real source catalog:
 
@@ -440,7 +440,7 @@ join is currently exact legal-name matching only; unmatched high-impact
 guarantee and collateral paths are still retained as contract-only review items.
 Outputs are written to `data/reports/contract_contagion_paths.csv` and
 `data/reports/contract_contagion_summary.json`, with SEC/GLEIF source URIs,
-content hashes, review statuses, notional exposure, ownership path depth, and
+content hashes, adjudication statuses, notional exposure, ownership path depth, and
 risk flags preserved on each row:
 
 ```bash
@@ -465,7 +465,7 @@ physical execution risk to create a ranked triage list for the report:
 just weak-links --data-dir data --output-dir data/reports
 ```
 
-The report-level review queue combines the highest-impact pending items across
+The report-level adjudication queue combines the highest-impact pending items across
 capital extraction, contract-tranche extraction, weak-link scoring, physical
 match audits, contract/ownership contagion paths, and compute economics rows.
 It writes `data/reports/review_queue.csv` and
@@ -478,8 +478,24 @@ contagion-path exposure, and breaks out the
 AI-infrastructure-relevant subset so broad corporate financing does not silently
 dominate the Burry worklist:
 
+All review/adjudication statuses are cleared by automated LLM adjudication.
+Legacy columns named `human_review_status` are treated as adjudication-status
+fields; there is no required operator gate in this workflow.
+
 ```bash
 just review-queue --data-dir data --output-dir data/reports
+```
+
+The broad queue can then be collapsed into a materiality-first LLM adjudication
+packet set. This deduplicates repeated review groups, ranks the top blockers by
+priority, exposure, AI/data-center relevance, and risk score, attaches local
+source snippets where the acquired artifact is available, and emits explicit
+decision questions/fields for automated adjudication. It writes
+`data/reports/materiality_adjudication_packets.csv` and
+`data/reports/materiality_adjudication_summary.json`:
+
+```bash
+just materiality-adjudication --data-dir data --output-dir data/reports --limit 100
 ```
 
 The crack-window timing layer then combines source-backed capital and tranche
@@ -488,7 +504,7 @@ windows into a quarter stress calendar. It writes
 `data/reports/timing_signals.csv`, `data/reports/timing_signal_quarters.csv`,
 and `data/reports/timing_signal_summary.json`; every signal requires source URI
 and content hash provenance and is treated as a candidate timing indicator until
-reviewed:
+LLM-adjudicated:
 
 ```bash
 just timing-signals --data-dir data --output-dir data/reports

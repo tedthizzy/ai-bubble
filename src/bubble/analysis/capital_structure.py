@@ -476,7 +476,7 @@ class CapitalStructureAnalyzer:
             ),
             self.evidence_gate.audit_claim(
                 claim_id="capital.reviewed_debt_like_notional",
-                claim="Human-reviewed debt-like exposure across analyzed deals",
+                claim="LLM-adjudicated debt-like exposure across analyzed deals",
                 value=reviewed_debt_like_notional,
                 unit="USD",
                 evidence=evidence,
@@ -485,7 +485,7 @@ class CapitalStructureAnalyzer:
             ),
             self.evidence_gate.audit_claim(
                 claim_id="capital.pending_review_debt_like_notional",
-                claim="Pending-review candidate debt-like exposure across analyzed deals",
+                claim="Pending-adjudication candidate debt-like exposure across analyzed deals",
                 value=pending_review_debt_like_notional,
                 unit="USD",
                 evidence=evidence,
@@ -494,7 +494,7 @@ class CapitalStructureAnalyzer:
             ),
             self.evidence_gate.audit_claim(
                 claim_id="capital.notional_review_required",
-                claim="High-notional pending-review debt-like extraction candidates",
+                claim="High-notional pending-adjudication debt-like extraction candidates",
                 value={
                     "notional_usd": notional_review_required_usd,
                     "distinct_notional_usd": notional_review_required_distinct_usd,

@@ -1,15 +1,17 @@
 # Acquisition Status
 
-Last updated: 2026-06-01 17:47 UTC.
+Last updated: 2026-06-01 18:08 UTC.
 
 This file is the operational snapshot for the current evidence corpus. Treat it
 as a run log, not as a final investment conclusion.
 
 ## Current Corpus
 
-- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260601-1747.md`
+- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260601-1808.md`
 - Evidence gate: not high-confidence final.
-- Source invariant audit: passed, 56 CSV files and 8,758,796 rows scanned, 0 violations, 0 warnings.
+- Source invariant audit: passed, 57 CSV files and 8,758,896 rows scanned, 0 violations, 0 warnings.
+- Generated report assets are internal evidence artifacts; the user-facing
+  deliverable remains a high-level chat summary once the evidence supports it.
 - Source catalog artifacts: 586 / 586 attempted in the latest broad public-source run.
 - Latest source-catalog extracted rows: 4,878,655.
 - Covered filings: 197,243.
@@ -27,6 +29,9 @@ as a run log, not as a final investment conclusion.
 - Contract/ownership contagion paths: 1,983 source-backed paths, including
   949 ownership-expanded paths, 1,034 contract-only paths, 113 AI-infra
   relevant paths, and 15 high-or-critical paths.
+- Materiality-first LLM adjudication packets: 100 top blockers packaged, all
+  100 source-backed with local evidence snippets, 77 AI-infra relevant, and
+  $7.486T of total exposure-basis across the packet set.
 
 ## Phase Transition Readiness
 
@@ -41,6 +46,10 @@ largest AI/data-center lease obligations, largest debt facilities and bonds,
 largest SPV or non-recourse structures, largest physical power constraints, and
 largest compute depreciation, TAM, payback, EPS, and chip-supply claims.
 
+All review/adjudication statuses are cleared by automated LLM adjudication.
+Legacy fields named `human_review_status` are adjudication-status fields; there
+is no required operator gate in the workflow.
+
 Ready now:
 
 - broad source-backed entity expansion from acquired filings, PPAs, tracker,
@@ -49,7 +58,7 @@ Ready now:
   timestamps, source URIs, local raw paths, and normalized extracted rows
 - source-backed ownership graph from GLEIF relationship records plus LEI legal
   names
-- review queue, capital exposure graph, weak-link, timing, and compute-economics
+- adjudication queue, capital exposure graph, weak-link, timing, and compute-economics
   scaffolding
 - contract-level EDGAR enrichment for first-pass debt/bond tranches, collateral
   snippets, guarantors, SPV/non-recourse flags, rates, and maturities
@@ -57,6 +66,8 @@ Ready now:
   guarantor, project/asset, non-recourse, and bankruptcy-remote/SPV terms
 - source-backed contract/ownership contagion path outputs joining SEC contract
   edges to GLEIF legal-control paths where exact legal-name matches exist
+- materiality-ranked LLM adjudication packet outputs for the top 100 blocker
+  items, with source snippets and explicit decision fields
 
 Must move next:
 
@@ -81,9 +92,9 @@ Not ready:
 
 - a high-confidence final bubble call
 - full exhibit coverage across the expanded manifest
-- reviewed contract-level extraction at the scale needed for professional-grade
+- LLM-adjudicated contract-level extraction at the scale needed for professional-grade
   leverage, SPV, collateral, and downside-risk conclusions
-- reviewed contract/ownership contagion paths at the scale needed for
+- LLM-adjudicated contract/ownership contagion paths at the scale needed for
   professional-grade contagion conclusions
 
 ## Latest EDGAR Exhibit Run
@@ -299,11 +310,11 @@ Compute economics:
 2. Expand contract-level extraction beyond the first deterministic tranche pass:
    lease economics, debt waterfalls, guarantee scope, collateral packages, PPA
    contract terms, construction obligations, and project-finance covenants.
-3. Rebuild the adjudication queue after each material acquisition or extraction
-   run; clear or corroborate critical/high items and the contract-tranche queue
-   before upgrading any conclusion to high confidence.
-4. Run the score >= 50 primary-document tail only if the score >= 75 review
-   queue indicates incremental value after exhibit extraction.
+3. Rebuild the adjudication queue and materiality packet set after each material
+   acquisition or extraction run; clear or corroborate critical/high items and
+   the contract-tranche queue before upgrading any conclusion to high confidence.
+4. Run the score >= 50 primary-document tail only if the score >= 75
+   adjudication queue indicates incremental value after exhibit extraction.
 5. Add more source catalogs for state PUCs, local zoning/air permits, data-center
    leases, equipment financing, and project-level utility filings.
 6. Improve named counterparty extraction on large unmatched EDGAR rows, especially

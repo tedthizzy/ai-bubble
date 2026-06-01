@@ -73,7 +73,7 @@ class ReviewQueueItem:
 
 @dataclass(frozen=True)
 class ReviewQueueSummary:
-    """Serializable rollup for the review queue."""
+    """Serializable rollup for the adjudication queue."""
 
     items: int
     critical_items: int
@@ -109,7 +109,7 @@ class ReviewQueueSummary:
 
 @dataclass(frozen=True)
 class ReviewQueueBatch:
-    """Built review queue artifacts."""
+    """Built adjudication queue artifacts."""
 
     items: list[ReviewQueueItem]
     summary: ReviewQueueSummary
@@ -145,7 +145,7 @@ def build_review_queue(
 
 
 def write_review_queue(batch: ReviewQueueBatch, output_dir: str | Path) -> dict[str, str]:
-    """Write the review queue CSV and summary JSON."""
+    """Write the adjudication queue CSV and summary JSON."""
 
     out = Path(output_dir)
     out.mkdir(parents=True, exist_ok=True)

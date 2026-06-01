@@ -1,4 +1,4 @@
--- BUBBLE Postgres bootstrap (operational metadata, review queues, audit)
+-- BUBBLE Postgres bootstrap (operational metadata, adjudication queues, audit)
 -- Runs automatically on first `docker compose up` for postgres service.
 
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS raw_documents (
     created_at TIMESTAMPTZ DEFAULT now()
 );
 
--- Ingestion / extraction jobs (for Prefect + manual tracking)
+-- Ingestion / extraction jobs (for Prefect + operational tracking)
 CREATE TABLE IF NOT EXISTS ingestion_jobs (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     job_type TEXT NOT NULL,           -- 'edgar_delta', 'full_revalidate', 'satellite_change', etc.
@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS ingestion_jobs (
     created_at TIMESTAMPTZ DEFAULT now()
 );
 
--- Human review queue (core of "human-in-the-loop gates")
+-- LLM adjudication queue (core materiality gate)
 CREATE TABLE IF NOT EXISTS review_queue (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     node_type TEXT NOT NULL,          -- 'Deal', 'Risk', 'Assumption', 'Entity'
@@ -50,7 +50,7 @@ CREATE TABLE IF NOT EXISTS review_queue (
 CREATE TABLE IF NOT EXISTS audit_log (
     id BIGSERIAL PRIMARY KEY,
     ts TIMESTAMPTZ DEFAULT now(),
-    actor TEXT NOT NULL,              -- 'llm:claude-4', 'human:ted', 'rule:concentration_check_v1'
+    actor TEXT NOT NULL,              -- 'llm:claude-4', 'operator:ted', 'rule:concentration_check_v1'
     action TEXT NOT NULL,
     subject_type TEXT,
     subject_id TEXT,
@@ -76,5 +76,5 @@ CREATE TABLE IF NOT EXISTS scenario_runs (
     created_at TIMESTAMPTZ DEFAULT now()
 );
 
-COMMENT ON TABLE review_queue IS 'Core human-in-the-loop gate. Low-confidence or high-stakes extractions land here for forensic review.';
-COMMENT ON TABLE audit_log IS 'Complete decision lineage. Every LLM call, rule firing, human override, and graph mutation is recorded.';
+COMMENT ON TABLE review_queue IS 'Core LLM adjudication gate. Low-confidence or high-stakes extractions land here for forensic adjudication.';
+COMMENT ON TABLE audit_log IS 'Complete decision lineage. Every LLM call, rule firing, operator override, and graph mutation is recorded.';

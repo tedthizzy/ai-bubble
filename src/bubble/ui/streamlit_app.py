@@ -20,7 +20,9 @@ from bubble.ingestion.edgar.extractor import EdgarExtractor
 st.set_page_config(page_title="bubble — Burry Forensic Map", layout="wide", page_icon="🕵️")
 
 st.title("🕵️ bubble — Michael Burry-Style AI/Data Center Forensic Mapping System")
-st.caption("Real data. Real red flags. Real stress tests. Real graph. Human review gates active.")
+st.caption(
+    "Real data. Real red flags. Real stress tests. Real graph. LLM adjudication gates active."
+)
 
 graph = get_graph_client()
 graph.bootstrap_schema()
@@ -60,7 +62,9 @@ with st.sidebar:
         st.success("Graph schema initialized. Source-backed ingestion controls graph data.")
 
 # Main Tabs
-tab1, tab2, tab3, tab4 = st.tabs(["Live Analysis", "Reports", "Graph & Contagion", "Review Queue"])
+tab1, tab2, tab3, tab4 = st.tabs(
+    ["Live Analysis", "Reports", "Graph & Contagion", "Adjudication Queue"]
+)
 
 with tab1:
     if "last_flags" in st.session_state:
@@ -124,7 +128,7 @@ with tab3:
         st.info("Contagion paths appear after running analysis on an entity.")
 
 with tab4:
-    st.subheader("Human Review Queue (Real Persistence)")
+    st.subheader("LLM Adjudication Queue (Real Persistence)")
     queue = graph.get_review_queue("pending")
     if queue:
         for item in queue:
@@ -134,18 +138,18 @@ with tab4:
             priority = item.get("priority", "n/a")
             st.warning(f"**{reason}** — priority {priority} (conf {confidence:.2f})")
             c1, c2 = st.columns(2)
-            if c1.button("Approve & Accept", key=f"appr_{item_id}"):
-                graph.resolve_review_item(item_id, "approved", "Approved in UI")
+            if c1.button("Accept Adjudication", key=f"appr_{item_id}"):
+                graph.resolve_review_item(item_id, "approved", "Accepted in UI")
                 st.rerun()
-            if c2.button("Override / Reject", key=f"ovr_{item_id}"):
-                graph.resolve_review_item(item_id, "overridden", "Overridden in UI with notes")
+            if c2.button("Reject Adjudication", key=f"ovr_{item_id}"):
+                graph.resolve_review_item(item_id, "overridden", "Rejected in UI with notes")
                 st.rerun()
     else:
         st.success(
-            "Review queue is currently empty. High-severity items are auto-queued during ingestion."
+            "Adjudication queue is currently empty. High-severity items are auto-queued during ingestion."
         )
 
 st.divider()
 st.caption(
-    "This is a live, growing forensic instrument. Every run improves the map. Review queue is real and persisted."
+    "This is a live, growing forensic instrument. Every run improves the map. Adjudication queue is real and persisted."
 )

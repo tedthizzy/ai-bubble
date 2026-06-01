@@ -338,6 +338,18 @@ def load_review_queue_summary(data_dirs: list[str]) -> dict[str, Any]:
     return {}
 
 
+def load_materiality_adjudication_summary(data_dirs: list[str]) -> dict[str, Any]:
+    """Load optional materiality-ranked LLM adjudication packet summary."""
+
+    for root in data_dirs:
+        summary_path = Path(root) / "reports" / "materiality_adjudication_summary.json"
+        if summary_path.exists():
+            loaded = json.loads(summary_path.read_text())
+            if isinstance(loaded, dict):
+                return loaded
+    return {}
+
+
 def load_timing_signal_summary(data_dirs: list[str]) -> dict[str, Any]:
     """Load optional source-backed crack-window timing signal summary."""
 
@@ -375,6 +387,9 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:
     weak_link_summary = load_weak_link_summary(resolved_data_dirs)
     contract_contagion_summary = load_contract_contagion_summary(resolved_data_dirs)
     review_queue_summary = load_review_queue_summary(resolved_data_dirs)
+    materiality_adjudication_summary = load_materiality_adjudication_summary(
+        resolved_data_dirs,
+    )
     timing_signal_summary = load_timing_signal_summary(resolved_data_dirs)
     source_invariant_audit = load_source_invariant_audit(resolved_data_dirs)
     raw_capital_batch = load_report_capital_evidence(resolved_data_dirs)
@@ -558,6 +573,25 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:
         "review_queue_pending_capacity_mw": review_queue_summary.get(
             "pending_capacity_mw",
             0,
+        ),
+        "materiality_adjudication_packets": materiality_adjudication_summary.get(
+            "packets",
+            0,
+        ),
+        "materiality_adjudication_source_backed_packets": (
+            materiality_adjudication_summary.get("source_backed_packets", 0)
+        ),
+        "materiality_adjudication_packets_with_local_evidence_snippets": (
+            materiality_adjudication_summary.get(
+                "packets_with_local_evidence_snippets",
+                0,
+            )
+        ),
+        "materiality_adjudication_ai_infra_relevant_packets": (
+            materiality_adjudication_summary.get("ai_infra_relevant_packets", 0)
+        ),
+        "materiality_adjudication_total_exposure_basis_usd": (
+            materiality_adjudication_summary.get("total_exposure_basis_usd", 0)
         ),
         "timing_signal_count": timing_signal_summary.get("signals", 0),
         "timing_signal_source_backed_count": timing_signal_summary.get(
@@ -943,7 +977,11 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:
             "methodology": (
                 "Coverage-grounded report. Final market conclusions are blocked until "
                 "source-backed filings, documents, project records, physical records, and deals "
-                "reach sufficient breadth and review status."
+                "reach sufficient breadth and LLM adjudication status."
+            ),
+            "adjudication_note": (
+                "Legacy fields named human_review_status or reviewed_* mean LLM "
+                "adjudication status in this system; no required operator gate is assumed."
             ),
             "high_confidence_final": False,
         },
@@ -954,6 +992,7 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:
         "weak_links": weak_link_summary,
         "contract_contagion_paths": contract_contagion_summary,
         "review_queue": review_queue_summary,
+        "materiality_adjudication": materiality_adjudication_summary,
         "timing_signals": timing_signal_summary,
         "source_invariant_audit": source_invariant_audit,
         "capital_scope": capital_scope_summary_dict,
@@ -987,6 +1026,9 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:
                 f"{coverage.acquisition_artifacts_attempted} attempted artifacts are acquired. "
                 f"The LLM adjudication queue currently has "
                 f"{review_queue_summary.get('items', 0)} source-backed blocker items. "
+                f"The materiality-first pass has packaged "
+                f"{materiality_adjudication_summary.get('packets', 0)} top blockers "
+                f"for automated LLM adjudication. "
                 f"The timing calendar currently has "
                 f"{timing_signal_summary.get('source_backed_signals', 0)} "
                 f"source-backed crack-window signals. "
@@ -1049,6 +1091,10 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:
                     for item in capital_metrics.top_notional_review_distinct_items[:10]
                 ],
                 "top_review_queue_items": review_queue_summary.get("top_items", [])[:10],
+                "top_materiality_adjudication_packets": materiality_adjudication_summary.get(
+                    "top_packets",
+                    [],
+                )[:10],
                 "top_distinct_capital_review_queue_items": review_queue_summary.get(
                     "top_distinct_capital_items",
                     [],
@@ -1158,6 +1204,9 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:
                     [],
                 )[:15],
                 "current_top_review_queue_items": review_queue_summary.get("top_items", [])[:10],
+                "current_top_materiality_adjudication_packets": (
+                    materiality_adjudication_summary.get("top_packets", [])[:10]
+                ),
                 "current_refinancing_wall_review_status": {
                     "reviewed_debt_like_notional_usd": (
                         capital_metrics.reviewed_debt_like_notional_usd
@@ -1230,7 +1279,7 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:
                     "extracted deal counterparties, and a contract/ownership path layer "
                     "joins tranche, collateral, guarantee, SPV, and parent-control evidence "
                     "where exact legal-name matches exist. Full contagion mapping still "
-                    "requires broader reviewed counterparty, ownership, insurer, and "
+                    "requires broader LLM-adjudicated counterparty, ownership, insurer, and "
                     "contract-term coverage."
                 ),
                 "current_ownership_records": coverage.ownership_records,
@@ -1339,6 +1388,9 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:
                     capital_metrics.notional_review_required_distinct_usd
                 ),
                 "current_top_review_queue_items": review_queue_summary.get("top_items", [])[:10],
+                "current_top_materiality_adjudication_packets": (
+                    materiality_adjudication_summary.get("top_packets", [])[:10]
+                ),
                 "current_top_debt_service_weak_links": weak_link_summary.get(
                     "top_debt_service_weak_links",
                     [],
@@ -1348,7 +1400,7 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:
                 "answer": (
                     "Partially measured, still not final. Current extraction can identify some "
                     "bearer roles from structured deal rows, but counterparty extraction from "
-                    "SEC agreements remains incomplete and pending review."
+                    "SEC agreements remains incomplete and pending LLM adjudication."
                 ),
                 "current_extracted_deals": coverage.extracted_deals,
                 "current_downside_bearers": [
@@ -1470,8 +1522,11 @@ def main() -> None:
 ## Contract Contagion Paths
 {json.dumps(report["contract_contagion_paths"], indent=2)}
 
-## Review Queue
+## Adjudication Queue
 {json.dumps(report["review_queue"], indent=2)}
+
+## Materiality Adjudication
+{json.dumps(report["materiality_adjudication"], indent=2)}
 
 ## Timing Signals
 {json.dumps(report["timing_signals"], indent=2)}
