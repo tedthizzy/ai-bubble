@@ -818,9 +818,13 @@ def test_materiality_adjudication_keeps_shelf_capacity_blocked(
         adjudicated_at="2026-06-01T00:00:00+00:00",
     )
 
+    decision = batch.decisions[0]
     assert batch.summary.approved_for_metric_use == 0
-    assert batch.decisions[0].metric_use_status == "blocked_pending_extraction"
-    assert "split aggregate disclosure" in batch.decisions[0].remaining_gap
+    assert decision.metric_use_status == "blocked_pending_extraction"
+    assert "split aggregate disclosure" in decision.remaining_gap
+    assert "extract named counterparty and role" not in decision.remaining_gap
+    assert "determine recourse and guarantee scope" not in decision.remaining_gap
+    assert "determine collateral scope" not in decision.remaining_gap
 
 
 def test_materiality_adjudication_does_not_flag_split_for_specific_transaction_principal(

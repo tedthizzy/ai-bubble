@@ -1,13 +1,13 @@
 # Acquisition Status
 
-Last updated: 2026-06-01 22:58 UTC.
+Last updated: 2026-06-01 23:04 UTC.
 
 This file is the operational snapshot for the current evidence corpus. Treat it
 as a run log, not as a final investment conclusion.
 
 ## Current Corpus
 
-- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260601-2252.md`
+- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260601-2304.md`
 - Evidence gate: not high-confidence final.
 - Source invariant audit: passed at 2026-06-01 21:55 UTC, 59 CSV files
   and 8,905,760 rows scanned, 0 violations, 0 warnings.
@@ -40,9 +40,9 @@ as a run log, not as a final investment conclusion.
   supported amounts and currently remain $3.553T after latest-snapshot metric
   dedupe across 36 metric groups; they are not treated as individual contracts
   unless contract terms are separately extracted.
-- Top remaining decision gaps are now collateral scope (43), recourse/guarantee
-  scope (34), named counterparty role extraction (30), aggregate-to-committed
-  split (25), and missing underlying term-level clauses (19).
+- Top remaining decision gaps are now collateral scope (34), named
+  counterparty role extraction (26), aggregate-to-committed split (25),
+  recourse/guarantee scope (24), and missing underlying term-level clauses (19).
 
 ## Phase Transition Readiness
 
@@ -100,6 +100,9 @@ Ready now:
 - packet evidence snippets now use cross-artifact scoring and term-focused
   prioritization so clause-level contract text is preferred over low-signal
   boilerplate snippets when adjudicating materiality blockers
+- aggregate/shelf-capacity rows now block first on aggregate-to-committed split
+  without stacking term-level counterparty/collateral/recourse gaps until a
+  specific contract-level source row is extracted
 
 Must move next:
 

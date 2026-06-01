@@ -255,6 +255,11 @@ def _category_gaps(packet: dict[str, str], text: str) -> list[str]:
     ):
         gaps.append("acquire underlying agreement or debt schedule clause for term-level extraction")
         return gaps
+    if category == "capital" and _requires_aggregate_split(packet, text):
+        # Aggregate/shelf rows are blocked on committed-obligation splitting first.
+        # Do not stack term-level party/collateral/recourse gaps until a specific
+        # contract-level source row is extracted.
+        return gaps
     if category in {"capital", "contract"}:
         if not _field(packet, "counterparty") and not _inferred_counterparty_from_quote(text):
             gaps.append("extract named counterparty and role")
