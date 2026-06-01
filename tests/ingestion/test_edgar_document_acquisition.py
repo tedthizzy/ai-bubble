@@ -12,6 +12,7 @@ from bubble.ingestion.edgar.document_acquisition import (
     extract_counterparty_roles,
     extract_deal_candidate,
     extract_deal_notional_usd,
+    extract_guarantee_descriptions,
     extract_interest_rate,
     extract_largest_notional_usd,
     extract_maturity_date,
@@ -401,6 +402,59 @@ def test_deal_candidate_extracts_multiple_bond_series_tranches(tmp_path: Path):
         ("1.00% convertible notes due 2030", 1_581_250_000, 0.01),
         ("2.75% convertible notes due 2032", 1_581_250_000, 0.0275),
     ]
+
+
+def test_deal_candidate_extracts_guarantors_from_guarantee_prose(tmp_path: Path):
+    candidate = extract_deal_candidate(
+        {
+            "cik": "0000000123",
+            "company_name": "Example AI Infrastructure Corp",
+            "form": "8-K",
+            "accession_number": "0000000000-26-000014",
+            "items": "1.01|2.03|9.01",
+            "primary_document": "credit-guarantee.htm",
+            "document_type": "exhibit",
+            "filing_url": "https://www.sec.gov/Archives/edgar/data/123/000000000026000014/credit-guarantee.htm",
+            "relevance_score": "180",
+        },
+        normalize_document_text(
+            b"""
+            CREDIT AGREEMENT among Example AI Infrastructure Corp, as Borrower,
+            the lenders party thereto, and Citibank, N.A., as Administrative Agent,
+            provides a $2.0 billion senior secured term loan facility. The term loan
+            matures on December 31, 2029. Loans bear interest at 6.50% per annum.
+            The obligations under the facility are fully and unconditionally guaranteed
+            by Example Parent LLC and Example Holdings Inc. Example OpCo LLC guarantees
+            the obligations and payment of all principal, premium and interest.
+            """
+        ),
+        "hash",
+        tmp_path / "credit-guarantee.htm",
+    )
+
+    assert candidate
+    assert candidate.guarantees == [
+        "Example Parent LLC",
+        "Example Holdings Inc",
+        "Example OpCo LLC",
+    ]
+    assert candidate.key_terms["guarantee_extraction_status"] == "source_clause_extracted"
+    assert candidate.key_terms["guarantee_descriptions"]
+    rows = candidate.to_tranche_csv_rows()
+    assert len(rows) == 1
+    assert rows[0]["guarantors"] == "Example Parent LLC|Example Holdings Inc|Example OpCo LLC"
+    assert rows[0]["guarantee_description"]
+    assert "fully and unconditionally guaranteed" in rows[0]["guarantee_description"]
+
+
+def test_guarantee_description_extractor_returns_source_context():
+    descriptions = extract_guarantee_descriptions(
+        "The Notes are fully and unconditionally guaranteed by Example Parent LLC. "
+        "The guarantee covers payment of principal and interest."
+    )
+
+    assert descriptions
+    assert descriptions[0].startswith("The Notes are fully and unconditionally guaranteed")
 
 
 def test_deal_notional_extractor_returns_none_without_deal_amount_context():

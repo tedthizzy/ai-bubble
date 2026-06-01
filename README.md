@@ -340,11 +340,13 @@ selected high-signal parent filings, and writes
 documents into the same source-backed EDGAR acquisition corpus. The EDGAR
 acquirer writes both `deals.csv` and `tranches.csv` when source text supports
 tranche-level debt/bond terms, and enriches deal rows with collateral snippets,
-guarantors, SPV/non-recourse flags, source URI, content hash, accession context,
-and pending-adjudication status. A single debt/security document can emit
-multiple `tranches.csv` rows when explicit source text names separate term
-loan, revolver, or note-series amounts; otherwise the extractor falls back to
-one primary tranche candidate.
+guarantors, guarantee-scope snippets, SPV/non-recourse flags, source URI,
+content hash, accession context, and pending-adjudication status. A single
+debt/security document can emit multiple `tranches.csv` rows when explicit
+source text names separate term loan, revolver, or note-series amounts;
+otherwise the extractor falls back to one primary tranche candidate. Tranche
+rows also preserve `guarantee_description` when source prose supports guarantee
+scope beyond a simple `as Guarantor` role label.
 
 For non-EDGAR sources, use a real source catalog:
 
@@ -534,7 +536,8 @@ Expected files:
 - `deals.csv` with one row per lease, debt facility, bond, PPA, guarantee, or other contract
 - `tranches.csv` with optional tranche-level debt/bond terms linked by `deal_id`;
   a source document may contribute multiple tranche rows when separate
-  facility/series terms are explicit
+  facility/series terms are explicit; `guarantee_description` carries
+  source-backed guarantee-scope context when extracted
 
 Every row must include `source_uri`; optional `source_type`, `source_confidence`, `human_review_status` adjudication status, `page_or_section`, and `content_hash` fields feed the evidence gate. Use `counterparty_roles` and `key_terms` as JSON objects so roles, guarantees, SPVs, and lease classification flags remain structured.
 

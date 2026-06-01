@@ -267,6 +267,7 @@ def _contract_tranche_review_items(
         if notional < CAPITAL_REVIEW_THRESHOLD_USD:
             continue
         collateral = _field(row, "collateral_description")
+        guarantee_scope = _field(row, "guarantee_description")
         guarantors = _field(row, "guarantors")
         counterparty = guarantors or _counterparty_from_row(deal_row)
         maturity = _field(row, "maturity")
@@ -315,6 +316,7 @@ def _contract_tranche_review_items(
                         f"maturity {maturity}" if maturity else "",
                         f"interest rate {interest_rate}" if interest_rate else "",
                         "collateral terms present" if collateral else "",
+                        "guarantee scope present" if guarantee_scope else "",
                         f"guarantors: {guarantors}" if guarantors else "",
                     ]
                 ),

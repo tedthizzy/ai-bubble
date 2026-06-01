@@ -143,6 +143,33 @@ ENTITY_SUFFIX_PATTERN = re.compile(
     r"capital|bank|trust|national association|n\.a\.|association)\b",
     re.IGNORECASE,
 )
+ENTITY_NAME_CANDIDATE_PATTERN = re.compile(
+    r"\b[A-Z][A-Za-z0-9&.'()/\\-]{1,}"
+    r"(?:\s+(?:[A-Z0-9][A-Za-z0-9&.'()/\\-]{1,}|of|the))*"
+    r"(?:,?\s+|\s+)"
+    r"(?:Inc\.?|Incorporated|Corp\.?|Corporation|LLC|L\.L\.C\.|Ltd\.?|Limited|PLC|"
+    r"LP|L\.P\.|LLP|L\.L\.P\.|Company|Co\.?|Holdings?|Properties|Securities|"
+    r"Markets|Capital|Bank|Trust|National Association|N\.A\.)\b"
+)
+GUARANTEED_BY_PATTERN = re.compile(
+    r"\b(?:obligations?|notes?|loans?|debt|facility|payments?|borrowings?)\b"
+    r"[^.;]{0,180}?\bguaranteed\b[^.;]{0,180}?\bby\s+"
+    r"(?P<entities>[^.;]{3,260})",
+    re.IGNORECASE | re.DOTALL,
+)
+GUARANTORS_INCLUDE_PATTERN = re.compile(
+    r"\bguarantors?\b(?:\s+under\s+[^.;]{0,100})?"
+    r"\s+(?:include|includes|are|consist(?:s)?\s+of)\s+"
+    r"(?P<entities>[^.;]{3,260})",
+    re.IGNORECASE | re.DOTALL,
+)
+GUARANTEE_VERB_AFTER_ENTITY_PATTERN = re.compile(
+    r"^\s*,?\s*(?:as\s+(?:a\s+)?guarantor,?\s*)?"
+    r"(?:(?:will|shall|has|have|hereby|also)\s+)?"
+    r"(?:(?:fully|unconditionally|jointly|severally|irrevocably)\s+)*"
+    r"guarantee(?:s|d)?\b",
+    re.IGNORECASE,
+)
 
 
 @dataclass(frozen=True)
@@ -184,10 +211,19 @@ class DebtTrancheCandidate:
     maturity_date: date | None
     recourse: bool | None
     collateral_description: str
+    guarantee_description: str
     guarantors: list[str]
     confidence: float
     source_excerpt: str
     extraction_method: str
+
+
+@dataclass(frozen=True)
+class GuaranteeEvidence:
+    """Source-backed guarantee parties and scope snippets from agreement text."""
+
+    guarantors: list[str]
+    descriptions: list[str]
 
 
 @dataclass(frozen=True)
@@ -262,6 +298,7 @@ class DealCandidate:
                 "maturity": tranche.maturity_date.isoformat() if tranche.maturity_date else "",
                 "recourse": _bool_csv(tranche.recourse),
                 "collateral_description": tranche.collateral_description,
+                "guarantee_description": tranche.guarantee_description,
                 "guarantors": "|".join(tranche.guarantors),
                 "source_excerpt": tranche.source_excerpt,
                 "extraction_method": tranche.extraction_method,
@@ -393,6 +430,7 @@ class EdgarAcquisitionBatch:
             "maturity",
             "recourse",
             "collateral_description",
+            "guarantee_description",
             "guarantors",
             "source_excerpt",
             "extraction_method",
@@ -740,7 +778,11 @@ def extract_deal_candidate(
     )
     parties = _parties_from_roles(company_name, counterparty_roles)
     collateral = extract_collateral_descriptions(text)
-    guarantees = _guarantees_from_roles(counterparty_roles)
+    guarantee_evidence = extract_guarantee_evidence(
+        text,
+        seed_guarantors=_guarantees_from_roles(counterparty_roles),
+    )
+    guarantees = guarantee_evidence.guarantors
     is_non_recourse = _detect_non_recourse(text)
     bankruptcy_remote_spv = _detect_bankruptcy_remote_spv(text)
     spv_signal = _detect_spv_signal(text, counterparty_roles=counterparty_roles)
@@ -771,6 +813,10 @@ def extract_deal_candidate(
         "interest_rate": interest_rate,
         "collateral_descriptions": collateral,
         "guarantees": guarantees,
+        "guarantee_descriptions": guarantee_evidence.descriptions,
+        "guarantee_extraction_status": (
+            "source_clause_extracted" if guarantee_evidence.descriptions else "not_extracted"
+        ),
         "non_recourse": bool(is_non_recourse),
         "bankruptcy_remote_spv": bool(bankruptcy_remote_spv),
         "spv": bool(spv_signal),
@@ -795,7 +841,7 @@ def extract_deal_candidate(
         fallback_maturity_date=maturity,
         fallback_interest_rate=interest_rate,
         collateral=collateral,
-        guarantees=guarantees,
+        guarantee_evidence=guarantee_evidence,
         is_non_recourse=is_non_recourse,
         key_terms=key_terms,
     )
@@ -956,6 +1002,7 @@ def _normalized_role(raw_role: str) -> str:
 
 def _clean_entity_name(value: str, *, role: str | None = None) -> str:
     cleaned = " ".join(value.replace("\n", " ").split())
+    cleaned = re.split(r"(?<=[a-z])\.\s+(?=[A-Z])", cleaned, maxsplit=1)[0]
     cleaned = re.sub(
         r"\s*\((?:or any|including|together with|together,? with).*$",
         "",
@@ -1540,7 +1587,7 @@ def extract_debt_tranche_candidates(
     fallback_maturity_date: date | None,
     fallback_interest_rate: float | None,
     collateral: Sequence[str],
-    guarantees: Sequence[str],
+    guarantee_evidence: GuaranteeEvidence,
     is_non_recourse: bool | None,
     key_terms: Mapping[str, Any],
 ) -> list[DebtTrancheCandidate]:
@@ -1557,7 +1604,7 @@ def extract_debt_tranche_candidates(
         fallback_maturity_date=fallback_maturity_date,
         fallback_interest_rate=fallback_interest_rate,
         collateral=collateral,
-        guarantees=guarantees,
+        guarantee_evidence=guarantee_evidence,
         is_non_recourse=is_non_recourse,
     )
     if _explicit_tranches_are_plausible(explicit, deal_notional=notional_amount_usd):
@@ -1573,7 +1620,8 @@ def extract_debt_tranche_candidates(
             maturity_date=fallback_maturity_date,
             recourse=False if is_non_recourse else None,
             collateral_description=" | ".join(collateral),
-            guarantors=list(guarantees),
+            guarantee_description=" | ".join(guarantee_evidence.descriptions),
+            guarantors=list(guarantee_evidence.guarantors),
             confidence=0.72,
             source_excerpt=str(key_terms.get("notional_context_excerpt") or ""),
             extraction_method="single_document_primary_tranche_fallback_v1",
@@ -1588,7 +1636,7 @@ def _explicit_debt_tranche_candidates(
     fallback_maturity_date: date | None,
     fallback_interest_rate: float | None,
     collateral: Sequence[str],
-    guarantees: Sequence[str],
+    guarantee_evidence: GuaranteeEvidence,
     is_non_recourse: bool | None,
 ) -> list[DebtTrancheCandidate]:
     snippet = text[:300_000]
@@ -1628,6 +1676,13 @@ def _explicit_debt_tranche_candidates(
         collateral_description = " | ".join(
             extract_collateral_descriptions(window, max_descriptions=1) or list(collateral)
         )
+        window_guarantee_descriptions = extract_guarantee_descriptions(
+            window,
+            max_descriptions=1,
+        )
+        guarantee_description = " | ".join(
+            window_guarantee_descriptions or guarantee_evidence.descriptions
+        )
         candidates.append(
             DebtTrancheCandidate(
                 tranche_id=tranche_id,
@@ -1643,7 +1698,8 @@ def _explicit_debt_tranche_candidates(
                 maturity_date=maturity_date,
                 recourse=False if is_non_recourse else None,
                 collateral_description=collateral_description,
-                guarantors=list(guarantees),
+                guarantee_description=guarantee_description,
+                guarantors=list(guarantee_evidence.guarantors),
                 confidence=0.78,
                 source_excerpt=_short_context_excerpt(context),
                 extraction_method="explicit_debt_tranche_context_v1",
@@ -1828,6 +1884,7 @@ def _dedupe_explicit_tranche_candidates(
                 maturity_date=candidate.maturity_date,
                 recourse=candidate.recourse,
                 collateral_description=candidate.collateral_description,
+                guarantee_description=candidate.guarantee_description,
                 guarantors=candidate.guarantors,
                 confidence=candidate.confidence,
                 source_excerpt=candidate.source_excerpt,
@@ -1907,6 +1964,83 @@ def extract_collateral_descriptions(text: str, *, max_descriptions: int = 3) -> 
     return descriptions
 
 
+def extract_guarantee_evidence(
+    text: str,
+    *,
+    seed_guarantors: Sequence[str] = (),
+    max_descriptions: int = 3,
+) -> GuaranteeEvidence:
+    """Extract source-backed guarantors and guarantee-scope snippets."""
+
+    guarantors = _merge_unique(
+        [
+            *seed_guarantors,
+            *extract_guarantors_from_guarantee_clauses(text),
+        ]
+    )
+    descriptions = extract_guarantee_descriptions(text, max_descriptions=max_descriptions)
+    return GuaranteeEvidence(guarantors=guarantors, descriptions=descriptions)
+
+
+def extract_guarantee_descriptions(text: str, *, max_descriptions: int = 3) -> list[str]:
+    """Extract source-text snippets that describe guarantee scope."""
+
+    snippet = text[:300_000]
+    patterns = [
+        re.compile(r"\bfully\s+and\s+unconditionally\s+guaranteed\b", re.IGNORECASE),
+        re.compile(r"\bjointly\s+and\s+severally\s+guaranteed\b", re.IGNORECASE),
+        re.compile(r"\bguaranteed\s+obligations\b", re.IGNORECASE),
+        re.compile(r"\bparent\s+guarantee\b", re.IGNORECASE),
+        re.compile(r"\bguarant(?:y|ee|or|ors)\b", re.IGNORECASE),
+        re.compile(r"\bguarantee(?:s|d|ing)?\b", re.IGNORECASE),
+    ]
+    descriptions: list[str] = []
+    seen: set[str] = set()
+    for pattern in patterns:
+        for match in pattern.finditer(snippet):
+            context = _short_context_excerpt(
+                _amount_sentence_context(snippet, match.start(), match.end()),
+                max_length=320,
+            )
+            key = context.lower()
+            if not context or key in seen:
+                continue
+            seen.add(key)
+            descriptions.append(context)
+            if len(descriptions) >= max_descriptions:
+                return descriptions
+    return descriptions
+
+
+def extract_guarantors_from_guarantee_clauses(text: str) -> list[str]:
+    """Extract named guarantor entities from explicit guarantee clauses."""
+
+    snippet = text[:300_000]
+    guarantors: list[str] = []
+    for match in ROLE_ENTITY_PATTERN.finditer(snippet):
+        role = _normalized_role(match.group("role"))
+        if role != "guarantor":
+            continue
+        entity = _clean_entity_name(match.group("entity"), role=role)
+        if entity:
+            guarantors.append(entity)
+
+    for pattern in (GUARANTEED_BY_PATTERN, GUARANTORS_INCLUDE_PATTERN):
+        for match in pattern.finditer(snippet):
+            guarantors.extend(_entity_names_from_fragment(match.group("entities")))
+
+    for segment in re.split(r"(?<=[a-z])\.\s+(?=[A-Z])", snippet):
+        for match in ENTITY_NAME_CANDIDATE_PATTERN.finditer(segment):
+            after = segment[match.end() : min(len(segment), match.end() + 180)]
+            if not GUARANTEE_VERB_AFTER_ENTITY_PATTERN.match(after):
+                continue
+            entity = _clean_entity_name(match.group(0), role="guarantor")
+            if entity:
+                guarantors.append(entity)
+
+    return _merge_unique(guarantors)
+
+
 def _guarantees_from_roles(counterparty_roles: Mapping[str, Sequence[str]]) -> list[str]:
     guarantees: list[str] = []
     for role, entities in counterparty_roles.items():
@@ -1918,6 +2052,28 @@ def _guarantees_from_roles(counterparty_roles: Mapping[str, Sequence[str]]) -> l
             if cleaned and cleaned not in guarantees:
                 guarantees.append(cleaned)
     return guarantees
+
+
+def _entity_names_from_fragment(fragment: str) -> list[str]:
+    names: list[str] = []
+    for match in ENTITY_NAME_CANDIDATE_PATTERN.finditer(fragment):
+        entity = _clean_entity_name(match.group(0), role="guarantor")
+        if entity:
+            names.append(entity)
+    return _merge_unique(names)
+
+
+def _merge_unique(values: Sequence[str]) -> list[str]:
+    merged: list[str] = []
+    seen: set[str] = set()
+    for value in values:
+        cleaned = str(value).strip()
+        key = _entity_key(cleaned) if cleaned else ""
+        if not key or key in seen:
+            continue
+        seen.add(key)
+        merged.append(cleaned)
+    return merged
 
 
 def _detect_non_recourse(text: str) -> bool | None:
