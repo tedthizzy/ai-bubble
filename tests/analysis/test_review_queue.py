@@ -194,6 +194,56 @@ def test_write_review_queue_outputs_csv_and_summary(tmp_path: Path) -> None:
     assert summary["high_items"] == 1
 
 
+def test_review_queue_surfaces_high_impact_contract_tranches(tmp_path: Path) -> None:
+    _write_csv(
+        tmp_path / "edgar_acquisition" / "tranches.csv",
+        [
+            {
+                "deal_id": "deal-coreweave-tranche",
+                "tranche_id": "A",
+                "name": "Senior secured term loan",
+                "notional_usd": "7500000000",
+                "interest_rate": "0.0725",
+                "maturity": "2028-06-30",
+                "collateral_description": "first-priority liens on GPU servers",
+                "guarantors": "Example Parent LLC",
+                "source_uri": "https://www.sec.gov/credit.htm#tranche-a",
+                "source_type": "sec_edgar",
+                "source_confidence": "0.86",
+                "human_review_status": "pending",
+                "page_or_section": "tranche A",
+                "content_hash": "hash-tranche-a",
+            }
+        ],
+    )
+    _write_csv(
+        tmp_path / "graph" / "capital_exposure_edges.csv",
+        [
+            {
+                "source_deal_ids": json.dumps(["deal-coreweave-tranche"]),
+                "source_uris": json.dumps(["https://www.sec.gov/credit.htm#tranche-a"]),
+                "content_hashes": json.dumps(["hash-tranche-a"]),
+                "relevance_tags": json.dumps(["direct:compute", "watchlist:coreweave"]),
+            }
+        ],
+    )
+
+    batch = build_review_queue([tmp_path])
+
+    assert batch.summary.items == 1
+    assert batch.summary.high_items == 1
+    assert batch.summary.categories == {"contract": 1}
+    assert batch.summary.subcategories == {"contract_tranche_terms": 1}
+    assert batch.summary.pending_contract_tranche_items == 1
+    assert batch.summary.pending_contract_tranche_notional_amount_usd == 7_500_000_000
+    assert batch.summary.pending_capital_notional_amount_usd == 0
+    assert batch.items[0].category == "contract"
+    assert batch.items[0].ecosystem_relevance == "direct_ai_infra"
+    assert batch.items[0].relevance_tags == ("direct:compute", "watchlist:coreweave")
+    assert "collateral terms present" in batch.items[0].reason
+    assert batch.items[0].source_uri.endswith("#tranche-a")
+
+
 def test_review_queue_surfaces_debt_service_weak_links(tmp_path: Path) -> None:
     _write_csv(
         tmp_path / "reports" / "weak_link_candidates.csv",

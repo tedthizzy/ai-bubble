@@ -423,7 +423,11 @@ top obligors, risk bearers, exposure edges, connected components, unmapped
 high-notional deals, skipped generic counterparties, source URIs, and review
 status. The summary also separates direct AI/data-center keyword edges and
 watchlist-entity edges from the broader acquired capital network, so unrelated
-corporate financing does not silently become an AI-infrastructure conclusion:
+corporate financing does not silently become an AI-infrastructure conclusion.
+It also writes `capital_contract_nodes.csv` and `capital_contract_edges.csv`,
+which preserve source-backed deal, tranche, collateral, guarantor, project,
+asset, non-recourse, and bankruptcy-remote/SPV structure for deeper contagion
+mapping:
 
 ```bash
 just capital-exposure-graph --data-dir data --output-dir data/graph
@@ -448,14 +452,16 @@ just weak-links --data-dir data --output-dir data/reports
 ```
 
 The report-level review queue combines the highest-impact pending items across
-capital extraction, weak-link scoring, physical match audits, and compute
-economics rows. It writes `data/reports/review_queue.csv` and
+capital extraction, contract-tranche extraction, weak-link scoring, physical
+match audits, and compute economics rows. It writes
+`data/reports/review_queue.csv` and
 `data/reports/review_queue_summary.json`; every item keeps source URI, content
 hash, page or section, source confidence, human-review status, ecosystem
 relevance tags, and a review-group id for duplicate-aware triage. The summary
-separates raw pending capital notional from review-grouped notional and breaks
-out the AI-infrastructure-relevant subset so broad corporate financing does not
-silently dominate the Burry worklist:
+separates raw pending capital notional from review-grouped notional, separately
+tracks pending contract-tranche review notional, and breaks out the
+AI-infrastructure-relevant subset so broad corporate financing does not silently
+dominate the Burry worklist:
 
 ```bash
 just review-queue --data-dir data --output-dir data/reports

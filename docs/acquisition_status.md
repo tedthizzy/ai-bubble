@@ -1,15 +1,15 @@
 # Acquisition Status
 
-Last updated: 2026-06-01 17:01 UTC.
+Last updated: 2026-06-01 17:25 UTC.
 
 This file is the operational snapshot for the current evidence corpus. Treat it
 as a run log, not as a final investment conclusion.
 
 ## Current Corpus
 
-- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260601-1701.md`
+- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260601-1725.md`
 - Evidence gate: not high-confidence final.
-- Source invariant audit: passed, 53 CSV files and 8,537,486 rows scanned, 0 violations, 0 warnings.
+- Source invariant audit: passed, 55 CSV files and 8,756,658 rows scanned, 0 violations, 0 warnings.
 - Source catalog artifacts: 586 / 586 attempted in the latest broad public-source run.
 - Latest source-catalog extracted rows: 4,878,655.
 - Covered filings: 197,243.
@@ -21,7 +21,7 @@ as a run log, not as a final investment conclusion.
 - Source-backed contract tranches: 1,194.
 - Source-backed compute rows: 166.
 - Source-backed timing signals: 2,946.
-- Pending source-backed review items: 2,415.
+- Pending source-backed review items: 2,645.
 - Ownership graph: 425,765 LEI nodes, 425,679 named nodes, and 643,828 source-backed relationships.
 
 ## Phase Transition Readiness
@@ -42,6 +42,8 @@ Ready now:
   scaffolding
 - contract-level EDGAR enrichment for first-pass debt/bond tranches, collateral
   snippets, guarantors, SPV/non-recourse flags, rates, and maturities
+- source-backed contract-structure graph outputs for deal, tranche, collateral,
+  guarantor, project/asset, non-recourse, and bankruptcy-remote/SPV terms
 
 Must move next:
 
@@ -53,6 +55,8 @@ Must move next:
 - human review triage before any high-confidence bubble conclusion
 - deeper contagion modeling that joins contract edges, ownership/SPV edges,
   guarantee/collateral terms, maturities, and physical execution risks
+- triage of the 230 pending contract-tranche review items before relying on
+  tranche-level downside-bearer or waterfall conclusions
 - source-backed GPU depreciation, TAM, payback, EPS, and chip-supply evidence
 
 Not ready:
@@ -194,6 +198,23 @@ Capital exposure graph:
 - Total edge notional: $6.511T.
 - AI-infra-relevant notional: $280.75B.
 - AI-infra-relevant edges: 206.
+- Contract-structure nodes: 73,186.
+- Source-backed contract-structure edges: 145,756.
+- Deal contract nodes: 57,363.
+- Tranche contract nodes: 1,194.
+- Collateral contract nodes: 3,793.
+- Guarantee contract edges: 527.
+- Collateral contract edges: 7,232.
+- Non-recourse deal/tranche contract nodes: 864.
+- Bankruptcy-remote/SPV deal/tranche contract nodes: 394.
+- SPV-flagged deal/tranche contract nodes: 4,294.
+- Tranche nodes with maturity: 683.
+- Tranche nodes with interest rate: 570.
+- Outputs: `data/graph/capital_exposure_nodes.csv`,
+  `data/graph/capital_exposure_edges.csv`,
+  `data/graph/capital_contract_nodes.csv`,
+  `data/graph/capital_contract_edges.csv`, and
+  `data/graph/capital_exposure_graph_summary.json`.
 
 Ownership graph:
 
@@ -221,11 +242,13 @@ Timing layer:
 
 Review queue:
 
-- Critical items: 38.
-- High items: 397.
-- AI-infra-relevant items: 584.
+- Critical items: 39.
+- High items: 409.
+- AI-infra-relevant items: 588.
+- Contract-tranche review items: 230.
 - Pending capital distinct notional: $10.903T.
 - Pending AI-infra-relevant distinct capital notional: $793.04B.
+- Pending contract-tranche notional: $556.98B.
 - Pending compute claim amount: $398.24B.
 
 Weak links:
@@ -257,8 +280,8 @@ Compute economics:
    lease economics, debt waterfalls, guarantee scope, collateral packages, PPA
    contract terms, construction obligations, and project-finance covenants.
 3. Rebuild the review queue after each material acquisition or extraction run;
-   clear or corroborate critical/high items before upgrading any conclusion to
-   high confidence.
+   clear or corroborate critical/high items and the contract-tranche queue before
+   upgrading any conclusion to high confidence.
 4. Run the score >= 50 primary-document tail only if the score >= 75 review
    queue indicates incremental value after exhibit extraction.
 5. Add more source catalogs for state PUCs, local zoning/air permits, data-center

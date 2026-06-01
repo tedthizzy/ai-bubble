@@ -91,6 +91,8 @@ class ReviewQueueSummary:
     pending_capital_distinct_group_count: int
     pending_capital_distinct_notional_amount_usd: float
     pending_capital_duplicate_notional_amount_usd: float
+    pending_contract_tranche_items: int
+    pending_contract_tranche_notional_amount_usd: float
     pending_ai_infra_relevant_capital_notional_amount_usd: float
     pending_ai_infra_relevant_capital_distinct_notional_amount_usd: float
     pending_compute_claim_amount_usd: float
@@ -128,6 +130,7 @@ def build_review_queue(
             capital_relevance=capital_relevance,
         )
     )
+    items.extend(_contract_tranche_review_items(roots, capital_relevance=capital_relevance))
     items.extend(_weak_link_review_items(roots))
     items.extend(_physical_match_review_items(roots))
     items.extend(_compute_review_items(roots))
@@ -221,6 +224,101 @@ def _capital_review_items(
                 recommended_action=(
                     "Confirm notional context, maturity, parties, counterparty roles, "
                     "and whether the row is a duplicate or aggregate obligation."
+                ),
+                source_uri=source_uri,
+                source_uris=(source_uri,) if source_uri else (),
+                content_hash=content_hash,
+                content_hashes=(content_hash,) if content_hash else (),
+                page_or_section=_field(row, "page_or_section"),
+                human_review_status=status,
+                source_confidence=_float(row.get("source_confidence") or row.get("confidence")),
+            )
+        )
+    return items
+
+
+def _contract_tranche_review_items(
+    roots: list[Path],
+    *,
+    capital_relevance: dict[str, tuple[str, ...]],
+) -> list[ReviewQueueItem]:
+    items: list[ReviewQueueItem] = []
+    seen: set[tuple[str, str, str, str]] = set()
+    deal_rows = _deal_rows_by_id(roots)
+    for row in _read_rows(
+        roots, [Path("edgar_acquisition") / "tranches.csv", Path("capital") / "tranches.csv"]
+    ):
+        deal_id = _field(row, "deal_id")
+        deal_row = deal_rows.get(deal_id, {})
+        tranche_id = _field(row, "tranche_id") or _field(row, "name")
+        source_uri = _field(row, "source_uri")
+        content_hash = _field(row, "content_hash")
+        key = (deal_id, tranche_id, source_uri, content_hash)
+        if key in seen:
+            continue
+        seen.add(key)
+        status = _field(row, "human_review_status") or "pending"
+        if _is_reviewed_status(status):
+            continue
+        notional = _float(row.get("notional_usd"))
+        if notional < CAPITAL_REVIEW_THRESHOLD_USD:
+            continue
+        collateral = _field(row, "collateral_description")
+        guarantors = _field(row, "guarantors")
+        counterparty = guarantors or _counterparty_from_row(deal_row)
+        maturity = _field(row, "maturity")
+        interest_rate = _field(row, "interest_rate")
+        relevance_tags = _contract_tranche_relevance_tags(
+            row,
+            capital_relevance,
+            deal_row=deal_row,
+        )
+        items.append(
+            ReviewQueueItem(
+                review_id=_review_id(
+                    "contract_tranche",
+                    deal_id,
+                    tranche_id,
+                    source_uri,
+                    content_hash,
+                ),
+                review_group_id=_review_id(
+                    "contract_tranche_group",
+                    deal_id,
+                    tranche_id,
+                    f"{notional:.2f}",
+                    maturity,
+                ),
+                priority=_capital_priority(notional),
+                category="contract",
+                subcategory="contract_tranche_terms",
+                ecosystem_relevance=_ecosystem_relevance("contract", relevance_tags),
+                relevance_tags=relevance_tags,
+                entity=_field(deal_row, "primary_party") or deal_id,
+                counterparty=counterparty,
+                project_id="",
+                project_name="",
+                deal_id=deal_id,
+                source_row_id=f"{deal_id}:{tranche_id}",
+                notional_amount_usd=round(notional, 2),
+                exposure_usd=0.0,
+                capacity_mw=0.0,
+                risk_score=0.0,
+                reason=_reason(
+                    [
+                        "pending contract tranche review",
+                        f"tranche: {_field(row, 'name')}" if _field(row, "name") else "",
+                        f"notional ${notional:,.0f}",
+                        f"maturity {maturity}" if maturity else "",
+                        f"interest rate {interest_rate}" if interest_rate else "",
+                        "collateral terms present" if collateral else "",
+                        f"guarantors: {guarantors}" if guarantors else "",
+                    ]
+                ),
+                recommended_action=(
+                    "Confirm tranche notional, maturity, rate, seniority, collateral package, "
+                    "guarantee scope, recourse, and whether this tranche duplicates an aggregate "
+                    "deal-level notional."
                 ),
                 source_uri=source_uri,
                 source_uris=(source_uri,) if source_uri else (),
@@ -706,6 +804,13 @@ def _summary(items: list[ReviewQueueItem]) -> ReviewQueueSummary:
         for item in distinct_capital_items
         if not _is_reviewed_status(item.human_review_status)
     )
+    pending_contract_tranche_items = [
+        item
+        for item in items
+        if item.category == "contract"
+        and item.subcategory == "contract_tranche_terms"
+        and not _is_reviewed_status(item.human_review_status)
+    ]
     return ReviewQueueSummary(
         items=len(items),
         critical_items=priorities.get("critical", 0),
@@ -734,6 +839,11 @@ def _summary(items: list[ReviewQueueItem]) -> ReviewQueueSummary:
         ),
         pending_capital_duplicate_notional_amount_usd=round(
             max(0.0, pending_capital_notional - pending_capital_distinct_notional),
+            2,
+        ),
+        pending_contract_tranche_items=len(pending_contract_tranche_items),
+        pending_contract_tranche_notional_amount_usd=round(
+            sum(item.notional_amount_usd for item in pending_contract_tranche_items),
             2,
         ),
         pending_ai_infra_relevant_capital_notional_amount_usd=round(
@@ -799,6 +909,13 @@ def _read_rows(roots: list[Path], relative_paths: list[Path]) -> list[dict[str, 
                     for row in reader
                 )
     return rows
+
+
+def _deal_rows_by_id(roots: list[Path]) -> dict[str, dict[str, str]]:
+    rows = _read_rows(
+        roots, [Path("edgar_acquisition") / "deals.csv", Path("capital") / "deals.csv"]
+    )
+    return {_field(row, "deal_id"): row for row in rows if _field(row, "deal_id")}
 
 
 def _write_csv(path: Path, rows: list[dict[str, Any]]) -> None:
@@ -874,6 +991,46 @@ def _capital_relevance_tags(
             _field(row, "page_or_section"),
             _field(row, "source_uri"),
             row.get("key_terms") or "",
+        ]
+    )
+    tags.update(
+        f"watchlist:{name}"
+        for name, pattern in WATCHLIST_ENTITY_PATTERNS.items()
+        if pattern.search(search_text)
+    )
+    tags.update(
+        f"direct:{name}"
+        for name, pattern in DIRECT_AI_INFRA_PATTERNS.items()
+        if pattern.search(search_text)
+    )
+    return tuple(sorted(tags))
+
+
+def _contract_tranche_relevance_tags(
+    row: dict[str, str],
+    capital_relevance: dict[str, tuple[str, ...]],
+    *,
+    deal_row: dict[str, str],
+) -> tuple[str, ...]:
+    tags: set[str] = set()
+    for key in (
+        _field(row, "deal_id"),
+        _field(row, "source_uri"),
+        _field(row, "content_hash"),
+    ):
+        tags.update(capital_relevance.get(key, ()))
+    search_text = " ".join(
+        [
+            _field(row, "deal_id"),
+            _field(row, "tranche_id"),
+            _field(row, "name"),
+            _field(row, "collateral_description"),
+            _field(row, "guarantors"),
+            _field(row, "source_uri"),
+            _field(deal_row, "primary_party"),
+            _counterparty_from_row(deal_row),
+            _field(deal_row, "title"),
+            _field(deal_row, "key_terms"),
         ]
     )
     tags.update(

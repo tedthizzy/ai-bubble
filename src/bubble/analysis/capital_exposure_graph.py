@@ -149,6 +149,54 @@ class CapitalExposureEdge:
 
 
 @dataclass(frozen=True)
+class CapitalContractNode:
+    """Source-backed deal/tranche/collateral/project structure node."""
+
+    node_id: str
+    node_type: str
+    name: str
+    deal_id: str
+    deal_type: str
+    tranche_id: str
+    notional_usd: float
+    interest_rate: float | None
+    maturity: str
+    source_uri: str
+    content_hash: str
+    human_review_status: str
+    relevance_tags: tuple[str, ...]
+    risk_flags: tuple[str, ...]
+
+    def to_dict(self) -> dict[str, Any]:
+        return asdict(self)
+
+
+@dataclass(frozen=True)
+class CapitalContractEdge:
+    """Source-backed structural relationship inside a capital contract."""
+
+    source_id: str
+    source_name: str
+    source_type: str
+    target_id: str
+    target_name: str
+    target_type: str
+    relationship_type: str
+    deal_id: str
+    deal_type: str
+    tranche_id: str
+    notional_usd: float
+    source_uri: str
+    content_hash: str
+    human_review_status: str
+    relevance_tags: tuple[str, ...]
+    risk_flags: tuple[str, ...]
+
+    def to_dict(self) -> dict[str, Any]:
+        return asdict(self)
+
+
+@dataclass(frozen=True)
 class CapitalExposureComponentRisk:
     """One connected source-backed exposure cluster."""
 
@@ -202,6 +250,21 @@ class CapitalExposureGraphSummary:
     debt_like_edges: int
     ppa_edges: int
     edges_with_notional: int
+    contract_nodes: int
+    contract_edges: int
+    source_backed_contract_edges: int
+    deal_contract_nodes: int
+    tranche_contract_nodes: int
+    collateral_contract_nodes: int
+    guarantee_contract_edges: int
+    collateral_contract_edges: int
+    project_contract_edges: int
+    asset_contract_edges: int
+    non_recourse_contracts: int
+    bankruptcy_remote_spv_contracts: int
+    spv_flagged_contracts: int
+    tranche_nodes_with_maturity: int
+    tranche_nodes_with_interest_rate: int
     ai_infra_relevant_edges: int
     direct_ai_keyword_edges: int
     watchlist_entity_edges: int
@@ -228,6 +291,9 @@ class CapitalExposureGraphSummary:
     top_ai_infra_components_by_notional: list[dict[str, Any]]
     top_contagion_hubs: list[dict[str, Any]]
     top_ai_infra_contagion_hubs: list[dict[str, Any]]
+    top_tranche_contract_nodes: list[dict[str, Any]]
+    top_spv_contract_nodes: list[dict[str, Any]]
+    top_collateral_contract_edges: list[dict[str, Any]]
     high_notional_unmapped_deals: list[dict[str, Any]]
 
     def to_dict(self) -> dict[str, Any]:
@@ -267,6 +333,8 @@ class CapitalExposureGraph:
 
     nodes: list[CapitalExposureNode]
     edges: list[CapitalExposureEdge]
+    contract_nodes: list[CapitalContractNode]
+    contract_edges: list[CapitalContractEdge]
     summary: CapitalExposureGraphSummary
 
 
@@ -275,6 +343,11 @@ def build_capital_exposure_graph(deals: list[Deal]) -> CapitalExposureGraph:
 
     node_acc: dict[str, _NodeAccumulator] = {}
     edge_acc: dict[tuple[str, str, str, str], _EdgeAccumulator] = {}
+    contract_node_acc: dict[str, CapitalContractNode] = {}
+    contract_edge_acc: dict[
+        tuple[str, str, str, str, str, str],
+        CapitalContractEdge,
+    ] = {}
     generic_skipped = 0
     deals_with_edges = 0
     high_notional_unmapped: list[dict[str, Any]] = []
@@ -282,6 +355,12 @@ def build_capital_exposure_graph(deals: list[Deal]) -> CapitalExposureGraph:
 
     for deal in deals:
         all_source_uris.add(deal.provenance.source_uri)
+        contract_nodes, contract_edges, _contract_skipped = _contract_graph_for_deal(deal)
+        for node in contract_nodes:
+            _merge_contract_node(contract_node_acc, node)
+        for contract_edge in contract_edges:
+            _merge_contract_edge(contract_edge_acc, contract_edge)
+
         deal_edges, skipped = _edges_for_deal(deal)
         generic_skipped += skipped
         if deal_edges:
@@ -289,50 +368,50 @@ def build_capital_exposure_graph(deals: list[Deal]) -> CapitalExposureGraph:
         elif _deal_notional(deal) >= 25_000_000_000:
             high_notional_unmapped.append(_unmapped_deal_row(deal, ["no_named_counterparty_edge"]))
 
-        for edge in deal_edges:
+        for deal_edge in deal_edges:
             key = (
-                edge["source_id"],
-                edge["target_id"],
-                edge["relationship_type"],
-                edge["deal_type"],
+                deal_edge["source_id"],
+                deal_edge["target_id"],
+                deal_edge["relationship_type"],
+                deal_edge["deal_type"],
             )
             acc = edge_acc.get(key)
             if acc is None:
                 acc = _EdgeAccumulator(
-                    source_id=edge["source_id"],
-                    source_name=edge["source_name"],
-                    target_id=edge["target_id"],
-                    target_name=edge["target_name"],
-                    relationship_type=edge["relationship_type"],
-                    deal_type=edge["deal_type"],
+                    source_id=deal_edge["source_id"],
+                    source_name=deal_edge["source_name"],
+                    target_id=deal_edge["target_id"],
+                    target_name=deal_edge["target_name"],
+                    relationship_type=deal_edge["relationship_type"],
+                    deal_type=deal_edge["deal_type"],
                 )
                 edge_acc[key] = acc
-            acc.roles.add(edge["role"])
-            acc.deal_ids.add(edge["deal_id"])
-            acc.source_uris.add(edge["source_uri"])
-            acc.content_hashes.add(edge["content_hash"])
-            acc.human_review_statuses.add(edge["human_review_status"])
-            acc.relevance_tags.update(edge["relevance_tags"])
-            acc.notional_usd += edge["notional_usd"]
-            acc.ppa_capacity_mw += edge["ppa_capacity_mw"]
+            acc.roles.add(deal_edge["role"])
+            acc.deal_ids.add(deal_edge["deal_id"])
+            acc.source_uris.add(deal_edge["source_uri"])
+            acc.content_hashes.add(deal_edge["content_hash"])
+            acc.human_review_statuses.add(deal_edge["human_review_status"])
+            acc.relevance_tags.update(deal_edge["relevance_tags"])
+            acc.notional_usd += deal_edge["notional_usd"]
+            acc.ppa_capacity_mw += deal_edge["ppa_capacity_mw"]
 
             _add_node(
                 node_acc,
-                edge["source_id"],
-                edge["source_name"],
-                edge["source_role"],
-                edge["deal_id"],
-                edge["source_uri"],
-                edge["notional_usd"],
+                deal_edge["source_id"],
+                deal_edge["source_name"],
+                deal_edge["source_role"],
+                deal_edge["deal_id"],
+                deal_edge["source_uri"],
+                deal_edge["notional_usd"],
             )
             _add_node(
                 node_acc,
-                edge["target_id"],
-                edge["target_name"],
-                edge["target_role"],
-                edge["deal_id"],
-                edge["source_uri"],
-                edge["notional_usd"],
+                deal_edge["target_id"],
+                deal_edge["target_name"],
+                deal_edge["target_role"],
+                deal_edge["deal_id"],
+                deal_edge["source_uri"],
+                deal_edge["notional_usd"],
             )
 
     nodes = [
@@ -371,6 +450,16 @@ def build_capital_exposure_graph(deals: list[Deal]) -> CapitalExposureGraph:
     edges.sort(
         key=lambda edge: (edge.notional_usd, edge.deal_count, edge.ppa_capacity_mw), reverse=True
     )
+    contract_nodes = list(contract_node_acc.values())
+    contract_nodes.sort(
+        key=lambda node: (node.notional_usd, node.node_type == "tranche", node.name),
+        reverse=True,
+    )
+    contract_edges = list(contract_edge_acc.values())
+    contract_edges.sort(
+        key=lambda edge: (edge.notional_usd, edge.relationship_type, edge.source_name),
+        reverse=True,
+    )
 
     components = _connected_components(edges)
     largest_component = max(components, key=len, default=set())
@@ -386,6 +475,48 @@ def build_capital_exposure_graph(deals: list[Deal]) -> CapitalExposureGraph:
     )
     contagion_hubs = _contagion_hubs(edges, nodes)
 
+    summary = _build_capital_exposure_summary(
+        deals_scanned=len(deals),
+        deals_with_edges=deals_with_edges,
+        generic_skipped=generic_skipped,
+        all_source_uris=all_source_uris,
+        nodes=nodes,
+        edges=edges,
+        contract_nodes=contract_nodes,
+        contract_edges=contract_edges,
+        components=components,
+        largest_component=largest_component,
+        largest_component_risk=largest_component_risk,
+        component_risks=component_risks,
+        contagion_hubs=contagion_hubs,
+        high_notional_unmapped=high_notional_unmapped,
+    )
+    return CapitalExposureGraph(
+        nodes=nodes,
+        edges=edges,
+        contract_nodes=contract_nodes,
+        contract_edges=contract_edges,
+        summary=summary,
+    )
+
+
+def _build_capital_exposure_summary(
+    *,
+    deals_scanned: int,
+    deals_with_edges: int,
+    generic_skipped: int,
+    all_source_uris: set[str],
+    nodes: list[CapitalExposureNode],
+    edges: list[CapitalExposureEdge],
+    contract_nodes: list[CapitalContractNode],
+    contract_edges: list[CapitalContractEdge],
+    components: list[set[str]],
+    largest_component: set[str],
+    largest_component_risk: CapitalExposureComponentRisk | None,
+    component_risks: list[CapitalExposureComponentRisk],
+    contagion_hubs: list[CapitalExposureContagionHub],
+    high_notional_unmapped: list[dict[str, Any]],
+) -> CapitalExposureGraphSummary:
     top_entities = [node.to_dict() for node in nodes[:25]]
     top_risk_bearers = [
         node.to_dict() for node in nodes if set(node.roles).intersection(RISK_BEARER_ROLES)
@@ -409,11 +540,20 @@ def build_capital_exposure_graph(deals: list[Deal]) -> CapitalExposureGraph:
     ai_components = _connected_components(ai_relevant_edges)
     ai_component_risks = _component_risks(ai_components, ai_relevant_edges, nodes)
     top_ai_component = ai_component_risks[0] if ai_component_risks else None
-
-    summary = CapitalExposureGraphSummary(
-        deals_scanned=len(deals),
+    tranche_contract_nodes = [node for node in contract_nodes if node.node_type == "tranche"]
+    spv_contract_nodes = [
+        node
+        for node in contract_nodes
+        if node.node_type in {"deal", "tranche"}
+        and any(flag in node.risk_flags for flag in ("spv_signal", "bankruptcy_remote_spv"))
+    ]
+    collateral_contract_edges = [
+        edge for edge in contract_edges if edge.relationship_type == "SECURED_BY_COLLATERAL"
+    ]
+    return CapitalExposureGraphSummary(
+        deals_scanned=deals_scanned,
         deals_with_edges=deals_with_edges,
-        deals_without_named_counterparty_edges=len(deals) - deals_with_edges,
+        deals_without_named_counterparty_edges=deals_scanned - deals_with_edges,
         nodes=len(nodes),
         edges=len(edges),
         source_backed_edges=sum(1 for edge in edges if edge.source_uris),
@@ -422,6 +562,41 @@ def build_capital_exposure_graph(deals: list[Deal]) -> CapitalExposureGraph:
         ),
         ppa_edges=sum(1 for edge in edges if edge.deal_type == DealType.PPA.value),
         edges_with_notional=sum(1 for edge in edges if edge.notional_usd > 0),
+        contract_nodes=len(contract_nodes),
+        contract_edges=len(contract_edges),
+        source_backed_contract_edges=sum(1 for edge in contract_edges if edge.source_uri),
+        deal_contract_nodes=sum(1 for node in contract_nodes if node.node_type == "deal"),
+        tranche_contract_nodes=len(tranche_contract_nodes),
+        collateral_contract_nodes=sum(
+            1 for node in contract_nodes if node.node_type == "collateral"
+        ),
+        guarantee_contract_edges=sum(
+            1
+            for edge in contract_edges
+            if edge.relationship_type in {"GUARANTEED_BY", "TRANCHE_GUARANTEED_BY"}
+        ),
+        collateral_contract_edges=len(collateral_contract_edges),
+        project_contract_edges=sum(
+            1 for edge in contract_edges if edge.relationship_type == "LINKED_TO_PROJECT"
+        ),
+        asset_contract_edges=sum(
+            1 for edge in contract_edges if edge.relationship_type == "LINKED_TO_ASSET"
+        ),
+        non_recourse_contracts=sum(
+            1
+            for node in contract_nodes
+            if node.node_type in {"deal", "tranche"} and "non_recourse" in node.risk_flags
+        ),
+        bankruptcy_remote_spv_contracts=sum(
+            1
+            for node in contract_nodes
+            if node.node_type in {"deal", "tranche"} and "bankruptcy_remote_spv" in node.risk_flags
+        ),
+        spv_flagged_contracts=len(spv_contract_nodes),
+        tranche_nodes_with_maturity=sum(1 for node in tranche_contract_nodes if node.maturity),
+        tranche_nodes_with_interest_rate=sum(
+            1 for node in tranche_contract_nodes if node.interest_rate is not None
+        ),
         ai_infra_relevant_edges=len(ai_relevant_edges),
         direct_ai_keyword_edges=len(direct_ai_edges),
         watchlist_entity_edges=len(watchlist_edges),
@@ -434,16 +609,12 @@ def build_capital_exposure_graph(deals: list[Deal]) -> CapitalExposureGraph:
         distinct_source_uris=len(all_source_uris),
         connected_components=len(components),
         largest_component_nodes=len(largest_component),
-        largest_component_edges=largest_component_risk.edge_count
-        if largest_component_risk
-        else 0,
+        largest_component_edges=largest_component_risk.edge_count if largest_component_risk else 0,
         largest_component_notional_usd=largest_component_risk.notional_usd
         if largest_component_risk
         else 0.0,
         largest_component_ai_infra_relevant_notional_usd=(
-            largest_component_risk.ai_infra_relevant_notional_usd
-            if largest_component_risk
-            else 0.0
+            largest_component_risk.ai_infra_relevant_notional_usd if largest_component_risk else 0.0
         ),
         ai_infra_component_count=len(ai_components),
         top_ai_infra_component_nodes=top_ai_component.node_count if top_ai_component else 0,
@@ -462,13 +633,13 @@ def build_capital_exposure_graph(deals: list[Deal]) -> CapitalExposureGraph:
         ],
         top_contagion_hubs=[hub.to_dict() for hub in contagion_hubs[:25]],
         top_ai_infra_contagion_hubs=[
-            hub.to_dict()
-            for hub in contagion_hubs
-            if hub.ai_infra_relevant_notional_usd > 0
+            hub.to_dict() for hub in contagion_hubs if hub.ai_infra_relevant_notional_usd > 0
         ][:25],
+        top_tranche_contract_nodes=[node.to_dict() for node in tranche_contract_nodes[:25]],
+        top_spv_contract_nodes=[node.to_dict() for node in spv_contract_nodes[:25]],
+        top_collateral_contract_edges=[edge.to_dict() for edge in collateral_contract_edges[:25]],
         high_notional_unmapped_deals=high_notional_unmapped[:25],
     )
-    return CapitalExposureGraph(nodes=nodes, edges=edges, summary=summary)
 
 
 def write_capital_exposure_graph(
@@ -480,16 +651,716 @@ def write_capital_exposure_graph(
     out.mkdir(parents=True, exist_ok=True)
     nodes_path = out / "capital_exposure_nodes.csv"
     edges_path = out / "capital_exposure_edges.csv"
+    contract_nodes_path = out / "capital_contract_nodes.csv"
+    contract_edges_path = out / "capital_contract_edges.csv"
     summary_path = out / "capital_exposure_graph_summary.json"
 
     _write_csv(nodes_path, [node.to_dict() for node in graph.nodes])
     _write_csv(edges_path, [edge.to_dict() for edge in graph.edges])
+    _write_csv(contract_nodes_path, [node.to_dict() for node in graph.contract_nodes])
+    _write_csv(contract_edges_path, [edge.to_dict() for edge in graph.contract_edges])
     summary_path.write_text(json.dumps(graph.summary.to_dict(), indent=2))
     return {
         "nodes_csv": str(nodes_path),
         "edges_csv": str(edges_path),
+        "contract_nodes_csv": str(contract_nodes_path),
+        "contract_edges_csv": str(contract_edges_path),
         "summary_json": str(summary_path),
     }
+
+
+def _contract_graph_for_deal(
+    deal: Deal,
+) -> tuple[list[CapitalContractNode], list[CapitalContractEdge], int]:
+    deal_id = _deal_ref(deal)
+    deal_node_id = _deal_contract_node_id(deal)
+    deal_name = deal.title or deal_id
+    relevance_tags = _deal_relevance_tags(deal)
+    deal_flags = _deal_risk_flags(deal)
+    notional = _deal_notional(deal)
+    nodes = [_deal_contract_node(deal, deal_node_id, deal_name, relevance_tags, deal_flags)]
+    edges: list[CapitalContractEdge] = []
+    obligors, risk_bearers, guarantors = _deal_contract_participants(deal)
+    generic_skipped = _add_contract_entity_edges(
+        nodes,
+        edges,
+        entities=obligors,
+        entity_as_source=True,
+        anchor_id=deal_node_id,
+        anchor_name=deal_name,
+        anchor_type="deal",
+        relationship_type="OBLIGATED_UNDER_DEAL",
+        deal=deal,
+        tranche_id="",
+        notional_usd=notional,
+        source_uri=deal.provenance.source_uri,
+        content_hash=deal.provenance.content_hash,
+        human_review_status=deal.provenance.human_review_status.value,
+        relevance_tags=relevance_tags,
+        risk_flags=deal_flags,
+    )
+    generic_skipped += _add_contract_entity_edges(
+        nodes,
+        edges,
+        entities=risk_bearers,
+        entity_as_source=False,
+        anchor_id=deal_node_id,
+        anchor_name=deal_name,
+        anchor_type="deal",
+        relationship_type="DEAL_RISK_BEARER",
+        deal=deal,
+        tranche_id="",
+        notional_usd=notional,
+        source_uri=deal.provenance.source_uri,
+        content_hash=deal.provenance.content_hash,
+        human_review_status=deal.provenance.human_review_status.value,
+        relevance_tags=relevance_tags,
+        risk_flags=deal_flags,
+    )
+    generic_skipped += _add_contract_entity_edges(
+        nodes,
+        edges,
+        entities=guarantors,
+        entity_as_source=False,
+        anchor_id=deal_node_id,
+        anchor_name=deal_name,
+        anchor_type="deal",
+        relationship_type="GUARANTEED_BY",
+        deal=deal,
+        tranche_id="",
+        notional_usd=notional,
+        source_uri=deal.provenance.source_uri,
+        content_hash=deal.provenance.content_hash,
+        human_review_status=deal.provenance.human_review_status.value,
+        relevance_tags=relevance_tags,
+        risk_flags=(*deal_flags, "guarantee_linked"),
+    )
+    _add_deal_collateral_project_asset_edges(
+        nodes,
+        edges,
+        deal=deal,
+        deal_node_id=deal_node_id,
+        deal_name=deal_name,
+        notional_usd=notional,
+        relevance_tags=relevance_tags,
+        risk_flags=deal_flags,
+    )
+    for index, tranche in enumerate(deal.debt_tranches, start=1):
+        generic_skipped += _add_tranche_contract_graph(
+            nodes,
+            edges,
+            deal=deal,
+            deal_node_id=deal_node_id,
+            deal_name=deal_name,
+            index=index,
+            tranche=tranche,
+            obligors=obligors,
+            risk_bearers=risk_bearers,
+            guarantors=guarantors,
+            relevance_tags=relevance_tags,
+        )
+    return nodes, edges, generic_skipped
+
+
+def _deal_contract_node(
+    deal: Deal,
+    deal_node_id: str,
+    deal_name: str,
+    relevance_tags: tuple[str, ...],
+    deal_flags: tuple[str, ...],
+) -> CapitalContractNode:
+    return _contract_node(
+        node_id=deal_node_id,
+        node_type="deal",
+        name=deal_name,
+        deal_id=_deal_ref(deal),
+        deal_type=deal.deal_type.value,
+        tranche_id="",
+        notional_usd=_deal_notional(deal),
+        interest_rate=None,
+        maturity=_date_text(deal.maturity_date),
+        source_uri=deal.provenance.source_uri,
+        content_hash=deal.provenance.content_hash,
+        human_review_status=deal.provenance.human_review_status.value,
+        relevance_tags=relevance_tags,
+        risk_flags=deal_flags,
+    )
+
+
+def _deal_contract_participants(
+    deal: Deal,
+) -> tuple[list[tuple[str, str]], list[tuple[str, str]], list[tuple[str, str]]]:
+    if deal.deal_type == DealType.PPA:
+        obligors = _role_entities(deal.counterparty_roles, PPA_SOURCE_ROLES) or _party_entities(
+            deal.parties[:1],
+            "seller",
+        )
+        risk_bearers = _role_entities(deal.counterparty_roles, PPA_TARGET_ROLES) or _party_entities(
+            deal.parties[1:],
+            "counterparty",
+        )
+    else:
+        obligors = _role_entities(deal.counterparty_roles, OBLIGOR_ROLES) or _party_entities(
+            deal.parties[:1],
+            _source_role_for_deal(deal),
+        )
+        risk_bearers = _role_entities(deal.counterparty_roles, RISK_BEARER_ROLES)
+        if not risk_bearers:
+            risk_bearers = _party_entities(deal.parties[1:], "counterparty")
+    return obligors, risk_bearers, _guarantor_entities(deal)
+
+
+def _add_contract_entity_edges(
+    nodes: list[CapitalContractNode],
+    edges: list[CapitalContractEdge],
+    *,
+    entities: Iterable[tuple[str, str]],
+    entity_as_source: bool,
+    anchor_id: str,
+    anchor_name: str,
+    anchor_type: str,
+    relationship_type: str,
+    deal: Deal,
+    tranche_id: str,
+    notional_usd: float,
+    source_uri: str,
+    content_hash: str,
+    human_review_status: str,
+    relevance_tags: tuple[str, ...],
+    risk_flags: tuple[str, ...],
+) -> int:
+    generic_skipped = 0
+    for entity, role in entities:
+        entity_node = _entity_contract_node(entity, role, deal, relevance_tags)
+        if entity_node is None:
+            generic_skipped += 1
+            continue
+        nodes.append(entity_node)
+        source = (entity_node.node_id, entity_node.name, "entity")
+        target = (anchor_id, anchor_name, anchor_type)
+        if not entity_as_source:
+            source, target = target, source
+        edges.append(
+            _contract_edge(
+                source_id=source[0],
+                source_name=source[1],
+                source_type=source[2],
+                target_id=target[0],
+                target_name=target[1],
+                target_type=target[2],
+                relationship_type=relationship_type,
+                deal=deal,
+                tranche_id=tranche_id,
+                notional_usd=notional_usd,
+                source_uri=source_uri,
+                content_hash=content_hash,
+                human_review_status=human_review_status,
+                relevance_tags=relevance_tags,
+                risk_flags=risk_flags,
+            )
+        )
+    return generic_skipped
+
+
+def _add_deal_collateral_project_asset_edges(
+    nodes: list[CapitalContractNode],
+    edges: list[CapitalContractEdge],
+    *,
+    deal: Deal,
+    deal_node_id: str,
+    deal_name: str,
+    notional_usd: float,
+    relevance_tags: tuple[str, ...],
+    risk_flags: tuple[str, ...],
+) -> None:
+    _add_collateral_contract_edges(
+        nodes,
+        edges,
+        source_id=deal_node_id,
+        source_name=deal_name,
+        source_type="deal",
+        deal=deal,
+        tranche_id="",
+        collateral_descriptions=deal.collateral,
+        notional_usd=notional_usd,
+        source_uri=deal.provenance.source_uri,
+        content_hash=deal.provenance.content_hash,
+        human_review_status=deal.provenance.human_review_status.value,
+        relevance_tags=relevance_tags,
+        risk_flags=risk_flags,
+    )
+    _add_project_asset_contract_edges(
+        nodes,
+        edges,
+        source_id=deal_node_id,
+        source_name=deal_name,
+        source_type="deal",
+        deal=deal,
+        notional_usd=notional_usd,
+        relevance_tags=relevance_tags,
+        risk_flags=risk_flags,
+    )
+
+
+def _add_tranche_contract_graph(
+    nodes: list[CapitalContractNode],
+    edges: list[CapitalContractEdge],
+    *,
+    deal: Deal,
+    deal_node_id: str,
+    deal_name: str,
+    index: int,
+    tranche: Any,
+    obligors: list[tuple[str, str]],
+    risk_bearers: list[tuple[str, str]],
+    guarantors: list[tuple[str, str]],
+    relevance_tags: tuple[str, ...],
+) -> int:
+    deal_id = _deal_ref(deal)
+    tranche_id = _tranche_ref(deal_id, index, tranche.name)
+    tranche_node_id = _tranche_contract_node_id(deal_id, index, tranche.name)
+    tranche_flags = _tranche_risk_flags(deal, tranche)
+    tranche_tags = tuple(sorted(set(relevance_tags) | set(_tranche_relevance_tags(tranche))))
+    tranche_name = f"{deal_name} - {tranche.name}"
+    tranche_notional = float(tranche.notional_usd)
+    nodes.append(
+        _contract_node(
+            node_id=tranche_node_id,
+            node_type="tranche",
+            name=tranche_name,
+            deal_id=deal_id,
+            deal_type=deal.deal_type.value,
+            tranche_id=tranche_id,
+            notional_usd=tranche_notional,
+            interest_rate=tranche.interest_rate,
+            maturity=_date_text(tranche.maturity),
+            source_uri=tranche.provenance.source_uri,
+            content_hash=tranche.provenance.content_hash,
+            human_review_status=tranche.provenance.human_review_status.value,
+            relevance_tags=tranche_tags,
+            risk_flags=tranche_flags,
+        )
+    )
+    edges.append(
+        _contract_edge(
+            source_id=deal_node_id,
+            source_name=deal_name,
+            source_type="deal",
+            target_id=tranche_node_id,
+            target_name=tranche_name,
+            target_type="tranche",
+            relationship_type="HAS_TRANCHE",
+            deal=deal,
+            tranche_id=tranche_id,
+            notional_usd=tranche_notional,
+            source_uri=tranche.provenance.source_uri,
+            content_hash=tranche.provenance.content_hash,
+            human_review_status=tranche.provenance.human_review_status.value,
+            relevance_tags=tranche_tags,
+            risk_flags=tranche_flags,
+        )
+    )
+    generic_skipped = _add_contract_entity_edges(
+        nodes,
+        edges,
+        entities=obligors,
+        entity_as_source=True,
+        anchor_id=tranche_node_id,
+        anchor_name=tranche_name,
+        anchor_type="tranche",
+        relationship_type="OBLIGOR_TO_TRANCHE",
+        deal=deal,
+        tranche_id=tranche_id,
+        notional_usd=tranche_notional,
+        source_uri=tranche.provenance.source_uri,
+        content_hash=tranche.provenance.content_hash,
+        human_review_status=tranche.provenance.human_review_status.value,
+        relevance_tags=tranche_tags,
+        risk_flags=tranche_flags,
+    )
+    generic_skipped += _add_contract_entity_edges(
+        nodes,
+        edges,
+        entities=risk_bearers,
+        entity_as_source=False,
+        anchor_id=tranche_node_id,
+        anchor_name=tranche_name,
+        anchor_type="tranche",
+        relationship_type="TRANCHE_RISK_BEARER",
+        deal=deal,
+        tranche_id=tranche_id,
+        notional_usd=tranche_notional,
+        source_uri=tranche.provenance.source_uri,
+        content_hash=tranche.provenance.content_hash,
+        human_review_status=tranche.provenance.human_review_status.value,
+        relevance_tags=tranche_tags,
+        risk_flags=tranche_flags,
+    )
+    generic_skipped += _add_contract_entity_edges(
+        nodes,
+        edges,
+        entities=_dedupe_role_entities(
+            [(str(entity), "guarantor") for entity in tranche.guarantors] + guarantors
+        ),
+        entity_as_source=False,
+        anchor_id=tranche_node_id,
+        anchor_name=tranche_name,
+        anchor_type="tranche",
+        relationship_type="TRANCHE_GUARANTEED_BY",
+        deal=deal,
+        tranche_id=tranche_id,
+        notional_usd=tranche_notional,
+        source_uri=tranche.provenance.source_uri,
+        content_hash=tranche.provenance.content_hash,
+        human_review_status=tranche.provenance.human_review_status.value,
+        relevance_tags=tranche_tags,
+        risk_flags=(*tranche_flags, "guarantee_linked"),
+    )
+    _add_collateral_contract_edges(
+        nodes,
+        edges,
+        source_id=tranche_node_id,
+        source_name=tranche_name,
+        source_type="tranche",
+        deal=deal,
+        tranche_id=tranche_id,
+        collateral_descriptions=[
+            item for item in [tranche.collateral_description, *deal.collateral] if item
+        ],
+        notional_usd=tranche_notional,
+        source_uri=tranche.provenance.source_uri,
+        content_hash=tranche.provenance.content_hash,
+        human_review_status=tranche.provenance.human_review_status.value,
+        relevance_tags=tranche_tags,
+        risk_flags=tranche_flags,
+    )
+    return generic_skipped
+
+
+def _contract_node(
+    *,
+    node_id: str,
+    node_type: str,
+    name: str,
+    deal_id: str,
+    deal_type: str,
+    tranche_id: str,
+    notional_usd: float,
+    interest_rate: float | None,
+    maturity: str,
+    source_uri: str,
+    content_hash: str,
+    human_review_status: str,
+    relevance_tags: tuple[str, ...],
+    risk_flags: tuple[str, ...],
+) -> CapitalContractNode:
+    return CapitalContractNode(
+        node_id=node_id,
+        node_type=node_type,
+        name=name,
+        deal_id=deal_id,
+        deal_type=deal_type,
+        tranche_id=tranche_id,
+        notional_usd=round(notional_usd, 2),
+        interest_rate=interest_rate,
+        maturity=maturity,
+        source_uri=source_uri,
+        content_hash=content_hash,
+        human_review_status=human_review_status,
+        relevance_tags=tuple(sorted(set(relevance_tags))),
+        risk_flags=tuple(sorted(set(risk_flags))),
+    )
+
+
+def _contract_edge(
+    *,
+    source_id: str,
+    source_name: str,
+    source_type: str,
+    target_id: str,
+    target_name: str,
+    target_type: str,
+    relationship_type: str,
+    deal: Deal,
+    tranche_id: str,
+    notional_usd: float,
+    source_uri: str,
+    content_hash: str,
+    human_review_status: str,
+    relevance_tags: tuple[str, ...],
+    risk_flags: tuple[str, ...],
+) -> CapitalContractEdge:
+    return CapitalContractEdge(
+        source_id=source_id,
+        source_name=source_name,
+        source_type=source_type,
+        target_id=target_id,
+        target_name=target_name,
+        target_type=target_type,
+        relationship_type=relationship_type,
+        deal_id=_deal_ref(deal),
+        deal_type=deal.deal_type.value,
+        tranche_id=tranche_id,
+        notional_usd=round(notional_usd, 2),
+        source_uri=source_uri,
+        content_hash=content_hash,
+        human_review_status=human_review_status,
+        relevance_tags=tuple(sorted(set(relevance_tags))),
+        risk_flags=tuple(sorted(set(risk_flags))),
+    )
+
+
+def _entity_contract_node(
+    entity: str,
+    role: str,
+    deal: Deal,
+    relevance_tags: tuple[str, ...],
+) -> CapitalContractNode | None:
+    name = str(entity).strip()
+    if not name or _is_generic_entity(name):
+        return None
+    risk_flags = ("spv_signal",) if _looks_like_spv_name(name) else ()
+    return _contract_node(
+        node_id=_entity_id(name),
+        node_type="entity",
+        name=name,
+        deal_id=_deal_ref(deal),
+        deal_type=deal.deal_type.value,
+        tranche_id="",
+        notional_usd=0.0,
+        interest_rate=None,
+        maturity="",
+        source_uri=deal.provenance.source_uri,
+        content_hash=deal.provenance.content_hash,
+        human_review_status=deal.provenance.human_review_status.value,
+        relevance_tags=relevance_tags,
+        risk_flags=(_normalize_role(role), *risk_flags),
+    )
+
+
+def _add_collateral_contract_edges(
+    nodes: list[CapitalContractNode],
+    edges: list[CapitalContractEdge],
+    *,
+    source_id: str,
+    source_name: str,
+    source_type: str,
+    deal: Deal,
+    tranche_id: str,
+    collateral_descriptions: Iterable[str],
+    notional_usd: float,
+    source_uri: str,
+    content_hash: str,
+    human_review_status: str,
+    relevance_tags: tuple[str, ...],
+    risk_flags: tuple[str, ...],
+) -> None:
+    for index, description in enumerate(collateral_descriptions, start=1):
+        clean = " ".join(str(description).split())
+        if not clean:
+            continue
+        collateral_id = _collateral_node_id(clean)
+        collateral_name = clean[:240]
+        collateral_flags = (*risk_flags, "collateralized")
+        nodes.append(
+            _contract_node(
+                node_id=collateral_id,
+                node_type="collateral",
+                name=collateral_name,
+                deal_id=_deal_ref(deal),
+                deal_type=deal.deal_type.value,
+                tranche_id=tranche_id,
+                notional_usd=notional_usd,
+                interest_rate=None,
+                maturity="",
+                source_uri=source_uri,
+                content_hash=content_hash,
+                human_review_status=human_review_status,
+                relevance_tags=relevance_tags,
+                risk_flags=collateral_flags,
+            )
+        )
+        edges.append(
+            _contract_edge(
+                source_id=source_id,
+                source_name=source_name,
+                source_type=source_type,
+                target_id=collateral_id,
+                target_name=collateral_name,
+                target_type="collateral",
+                relationship_type="SECURED_BY_COLLATERAL",
+                deal=deal,
+                tranche_id=tranche_id or f"collateral:{index}",
+                notional_usd=notional_usd,
+                source_uri=source_uri,
+                content_hash=content_hash,
+                human_review_status=human_review_status,
+                relevance_tags=relevance_tags,
+                risk_flags=collateral_flags,
+            )
+        )
+
+
+def _add_project_asset_contract_edges(
+    nodes: list[CapitalContractNode],
+    edges: list[CapitalContractEdge],
+    *,
+    source_id: str,
+    source_name: str,
+    source_type: str,
+    deal: Deal,
+    notional_usd: float,
+    relevance_tags: tuple[str, ...],
+    risk_flags: tuple[str, ...],
+) -> None:
+    for project in deal.linked_projects:
+        clean = str(project).strip()
+        if not clean:
+            continue
+        node_id = _project_node_id(clean)
+        nodes.append(
+            _contract_node(
+                node_id=node_id,
+                node_type="project",
+                name=clean,
+                deal_id=_deal_ref(deal),
+                deal_type=deal.deal_type.value,
+                tranche_id="",
+                notional_usd=0.0,
+                interest_rate=None,
+                maturity="",
+                source_uri=deal.provenance.source_uri,
+                content_hash=deal.provenance.content_hash,
+                human_review_status=deal.provenance.human_review_status.value,
+                relevance_tags=relevance_tags,
+                risk_flags=risk_flags,
+            )
+        )
+        edges.append(
+            _contract_edge(
+                source_id=source_id,
+                source_name=source_name,
+                source_type=source_type,
+                target_id=node_id,
+                target_name=clean,
+                target_type="project",
+                relationship_type="LINKED_TO_PROJECT",
+                deal=deal,
+                tranche_id="",
+                notional_usd=notional_usd,
+                source_uri=deal.provenance.source_uri,
+                content_hash=deal.provenance.content_hash,
+                human_review_status=deal.provenance.human_review_status.value,
+                relevance_tags=relevance_tags,
+                risk_flags=risk_flags,
+            )
+        )
+    for asset in deal.linked_assets:
+        clean = str(asset).strip()
+        if not clean:
+            continue
+        node_id = _asset_node_id(clean)
+        nodes.append(
+            _contract_node(
+                node_id=node_id,
+                node_type="asset",
+                name=clean,
+                deal_id=_deal_ref(deal),
+                deal_type=deal.deal_type.value,
+                tranche_id="",
+                notional_usd=0.0,
+                interest_rate=None,
+                maturity="",
+                source_uri=deal.provenance.source_uri,
+                content_hash=deal.provenance.content_hash,
+                human_review_status=deal.provenance.human_review_status.value,
+                relevance_tags=relevance_tags,
+                risk_flags=risk_flags,
+            )
+        )
+        edges.append(
+            _contract_edge(
+                source_id=source_id,
+                source_name=source_name,
+                source_type=source_type,
+                target_id=node_id,
+                target_name=clean,
+                target_type="asset",
+                relationship_type="LINKED_TO_ASSET",
+                deal=deal,
+                tranche_id="",
+                notional_usd=notional_usd,
+                source_uri=deal.provenance.source_uri,
+                content_hash=deal.provenance.content_hash,
+                human_review_status=deal.provenance.human_review_status.value,
+                relevance_tags=relevance_tags,
+                risk_flags=risk_flags,
+            )
+        )
+
+
+def _merge_contract_node(
+    nodes: dict[str, CapitalContractNode],
+    node: CapitalContractNode,
+) -> None:
+    current = nodes.get(node.node_id)
+    if current is None:
+        nodes[node.node_id] = node
+        return
+    nodes[node.node_id] = CapitalContractNode(
+        node_id=current.node_id,
+        node_type=current.node_type,
+        name=current.name,
+        deal_id=current.deal_id or node.deal_id,
+        deal_type=current.deal_type or node.deal_type,
+        tranche_id=current.tranche_id or node.tranche_id,
+        notional_usd=max(current.notional_usd, node.notional_usd),
+        interest_rate=current.interest_rate
+        if current.interest_rate is not None
+        else node.interest_rate,
+        maturity=current.maturity or node.maturity,
+        source_uri=current.source_uri or node.source_uri,
+        content_hash=current.content_hash or node.content_hash,
+        human_review_status=current.human_review_status or node.human_review_status,
+        relevance_tags=tuple(sorted(set(current.relevance_tags) | set(node.relevance_tags))),
+        risk_flags=tuple(sorted(set(current.risk_flags) | set(node.risk_flags))),
+    )
+
+
+def _merge_contract_edge(
+    edges: dict[tuple[str, str, str, str, str, str], CapitalContractEdge],
+    edge: CapitalContractEdge,
+) -> None:
+    key = (
+        edge.source_id,
+        edge.target_id,
+        edge.relationship_type,
+        edge.deal_id,
+        edge.tranche_id,
+        edge.content_hash,
+    )
+    current = edges.get(key)
+    if current is None:
+        edges[key] = edge
+        return
+    edges[key] = CapitalContractEdge(
+        source_id=current.source_id,
+        source_name=current.source_name,
+        source_type=current.source_type,
+        target_id=current.target_id,
+        target_name=current.target_name,
+        target_type=current.target_type,
+        relationship_type=current.relationship_type,
+        deal_id=current.deal_id,
+        deal_type=current.deal_type,
+        tranche_id=current.tranche_id,
+        notional_usd=max(current.notional_usd, edge.notional_usd),
+        source_uri=current.source_uri or edge.source_uri,
+        content_hash=current.content_hash or edge.content_hash,
+        human_review_status=current.human_review_status or edge.human_review_status,
+        relevance_tags=tuple(sorted(set(current.relevance_tags) | set(edge.relevance_tags))),
+        risk_flags=tuple(sorted(set(current.risk_flags) | set(edge.risk_flags))),
+    )
 
 
 def _edges_for_deal(deal: Deal) -> tuple[list[dict[str, Any]], int]:
@@ -622,6 +1493,134 @@ def _dedupe_role_entities(items: Iterable[tuple[str, str]]) -> list[tuple[str, s
     return deduped
 
 
+def _guarantor_entities(deal: Deal) -> list[tuple[str, str]]:
+    return _dedupe_role_entities(
+        [
+            *_role_entities(deal.counterparty_roles, {"guarantor"}),
+            *((str(entity), "guarantor") for entity in deal.guarantees),
+        ]
+    )
+
+
+def _deal_ref(deal: Deal) -> str:
+    return deal.source_deal_id or str(deal.id)
+
+
+def _deal_contract_node_id(deal: Deal) -> str:
+    return f"contract:deal:{_stable_fragment(_deal_ref(deal))}"
+
+
+def _tranche_contract_node_id(deal_id: str, index: int, name: str) -> str:
+    return f"contract:tranche:{_stable_fragment(deal_id)}:{index}:{_stable_fragment(name)}"
+
+
+def _tranche_ref(deal_id: str, index: int, name: str) -> str:
+    return f"{deal_id}:tranche:{index}:{_stable_fragment(name)}"
+
+
+def _collateral_node_id(description: str) -> str:
+    return f"collateral:{hashlib.sha256(description.lower().encode()).hexdigest()[:16]}"
+
+
+def _project_node_id(name: str) -> str:
+    return f"project:{_stable_fragment(name)}"
+
+
+def _asset_node_id(name: str) -> str:
+    return f"asset:{_stable_fragment(name)}"
+
+
+def _stable_fragment(value: str) -> str:
+    tokens = re.sub(r"[^a-z0-9]+", "-", value.lower()).strip("-")
+    if tokens:
+        return tokens[:80]
+    return hashlib.sha256(value.encode()).hexdigest()[:16]
+
+
+def _date_text(value: Any) -> str:
+    return value.isoformat() if value else ""
+
+
+def _deal_risk_flags(deal: Deal) -> tuple[str, ...]:
+    flags: set[str] = set()
+    if deal.is_non_recourse:
+        flags.add("non_recourse")
+    if deal.bankruptcy_remote_spv:
+        flags.update({"bankruptcy_remote_spv", "spv_signal"})
+    if deal.is_related_party:
+        flags.add("related_party")
+    if deal.concentration_risk_flag:
+        flags.add("concentration_risk")
+    if deal.collateral:
+        flags.add("collateralized")
+    if deal.guarantees or _role_entities(deal.counterparty_roles, {"guarantor"}):
+        flags.add("guarantee_linked")
+    if _deal_has_spv_signal(deal):
+        flags.add("spv_signal")
+    if deal.debt_tranches:
+        flags.add("tranched")
+    return tuple(sorted(flags))
+
+
+def _tranche_risk_flags(deal: Deal, tranche: Any) -> tuple[str, ...]:
+    flags = set(_deal_risk_flags(deal))
+    if tranche.collateral_description:
+        flags.add("collateralized")
+    if tranche.guarantors:
+        flags.add("guarantee_linked")
+    if tranche.maturity:
+        flags.add("maturity_wall")
+    if tranche.interest_rate is not None:
+        flags.add("priced_debt")
+    if tranche.recourse:
+        flags.add("recourse")
+    return tuple(sorted(flags))
+
+
+def _tranche_relevance_tags(tranche: Any) -> tuple[str, ...]:
+    text = " ".join(
+        [
+            str(tranche.name),
+            tranche.collateral_description or "",
+            " ".join(str(guarantor) for guarantor in tranche.guarantors),
+        ]
+    )
+    tags = [
+        f"direct:{name}"
+        for name, pattern in DIRECT_AI_INFRA_PATTERNS.items()
+        if pattern.search(text)
+    ]
+    tags.extend(
+        f"watchlist:{name}"
+        for name, pattern in WATCHLIST_ENTITY_PATTERNS.items()
+        if pattern.search(text)
+    )
+    return tuple(sorted(set(tags)))
+
+
+def _deal_has_spv_signal(deal: Deal) -> bool:
+    text = " ".join(
+        [
+            deal.title or "",
+            " ".join(str(party) for party in deal.parties),
+            json.dumps(deal.counterparty_roles, sort_keys=True),
+            json.dumps(deal.key_terms, sort_keys=True, default=str),
+        ]
+    )
+    return _looks_like_spv_name(text)
+
+
+def _looks_like_spv_name(value: str) -> bool:
+    return bool(
+        re.search(
+            r"\b(spv|special purpose|bankruptcy[- ]?remote|project company|"
+            r"issuer llc|issuer ltd|holdings llc)\b",
+            value,
+            re.I,
+        )
+    )
+
+
 def _deal_notional(deal: Deal) -> float:
     tranche_total = sum(tranche.notional_usd for tranche in deal.debt_tranches)
     if tranche_total:
@@ -734,16 +1733,9 @@ def _component_risks(
     risks: list[CapitalExposureComponentRisk] = []
     for component in components:
         component_edges = [
-            edge
-            for edge in edges
-            if edge.source_id in component and edge.target_id in component
+            edge for edge in edges if edge.source_id in component and edge.target_id in component
         ]
-        source_uris = {
-            uri
-            for edge in component_edges
-            for uri in edge.source_uris
-            if uri
-        }
+        source_uris = {uri for edge in component_edges for uri in edge.source_uris if uri}
         top_nodes = sorted(
             (node_by_id[node_id] for node_id in component if node_id in node_by_id),
             key=lambda node: (node.exposure_usd, node.deal_count, node.name),
@@ -799,9 +1791,7 @@ def _contagion_hubs(
             continue
         counterparties = _counterparty_rollups(node.node_id, node_edges, node_by_id)
         neighbor_nodes = [
-            node_by_id[neighbor_id]
-            for neighbor_id in counterparties
-            if neighbor_id in node_by_id
+            node_by_id[neighbor_id] for neighbor_id in counterparties if neighbor_id in node_by_id
         ]
         source_uris = {uri for edge in node_edges for uri in edge.source_uris if uri}
         relevance_tags = sorted({tag for edge in node_edges for tag in edge.relevance_tags})
@@ -820,7 +1810,9 @@ def _contagion_hubs(
                 ),
                 ppa_capacity_mw=round(sum(edge.ppa_capacity_mw for edge in node_edges), 3),
                 source_uri_count=len(source_uris),
-                risk_bearer_neighbor_count=sum(_is_risk_bearer_node(item) for item in neighbor_nodes),
+                risk_bearer_neighbor_count=sum(
+                    _is_risk_bearer_node(item) for item in neighbor_nodes
+                ),
                 obligor_neighbor_count=sum(_is_obligor_node(item) for item in neighbor_nodes),
                 relevance_tags=tuple(relevance_tags),
                 top_counterparties=[

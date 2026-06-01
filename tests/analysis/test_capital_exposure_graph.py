@@ -1,6 +1,6 @@
 from bubble.analysis.capital_exposure_graph import build_capital_exposure_graph
 from bubble.models.base import DealType, HumanReviewStatus, Provenance, SourceType
-from bubble.models.deal import Deal
+from bubble.models.deal import Deal, DebtTranche
 
 
 def _provenance(source_uri: str) -> Provenance:
@@ -56,6 +56,64 @@ def test_capital_exposure_graph_builds_named_source_backed_edges() -> None:
     assert graph.summary.top_contagion_hubs[0]["distinct_counterparties"] == 2
     assert graph.summary.top_contagion_hubs[0]["risk_bearer_neighbor_count"] == 2
     assert graph.summary.top_ai_infra_contagion_hubs[0]["name"] == "CoreWeave SPV"
+
+
+def test_capital_exposure_graph_builds_contract_structure_graph() -> None:
+    tranche = DebtTranche(
+        name="Senior secured term loan",
+        seniority=1,
+        notional_usd=1_500_000_000,
+        interest_rate=0.0725,
+        maturity="2028-06-30",
+        collateral_description="first-priority liens on GPU servers and accounts receivable",
+        guarantors=["Example Parent LLC"],
+        provenance=_provenance("sec:credit#tranche-a"),
+        confidence=0.88,
+    )
+    deal = Deal(
+        source_deal_id="deal-contract-1",
+        deal_type=DealType.DEBT_FACILITY,
+        title="CoreWeave SPV GPU collateral credit facility",
+        parties=["CoreWeave SPV LLC", "Apollo Credit"],
+        counterparty_roles={
+            "borrower": ["CoreWeave SPV LLC"],
+            "lender": ["Apollo Credit"],
+            "guarantor": ["Example Parent LLC"],
+        },
+        debt_tranches=[tranche],
+        is_non_recourse=True,
+        bankruptcy_remote_spv=True,
+        collateral=["substantially all GPU server collateral"],
+        guarantees=["Example Parent LLC"],
+        linked_projects=["CoreWeave Campus"],
+        linked_assets=["NVIDIA H100 cluster"],
+        provenance=_provenance("sec:credit"),
+        confidence=0.9,
+    )
+
+    graph = build_capital_exposure_graph([deal])
+    relationship_types = {edge.relationship_type for edge in graph.contract_edges}
+
+    assert graph.summary.contract_nodes >= 9
+    assert graph.summary.contract_edges >= 12
+    assert graph.summary.source_backed_contract_edges == graph.summary.contract_edges
+    assert graph.summary.deal_contract_nodes == 1
+    assert graph.summary.tranche_contract_nodes == 1
+    assert graph.summary.collateral_contract_nodes == 2
+    assert graph.summary.guarantee_contract_edges == 2
+    assert graph.summary.collateral_contract_edges == 3
+    assert graph.summary.project_contract_edges == 1
+    assert graph.summary.asset_contract_edges == 1
+    assert graph.summary.non_recourse_contracts == 2
+    assert graph.summary.bankruptcy_remote_spv_contracts == 2
+    assert graph.summary.spv_flagged_contracts == 2
+    assert graph.summary.tranche_nodes_with_maturity == 1
+    assert graph.summary.tranche_nodes_with_interest_rate == 1
+    assert "HAS_TRANCHE" in relationship_types
+    assert "SECURED_BY_COLLATERAL" in relationship_types
+    assert "TRANCHE_GUARANTEED_BY" in relationship_types
+    assert graph.summary.top_tranche_contract_nodes[0]["source_uri"] == "sec:credit#tranche-a"
+    assert graph.summary.top_collateral_contract_edges[0]["content_hash"]
 
 
 def test_capital_exposure_graph_keeps_ai_component_separate_from_broad_market_graph() -> None:
