@@ -470,6 +470,17 @@ def _query_terms(row: dict[str, str]) -> list[str]:
         _field(row, "recommended_action"),
         _field(row, "entity"),
     ]
+    values.extend(_amount_query_terms(_exposure_basis_usd(row)))
+    if "aggregate_lease_obligation" in _field(row, "reason"):
+        values.extend(
+            [
+                "data centers",
+                "future lease payments",
+                "not yet commenced",
+                "not yet recorded",
+                "finance lease obligations",
+            ]
+        )
     category_terms = {
         "capital": ["committed", "lease", "facility", "notional", "maturity", "borrower"],
         "contract": ["collateral", "guarantor", "maturity", "interest", "tranche"],
@@ -497,6 +508,21 @@ def _query_terms(row: dict[str, str]) -> list[str]:
                 "source",
             }
         )
+    return terms
+
+
+def _amount_query_terms(amount: float) -> list[str]:
+    if amount <= 0:
+        return []
+    terms = [f"{amount:.0f}"]
+    if amount >= 1_000_000_000:
+        billions = amount / 1_000_000_000
+        compact = f"{billions:g}"
+        terms.extend([compact, f"${compact}", f"{compact} billion"])
+    elif amount >= 1_000_000:
+        millions = amount / 1_000_000
+        compact = f"{millions:g}"
+        terms.extend([compact, f"${compact}", f"{compact} million"])
     return terms
 
 

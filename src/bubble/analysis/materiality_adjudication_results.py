@@ -169,10 +169,10 @@ def _adjudicate_packet(
         ai_data_center_linkage=ai_linkage,
         risk_bearer=risk_bearer,
         remaining_gap=" | ".join(gaps),
-        required_next_extraction=_required_next_extraction(packet, gaps),
+        required_next_extraction=_required_next_extraction(packet, quote, gaps),
         evidence_quote=quote,
         evidence_quote_refs=quote_refs,
-        rationale=_rationale(packet, decision, metric_use_status, source_support, gaps),
+        rationale=_rationale(packet, quote, decision, metric_use_status, source_support, gaps),
         adjudicator_id=ADJUDICATOR_ID,
         adjudicated_at=adjudicated_at,
         source_uri=source_uris[0] if source_uris else "",
@@ -217,7 +217,9 @@ def _remaining_gaps(packet: dict[str, str], quote: str) -> list[str]:
     gaps: list[str] = []
     if not quote:
         gaps.append("local source quote not resolved")
-    if "aggregate" in text or "aggregate_lease_obligation" in text:
+    if (
+        "aggregate" in text or "aggregate_lease_obligation" in text
+    ) and not _is_source_backed_aggregate_obligation_snapshot(packet, quote):
         gaps.append("split aggregate disclosure from specific committed obligation")
     if "preliminary prospectus" in text or "not complete and may be changed" in text:
         gaps.append("confirm final prospectus or underlying agreement terms")
@@ -234,6 +236,8 @@ def _remaining_gaps(packet: dict[str, str], quote: str) -> list[str]:
 def _category_gaps(packet: dict[str, str], text: str) -> list[str]:
     category = _field(packet, "category")
     gaps: list[str] = []
+    if category == "capital" and _is_source_backed_aggregate_obligation_snapshot(packet, text):
+        return gaps
     if category in {"capital", "contract"}:
         if not _field(packet, "counterparty"):
             gaps.append("extract named counterparty and role")
@@ -252,9 +256,14 @@ def _category_gaps(packet: dict[str, str], text: str) -> list[str]:
     return gaps
 
 
-def _required_next_extraction(packet: dict[str, str], gaps: list[str]) -> str:
+def _required_next_extraction(packet: dict[str, str], quote: str, gaps: list[str]) -> str:
     if gaps:
         return " | ".join(gaps)
+    if _is_source_backed_aggregate_obligation_snapshot(packet, quote):
+        return (
+            "persist aggregate obligation snapshot by issuer, disclosure date, amount, "
+            "and source quote; do not treat as an individual contract"
+        )
     category = _field(packet, "category")
     defaults = {
         "capital": "persist amount, parties, maturity, recourse, collateral, and duplicate-group decision",
@@ -325,6 +334,13 @@ def _ai_linkage(packet: dict[str, str]) -> str:
 def _risk_bearer(packet: dict[str, str], quote: str, gaps: list[str]) -> str:
     counterparty = _field(packet, "counterparty")
     text = _combined_text(packet, quote)
+    if _is_source_backed_aggregate_obligation_snapshot(packet, quote):
+        entity = _field(packet, "entity")
+        return (
+            f"aggregate obligation snapshot for {entity}; counterparties not itemized"
+            if entity
+            else "aggregate obligation snapshot; counterparties not itemized"
+        )
     if "risk bearer" in " ".join(gaps):
         return "unknown"
     if counterparty and _contains_any(text, ["lender", "noteholder", "trustee", "secured party"]):
@@ -336,6 +352,7 @@ def _risk_bearer(packet: dict[str, str], quote: str, gaps: list[str]) -> str:
 
 def _rationale(
     packet: dict[str, str],
+    quote: str,
     decision: str,
     metric_use_status: str,
     source_support: str,
@@ -343,6 +360,14 @@ def _rationale(
 ) -> str:
     category = _field(packet, "category")
     exposure = _float(packet.get("exposure_basis_usd"))
+    if (
+        metric_use_status == "approved_for_metric_use"
+        and _is_source_backed_aggregate_obligation_snapshot(packet, quote)
+    ):
+        return (
+            f"Source-backed aggregate obligation snapshot is usable for aggregate "
+            f"metrics at ${exposure:,.0f}; it is not treated as an individual contract."
+        )
     if decision == "supported_as_material_blocker":
         return (
             f"Source-backed {category} blocker remains material at "
@@ -439,6 +464,17 @@ def _quote_terms(packet: dict[str, str]) -> list[str]:
         _field(packet, "reason"),
     ]
     terms: list[str] = []
+    terms.extend(_amount_quote_terms(_float(packet.get("exposure_basis_usd"))))
+    if "aggregate_lease_obligation" in _field(packet, "reason"):
+        terms.extend(
+            [
+                "data centers",
+                "future lease payments",
+                "not yet commenced",
+                "not yet recorded",
+                "finance lease obligations",
+            ]
+        )
     for value in raw_terms:
         terms.extend(
             term.lower()
@@ -457,6 +493,21 @@ def _quote_terms(packet: dict[str, str]) -> list[str]:
             }
         )
     return list(dict.fromkeys(terms))
+
+
+def _amount_quote_terms(amount: float) -> list[str]:
+    if amount <= 0:
+        return []
+    terms = [f"{amount:.0f}"]
+    if amount >= 1_000_000_000:
+        billions = amount / 1_000_000_000
+        compact = f"{billions:g}"
+        terms.extend([compact, f"${compact}", f"{compact} billion"])
+    elif amount >= 1_000_000:
+        millions = amount / 1_000_000
+        compact = f"{millions:g}"
+        terms.extend([compact, f"${compact}", f"{compact} million"])
+    return terms
 
 
 def _quote_score(text: str, terms: list[str]) -> int:
@@ -537,6 +588,36 @@ def _combined_text(packet: dict[str, str], quote: str) -> str:
             quote,
         ]
     ).lower()
+
+
+def _is_source_backed_aggregate_obligation_snapshot(
+    packet: dict[str, str],
+    quote: str,
+) -> bool:
+    text = _combined_text(packet, quote)
+    if _field(packet, "category") != "capital":
+        return False
+    if "aggregate_lease_obligation" not in text:
+        return False
+    if _float(packet.get("exposure_basis_usd")) <= 0:
+        return False
+    return _contains_any(
+        text,
+        [
+            "future lease payments",
+            "lease payments",
+            "operating lease obligations",
+            "finance lease obligations",
+        ],
+    ) and _contains_any(
+        text,
+        [
+            "not yet recorded",
+            "not yet commenced",
+            "entered into leases",
+            "consolidated balance sheets",
+        ],
+    )
 
 
 def _contains_any(text: str, needles: list[str]) -> bool:

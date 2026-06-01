@@ -1,15 +1,16 @@
 # Acquisition Status
 
-Last updated: 2026-06-01 18:44 UTC.
+Last updated: 2026-06-01 18:56 UTC.
 
 This file is the operational snapshot for the current evidence corpus. Treat it
 as a run log, not as a final investment conclusion.
 
 ## Current Corpus
 
-- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260601-1841.md`
+- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260601-1856.md`
 - Evidence gate: not high-confidence final.
-- Source invariant audit: passed, 58 CSV files and 8,800,121 rows scanned, 0 violations, 0 warnings.
+- Source invariant audit: passed at 2026-06-01 18:54 UTC, 58 CSV files
+  and 8,800,121 rows scanned, 0 violations, 0 warnings.
 - Generated report assets are internal evidence artifacts; the user-facing
   deliverable remains a high-level chat summary once the evidence supports it.
 - Source catalog artifacts: 586 / 586 attempted in the latest broad public-source run.
@@ -33,9 +34,11 @@ as a run log, not as a final investment conclusion.
   100 source-backed with local evidence snippets, 72 AI-infra relevant, and
   $6.008T of total exposure-basis across the packet set.
 - Automated materiality adjudication decisions: 100 decisions, 89 with resolved
-  text quotes, 28 supported as material blockers, 61 requiring deeper extraction,
-  11 requiring source retrieval/non-binary parsed evidence, and 0 approved for
-  final metric use.
+  text quotes, 31 supported as material blockers, 58 requiring deeper extraction,
+  11 requiring source retrieval/non-binary parsed evidence, and 3 approved for
+  aggregate metric use totaling $176.675B. Those approvals are limited to
+  source-backed aggregate obligation snapshots and are not treated as individual
+  contracts.
 
 ## Phase Transition Readiness
 
@@ -74,6 +77,10 @@ Ready now:
   items, with source snippets and explicit decision fields
 - automated materiality adjudication decision outputs that separate
   source-supported blockers from rows still blocked for final metric use
+- source-backed aggregate obligation snapshots can now be approved for aggregate
+  metric use while still blocking individual contract conclusions until
+  counterparties, recourse, collateral, maturities, and payment schedules are
+  extracted
 
 Must move next:
 
@@ -302,6 +309,11 @@ Adjudication queue:
 - Pending contract-tranche notional: $5.095T.
 - Pending contract-contagion path exposure: $26.387T.
 - Pending compute claim amount: $398.24B.
+- Materiality decisions: 31 source-supported blockers, 58 requiring deeper
+  extraction, 11 requiring source retrieval/non-binary parsed evidence, and 3
+  approved aggregate obligation snapshots.
+- Automated final metric support: $176.675B across 3 source-backed aggregate
+  lease-obligation snapshots.
 
 Weak links:
 

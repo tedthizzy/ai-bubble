@@ -195,6 +195,76 @@ def test_write_materiality_adjudication_packets(tmp_path: Path) -> None:
     assert summary["categories"] == {"compute": 1}
 
 
+def test_materiality_packet_snippet_targets_source_backed_aggregate_lease_amount(
+    tmp_path: Path,
+) -> None:
+    source_path = tmp_path / "data" / "edgar_acquisition" / "documents" / "alphabet.htm"
+    source_path.parent.mkdir(parents=True, exist_ok=True)
+    source_path.write_text(
+        """
+        The summary below describes the principal terms of the notes. The notes
+        are unsecured general obligations of Alphabet Inc.
+
+        As of March 31, 2026, Google and certain other subsidiaries had
+        approximately $2.2 billion in finance lease obligations and no long-term
+        debt outstanding. Additionally, as of March 31, 2026, we have entered
+        into leases primarily related to data centers that have not yet commenced
+        with future lease payments of $75.6 billion, that are not yet recorded
+        on our consolidated balance sheets, a portion of which will represent
+        finance lease obligations.
+        """
+    )
+    _write_csv(
+        tmp_path / "data" / "edgar_acquisition" / "edgar_document_inventory.csv",
+        [
+            {
+                "filing_url": "https://www.sec.gov/alphabet-424b5.htm",
+                "local_path": str(source_path),
+                "content_hash": "e" * 64,
+                "primary_document": "alphabet.htm",
+                "accession_number": "0001-26-000002",
+            }
+        ],
+    )
+    _write_csv(
+        tmp_path / "data" / "reports" / "review_queue.csv",
+        [
+            {
+                "review_id": "review-aggregate",
+                "review_group_id": "group-aggregate",
+                "priority": "critical",
+                "category": "capital",
+                "subcategory": "high_notional_debt_like_candidate",
+                "ecosystem_relevance": "direct_ai_infra",
+                "entity": "Alphabet Inc.",
+                "counterparty": "",
+                "deal_id": "alphabet-lease-snapshot",
+                "source_row_id": "alphabet-lease-snapshot",
+                "notional_amount_usd": "75600000000",
+                "exposure_usd": "0",
+                "capacity_mw": "0",
+                "risk_score": "0",
+                "reason": (
+                    "notional $75,600,000,000; notional context: aggregate_lease_obligation"
+                ),
+                "recommended_action": "Confirm whether row is duplicate or aggregate obligation",
+                "source_uri": "https://www.sec.gov/alphabet-424b5.htm",
+                "source_uris": json.dumps(["https://www.sec.gov/alphabet-424b5.htm"]),
+                "content_hash": "e" * 64,
+                "content_hashes": json.dumps(["e" * 64]),
+                "human_review_status": "pending",
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_packets([tmp_path / "data"], limit=1)
+
+    assert batch.packets[0].evidence_snippets
+    snippet = batch.packets[0].evidence_snippets[0].snippet
+    assert "future lease payments of $75.6 billion" in snippet
+    assert "not yet recorded on our consolidated balance sheets" in snippet
+
+
 def test_materiality_adjudication_decisions_are_conservative(tmp_path: Path) -> None:
     _write_csv(
         tmp_path / "reports" / "materiality_adjudication_packets.csv",
@@ -286,6 +356,68 @@ def test_materiality_adjudication_decisions_are_conservative(tmp_path: Path) -> 
     assert batch.decisions[1].decision == "needs_deeper_extraction"
     assert batch.decisions[1].metric_use_status == "blocked_pending_extraction"
     assert "split aggregate disclosure" in batch.decisions[1].remaining_gap
+
+
+def test_materiality_adjudication_approves_source_backed_aggregate_obligation_snapshot(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-aggregate",
+                "rank": 1,
+                "review_id": "review-aggregate",
+                "review_group_id": "group-aggregate",
+                "priority": "critical",
+                "category": "capital",
+                "subcategory": "high_notional_debt_like_candidate",
+                "ecosystem_relevance": "direct_ai_infra",
+                "entity": "Alphabet Inc.",
+                "counterparty": "",
+                "exposure_basis_usd": "75600000000",
+                "reason": (
+                    "notional context: aggregate_lease_obligation; source extraction "
+                    "marked requires LLM adjudication"
+                ),
+                "recommended_action": "Confirm whether row is duplicate or aggregate obligation",
+                "source_uri": "https://www.sec.gov/alphabet-prospectus.htm",
+                "source_uris": json.dumps(["https://www.sec.gov/alphabet-prospectus.htm"]),
+                "content_hash": "b" * 64,
+                "content_hashes": json.dumps(["b" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/alphabet-prospectus.htm",
+                            "content_hash": "b" * 64,
+                            "document_id": "alphabet-prospectus.htm",
+                            "snippet": (
+                                "We have entered into leases primarily related to data centers "
+                                "that have not yet commenced with future lease payments "
+                                "of $75.6 billion, that are not yet recorded on our "
+                                "consolidated balance sheets."
+                            ),
+                        }
+                    ]
+                ),
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    assert batch.summary.approved_for_metric_use == 1
+    assert batch.summary.final_metric_supported_amount_usd == 75_600_000_000
+    assert batch.decisions[0].decision == "supported_as_material_blocker"
+    assert batch.decisions[0].metric_use_status == "approved_for_metric_use"
+    assert batch.decisions[0].supported_amount_usd == 75_600_000_000
+    assert batch.decisions[0].duplicate_or_aggregate == "yes"
+    assert batch.decisions[0].remaining_gap == ""
+    assert "do not treat as an individual contract" in batch.decisions[0].required_next_extraction
+    assert "not treated as an individual contract" in batch.decisions[0].rationale
 
 
 def test_write_materiality_adjudication_decisions(tmp_path: Path) -> None:
