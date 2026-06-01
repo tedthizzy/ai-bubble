@@ -238,11 +238,12 @@ def _remaining_gaps(packet: dict[str, str], quote: str) -> list[str]:
         gaps.append("extract explicit interest/rent rate evidence")
     if "missing-maturity" in text or "missing maturity" in text:
         gaps.append("extract explicit maturity or payment schedule evidence")
-    gaps.extend(_category_gaps(packet, quote.lower()))
+    gaps.extend(_category_gaps(packet, quote))
     return list(dict.fromkeys(gaps))
 
 
 def _category_gaps(packet: dict[str, str], text: str) -> list[str]:
+    text_lower = text.lower()
     category = _field(packet, "category")
     reason_text = _field(packet, "reason").lower()
     counterparty_text = _field(packet, "counterparty").lower()
@@ -250,10 +251,10 @@ def _category_gaps(packet: dict[str, str], text: str) -> list[str]:
     if category == "capital" and _is_source_backed_aggregate_obligation_snapshot(packet, text):
         return gaps
     if category in {"capital", "contract"}:
-        if not _field(packet, "counterparty"):
+        if not _field(packet, "counterparty") and not _inferred_counterparty_from_quote(text):
             gaps.append("extract named counterparty and role")
         unsecured_scope_present = _contains_any(
-            text,
+            text_lower,
             [
                 "senior unsecured",
                 "unsecured general obligations",
@@ -262,8 +263,8 @@ def _category_gaps(packet: dict[str, str], text: str) -> list[str]:
                 "without collateral",
             ],
         )
-        issuer_note_scope_present = _contains_any(text, ["indenture", "issuer"]) and _contains_any(
-            text, ["notes", "noteholders"]
+        issuer_note_scope_present = _contains_any(text_lower, ["indenture", "issuer"]) and _contains_any(
+            text_lower, ["notes", "noteholders"]
         )
         secured_lender_scope_present = _contains_any(
             reason_text,
@@ -295,7 +296,7 @@ def _category_gaps(packet: dict[str, str], text: str) -> list[str]:
             or unsecured_scope_present
             or issuer_note_scope_present
             or secured_lender_scope_present
-            or _contains_any(text, ["recourse", "non-recourse", "guarantee", "guarantor"])
+            or _contains_any(text_lower, ["recourse", "non-recourse", "guarantee", "guarantor"])
         ):
             gaps.append("determine recourse and guarantee scope")
         collateral_scope_present = _contains_any(
@@ -309,15 +310,19 @@ def _category_gaps(packet: dict[str, str], text: str) -> list[str]:
         if not (
             collateral_scope_present
             or unsecured_scope_present
-            or _contains_any(text, ["collateral", "secured", "security interest", "pledge"])
+            or _contains_any(text_lower, ["collateral", "secured", "security interest", "pledge"])
         ):
             gaps.append("determine collateral scope")
-    if category == "contagion" and not _contains_any(text, ["parent", "subsidiary", "guarantee"]):
+    if category == "contagion" and not _contains_any(
+        text_lower, ["parent", "subsidiary", "guarantee"]
+    ):
         gaps.append("validate legal-entity path and risk transfer mechanism")
-    if category == "physical" and not _contains_any(text, ["queue", "permit", "interconnection"]):
+    if category == "physical" and not _contains_any(
+        text_lower, ["queue", "permit", "interconnection"]
+    ):
         gaps.append("confirm queue, permit, or interconnection record linkage")
     if category == "compute" and not _contains_any(
-        text, ["depreciation", "useful life", "rental", "supply", "gpu"]
+        text_lower, ["depreciation", "useful life", "rental", "supply", "gpu"]
     ):
         gaps.append("attach direct compute-economics source evidence")
     return gaps
@@ -449,6 +454,7 @@ def _ai_linkage(packet: dict[str, str]) -> str:
 def _risk_bearer(packet: dict[str, str], quote: str, gaps: list[str]) -> str:
     counterparty = _field(packet, "counterparty")
     text = _combined_text(packet, quote)
+    inferred_counterparty = _inferred_counterparty_from_quote(quote)
     if _is_source_backed_aggregate_obligation_snapshot(packet, quote):
         entity = _field(packet, "entity")
         return (
@@ -462,7 +468,88 @@ def _risk_bearer(packet: dict[str, str], quote: str, gaps: list[str]) -> str:
         return counterparty
     if counterparty:
         return f"candidate: {counterparty}"
+    if inferred_counterparty:
+        return f"inferred: {inferred_counterparty}"
     return "unknown"
+
+
+def _inferred_counterparty_from_quote(quote: str) -> str:
+    if not quote:
+        return ""
+    lenders_clause = re.search(
+        r"(?:the lenders named therein|the lenders party thereto)\s*,\s*(?P<name>[^;]{2,180}?)\s*,\s*as\s+(?:the\s+)?(?:administrative|collateral|facility|syndication)\s+agent\b",
+        quote,
+        flags=re.IGNORECASE,
+    )
+    if lenders_clause:
+        candidate = _normalize_counterparty_candidate(lenders_clause.group("name"))
+        if candidate:
+            return candidate
+
+    role_clause = re.search(
+        r"(?P<prefix>[^;]{2,320}?)\s*,\s*as\s+(?:the\s+)?(?:administrative|collateral|facility|syndication)\s+agent\b|(?P<prefix_trustee>[^;]{2,320}?)\s*,\s*as\s+(?:the\s+)?trustee\b",
+        quote,
+        flags=re.IGNORECASE,
+    )
+    if not role_clause:
+        return ""
+
+    prefix = role_clause.group("prefix") or role_clause.group("prefix_trustee") or ""
+    fragments = [
+        part.strip(" ,")
+        for part in re.split(r"\bwith\b|\band\b", prefix, flags=re.IGNORECASE)
+        if part.strip(" ,")
+    ]
+    for fragment in reversed(fragments):
+        candidate = _normalize_counterparty_candidate(fragment)
+        if candidate and _looks_like_counterparty_name(candidate):
+            return candidate
+    candidate = _normalize_counterparty_candidate(prefix)
+    if candidate and _looks_like_counterparty_name(candidate):
+        return candidate
+    return ""
+
+
+def _normalize_counterparty_candidate(raw: str) -> str:
+    candidate = _normalize(raw)
+    candidate = re.sub(r"\s*,\s*as\s+.*$", "", candidate, flags=re.IGNORECASE)
+    candidate = re.sub(
+        r"^(?:among|with|and|the lenders named therein|the lenders party thereto)\b[:,\s-]*",
+        "",
+        candidate,
+        flags=re.IGNORECASE,
+    )
+    candidate = candidate.strip(" ,.;:-")
+    if len(candidate) < 4:
+        return ""
+    if _contains_any(candidate.lower(), ["credit agreement", "bridge loan credit agreement"]):
+        return ""
+    return candidate
+
+
+def _looks_like_counterparty_name(candidate: str) -> bool:
+    lowered = candidate.lower()
+    return _contains_any(
+        lowered,
+        [
+            "bank",
+            "trust",
+            "capital",
+            "credit",
+            "securities",
+            "llc",
+            "inc",
+            "corp",
+            "corporation",
+            "ltd",
+            "plc",
+            "n.a",
+            "association",
+            "partners",
+            "holdings",
+            "funding",
+        ],
+    )
 
 
 def _rationale(

@@ -1,13 +1,13 @@
 # Acquisition Status
 
-Last updated: 2026-06-01 22:34 UTC.
+Last updated: 2026-06-01 22:44 UTC.
 
 This file is the operational snapshot for the current evidence corpus. Treat it
 as a run log, not as a final investment conclusion.
 
 ## Current Corpus
 
-- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260601-2234.md`
+- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260601-2244.md`
 - Evidence gate: not high-confidence final.
 - Source invariant audit: passed at 2026-06-01 22:10 UTC, 59 CSV files
   and 8,905,760 rows scanned, 0 violations, 0 warnings.
@@ -88,6 +88,8 @@ Ready now:
   metric use with latest-snapshot dedupe, while still blocking individual
   contract conclusions until counterparties, recourse, collateral, maturities,
   and payment schedules are extracted
+- role-clause counterparty inference now auto-populates agent/trustee
+  counterparties from source quotes when `counterparty` fields are blank
 
 Must move next:
 

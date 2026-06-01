@@ -893,6 +893,63 @@ def test_materiality_adjudication_treats_unsecured_notes_as_scope_resolved(
     assert decision.metric_use_status == "approved_for_metric_use"
 
 
+def test_materiality_adjudication_infers_counterparty_from_quote_role_clause(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-infer-counterparty",
+                "rank": 1,
+                "review_id": "review-infer-counterparty",
+                "review_group_id": "group-infer-counterparty",
+                "priority": "high",
+                "category": "capital",
+                "subcategory": "high_notional_debt_like_candidate",
+                "ecosystem_relevance": "direct_ai_infra",
+                "entity": "Example Borrower, Inc.",
+                "counterparty": "",
+                "exposure_basis_usd": "18000000000",
+                "reason": (
+                    "pending adjudication status: pending; debt-like deal type: debt_facility; "
+                    "notional $18,000,000,000; notional context: transaction_principal; "
+                    "commitment scope: specific_transaction_commitment; "
+                    "collateral terms present; guarantee scope present"
+                ),
+                "recommended_action": "Confirm maturity and pricing terms",
+                "source_uri": "https://www.sec.gov/example-infer.htm",
+                "source_uris": json.dumps(["https://www.sec.gov/example-infer.htm"]),
+                "content_hash": "3" * 64,
+                "content_hashes": json.dumps(["3" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/example-infer.htm",
+                            "content_hash": "3" * 64,
+                            "document_id": "example-infer.htm",
+                            "snippet": (
+                                "Among the Company, the lenders named therein, "
+                                "Bank of America, N.A., as administrative agent."
+                            ),
+                        }
+                    ]
+                ),
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    decision = batch.decisions[0]
+    assert "extract named counterparty and role" not in decision.remaining_gap, decision
+    assert decision.risk_bearer.startswith("inferred:"), decision
+    assert decision.metric_use_status == "approved_for_metric_use", decision
+
+
 def test_write_materiality_adjudication_decisions(tmp_path: Path) -> None:
     _write_csv(
         tmp_path / "reports" / "materiality_adjudication_packets.csv",
