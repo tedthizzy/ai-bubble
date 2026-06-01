@@ -1276,6 +1276,12 @@ def extract_deal_notional_candidate(text: str, *, deal_type: DealType) -> Notion
             candidates.append(series_candidate)
         if rejected_terms or not positive_terms:
             continue
+        if _insufficient_notional_signal(
+            positive_terms=positive_terms,
+            context=context,
+            deal_type=deal_type,
+        ):
+            continue
         score = len(positive_terms)
         candidates.append(
             NotionalCandidate(
@@ -1507,6 +1513,61 @@ def _notional_context_kind(context: str, *, deal_type: DealType) -> str:
     return "transaction_guarantee" if deal_type == DealType.GUARANTEE else "candidate_notional"
 
 
+def _insufficient_notional_signal(
+    *,
+    positive_terms: Sequence[str],
+    context: str,
+    deal_type: DealType,
+) -> bool:
+    unique_terms = {term.strip().lower() for term in positive_terms if term.strip()}
+    if not unique_terms:
+        return True
+
+    strong_terms = {
+        "aggregate principal amount",
+        "principal amount",
+        "credit agreement",
+        "credit facility",
+        "term loan",
+        "revolving credit",
+        "aggregate commitments",
+        "revolving commitments",
+        "loan commitments",
+        "notes due",
+        "senior notes",
+        "secured notes",
+        "lease agreement",
+        "master lease",
+        "power purchase agreement",
+        "energy purchase agreement",
+        "power supply agreement",
+        "purchase price",
+        "guarantee agreement",
+        "guaranty agreement",
+        "guaranteed obligations",
+    }
+    if unique_terms & strong_terms:
+        return False
+
+    if _looks_like_shelf_capacity_context(context) or _looks_like_non_specific_commitment_snapshot_context(
+        context
+    ):
+        return False
+
+    if any(
+        marker in context
+        for marker in (
+            "future lease payments",
+            "operating lease obligations",
+            "finance lease obligations",
+            "lease liabilities",
+        )
+    ):
+        return False
+
+    return len(unique_terms) < 2
+
+
 def _notional_commitment_scope(
     *,
     context_kind: str,
@@ -1538,6 +1599,10 @@ def _notional_commitment_scope(
 def _looks_like_shelf_capacity_context(context: str) -> bool:
     if not context:
         return False
+    if "maximum aggregate amount of those offerings" in context:
+        return True
+    if "filing fees table" in context and "maximum aggregate amount" in context:
+        return True
     shelf_markers = (
         "registration statement",
         "prospectus supplement",
@@ -1617,6 +1682,12 @@ def _notional_rejected_terms(context: str) -> list[str]:
         "increase of $",
         "we had $",
         "outstanding",
+        "contract value based on prevailing market rates",
+        "maximum goal represents approximately",
+        "goal represents approximately",
+        "since commencing investment operations",
+        "debt and equity investments",
+        "prior to any subsequent exits or repayments",
     ]
     matches = [term for term in rejected if term in context]
     if _looks_like_balance_sheet_debt_snapshot(context):

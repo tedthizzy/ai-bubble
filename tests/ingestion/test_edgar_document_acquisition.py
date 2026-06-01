@@ -643,6 +643,55 @@ def test_deal_notional_extractor_rejects_rpo_fundraising_outstanding_and_snapsho
     )
 
 
+def test_deal_notional_extractor_rejects_portfolio_rollup_investment_activity():
+    text = (
+        "Since commencing investment operations on October 13, 2016, and through "
+        "September 30, 2024, the company has invested approximately $8,132.9 billion "
+        "in aggregate principal amount of debt and equity investments prior to any "
+        "subsequent exits or repayments."
+    )
+
+    assert extract_deal_notional_usd(text, deal_type=DealType.DEBT_FACILITY) is None
+    assert extract_deal_notional_usd(text, deal_type=DealType.BOND) is None
+
+
+def test_deal_notional_extractor_rejects_estimated_contract_value_marketing_language():
+    text = (
+        "The 500 MW maximum goal represents approximately $14 billion in contract value "
+        "based on prevailing market rates for AI data center leases."
+    )
+
+    assert extract_deal_notional_usd(text, deal_type=DealType.DEBT_FACILITY) is None
+    assert extract_deal_notional_usd(text, deal_type=DealType.LEASE) is None
+
+
+def test_deal_candidate_marks_maximum_aggregate_offering_amount_as_shelf_capacity(tmp_path: Path):
+    candidate = extract_deal_candidate(
+        {
+            "cik": "0000000123",
+            "company_name": "Example Issuer Inc.",
+            "form": "424B2",
+            "accession_number": "0000000000-26-000014",
+            "primary_document": "filing-fees.htm",
+            "document_type": "exhibit",
+            "primary_document_description": "Filing Fees Table",
+            "filing_url": "https://www.sec.gov/Archives/edgar/data/123/000000000026000014/filing-fees.htm",
+            "relevance_score": "150",
+        },
+        (
+            "FILING FEES TABLE. The maximum aggregate amount of those offerings is "
+            "$5,000,000,000."
+        ),
+        "hash",
+        tmp_path / "filing-fees.htm",
+    )
+
+    assert candidate
+    assert candidate.key_terms["notional_context_kind"] == "aggregate_shelf_capacity"
+    assert candidate.key_terms["notional_commitment_scope"] == "shelf_capacity_non_specific"
+    assert candidate.key_terms["notional_non_specific_obligation"] is True
+
+
 def test_periodic_primary_reports_are_not_treated_as_agreement_candidates(tmp_path: Path):
     candidate = extract_deal_candidate(
         {
