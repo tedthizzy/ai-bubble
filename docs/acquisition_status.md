@@ -1,15 +1,15 @@
 # Acquisition Status
 
-Last updated: 2026-06-01 21:56 UTC.
+Last updated: 2026-06-01 22:15 UTC.
 
 This file is the operational snapshot for the current evidence corpus. Treat it
 as a run log, not as a final investment conclusion.
 
 ## Current Corpus
 
-- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260601-2154.md`
+- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260601-2215.md`
 - Evidence gate: not high-confidence final.
-- Source invariant audit: passed at 2026-06-01 21:55 UTC, 59 CSV files
+- Source invariant audit: passed at 2026-06-01 22:10 UTC, 59 CSV files
   and 8,905,760 rows scanned, 0 violations, 0 warnings.
 - Generated report assets are internal evidence artifacts; the user-facing
   deliverable remains a high-level chat summary once the evidence supports it.
@@ -26,7 +26,7 @@ as a run log, not as a final investment conclusion.
 - Source-backed timing signals: 3,860.
 - Pending source-backed adjudication items: 7,394.
 - Ownership graph: 425,765 LEI nodes, 425,679 named nodes, and 643,828 source-backed relationships.
-- Contract-structure graph: 98,710 nodes and 206,348 source-backed edges.
+- Contract-structure graph: 94,620 nodes and 195,891 source-backed edges.
 - Contract/ownership contagion paths: 10,773 source-backed paths, including
   1,990 ownership-expanded paths, 8,783 contract-only paths, 510 AI-infra
   relevant paths, and 242 high-or-critical paths.
@@ -310,25 +310,33 @@ Capital exposure graph:
 - Nodes: 6,690.
 - Source-backed edges: 10,142.
 - Total edge notional: $10.510T.
-- AI-infra-relevant notional: $659.14B.
-- AI-infra-relevant edges: 233.
-- Contract-structure nodes: 98,699.
-- Source-backed contract-structure edges: 206,278.
+- AI-infra-relevant notional: $659.08B.
+- AI-infra-relevant edges: 232.
+- Contract-structure nodes: 94,620.
+- Source-backed contract-structure edges: 195,891.
 - Deal contract nodes: 62,950.
-- Tranche contract nodes: 10,040.
-- Collateral contract nodes: 14,155.
-- Guarantee contract edges: 1,789.
-- Collateral contract edges: 37,255.
-- Non-recourse deal/tranche contract nodes: 2,585.
+- Tranche contract nodes: 10,051.
+- Collateral contract nodes: 10,065.
+- Guarantee contract edges: 1,791.
+- Collateral contract edges: 26,839.
+- Non-recourse deal/tranche contract nodes: 2,586.
 - Bankruptcy-remote/SPV deal/tranche contract nodes: 1,277.
-- SPV-flagged deal/tranche contract nodes: 26,293.
-- Tranche nodes with maturity: 6,026.
-- Tranche nodes with interest rate: 5,071.
-- Outputs: `data/graph/capital_exposure_nodes.csv`,
-  `data/graph/capital_exposure_edges.csv`,
-  `data/graph/capital_contract_nodes.csv`,
-  `data/graph/capital_contract_edges.csv`, and
-  `data/graph/capital_exposure_graph_summary.json`.
+- SPV-flagged deal/tranche contract nodes: 26,304.
+- Tranche nodes with maturity: 6,037.
+- Tranche nodes with interest rate: 5,081.
+- Outputs: `data/reports/capital_exposure_nodes.csv`,
+  `data/reports/capital_exposure_edges.csv`,
+  `data/reports/capital_contract_nodes.csv`,
+  `data/reports/capital_contract_edges.csv`, and
+  `data/reports/capital_exposure_graph_summary.json`.
+
+Collateral scope quality hardening (2026-06-01 refresh):
+
+- Collateral extraction now rejects non-actionable risk-factor/prospectus
+  boilerplate and only carries actionable collateral descriptions into contract
+  graph edges and risk flags.
+- This removed a large set of false collateral edges without reducing
+  source-backed provenance coverage.
 
 Ownership graph:
 
@@ -348,7 +356,7 @@ Timing layer:
 
 - Peak stress quarter: 2026-Q2.
 - Candidate stress window: 2025-Q3 to 2027-Q3.
-- Capital refinancing 2024-2030: $13.919T.
+- Capital refinancing 2024-2030: $13.9228T.
 - AI-infra capital refinancing 2024-2030: $292.29B.
 - Physical capacity 2024-2030: 177,293 MW.
 - Compute amount 2024-2030: $219.41B.
@@ -359,15 +367,15 @@ Timing layer:
 Adjudication queue:
 
 - Critical items: 91.
-- High items: 1,031.
-- AI-infra-relevant items: 786.
-- Contract-tranche adjudication items: 2,506.
+- High items: 1,016.
+- AI-infra-relevant items: 771.
+- Contract-tranche adjudication items: 2,510.
 - Pending capital distinct notional: $20.586T.
 - Pending AI-infra-relevant distinct capital notional: $834.92B.
-- Pending contract-tranche notional: $18.868T.
-- Pending contract-contagion path exposure: $102.712T.
+- Pending contract-tranche notional: $18.876T.
+- Pending contract-contagion path exposure: $101.518T.
 - Pending compute claim amount: $398.24B.
-- Materiality packets: 250 source-backed packets, 185 AI-infra relevant, all
+- Materiality packets: 250 source-backed packets, 182 AI-infra relevant, all
   with local evidence snippets.
 - Materiality decisions: 35 source-supported blockers, 189 requiring deeper
   extraction, 26 requiring source retrieval/non-binary parsed evidence, and 5
@@ -375,23 +383,22 @@ Adjudication queue:
 - Automated row-level supported amount approved for metric use: $181.885B.
 - Deduped automated final metric support: $80.81B across 3 latest-snapshot
   metric groups.
-- Stricter quote-level contagion gating now blocks 30 contagion/legal-path rows until the
-  evidence quote itself supports the legal-entity path and risk-transfer
-  mechanism.
+- Contagion/legal-path adjudication still blocks unresolved legal-path and
+  risk-transfer claims until explicit source quotes support the path.
 
 Contract/ownership contagion:
 
-- Source-backed paths: 10,817.
-- Ownership-expanded paths: 1,998.
-- Contract-only paths: 8,819.
-- AI-infra-relevant paths: 525.
+- Source-backed paths: 10,773.
+- Ownership-expanded paths: 1,990.
+- Contract-only paths: 8,783.
+- AI-infra-relevant paths: 510.
 - Guarantee paths: 449.
-- Collateral paths: 8,400.
-- Non-recourse paths: 2,558.
-- SPV paths: 10,557.
-- High/critical paths: 257.
-- Total path notional: $120.143T.
-- AI-infra-relevant path notional: $3.326T.
+- Collateral paths: 8,364.
+- Non-recourse paths: 2,524.
+- SPV paths: 10,513.
+- High/critical paths: 242.
+- Total path notional: $118.907T.
+- AI-infra-relevant path notional: $2.192T.
 - Default path cap raised to 50,000 so this layer is not clipped at the prior
   10,000-path script default.
 

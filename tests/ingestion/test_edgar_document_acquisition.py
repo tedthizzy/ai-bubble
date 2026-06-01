@@ -299,6 +299,15 @@ def test_document_text_and_term_extractors_handle_common_sec_language():
     )
 
 
+def test_collateral_extractor_rejects_generic_risk_factor_collateral_language():
+    text = (
+        "As a result, investors may not be able to liquidate their investment readily, "
+        "and lenders may not readily accept the notes as collateral for loans."
+    )
+
+    assert extract_collateral_descriptions(text) == []
+
+
 def test_deal_notional_extractor_ignores_aum_and_selects_contract_amount():
     text = (
         "As of December 31, 2025, we had total Assets Under Management (AUM) of "

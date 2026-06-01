@@ -239,3 +239,31 @@ def test_capital_exposure_graph_marks_non_specific_obligation_flags() -> None:
     assert "aggregate_snapshot" in risk_flags
     assert "shelf_capacity" in risk_flags
     assert "non_specific_obligation" in risk_flags
+
+
+def test_capital_exposure_graph_skips_non_actionable_collateral_language() -> None:
+    deal = Deal(
+        source_deal_id="deal-collateral-risk-factor",
+        deal_type=DealType.DEBT_FACILITY,
+        title="Credit agreement risk factors",
+        parties=["Example Borrower LLC", "Example Lender Bank"],
+        counterparty_roles={
+            "borrower": ["Example Borrower LLC"],
+            "lender": ["Example Lender Bank"],
+        },
+        notional_amount_usd=4_000_000_000,
+        collateral=[
+            (
+                "As a result, investors may not be able to liquidate their investment readily, "
+                "and lenders may not readily accept the notes as collateral for loans."
+            )
+        ],
+        provenance=_provenance("sec:collateral-risk-factor"),
+        confidence=0.8,
+    )
+
+    graph = build_capital_exposure_graph([deal])
+
+    assert graph.summary.collateral_contract_edges == 0
+    assert graph.summary.collateral_contract_nodes == 0
+    assert all(edge.relationship_type != "SECURED_BY_COLLATERAL" for edge in graph.contract_edges)

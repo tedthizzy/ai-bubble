@@ -2061,6 +2061,8 @@ def extract_collateral_descriptions(text: str, *, max_descriptions: int = 3) -> 
                 _amount_sentence_context(snippet, match.start(), match.end()),
                 max_length=260,
             )
+            if not _is_actionable_collateral_context(context):
+                continue
             key = context.lower()
             if not context or key in seen:
                 continue
@@ -2069,6 +2071,72 @@ def extract_collateral_descriptions(text: str, *, max_descriptions: int = 3) -> 
             if len(descriptions) >= max_descriptions:
                 return descriptions
     return descriptions
+
+
+def _is_actionable_collateral_context(context: str) -> bool:
+    if not context:
+        return False
+    lowered = context.lower()
+    reject_phrases = (
+        "investors may",
+        "may not be able",
+        "may not readily accept",
+        "for example",
+        "could result in",
+        "risk factor",
+        "quality and enforceability",
+        "ability to create",
+        "ability to incur",
+        "contains covenants limiting",
+        "preliminary prospectus",
+        "not complete and may be changed",
+    )
+    if any(phrase in lowered for phrase in reject_phrases):
+        return False
+
+    strong_terms = (
+        "secured by",
+        "security interest in",
+        "security interests in",
+        "lien on",
+        "liens on",
+        "first-priority lien",
+        "first priority lien",
+        "second-priority lien",
+        "second priority lien",
+        "pledge of",
+        "pledged",
+        "mortgage on",
+        "collateral consists of",
+    )
+    if any(term in lowered for term in strong_terms):
+        return True
+
+    if "collateral" in lowered and any(
+        marker in lowered
+        for marker in (
+            "substantially all",
+            "assets",
+            "property",
+            "equipment",
+            "server",
+            "gpu",
+            "accounts receivable",
+            "inventory",
+            "equity interests",
+            "membership interests",
+            "real property",
+            "project assets",
+        )
+    ):
+        return True
+
+    if "senior secured" not in lowered:
+        return False
+    return any(
+        token in lowered
+        for token in ("facility", "loan", "notes", "obligations", "borrowings")
+    )
 
 
 def extract_guarantee_evidence(

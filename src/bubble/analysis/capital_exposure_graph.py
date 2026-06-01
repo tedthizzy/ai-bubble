@@ -1157,7 +1157,7 @@ def _add_collateral_contract_edges(
 ) -> None:
     for index, description in enumerate(collateral_descriptions, start=1):
         clean = " ".join(str(description).split())
-        if not clean:
+        if not clean or not _is_actionable_collateral_description(clean):
             continue
         collateral_id = _collateral_node_id(clean)
         collateral_name = clean[:240]
@@ -1551,7 +1551,7 @@ def _deal_risk_flags(deal: Deal) -> tuple[str, ...]:
         flags.add("related_party")
     if deal.concentration_risk_flag:
         flags.add("concentration_risk")
-    if deal.collateral:
+    if _has_actionable_deal_collateral(deal):
         flags.add("collateralized")
     if deal.guarantees or _role_entities(deal.counterparty_roles, {"guarantor"}):
         flags.add("guarantee_linked")
@@ -1582,7 +1582,7 @@ def _notional_scope_risk_flags(deal: Deal) -> set[str]:
 
 def _tranche_risk_flags(deal: Deal, tranche: Any) -> tuple[str, ...]:
     flags = set(_deal_risk_flags(deal))
-    if tranche.collateral_description:
+    if _is_actionable_collateral_description(str(tranche.collateral_description or "")):
         flags.add("collateralized")
     if tranche.guarantors:
         flags.add("guarantee_linked")
@@ -1614,6 +1614,76 @@ def _tranche_relevance_tags(tranche: Any) -> tuple[str, ...]:
         if pattern.search(text)
     )
     return tuple(sorted(set(tags)))
+
+
+def _has_actionable_deal_collateral(deal: Deal) -> bool:
+    return any(
+        _is_actionable_collateral_description(str(description))
+        for description in deal.collateral
+    )
+
+
+def _is_actionable_collateral_description(description: str) -> bool:
+    clean = " ".join(description.split()).strip().lower()
+    if not clean:
+        return False
+    reject_phrases = (
+        "investors may",
+        "may not be able",
+        "may not readily accept",
+        "for example",
+        "could result in",
+        "risk factor",
+        "quality and enforceability",
+        "ability to create",
+        "ability to incur",
+        "contains covenants limiting",
+        "preliminary prospectus",
+        "not complete and may be changed",
+    )
+    if any(phrase in clean for phrase in reject_phrases):
+        return False
+    strong_terms = (
+        "secured by",
+        "security interest in",
+        "security interests in",
+        "lien on",
+        "liens on",
+        "first-priority lien",
+        "first priority lien",
+        "second-priority lien",
+        "second priority lien",
+        "pledge of",
+        "pledged",
+        "mortgage on",
+        "collateral consists of",
+    )
+    if any(term in clean for term in strong_terms):
+        return True
+    if "collateral" in clean and any(
+        marker in clean
+        for marker in (
+            "substantially all",
+            "assets",
+            "property",
+            "equipment",
+            "server",
+            "gpu",
+            "accounts receivable",
+            "inventory",
+            "equity interests",
+            "membership interests",
+            "real property",
+            "project assets",
+        )
+    ):
+        return True
+    if "senior secured" not in clean:
+        return False
+    return any(
+        token in clean
+        for token in ("facility", "loan", "notes", "obligations", "borrowings")
+    )
 
 
 def _deal_has_spv_signal(deal: Deal) -> bool:
