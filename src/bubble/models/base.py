@@ -50,8 +50,8 @@ class Provenance(BaseModel):
     """
     Immutable lineage record attached to every piece of data.
 
-    This is what allows a human analyst (or future automated auditor)
-    to trace any conclusion back to its exact source, prompt, model, and time.
+    This is what allows automated adjudication and audit code to trace any
+    conclusion back to its exact source, prompt, model, and time.
     """
 
     model_config = ConfigDict(frozen=True)

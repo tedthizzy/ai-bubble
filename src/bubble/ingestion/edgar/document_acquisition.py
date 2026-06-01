@@ -2,7 +2,7 @@
 EDGAR document acquisition and deterministic agreement candidate extraction.
 
 This module turns an EDGAR filing manifest into source documents and a first-pass
-capital evidence CSV. The generated deals are deliberately pending-review:
+capital evidence CSV. The generated deals are deliberately pending adjudication:
 they are useful extraction candidates, not final approved facts.
 """
 
@@ -510,9 +510,11 @@ def acquire_edgar_documents_from_manifest(
     retry_backoff_seconds: float = 0.5,
     resume: bool = True,
     write_outputs: bool = True,
+    progress_interval: int = 0,
+    progress_callback: Callable[[int, int], None] | None = None,
 ) -> EdgarAcquisitionBatch:
     """
-    Download prioritized EDGAR documents and emit pending-review deal candidates.
+    Download prioritized EDGAR documents and emit pending-adjudication deal candidates.
 
     The output directory can be passed directly to `scripts/ingest_capital_evidence.py`
     because this function writes a compatible `deals.csv`.
@@ -552,7 +554,13 @@ def acquire_edgar_documents_from_manifest(
             )
             for index, row in enumerate(selected_rows)
         ]
-        results = [future.result() for future in as_completed(futures)]
+        total = len(futures)
+        for completed, future in enumerate(as_completed(futures), start=1):
+            results.append(future.result())
+            if progress_callback and (
+                completed == total or (progress_interval > 0 and completed % progress_interval == 0)
+            ):
+                progress_callback(completed, total)
 
     results.sort(key=lambda result: result.index)
     documents = [result.document for result in results if result.document is not None]
@@ -677,7 +685,7 @@ def extract_deal_candidate(
     content_hash: str,
     local_path: str | Path,
 ) -> DealCandidate | None:
-    """Extract a deterministic pending-review deal candidate from source text."""
+    """Extract a deterministic pending-adjudication deal candidate from source text."""
 
     if _is_periodic_primary_report(manifest_row):
         return None

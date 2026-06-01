@@ -42,7 +42,7 @@ Every section contains concrete actions, commands, code, data sources, schemas, 
 **Daily/Weekly Cadence for the Agent:**
 - Morning: Ingest new data from priority sources (EDGAR deltas, queue updates).
 - Midday: Model new relationships and run red flag/scenario analysis on new entities.
-- Afternoon: Update reports and flag high-impact items for human review.
+- Afternoon: Update reports and run automated LLM adjudication on high-impact items.
 - End of day: Document what was added and confidence impact.
 
 ---
@@ -160,7 +160,7 @@ Every section contains concrete actions, commands, code, data sources, schemas, 
 **Implementation Steps:**
 1. Extend the current Pydantic models to match this schema exactly.
 2. In the graph client, add methods for bulk import of nodes and relationships with full provenance on every property.
-3. For every new piece of data (EDGAR, queue, permit, contract), create the appropriate nodes and relationships with source_uri, retrieved_at, confidence, and human_review_status.
+3. For every new piece of data (EDGAR, queue, permit, contract), create the appropriate nodes and relationships with source_uri, retrieved_at, confidence, and adjudication status. Existing fields named `human_review_status` are legacy adjudication-status fields and do not imply an operator gate.
 4. Add Cypher indexes and constraints for performance on the key properties (name, maturity_date, risk_score, etc.).
 5. Implement core queries:
    - Total leverage (on + off balance sheet) by ultimate holder.
@@ -195,15 +195,15 @@ Every section contains concrete actions, commands, code, data sources, schemas, 
 - Link to Project nodes.
 
 **Document and Contract Pipeline (Debt/SPV heavy)**
-- For the top 100-150 facilities identified, manually or semi-automatically locate the key credit agreements and bond documents (via EDGAR, company sites, or requests).
+- For the top 100-150 facilities identified, automatically locate the key credit agreements and bond documents through EDGAR, company sites, source catalogs, or documented lawful requests.
 - Use Docling + targeted LLM structured extraction (or rules) to pull maturity, guarantees, collateral, SPV details.
 - Store with full provenance.
 
 **Source Data Policy (Strict)**
-- Production source rows must come from an actual source URI, retrieved artifact, or documented manual source.
+- Production source rows must come from an actual source URI, retrieved artifact, or documented curated source.
 - Store retrieval timestamp, source URI, document/accession identifier, content hash, and extracted rows.
 - Analysis may label uncertainty, but source-backed deal/project/relationship data cannot use inferred provenance.
-- High-impact extracted rows remain pending until reviewed or corroborated.
+- High-impact extracted rows remain pending until automated LLM adjudication or corroborating source evidence resolves the gap.
 
 ---
 
@@ -243,7 +243,7 @@ Every major report must contain:
 **Validation Steps Before Any High-Confidence Claim**
 - All numbers must trace back to specific source documents or clearly labeled estimates with rationale.
 - Run red flag and scenario analysis on a hold-out set of known historical cases if any data is available.
-- Have a human review pass on the top 20 highest-risk items before finalizing any report.
+- Run automated LLM adjudication on the top 20 highest-risk items before finalizing any high-confidence claim.
 
 ---
 

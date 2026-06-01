@@ -627,11 +627,23 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:
         "materiality_adjudication_approved_for_metric_use": (
             materiality_adjudication_decision_summary.get("approved_for_metric_use", 0)
         ),
+        "materiality_adjudication_approved_row_supported_amount_usd": (
+            materiality_adjudication_decision_summary.get(
+                "approved_row_supported_amount_usd",
+                materiality_adjudication_decision_summary.get(
+                    "final_metric_supported_amount_usd",
+                    0,
+                ),
+            )
+        ),
         "materiality_adjudication_final_metric_supported_amount_usd": (
             materiality_adjudication_decision_summary.get(
                 "final_metric_supported_amount_usd",
                 0,
             )
+        ),
+        "materiality_adjudication_final_metric_group_count": (
+            materiality_adjudication_decision_summary.get("final_metric_group_count", 0)
         ),
         "timing_signal_count": timing_signal_summary.get("signals", 0),
         "timing_signal_source_backed_count": timing_signal_summary.get(
@@ -1074,7 +1086,9 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:
                 f"{materiality_adjudication_decision_summary.get('source_quote_backed_decisions', 0)} "
                 f"packet decisions and currently approves "
                 f"{materiality_adjudication_decision_summary.get('approved_for_metric_use', 0)} "
-                f"for final metric use. "
+                f"rows for metric use across "
+                f"{materiality_adjudication_decision_summary.get('final_metric_group_count', 0)} "
+                f"deduped metric groups. "
                 f"The timing calendar currently has "
                 f"{timing_signal_summary.get('source_backed_signals', 0)} "
                 f"source-backed crack-window signals. "

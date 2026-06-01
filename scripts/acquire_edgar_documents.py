@@ -21,6 +21,7 @@ def main() -> None:
     parser.add_argument("--sec-domain-concurrency", type=int, default=8)
     parser.add_argument("--retry-attempts", type=int, default=3)
     parser.add_argument("--retry-backoff-seconds", type=float, default=0.5)
+    parser.add_argument("--progress-interval", type=int, default=0)
     parser.add_argument("--no-resume", action="store_true")
     parser.add_argument(
         "--overwrite",
@@ -28,6 +29,19 @@ def main() -> None:
         help="Replace output CSVs instead of merging acquired rows into existing inventory/deals.",
     )
     args = parser.parse_args()
+
+    def progress(completed: int, total: int) -> None:
+        print(
+            json.dumps(
+                {
+                    "event": "edgar_document_acquisition_progress",
+                    "completed_documents": completed,
+                    "total_documents": total,
+                },
+                sort_keys=True,
+            ),
+            flush=True,
+        )
 
     batch = acquire_edgar_documents_from_manifest(
         args.manifest_csv,
@@ -41,6 +55,8 @@ def main() -> None:
         retry_backoff_seconds=args.retry_backoff_seconds,
         resume=not args.no_resume,
         write_outputs=False,
+        progress_interval=args.progress_interval,
+        progress_callback=progress if args.progress_interval > 0 else None,
     )
     outputs = batch.write_outputs(args.output_dir, merge_existing=not args.overwrite)
 

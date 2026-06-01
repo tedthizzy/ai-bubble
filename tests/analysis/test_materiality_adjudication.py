@@ -358,6 +358,62 @@ def test_materiality_adjudication_decisions_are_conservative(tmp_path: Path) -> 
     assert "split aggregate disclosure" in batch.decisions[1].remaining_gap
 
 
+def test_materiality_adjudication_requires_quote_level_contagion_evidence(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-contagion",
+                "rank": 1,
+                "review_id": "review-contagion",
+                "review_group_id": "group-contagion",
+                "priority": "high",
+                "category": "contagion",
+                "subcategory": "contract_only",
+                "ecosystem_relevance": "direct_ai_infra",
+                "entity": "Alphabet Inc. - 424B5",
+                "counterparty": "noteholders",
+                "exposure_basis_usd": "75600000000",
+                "reason": (
+                    "contract only contagion path; contract relationship: "
+                    "SECURED_BY_COLLATERAL; notional $75,600,000,000"
+                ),
+                "recommended_action": "Validate legal-entity path and risk transfer mechanism",
+                "source_uri": "https://www.sec.gov/alphabet-prospectus.htm",
+                "source_uris": json.dumps(["https://www.sec.gov/alphabet-prospectus.htm"]),
+                "content_hash": "c" * 64,
+                "content_hashes": json.dumps(["c" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/alphabet-prospectus.htm",
+                            "content_hash": "c" * 64,
+                            "document_id": "alphabet-prospectus.htm",
+                            "snippet": (
+                                "As a result, investors may not be able to liquidate "
+                                "their investment readily, and lenders may not readily "
+                                "accept the notes as collateral for loans."
+                            ),
+                        }
+                    ]
+                ),
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    assert batch.summary.supported_as_material_blocker == 0
+    assert batch.summary.needs_deeper_extraction == 1
+    assert batch.decisions[0].decision == "needs_deeper_extraction"
+    assert "validate legal-entity path" in batch.decisions[0].remaining_gap
+
+
 def test_materiality_adjudication_approves_source_backed_aggregate_obligation_snapshot(
     tmp_path: Path,
 ) -> None:
@@ -392,10 +448,10 @@ def test_materiality_adjudication_approves_source_backed_aggregate_obligation_sn
                             "content_hash": "b" * 64,
                             "document_id": "alphabet-prospectus.htm",
                             "snippet": (
-                                "We have entered into leases primarily related to data centers "
-                                "that have not yet commenced with future lease payments "
-                                "of $75.6 billion, that are not yet recorded on our "
-                                "consolidated balance sheets."
+                                "As of March 31, 2026, we have entered into leases "
+                                "primarily related to data centers that have not yet "
+                                "commenced with future lease payments of $75.6 billion, "
+                                "that are not yet recorded on our consolidated balance sheets."
                             ),
                         }
                     ]
@@ -410,14 +466,83 @@ def test_materiality_adjudication_approves_source_backed_aggregate_obligation_sn
     )
 
     assert batch.summary.approved_for_metric_use == 1
+    assert batch.summary.approved_row_supported_amount_usd == 75_600_000_000
     assert batch.summary.final_metric_supported_amount_usd == 75_600_000_000
+    assert batch.summary.final_metric_group_count == 1
     assert batch.decisions[0].decision == "supported_as_material_blocker"
     assert batch.decisions[0].metric_use_status == "approved_for_metric_use"
     assert batch.decisions[0].supported_amount_usd == 75_600_000_000
+    assert (
+        batch.decisions[0].metric_group_id
+        == "aggregate-obligation-snapshot:alphabet-inc:high-notional-debt-like-candidate"
+    )
+    assert batch.decisions[0].metric_snapshot_date == "2026-03-31"
+    assert batch.decisions[0].metric_aggregation_policy == "latest_snapshot_per_metric_group"
     assert batch.decisions[0].duplicate_or_aggregate == "yes"
     assert batch.decisions[0].remaining_gap == ""
     assert "do not treat as an individual contract" in batch.decisions[0].required_next_extraction
     assert "not treated as an individual contract" in batch.decisions[0].rationale
+
+
+def test_materiality_adjudication_dedupes_aggregate_snapshots_to_latest_metric(
+    tmp_path: Path,
+) -> None:
+    rows = []
+    for rank, amount, snapshot_date, uri in [
+        (1, "75600000000", "March 31, 2026", "https://www.sec.gov/alphabet-2026q1.htm"),
+        (2, "42600000000", "September 30, 2025", "https://www.sec.gov/alphabet-2025q3.htm"),
+    ]:
+        rows.append(
+            {
+                "packet_id": f"packet-aggregate-{rank}",
+                "rank": rank,
+                "review_id": f"review-aggregate-{rank}",
+                "review_group_id": f"group-aggregate-{rank}",
+                "priority": "critical",
+                "category": "capital",
+                "subcategory": "high_notional_debt_like_candidate",
+                "ecosystem_relevance": "direct_ai_infra",
+                "entity": "Alphabet Inc.",
+                "counterparty": "",
+                "exposure_basis_usd": amount,
+                "reason": "notional context: aggregate_lease_obligation",
+                "recommended_action": "Confirm whether row is duplicate or aggregate obligation",
+                "source_uri": uri,
+                "source_uris": json.dumps([uri]),
+                "content_hash": f"{rank}" * 64,
+                "content_hashes": json.dumps([f"{rank}" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": uri,
+                            "content_hash": f"{rank}" * 64,
+                            "document_id": f"alphabet-{rank}.htm",
+                            "snippet": (
+                                f"Additionally, as of {snapshot_date}, we have entered into "
+                                "leases primarily related to data centers that have not yet "
+                                f"commenced with future lease payments of ${float(amount) / 1_000_000_000:g} "
+                                "billion, that are not yet recorded on our consolidated balance sheets."
+                            ),
+                        }
+                    ]
+                ),
+            }
+        )
+    _write_csv(tmp_path / "reports" / "materiality_adjudication_packets.csv", rows)
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    assert batch.summary.approved_for_metric_use == 2
+    assert batch.summary.approved_row_supported_amount_usd == 118_200_000_000
+    assert batch.summary.final_metric_supported_amount_usd == 75_600_000_000
+    assert batch.summary.final_metric_group_count == 1
+    assert [decision.metric_snapshot_date for decision in batch.decisions] == [
+        "2026-03-31",
+        "2025-09-30",
+    ]
 
 
 def test_write_materiality_adjudication_decisions(tmp_path: Path) -> None:

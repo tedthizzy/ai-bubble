@@ -379,6 +379,8 @@ def build_edgar_exhibit_manifest_from_manifest(
     sec_domain_concurrency: int = 8,
     retry_attempts: int = 3,
     retry_backoff_seconds: float = 0.5,
+    progress_interval: int = 0,
+    progress_callback: Callable[[int, int], None] | None = None,
 ) -> FilingManifest:
     """
     Build an exhibit-only follow-on manifest from an existing primary manifest.
@@ -416,6 +418,8 @@ def build_edgar_exhibit_manifest_from_manifest(
         max_workers=exhibit_index_workers,
         retry_attempts=retry_attempts,
         retry_backoff_seconds=retry_backoff_seconds,
+        progress_interval=progress_interval,
+        progress_callback=progress_callback,
     )
     parent_keys_with_exhibits = {
         (record.cik, record.accession_number)
@@ -640,6 +644,8 @@ def _exhibit_records_for_filings(
     max_workers: int,
     retry_attempts: int,
     retry_backoff_seconds: float,
+    progress_interval: int = 0,
+    progress_callback: Callable[[int, int], None] | None = None,
 ) -> list[FilingRecord]:
     if max_exhibits_per_filing <= 0:
         return []
@@ -663,7 +669,13 @@ def _exhibit_records_for_filings(
             )
             for index, filing in enumerate(candidates)
         ]
-        results = [future.result() for future in as_completed(futures)]
+        total = len(futures)
+        for completed, future in enumerate(as_completed(futures), start=1):
+            results.append(future.result())
+            if progress_callback and (
+                completed == total or (progress_interval > 0 and completed % progress_interval == 0)
+            ):
+                progress_callback(completed, total)
 
     return [
         exhibit

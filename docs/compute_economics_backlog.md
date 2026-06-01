@@ -1,8 +1,9 @@
 # Compute Economics Add-On Backlog
 
-This is a queued extension to the Burry report system. It should be implemented
-after the current source-backed acquisition and physical-risk pipeline is stable
-enough to support repeatable report refreshes.
+This is an active extension to the Burry report system. The first source-backed
+models, loaders, analyzer, tests, and report wiring exist; the remaining work is
+broader source acquisition, automated adjudication, and calibration against the
+highest-materiality compute claims.
 
 The goal is to add a compute economics lens that tests whether AI capex can
 earn through realistic GPU depreciation, utilization, pricing, and TAM limits.
@@ -310,9 +311,15 @@ Core outputs:
 ## Implementation Order
 
 Current implementation status: the source-backed models, strict CSV loader,
-deterministic analyzer, tests, and final-report section are implemented. The
-remaining work is real source acquisition into `data/compute/` and broader
-report calibration once those rows exist.
+deterministic analyzer, tests, EDGAR compute extractor, and final-report section
+are implemented. The 2026-06-01 20:30 UTC refresh scanned the expanded 66,072
+document EDGAR inventory and retained the first source-backed compute economics
+set: 166 total rows across 49 compute assets, 45 GPU price observations, 49
+depreciation policies, 10 TAM claims, 2 capex-payback cases, 2 EPS
+depreciation-impact rows, and 9 chip-supply observations. These rows are early
+evidence, not high-confidence conclusions; the next work is broader source
+acquisition, quote-level adjudication, and calibration against the
+highest-materiality claims.
 
 1. Add Pydantic models for `ComputeAsset`, `GpuPriceObservation`,
    `DepreciationPolicy`, `TamClaim`, `CapexPaybackCase`,

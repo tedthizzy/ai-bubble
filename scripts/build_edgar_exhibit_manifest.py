@@ -22,8 +22,22 @@ def main() -> None:
     parser.add_argument("--sec-domain-concurrency", type=int, default=8)
     parser.add_argument("--retry-attempts", type=int, default=3)
     parser.add_argument("--retry-backoff-seconds", type=float, default=0.5)
+    parser.add_argument("--progress-interval", type=int, default=0)
     parser.add_argument("--output-dir", type=Path, default=Path("data/manifests"))
     args = parser.parse_args()
+
+    def progress(completed: int, total: int) -> None:
+        print(
+            json.dumps(
+                {
+                    "event": "edgar_exhibit_manifest_progress",
+                    "completed_parent_indexes": completed,
+                    "total_parent_indexes": total,
+                },
+                sort_keys=True,
+            ),
+            flush=True,
+        )
 
     manifest = build_edgar_exhibit_manifest_from_manifest(
         args.manifest_csv,
@@ -35,6 +49,8 @@ def main() -> None:
         sec_domain_concurrency=args.sec_domain_concurrency,
         retry_attempts=args.retry_attempts,
         retry_backoff_seconds=args.retry_backoff_seconds,
+        progress_interval=args.progress_interval,
+        progress_callback=progress if args.progress_interval > 0 else None,
     )
 
     args.output_dir.mkdir(parents=True, exist_ok=True)

@@ -368,6 +368,7 @@ Coverage reporting separates queued catalog targets from acquired artifacts, so 
 
 Acquisition is parallel by default. `source-acquire` uses a bounded worker pool (`--max-workers`, default 64), per-domain concurrency gates, retries with exponential backoff, and resume mode so existing raw artifacts are parsed without redownloading. SEC-hosted URLs require `EDGAR_IDENTITY` and are capped below the SEC's published 10 requests/second fair-access limit by default (`--sec-requests-per-second 8`; see SEC Developer Resources: https://www.sec.gov/about/developer-resources).
 Acquisition summary JSONs persist the actual worker count, SEC/non-SEC request-rate settings, per-domain concurrency settings, retry count, and resume status used for each run.
+Long EDGAR exhibit-manifest and document-acquisition runs accept `--progress-interval N` to emit machine-readable progress events every N completed parent indexes or documents.
 
 The current operational corpus snapshot is tracked in `docs/acquisition_status.md`.
 Update that file after material acquisition, extraction, adjudication-queue, timing, or

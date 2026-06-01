@@ -13,7 +13,7 @@ import json
 import re
 from collections import Counter
 from dataclasses import asdict, dataclass
-from datetime import UTC, datetime
+from datetime import UTC, date, datetime
 from pathlib import Path
 from typing import Any
 
@@ -44,6 +44,9 @@ class MaterialityAdjudicationDecision:
     source_support: str
     confidence: float
     supported_amount_usd: float
+    metric_group_id: str
+    metric_snapshot_date: str
+    metric_aggregation_policy: str
     duplicate_or_aggregate: str
     ai_data_center_linkage: str
     risk_bearer: str
@@ -77,7 +80,9 @@ class MaterialityAdjudicationDecisionSummary:
     rejected_or_deprioritized: int
     ai_infra_relevant_decisions: int
     total_exposure_basis_usd: float
+    approved_row_supported_amount_usd: float
     final_metric_supported_amount_usd: float
+    final_metric_group_count: int
     blocker_exposure_basis_usd: float
     decisions_by_status: dict[str, int]
     decisions_by_category: dict[str, int]
@@ -147,6 +152,9 @@ def _adjudicate_packet(
     exposure_basis = _float(packet.get("exposure_basis_usd"))
     supported_amount = exposure_basis if metric_use_status == "approved_for_metric_use" else 0.0
     risk_bearer = _risk_bearer(packet, quote, gaps)
+    metric_group_id = _metric_group_id(packet, quote, metric_use_status)
+    metric_snapshot_date = _metric_snapshot_date(packet, quote, metric_use_status)
+    metric_aggregation_policy = _metric_aggregation_policy(packet, quote, metric_use_status)
 
     return MaterialityAdjudicationDecision(
         packet_id=_field(packet, "packet_id"),
@@ -165,6 +173,9 @@ def _adjudicate_packet(
         source_support=source_support,
         confidence=confidence,
         supported_amount_usd=round(supported_amount, 2),
+        metric_group_id=metric_group_id,
+        metric_snapshot_date=metric_snapshot_date,
+        metric_aggregation_policy=metric_aggregation_policy,
         duplicate_or_aggregate=duplicate_or_aggregate,
         ai_data_center_linkage=ai_linkage,
         risk_bearer=risk_bearer,
@@ -229,7 +240,7 @@ def _remaining_gaps(packet: dict[str, str], quote: str) -> list[str]:
         gaps.append("extract explicit interest/rent rate evidence")
     if "missing-maturity" in text or "missing maturity" in text:
         gaps.append("extract explicit maturity or payment schedule evidence")
-    gaps.extend(_category_gaps(packet, text))
+    gaps.extend(_category_gaps(packet, quote.lower()))
     return list(dict.fromkeys(gaps))
 
 
@@ -316,6 +327,54 @@ def _duplicate_or_aggregate(packet: dict[str, str], quote: str) -> str:
     if "single" in text and "obligation" in text:
         return "no"
     return "unknown"
+
+
+def _metric_group_id(
+    packet: dict[str, str],
+    quote: str,
+    metric_use_status: str,
+) -> str:
+    if metric_use_status not in FINAL_METRIC_DECISIONS:
+        return ""
+    if _is_source_backed_aggregate_obligation_snapshot(packet, quote):
+        entity_key = re.sub(r"[^a-z0-9]+", "-", _field(packet, "entity").lower()).strip("-")
+        subcategory_key = re.sub(
+            r"[^a-z0-9]+",
+            "-",
+            (_field(packet, "subcategory") or "capital").lower(),
+        ).strip("-")
+        return f"aggregate-obligation-snapshot:{entity_key}:{subcategory_key}"
+    if _field(packet, "review_group_id"):
+        return f"review-group:{_field(packet, 'review_group_id')}"
+    if _field(packet, "packet_id"):
+        return f"packet:{_field(packet, 'packet_id')}"
+    return ""
+
+
+def _metric_snapshot_date(
+    packet: dict[str, str],
+    quote: str,
+    metric_use_status: str,
+) -> str:
+    if metric_use_status not in FINAL_METRIC_DECISIONS:
+        return ""
+    if _is_source_backed_aggregate_obligation_snapshot(packet, quote):
+        parsed = _as_of_date(quote) or _date_from_text(_field(packet, "reason"))
+        return parsed.isoformat() if parsed else ""
+    parsed = _date_from_text(quote) or _date_from_text(_field(packet, "reason"))
+    return parsed.isoformat() if parsed else ""
+
+
+def _metric_aggregation_policy(
+    packet: dict[str, str],
+    quote: str,
+    metric_use_status: str,
+) -> str:
+    if metric_use_status not in FINAL_METRIC_DECISIONS:
+        return ""
+    if _is_source_backed_aggregate_obligation_snapshot(packet, quote):
+        return "latest_snapshot_per_metric_group"
+    return "sum_distinct_metric_rows"
 
 
 def _ai_linkage(packet: dict[str, str]) -> str:
@@ -557,10 +616,15 @@ def _summary(
             sum(decision.exposure_basis_usd for decision in decisions),
             2,
         ),
-        final_metric_supported_amount_usd=round(
+        approved_row_supported_amount_usd=round(
             sum(decision.supported_amount_usd for decision in decisions),
             2,
         ),
+        final_metric_supported_amount_usd=round(
+            _deduped_final_metric_supported_amount(decisions),
+            2,
+        ),
+        final_metric_group_count=_final_metric_group_count(decisions),
         blocker_exposure_basis_usd=round(
             sum(
                 decision.exposure_basis_usd
@@ -576,6 +640,41 @@ def _summary(
         ],
         top_decisions=[decision.to_dict() for decision in decisions[:25]],
     )
+
+
+def _deduped_final_metric_supported_amount(
+    decisions: list[MaterialityAdjudicationDecision],
+) -> float:
+    direct_sum = 0.0
+    grouped: dict[str, MaterialityAdjudicationDecision] = {}
+    for decision in decisions:
+        if decision.metric_use_status not in FINAL_METRIC_DECISIONS:
+            continue
+        if decision.metric_aggregation_policy == "latest_snapshot_per_metric_group":
+            key = decision.metric_group_id or decision.packet_id
+            current = grouped.get(key)
+            if current is None or _snapshot_sort_key(decision) > _snapshot_sort_key(current):
+                grouped[key] = decision
+            continue
+        direct_sum += decision.supported_amount_usd
+    return direct_sum + sum(decision.supported_amount_usd for decision in grouped.values())
+
+
+def _final_metric_group_count(decisions: list[MaterialityAdjudicationDecision]) -> int:
+    direct_count = 0
+    grouped: set[str] = set()
+    for decision in decisions:
+        if decision.metric_use_status not in FINAL_METRIC_DECISIONS:
+            continue
+        if decision.metric_aggregation_policy == "latest_snapshot_per_metric_group":
+            grouped.add(decision.metric_group_id or decision.packet_id)
+        else:
+            direct_count += 1
+    return direct_count + len(grouped)
+
+
+def _snapshot_sort_key(decision: MaterialityAdjudicationDecision) -> tuple[str, int]:
+    return (decision.metric_snapshot_date, decision.rank * -1)
 
 
 def _combined_text(packet: dict[str, str], quote: str) -> str:
@@ -618,6 +717,45 @@ def _is_source_backed_aggregate_obligation_snapshot(
             "consolidated balance sheets",
         ],
     )
+
+
+def _as_of_date(text: str) -> date | None:
+    return _date_from_regex(
+        text,
+        r"\bas of\s+"
+        r"(?P<month>January|February|March|April|May|June|July|August|September|October|November|December)"
+        r"\s+(?P<day>\d{1,2}),\s+(?P<year>\d{4})",
+    )
+
+
+def _date_from_text(text: str) -> date | None:
+    return _date_from_regex(
+        text,
+        r"\b"
+        r"(?P<month>January|February|March|April|May|June|July|August|September|October|November|December)"
+        r"\s+(?P<day>\d{1,2}),\s+(?P<year>\d{4})",
+    )
+
+
+def _date_from_regex(text: str, pattern: str) -> date | None:
+    match = re.search(pattern, text, flags=re.IGNORECASE)
+    if not match:
+        return None
+    month = {
+        "january": 1,
+        "february": 2,
+        "march": 3,
+        "april": 4,
+        "may": 5,
+        "june": 6,
+        "july": 7,
+        "august": 8,
+        "september": 9,
+        "october": 10,
+        "november": 11,
+        "december": 12,
+    }[match.group("month").lower()]
+    return date(int(match.group("year")), month, int(match.group("day")))
 
 
 def _contains_any(text: str, needles: list[str]) -> bool:
