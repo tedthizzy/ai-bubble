@@ -157,7 +157,7 @@ class EvidenceGate:
                 record.human_review_status == HumanReviewStatus.APPROVED.value for record in records
             )
         ):
-            blocking_issues.append("High-impact claim has not been approved by a human reviewer.")
+            blocking_issues.append("High-impact claim has not been adjudicated and approved.")
 
         eligible = (
             not blocking_issues

@@ -191,7 +191,7 @@ def _capital_candidates(edges: list[dict[str, Any]]) -> list[WeakLinkCandidate]:
             risk_drivers.append("Large source-backed notional edge")
         review_statuses = tuple(_json_list(edge.get("human_review_statuses")))
         if "pending" in review_statuses:
-            risk_drivers.append("Pending human review")
+            risk_drivers.append("Pending LLM adjudication")
 
         source_name = str(edge.get("source_name") or "")
         target_name = str(edge.get("target_name") or "")
@@ -330,15 +330,21 @@ def _debt_service_candidate(risk: DebtServiceEntityRisk) -> WeakLinkCandidate:
 
 
 def _debt_service_score(risk: DebtServiceEntityRisk) -> float:
-    score = min(
-        risk.maturity_wall_measured_annual_interest_usd_2024_2030 / 1_000_000_000,
-        1.0,
-    ) * 0.25
+    score = (
+        min(
+            risk.maturity_wall_measured_annual_interest_usd_2024_2030 / 1_000_000_000,
+            1.0,
+        )
+        * 0.25
+    )
     score += min(risk.maturity_wall_notional_usd_2024_2030 / 25_000_000_000, 1.0) * 0.25
-    score += min(
-        risk.maturity_wall_missing_rate_notional_usd_2024_2030 / 10_000_000_000,
-        1.0,
-    ) * 0.2
+    score += (
+        min(
+            risk.maturity_wall_missing_rate_notional_usd_2024_2030 / 10_000_000_000,
+            1.0,
+        )
+        * 0.2
+    )
     score += min(risk.notional_missing_maturity_usd / 10_000_000_000, 1.0) * 0.15
     score += min(risk.measured_annual_interest_usd / 1_000_000_000, 1.0) * 0.1
     if _is_near_term_peak(risk.peak_maturity_quarter):
@@ -350,14 +356,10 @@ def _debt_service_risk_drivers(risk: DebtServiceEntityRisk) -> list[str]:
     drivers = ["Entity-level source-backed debt-service stress"]
     if risk.measured_annual_interest_usd:
         drivers.append(
-            "Measured annual interest/debt-service proxy "
-            f"${risk.measured_annual_interest_usd:,.0f}"
+            f"Measured annual interest/debt-service proxy ${risk.measured_annual_interest_usd:,.0f}"
         )
     if risk.maturity_wall_notional_usd_2024_2030:
-        drivers.append(
-            "2024-2030 maturity wall "
-            f"${risk.maturity_wall_notional_usd_2024_2030:,.0f}"
-        )
+        drivers.append(f"2024-2030 maturity wall ${risk.maturity_wall_notional_usd_2024_2030:,.0f}")
     if risk.maturity_wall_missing_rate_notional_usd_2024_2030:
         drivers.append(
             "Missing-rate maturity wall "

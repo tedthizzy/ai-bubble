@@ -185,9 +185,9 @@ def test_capital_structure_surfaces_high_notional_pending_review_candidates() ->
     assert metrics.top_notional_review_items[0].source_uri == "sec:outlier-facility"
     assert metrics.top_notional_review_distinct_items[0].source_uri == "sec:outlier-facility"
     assert metrics.top_notional_review_items[0].reasons == [
-        "human_review_status:pending",
+        "adjudication_status:pending",
         "notional_usd_above_25,000,000,000_threshold",
-        "source_extraction_marked_requires_human_review",
+        "source_extraction_marked_requires_llm_adjudication",
         "deterministic_sec_extraction_candidate",
     ]
 

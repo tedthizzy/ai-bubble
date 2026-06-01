@@ -244,6 +244,49 @@ def test_review_queue_surfaces_high_impact_contract_tranches(tmp_path: Path) -> 
     assert batch.items[0].source_uri.endswith("#tranche-a")
 
 
+def test_review_queue_surfaces_contract_contagion_paths(tmp_path: Path) -> None:
+    _write_csv(
+        tmp_path / "reports" / "contract_contagion_paths.csv",
+        [
+            {
+                "path_id": "contagion-1",
+                "path_type": "ownership_expanded",
+                "risk_level": "high",
+                "risk_score": "0.72",
+                "start_entity_name": "CoreWeave SPV LLC",
+                "contract_counterparty_name": "Apollo Credit",
+                "contract_relationship_type": "OBLIGOR_TO_TRANCHE",
+                "deal_id": "deal-coreweave",
+                "tranche_id": "A",
+                "notional_usd": "7500000000",
+                "ownership_path_node_ids": json.dumps(["LEI-CHILD", "LEI-PARENT"]),
+                "reason": "ownership expanded contagion path; notional $7,500,000,000",
+                "source_uris": json.dumps(
+                    ["https://www.sec.gov/credit.htm", "https://lei.example/rr.zip"]
+                ),
+                "content_hashes": json.dumps(["hash-contract", "hash-rr"]),
+                "human_review_statuses": json.dumps(["pending", "ownership_source_backed"]),
+                "relevance_tags": json.dumps(["direct:compute", "watchlist:coreweave"]),
+            }
+        ],
+    )
+
+    batch = build_review_queue([tmp_path])
+
+    assert batch.summary.items == 1
+    assert batch.summary.high_items == 1
+    assert batch.summary.categories == {"contagion": 1}
+    assert batch.summary.pending_contagion_path_items == 1
+    assert batch.summary.pending_contagion_path_exposure_usd == 7_500_000_000
+    assert batch.summary.ai_infra_relevant_items == 1
+    assert batch.items[0].subcategory == "ownership_expanded"
+    assert batch.items[0].ecosystem_relevance == "direct_ai_infra"
+    assert batch.items[0].source_uris == (
+        "https://www.sec.gov/credit.htm",
+        "https://lei.example/rr.zip",
+    )
+
+
 def test_review_queue_surfaces_debt_service_weak_links(tmp_path: Path) -> None:
     _write_csv(
         tmp_path / "reports" / "weak_link_candidates.csv",

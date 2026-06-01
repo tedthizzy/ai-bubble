@@ -139,6 +139,10 @@ capital-exposure-graph *FLAGS:
 ownership-graph *FLAGS:
     uv run python scripts/build_ownership_graph.py {{FLAGS}}
 
+# Build source-backed contract/ownership contagion paths.
+contract-contagion-paths *FLAGS:
+    uv run python scripts/build_contract_contagion_paths.py {{FLAGS}}
+
 # Build source-backed weak-link candidates from capital exposure and physical risk.
 weak-links *FLAGS:
     uv run python scripts/build_weak_links.py {{FLAGS}}

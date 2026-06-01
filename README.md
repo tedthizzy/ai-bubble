@@ -55,7 +55,7 @@ This is not a dashboard for enthusiasts. It is a **skeptical, forensic tool** de
 - High-quality, structured extraction from documents
 - Entity resolution and relationship detection
 - Confidence scoring + validation + retry logic
-- Human-in-the-loop review queue for low-confidence or high-impact items
+- Materiality-ranked LLM adjudication queue for low-confidence or high-impact items
 
 #### 4. Analysis Engine (Burry Core)
 
@@ -104,13 +104,14 @@ The end state is a system that can answer questions like:
 
 ## Core Principles (Non-Negotiable)
 
-1. **Provenance on everything** — source, date, model, prompt hash, confidence, human review status.
+1. **Provenance on everything** — source, date, model, prompt hash, confidence, adjudication status.
 2. **Graph as the living model** — Neo4j + GDS for debt waterfalls, contagion paths, concentration, off-balance-sheet exposure.
 3. **LLM + deterministic hybrid** — edgartools + XBRL for numbers; LLM only for narrative, normalization, hidden entities. Multi-verifier on anything high-stakes.
-4. **Human gates first-class** — low-confidence or red-flag extractions go to a review queue with full diff + override capability.
+4. **Adjudication gates first-class** — low-confidence or red-flag extractions go to a materiality-ranked LLM adjudication queue with full evidence context and override capability.
 5. **Physical ↔ Financial reality check** — announced MW vs permits vs satellite vs equipment lead times.
-6. **Replayable & auditable** — same input + same prompts + same models = reproducible conclusions (modulo documented non-determinism).
-7. **Ethical by design** — polite scraping, rate limits, proper FOIA channels, no credential stuffing.
+6. **Materiality before completeness** — broad acquisition keeps running, but confidence comes first from adjudicating the top 50-100 exposures and claims that can move the conclusion.
+7. **Replayable & auditable** — same input + same prompts + same models = reproducible conclusions (modulo documented non-determinism).
+8. **Ethical by design** — polite scraping, rate limits, proper FOIA channels, no credential stuffing.
 
 ## Tech Stack (Production-Leaning from Day 1)
 
@@ -225,7 +226,7 @@ Expected files:
 - `equipment.csv` for transformers, turbines, switchgear, cooling, and other long-lead equipment
 - `observations.csv` for satellite or site-observed construction progress
 
-Every row must include `source_uri`; optional `source_type`, `source_confidence`, `human_review_status`, `page_or_section`, and `content_hash` fields feed the evidence gate.
+Every row must include `source_uri`; optional `source_type`, `source_confidence`, `human_review_status` adjudication status, `page_or_section`, and `content_hash` fields feed the evidence gate.
 
 ## Compute Economics Backlog
 
@@ -241,7 +242,7 @@ The implemented source-backed loader reads optional CSVs from `data/compute/`:
 - `eps_depreciation_impacts.csv`
 - `chip_supply_observations.csv`
 
-Every compute row must include `source_uri`, `retrieved_at`, and `content_hash`; optional `source_type`, `source_confidence`, `human_review_status`, and `page_or_section` fields feed the evidence gate. If no compute evidence is loaded, the final report keeps the compute-economics conclusion blocked rather than filling the gap with assumptions.
+Every compute row must include `source_uri`, `retrieved_at`, and `content_hash`; optional `source_type`, `source_confidence`, `human_review_status` adjudication status, and `page_or_section` fields feed the evidence gate. If no compute evidence is loaded, the final report keeps the compute-economics conclusion blocked rather than filling the gap with assumptions.
 
 Acquired EDGAR documents can be mined for conservative compute economics rows:
 
@@ -384,8 +385,8 @@ Entity-level Burry reports now include `capital_structure` metrics computed from
 - debt-like notional exposure
 - off-balance-sheet, SPV-linked, non-recourse, or guarantee-linked exposure
 - separate guarantee-linked and SPV/non-recourse exposure subtotals
-- separate human-reviewed exposure from pending-review candidate exposure
-- a high-notional review queue for unapproved deterministic extraction candidates
+- separate LLM-adjudicated exposure from pending-adjudication candidate exposure
+- a high-notional adjudication queue for unapproved deterministic extraction candidates
 - distinct candidate exposure after economic deduplication, plus duplicate candidate groups
 - aggregate-obligation exposure separated from individual deal records
 - quarterly refinancing walls
@@ -433,6 +434,19 @@ mapping:
 just capital-exposure-graph --data-dir data --output-dir data/graph
 ```
 
+The contract-structure graph can then be joined to the source-backed ownership
+graph to create a conservative contract/ownership contagion path artifact. The
+join is currently exact legal-name matching only; unmatched high-impact
+guarantee and collateral paths are still retained as contract-only review items.
+Outputs are written to `data/reports/contract_contagion_paths.csv` and
+`data/reports/contract_contagion_summary.json`, with SEC/GLEIF source URIs,
+content hashes, review statuses, notional exposure, ownership path depth, and
+risk flags preserved on each row:
+
+```bash
+just contract-contagion-paths --data-dir data --output-dir data/reports
+```
+
 Acquired ownership records can also be compiled into a source-backed legal
 entity ownership and consolidation graph. The graph currently targets GLEIF
 relationship records and preserves source URI, retrieval timestamp, content
@@ -453,13 +467,14 @@ just weak-links --data-dir data --output-dir data/reports
 
 The report-level review queue combines the highest-impact pending items across
 capital extraction, contract-tranche extraction, weak-link scoring, physical
-match audits, and compute economics rows. It writes
-`data/reports/review_queue.csv` and
+match audits, contract/ownership contagion paths, and compute economics rows.
+It writes `data/reports/review_queue.csv` and
 `data/reports/review_queue_summary.json`; every item keeps source URI, content
-hash, page or section, source confidence, human-review status, ecosystem
+hash, page or section, source confidence, adjudication status, ecosystem
 relevance tags, and a review-group id for duplicate-aware triage. The summary
 separates raw pending capital notional from review-grouped notional, separately
-tracks pending contract-tranche review notional, and breaks out the
+tracks pending contract-tranche review notional, separately tracks pending
+contagion-path exposure, and breaks out the
 AI-infrastructure-relevant subset so broad corporate financing does not silently
 dominate the Burry worklist:
 
@@ -484,7 +499,7 @@ Expected files:
 - `deals.csv` with one row per lease, debt facility, bond, PPA, guarantee, or other contract
 - `tranches.csv` with optional tranche-level debt/bond terms linked by `deal_id`
 
-Every row must include `source_uri`; optional `source_type`, `source_confidence`, `human_review_status`, `page_or_section`, and `content_hash` fields feed the evidence gate. Use `counterparty_roles` and `key_terms` as JSON objects so roles, guarantees, SPVs, and lease classification flags remain structured.
+Every row must include `source_uri`; optional `source_type`, `source_confidence`, `human_review_status` adjudication status, `page_or_section`, and `content_hash` fields feed the evidence gate. Use `counterparty_roles` and `key_terms` as JSON objects so roles, guarantees, SPVs, and lease classification flags remain structured.
 
 Acquired FERC PPA rows can be normalized into `data/capital/deals.csv` without inferring dollar exposure:
 
@@ -502,7 +517,7 @@ This preserves the tracker source URI, raw artifact hash, local raw artifact pat
 
 ## Current Status
 
-This is an evidence-gated prototype, not a completed Burry-grade system. Current ecosystem-scale reports are treated as directional hypotheses until the evidence gate can prove the key claims with measured, corroborated, and human-reviewed sources.
+This is an evidence-gated prototype, not a completed Burry-grade system. Current ecosystem-scale reports are treated as directional hypotheses until the evidence gate can prove the key claims with measured, corroborated, and LLM-adjudicated sources.
 
 The report generator now caps confidence when a major claim is inferred or unsupported. This is intentional: the system should be skeptical of its own outputs before it is skeptical of the market narrative.
 

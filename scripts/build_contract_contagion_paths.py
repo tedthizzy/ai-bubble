@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Build source-backed LLM adjudication queue artifacts."""
+"""Build source-backed contract/ownership contagion path artifacts."""
 
 from __future__ import annotations
 
@@ -7,7 +7,10 @@ import argparse
 import json
 from pathlib import Path
 
-from bubble.analysis.review_queue import build_review_queue, write_review_queue
+from bubble.analysis.contract_contagion_paths import (
+    build_contract_contagion_paths,
+    write_contract_contagion_paths,
+)
 
 
 def main() -> None:
@@ -20,20 +23,19 @@ def main() -> None:
         help="Data root to scan; may be supplied more than once.",
     )
     parser.add_argument("--output-dir", type=Path, default=Path("data/reports"))
-    parser.add_argument(
-        "--capital-review-threshold-usd",
-        type=float,
-        default=1_000_000_000,
-        help="Minimum pending debt-like notional amount to queue for capital review.",
-    )
+    parser.add_argument("--min-notional-usd", type=float, default=1_000_000_000)
+    parser.add_argument("--max-ownership-depth", type=int, default=3)
+    parser.add_argument("--max-paths", type=int, default=10_000)
     args = parser.parse_args()
 
     data_dirs = args.data_dir or [Path("data")]
-    batch = build_review_queue(
+    batch = build_contract_contagion_paths(
         data_dirs,
-        capital_review_threshold_usd=args.capital_review_threshold_usd,
+        min_notional_usd=args.min_notional_usd,
+        max_ownership_depth=args.max_ownership_depth,
+        max_paths=args.max_paths,
     )
-    outputs = write_review_queue(batch, args.output_dir)
+    outputs = write_contract_contagion_paths(batch, args.output_dir)
     print(json.dumps({**batch.summary.to_dict(), "outputs": outputs}, indent=2))
 
 

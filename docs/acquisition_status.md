@@ -1,15 +1,15 @@
 # Acquisition Status
 
-Last updated: 2026-06-01 17:25 UTC.
+Last updated: 2026-06-01 17:47 UTC.
 
 This file is the operational snapshot for the current evidence corpus. Treat it
 as a run log, not as a final investment conclusion.
 
 ## Current Corpus
 
-- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260601-1725.md`
+- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260601-1747.md`
 - Evidence gate: not high-confidence final.
-- Source invariant audit: passed, 55 CSV files and 8,756,658 rows scanned, 0 violations, 0 warnings.
+- Source invariant audit: passed, 56 CSV files and 8,758,796 rows scanned, 0 violations, 0 warnings.
 - Source catalog artifacts: 586 / 586 attempted in the latest broad public-source run.
 - Latest source-catalog extracted rows: 4,878,655.
 - Covered filings: 197,243.
@@ -21,14 +21,25 @@ as a run log, not as a final investment conclusion.
 - Source-backed contract tranches: 1,194.
 - Source-backed compute rows: 166.
 - Source-backed timing signals: 2,946.
-- Pending source-backed review items: 2,645.
+- Pending source-backed review items: 2,800.
 - Ownership graph: 425,765 LEI nodes, 425,679 named nodes, and 643,828 source-backed relationships.
+- Contract-structure graph: 73,186 nodes and 145,756 source-backed edges.
+- Contract/ownership contagion paths: 1,983 source-backed paths, including
+  949 ownership-expanded paths, 1,034 contract-only paths, 113 AI-infra
+  relevant paths, and 15 high-or-critical paths.
 
 ## Phase Transition Readiness
 
 The system is ready to move from catalog/entity/ownership structuring into the
 next evidence-building phase, but acquisition should remain an always-on intake
 workstream rather than be treated as complete.
+
+The operating rule for the next phase is materiality-first, not
+completeness-first. Broad acquisition should continue in parallel, but report
+confidence should come from LLM-adjudicating the top 50-100 material exposures:
+largest AI/data-center lease obligations, largest debt facilities and bonds,
+largest SPV or non-recourse structures, largest physical power constraints, and
+largest compute depreciation, TAM, payback, EPS, and chip-supply claims.
 
 Ready now:
 
@@ -44,19 +55,26 @@ Ready now:
   snippets, guarantors, SPV/non-recourse flags, rates, and maturities
 - source-backed contract-structure graph outputs for deal, tranche, collateral,
   guarantor, project/asset, non-recourse, and bankruptcy-remote/SPV terms
+- source-backed contract/ownership contagion path outputs joining SEC contract
+  edges to GLEIF legal-control paths where exact legal-name matches exist
 
 Must move next:
 
 - continued EDGAR/source acquisition as an always-on workstream for future
   filings, lower-priority backlog rows, and new source catalogs
-- exhibit-enabled EDGAR manifests for EX-2, EX-4, EX-10, and EX-99 documents
-- continued contract-level extraction for leases, debt, guarantees, collateral,
-  tranches, PPAs, construction, and project-finance terms
-- human review triage before any high-confidence bubble conclusion
+- expanded exhibit-enabled EDGAR manifests for EX-2, EX-4, EX-10, and EX-99
+  documents beyond the first high-signal tranche
+- continued actual document acquisition and contract-level extraction for
+  leases, debt, guarantees, collateral, tranches, PPAs, construction, and
+  project-finance terms
+- materiality-ranked LLM adjudication before any high-confidence bubble conclusion
 - deeper contagion modeling that joins contract edges, ownership/SPV edges,
-  guarantee/collateral terms, maturities, and physical execution risks
+  guarantee/collateral terms, maturities, and physical execution risks beyond
+  exact legal-name matches
 - triage of the 230 pending contract-tranche review items before relying on
   tranche-level downside-bearer or waterfall conclusions
+- triage of the 155 pending contract-contagion review items before relying on
+  full contagion paths
 - source-backed GPU depreciation, TAM, payback, EPS, and chip-supply evidence
 
 Not ready:
@@ -65,6 +83,8 @@ Not ready:
 - full exhibit coverage across the expanded manifest
 - reviewed contract-level extraction at the scale needed for professional-grade
   leverage, SPV, collateral, and downside-risk conclusions
+- reviewed contract/ownership contagion paths at the scale needed for
+  professional-grade contagion conclusions
 
 ## Latest EDGAR Exhibit Run
 
@@ -279,9 +299,9 @@ Compute economics:
 2. Expand contract-level extraction beyond the first deterministic tranche pass:
    lease economics, debt waterfalls, guarantee scope, collateral packages, PPA
    contract terms, construction obligations, and project-finance covenants.
-3. Rebuild the review queue after each material acquisition or extraction run;
-   clear or corroborate critical/high items and the contract-tranche queue before
-   upgrading any conclusion to high confidence.
+3. Rebuild the adjudication queue after each material acquisition or extraction
+   run; clear or corroborate critical/high items and the contract-tranche queue
+   before upgrading any conclusion to high confidence.
 4. Run the score >= 50 primary-document tail only if the score >= 75 review
    queue indicates incremental value after exhibit extraction.
 5. Add more source catalogs for state PUCs, local zoning/air permits, data-center
@@ -290,5 +310,5 @@ Compute economics:
    aggregate lease obligations and prospectus supplements.
 7. Increase compute-economics evidence by adding dated resale/rental-rate sources,
    hyperscaler depreciation/EPS bridges, and source-backed TAM comparators.
-8. Keep every production metric evidence-gated until the review queue is cleared
-   or corroborated enough to support high-confidence claims.
+8. Keep every production metric evidence-gated until the adjudication queue is
+   cleared or corroborated enough to support high-confidence claims.

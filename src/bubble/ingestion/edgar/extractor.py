@@ -198,7 +198,7 @@ class EdgarExtractor:
         all_deals = deals + llm_deals
         all_risks = risks + llm_risks
 
-        # Auto-queue high-severity or low-confidence items for human review (core Burry requirement)
+        # Auto-queue high-severity or low-confidence items for LLM adjudication.
         for risk in all_risks:
             if risk.severity >= 0.85 or risk.red_flag_score >= 0.88 or risk.confidence < 0.75:
                 # Note: graph is not passed here; caller should queue if desired

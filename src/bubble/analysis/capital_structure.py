@@ -720,13 +720,13 @@ class CapitalStructureAnalyzer:
             HumanReviewStatus.APPROVED,
             HumanReviewStatus.OVERRIDDEN,
         }:
-            reasons.append(f"human_review_status:{deal.provenance.human_review_status.value}")
+            reasons.append(f"adjudication_status:{deal.provenance.human_review_status.value}")
         if notional >= CAPITAL_NOTIONAL_REVIEW_THRESHOLD_USD:
             reasons.append(
                 f"notional_usd_above_{CAPITAL_NOTIONAL_REVIEW_THRESHOLD_USD:,.0f}_threshold"
             )
         if deal.key_terms.get("requires_human_review"):
-            reasons.append("source_extraction_marked_requires_human_review")
+            reasons.append("source_extraction_marked_requires_llm_adjudication")
         extraction_method = str(deal.key_terms.get("extraction_method") or "")
         if deal.provenance.source_type == SourceType.SEC_EDGAR and extraction_method.startswith(
             "deterministic_edgar"

@@ -1,4 +1,4 @@
-"""Source-backed human review queue for high-impact forensic claims.
+"""Source-backed LLM adjudication queue for high-impact forensic claims.
 
 The queue is a prioritization artifact: it does not approve facts or create new
 facts. It points analysts to the exact source-backed rows that block higher
@@ -93,6 +93,8 @@ class ReviewQueueSummary:
     pending_capital_duplicate_notional_amount_usd: float
     pending_contract_tranche_items: int
     pending_contract_tranche_notional_amount_usd: float
+    pending_contagion_path_items: int
+    pending_contagion_path_exposure_usd: float
     pending_ai_infra_relevant_capital_notional_amount_usd: float
     pending_ai_infra_relevant_capital_distinct_notional_amount_usd: float
     pending_compute_claim_amount_usd: float
@@ -118,7 +120,7 @@ def build_review_queue(
     *,
     capital_review_threshold_usd: float = CAPITAL_REVIEW_THRESHOLD_USD,
 ) -> ReviewQueueBatch:
-    """Build a prioritized human review queue from source-backed artifacts."""
+    """Build a prioritized LLM adjudication queue from source-backed artifacts."""
 
     roots = [Path(root) for root in (data_dirs or ["data"])]
     capital_relevance = _capital_relevance_index(roots)
@@ -132,6 +134,7 @@ def build_review_queue(
     )
     items.extend(_contract_tranche_review_items(roots, capital_relevance=capital_relevance))
     items.extend(_weak_link_review_items(roots))
+    items.extend(_contagion_path_review_items(roots))
     items.extend(_physical_match_review_items(roots))
     items.extend(_compute_review_items(roots))
 
@@ -180,7 +183,7 @@ def _capital_review_items(
             continue
         key_terms = _json_dict(row.get("key_terms"))
         reasons = [
-            f"pending human review status: {status}",
+            f"pending adjudication status: {status}",
             f"debt-like deal type: {deal_type}",
             f"notional ${notional:,.0f}",
         ]
@@ -189,7 +192,7 @@ def _capital_review_items(
         if context_kind:
             reasons.append(f"notional context: {context_kind}")
         if key_terms.get("requires_human_review"):
-            reasons.append("source extraction marked requires_human_review")
+            reasons.append("source extraction marked requires LLM adjudication")
         if extraction_method:
             reasons.append(f"extraction method: {extraction_method}")
 
@@ -381,6 +384,68 @@ def _weak_link_review_items(roots: list[Path]) -> list[ReviewQueueItem]:
                 content_hash=content_hashes[0] if content_hashes else "",
                 content_hashes=content_hashes,
                 page_or_section="weak_link_candidates.csv",
+                human_review_status=";".join(statuses) if statuses else "pending",
+                source_confidence=0.0,
+            )
+        )
+    return items
+
+
+def _contagion_path_review_items(roots: list[Path]) -> list[ReviewQueueItem]:
+    rows = _read_rows(roots, [Path("reports") / "contract_contagion_paths.csv"])
+    items: list[ReviewQueueItem] = []
+    for row in rows:
+        statuses = tuple(_json_list(row.get("human_review_statuses")))
+        if statuses and all(_is_reviewed_status(status) for status in statuses):
+            continue
+        notional = _float(row.get("notional_usd"))
+        risk_level = _field(row, "risk_level")
+        if risk_level not in {"critical", "high"} and notional < 5_000_000_000:
+            continue
+        relevance_tags = tuple(_json_list(row.get("relevance_tags")))
+        source_uris = tuple(_json_list(row.get("source_uris")))
+        content_hashes = tuple(_json_list(row.get("content_hashes")))
+        path_id = _field(row, "path_id")
+        path_type = _field(row, "path_type")
+        items.append(
+            ReviewQueueItem(
+                review_id=_review_id(
+                    "contagion_path", path_id, source_uris[:1], content_hashes[:1]
+                ),
+                review_group_id=_review_id(
+                    "contagion_path_group",
+                    _field(row, "deal_id"),
+                    _field(row, "tranche_id"),
+                    _field(row, "start_entity_name"),
+                    _field(row, "contract_counterparty_name"),
+                    _field(row, "ownership_path_node_ids"),
+                ),
+                priority=risk_level if risk_level in PRIORITY_ORDER else "medium",
+                category="contagion",
+                subcategory=path_type or "contract_contagion_path",
+                ecosystem_relevance=_ecosystem_relevance("contagion", relevance_tags),
+                relevance_tags=relevance_tags,
+                entity=_field(row, "start_entity_name"),
+                counterparty=_field(row, "contract_counterparty_name"),
+                project_id="",
+                project_name="",
+                deal_id=_field(row, "deal_id"),
+                source_row_id=path_id,
+                notional_amount_usd=0.0,
+                exposure_usd=round(notional, 2),
+                capacity_mw=0.0,
+                risk_score=_float(row.get("risk_score")),
+                reason=_field(row, "reason"),
+                recommended_action=(
+                    "Confirm the contract edge, ownership/legal-name match, parent path, "
+                    "guarantee/collateral scope, and whether the path is economically "
+                    "contagious before using it in downside-bearer conclusions."
+                ),
+                source_uri=source_uris[0] if source_uris else "",
+                source_uris=source_uris,
+                content_hash=content_hashes[0] if content_hashes else "",
+                content_hashes=content_hashes,
+                page_or_section="contract_contagion_paths.csv",
                 human_review_status=";".join(statuses) if statuses else "pending",
                 source_confidence=0.0,
             )
@@ -811,6 +876,11 @@ def _summary(items: list[ReviewQueueItem]) -> ReviewQueueSummary:
         and item.subcategory == "contract_tranche_terms"
         and not _is_reviewed_status(item.human_review_status)
     ]
+    pending_contagion_path_items = [
+        item
+        for item in items
+        if item.category == "contagion" and not _is_reviewed_status(item.human_review_status)
+    ]
     return ReviewQueueSummary(
         items=len(items),
         critical_items=priorities.get("critical", 0),
@@ -844,6 +914,11 @@ def _summary(items: list[ReviewQueueItem]) -> ReviewQueueSummary:
         pending_contract_tranche_items=len(pending_contract_tranche_items),
         pending_contract_tranche_notional_amount_usd=round(
             sum(item.notional_amount_usd for item in pending_contract_tranche_items),
+            2,
+        ),
+        pending_contagion_path_items=len(pending_contagion_path_items),
+        pending_contagion_path_exposure_usd=round(
+            sum(item.exposure_usd for item in pending_contagion_path_items),
             2,
         ),
         pending_ai_infra_relevant_capital_notional_amount_usd=round(

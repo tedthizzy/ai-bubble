@@ -314,8 +314,20 @@ def load_weak_link_summary(data_dirs: list[str]) -> dict[str, Any]:
     return {}
 
 
+def load_contract_contagion_summary(data_dirs: list[str]) -> dict[str, Any]:
+    """Load optional source-backed contract/ownership contagion path summary."""
+
+    for root in data_dirs:
+        summary_path = Path(root) / "reports" / "contract_contagion_summary.json"
+        if summary_path.exists():
+            loaded = json.loads(summary_path.read_text())
+            if isinstance(loaded, dict):
+                return loaded
+    return {}
+
+
 def load_review_queue_summary(data_dirs: list[str]) -> dict[str, Any]:
-    """Load optional source-backed human review queue summary."""
+    """Load optional source-backed LLM adjudication queue summary."""
 
     for root in data_dirs:
         summary_path = Path(root) / "reports" / "review_queue_summary.json"
@@ -361,6 +373,7 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:
     capital_exposure_graph_summary = load_capital_exposure_graph_summary(resolved_data_dirs)
     ownership_graph_summary = load_ownership_graph_summary(resolved_data_dirs)
     weak_link_summary = load_weak_link_summary(resolved_data_dirs)
+    contract_contagion_summary = load_contract_contagion_summary(resolved_data_dirs)
     review_queue_summary = load_review_queue_summary(resolved_data_dirs)
     timing_signal_summary = load_timing_signal_summary(resolved_data_dirs)
     source_invariant_audit = load_source_invariant_audit(resolved_data_dirs)
@@ -468,6 +481,27 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:
             0,
         ),
         "weak_link_source_backed_candidates": weak_link_summary.get("source_backed_candidates", 0),
+        "contract_contagion_paths": contract_contagion_summary.get("paths", 0),
+        "contract_contagion_source_backed_paths": contract_contagion_summary.get(
+            "source_backed_paths",
+            0,
+        ),
+        "contract_contagion_ownership_expanded_paths": contract_contagion_summary.get(
+            "ownership_expanded_paths",
+            0,
+        ),
+        "contract_contagion_high_or_critical_paths": contract_contagion_summary.get(
+            "high_or_critical_paths",
+            0,
+        ),
+        "contract_contagion_ai_infra_relevant_paths": contract_contagion_summary.get(
+            "ai_infra_relevant_paths",
+            0,
+        ),
+        "contract_contagion_ai_infra_relevant_notional_usd": contract_contagion_summary.get(
+            "ai_infra_relevant_notional_usd",
+            0,
+        ),
         "review_queue_items": review_queue_summary.get("items", 0),
         "review_queue_critical_items": review_queue_summary.get("critical_items", 0),
         "review_queue_high_items": review_queue_summary.get("high_items", 0),
@@ -507,6 +541,14 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:
         ),
         "review_queue_pending_compute_claim_amount_usd": review_queue_summary.get(
             "pending_compute_claim_amount_usd",
+            0,
+        ),
+        "review_queue_pending_contagion_path_items": review_queue_summary.get(
+            "pending_contagion_path_items",
+            0,
+        ),
+        "review_queue_pending_contagion_path_exposure_usd": review_queue_summary.get(
+            "pending_contagion_path_exposure_usd",
             0,
         ),
         "review_queue_pending_exposure_usd": review_queue_summary.get(
@@ -910,6 +952,7 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:
         "capital_exposure_graph": capital_exposure_graph_summary,
         "ownership_graph": ownership_graph_summary,
         "weak_links": weak_link_summary,
+        "contract_contagion_paths": contract_contagion_summary,
         "review_queue": review_queue_summary,
         "timing_signals": timing_signal_summary,
         "source_invariant_audit": source_invariant_audit,
@@ -942,7 +985,7 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:
                 f"Acquisition catalog currently queues {coverage.catalog_sources} "
                 f"source targets; {coverage.acquisition_artifacts_acquired}/"
                 f"{coverage.acquisition_artifacts_attempted} attempted artifacts are acquired. "
-                f"The human-review queue currently has "
+                f"The LLM adjudication queue currently has "
                 f"{review_queue_summary.get('items', 0)} source-backed blocker items. "
                 f"The timing calendar currently has "
                 f"{timing_signal_summary.get('source_backed_signals', 0)} "
@@ -1031,7 +1074,7 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:
                     "refinancing, physical delivery, and compute-economics timing signals, but "
                     "the crack window remains a candidate until the largest maturities, project "
                     "COD dates, utilization evidence, power delays, and compute assumptions are "
-                    "human-reviewed and corroborated."
+                    "LLM-adjudicated and corroborated."
                 ),
                 "current_timing_signal_count": timing_signal_summary.get("signals", 0),
                 "current_timing_source_backed_signals": timing_signal_summary.get(
@@ -1184,9 +1227,11 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:
                 "answer": (
                     "Partially measured, still not final. A source-backed capital exposure "
                     "graph now ranks connected risk components and contagion hubs from "
-                    "extracted deal counterparties, but full contagion mapping still requires "
-                    "deeper ownership, guarantee, lender, insurer, tranche, and SPV "
-                    "relationship coverage."
+                    "extracted deal counterparties, and a contract/ownership path layer "
+                    "joins tranche, collateral, guarantee, SPV, and parent-control evidence "
+                    "where exact legal-name matches exist. Full contagion mapping still "
+                    "requires broader reviewed counterparty, ownership, insurer, and "
+                    "contract-term coverage."
                 ),
                 "current_ownership_records": coverage.ownership_records,
                 "current_ownership_graph_nodes": ownership_graph_summary.get("nodes", 0),
@@ -1262,6 +1307,29 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:
                     "top_ai_infra_contagion_hubs",
                     [],
                 )[:10],
+                "current_contract_contagion_paths": contract_contagion_summary.get("paths", 0),
+                "current_contract_contagion_source_backed_paths": (
+                    contract_contagion_summary.get("source_backed_paths", 0)
+                ),
+                "current_contract_contagion_ownership_expanded_paths": (
+                    contract_contagion_summary.get("ownership_expanded_paths", 0)
+                ),
+                "current_contract_contagion_high_or_critical_paths": (
+                    contract_contagion_summary.get("high_or_critical_paths", 0)
+                ),
+                "current_contract_contagion_ai_infra_relevant_paths": (
+                    contract_contagion_summary.get("ai_infra_relevant_paths", 0)
+                ),
+                "current_contract_contagion_ai_infra_relevant_notional_usd": (
+                    contract_contagion_summary.get("ai_infra_relevant_notional_usd", 0)
+                ),
+                "current_top_contract_contagion_paths": contract_contagion_summary.get(
+                    "top_paths",
+                    [],
+                )[:10],
+                "current_top_ownership_expanded_contract_contagion_paths": (
+                    contract_contagion_summary.get("top_ownership_expanded_paths", [])[:10]
+                ),
                 "current_guarantee_linked_usd": capital_metrics.guarantee_linked_usd,
                 "current_spv_or_non_recourse_usd": capital_metrics.spv_or_non_recourse_usd,
                 "current_notional_review_required_usd": (
@@ -1398,6 +1466,9 @@ def main() -> None:
 
 ## Weak Links
 {json.dumps(report["weak_links"], indent=2)}
+
+## Contract Contagion Paths
+{json.dumps(report["contract_contagion_paths"], indent=2)}
 
 ## Review Queue
 {json.dumps(report["review_queue"], indent=2)}

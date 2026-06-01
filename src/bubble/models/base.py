@@ -108,7 +108,7 @@ class BubbleBaseModel(BaseModel):
         notes: str | None = None,
         status: HumanReviewStatus = HumanReviewStatus.OVERRIDDEN,
     ) -> BubbleBaseModel:
-        """Return a copy with human review fields updated (immutable style)."""
+        """Return a copy with adjudication fields updated (immutable style)."""
         new_prov = self.provenance.model_copy(
             update={
                 "human_review_status": status,

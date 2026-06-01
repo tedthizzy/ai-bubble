@@ -137,7 +137,7 @@ Case-file output should show:
 - extracted row id
 - calculation and formula
 - red flag reason
-- confidence level and human-review status
+- confidence level and LLM adjudication status
 - remaining evidence gap
 
 ## Source Policy
@@ -153,7 +153,7 @@ Production rows must carry the same provenance fields as the rest of the system:
 - filing/accession/document id when available
 - page, table, or section reference
 - extracted rows
-- confidence and human review status
+- confidence and LLM adjudication status
 
 Preferred sources are 10-K, 10-Q, S-1, bond prospectuses, investor decks,
 equipment purchase disclosures, lease or hosting agreements, GPU resale market
