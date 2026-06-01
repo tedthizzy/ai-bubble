@@ -1,0 +1,121 @@
+# =============================================================================
+# BUBBLE Docker Compose — Production-Leaning Local Environment
+# One command: docker compose up -d
+# Includes:
+#   - Neo4j 5 with APOC + Graph Data Science (GDS) for contagion, centrality, paths
+#   - MinIO (S3-compatible) for raw filings, images, transcripts
+#   - PostgreSQL for metadata, queues, audit logs, review state
+#   - (Optional) Prefect server for long-running orchestration
+# =============================================================================
+version: "3.9"
+
+services:
+  neo4j:
+    image: neo4j:5.26-community
+    container_name: bubble-neo4j
+    restart: unless-stopped
+    ports:
+      - "7474:7474"   # HTTP browser
+      - "7687:7687"   # Bolt (driver)
+    environment:
+      NEO4J_AUTH: neo4j/${NEO4J_PASSWORD:-change-this-secure-password-in-prod-123!}
+      NEO4J_ACCEPT_LICENSE_AGREEMENT: "yes"
+      NEO4J_PLUGINS: '["apoc", "graph-data-science"]'
+      NEO4J_apoc_export_file_enabled: "true"
+      NEO4J_apoc_import_file_enabled: "true"
+      NEO4J_apoc_import_file_use__neo4j__config: "true"
+      # Memory tuning for serious graph work (adjust for your Mac)
+      NEO4J_server_memory_heap_initial__size: "1G"
+      NEO4J_server_memory_heap_max__size: "2G"
+      NEO4J_server_memory_pagecache_size: "1G"
+      NEO4J_dbms_security_procedures_unrestricted: "apoc.*,gds.*"
+    volumes:
+      - ./neo4j_data:/data
+      - ./neo4j_logs:/logs
+      - ./neo4j_plugins:/plugins  # for extra plugins if needed
+      - ./scripts/neo4j_bootstrap.cypher:/docker-entrypoint-initdb.d/neo4j_bootstrap.cypher:ro
+    healthcheck:
+      test: ["CMD-SHELL", "cypher-shell -u neo4j -p ${NEO4J_PASSWORD:-change-this-secure-password-in-prod-123!} 'RETURN 1' || exit 1"]
+      interval: 15s
+      timeout: 10s
+      retries: 8
+      start_period: 40s
+
+  minio:
+    image: minio/minio:RELEASE.2025-05-24T17-08-30Z
+    container_name: bubble-minio
+    restart: unless-stopped
+    ports:
+      - "9000:9000"   # API
+      - "9001:9001"   # Console
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ACCESS_KEY:-minioadmin}
+      MINIO_ROOT_PASSWORD: ${MINIO_SECRET_KEY:-minioadmin}
+    command: server /data --console-address ":9001"
+    volumes:
+      - ./minio_data:/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: bubble-postgres
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-bubble}
+      POSTGRES_USER: ${POSTGRES_USER:-bubble}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-change-this-too}
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data
+      - ./scripts/init_postgres.sql:/docker-entrypoint-initdb.d/00_init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-bubble} -d ${POSTGRES_DB:-bubble}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Prefect server (orchestrator for daily flows, long-running jobs)
+  # Comment out if you prefer pure Python scheduling initially
+  prefect-server:
+    image: prefecthq/prefect:3-latest
+    container_name: bubble-prefect
+    restart: unless-stopped
+    ports:
+      - "4200:4200"
+    environment:
+      PREFECT_API_URL: http://prefect-server:4200/api
+      PREFECT_LOGGING_LEVEL: INFO
+    command: prefect server start --host 0.0.0.0 --port 4200
+    volumes:
+      - ./prefect_data:/root/.prefect
+    depends_on:
+      - postgres
+    profiles:
+      - with-prefect
+
+  # Optional: Prefect worker (runs your flows)
+  # prefect-worker:
+  #   image: prefecthq/prefect:3-latest
+  #   command: prefect worker start -p 'bubble-default'
+  #   environment:
+  #     PREFECT_API_URL: http://prefect-server:4200/api
+  #   depends_on:
+  #     - prefect-server
+  #   profiles:
+  #     - with-prefect
+
+volumes:
+  neo4j_data:
+  neo4j_logs:
+  minio_data:
+  postgres_data:
+  prefect_data:
+
+networks:
+  default:
+    name: bubble-network

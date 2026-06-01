@@ -1,0 +1,202 @@
+[project]
+name = "bubble"
+version = "0.1.0"
+description = "Michael Burry-style forensic mapping of the AI/data center/financing ecosystem. Graph-first, provenance-everywhere, multi-verified, stress-tested."
+readme = "README.md"
+requires-python = ">=3.12"
+license = {text = "Proprietary - Internal Forensic Use Only"}
+authors = [{name = "Ted", email = "ted@example.com"}]
+dependencies = [
+    # Core domain & rigor
+    "pydantic>=2.10,<3",
+    "pydantic-settings>=2.7,<3",
+    # SEC EDGAR (production choice per plan)
+    "edgartools>=2.10",
+    # Document intelligence (2026 gold standard for PDFs/tables/layout)
+    "docling>=2.20",
+    # LLM structured extraction (instructor for Pydantic enforcement)
+    "instructor>=1.7",
+    "anthropic>=0.45",
+    "openai>=1.70",  # for Grok/xAI compatibility layer or fallback
+    # Graph (Neo4j driver + GDS ready)
+    "neo4j>=5.26",
+    # Agentic workflows (complex doc reasoning, human-in-loop)
+    "langgraph>=0.3",
+    "langchain-core>=0.3",
+    # Orchestration (long-running, fault-tolerant per plan)
+    "prefect>=3.0",
+    # UI (fast Python-native dashboard + review gates)
+    "streamlit>=1.42",
+    "pyvis>=0.3.2",  # for interactive graph viz in Streamlit
+    # Data & performance
+    "polars>=1.20",
+    "duckdb>=1.1",
+    "pyarrow>=18",
+    "pandas>=2.2",  # interop only
+    # Utils & observability
+    "structlog>=24.4",
+    "tenacity>=9.0",
+    "httpx>=0.28",
+    "beautifulsoup4>=4.12",
+    "lxml>=5.3",
+    "openpyxl>=3.1",
+    "python-dateutil>=2.9",
+    "rich>=13.9",
+]
+
+[project.optional-dependencies]
+dev = [
+    "ruff>=0.9",
+    "mypy>=1.14",
+    "pytest>=8.3",
+    "pytest-cov>=6.0",
+    "pytest-asyncio>=0.25",
+    "pre-commit>=4.0",
+    "vcrpy>=6.0",  # for cached real SEC filings in tests (no network)
+    "types-requests",
+    "types-beautifulsoup4",
+]
+llm = [
+    # Extra frontier models / tracing when needed
+    "langsmith>=0.2",
+]
+viz = [
+    "matplotlib>=3.9",
+    "plotly>=5.24",
+]
+
+[project.scripts]
+bubble = "bubble.cli:app"
+bubble-report = "bubble.scripts.run_burry_report:main"
+bubble-seed = "scripts.seed_graph:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/bubble"]
+
+[project.urls]
+Homepage = "https://github.com/your-org/bubble"
+
+[tool.uv]
+# Modern dependency groups (2026 uv standard)
+[dependency-groups]
+dev = [
+    "ruff>=0.9",
+    "mypy>=1.14",
+    "pytest>=8.3",
+    "pytest-cov>=6.0",
+    "pytest-asyncio>=0.25",
+    "pre-commit>=4.0",
+    "vcrpy>=6.0",
+    "types-requests",
+    "types-beautifulsoup4",
+]
+
+# =============================================================================
+# RUFF - Blazing fast linter/formatter (2026 standard)
+# =============================================================================
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = [
+    "E", "F", "W", "I", "UP", "B", "C4", "SIM", "TCH", "RUF",
+    "PL", "PERF", "ASYNC",
+]
+ignore = [
+    "E501",   # line length (ruff-format handles)
+    "B008",   # do not perform function calls in argument defaults (FastAPI/Streamlit patterns)
+    "PLR0913", # too many arguments (Pydantic models + provenance sometimes need it)
+    "PLR2004", # magic value comparison (common in confidence thresholds)
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["bubble"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+# =============================================================================
+# MYPY - Strict typing (non-negotiable for forensic system)
+# =============================================================================
+[tool.mypy]
+python_version = "3.12"
+strict = true
+warn_return_any = true
+warn_unused_ignores = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_configs = true
+show_error_codes = true
+show_column_numbers = true
+pretty = true
+
+[[tool.mypy.overrides]]
+module = [
+    "edgartools.*",
+    "docling.*",
+    "neo4j.*",
+    "networkx.*",
+    "instructor.*",
+    "langgraph.*",
+    "prefect.*",
+    "streamlit.*",
+    "pyvis.*",
+    "duckdb.*",
+    "polars.*",
+]
+ignore_missing_imports = true
+
+# =============================================================================
+# PYTEST + COVERAGE
+# =============================================================================
+[tool.pytest.ini_options]
+minversion = "8.0"
+addopts = "-ra -q --strict-markers --cov=bubble --cov-report=term-missing:skip-covered --cov-branch"
+testpaths = ["tests"]
+asyncio_mode = "auto"
+markers = [
+    "integration: marks tests that hit real (but cached) external data",
+    "slow: marks tests that are slow",
+    "burry: high-rigor forensic scenario tests",
+]
+filterwarnings = [
+    "ignore::DeprecationWarning",
+]
+
+[tool.coverage.run]
+source = ["src/bubble"]
+branch = true
+omit = ["*/tests/*", "*/__main__.py"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if __name__ == .__main__.:",
+    "raise NotImplementedError",
+    "if TYPE_CHECKING:",
+]
+
+# =============================================================================
+# PRE-COMMIT (enforces rigor on every commit)
+# =============================================================================
+[tool.pre-commit]
+# Config lives in .pre-commit-config.yaml (see separate file)
+
+[tool.bubble]
+# Custom config for the system (loaded via pydantic-settings)
+neo4j_uri = "bolt://localhost:7687"
+neo4j_user = "neo4j"
+minio_endpoint = "localhost:9000"
+log_level = "INFO"
+watchlist_ciks = ["0000789019", "0001018724", "0001326801"]  # MSFT, AMZN, GOOGL examples

@@ -1,0 +1,78 @@
+# Python-generated
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info/
+.hypothesis/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+.coverage*
+htmlcov/
+
+# Virtual envs (uv uses .venv by default)
+.venv/
+venv/
+ENV/
+
+# uv / lock (keep lock for reproducibility in teams)
+# uv.lock  # uncomment if you want to commit the lockfile
+
+# Environment & secrets (NEVER commit)
+.env
+.env.*
+*.pem
+*.key
+secrets/
+
+# IDE / editor
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Project-specific (bubble forensic system)
+data/
+!data/.gitkeep
+raw_filings/
+*.pdf
+*.html
+logs/
+*.log
+*.jsonl
+tmp/
+*.tmp
+
+# Docker / Neo4j / MinIO volumes (never commit data)
+neo4j_data/
+neo4j_logs/
+minio_data/
+postgres_data/
+prefect_data/
+
+# Prefect
+.prefect/
+flows/
+deployments/
+
+# Streamlit
+.streamlit/secrets.toml
+
+# Satellite / imagery cache (large)
+satellite_cache/
+gee_cache/
+
+# OS
+Thumbs.db
+Desktop.ini
+
+# Misc
+*.bak
+*.orig
+TODO
+*.patch

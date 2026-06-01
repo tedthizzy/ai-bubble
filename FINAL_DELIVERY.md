@@ -1,0 +1,109 @@
+# CURRENT DELIVERY STATUS - bubble (Evidence-Gated Prototype)
+
+**Date:** 2026-06-01  
+**Status:** Not complete. The previous "final delivery" claim is superseded.
+
+## What Is True Now
+
+The repository has a useful prototype for the Burry-style AI/data center financing system:
+
+- Domain models for entities, deals, risks, assumptions, cash flows, physical assets, and provenance.
+- EDGAR-oriented extraction scaffolding.
+- In-memory graph fallback plus Neo4j path.
+- Red-flag and scenario-engine scaffolding.
+- Physical deliverability risk models and deterministic scoring for grid queues, permits, long-lead equipment, and construction progress.
+- CSV-based physical evidence ingestion via `scripts/ingest_physical_evidence.py` / `just physical-evidence`.
+- SEC filing manifest generation via `scripts/build_edgar_manifest.py` / `just edgar-manifest`, producing a source-backed extraction backlog with relevance scores.
+- EDGAR document acquisition via `scripts/acquire_edgar_documents.py` / `just edgar-acquire`, storing raw documents with accession/document ids, retrieval metadata, content hashes, and pending-review deal candidates.
+- Generic source catalog acquisition via `scripts/acquire_source_catalog.py` / `just source-acquire`, storing raw filings, permits, PPAs, lease agreements, queue records, ownership records, tracker records, and extracted rows with source URI, retrieval timestamp, hashes, local paths, and record indexes.
+- Source coverage reporting via `scripts/source_coverage_report.py` / `just source-coverage`, counting filings, entities, projects, queue records, permits, PPAs, lease agreements, ownership/tracker records, raw documents, and source-backed deals.
+- Source-backed ownership/consolidation graph generation via `scripts/build_ownership_graph.py` / `just ownership-graph`, turning acquired GLEIF relationship records into LEI nodes, direct/ultimate consolidation edges, relationship statuses, validation fields, quantifiers, and provenance-bearing graph CSVs.
+- Production source-data invariant that rejects inferred provenance in deal/source ingestion paths.
+- Evidence-gated capital-structure metrics for debt-like exposure, SPV/off-balance-sheet exposure, quarterly refinancing walls, concentration, and downside bearers.
+- CSV-based capital/deal evidence ingestion via `scripts/ingest_capital_evidence.py` / `just capital-evidence`.
+- Streamlit UI scaffolding.
+- Evidence-gated report generation.
+
+The important change is that ecosystem-scale conclusions are now blocked from being presented as high-confidence when they are only inferred. The generated report labels current metrics as directional hypotheses and caps report confidence accordingly.
+
+Latest verified evidence-gated report:
+
+- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260601-1355.md`
+- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260601-1355.json`
+- `high_confidence_final`: `false`
+- Source invariant audit: passed across 49 CSV files and 3,266,269 rows with 0 violations and 0 warnings.
+- Acquired source artifacts: 25,852 / 25,852 attempted.
+- Covered filings: 41,688.
+- Source-backed normalized entities: 7,237.
+- Projects: 17,226.
+- Source-backed deals: 49,717.
+- Source-backed compute rows: 166.
+- Source-backed timing signals: 1,324.
+- Pending source-backed review items: 1,437.
+
+Latest capital and timing outputs:
+
+- Capital exposure graph source-backed edges: 7,444.
+- Capital exposure graph total edge notional: $2.954T.
+- AI-infra-relevant graph notional: $280.45B.
+- In-scope debt-like notional: $1.101T.
+- Ownership graph LEI nodes: 425,746.
+- Ownership graph source-backed relationships: 643,807.
+- Ownership graph active relationships: 469,175.
+- Ownership graph direct consolidation edges: 183,847.
+- Ownership graph ultimate consolidation edges: 191,832.
+- Peak stress quarter: 2026-Q2.
+- Candidate stress window: 2025-Q3 to 2026-Q4.
+- AI-infra capital refinancing 2024-2030: $267.99B.
+
+See `docs/acquisition_status.md` for the current run log and acquisition backlog.
+
+## What Is Not Yet True
+
+The system does not yet satisfy the full vision:
+
+- It has not completed review-grade coverage of 1,200-2,000+ meaningful entities,
+  even though the raw normalized entity universe is now much larger.
+- It has crossed the numeric target for extracted source-backed deal rows, but
+  those rows are not yet review-cleared or fully deduplicated into final
+  economic exposures.
+- It has measured multi-trillion-dollar graph exposure, but it has not yet
+  proven full visible plus hidden ecosystem leverage with enough corroboration
+  to support a final bubble conclusion.
+- It has not built complete project-level power, permitting, construction, and asset coverage.
+- It has not proven bubble/no-bubble conclusions with measured and corroborated evidence.
+- It has not produced a professional-investor-grade final report backed by real source coverage.
+
+## Current Command
+
+```bash
+uv run python scripts/generate_final_burry_report.py
+```
+
+This produces an evidence-gated report under `data/reports/`. It is useful as a thesis scaffold and quality-control artifact, not as a final answer.
+
+Physical evidence can be loaded with:
+
+```bash
+just physical-evidence data/physical --as-of 2026-12-31
+```
+
+Capital evidence can be loaded with:
+
+```bash
+just capital-evidence data/capital --as-of 2026-12-31 --near-term-end 2029-12-31
+```
+
+## Next Critical Work
+
+1. Replace seed-scale estimates with measured EDGAR, debt, lease, PPA, permit, grid queue, and project tracker records.
+2. Expand EDGAR document acquisition to exhibit indexes and attachment-level downloads, not just primary documents.
+3. Populate real source catalogs for FERC, ISO queues, state PUC/EPA/local permits, ownership registries, and project trackers, then promote repeated catalogs into dedicated adapters where needed.
+4. Build the master entity/project list with real identifiers, source URIs, and priority scores.
+5. Feed real queue, permit, equipment, and construction observations into `PhysicalRiskEngine` for the top 100-150 projects.
+6. Feed real credit agreements, bond filings, leases, PPAs, and guarantee disclosures into `CapitalStructureAnalyzer` at ecosystem scale.
+7. Expand graph schema coverage for SPVs, guarantees, tranches, collateral, and risk-transfer paths.
+8. Add source-backed evidence audits to entity-level reports, not only the Go Big report.
+9. Require human approval for high-impact claims before any report can be labeled final.
+
+The system should remain skeptical of its own outputs until the evidence gate can prove the claims.
