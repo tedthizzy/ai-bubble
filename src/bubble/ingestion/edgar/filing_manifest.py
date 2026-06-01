@@ -367,6 +367,86 @@ def build_edgar_filing_manifest(
     )
 
 
+def build_edgar_exhibit_manifest_from_manifest(
+    manifest_csv: str | Path,
+    *,
+    fetch_json: FetchJson | None = None,
+    min_parent_relevance_score: int = 75,
+    max_parent_rows: int | None = None,
+    max_exhibits_per_filing: int = 25,
+    exhibit_index_workers: int = 8,
+    sec_requests_per_second: float = 8.0,
+    sec_domain_concurrency: int = 8,
+    retry_attempts: int = 3,
+    retry_backoff_seconds: float = 0.5,
+) -> FilingManifest:
+    """
+    Build an exhibit-only follow-on manifest from an existing primary manifest.
+
+    This avoids refetching SEC submissions JSON when a broad primary manifest has
+    already been built. It only requests SEC archive directory indexes for
+    high-relevance primary rows and emits candidate exhibit documents.
+    """
+
+    fetcher = fetch_json or SecSubmissionsClient().fetch_json
+    parent_records = [
+        record
+        for record in read_filing_manifest_csv(manifest_csv)
+        if record.document_type == "primary"
+        and record.filing_detail_url
+        and record.relevance_score >= min_parent_relevance_score
+    ]
+    if max_parent_rows is not None:
+        parent_records = parent_records[:max_parent_rows]
+
+    limiter = DomainFetchLimiter(
+        FetchConcurrencyConfig(
+            max_workers=exhibit_index_workers,
+            sec_domain_concurrency=sec_domain_concurrency,
+            sec_requests_per_second=sec_requests_per_second,
+            retry_attempts=retry_attempts,
+            retry_backoff_seconds=retry_backoff_seconds,
+        )
+    )
+    exhibits = _exhibit_records_for_filings(
+        parent_records,
+        fetcher=fetcher,
+        limiter=limiter,
+        max_exhibits_per_filing=max_exhibits_per_filing,
+        max_workers=exhibit_index_workers,
+        retry_attempts=retry_attempts,
+        retry_backoff_seconds=retry_backoff_seconds,
+    )
+    parent_keys_with_exhibits = {
+        (record.cik, record.accession_number)
+        for record in exhibits
+        if record.document_type == "exhibit"
+    }
+    return FilingManifest(
+        records=exhibits,
+        summary=_summarize_manifest(
+            requested_count=len(parent_records),
+            returned_count=len(parent_keys_with_exhibits),
+            records=exhibits,
+            errors={},
+            workers=min(max(1, exhibit_index_workers), max(1, len(parent_records))),
+            sec_requests_per_second=sec_requests_per_second,
+            sec_domain_concurrency=sec_domain_concurrency,
+            retry_attempts=retry_attempts,
+            include_exhibits=True,
+            exhibit_index_workers=exhibit_index_workers,
+            parent_filings=parent_records,
+        ),
+    )
+
+
+def read_filing_manifest_csv(path: str | Path) -> list[FilingRecord]:
+    """Read a previously written filing manifest CSV back into record objects."""
+
+    with Path(path).open(newline="") as f:
+        return [_record_from_csv_row(row) for row in csv.DictReader(f)]
+
+
 def _build_manifest_for_cik(
     index: int,
     cik: str,
@@ -759,9 +839,12 @@ def _summarize_manifest(
     retry_attempts: int,
     include_exhibits: bool,
     exhibit_index_workers: int,
+    parent_filings: Sequence[FilingRecord] | None = None,
 ) -> FilingManifestSummary:
     primary_records = [record for record in records if record.document_type == "primary"]
-    summary_filings = primary_records or list(records)
+    summary_filings = (
+        list(parent_filings) if parent_filings is not None else (primary_records or list(records))
+    )
     form_counts = Counter(record.form for record in summary_filings)
     document_type_counts = Counter(record.document_type for record in records)
     reason_counts = Counter(reason for record in records for reason in record.relevance_reasons)
@@ -784,6 +867,59 @@ def _summarize_manifest(
         earliest_filing_date=filing_dates[0].isoformat() if filing_dates else None,
         latest_filing_date=filing_dates[-1].isoformat() if filing_dates else None,
         errors=errors,
+    )
+
+
+def _record_from_csv_row(row: Mapping[str, str]) -> FilingRecord:
+    cik = _normalize_cik(str(row.get("cik") or ""))
+    source_uri = str(row.get("source_uri") or row.get("provenance_source_uri") or "")
+    content_hash = str(row.get("provenance_content_hash") or "")
+    if not content_hash:
+        content_hash = Provenance.compute_content_hash(
+            json.dumps(
+                {
+                    "cik": cik,
+                    "accession_number": row.get("accession_number"),
+                    "primary_document": row.get("primary_document"),
+                    "source_uri": source_uri,
+                },
+                sort_keys=True,
+            )
+        )
+    provenance = Provenance(
+        source_uri=str(row.get("provenance_source_uri") or source_uri),
+        source_type=SourceType.SEC_EDGAR,
+        page_or_section="Loaded from EDGAR filing manifest CSV",
+        confidence=_optional_float(row.get("provenance_confidence")) or 0.95,
+        content_hash=content_hash,
+    )
+    return FilingRecord(
+        cik=cik,
+        company_name=str(row.get("company_name") or f"CIK {cik}"),
+        ticker=_optional_string(row.get("ticker")),
+        form=str(row.get("form") or ""),
+        accession_number=str(row.get("accession_number") or ""),
+        filing_date=_optional_date(row.get("filing_date")),
+        report_date=_optional_date(row.get("report_date")),
+        acceptance_datetime=_optional_string(row.get("acceptance_datetime")),
+        items=_items(str(row.get("items") or "").replace("|", " ")),
+        primary_document=_optional_string(row.get("primary_document")),
+        primary_document_description=_optional_string(row.get("primary_document_description")),
+        size_bytes=_optional_int(row.get("size_bytes")),
+        is_xbrl=_optional_bool(row.get("is_xbrl")),
+        is_inline_xbrl=_optional_bool(row.get("is_inline_xbrl")),
+        source_uri=source_uri,
+        filing_url=_optional_string(row.get("filing_url")),
+        relevance_score=_optional_int(row.get("relevance_score")) or 0,
+        relevance_reasons=[
+            reason
+            for reason in str(row.get("relevance_reasons") or "").split("|")
+            if reason.strip()
+        ],
+        provenance=provenance,
+        document_type=str(row.get("document_type") or "primary"),
+        parent_primary_document=_optional_string(row.get("parent_primary_document")),
+        filing_detail_url=_optional_string(row.get("filing_detail_url")),
     )
 
 
@@ -850,6 +986,22 @@ def _optional_int(value: object | None) -> int | None:
     if not text:
         return None
     return int(float(text.replace(",", "")))
+
+
+def _optional_float(value: object | None) -> float | None:
+    text = _optional_string(value)
+    if not text:
+        return None
+    return float(text.replace(",", ""))
+
+
+def _optional_bool(value: object | None) -> bool:
+    if isinstance(value, bool):
+        return value
+    text = _optional_string(value)
+    if not text:
+        return False
+    return text.lower() in {"1", "true", "yes", "y"}
 
 
 def _bool_at(recent: Mapping[str, Any], key: str, index: int) -> bool:

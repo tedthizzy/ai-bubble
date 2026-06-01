@@ -325,6 +325,19 @@ This writes `entity_mentions.csv`, `entities.csv`, and `expanded_edgar_ciks.csv`
 just edgar-manifest --all-public --cik-csv data/entity_universe/expanded_edgar_ciks.csv --since 2024-01-01 --include-exhibits --max-workers 32
 ```
 
+When a broad primary-document manifest already exists, build a focused
+exhibit-only follow-on without refetching SEC submissions JSON:
+
+```bash
+just edgar-exhibit-manifest data/manifests/edgar_filing_manifest_YYYYMMDD-HHMMSS.csv --min-parent-relevance-score 120 --exhibit-index-workers 64 --sec-domain-concurrency 8 --sec-requests-per-second 8
+```
+
+This reads the existing manifest, fetches SEC archive directory indexes only for
+selected high-signal parent filings, and writes
+`data/manifests/edgar_exhibit_manifest_YYYYMMDD-HHMMSS.csv`. Use the output with
+`just edgar-acquire` to download EX-10, EX-4, EX-2, and EX-99 contract-level
+documents into the same source-backed EDGAR acquisition corpus.
+
 For non-EDGAR sources, use a real source catalog:
 
 ```bash

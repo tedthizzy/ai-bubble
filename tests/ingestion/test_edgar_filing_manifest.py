@@ -7,6 +7,7 @@ from threading import Lock
 from typing import TYPE_CHECKING, Any
 
 from bubble.ingestion.edgar.filing_manifest import (
+    build_edgar_exhibit_manifest_from_manifest,
     build_edgar_filing_manifest,
     score_filing_relevance,
 )
@@ -189,6 +190,64 @@ def test_build_edgar_filing_manifest_can_append_exhibit_documents():
     assert exhibits[0].provenance.source_uri.endswith("/index.json")
     assert "exhibit:10:material contract exhibit" in exhibits[0].relevance_reasons
     assert "exhibit:4:indenture or security instrument exhibit" in exhibits[1].relevance_reasons
+
+
+def test_build_edgar_exhibit_manifest_from_existing_manifest(tmp_path: Path):
+    calls: list[str] = []
+
+    def fake_fetch(url: str) -> dict[str, Any]:
+        calls.append(url)
+        return {
+            "directory": {
+                "item": [
+                    {"name": "form8k.htm", "size": "1,000"},
+                    {"name": "ex10-1-credit-agreement.htm", "size": "2,000"},
+                    {"name": "ex99-1-investor-presentation.htm", "size": "3,000"},
+                    {"name": "ex101.xml", "size": "4,000"},
+                ]
+            }
+        }
+
+    source_manifest = build_edgar_filing_manifest(
+        ["123"],
+        fetch_json=lambda _url: _sample_submission(),
+        since=date(2025, 1, 1),
+        max_filings_per_cik=10,
+    )
+    manifest_csv = source_manifest.write_csv(tmp_path / "primary_manifest.csv")
+
+    exhibit_manifest = build_edgar_exhibit_manifest_from_manifest(
+        manifest_csv,
+        fetch_json=fake_fetch,
+        min_parent_relevance_score=180,
+        max_exhibits_per_filing=10,
+        exhibit_index_workers=4,
+        sec_requests_per_second=7.5,
+        sec_domain_concurrency=5,
+        retry_attempts=5,
+    )
+
+    assert calls == ["https://www.sec.gov/Archives/edgar/data/123/000000000026000002/index.json"]
+    assert exhibit_manifest.summary.entities_requested == 1
+    assert exhibit_manifest.summary.entities_returned == 1
+    assert exhibit_manifest.summary.total_filings == 1
+    assert exhibit_manifest.summary.total_document_rows == 2
+    assert exhibit_manifest.summary.documents_by_type == {"exhibit": 2}
+    assert exhibit_manifest.summary.include_exhibits is True
+    assert exhibit_manifest.summary.workers == 1
+    assert exhibit_manifest.summary.sec_requests_per_second == 7.5
+    assert exhibit_manifest.summary.sec_domain_concurrency == 5
+    assert exhibit_manifest.summary.retry_attempts == 5
+
+    exhibits = exhibit_manifest.prioritized_records()
+    assert {record.document_type for record in exhibits} == {"exhibit"}
+    assert [record.primary_document for record in exhibits] == [
+        "ex10-1-credit-agreement.htm",
+        "ex99-1-investor-presentation.htm",
+    ]
+    assert all(record.parent_primary_document == "credit-agreement.htm" for record in exhibits)
+    assert exhibits[0].filing_url
+    assert exhibits[0].filing_url.endswith("/ex10-1-credit-agreement.htm")
 
 
 def test_exhibit_index_fetches_use_one_global_worker_pool():

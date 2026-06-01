@@ -1,26 +1,26 @@
 # Acquisition Status
 
-Last updated: 2026-06-01 16:27 UTC.
+Last updated: 2026-06-01 16:45 UTC.
 
 This file is the operational snapshot for the current evidence corpus. Treat it
 as a run log, not as a final investment conclusion.
 
 ## Current Corpus
 
-- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260601-1627.md`
+- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260601-1645.md`
 - Evidence gate: not high-confidence final.
-- Source invariant audit: passed, 51 CSV files and 8,523,309 rows scanned, 0 violations, 0 warnings.
+- Source invariant audit: passed, 52 CSV files and 8,534,133 rows scanned, 0 violations, 0 warnings.
 - Source catalog artifacts: 586 / 586 attempted in the latest broad public-source run.
 - Latest source-catalog extracted rows: 4,878,655.
 - Covered filings: 197,243.
-- Raw source documents: 51,454.
-- Source-backed normalized entities: 7,689,845.
+- Raw source documents: 53,682.
+- Source-backed normalized entities: 7,690,577.
 - Expanded SEC CIK candidates: 2,356.
 - Projects: 17,226.
-- Source-backed deals: 55,460.
+- Source-backed deals: 57,363.
 - Source-backed compute rows: 166.
-- Source-backed timing signals: 2,548.
-- Pending source-backed review items: 2,235.
+- Source-backed timing signals: 2,946.
+- Pending source-backed review items: 2,415.
 - Ownership graph: 425,765 LEI nodes, 425,679 named nodes, and 643,828 source-backed relationships.
 
 ## Phase Transition Readiness
@@ -59,7 +59,36 @@ Not ready:
 - reviewed contract-level extraction at the scale needed for professional-grade
   leverage, SPV, collateral, and downside-risk conclusions
 
-## Latest EDGAR Acquisition Run
+## Latest EDGAR Exhibit Run
+
+Manifest:
+
+- `data/manifests/edgar_exhibit_manifest_20260601-163528.csv`
+- parent primary filings inspected: 1,740 with relevance score >= 120
+- parent filings with candidate exhibits: 1,196
+- exhibit document rows: 2,551
+- exhibit mix: 1,353 EX-10 material contracts, 297 EX-4 debt/security
+  instruments, 59 EX-2 transaction agreements, and 842 EX-99 supplemental
+  disclosure exhibits
+- errors: 0
+
+Acquisition:
+
+- documents attempted/downloaded: 2,551 / 2,551
+- documents resumed: 323
+- deal candidates extracted in the run: 2,198
+- bytes downloaded/read: 1,009,835,015
+- errors: 0
+- worker pool: 64
+- SEC request lane: 8 requests/second and 8-domain concurrency
+- output directory: `data/edgar_acquisition`
+
+This was built through the focused follow-on command
+`scripts/build_edgar_exhibit_manifest.py`, which reads an existing primary
+manifest and fetches only SEC archive directory indexes for selected high-signal
+parent filings.
+
+## Latest Primary EDGAR Acquisition Run
 
 Completed 2026-06-01 16:20 UTC:
 
@@ -152,9 +181,9 @@ coverage counts.
 
 Capital exposure graph:
 
-- Nodes: 5,611.
-- Source-backed edges: 8,375.
-- Total edge notional: $5.096T.
+- Nodes: 6,209.
+- Source-backed edges: 9,358.
+- Total edge notional: $6.511T.
 - AI-infra-relevant notional: $280.75B.
 - AI-infra-relevant edges: 206.
 
@@ -176,17 +205,17 @@ Timing layer:
 
 - Peak stress quarter: 2026-Q2.
 - Candidate stress window: 2025-Q3 to 2027-Q1.
-- Capital refinancing 2024-2030: $6.409T.
+- Capital refinancing 2024-2030: $6.618T.
 - AI-infra capital refinancing 2024-2030: $269.02B.
 - Physical capacity 2024-2030: 177,293 MW.
 - Compute amount 2024-2030: $219.41B.
 
 Review queue:
 
-- Critical items: 37.
-- High items: 387.
+- Critical items: 38.
+- High items: 396.
 - AI-infra-relevant items: 584.
-- Pending capital distinct notional: $10.522T.
+- Pending capital distinct notional: $10.903T.
 - Pending AI-infra-relevant distinct capital notional: $793.04B.
 - Pending compute claim amount: $398.24B.
 
@@ -212,9 +241,9 @@ Compute economics:
 ## Next Acquisition Priorities
 
 1. Build the exhibit-enabled follow-on manifest from the expanded CIK set with
-   `--include-exhibits`, prioritizing EX-10 material contracts, EX-4 debt and
-   security instruments, EX-2 transaction agreements, and EX-99 financing or
-   investor-material exhibits.
+   `scripts/build_edgar_exhibit_manifest.py`, lowering the parent relevance
+   threshold from 120 toward 75 after the current high-signal exhibit tranche is
+   triaged.
 2. Extract contract-level lease, debt, guarantee, collateral, tranche, PPA,
    construction, and project-finance rows from acquired exhibits, keeping every
    metric tied to source URI, retrieval timestamp, content hash, accession,

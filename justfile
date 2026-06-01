@@ -71,6 +71,10 @@ ingest-cik CIK *FLAGS:
 edgar-manifest *FLAGS:
     uv run python scripts/build_edgar_manifest.py {{FLAGS}}
 
+# Build an exhibit-only SEC backlog from an existing filing manifest.
+edgar-exhibit-manifest MANIFEST *FLAGS:
+    uv run python scripts/build_edgar_exhibit_manifest.py {{MANIFEST}} {{FLAGS}}
+
 # Build a real-source acquisition catalog for filings plus curated non-EDGAR sources.
 source-catalog *FLAGS:
     uv run python scripts/build_source_catalog.py {{FLAGS}}
