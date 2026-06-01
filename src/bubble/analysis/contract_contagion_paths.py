@@ -191,10 +191,15 @@ def _is_high_impact_contract_edge(
         return False
     if not edge.get("source_uri"):
         return False
+    risk_flags = set(_json_list(edge.get("risk_flags")))
+    if {"non_specific_obligation", "aggregate_snapshot", "shelf_capacity"}.intersection(
+        risk_flags
+    ):
+        return False
     relationship = edge.get("relationship_type") or ""
     if relationship in HIGH_IMPACT_RELATIONSHIPS:
         return True
-    return bool(_json_list(edge.get("relevance_tags")) or _json_list(edge.get("risk_flags")))
+    return bool(_json_list(edge.get("relevance_tags")) or risk_flags)
 
 
 def _contract_only_paths(

@@ -214,3 +214,28 @@ def test_capital_exposure_graph_rejects_broken_counterparty_clauses() -> None:
     assert graph.summary.generic_counterparty_mentions_skipped == 1
     assert graph.summary.edges == 1
     assert graph.edges[0].target_name == "Wells Fargo Bank, National Association"
+
+
+def test_capital_exposure_graph_marks_non_specific_obligation_flags() -> None:
+    deal = Deal(
+        source_deal_id="aggregate-1",
+        deal_type=DealType.BOND,
+        title="Shelf registration for notes",
+        parties=["Issuer Inc.", "noteholders"],
+        counterparty_roles={"issuer": ["Issuer Inc."], "noteholder": ["noteholders"]},
+        notional_amount_usd=25_000_000_000,
+        key_terms={
+            "notional_context_kind": "aggregate_shelf_capacity",
+            "notional_commitment_scope": "shelf_capacity_non_specific",
+            "notional_non_specific_obligation": True,
+        },
+        provenance=_provenance("sec:shelf"),
+        confidence=0.85,
+    )
+
+    graph = build_capital_exposure_graph([deal])
+    risk_flags = set(graph.contract_nodes[0].risk_flags)
+
+    assert "aggregate_snapshot" in risk_flags
+    assert "shelf_capacity" in risk_flags
+    assert "non_specific_obligation" in risk_flags

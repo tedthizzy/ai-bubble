@@ -176,3 +176,36 @@ def test_contract_contagion_paths_require_source_backed_high_impact_edges(
 
     assert batch.summary.high_impact_contract_edges == 0
     assert batch.summary.paths == 0
+
+
+def test_contract_contagion_paths_exclude_non_specific_aggregate_edges(tmp_path: Path) -> None:
+    _write_csv(
+        tmp_path / "graph" / "capital_contract_edges.csv",
+        [
+            {
+                "source_id": "entity:issuer",
+                "source_name": "Issuer Inc.",
+                "source_type": "entity",
+                "target_id": "contract:deal:shelf",
+                "target_name": "Shelf capacity disclosure",
+                "target_type": "deal",
+                "relationship_type": "OBLIGATED_UNDER_DEAL",
+                "deal_id": "shelf-1",
+                "deal_type": "bond",
+                "notional_usd": "25000000000",
+                "source_uri": "https://www.sec.gov/shelf.htm",
+                "content_hash": "hash-shelf",
+                "human_review_status": "pending",
+                "relevance_tags": json.dumps(["direct:compute"]),
+                "risk_flags": json.dumps(
+                    ["aggregate_snapshot", "shelf_capacity", "non_specific_obligation"]
+                ),
+            }
+        ],
+    )
+
+    batch = build_contract_contagion_paths([tmp_path], min_notional_usd=1_000_000)
+
+    assert batch.summary.contract_edges_scanned == 1
+    assert batch.summary.high_impact_contract_edges == 0
+    assert batch.summary.paths == 0

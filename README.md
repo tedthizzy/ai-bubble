@@ -341,7 +341,9 @@ documents into the same source-backed EDGAR acquisition corpus. The EDGAR
 acquirer writes both `deals.csv` and `tranches.csv` when source text supports
 tranche-level debt/bond terms, and enriches deal rows with collateral snippets,
 guarantors, guarantee-scope snippets, SPV/non-recourse flags, source URI,
-content hash, accession context, and pending-adjudication status. A single
+content hash, accession context, pending-adjudication status, and deterministic
+notional scope tags (`notional_context_kind`, `notional_commitment_scope`,
+`notional_non_specific_obligation`). A single
 debt/security document can emit multiple `tranches.csv` rows when explicit
 source text names separate term loan, revolver, or note-series amounts;
 otherwise the extractor falls back to one primary tranche candidate. Tranche
@@ -444,6 +446,9 @@ The contract-structure graph can then be joined to the source-backed ownership
 graph to create a conservative contract/ownership contagion path artifact. The
 join is currently exact legal-name matching only; unmatched high-impact
 guarantee and collateral paths are still retained as contract-only adjudication items.
+Non-specific aggregate/shelf disclosure rows are flagged in the contract graph
+and excluded from high-impact contagion path generation until they are tied to
+specific committed obligations and counterparties.
 Outputs are written to `data/reports/contract_contagion_paths.csv` and
 `data/reports/contract_contagion_summary.json`, with SEC/GLEIF source URIs,
 content hashes, adjudication statuses, notional exposure, ownership path depth, and
@@ -540,6 +545,9 @@ Expected files:
   source-backed guarantee-scope context when extracted
 
 Every row must include `source_uri`; optional `source_type`, `source_confidence`, `human_review_status` adjudication status, `page_or_section`, and `content_hash` fields feed the evidence gate. Use `counterparty_roles` and `key_terms` as JSON objects so roles, guarantees, SPVs, and lease classification flags remain structured.
+For EDGAR rows, `key_terms` should preserve notional scope fields so aggregate
+snapshots, shelf capacity disclosures, and specific committed transactions can
+be separated deterministically during adjudication.
 
 Acquired FERC PPA rows can be normalized into `data/capital/deals.csv` without inferring dollar exposure:
 

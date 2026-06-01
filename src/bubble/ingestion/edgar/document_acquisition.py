@@ -767,6 +767,10 @@ def extract_deal_candidate(
             ]
         deal_type = DealType.LEASE
     amount = amount_candidate.value_usd if amount_candidate else None
+    commitment_scope, commitment_scope_reasons = _notional_commitment_scope(
+        context_kind=amount_candidate.context_kind if amount_candidate else "",
+        context_excerpt=amount_candidate.context_excerpt if amount_candidate else "",
+    )
     maturity = extract_maturity_date(text)
     interest_rate = extract_interest_rate(text)
     company_name = manifest_row.get("company_name") or manifest_row.get("cik") or "unknown-company"
@@ -828,6 +832,10 @@ def extract_deal_candidate(
         "notional_rejected_terms": amount_candidate.rejected_terms if amount_candidate else [],
         "notional_context_kind": amount_candidate.context_kind if amount_candidate else "",
         "notional_context_excerpt": amount_candidate.context_excerpt if amount_candidate else "",
+        "notional_commitment_scope": commitment_scope,
+        "notional_scope_reasons": commitment_scope_reasons,
+        "notional_non_specific_obligation": commitment_scope
+        in {"aggregate_snapshot_non_specific", "shelf_capacity_non_specific"},
         "counterparty_extraction_status": (
             "role_extracted" if counterparty_roles else "not_extracted"
         ),
@@ -853,6 +861,16 @@ def extract_deal_candidate(
         key_terms["notional_context_excerpt"] = " | ".join(
             tranche.source_excerpt for tranche in tranches if tranche.source_excerpt
         )[:500]
+        scope, scope_reasons = _notional_commitment_scope(
+            context_kind=str(key_terms.get("notional_context_kind") or ""),
+            context_excerpt=str(key_terms.get("notional_context_excerpt") or ""),
+        )
+        key_terms["notional_commitment_scope"] = scope
+        key_terms["notional_scope_reasons"] = scope_reasons
+        key_terms["notional_non_specific_obligation"] = scope in {
+            "aggregate_snapshot_non_specific",
+            "shelf_capacity_non_specific",
+        }
     title = _candidate_title(manifest_row, deal_type)
 
     return DealCandidate(
@@ -1382,6 +1400,10 @@ def _notional_positive_terms(context: str, *, deal_type: DealType) -> list[str]:
         "secured notes": 2,
         "offering": 1,
         "purchase price": 1,
+        "purchase commitments": 2,
+        "commitments were": 1,
+        "remaining commitments": 1,
+        "total commitments": 1,
         "lease": 1,
         "power purchase": 2,
         "guaranteed obligations": 2,
@@ -1438,6 +1460,10 @@ def _notional_positive_terms(context: str, *, deal_type: DealType) -> list[str]:
 
 
 def _notional_context_kind(context: str, *, deal_type: DealType) -> str:
+    if _looks_like_shelf_capacity_context(context):
+        return "aggregate_shelf_capacity"
+    if _looks_like_non_specific_commitment_snapshot_context(context):
+        return "aggregate_commitment_snapshot"
     phrase_kind_rules = [
         (
             "aggregate_lease_obligation",
@@ -1479,6 +1505,87 @@ def _notional_context_kind(context: str, *, deal_type: DealType) -> str:
         if any(phrase in context for phrase in phrases):
             return kind
     return "transaction_guarantee" if deal_type == DealType.GUARANTEE else "candidate_notional"
+
+
+def _notional_commitment_scope(
+    *,
+    context_kind: str,
+    context_excerpt: str,
+) -> tuple[str, list[str]]:
+    normalized_kind = context_kind.strip().lower()
+    normalized_excerpt = context_excerpt.strip().lower()
+    reasons: list[str] = []
+    if normalized_kind.startswith("aggregate_"):
+        reasons.append(f"context_kind:{normalized_kind}")
+        if normalized_kind == "aggregate_shelf_capacity":
+            reasons.append("shelf_or_registration_language")
+            return "shelf_capacity_non_specific", reasons
+        return "aggregate_snapshot_non_specific", reasons
+    if _looks_like_shelf_capacity_context(normalized_excerpt):
+        reasons.append("shelf_or_registration_language")
+        return "shelf_capacity_non_specific", reasons
+    if _looks_like_non_specific_commitment_snapshot_context(normalized_excerpt):
+        reasons.append("snapshot_commitment_language")
+        return "aggregate_snapshot_non_specific", reasons
+    if normalized_kind.startswith("transaction_"):
+        reasons.append(f"context_kind:{normalized_kind}")
+        return "specific_transaction_commitment", reasons
+    if normalized_kind:
+        reasons.append(f"context_kind:{normalized_kind}")
+    return "candidate_requires_adjudication", reasons
+
+
+def _looks_like_shelf_capacity_context(context: str) -> bool:
+    if not context:
+        return False
+    shelf_markers = (
+        "registration statement",
+        "prospectus supplement",
+        "shelf",
+        "from time to time",
+        "may offer",
+        "may issue",
+    )
+    capacity_markers = (
+        "debt securities",
+        "notes",
+        "senior notes",
+        "common stock",
+        "preferred stock",
+        "warrants",
+        "up to",
+    )
+    return any(marker in context for marker in shelf_markers) and any(
+        marker in context for marker in capacity_markers
+    )
+
+
+def _looks_like_non_specific_commitment_snapshot_context(context: str) -> bool:
+    if not context or "as of " not in context:
+        return False
+    snapshot_markers = (
+        "purchase commitments",
+        "commitments were",
+        "remaining commitments",
+        "total commitments",
+        "aggregate commitments",
+        "commitments to",
+    )
+    if not any(marker in context for marker in snapshot_markers):
+        return False
+    transaction_markers = (
+        "credit agreement",
+        "loan agreement",
+        "indenture",
+        "senior notes due",
+        "issued",
+        "being issued",
+        "being offered",
+        "entered into",
+        "term loan facility",
+        "revolving credit facility",
+    )
+    return not any(marker in context for marker in transaction_markers)
 
 
 def _notional_rejected_terms(context: str) -> list[str]:

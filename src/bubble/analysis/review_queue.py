@@ -188,9 +188,14 @@ def _capital_review_items(
             f"notional ${notional:,.0f}",
         ]
         context_kind = str(key_terms.get("notional_context_kind") or "").strip()
+        commitment_scope = str(key_terms.get("notional_commitment_scope") or "").strip()
         extraction_method = str(key_terms.get("extraction_method") or "").strip()
         if context_kind:
             reasons.append(f"notional context: {context_kind}")
+        if commitment_scope:
+            reasons.append(f"commitment scope: {commitment_scope}")
+        if bool(key_terms.get("notional_non_specific_obligation")):
+            reasons.append("notional reflects non-specific aggregate or shelf disclosure")
         if key_terms.get("requires_llm_adjudication") or key_terms.get("requires_human_review"):
             reasons.append("source extraction marked requires LLM adjudication")
         if extraction_method:

@@ -545,6 +545,110 @@ def test_materiality_adjudication_dedupes_aggregate_snapshots_to_latest_metric(
     ]
 
 
+def test_materiality_adjudication_approves_aggregate_commitment_snapshot(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-commitments",
+                "rank": 1,
+                "review_id": "review-commitments",
+                "review_group_id": "group-commitments",
+                "priority": "critical",
+                "category": "capital",
+                "subcategory": "high_notional_debt_like_candidate",
+                "ecosystem_relevance": "compute_economics",
+                "entity": "Example Compute Corp.",
+                "counterparty": "",
+                "exposure_basis_usd": "119000000000",
+                "reason": "notional context: aggregate_commitment_snapshot",
+                "recommended_action": "Separate aggregate disclosure from specific contracts",
+                "source_uri": "https://www.sec.gov/example-commitments.htm",
+                "source_uris": json.dumps(["https://www.sec.gov/example-commitments.htm"]),
+                "content_hash": "d" * 64,
+                "content_hashes": json.dumps(["d" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/example-commitments.htm",
+                            "content_hash": "d" * 64,
+                            "document_id": "example-commitments.htm",
+                            "snippet": (
+                                "As of April 26, 2026, purchase commitments were "
+                                "$119 billion under long-term infrastructure and "
+                                "supply commitments."
+                            ),
+                        }
+                    ]
+                ),
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    assert batch.summary.approved_for_metric_use == 1
+    assert batch.decisions[0].metric_use_status == "approved_for_metric_use"
+    assert batch.decisions[0].remaining_gap == ""
+
+
+def test_materiality_adjudication_keeps_shelf_capacity_blocked(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-shelf",
+                "rank": 1,
+                "review_id": "review-shelf",
+                "review_group_id": "group-shelf",
+                "priority": "critical",
+                "category": "capital",
+                "subcategory": "high_notional_debt_like_candidate",
+                "ecosystem_relevance": "direct_ai_infra",
+                "entity": "Example Issuer Inc.",
+                "counterparty": "",
+                "exposure_basis_usd": "25000000000",
+                "reason": "notional context: aggregate_shelf_capacity",
+                "recommended_action": "Distinguish shelf capacity from committed financing",
+                "source_uri": "https://www.sec.gov/example-shelf.htm",
+                "source_uris": json.dumps(["https://www.sec.gov/example-shelf.htm"]),
+                "content_hash": "e" * 64,
+                "content_hashes": json.dumps(["e" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/example-shelf.htm",
+                            "content_hash": "e" * 64,
+                            "document_id": "example-shelf.htm",
+                            "snippet": (
+                                "This prospectus supplement forms part of the registration "
+                                "statement. From time to time, we may offer up to "
+                                "$25 billion of debt securities."
+                            ),
+                        }
+                    ]
+                ),
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    assert batch.summary.approved_for_metric_use == 0
+    assert batch.decisions[0].metric_use_status == "blocked_pending_extraction"
+    assert "split aggregate disclosure" in batch.decisions[0].remaining_gap
+
+
 def test_write_materiality_adjudication_decisions(tmp_path: Path) -> None:
     _write_csv(
         tmp_path / "reports" / "materiality_adjudication_packets.csv",

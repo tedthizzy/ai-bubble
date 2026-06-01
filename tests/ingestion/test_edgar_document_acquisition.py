@@ -101,6 +101,8 @@ def _assert_credit_candidate(candidate: DealCandidate) -> None:
     assert candidate.key_terms["non_recourse"] is True
     assert candidate.key_terms["off_balance_sheet"] is True
     assert candidate.key_terms["notional_context_kind"] == "transaction_facility"
+    assert candidate.key_terms["notional_commitment_scope"] == "specific_transaction_commitment"
+    assert candidate.key_terms["notional_non_specific_obligation"] is False
     assert candidate.key_terms["counterparty_extraction_status"] == "role_extracted"
     assert candidate.key_terms["document_type"] == "exhibit"
     assert candidate.key_terms["parent_primary_document"] == "form8k.htm"
@@ -493,7 +495,62 @@ def test_deal_candidate_marks_aggregate_lease_obligation_notional(tmp_path: Path
     assert candidate.deal_type == DealType.LEASE
     assert candidate.notional_amount_usd == 75_600_000_000
     assert candidate.key_terms["notional_context_kind"] == "aggregate_lease_obligation"
+    assert candidate.key_terms["notional_commitment_scope"] == "aggregate_snapshot_non_specific"
+    assert candidate.key_terms["notional_non_specific_obligation"] is True
     assert "notional_context:aggregate_lease_obligation" in candidate.key_terms["agreement_reasons"]
+
+
+def test_deal_candidate_marks_aggregate_commitment_snapshot_scope(tmp_path: Path):
+    candidate = extract_deal_candidate(
+        {
+            "cik": "0000000123",
+            "company_name": "Example Cloud Inc.",
+            "form": "8-K",
+            "accession_number": "0000000000-26-000012",
+            "primary_document": "commitments.htm",
+            "document_type": "exhibit",
+            "filing_url": "https://www.sec.gov/Archives/edgar/data/123/000000000026000012/commitments.htm",
+            "relevance_score": "150",
+        },
+        (
+            "Credit facility disclosure. As of April 26, 2026, purchase commitments "
+            "were $119 billion under our long-term supply and infrastructure commitments."
+        ),
+        "hash",
+        tmp_path / "commitments.htm",
+    )
+
+    assert candidate
+    assert candidate.key_terms["notional_context_kind"] == "aggregate_commitment_snapshot"
+    assert candidate.key_terms["notional_commitment_scope"] == "aggregate_snapshot_non_specific"
+    assert candidate.key_terms["notional_non_specific_obligation"] is True
+
+
+def test_deal_candidate_marks_shelf_capacity_scope(tmp_path: Path):
+    candidate = extract_deal_candidate(
+        {
+            "cik": "0000000123",
+            "company_name": "Example Issuer Inc.",
+            "form": "424B5",
+            "accession_number": "0000000000-26-000013",
+            "primary_document": "prospectus.htm",
+            "document_type": "primary",
+            "filing_url": "https://www.sec.gov/Archives/edgar/data/123/000000000026000013/prospectus.htm",
+            "relevance_score": "155",
+        },
+        (
+            "This prospectus supplement forms part of the registration statement. "
+            "From time to time, we may offer up to $25 billion aggregate principal "
+            "amount of debt securities, including senior notes."
+        ),
+        "hash",
+        tmp_path / "prospectus.htm",
+    )
+
+    assert candidate
+    assert candidate.key_terms["notional_context_kind"] == "aggregate_shelf_capacity"
+    assert candidate.key_terms["notional_commitment_scope"] == "shelf_capacity_non_specific"
+    assert candidate.key_terms["notional_non_specific_obligation"] is True
 
 
 def test_deal_notional_extractor_rejects_rpo_fundraising_outstanding_and_snapshot_debt():

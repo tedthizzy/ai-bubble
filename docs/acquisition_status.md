@@ -1,16 +1,16 @@
 # Acquisition Status
 
-Last updated: 2026-06-01 21:17 UTC.
+Last updated: 2026-06-01 21:56 UTC.
 
 This file is the operational snapshot for the current evidence corpus. Treat it
 as a run log, not as a final investment conclusion.
 
 ## Current Corpus
 
-- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260601-2115.md`
+- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260601-2154.md`
 - Evidence gate: not high-confidence final.
-- Source invariant audit: passed at 2026-06-01 21:17 UTC, 59 CSV files
-  and 8,905,727 rows scanned, 0 violations, 0 warnings.
+- Source invariant audit: passed at 2026-06-01 21:55 UTC, 59 CSV files
+  and 8,905,760 rows scanned, 0 violations, 0 warnings.
 - Generated report assets are internal evidence artifacts; the user-facing
   deliverable remains a high-level chat summary once the evidence supports it.
 - Source catalog artifacts: 586 / 586 attempted in the latest broad public-source run.
@@ -21,18 +21,18 @@ as a run log, not as a final investment conclusion.
 - Expanded SEC CIK candidates: 2,356.
 - Projects: 17,226.
 - Source-backed deals: 62,950.
-- Source-backed contract tranches: 10,040.
+- Source-backed contract tranches: 10,051.
 - Source-backed compute rows: 166.
 - Source-backed timing signals: 3,860.
-- Pending source-backed adjudication items: 7,409.
+- Pending source-backed adjudication items: 7,394.
 - Ownership graph: 425,765 LEI nodes, 425,679 named nodes, and 643,828 source-backed relationships.
-- Contract-structure graph: 98,699 nodes and 206,278 source-backed edges.
-- Contract/ownership contagion paths: 10,817 source-backed paths, including
-  1,998 ownership-expanded paths, 8,819 contract-only paths, 525 AI-infra
-  relevant paths, and 257 high-or-critical paths.
+- Contract-structure graph: 98,710 nodes and 206,348 source-backed edges.
+- Contract/ownership contagion paths: 10,773 source-backed paths, including
+  1,990 ownership-expanded paths, 8,783 contract-only paths, 510 AI-infra
+  relevant paths, and 242 high-or-critical paths.
 - Materiality-first LLM adjudication packets: 250 top blockers packaged, all
-  250 source-backed with local evidence snippets, 185 AI-infra relevant, and
-  $30.279T of total exposure-basis across the packet set.
+  250 source-backed with local evidence snippets, 182 AI-infra relevant, and
+  $53.666T of total exposure-basis across the packet set.
 - Automated materiality adjudication decisions: 250 decisions, 224 with resolved
   text quotes, 35 supported as material blockers, 189 requiring deeper extraction,
   26 requiring source retrieval/non-binary parsed evidence, and 5 source-backed
@@ -105,9 +105,9 @@ Must move next:
 - deeper contagion modeling that joins contract edges, ownership/SPV edges,
   guarantee/collateral terms, maturities, and physical execution risks beyond
   exact legal-name matches
-- triage of the 2,506 pending contract-tranche adjudication items before relying on
+- triage of the 2,510 pending contract-tranche adjudication items before relying on
   tranche-level downside-bearer or waterfall conclusions
-- triage of the 1,797 pending contract-contagion adjudication items before relying on
+- triage of the 1,775 pending contract-contagion adjudication items before relying on
   full contagion paths
 - broadened source-backed GPU depreciation, TAM, payback, EPS, and chip-supply
   evidence beyond the first EDGAR-derived row set
@@ -138,12 +138,12 @@ Broad exhibit manifest completed 2026-06-01 19:59 UTC:
 - SEC request lane: 8 requests/second and 8-domain concurrency
 - source primary manifest: `data/manifests/edgar_filing_manifest_20260601-142009.csv`
 
-Broad exhibit document acquisition/reparse refreshed 2026-06-01 21:09 UTC:
+Broad exhibit document acquisition/reparse refreshed 2026-06-01 21:48 UTC:
 
 - documents attempted/downloaded: 16,981 / 16,981
 - documents resumed in latest enrichment pass: 16,981
 - deal candidates extracted in the run: 8,493
-- contract tranches materialized in the run: 5,128
+- contract tranches materialized in the run: 5,137
 - deal mix: 4,168 debt facilities, 1,522 bonds, 710 PPAs, 435 leases,
   144 land acquisitions, 25 guarantees, 23 construction contracts, and 1,466
   other candidates
@@ -163,10 +163,9 @@ series amounts, `data/edgar_acquisition/tranches.csv` now carries separate
 source-backed tranche rows instead of only one primary fallback tranche. The
 fallback still applies when the source text does not clearly separate tranches.
 
-The same reparse added guarantee-scope extraction from agreement prose. Current
-EDGAR-derived outputs include 655 deal rows with guarantors, 4,374 deal rows
-with guarantee-scope snippets in `key_terms`, 553 tranche rows with guarantors,
-and 3,267 tranche rows with `guarantee_description` source context.
+The same reparse keeps guarantee-scope extraction from agreement prose enabled
+for both deal-level and tranche-level rows, with source-backed
+`guarantee_description` context preserved in `tranches.csv`.
 
 Prior focused exhibit run:
 

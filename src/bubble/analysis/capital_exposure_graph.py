@@ -1559,7 +1559,25 @@ def _deal_risk_flags(deal: Deal) -> tuple[str, ...]:
         flags.add("spv_signal")
     if deal.debt_tranches:
         flags.add("tranched")
+    flags.update(_notional_scope_risk_flags(deal))
     return tuple(sorted(flags))
+
+
+def _notional_scope_risk_flags(deal: Deal) -> set[str]:
+    flags: set[str] = set()
+    commitment_scope = str(deal.key_terms.get("notional_commitment_scope") or "").strip().lower()
+    if commitment_scope == "aggregate_snapshot_non_specific":
+        flags.update({"aggregate_snapshot", "non_specific_obligation"})
+    elif commitment_scope == "shelf_capacity_non_specific":
+        flags.update({"shelf_capacity", "non_specific_obligation"})
+    context_kind = str(deal.key_terms.get("notional_context_kind") or "").strip().lower()
+    if context_kind.startswith("aggregate_"):
+        flags.add("aggregate_snapshot")
+        if context_kind == "aggregate_shelf_capacity":
+            flags.add("shelf_capacity")
+    if bool(deal.key_terms.get("notional_non_specific_obligation")):
+        flags.add("non_specific_obligation")
+    return flags
 
 
 def _tranche_risk_flags(deal: Deal, tranche: Any) -> tuple[str, ...]:

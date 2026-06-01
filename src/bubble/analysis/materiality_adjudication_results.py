@@ -444,7 +444,16 @@ def _has_supporting_terms(packet: dict[str, str], quote: str) -> bool:
     text = _combined_text(packet, quote)
     category = _field(packet, "category")
     terms = {
-        "capital": ["credit agreement", "facility", "loan", "notes", "lease", "obligation"],
+        "capital": [
+            "credit agreement",
+            "facility",
+            "loan",
+            "notes",
+            "lease",
+            "obligation",
+            "commitment",
+            "commitments",
+        ],
         "contract": ["collateral", "guarantor", "interest", "maturity", "tranche"],
         "contagion": ["guarantee", "collateral", "parent", "subsidiary", "non-recourse"],
         "physical": ["queue", "permit", "interconnection", "capacity", "mw"],
@@ -696,27 +705,54 @@ def _is_source_backed_aggregate_obligation_snapshot(
     text = _combined_text(packet, quote)
     if _field(packet, "category") != "capital":
         return False
-    if "aggregate_lease_obligation" not in text:
-        return False
     if _float(packet.get("exposure_basis_usd")) <= 0:
         return False
-    return _contains_any(
+    if _contains_any(
         text,
         [
-            "future lease payments",
-            "lease payments",
-            "operating lease obligations",
-            "finance lease obligations",
+            "aggregate_shelf_capacity",
+            "registration statement",
+            "prospectus supplement",
+            "from time to time",
+            "may offer",
+            "may issue",
         ],
-    ) and _contains_any(
+    ):
+        return False
+    is_aggregate_lease = _contains_any(
+        text,
+        ["aggregate_lease_obligation", "future lease payments", "operating lease obligations"],
+    )
+    if is_aggregate_lease:
+        return _contains_any(
+            text,
+            [
+                "future lease payments",
+                "lease payments",
+                "operating lease obligations",
+                "finance lease obligations",
+            ],
+        ) and _contains_any(
+            text,
+            [
+                "not yet recorded",
+                "not yet commenced",
+                "entered into leases",
+                "consolidated balance sheets",
+            ],
+        )
+    is_aggregate_commitment_snapshot = _contains_any(
         text,
         [
-            "not yet recorded",
-            "not yet commenced",
-            "entered into leases",
-            "consolidated balance sheets",
+            "aggregate_commitment_snapshot",
+            "purchase commitments",
+            "commitments were",
+            "remaining commitments",
+            "total commitments",
+            "aggregate commitments",
         ],
     )
+    return is_aggregate_commitment_snapshot and "as of " in text
 
 
 def _as_of_date(text: str) -> date | None:
