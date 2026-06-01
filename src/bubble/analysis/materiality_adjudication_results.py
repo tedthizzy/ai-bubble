@@ -228,9 +228,7 @@ def _remaining_gaps(packet: dict[str, str], quote: str) -> list[str]:
     gaps: list[str] = []
     if not quote:
         gaps.append("local source quote not resolved")
-    if (
-        "aggregate" in text or "aggregate_lease_obligation" in text
-    ) and not _is_source_backed_aggregate_obligation_snapshot(packet, quote):
+    if _requires_aggregate_split(packet, quote):
         gaps.append("split aggregate disclosure from specific committed obligation")
     if "preliminary prospectus" in text or "not complete and may be changed" in text:
         gaps.append("confirm final prospectus or underlying agreement terms")
@@ -246,15 +244,36 @@ def _remaining_gaps(packet: dict[str, str], quote: str) -> list[str]:
 
 def _category_gaps(packet: dict[str, str], text: str) -> list[str]:
     category = _field(packet, "category")
+    reason_text = _field(packet, "reason").lower()
     gaps: list[str] = []
     if category == "capital" and _is_source_backed_aggregate_obligation_snapshot(packet, text):
         return gaps
     if category in {"capital", "contract"}:
         if not _field(packet, "counterparty"):
             gaps.append("extract named counterparty and role")
-        if not _contains_any(text, ["recourse", "non-recourse", "guarantee", "guarantor"]):
+        guarantee_scope_present = _contains_any(
+            reason_text,
+            [
+                "guarantee scope present",
+                "guarantor terms present",
+                "guarantee terms present",
+            ],
+        )
+        if not guarantee_scope_present and not _contains_any(
+            text, ["recourse", "non-recourse", "guarantee", "guarantor"]
+        ):
             gaps.append("determine recourse and guarantee scope")
-        if not _contains_any(text, ["collateral", "secured", "security interest", "pledge"]):
+        collateral_scope_present = _contains_any(
+            reason_text,
+            [
+                "collateral terms present",
+                "collateral scope present",
+                "secured terms present",
+            ],
+        )
+        if not collateral_scope_present and not _contains_any(
+            text, ["collateral", "secured", "security interest", "pledge"]
+        ):
             gaps.append("determine collateral scope")
     if category == "contagion" and not _contains_any(text, ["parent", "subsidiary", "guarantee"]):
         gaps.append("validate legal-entity path and risk transfer mechanism")
@@ -753,6 +772,45 @@ def _is_source_backed_aggregate_obligation_snapshot(
         ],
     )
     return is_aggregate_commitment_snapshot and "as of " in text
+
+
+def _requires_aggregate_split(packet: dict[str, str], quote: str) -> bool:
+    if _is_source_backed_aggregate_obligation_snapshot(packet, quote):
+        return False
+    text = _combined_text(packet, quote)
+    reason = _field(packet, "reason").lower()
+    explicit_non_specific_markers = [
+        "commitment scope: aggregate_snapshot_non_specific",
+        "commitment scope: shelf_capacity_non_specific",
+        "notional context: aggregate_lease_obligation",
+        "notional context: aggregate_commitment_snapshot",
+        "notional context: aggregate_shelf_capacity",
+        "shelf capacity",
+        "from time to time, we may offer",
+        "may issue up to",
+        "registration statement",
+    ]
+    if _contains_any(text, explicit_non_specific_markers):
+        return True
+
+    explicit_specific_markers = [
+        "commitment scope: specific_transaction_commitment",
+        "notional context: transaction_",
+        "pending contract tranche review; tranche:",
+        "credit agreement",
+        "facility",
+        "term loan",
+        "revolver",
+        "bridge loan",
+        "indenture",
+        "entered into",
+        "repaid all outstanding obligations",
+    ]
+    if _contains_any(reason, explicit_specific_markers):
+        return False
+    if _contains_any(text, ["tranche", "credit agreement", "term loan", "revolver", "indenture"]):
+        return False
+    return "aggregate" in text
 
 
 def _as_of_date(text: str) -> date | None:

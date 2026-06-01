@@ -649,6 +649,112 @@ def test_materiality_adjudication_keeps_shelf_capacity_blocked(
     assert "split aggregate disclosure" in batch.decisions[0].remaining_gap
 
 
+def test_materiality_adjudication_does_not_flag_split_for_specific_transaction_principal(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-transaction-principal",
+                "rank": 1,
+                "review_id": "review-transaction-principal",
+                "review_group_id": "group-transaction-principal",
+                "priority": "high",
+                "category": "capital",
+                "subcategory": "high_notional_debt_like_candidate",
+                "ecosystem_relevance": "direct_ai_infra",
+                "entity": "Example Borrower, Inc.",
+                "counterparty": "Example Lender Bank",
+                "exposure_basis_usd": "25000000000",
+                "reason": (
+                    "pending adjudication status: pending; debt-like deal type: debt_facility; "
+                    "notional $25,000,000,000; notional context: transaction_principal; "
+                    "commitment scope: specific_transaction_commitment"
+                ),
+                "recommended_action": "Confirm maturity, collateral, and recourse",
+                "source_uri": "https://www.sec.gov/example-transaction.htm",
+                "source_uris": json.dumps(["https://www.sec.gov/example-transaction.htm"]),
+                "content_hash": "f" * 64,
+                "content_hashes": json.dumps(["f" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/example-transaction.htm",
+                            "content_hash": "f" * 64,
+                            "document_id": "example-transaction.htm",
+                            "snippet": (
+                                "The aggregate principal amount of notes sold in the "
+                                "offering was $25 billion."
+                            ),
+                        }
+                    ]
+                ),
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    assert "split aggregate disclosure" not in batch.decisions[0].remaining_gap
+
+
+def test_materiality_adjudication_uses_contract_reason_flags_for_scope_terms(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-contract-flags",
+                "rank": 1,
+                "review_id": "review-contract-flags",
+                "review_group_id": "group-contract-flags",
+                "priority": "high",
+                "category": "contract",
+                "subcategory": "contract_tranche_terms",
+                "ecosystem_relevance": "direct_ai_infra",
+                "entity": "Example Borrower, Inc.",
+                "counterparty": "Example Lender Bank",
+                "exposure_basis_usd": "20000000000",
+                "reason": (
+                    "pending contract tranche review; tranche: Principal tranche; "
+                    "notional $20,000,000,000; maturity 2027-09-02; "
+                    "interest rate 0.02; collateral terms present; guarantee scope present"
+                ),
+                "recommended_action": "Confirm contract edge and downside bearer",
+                "source_uri": "https://www.sec.gov/example-contract.htm",
+                "source_uris": json.dumps(["https://www.sec.gov/example-contract.htm"]),
+                "content_hash": "1" * 64,
+                "content_hashes": json.dumps(["1" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/example-contract.htm",
+                            "content_hash": "1" * 64,
+                            "document_id": "example-contract.htm",
+                            "snippet": "Bridge Loan Credit Agreement dated as of March 2, 2026.",
+                        }
+                    ]
+                ),
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    decision = batch.decisions[0]
+    assert "determine recourse and guarantee scope" not in decision.remaining_gap
+    assert "determine collateral scope" not in decision.remaining_gap
+    assert decision.metric_use_status == "approved_for_metric_use"
+
+
 def test_write_materiality_adjudication_decisions(tmp_path: Path) -> None:
     _write_csv(
         tmp_path / "reports" / "materiality_adjudication_packets.csv",
