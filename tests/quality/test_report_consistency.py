@@ -11,6 +11,7 @@ from bubble.quality.report_consistency import (
     CountExpectation,
     build_expectations,
     check_confidence_flags,
+    check_metric_audit_coverage,
     check_invariant_audit_status,
     check_labeled_counts,
     check_metric_total_agreement,
@@ -159,6 +160,41 @@ def test_matching_confidence_flags_have_no_findings() -> None:
     )
 
     assert findings == []
+
+
+def test_flags_high_impact_answer_metric_without_audit() -> None:
+    report = {
+        "evidence_quality": {
+            "claim_audits": [{"claim_id": "coverage.filings", "value": 197243}],
+        },
+        "burry_question_answers": {
+            "how_large": {
+                "current_debt_like_notional_usd": 1_200_000_000_000,  # $1.2T, unaudited
+                "current_small_usd": 50_000_000,  # below threshold
+                "current_count": 1022,  # not a usd metric
+            }
+        },
+    }
+
+    findings = check_metric_audit_coverage(report, threshold=100e9)
+
+    assert len(findings) == 1
+    assert findings[0].check == "unaudited_high_impact_metric"
+    assert findings[0].severity == "warning"
+    assert "current_debt_like_notional_usd" in findings[0].message
+
+
+def test_audited_high_impact_metric_has_no_finding() -> None:
+    report = {
+        "evidence_quality": {
+            "claim_audits": [{"claim_id": "x", "value": 1_200_000_000_000}],
+        },
+        "burry_question_answers": {
+            "how_large": {"current_debt_like_notional_usd": 1_200_000_000_000}
+        },
+    }
+
+    assert check_metric_audit_coverage(report, threshold=100e9) == []
 
 
 def test_warns_on_stale_doc_timestamp() -> None:

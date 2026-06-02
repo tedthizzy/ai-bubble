@@ -29,6 +29,7 @@ from bubble.quality.report_consistency import (
     check_confidence_flags,
     check_invariant_audit_status,
     check_labeled_counts,
+    check_metric_audit_coverage,
     check_metric_total_agreement,
     check_report_path_freshness,
     check_timestamp_freshness,
@@ -85,6 +86,7 @@ def main() -> int:
     findings = []
     findings.extend(check_invariant_audit_status(invariant_audit))
     findings.extend(check_metric_total_agreement(report=report, decision_summary=decision_summary))
+    findings.extend(check_metric_audit_coverage(report))
     for rel in DOC_RELATIVE_PATHS:
         doc_path = root / rel
         if not doc_path.exists():

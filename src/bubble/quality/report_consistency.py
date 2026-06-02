@@ -268,6 +268,57 @@ def check_confidence_flags(
 _TIMESTAMP_RE = re.compile(r"(\d{4}-\d{2}-\d{2})[ T](\d{2}:\d{2})")
 
 
+def check_metric_audit_coverage(
+    report: dict[str, Any],
+    *,
+    threshold: float = 100e9,
+) -> list[ConsistencyFinding]:
+    """Flag high-impact USD metrics shown in ``burry_question_answers`` that have
+    no matching EvidenceGate audit (warning — surfaces audit-coverage gaps)."""
+
+    audited_values: set[float] = set()
+    for audit in report.get("evidence_quality", {}).get("claim_audits", []):
+        value = audit.get("value")
+        if isinstance(value, (int, float)) and not isinstance(value, bool):
+            audited_values.add(float(value))
+
+    findings: list[ConsistencyFinding] = []
+    seen: set[str] = set()
+
+    def walk(obj: Any) -> None:
+        if isinstance(obj, dict):
+            for key, value in obj.items():
+                if (
+                    isinstance(value, (int, float))
+                    and not isinstance(value, bool)
+                    and "usd" in key.lower()
+                    and float(value) > threshold
+                    and float(value) not in audited_values
+                    and key not in seen
+                ):
+                    seen.add(key)
+                    findings.append(
+                        ConsistencyFinding(
+                            check="unaudited_high_impact_metric",
+                            severity="warning",
+                            doc="report",
+                            message=(
+                                f"{key} = ${float(value) / 1e9:.1f}B is shown in "
+                                "burry_question_answers with no matching EvidenceGate audit."
+                            ),
+                            expected="an EvidenceGate claim_audit",
+                            actual=None,
+                        )
+                    )
+                walk(value)
+        elif isinstance(obj, list):
+            for item in obj:
+                walk(item)
+
+    walk(report.get("burry_question_answers", {}))
+    return findings
+
+
 def check_timestamp_freshness(
     *,
     doc_text: str,
