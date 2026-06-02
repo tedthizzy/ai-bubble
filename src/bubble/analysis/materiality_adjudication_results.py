@@ -12,6 +12,7 @@ import csv
 import json
 import re
 from collections import Counter
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import asdict, dataclass
 from datetime import UTC, date, datetime
 from pathlib import Path
@@ -105,13 +106,26 @@ def build_materiality_adjudication_decisions(
     data_dirs: list[str | Path] | None = None,
     *,
     adjudicated_at: str | None = None,
+    max_workers: int = 32,
 ) -> MaterialityAdjudicationDecisionBatch:
     """Build conservative automated adjudication decisions from packet rows."""
 
     roots = [Path(root) for root in (data_dirs or ["data"])]
     packets = _read_rows(roots, [Path("reports") / "materiality_adjudication_packets.csv"])
     timestamp = adjudicated_at or datetime.now(UTC).isoformat()
-    decisions = [_adjudicate_packet(packet, adjudicated_at=timestamp) for packet in packets]
+    if len(packets) <= 1 or max_workers <= 1:
+        decisions = [_adjudicate_packet(packet, adjudicated_at=timestamp) for packet in packets]
+    else:
+        worker_count = min(max(1, max_workers), len(packets))
+        with ThreadPoolExecutor(max_workers=worker_count) as executor:
+            futures = {
+                executor.submit(_adjudicate_packet, packet, adjudicated_at=timestamp): index
+                for index, packet in enumerate(packets)
+            }
+            by_index: dict[int, MaterialityAdjudicationDecision] = {}
+            for future in as_completed(futures):
+                by_index[futures[future]] = future.result()
+        decisions = [by_index[index] for index in range(len(packets))]
     summary = _summary(decisions)
     return MaterialityAdjudicationDecisionBatch(decisions=decisions, summary=summary)
 

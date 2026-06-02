@@ -277,6 +277,51 @@ def test_materiality_packets_extract_xlsx_artifact_snippets(tmp_path: Path) -> N
     assert "3000" in snippet
 
 
+def test_materiality_packets_skip_binary_artifact_snippets(tmp_path: Path) -> None:
+    binary_path = tmp_path / "data" / "source_acquisition" / "raw" / "ownership_records" / "rr.bin"
+    binary_path.parent.mkdir(parents=True, exist_ok=True)
+    binary_path.write_bytes(b"\x00\x01\x02\x03\xff\xfe\xfd\xfc")
+    _write_csv(
+        tmp_path / "data" / "source_acquisition" / "source_artifact_inventory.csv",
+        [
+            {
+                "source_uri": "https://leidata.gleif.org/api/v1/concatenated-files/rr/get/41258/zip",
+                "local_path": str(binary_path),
+                "content_hash": "7" * 64,
+                "document_id": "rr_bin_sample",
+            }
+        ],
+    )
+    _write_csv(
+        tmp_path / "data" / "reports" / "review_queue.csv",
+        [
+            {
+                "review_id": "review-binary",
+                "review_group_id": "group-binary",
+                "priority": "high",
+                "category": "contagion",
+                "subcategory": "ownership_expanded",
+                "ecosystem_relevance": "direct_ai_infra",
+                "entity": "Example Parent",
+                "counterparty": "Example Child",
+                "source_uri": "https://leidata.gleif.org/api/v1/concatenated-files/rr/get/41258/zip",
+                "source_uris": json.dumps(
+                    ["https://leidata.gleif.org/api/v1/concatenated-files/rr/get/41258/zip"]
+                ),
+                "content_hash": "7" * 64,
+                "content_hashes": json.dumps(["7" * 64]),
+                "reason": "ownership expanded contagion path",
+                "human_review_status": "pending",
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_packets([tmp_path / "data"], limit=1)
+
+    assert len(batch.packets) == 1
+    assert batch.packets[0].evidence_snippets == ()
+
+
 def test_materiality_packet_snippet_targets_source_backed_aggregate_lease_amount(
     tmp_path: Path,
 ) -> None:

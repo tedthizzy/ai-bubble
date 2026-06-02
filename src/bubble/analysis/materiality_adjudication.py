@@ -15,8 +15,10 @@ import math
 import re
 import zipfile
 from collections import Counter
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import asdict, dataclass
 from pathlib import Path
+from threading import Lock
 from typing import Any
 from xml.etree import ElementTree
 
@@ -30,6 +32,19 @@ AI_RELEVANCE_RANK = {
     "not_tagged": 0,
 }
 _TEXT_CACHE: dict[str, str] = {}
+_TEXT_CACHE_LOCK = Lock()
+_BINARY_TEXT_SKIP_SUFFIXES = {
+    ".bin",
+    ".zip",
+    ".gz",
+    ".bz2",
+    ".xz",
+    ".pdf",
+    ".parquet",
+    ".feather",
+    ".orc",
+    ".avro",
+}
 
 
 @dataclass(frozen=True)
@@ -120,9 +135,10 @@ class MaterialityAdjudicationBatch:
 def build_materiality_adjudication_packets(
     data_dirs: list[str | Path] | None = None,
     *,
-    limit: int = 100,
+    limit: int | None = 100,
     snippets_per_packet: int = 2,
     snippet_chars: int = 1_200,
+    max_workers: int = 32,
 ) -> MaterialityAdjudicationBatch:
     """Build materiality-ranked adjudication packets from queue rows."""
 
@@ -143,17 +159,40 @@ def build_materiality_adjudication_packets(
         if current is None or _materiality_sort_key(row) < _materiality_sort_key(current):
             best_by_group[group_id] = row
 
-    selected = sorted(best_by_group.values(), key=_materiality_sort_key)[:limit]
-    packets = [
-        _packet_from_row(
-            row,
-            rank=rank,
-            artifact_index=artifact_index,
-            snippets_per_packet=snippets_per_packet,
-            snippet_chars=snippet_chars,
-        )
-        for rank, row in enumerate(selected, start=1)
-    ]
+    ranked_rows = sorted(best_by_group.values(), key=_materiality_sort_key)
+    if limit is not None and limit > 0:
+        ranked_rows = ranked_rows[:limit]
+    indexed_rows = list(enumerate(ranked_rows, start=1))
+    if len(indexed_rows) <= 1 or max_workers <= 1:
+        packets = [
+            _packet_from_row(
+                row,
+                rank=rank,
+                artifact_index=artifact_index,
+                snippets_per_packet=snippets_per_packet,
+                snippet_chars=snippet_chars,
+            )
+            for rank, row in indexed_rows
+        ]
+    else:
+        worker_count = min(max(1, max_workers), len(indexed_rows))
+        packets_by_rank: dict[int, MaterialityAdjudicationPacket] = {}
+        with ThreadPoolExecutor(max_workers=worker_count) as executor:
+            futures = {
+                executor.submit(
+                    _packet_from_row,
+                    row,
+                    rank=rank,
+                    artifact_index=artifact_index,
+                    snippets_per_packet=snippets_per_packet,
+                    snippet_chars=snippet_chars,
+                ): rank
+                for rank, row in indexed_rows
+            }
+            for future in as_completed(futures):
+                packet = future.result()
+                packets_by_rank[packet.rank] = packet
+        packets = [packets_by_rank[rank] for rank, _ in indexed_rows]
     summary = _summary(packets)
     return MaterialityAdjudicationBatch(packets=packets, summary=summary)
 
@@ -672,17 +711,42 @@ def _normalize_text(text: str) -> str:
 
 
 def _read_text(path: Path) -> str:
-    cached = _TEXT_CACHE.get(str(path))
+    path_key = str(path)
+    with _TEXT_CACHE_LOCK:
+        cached = _TEXT_CACHE.get(path_key)
     if cached is not None:
         return cached
     try:
         text = _read_xlsx_text(path)
         if not text:
-            text = path.read_text(errors="ignore")
+            text = _read_plain_text(path)
     except OSError:
         text = ""
-    _TEXT_CACHE[str(path)] = text
+    with _TEXT_CACHE_LOCK:
+        _TEXT_CACHE[path_key] = text
     return text
+
+
+def _read_plain_text(path: Path) -> str:
+    if path.suffix.lower() in _BINARY_TEXT_SKIP_SUFFIXES:
+        return ""
+    raw = path.read_bytes()
+    if _looks_binary_bytes(raw):
+        return ""
+    return raw.decode("utf-8", errors="ignore")
+
+
+def _looks_binary_bytes(raw: bytes) -> bool:
+    if not raw:
+        return False
+    sample = raw[:8192]
+    if b"\x00" in sample:
+        return True
+    printable = 0
+    for byte in sample:
+        if byte in {9, 10, 13} or 32 <= byte <= 126:
+            printable += 1
+    return printable / len(sample) < 0.75
 
 
 def _read_xlsx_text(path: Path) -> str:

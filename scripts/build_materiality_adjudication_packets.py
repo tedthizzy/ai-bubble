@@ -23,17 +23,24 @@ def main() -> None:
         help="Data root to scan; may be supplied more than once.",
     )
     parser.add_argument("--output-dir", type=Path, default=Path("data/reports"))
-    parser.add_argument("--limit", type=int, default=250)
+    parser.add_argument(
+        "--limit",
+        type=int,
+        default=0,
+        help="Maximum materiality groups to package; <=0 means all groups.",
+    )
     parser.add_argument("--snippets-per-packet", type=int, default=3)
     parser.add_argument("--snippet-chars", type=int, default=1_200)
+    parser.add_argument("--max-workers", type=int, default=32)
     args = parser.parse_args()
 
     data_dirs = args.data_dir or [Path("data")]
     batch = build_materiality_adjudication_packets(
         data_dirs,
-        limit=args.limit,
+        limit=None if args.limit <= 0 else args.limit,
         snippets_per_packet=args.snippets_per_packet,
         snippet_chars=args.snippet_chars,
+        max_workers=args.max_workers,
     )
     outputs = write_materiality_adjudication_packets(batch, args.output_dir)
     print(json.dumps({**batch.summary.to_dict(), "outputs": outputs}, indent=2))

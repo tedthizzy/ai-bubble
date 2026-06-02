@@ -1,13 +1,13 @@
 # Acquisition Status
 
-Last updated: 2026-06-01 23:47 UTC.
+Last updated: 2026-06-02 00:10 UTC.
 
 This file is the operational snapshot for the current evidence corpus. Treat it
 as a run log, not as a final investment conclusion.
 
 ## Current Corpus
 
-- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260601-2345.md`
+- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0005.md`
 - Evidence gate: not high-confidence final.
 - Source invariant audit: passed at 2026-06-01 23:47 UTC, 63 CSV files
   and 9,195,946 rows scanned, 0 violations, 0 warnings.
@@ -30,21 +30,22 @@ as a run log, not as a final investment conclusion.
 - Contract/ownership contagion paths: 8,749 source-backed paths, including
   1,976 ownership-expanded paths, 6,773 contract-only paths, 453 AI-infra
   relevant paths, and 145 high-or-critical paths.
-- Materiality-first LLM adjudication packets: 250 top blockers packaged, all
-  250 source-backed with local evidence snippets, 190 AI-infra relevant, and
-  $12.827T of total exposure-basis across the packet set.
-- Automated materiality adjudication decisions: 250 decisions, 250 with resolved
-  text quotes, 84 supported as material blockers, 166 requiring deeper extraction,
-  0 requiring source retrieval/non-binary parsed evidence, and 48 source-backed
-  rows approved for metric use. Those 48 rows total $3.669T as row-level
-  supported amounts and currently remain $3.669T after latest-snapshot metric
-  dedupe across 48 metric groups; they are not treated as individual contracts
-  unless contract terms are separately extracted.
-- Top remaining decision gaps are now aggregate-to-committed split (29),
-  missing underlying term-level clauses (23), collateral scope (16),
-  queue/permit/interconnection linkage (16), recourse/guarantee scope (13),
-  named counterparty role extraction (12), and legal-entity path/risk-transfer
-  validation (7).
+- Materiality-first LLM adjudication packets: 6,699 blocker groups packaged
+  (full deduped queue), all 6,699 source-backed, 6,671 with local evidence
+  snippets, 742 AI-infra relevant, and $56.464T of total exposure-basis across
+  the packet set.
+- Automated materiality adjudication decisions: 6,699 decisions, 6,495 with
+  resolved text quotes, 1,982 supported as material blockers, 4,513 requiring
+  deeper extraction, 204 requiring source retrieval, and 1,473 source-backed
+  rows approved for metric use. Those approved rows total $7.163T as row-level
+  supported amounts and currently remain $7.161T after latest-snapshot metric
+  dedupe across 1,472 metric groups; they are not treated as individual
+  contracts unless contract terms are separately extracted.
+- Top remaining decision gaps are now collateral scope (1,897), named
+  counterparty role extraction (1,657), recourse/guarantee scope (1,594),
+  legal-entity path/risk-transfer validation (763), missing underlying
+  term-level clauses (523), queue/permit/interconnection linkage (235), and
+  local source quote retrieval (204).
 
 ## Phase Transition Readiness
 
@@ -85,10 +86,13 @@ Ready now:
   guarantor, project/asset, non-recourse, and bankruptcy-remote/SPV terms
 - source-backed contract/ownership contagion path outputs joining SEC contract
   edges to GLEIF legal-control paths where exact legal-name matches exist
-- materiality-ranked LLM adjudication packet outputs for the top 250 blocker
-  items, with source snippets and explicit decision fields
+- materiality-ranked LLM adjudication packet outputs for all deduped blocker
+  groups (default full queue run), with bounded parallel workers, source
+  snippets, and explicit decision fields
 - automated materiality adjudication decision outputs that separate
   source-supported blockers from rows still blocked for final metric use
+- bounded-parallel packet and decision builders (`--max-workers`) so full-queue
+  adjudication remains practical at current corpus scale
 - source-backed aggregate obligation snapshots can now be approved for aggregate
   metric use with latest-snapshot dedupe, while still blocking individual
   contract conclusions until counterparties, recourse, collateral, maturities,
@@ -102,6 +106,9 @@ Ready now:
 - packet evidence snippets now use cross-artifact scoring and term-focused
   prioritization so clause-level contract text is preferred over low-signal
   boilerplate snippets when adjudicating materiality blockers
+- packet evidence snippet extraction now skips binary/non-text artifacts (for
+  example `.bin`, compressed archives, and byte-heavy files) so adjudication
+  prompts carry source text rather than unreadable bytes
 - aggregate/shelf-capacity rows now block first on aggregate-to-committed split
   without stacking term-level counterparty/collateral/recourse gaps until a
   specific contract-level source row is extracted
@@ -350,8 +357,8 @@ Capital exposure graph:
 - Total edge notional: $10.510T.
 - AI-infra-relevant notional: $659.08B.
 - AI-infra-relevant edges: 232.
-- Contract-structure nodes: 94,620.
-- Source-backed contract-structure edges: 195,891.
+- Contract-structure nodes: 94,622.
+- Source-backed contract-structure edges: 195,896.
 - Deal contract nodes: 62,950.
 - Tranche contract nodes: 10,051.
 - Collateral contract nodes: 10,065.
@@ -394,69 +401,62 @@ Timing layer:
 
 - Peak stress quarter: 2026-Q2.
 - Candidate stress window: 2025-Q3 to 2027-Q3.
-- Capital refinancing 2024-2030: $13.9228T.
+- Capital refinancing 2024-2030: $5.7563T.
 - AI-infra capital refinancing 2024-2030: $292.29B.
 - Physical capacity 2024-2030: 177,293 MW.
 - Compute amount 2024-2030: $219.41B.
-- Source-backed timing signals: 3,860.
-- Critical/high timing signals: 165.
+- Source-backed timing signals: 3,854.
+- Critical/high timing signals: 164.
 - AI-infra-relevant timing signals: 313.
 
 Adjudication queue:
 
-- Critical items: 91.
-- High items: 1,016.
-- AI-infra-relevant items: 771.
-- Contract-tranche adjudication items: 2,510.
-- Pending capital distinct notional: $20.586T.
-- Pending AI-infra-relevant distinct capital notional: $834.92B.
-- Pending contract-tranche notional: $18.876T.
-- Pending contract-contagion path exposure: $101.518T.
+- Critical items: 86.
+- High items: 884.
+- AI-infra-relevant items: 753.
+- Contract-tranche adjudication items: 2,498.
+- Pending capital distinct notional: $11.923T.
+- Pending AI-infra-relevant distinct capital notional: $827.72B.
+- Pending contract-tranche notional: $10.672T.
+- Pending contract-contagion path exposure: $30.028T.
 - Pending compute claim amount: $398.24B.
-- Materiality packets: 250 source-backed packets, 182 AI-infra relevant, all
-  with local evidence snippets.
-- Materiality decisions: 68 source-supported blockers, 182 requiring deeper
-  extraction, 0 requiring source retrieval/non-binary parsed evidence, and 38
-  rows approved for metric use.
-- Automated row-level supported amount approved for metric use: $3.704T.
-- Deduped automated final metric support: $3.603T across 36 latest-snapshot
+- Materiality packets: 6,699 source-backed packets, 742 AI-infra relevant, and
+  6,671 with local evidence snippets.
+- Materiality decisions: 1,982 source-supported blockers, 4,513 requiring
+  deeper extraction, 204 requiring source retrieval, and 1,473 rows approved
+  for metric use.
+- Automated row-level supported amount approved for metric use: $7.163T.
+- Deduped automated final metric support: $7.161T across 1,472 latest-snapshot
   metric groups.
-- XLSX source quote recovery removed the prior source-retrieval bucket in this
-  top-250 set; all current decisions now carry quote-backed evidence refs.
-- Aggregate-splitting false positives remain materially reduced; current
-  "split aggregate disclosure" gaps are concentrated in rows that still look
-  non-specific or shelf-like.
-- Recourse/guarantee unresolved gaps dropped from 90 to 54 in this pass after
-  adding conservative scope-resolution rules for unsecured note/indenture
-  structures and lender-scoped specific commitments.
-- Contagion/legal-path adjudication still blocks unresolved legal-path and
-  risk-transfer claims until explicit source quotes support the path.
+- Top unresolved gaps are collateral scope, named counterparty roles,
+  recourse/guarantee scope, legal-path/risk-transfer validation, and
+  underlying term-level clause acquisition.
 
 Contract/ownership contagion:
 
-- Source-backed paths: 10,773.
-- Ownership-expanded paths: 1,990.
-- Contract-only paths: 8,783.
-- AI-infra-relevant paths: 510.
-- Guarantee paths: 449.
-- Collateral paths: 8,364.
-- Non-recourse paths: 2,524.
-- SPV paths: 10,513.
-- High/critical paths: 242.
-- Total path notional: $118.907T.
-- AI-infra-relevant path notional: $2.192T.
+- Source-backed paths: 8,749.
+- Ownership-expanded paths: 1,976.
+- Contract-only paths: 6,773.
+- AI-infra-relevant paths: 453.
+- Guarantee paths: 448.
+- Collateral paths: 6,355.
+- Non-recourse paths: 2,290.
+- SPV paths: 8,489.
+- High/critical paths: 145.
+- Total path notional: $44.591T.
+- AI-infra-relevant path notional: $1.919T.
 - Default path cap raised to 50,000 so this layer is not clipped at the prior
   10,000-path script default.
 
 Weak links:
 
-- Candidates: 544.
+- Candidates: 540.
 - High or critical candidates: 27.
-- Capital candidates: 233.
+- Capital candidates: 232.
 - Physical candidates: 250.
-- Combined capital/physical candidates: 42.
+- Combined capital/physical candidates: 39.
 - Debt-service candidates: 19.
-- AI-infra-relevant weak-link notional: $659.14B.
+- AI-infra-relevant weak-link notional: $659.08B.
 
 Compute economics:
 
