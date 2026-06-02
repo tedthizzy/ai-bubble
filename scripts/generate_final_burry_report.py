@@ -296,6 +296,485 @@ def max_permitted_report_confidence_from_audit_dicts(
     return min(0.95, *confidences) if confidences else 0.2
 
 
+def _source_type_from_uri(source_uri: str) -> SourceType:
+    lowered = source_uri.lower()
+    source_markers = (
+        ("sec.gov", SourceType.SEC_EDGAR),
+        ("gleif.org", SourceType.GLEIF),
+        ("lei", SourceType.GLEIF),
+        ("arcgis.com", SourceType.PROJECT_TRACKER),
+        ("fractracker", SourceType.PROJECT_TRACKER),
+        ("ferc", SourceType.FERC),
+        ("eia.gov", SourceType.EIA),
+        ("epa.gov", SourceType.EPA),
+    )
+    for marker, source_type in source_markers:
+        if marker in lowered:
+            return source_type
+    return SourceType.MANUAL_CURATED
+
+
+def _review_status_from_text(value: Any) -> HumanReviewStatus:
+    try:
+        return HumanReviewStatus(str(value))
+    except ValueError:
+        return HumanReviewStatus.PENDING
+
+
+def _retrieved_at_from_text(value: Any) -> datetime | None:
+    if not isinstance(value, str) or not value:
+        return None
+    try:
+        return datetime.fromisoformat(value.replace("Z", "+00:00"))
+    except ValueError:
+        return None
+
+
+def artifact_provenance(
+    *,
+    source_uri: str,
+    page_or_section: str,
+    payload: Any,
+    confidence: float = 0.74,
+) -> Provenance:
+    """Provenance for deterministic local summary artifacts used by the report."""
+
+    return Provenance(
+        source_uri=source_uri,
+        source_type=SourceType.MANUAL_CURATED,
+        page_or_section=page_or_section,
+        confidence=confidence,
+        human_review_status=HumanReviewStatus.PENDING,
+        content_hash=Provenance.compute_content_hash(
+            json.dumps(_artifact_fingerprint(payload), sort_keys=True, default=str)
+        ),
+    )
+
+
+def _artifact_fingerprint(payload: Any) -> dict[str, Any]:
+    """Compact, deterministic identity for potentially large summary artifacts."""
+
+    if not isinstance(payload, dict):
+        return {"type": type(payload).__name__, "value": str(payload)[:500]}
+    fingerprint: dict[str, Any] = {"keys": sorted(str(key) for key in payload)}
+    scalar_values: dict[str, Any] = {}
+    collection_sizes: dict[str, int] = {}
+    for key, value in payload.items():
+        key_text = str(key)
+        if isinstance(value, (str, int, float, bool)) or value is None:
+            scalar_values[key_text] = value
+        elif isinstance(value, (list, dict)):
+            collection_sizes[key_text] = len(value)
+    fingerprint["scalars"] = scalar_values
+    fingerprint["collection_sizes"] = collection_sizes
+    return fingerprint
+
+
+def row_provenance(
+    item: dict[str, Any],
+    *,
+    fallback_section: str,
+    max_sources: int = 25,
+) -> list[Provenance]:
+    """Build source provenance from serialized report/source rows."""
+
+    raw_uris = item.get("source_uris") or item.get("source_uri") or []
+    if isinstance(raw_uris, str):
+        source_uris = [raw_uris]
+    elif isinstance(raw_uris, list):
+        source_uris = [str(uri) for uri in raw_uris if uri]
+    else:
+        source_uris = []
+    raw_hashes = item.get("content_hashes") or item.get("content_hash") or []
+    if isinstance(raw_hashes, str):
+        content_hashes = [raw_hashes]
+    elif isinstance(raw_hashes, list):
+        content_hashes = [str(content_hash) for content_hash in raw_hashes if content_hash]
+    else:
+        content_hashes = []
+    confidence = item.get("source_confidence")
+    source_confidence = (
+        float(confidence)
+        if isinstance(confidence, (int, float)) and not isinstance(confidence, bool)
+        else 0.75
+    )
+    status = _review_status_from_text(
+        item.get("human_review_status")
+        or (item.get("human_review_statuses") or [HumanReviewStatus.PENDING.value])[0]
+    )
+    retrieved_at = _retrieved_at_from_text(item.get("retrieved_at"))
+    page_or_section = str(item.get("page_or_section") or fallback_section)
+    provenances: list[Provenance] = []
+    for index, source_uri in enumerate(source_uris[:max_sources]):
+        content_hash = (
+            content_hashes[index]
+            if index < len(content_hashes)
+            else Provenance.compute_content_hash(f"{source_uri}:{page_or_section}")
+        )
+        provenance_kwargs: dict[str, Any] = {}
+        if retrieved_at is not None:
+            provenance_kwargs["retrieved_at"] = retrieved_at
+        provenances.append(
+            Provenance(
+                source_uri=source_uri,
+                source_type=_source_type_from_uri(source_uri),
+                page_or_section=page_or_section,
+                confidence=source_confidence,
+                human_review_status=status,
+                content_hash=content_hash,
+                **provenance_kwargs,
+            )
+        )
+    return provenances
+
+
+def row_list_provenance(
+    rows: list[Any],
+    *,
+    fallback_section: str,
+    max_sources: int = 25,
+) -> list[Provenance]:
+    provenances: list[Provenance] = []
+    for row in rows:
+        if isinstance(row, dict):
+            provenances.extend(
+                row_provenance(
+                    row,
+                    fallback_section=fallback_section,
+                    max_sources=max(1, max_sources - len(provenances)),
+                )
+            )
+        if len(provenances) >= max_sources:
+            break
+    return provenances
+
+
+def audit_scalar_claim(
+    gate: EvidenceGate,
+    *,
+    claim_id: str,
+    claim: str,
+    value: Any,
+    unit: str,
+    evidence: list[Provenance],
+    requires_corroboration: bool = True,
+) -> dict[str, Any] | None:
+    if not isinstance(value, (int, float)) or isinstance(value, bool):
+        return None
+    audit = gate.audit_claim(
+        claim_id=claim_id,
+        claim=claim,
+        value=round(float(value), 2),
+        unit=unit,
+        evidence=evidence,
+        requires_corroboration=requires_corroboration,
+        high_impact=True,
+    ).to_dict()
+    return dict(audit)
+
+
+def report_answer_metric_audits(  # noqa: PLR0912, PLR0915
+    *,
+    timing_signal_summary: dict[str, Any],
+    review_queue_summary: dict[str, Any],
+    weak_link_summary: dict[str, Any],
+    debt_service_metrics_dict: dict[str, Any],
+    capital_exposure_graph_summary: dict[str, Any],
+    contract_contagion_summary: dict[str, Any],
+) -> list[dict[str, Any]]:
+    """Audit high-impact scalar values surfaced directly in Burry answers."""
+
+    gate = EvidenceGate(min_high_confidence=0.75, min_corroborating_sources=2)
+    audits: list[dict[str, Any]] = []
+
+    def add(
+        claim_id: str,
+        claim: str,
+        value: Any,
+        evidence: list[Provenance],
+        *,
+        unit: str = "USD",
+        requires_corroboration: bool = True,
+    ) -> None:
+        audit = audit_scalar_claim(
+            gate,
+            claim_id=claim_id,
+            claim=claim,
+            value=value,
+            unit=unit,
+            evidence=evidence,
+            requires_corroboration=requires_corroboration,
+        )
+        if audit is not None:
+            audits.append(audit)
+
+    timing_artifact = artifact_provenance(
+        source_uri="local:data/reports/timing_signal_summary.json",
+        page_or_section="source-backed timing signal rollup",
+        payload=timing_signal_summary,
+    )
+    timing_rows = timing_signal_summary.get("top_signals", [])
+    timing_row_evidence = row_list_provenance(
+        timing_rows if isinstance(timing_rows, list) else [],
+        fallback_section="timing_signal_summary.top_signals",
+    )
+    timing_evidence = [timing_artifact, *timing_row_evidence]
+    add(
+        "timing.capital_refinancing_2024_2030",
+        "Source-backed timing-signal capital refinancing through 2030",
+        timing_signal_summary.get("capital_refinancing_usd_2024_2030"),
+        timing_evidence,
+    )
+    add(
+        "timing.ai_infra_capital_refinancing_2024_2030",
+        "AI-infra-relevant timing-signal capital refinancing through 2030",
+        timing_signal_summary.get("ai_infra_capital_refinancing_usd_2024_2030"),
+        timing_evidence,
+    )
+    add(
+        "timing.compute_amount_2024_2030",
+        "Source-backed compute timing-signal amount through 2030",
+        timing_signal_summary.get("compute_amount_usd_2024_2030"),
+        timing_evidence,
+    )
+    top_quarters = timing_signal_summary.get("top_quarters", [])
+    if isinstance(top_quarters, list):
+        for index, quarter in enumerate(top_quarters[:10]):
+            if not isinstance(quarter, dict):
+                continue
+            quarter_evidence = [timing_artifact, *timing_row_evidence]
+            label = str(quarter.get("quarter") or index)
+            add(
+                f"timing.top_quarter.{label}.capital_refinancing",
+                f"Capital refinancing timing signal in quarter {label}",
+                quarter.get("capital_refinancing_usd"),
+                quarter_evidence,
+            )
+            add(
+                f"timing.top_quarter.{label}.compute_amount",
+                f"Compute amount timing signal in quarter {label}",
+                quarter.get("compute_amount_usd"),
+                quarter_evidence,
+            )
+    if isinstance(timing_rows, list):
+        for index, row in enumerate(timing_rows[:25]):
+            if not isinstance(row, dict):
+                continue
+            add(
+                f"timing.top_signal.{row.get('signal_id') or index}.amount",
+                "Top timing signal amount",
+                row.get("amount_usd"),
+                row_provenance(row, fallback_section="timing_signal_summary.top_signals"),
+                requires_corroboration=False,
+            )
+
+    review_rows = review_queue_summary.get("top_distinct_capital_items", [])
+    if isinstance(review_rows, list):
+        for index, row in enumerate(review_rows[:25]):
+            if not isinstance(row, dict):
+                continue
+            add(
+                f"review_queue.distinct_capital_item.{row.get('review_id') or index}.notional",
+                "Top distinct capital review queue notional",
+                row.get("notional_amount_usd"),
+                row_provenance(row, fallback_section="review_queue_summary.top_distinct_capital_items"),
+                requires_corroboration=False,
+            )
+
+    weak_link_rows: list[Any] = []
+    for key in ("top_weak_links", "top_debt_service_weak_links"):
+        rows = weak_link_summary.get(key, [])
+        if isinstance(rows, list):
+            weak_link_rows.extend(rows[:25])
+    for index, row in enumerate(weak_link_rows):
+        if not isinstance(row, dict):
+            continue
+        add(
+            f"weak_link.{row.get('weak_link_id') or index}.exposure",
+            "Top weak-link exposure surfaced in Burry answers",
+            row.get("exposure_usd"),
+            row_provenance(row, fallback_section="weak_link_summary.top_rows"),
+            requires_corroboration=False,
+        )
+
+    debt_artifact = artifact_provenance(
+        source_uri="local:debt_service_metrics",
+        page_or_section="debt-service analyzer rollup",
+        payload={
+            key: debt_service_metrics_dict.get(key)
+            for key in (
+                "measured_rate_notional_usd",
+                "distinct_missing_rate_notional_usd",
+                "top_debt_service_quarters",
+                "top_distinct_debt_service_quarters",
+                "top_entity_debt_service_risks",
+            )
+        },
+    )
+    all_debt_obligation_rows: list[Any] = []
+    for row_key in ("top_debt_service_obligations", "top_debt_service_coverage_gaps"):
+        rows = debt_service_metrics_dict.get(row_key, [])
+        if isinstance(rows, list):
+            all_debt_obligation_rows.extend(rows[:15])
+    debt_evidence = [
+        debt_artifact,
+        *row_list_provenance(
+            all_debt_obligation_rows,
+            fallback_section="debt_service_metrics.top_obligations",
+        ),
+    ]
+    add(
+        "debt_service.measured_rate_notional",
+        "Debt-like notional with explicit measured source-backed rates",
+        debt_service_metrics_dict.get("measured_rate_notional_usd"),
+        debt_evidence,
+    )
+    add(
+        "debt_service.distinct_missing_rate_notional",
+        "Distinct debt-like notional still missing explicit rate evidence",
+        debt_service_metrics_dict.get("distinct_missing_rate_notional_usd"),
+        debt_evidence,
+    )
+    for key in ("top_debt_service_quarters", "top_distinct_debt_service_quarters"):
+        rows = debt_service_metrics_dict.get(key, [])
+        if not isinstance(rows, list):
+            continue
+        for index, row in enumerate(rows[:10]):
+            if not isinstance(row, dict):
+                continue
+            row_evidence = [
+                debt_artifact,
+                *row_list_provenance(
+                    row.get("top_obligations", []),
+                    fallback_section=f"debt_service_metrics.{key}",
+                ),
+            ]
+            add(
+                f"debt_service.{key}.{row.get('quarter') or index}.maturing_notional",
+                "Top debt-service quarter maturing notional",
+                row.get("maturing_notional_usd"),
+                row_evidence,
+            )
+    entity_rows = debt_service_metrics_dict.get("top_entity_debt_service_risks", [])
+    if isinstance(entity_rows, list):
+        for index, row in enumerate(entity_rows[:15]):
+            if not isinstance(row, dict):
+                continue
+            entity_evidence = [
+                debt_artifact,
+                *row_list_provenance(
+                    row.get("top_obligations", []),
+                    fallback_section="debt_service_metrics.top_entity_debt_service_risks",
+                ),
+            ]
+            entity_key = str(row.get("entity") or index).lower().replace(" ", "-")
+            add(
+                f"debt_service.entity.{entity_key}.distinct_notional",
+                "Entity-level debt-service distinct notional",
+                row.get("distinct_notional_usd"),
+                entity_evidence,
+            )
+            add(
+                f"debt_service.entity.{entity_key}.measured_rate_notional",
+                "Entity-level debt-service measured-rate notional",
+                row.get("measured_rate_notional_usd"),
+                entity_evidence,
+            )
+            add(
+                f"debt_service.entity.{entity_key}.maturity_wall_notional",
+                "Entity-level debt-service maturity wall notional through 2030",
+                row.get("maturity_wall_notional_usd_2024_2030"),
+                entity_evidence,
+            )
+
+    graph_artifact = artifact_provenance(
+        source_uri="local:data/graph/capital_exposure_graph_summary.json",
+        page_or_section="capital exposure graph summary",
+        payload=capital_exposure_graph_summary,
+    )
+    add(
+        "capital_exposure.largest_component_notional",
+        "Largest capital-exposure graph component notional",
+        capital_exposure_graph_summary.get("largest_component_notional_usd"),
+        [graph_artifact],
+        requires_corroboration=False,
+    )
+    add(
+        "capital_exposure.largest_component_ai_infra_notional",
+        "Largest capital-exposure graph component AI-infra-relevant notional",
+        capital_exposure_graph_summary.get("largest_component_ai_infra_relevant_notional_usd"),
+        [graph_artifact],
+        requires_corroboration=False,
+    )
+    add(
+        "capital_exposure.top_ai_infra_component_notional",
+        "Top AI-infra capital-exposure component notional",
+        capital_exposure_graph_summary.get("top_ai_infra_component_notional_usd"),
+        [graph_artifact],
+        requires_corroboration=False,
+    )
+    for key in (
+        "top_components_by_notional",
+        "top_ai_infra_components_by_notional",
+        "top_contagion_hubs",
+        "top_ai_infra_contagion_hubs",
+    ):
+        rows = capital_exposure_graph_summary.get(key, [])
+        if not isinstance(rows, list):
+            continue
+        for index, row in enumerate(rows[:10]):
+            if not isinstance(row, dict):
+                continue
+            row_id = str(row.get("component_id") or row.get("node_id") or index)
+            add(
+                f"capital_exposure.{key}.{row_id}.notional",
+                f"Capital exposure graph {key} notional",
+                row.get("notional_usd") or row.get("incident_notional_usd"),
+                [graph_artifact],
+                requires_corroboration=False,
+            )
+            add(
+                f"capital_exposure.{key}.{row_id}.ai_infra_notional",
+                f"Capital exposure graph {key} AI-infra notional",
+                row.get("ai_infra_relevant_notional_usd"),
+                [graph_artifact],
+                requires_corroboration=False,
+            )
+            top_entities = row.get("top_entities", [])
+            if isinstance(top_entities, list):
+                for entity_index, entity in enumerate(top_entities[:10]):
+                    if not isinstance(entity, dict):
+                        continue
+                    add(
+                        (
+                            f"capital_exposure.{key}.{row_id}.entity."
+                            f"{entity.get('node_id') or entity_index}.exposure"
+                        ),
+                        "Capital exposure graph top entity exposure",
+                        entity.get("exposure_usd"),
+                        [graph_artifact],
+                        requires_corroboration=False,
+                    )
+
+    contagion_artifact = artifact_provenance(
+        source_uri="local:data/reports/contract_contagion_summary.json",
+        page_or_section="contract contagion path summary",
+        payload=contract_contagion_summary,
+    )
+    top_paths = contract_contagion_summary.get("top_paths", [])
+    contagion_path_evidence = row_list_provenance(
+        top_paths if isinstance(top_paths, list) else [],
+        fallback_section="contract_contagion_summary.top_paths",
+    )
+    add(
+        "contract_contagion.ai_infra_relevant_notional",
+        "AI-infra-relevant contract-contagion path notional",
+        contract_contagion_summary.get("ai_infra_relevant_notional_usd"),
+        [contagion_artifact, *contagion_path_evidence],
+    )
+    return audits
+
+
 def load_report_capital_evidence(data_dirs: list[str]) -> CapitalEvidenceBatch:
     """Load all report-ready deal CSVs under known acquisition/evidence directories."""
 
@@ -1153,6 +1632,16 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:
         capital_metrics_dict,
         compute_metrics_dict,
         debt_service_metrics_dict,
+        {
+            "claim_audits": report_answer_metric_audits(
+                timing_signal_summary=timing_signal_summary,
+                review_queue_summary=review_queue_summary,
+                weak_link_summary=weak_link_summary,
+                debt_service_metrics_dict=debt_service_metrics_dict,
+                capital_exposure_graph_summary=capital_exposure_graph_summary,
+                contract_contagion_summary=contract_contagion_summary,
+            )
+        },
     )
     evidence_summary = summarize_evidence_audit_dicts(evidence_audits)
     capped_bubble_confidence = round(

@@ -32,12 +32,13 @@ The important change is that ecosystem-scale conclusions are now blocked from be
 
 Latest verified evidence-gated report at this checkpoint:
 
-- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0559.md`
-- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0559.json`
+- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0612.md`
+- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0612.json`
 - `high_confidence_final`: `false`
-- Evidence audit coverage now includes merged analyzer-level capital, compute,
-  and debt-service audits; the remaining consistency warnings are builder-level
-  audit gaps and do not open the gate.
+- Evidence audit coverage now includes analyzer-level capital, compute, and
+  debt-service audits plus explicit row/artifact-backed audits for high-impact
+  Burry-answer rollups. The remaining consistency warnings are doc-pattern
+  checks and do not open the gate.
 - Source invariant audit: passed across 63 CSV files and more than 9.2M rows
   with 0 violations and 0 warnings.
 - Acquired source artifacts: 66,660 / 66,660 attempted.
