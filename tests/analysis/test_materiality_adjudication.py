@@ -1159,6 +1159,126 @@ def test_materiality_adjudication_approves_aggregate_commitment_snapshot(
     assert batch.decisions[0].remaining_gap == ""
 
 
+def test_materiality_adjudication_approves_committed_lease_contract_value_snapshot(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-hpc-lease-contract-value",
+                "rank": 1,
+                "review_id": "review-hpc-lease-contract-value",
+                "review_group_id": "group-hpc-lease-contract-value",
+                "priority": "critical",
+                "category": "capital",
+                "subcategory": "high_notional_debt_like_candidate",
+                "ecosystem_relevance": "direct_ai_infra",
+                "entity": "Example Compute Lessor Inc.",
+                "counterparty": "",
+                "exposure_basis_usd": "12800000000",
+                "reason": (
+                    "pending adjudication status: pending; debt-like deal type: lease; "
+                    "notional $12,800,000,000; notional context: candidate_notional; "
+                    "source extraction marked requires LLM adjudication"
+                ),
+                "recommended_action": "Separate aggregate disclosure from specific contracts",
+                "source_uri": "https://www.sec.gov/example-hpc-lease.htm",
+                "source_uris": json.dumps(["https://www.sec.gov/example-hpc-lease.htm"]),
+                "content_hash": "f" * 64,
+                "content_hashes": json.dumps(["f" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/example-hpc-lease.htm",
+                            "content_hash": "f" * 64,
+                            "document_id": "example-hpc-lease.htm",
+                            "snippet": (
+                                "Execution of HPC lease agreements - Entered into "
+                                "long-term HPC lease agreements representing aggregate "
+                                "contractual value in excess of $12.8 billion, including "
+                                "a lease with Fluidstack supported by Google's credit."
+                            ),
+                        }
+                    ]
+                ),
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    decision = batch.decisions[0]
+    assert decision.metric_use_status == "approved_for_metric_use"
+    assert decision.remaining_gap == ""
+    assert decision.metric_aggregation_policy == "latest_snapshot_per_metric_group"
+    assert decision.duplicate_or_aggregate == "yes"
+    assert "aggregate obligation snapshot" in decision.risk_bearer
+
+
+def test_materiality_adjudication_keeps_portfolio_upb_plus_issued_notes_blocked(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-portfolio-upb-issued-notes",
+                "rank": 1,
+                "review_id": "review-portfolio-upb-issued-notes",
+                "review_group_id": "group-portfolio-upb-issued-notes",
+                "priority": "critical",
+                "category": "capital",
+                "subcategory": "high_notional_debt_like_candidate",
+                "ecosystem_relevance": "not_tagged",
+                "entity": "Example Mortgage Servicer Inc.",
+                "counterparty": "noteholders",
+                "exposure_basis_usd": "734000000000",
+                "reason": (
+                    "pending adjudication status: pending; debt-like deal type: bond; "
+                    "notional $734,000,000,000; notional context: candidate_notional; "
+                    "commitment scope: candidate_requires_adjudication"
+                ),
+                "recommended_action": "Split portfolio UPB from issued debt",
+                "source_uri": "https://www.sec.gov/example-upb-issued-notes.htm",
+                "source_uris": json.dumps(
+                    ["https://www.sec.gov/example-upb-issued-notes.htm"]
+                ),
+                "content_hash": "1" * 64,
+                "content_hashes": json.dumps(["1" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": (
+                                "https://www.sec.gov/example-upb-issued-notes.htm"
+                            ),
+                            "content_hash": "1" * 64,
+                            "document_id": "example-upb-issued-notes.htm",
+                            "snippet": (
+                                "Servicing portfolio UPB of $733.6 billion at year end. "
+                                "Issued $2.35 billion of unsecured senior notes with "
+                                "maturities ranging from 2032 to 2034."
+                            ),
+                        }
+                    ]
+                ),
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    decision = batch.decisions[0]
+    assert decision.metric_use_status == "blocked_pending_extraction"
+    assert "split aggregate disclosure" in decision.remaining_gap
+
+
 def test_materiality_adjudication_keeps_shelf_capacity_blocked(
     tmp_path: Path,
 ) -> None:

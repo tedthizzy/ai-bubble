@@ -1521,6 +1521,8 @@ def _is_source_backed_aggregate_obligation_snapshot(
         ],
     ):
         return False
+    if _is_committed_contract_value_disclosure(packet, text):
+        return True
     is_aggregate_lease = _contains_any(
         text,
         ["aggregate_lease_obligation", "future lease payments", "operating lease obligations"],
@@ -1566,6 +1568,8 @@ def _requires_aggregate_split(packet: dict[str, str], quote: str) -> bool:
         packet, quote
     ) or _looks_like_debt_outstanding_snapshot(text):
         return True
+    if _is_committed_contract_value_disclosure(packet, text):
+        return False
     explicit_specific_markers = [
         "commitment scope: specific_transaction_commitment",
         "notional context: transaction_",
@@ -1602,6 +1606,58 @@ def _requires_aggregate_split(packet: dict[str, str], quote: str) -> bool:
         "registration statement",
     ]
     return _contains_any(text, explicit_non_specific_markers) or "aggregate" in text
+
+
+def _is_committed_contract_value_disclosure(packet: dict[str, str], text: str) -> bool:
+    reason = _field(packet, "reason").lower()
+    is_lease_or_service_contract = _contains_any(
+        reason,
+        [
+            "debt-like deal type: lease",
+            "notional context: lease",
+            "notional context: contract",
+        ],
+    ) or _contains_any(text, ["lease agreement", "lease agreements", "service agreement"])
+    if not is_lease_or_service_contract:
+        return False
+    if not _contains_any(
+        text,
+        [
+            "entered into",
+            "executed",
+            "signed",
+            "commenced",
+        ],
+    ):
+        return False
+    if not _contains_any(
+        text,
+        [
+            "aggregate contractual value",
+            "total contract value",
+            "contractual value",
+            "contract value",
+            "minimum contracted revenue",
+            "minimum lease payments",
+        ],
+    ):
+        return False
+    return not _contains_any(
+        text,
+        [
+            "prospectus supplement",
+            "registration statement",
+            "from time to time",
+            "may offer",
+            "may issue",
+            "ability to borrow",
+            "available to borrow",
+            "available to draw",
+            "total liabilities",
+            "servicing portfolio upb",
+            "total consolidated long-term debt",
+        ],
+    )
 
 
 def _looks_like_debt_outstanding_snapshot(text: str) -> bool:
