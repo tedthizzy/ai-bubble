@@ -624,6 +624,46 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:
         "materiality_adjudication_source_quote_backed_decisions": (
             materiality_adjudication_decision_summary.get("source_quote_backed_decisions", 0)
         ),
+        "materiality_adjudication_row_context_backed_decisions": (
+            materiality_adjudication_decision_summary.get("row_context_backed_decisions", 0)
+        ),
+        "materiality_adjudication_unresolved_decisions": (
+            materiality_adjudication_decision_summary.get("needs_deeper_extraction", 0)
+            + materiality_adjudication_decision_summary.get("needs_source_retrieval", 0)
+        ),
+        "materiality_adjudication_decision_coverage_pct": round(
+            (
+                (
+                    materiality_adjudication_decision_summary.get("decisions", 0)
+                    / materiality_adjudication_summary.get("packets", 1)
+                )
+                * 100
+            )
+            if materiality_adjudication_summary.get("packets", 0)
+            else 0.0,
+            2,
+        ),
+        "materiality_adjudication_unresolved_decision_pct": round(
+            (
+                (
+                    (
+                        materiality_adjudication_decision_summary.get(
+                            "needs_deeper_extraction",
+                            0,
+                        )
+                        + materiality_adjudication_decision_summary.get(
+                            "needs_source_retrieval",
+                            0,
+                        )
+                    )
+                    / materiality_adjudication_decision_summary.get("decisions", 1)
+                )
+                * 100
+            )
+            if materiality_adjudication_decision_summary.get("decisions", 0)
+            else 0.0,
+            2,
+        ),
         "materiality_adjudication_approved_for_metric_use": (
             materiality_adjudication_decision_summary.get("approved_for_metric_use", 0)
         ),
@@ -1084,11 +1124,15 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:
                 f"for automated LLM adjudication. "
                 f"The automated adjudication decision pass has source-quote-backed "
                 f"{materiality_adjudication_decision_summary.get('source_quote_backed_decisions', 0)} "
+                f"and row-context-backed "
+                f"{materiality_adjudication_decision_summary.get('row_context_backed_decisions', 0)} "
                 f"packet decisions and currently approves "
                 f"{materiality_adjudication_decision_summary.get('approved_for_metric_use', 0)} "
                 f"rows for metric use across "
                 f"{materiality_adjudication_decision_summary.get('final_metric_group_count', 0)} "
-                f"deduped metric groups. "
+                f"deduped metric groups, with "
+                f"{materiality_adjudication_decision_summary.get('needs_deeper_extraction', 0)} "
+                f"rows still requiring deeper extraction. "
                 f"The timing calendar currently has "
                 f"{timing_signal_summary.get('source_backed_signals', 0)} "
                 f"source-backed crack-window signals. "

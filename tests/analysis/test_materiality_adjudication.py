@@ -149,7 +149,7 @@ def test_materiality_adjudication_packets_dedupe_and_attach_snippets(tmp_path: P
 
     assert batch.summary.packets == 2
     assert batch.summary.source_backed_packets == 2
-    assert batch.summary.packets_with_local_evidence_snippets == 1
+    assert batch.summary.packets_with_local_evidence_snippets == 2
     assert batch.summary.categories == {"capital": 1, "physical": 1}
     assert batch.packets[0].review_id == "review-1"
     assert batch.packets[0].rank == 1
@@ -320,6 +320,52 @@ def test_materiality_packets_skip_binary_artifact_snippets(tmp_path: Path) -> No
 
     assert len(batch.packets) == 1
     assert batch.packets[0].evidence_snippets == ()
+
+
+def test_materiality_packets_use_row_context_fallback_for_physical_rows(tmp_path: Path) -> None:
+    _write_csv(
+        tmp_path / "data" / "reports" / "review_queue.csv",
+        [
+            {
+                "review_id": "review-physical-fallback",
+                "review_group_id": "group-physical-fallback",
+                "priority": "high",
+                "category": "physical",
+                "subcategory": "permit_project_match",
+                "ecosystem_relevance": "physical_execution",
+                "entity": "Amazon",
+                "counterparty": "AMAZON DATA SERVICES INC IAD-210/211",
+                "project_id": "project-physical-fallback",
+                "project_name": "AMAZON DATA SERVICES INC",
+                "source_row_id": "permit-match:test",
+                "reason": (
+                    "pending permit-to-project match; match status: strong_match; "
+                    "match confidence: 0.99; county_match|state_match"
+                ),
+                "recommended_action": "Confirm permit linkage to project record.",
+                "source_uri": "https://echo.epa.gov/files/echodownloads/ICIS-AIR_downloads.zip",
+                "source_uris": json.dumps(
+                    ["https://echo.epa.gov/files/echodownloads/ICIS-AIR_downloads.zip"]
+                ),
+                "content_hash": "f" * 64,
+                "content_hashes": json.dumps(["f" * 64]),
+                "page_or_section": (
+                    "data/source_acquisition/raw/permit_records/"
+                    "epa-icis-air-facilities-programs.zip#record_index=266038"
+                ),
+                "human_review_status": "pending",
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_packets([tmp_path / "data"], limit=1)
+
+    assert len(batch.packets) == 1
+    assert batch.packets[0].evidence_snippets
+    snippet = batch.packets[0].evidence_snippets[0]
+    assert snippet.document_id == "review_queue_row_context"
+    assert "match status: strong_match" in snippet.snippet
+    assert "ICIS-AIR_downloads.zip" in snippet.snippet
 
 
 def test_materiality_packet_snippet_targets_source_backed_aggregate_lease_amount(
@@ -575,6 +621,61 @@ def test_materiality_adjudication_decisions_are_conservative(tmp_path: Path) -> 
     assert batch.decisions[1].decision == "needs_deeper_extraction"
     assert batch.decisions[1].metric_use_status == "blocked_pending_extraction"
     assert "split aggregate disclosure" in batch.decisions[1].remaining_gap
+
+
+def test_materiality_adjudication_decisions_treat_row_context_as_non_quote_backed(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-row-context",
+                "rank": 1,
+                "review_id": "review-row-context",
+                "review_group_id": "group-row-context",
+                "priority": "high",
+                "category": "physical",
+                "subcategory": "permit_project_match",
+                "ecosystem_relevance": "physical_execution",
+                "entity": "Amazon",
+                "counterparty": "AMAZON DATA SERVICES INC IAD-210/211",
+                "exposure_basis_usd": "5000000000",
+                "reason": "pending permit-to-project match; match status: strong_match",
+                "recommended_action": "Confirm permit linkage to project record.",
+                "source_uri": "https://echo.epa.gov/files/echodownloads/ICIS-AIR_downloads.zip",
+                "source_uris": json.dumps(
+                    ["https://echo.epa.gov/files/echodownloads/ICIS-AIR_downloads.zip"]
+                ),
+                "content_hash": "f" * 64,
+                "content_hashes": json.dumps(["f" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://echo.epa.gov/files/echodownloads/ICIS-AIR_downloads.zip",
+                            "content_hash": "f" * 64,
+                            "document_id": "review_queue_row_context",
+                            "snippet": (
+                                "Category: physical Subcategory: permit_project_match "
+                                "Reason: pending permit-to-project match; match status: strong_match "
+                                "Source section: permit_records.zip#record_index=12"
+                            ),
+                        }
+                    ]
+                ),
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-02T00:00:00+00:00",
+    )
+
+    assert batch.summary.decisions == 1
+    assert batch.decisions[0].source_support == "row_context_backed"
+    assert batch.decisions[0].decision != "needs_source_retrieval"
+    assert batch.decisions[0].confidence <= 0.4
 
 
 def test_materiality_adjudication_requires_quote_level_contagion_evidence(

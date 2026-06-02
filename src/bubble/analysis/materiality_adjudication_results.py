@@ -74,6 +74,7 @@ class MaterialityAdjudicationDecisionSummary:
 
     decisions: int
     source_quote_backed_decisions: int
+    row_context_backed_decisions: int
     supported_as_material_blocker: int
     needs_deeper_extraction: int
     needs_source_retrieval: int
@@ -536,7 +537,13 @@ def _source_support(
     )
     if not has_source_uri or not has_hash:
         return "missing_provenance"
+    row_context_backed = any(
+        str(snippet.get("document_id") or "").strip().lower() == "review_queue_row_context"
+        for snippet in evidence_snippets
+    )
     if quote:
+        if row_context_backed:
+            return "row_context_backed"
         return "quote_backed"
     return "source_uri_only"
 
@@ -911,6 +918,9 @@ def _summary(
         decisions=len(decisions),
         source_quote_backed_decisions=sum(
             decision.source_support == "quote_backed" for decision in decisions
+        ),
+        row_context_backed_decisions=sum(
+            decision.source_support == "row_context_backed" for decision in decisions
         ),
         supported_as_material_blocker=status_counts.get("supported_as_material_blocker", 0),
         needs_deeper_extraction=status_counts.get("needs_deeper_extraction", 0),

@@ -1,13 +1,13 @@
 # Acquisition Status
 
-Last updated: 2026-06-02 00:10 UTC.
+Last updated: 2026-06-02 00:27 UTC.
 
 This file is the operational snapshot for the current evidence corpus. Treat it
 as a run log, not as a final investment conclusion.
 
 ## Current Corpus
 
-- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0005.md`
+- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0027.md`
 - Evidence gate: not high-confidence final.
 - Source invariant audit: passed at 2026-06-01 23:47 UTC, 63 CSV files
   and 9,195,946 rows scanned, 0 violations, 0 warnings.
@@ -31,21 +31,23 @@ as a run log, not as a final investment conclusion.
   1,976 ownership-expanded paths, 6,773 contract-only paths, 453 AI-infra
   relevant paths, and 145 high-or-critical paths.
 - Materiality-first LLM adjudication packets: 6,699 blocker groups packaged
-  (full deduped queue), all 6,699 source-backed, 6,671 with local evidence
+  (full deduped queue), all 6,699 source-backed, 6,699 with local evidence
   snippets, 742 AI-infra relevant, and $56.464T of total exposure-basis across
   the packet set.
 - Automated materiality adjudication decisions: 6,699 decisions, 6,495 with
-  resolved text quotes, 1,982 supported as material blockers, 4,513 requiring
-  deeper extraction, 204 requiring source retrieval, and 1,473 source-backed
-  rows approved for metric use. Those approved rows total $7.163T as row-level
+  resolved text quotes plus 204 row-context-backed decisions for non-text
+  sources, 2,010 supported as material blockers, 4,689 requiring deeper
+  extraction, 0 requiring source retrieval, and 1,473 source-backed rows
+  approved for metric use. Those approved rows total $7.163T as row-level
   supported amounts and currently remain $7.161T after latest-snapshot metric
   dedupe across 1,472 metric groups; they are not treated as individual
   contracts unless contract terms are separately extracted.
+- Decision coverage over packaged blocker groups: 100.0%; unresolved decision
+  share remains 70.0% (still extraction-bound, not source-retrieval-bound).
 - Top remaining decision gaps are now collateral scope (1,897), named
   counterparty role extraction (1,657), recourse/guarantee scope (1,594),
   legal-entity path/risk-transfer validation (763), missing underlying
-  term-level clauses (523), queue/permit/interconnection linkage (235), and
-  local source quote retrieval (204).
+  term-level clauses (523), and queue/permit/interconnection linkage (235).
 
 ## Phase Transition Readiness
 
@@ -109,6 +111,10 @@ Ready now:
 - packet evidence snippet extraction now skips binary/non-text artifacts (for
   example `.bin`, compressed archives, and byte-heavy files) so adjudication
   prompts carry source text rather than unreadable bytes
+- packet evidence fallback now synthesizes bounded row-context snippets for
+  physical/compute queue/permit/market observations when source artifacts are
+  non-text, clearing the prior `needs_source_retrieval` bucket without inflating
+  quote-backed confidence
 - aggregate/shelf-capacity rows now block first on aggregate-to-committed split
   without stacking term-level counterparty/collateral/recourse gaps until a
   specific contract-level source row is extracted
@@ -421,10 +427,11 @@ Adjudication queue:
 - Pending contract-contagion path exposure: $30.028T.
 - Pending compute claim amount: $398.24B.
 - Materiality packets: 6,699 source-backed packets, 742 AI-infra relevant, and
-  6,671 with local evidence snippets.
-- Materiality decisions: 1,982 source-supported blockers, 4,513 requiring
-  deeper extraction, 204 requiring source retrieval, and 1,473 rows approved
-  for metric use.
+  6,699 with local evidence snippets.
+- Materiality decisions: 2,010 source-supported blockers, 4,689 requiring
+  deeper extraction, 0 requiring source retrieval, and 1,473 rows approved
+  for metric use (6,495 quote-backed decisions plus 204 row-context-backed
+  decisions on non-text sources).
 - Automated row-level supported amount approved for metric use: $7.163T.
 - Deduped automated final metric support: $7.161T across 1,472 latest-snapshot
   metric groups.

@@ -410,7 +410,10 @@ def _evidence_snippets(
         scored_snippets.append((_evidence_snippet_score(row, snippet_text), snippet))
 
     if not scored_snippets:
-        return []
+        fallback = _row_context_fallback_snippet(row)
+        if not fallback:
+            return []
+        scored_snippets.append((1, fallback))
 
     scored_snippets.sort(
         key=lambda item: (
@@ -435,6 +438,47 @@ def _evidence_snippets(
         if len(snippets) >= snippets_per_packet:
             break
     return snippets
+
+
+def _row_context_fallback_snippet(row: dict[str, str]) -> EvidenceSnippet | None:
+    """Fallback evidence snippet from row context when source artifacts are non-text.
+
+    This is intentionally limited to physical/compute rows where source systems
+    are frequently delivered as binary archives and deterministic match context
+    already exists on the row.
+    """
+
+    category = _field(row, "category")
+    if category not in {"physical", "compute"}:
+        return None
+    source_uri = _field(row, "source_uri")
+    content_hash = _field(row, "content_hash")
+    if not source_uri or not content_hash:
+        return None
+    context_parts = [
+        f"Category: {category}",
+        f"Subcategory: {_field(row, 'subcategory')}",
+        f"Entity: {_field(row, 'entity')}",
+        f"Counterparty: {_field(row, 'counterparty')}",
+        f"Project: {_field(row, 'project_name')}",
+        f"Reason: {_field(row, 'reason')}",
+        f"Action: {_field(row, 'recommended_action')}",
+        f"Source URI: {source_uri}",
+        f"Source section: {_field(row, 'page_or_section')}",
+    ]
+    snippet = _normalize_text(
+        " ".join(part for part in context_parts if part and not part.endswith(": "))
+    )
+    if not snippet:
+        return None
+    return EvidenceSnippet(
+        source_uri=source_uri,
+        content_hash=content_hash,
+        local_path="",
+        document_id="review_queue_row_context",
+        accession_number="",
+        snippet=snippet[:1200],
+    )
 
 
 def _artifact_index(roots: list[Path]) -> dict[str, dict[str, str]]:
