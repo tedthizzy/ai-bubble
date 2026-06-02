@@ -597,6 +597,9 @@ Adjudication queue:
   metric eligibility pending source-quote reselection or corrected extraction.
   This pass removed the KADANT $40.75B parser artifact from final metric support
   while retaining the rows as source-backed blockers requiring deeper extraction.
+  EDGAR acquisition and compute-economics money parsers now also reject
+  malformed grouped tokens and concatenated redline amount runs before future
+  deal, tranche, or compute rows are emitted.
 - Relevance split of that deduped final metric: $0.463T established
   direct/watchlist AI-data-center linkage; 89.17% remains not-established for
   thesis linkage.

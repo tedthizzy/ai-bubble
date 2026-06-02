@@ -97,13 +97,14 @@ DEPRECIATION_ASSET_TERMS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("computer equipment", ("computer equipment", "computing equipment")),
     ("gpu equipment", ("gpu servers", "gpu server", "gpus", "gpu")),
 )
+MONEY_AMOUNT_PATTERN = r"\d+(?:,\d{3})*(?:\.\d+)?(?![,\d])"
 MONEY_RE = re.compile(
-    r"\$\s*(?P<amount>\d+(?:,\d{3})*(?:\.\d+)?)\s*(?P<unit>billion|million|trillion)?",
+    rf"\$\s*(?P<amount>{MONEY_AMOUNT_PATTERN})\s*(?P<unit>billion|million|trillion)?",
     re.IGNORECASE,
 )
 TAM_RE = re.compile(
     r"\b(?:TAM|total addressable market)\b.{0,220}?\$\s*"
-    r"(?P<amount>\d+(?:,\d{3})*(?:\.\d+)?)\s*(?P<unit>billion|million|trillion)?",
+    rf"(?P<amount>{MONEY_AMOUNT_PATTERN})\s*(?P<unit>billion|million|trillion)?",
     re.IGNORECASE,
 )
 MW_CAPACITY_RE = re.compile(
@@ -114,12 +115,12 @@ MW_CAPACITY_RE = re.compile(
 DEPRECIATION_EPS_IMPACT_RE = re.compile(
     r"financial impact of this change in estimate included a\s+"
     r"(?P<depreciation_direction>reduction|increase)\s+in depreciation expense of\s+"
-    r"\$\s*(?P<depreciation_amount>\d+(?:,\d{3})*(?:\.\d+)?)\s*"
+    rf"\$\s*(?P<depreciation_amount>{MONEY_AMOUNT_PATTERN})\s*"
     r"(?P<depreciation_unit>billion|million|trillion)?\s+and an?\s+"
     r"(?P<income_direction>increase|reduction)\s+in net income of\s+"
-    r"\$\s*(?P<income_amount>\d+(?:,\d{3})*(?:\.\d+)?)\s*"
+    rf"\$\s*(?P<income_amount>{MONEY_AMOUNT_PATTERN})\s*"
     r"(?P<income_unit>billion|million|trillion)?"
-    r"(?:,\s+or\s+\$\s*(?P<eps_amount>\d+(?:,\d{3})*(?:\.\d+)?)\s+per diluted share)?",
+    rf"(?:,\s+or\s+\$\s*(?P<eps_amount>{MONEY_AMOUNT_PATTERN})\s+per diluted share)?",
     re.IGNORECASE,
 )
 GPU_GENERATION_PATTERN = r"A100|H100|H200|B200|GB200|GB300|Blackwell|Hopper"
@@ -131,17 +132,17 @@ GPU_COUNT_RE = re.compile(
 GPU_SERVER_PURCHASE_RE = re.compile(
     rf"\bpurchase order for\s+(?P<server_count>\d+(?:,\d{{3}})*)\s+"
     rf"(?:NVIDIA\s+)?(?P<generation>{GPU_GENERATION_PATTERN})\s+servers?\s+for\s+"
-    rf"(?:approximately\s+)?\$\s*(?P<amount>\d+(?:,\d{{3}})*(?:\.\d+)?)\s*"
+    rf"(?:approximately\s+)?\$\s*(?P<amount>{MONEY_AMOUNT_PATTERN})\s*"
     rf"(?P<unit>billion|million|trillion)?",
     re.IGNORECASE,
 )
 PER_GPU_ECONOMICS_RE = re.compile(
     rf"\bcosts?\s+of\s+(?:approximately\s+)?\$\s*"
-    rf"(?P<capex>\d+(?:,\d{{3}})*(?:\.\d+)?)\s*"
+    rf"(?P<capex>{MONEY_AMOUNT_PATTERN})\s*"
     rf"(?P<capex_unit>billion|million|trillion)?\s+for\s+an?\s+"
     rf"(?:NVIDIA\s+)?(?P<generation>{GPU_GENERATION_PATTERN})\s+GPU\s+"
     rf"that\s+generates\s+(?:approximately\s+)?\$\s*"
-    rf"(?P<revenue>\d+(?:,\d{{3}})*(?:\.\d+)?)\s*"
+    rf"(?P<revenue>{MONEY_AMOUNT_PATTERN})\s*"
     rf"(?P<revenue_unit>billion|million|trillion)?\s+of\s+revenue\s+in\s+year\s+one"
     rf"(?:\s+at\s+an?\s+EBITDA\s+margin\s+between\s+"
     rf"(?P<margin_low>\d+(?:\.\d+)?)%\s+and\s+(?P<margin_high>\d+(?:\.\d+)?)%)?",
@@ -149,7 +150,7 @@ PER_GPU_ECONOMICS_RE = re.compile(
 )
 ANNUALIZED_REVENUE_RE = re.compile(
     r"\b(?:worth|represents|representing)\s+(?:an?\s+)?(?:approximately\s+)?\$\s*"
-    r"(?P<amount>\d+(?:,\d{3})*(?:\.\d+)?)\s*"
+    rf"(?P<amount>{MONEY_AMOUNT_PATTERN})\s*"
     r"(?P<unit>billion|million|trillion)?\s+of\s+(?:targeted\s+)?annual(?:ized)?\s+revenue\b",
     re.IGNORECASE,
 )
@@ -157,12 +158,12 @@ CONTRACT_REVENUE_RE = re.compile(
     r"\b(?:contract\s+represents|it\s+represents|represents|representing|total\s+revenue\s+of)"
     r"\s+(?:an?\s+)?(?:aggregate\s+revenue\s+opportunity\s+of|total\s+contracted\s+"
     r"value\s+of|contracted\s+value\s+of|contract\s+value\s+of)?\s*"
-    r"(?:approximately\s+)?\$\s*(?P<amount>\d+(?:,\d{3})*(?:\.\d+)?)\s*"
+    rf"(?:approximately\s+)?\$\s*(?P<amount>{MONEY_AMOUNT_PATTERN})\s*"
     r"(?P<unit>billion|million|trillion)?",
     re.IGNORECASE,
 )
 MONTHLY_SERVICE_FEE_RE = re.compile(
-    r"\bservice\s+fee\s+is\s+\$\s*(?P<amount>\d+(?:,\d{3})*(?:\.\d+)?)\s*"
+    rf"\bservice\s+fee\s+is\s+\$\s*(?P<amount>{MONEY_AMOUNT_PATTERN})\s*"
     r"(?P<unit>billion|million|trillion)?\s+per\s+month\b",
     re.IGNORECASE,
 )
@@ -1238,6 +1239,8 @@ def _money_from_match(match: re.Match[str]) -> float | None:
 def _money_value(raw_amount: str, unit: str | None) -> float | None:
     if not raw_amount:
         return None
+    if not _has_valid_thousands_grouping(raw_amount):
+        return None
     amount = float(raw_amount.replace(",", ""))
     normalized_unit = (unit or "").lower()
     if normalized_unit == "trillion":
@@ -1247,6 +1250,16 @@ def _money_value(raw_amount: str, unit: str | None) -> float | None:
     elif normalized_unit == "million":
         amount *= 1_000_000
     return round(amount, 2)
+
+
+def _has_valid_thousands_grouping(raw_amount: str) -> bool:
+    if "," not in raw_amount:
+        return True
+    integer_part = raw_amount.split(".", 1)[0]
+    groups = integer_part.split(",")
+    if not groups or not (1 <= len(groups[0]) <= 3):
+        return False
+    return all(len(group) == 3 for group in groups[1:])
 
 
 def _int_token(value: str) -> int | None:

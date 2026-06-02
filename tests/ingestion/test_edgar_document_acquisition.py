@@ -299,6 +299,40 @@ def test_document_text_and_term_extractors_handle_common_sec_language():
     )
 
 
+def test_document_notional_extractor_rejects_malformed_comma_grouping():
+    malformed = normalize_document_text(
+        b"""
+        <html><body>
+        <p>The original amount of the Total Revolving Commitments on the
+        SixthEighth Amendment Effective Date is $40750,000,000.</p>
+        <p>Schedule 1.1 lists lender commitments and a Total Allocation of
+        $750,000,000.00 under the revolving credit facility.</p>
+        </body></html>
+        """
+    )
+    valid = "The credit agreement provides commitments of $40,750,000,000."
+
+    assert extract_largest_notional_usd(malformed) == 750_000_000
+    assert extract_deal_notional_usd(malformed, deal_type=DealType.DEBT_FACILITY) == 750_000_000
+    assert extract_largest_notional_usd(valid) == 40_750_000_000
+
+
+def test_document_notional_extractor_rejects_concatenated_redline_amounts():
+    text = normalize_document_text(
+        b"""
+        <html><body>
+        <p>The amendment text shows deleted and inserted values as
+        $300,000,000400,000,000 in one redline run.</p>
+        <p>The borrower entered into a term loan facility in an aggregate
+        principal amount of $1,050,000,000.</p>
+        </body></html>
+        """
+    )
+
+    assert extract_largest_notional_usd(text) == 1_050_000_000
+    assert extract_deal_notional_usd(text, deal_type=DealType.DEBT_FACILITY) == 1_050_000_000
+
+
 def test_collateral_extractor_rejects_generic_risk_factor_collateral_language():
     text = (
         "As a result, investors may not be able to liquidate their investment readily, "

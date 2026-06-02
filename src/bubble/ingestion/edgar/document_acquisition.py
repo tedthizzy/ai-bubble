@@ -151,6 +151,7 @@ ENTITY_NAME_CANDIDATE_PATTERN = re.compile(
     r"LP|L\.P\.|LLP|L\.L\.P\.|Company|Co\.?|Holdings?|Properties|Securities|"
     r"Markets|Capital|Bank|Trust|National Association|N\.A\.)\b"
 )
+AMOUNT_NUMBER_PATTERN = r"(?:\d{1,3}(?:,\d{3})+|\d+)(?:\.\d+)?(?![,\d])"
 GUARANTEED_BY_PATTERN = re.compile(
     r"\b(?:obligations?|notes?|loans?|debt|facility|payments?|borrowings?)\b"
     r"[^.;]{0,180}?\bguaranteed\b[^.;]{0,180}?\bby\s+"
@@ -1233,7 +1234,9 @@ def extract_largest_notional_usd(text: str) -> float | None:
     """Return the largest dollar amount in the document that is at least $1M."""
 
     candidates = [
-        _amount_to_usd(match.group("num"), match.group("unit")) for match in _amount_matches(text)
+        value
+        for match in _amount_matches(text)
+        if (value := _amount_to_usd(match.group("num"), match.group("unit"))) is not None
     ]
     candidates = [value for value in candidates if 1_000_000 <= value <= 10_000_000_000_000]
     return max(candidates) if candidates else None
@@ -1254,6 +1257,8 @@ def extract_deal_notional_candidate(text: str, *, deal_type: DealType) -> Notion
     snippet = text[:300_000]
     for match in _amount_matches(snippet):
         value = _amount_to_usd(match.group("num"), match.group("unit"))
+        if value is None:
+            continue
         if not 1_000_000 <= value <= 10_000_000_000_000:
             continue
         key = (match.start(), value)
@@ -1322,6 +1327,8 @@ def _series_component_sum_candidate(
         if match.start() == 0:
             continue
         value = _amount_to_usd(match.group("num"), match.group("unit"))
+        if value is None:
+            continue
         if not 100_000_000 <= value <= aggregate_value / 10:
             continue
         context = _amount_sentence_context(window, match.start(), match.end()).lower()
@@ -1377,12 +1384,12 @@ def _short_context_excerpt(context: str, *, max_length: int = 500) -> str:
 def _amount_matches(text: str) -> list[re.Match[str]]:
     patterns = [
         re.compile(
-            r"(?:\$|usd\s*)\s*(?P<num>\d+(?:,\d{3})*(?:\.\d+)?|\d+(?:\.\d+)?)\s*"
+            rf"(?:\$|usd\s*)\s*(?P<num>{AMOUNT_NUMBER_PATTERN})\s*"
             r"(?P<unit>billion|bn|million|mm|thousand|k)?",
             re.IGNORECASE,
         ),
         re.compile(
-            r"(?P<num>\d+(?:,\d{3})*(?:\.\d+)?|\d+(?:\.\d+)?)\s*"
+            rf"(?P<num>{AMOUNT_NUMBER_PATTERN})\s*"
             r"(?P<unit>billion|bn|million|mm)\s+"
             r"(?:dollars|principal|facility|commitment|notes|loans)",
             re.IGNORECASE,
@@ -1712,6 +1719,8 @@ def _looks_like_scaled_billion_mismatch(match: re.Match[str], value_usd: float) 
     if unit not in {"billion", "bn"}:
         return False
     try:
+        if not _has_valid_thousands_grouping(match.group("num")):
+            return False
         numeric = float(match.group("num").replace(",", ""))
     except ValueError:
         return False
@@ -1821,6 +1830,8 @@ def _explicit_debt_tranche_candidates(
     candidates: list[DebtTrancheCandidate] = []
     for match in _amount_matches(snippet):
         value = _amount_to_usd(match.group("num"), match.group("unit"))
+        if value is None:
+            continue
         if not 1_000_000 <= value <= 10_000_000_000_000:
             continue
         context = _amount_sentence_context(snippet, match.start(), match.end())
@@ -2493,7 +2504,9 @@ def _record_key(row: Mapping[str, str]) -> str:
     )
 
 
-def _amount_to_usd(number: str, unit: str | None) -> float:
+def _amount_to_usd(number: str, unit: str | None) -> float | None:
+    if not _has_valid_thousands_grouping(number):
+        return None
     value = float(number.replace(",", ""))
     normalized_unit = (unit or "").lower()
     if normalized_unit in {"billion", "bn"}:
@@ -2503,6 +2516,16 @@ def _amount_to_usd(number: str, unit: str | None) -> float:
     if normalized_unit in {"thousand", "k"}:
         return value * 1_000
     return value
+
+
+def _has_valid_thousands_grouping(number: str) -> bool:
+    if "," not in number:
+        return True
+    integer_part = number.split(".", 1)[0]
+    groups = integer_part.split(",")
+    if not groups or not (1 <= len(groups[0]) <= 3):
+        return False
+    return all(len(group) == 3 for group in groups[1:])
 
 
 def _split(value: str | None) -> list[str]:

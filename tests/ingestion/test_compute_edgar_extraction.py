@@ -3,13 +3,30 @@ from __future__ import annotations
 import csv
 from typing import TYPE_CHECKING
 
-from bubble.ingestion.compute.edgar_extraction import extract_compute_economics_from_edgar
+from bubble.ingestion.compute.edgar_extraction import (
+    _first_money,
+    _money_value,
+    extract_compute_economics_from_edgar,
+)
 
 if TYPE_CHECKING:
     from pathlib import Path
 
 
 HASH = "b" * 64
+
+
+def test_compute_edgar_money_parser_rejects_malformed_comma_grouping() -> None:
+    assert _money_value("40750,000,000", None) is None
+    assert _money_value("8100,000,000", None) is None
+    assert _money_value("3400,000,000", None) is None
+    assert _money_value("40,750,000,000", None) == 40_750_000_000
+    assert _money_value("8,100,000,000", None) == 8_100_000_000
+
+
+def test_compute_edgar_money_parser_rejects_concatenated_redline_amounts() -> None:
+    assert _first_money("$300,000,000400,000,000") is None
+    assert _first_money("$300,000,000 $400,000,000") == 300_000_000
 
 
 def _write_csv(path: Path, rows: list[dict[str, object]]) -> None:
