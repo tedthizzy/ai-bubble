@@ -136,6 +136,14 @@ as a run log, not as a final investment conclusion.
   non-binding/lessor-revenue claims. This is not folded into the committed-debt
   metric; it is a separate candidate exposure tier for take-or-pay, lease, and
   compute-capacity obligations.
+- A deterministic economic-commitment extractor now exists at
+  `bubble.ingestion.compute.extract_economic_commitments`. It classifies
+  acquired compute/SEC text into datacenter purchase commitments,
+  not-yet-commenced datacenter leases, seller-side remaining-performance-
+  obligation mirrors, take-or-pay compute commitments, non-binding lessor
+  revenue projections, and capacity-only/no-dollar disclosures. This prepares
+  the hidden-leverage tier for source-backed extraction while preserving the
+  double-count caveat between buyer obligations and seller backlog.
 - The broader materiality metric is now split by adjudicated thesis linkage:
   $0.440T has established direct/watchlist AI-data-center linkage, while
   88.9% is source-backed but not yet established as AI/data-center-linked.

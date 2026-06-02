@@ -96,7 +96,9 @@ Latest capital and timing outputs:
 - A sourced economic-commitment handoff now gives the first candidate numbers
   for that excluded tier, separating binding buyer-side commitments/leases from
   seller-side backlog mirrors and non-binding lessor-revenue or framework
-  claims. This tier remains separate from the committed-debt metric.
+  claims. A deterministic `bubble.ingestion.compute.extract_economic_commitments`
+  helper now classifies this source text into the corresponding economic-
+  commitment tiers. This tier remains separate from the committed-debt metric.
 - Utility/ratepayer downside is now ready for its first source-acquisition pass:
   `handoffs/codex_utility_ratepayer_acquisition_cards_20260602.md` and its
   fixture CSVs identify exact PUC/IRP/rate-case/large-load tariff targets for
