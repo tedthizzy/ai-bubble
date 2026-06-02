@@ -480,12 +480,12 @@ Adjudication queue:
 - Pending compute claim amount: $398.24B.
 - Materiality packets: 6,699 source-backed packets, 742 AI-infra relevant, and
   6,699 with local evidence snippets.
-- Materiality decisions: 4,372 source-supported blockers, 2,327 requiring
-  deeper extraction, 0 requiring source retrieval, and 2,786 rows approved
+- Materiality decisions: 4,379 source-supported blockers, 2,320 requiring
+  deeper extraction, 0 requiring source retrieval, and 2,793 rows approved
   for metric use (6,495 quote-backed decisions plus 204 row-context-backed
   decisions on non-text sources).
-- Automated row-level supported amount approved for metric use: $11.791T.
-- Deduped automated final metric support: $9.227T across 1,929 source-instrument
+- Automated row-level supported amount approved for metric use: $11.835T.
+- Deduped automated final metric support: $9.270T across 1,936 source-instrument
   and latest-snapshot metric groups.
 - Top unresolved gaps are named counterparty roles, collateral scope,
   recourse/guarantee scope, aggregate-to-committed splitting, and underlying
