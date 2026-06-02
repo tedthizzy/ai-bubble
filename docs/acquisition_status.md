@@ -1,20 +1,23 @@
 # Acquisition Status
 
-Last updated: 2026-06-02 17:14 UTC.
+Last updated: 2026-06-02 17:26 UTC.
 
 This file is the operational snapshot for the current evidence corpus. Treat it
 as a run log, not as a final investment conclusion.
 
 ## Current Corpus
 
-- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-1714.md`
+- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-1726.md`
 - Evidence gate: not high-confidence final.
-- Evidence audit coverage: 424 claim audits now include analyzer-level capital,
+- Evidence audit coverage: 474 claim audits now include analyzer-level capital,
   compute, and debt-service audits, explicit row/artifact-backed audits for
   high-impact Burry-answer rollups, and aggregate hooks for pending review
   capital, pending AI-infra capital, pending compute, weak-link AI-infra,
   debt-service maturity-wall, capital-graph total/AI-infra notional, and compute
-  GPU-capex rollups. Substantive high-impact metric audit warnings are cleared;
+  GPU-capex rollups. Capital-graph audits now also cover MW-based PPA capacity
+  concentration, so hyperscaler demand-side power offtakers are visible even
+  when the graph edge carries no dollar notional. Substantive high-impact metric
+  audit warnings are cleared;
   the remaining consistency warnings are doc-pattern checks, not evidence gaps
   or a gate opening.
 - Source invariant audit: passed at 2026-06-02 04:02 UTC, 63 CSV files
@@ -39,6 +42,12 @@ as a run log, not as a final investment conclusion.
 - Contract/ownership contagion paths: 8,749 source-backed paths, including
   1,976 ownership-expanded paths, 6,773 contract-only paths, 453 AI-infra
   relevant paths, and 145 high-or-critical paths.
+- Capital-graph PPA concentration now surfaces capacity-weighted AI/data-center
+  offtake hubs separately from dollar exposure: Ohio Valley Electric Corporation
+  is 31,296 MW across 3 source-backed PPA edges; Amazon Energy LLC is 16,048 MW
+  across 42 power suppliers; Google Energy LLC is 9,518 MW across 34 suppliers;
+  Microsoft appears across Microsoft Energy LLC and Microsoft Corporation nodes
+  with 6,295 MW total before legal-family consolidation.
 - Materiality-first LLM adjudication packets: 6,663 blocker groups packaged
   (full deduped queue), all 6,663 source-backed, 6,663 with local evidence
   snippets, 706 AI-infra relevant, and $56.029T of total exposure-basis across

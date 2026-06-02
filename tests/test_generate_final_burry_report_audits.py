@@ -218,6 +218,16 @@ def test_report_answer_metric_audits_cover_source_backed_rollup_values() -> None
         capital_exposure_graph_summary={
             "total_edge_notional_usd": 864_183_460_730.37,
             "ai_infra_relevant_notional_usd": 5_158_000_000,
+            "ppa_capacity_mw": 27_430.5,
+            "top_ai_infra_ppa_offtakers": [
+                {
+                    "node_id": "entity:amazon-energy",
+                    "name": "Amazon Energy LLC",
+                    "ppa_capacity_mw": 15_028.15,
+                    "distinct_power_suppliers": 38,
+                    "ppa_edge_count": 38,
+                }
+            ],
         },
         contract_contagion_summary={},
         materiality_adjudication_decision_summary={
@@ -243,6 +253,10 @@ def test_report_answer_metric_audits_cover_source_backed_rollup_values() -> None
         "debt_service.maturity_wall_notional_2024_2030": 278_383_365_879.58,
         "capital_exposure.total_edge_notional": 864_183_460_730.37,
         "capital_exposure.ai_infra_relevant_notional": 5_158_000_000,
+        "capital_exposure.ppa_capacity_mw": 27_430.5,
+        "capital_exposure.top_ai_infra_ppa_offtakers.entity:amazon-energy.ppa_capacity": (
+            15_028.15
+        ),
         "compute.total_gpu_capex": 270_000_000,
     }
     for claim_id, value in expected_rollup_values.items():

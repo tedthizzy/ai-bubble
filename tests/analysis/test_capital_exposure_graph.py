@@ -388,6 +388,59 @@ def test_capital_exposure_graph_skips_generic_counterparties_and_preserves_ppa_c
     assert graph.edges[0].relationship_type == "PPA_COUNTERPARTY"
 
 
+def test_capital_exposure_graph_ranks_ai_ppa_offtakers_by_capacity() -> None:
+    first_amazon_ppa = Deal(
+        source_deal_id="ppa-amazon-1",
+        deal_type=DealType.PPA,
+        title="Solar power purchase agreement for data center load",
+        parties=["Wind Project A LLC", "Amazon Energy LLC"],
+        counterparty_roles={
+            "seller": ["Wind Project A LLC"],
+            "offtaker": ["Amazon Energy LLC"],
+        },
+        key_terms={"amount_mw": 600},
+        provenance=_provenance("ferc:amazon-1"),
+        confidence=0.9,
+    )
+    second_amazon_ppa = Deal(
+        source_deal_id="ppa-amazon-2",
+        deal_type=DealType.PPA,
+        title="Renewable PPA for AWS cloud load",
+        parties=["Wind Project B LLC", "AMAZON ENERGY LLC"],
+        counterparty_roles={
+            "seller": ["Wind Project B LLC"],
+            "offtaker": ["AMAZON ENERGY LLC"],
+        },
+        key_terms={"amount_mw": 400},
+        provenance=_provenance("ferc:amazon-2"),
+        confidence=0.9,
+    )
+    google_ppa = Deal(
+        source_deal_id="ppa-google",
+        deal_type=DealType.PPA,
+        title="Power purchase agreement",
+        parties=["Solar Project LLC", "Google Energy LLC"],
+        counterparty_roles={
+            "seller": ["Solar Project LLC"],
+            "offtaker": ["Google Energy LLC"],
+        },
+        key_terms={"amount_mw": 750},
+        provenance=_provenance("ferc:google"),
+        confidence=0.9,
+    )
+
+    graph = build_capital_exposure_graph([first_amazon_ppa, second_amazon_ppa, google_ppa])
+
+    offtakers = graph.summary.top_ai_infra_ppa_offtakers
+    assert offtakers[0]["node_id"] == "entity:amazon-energy"
+    assert offtakers[0]["ppa_capacity_mw"] == 1000
+    assert offtakers[0]["distinct_power_suppliers"] == 2
+    assert offtakers[0]["ppa_edge_count"] == 2
+    assert "watchlist:amazon_or_aws" in offtakers[0]["relevance_tags"]
+    assert offtakers[1]["name"] == "Google Energy LLC"
+    assert offtakers[1]["ppa_capacity_mw"] == 750
+
+
 def test_capital_exposure_graph_rejects_broken_counterparty_clauses() -> None:
     deal = Deal(
         source_deal_id="deal-3",

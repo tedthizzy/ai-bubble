@@ -300,6 +300,7 @@ class CapitalExposureGraphSummary:
     top_ai_infra_components_by_notional: list[dict[str, Any]]
     top_contagion_hubs: list[dict[str, Any]]
     top_ai_infra_contagion_hubs: list[dict[str, Any]]
+    top_ai_infra_ppa_offtakers: list[dict[str, Any]]
     top_tranche_contract_nodes: list[dict[str, Any]]
     top_spv_contract_nodes: list[dict[str, Any]]
     top_collateral_contract_edges: list[dict[str, Any]]
@@ -563,6 +564,10 @@ def _build_capital_exposure_summary(
     ai_components = _connected_components(ai_relevant_edges)
     ai_component_risks = _component_risks(ai_components, ai_relevant_edges, nodes)
     top_ai_component = ai_component_risks[0] if ai_component_risks else None
+    top_ai_infra_ppa_offtakers = _ai_infra_ppa_offtaker_concentrations(
+        ai_relevant_edges,
+        nodes,
+    )
     tranche_contract_nodes = [node for node in contract_nodes if node.node_type == "tranche"]
     spv_contract_nodes = [
         node
@@ -658,6 +663,7 @@ def _build_capital_exposure_summary(
         top_ai_infra_contagion_hubs=[
             hub.to_dict() for hub in contagion_hubs if hub.ai_infra_relevant_notional_usd > 0
         ][:25],
+        top_ai_infra_ppa_offtakers=top_ai_infra_ppa_offtakers[:25],
         top_tranche_contract_nodes=[node.to_dict() for node in tranche_contract_nodes[:25]],
         top_spv_contract_nodes=[node.to_dict() for node in spv_contract_nodes[:25]],
         top_collateral_contract_edges=[edge.to_dict() for edge in collateral_contract_edges[:25]],
@@ -2028,6 +2034,106 @@ def _counterparty_rollups(
         row["deal_types"].add(edge.deal_type)
         row["source_uris"].update(edge.source_uris)
     return counterparties
+
+
+def _ai_infra_ppa_offtaker_concentrations(
+    edges: list[CapitalExposureEdge],
+    nodes: list[CapitalExposureNode],
+) -> list[dict[str, Any]]:
+    """Rank AI/data-center PPA offtakers by MW rather than debt notional."""
+
+    node_by_id = {node.node_id: node for node in nodes}
+    offtakers: dict[str, dict[str, Any]] = {}
+    for edge in edges:
+        if (
+            edge.deal_type != DealType.PPA.value
+            or edge.relationship_type != "PPA_COUNTERPARTY"
+            or edge.ppa_capacity_mw <= 0
+            or not edge.relevance_tags
+        ):
+            continue
+        row = offtakers.setdefault(
+            edge.target_id,
+            {
+                "node_id": edge.target_id,
+                "name": edge.target_name,
+                "roles": node_by_id[edge.target_id].roles
+                if edge.target_id in node_by_id
+                else (),
+                "ppa_edge_count": 0,
+                "distinct_power_suppliers": set(),
+                "ppa_capacity_mw": 0.0,
+                "source_uris": set(),
+                "relevance_tags": set(),
+                "supplier_rows": {},
+            },
+        )
+        row["ppa_edge_count"] += 1
+        row["distinct_power_suppliers"].add(edge.source_id)
+        row["ppa_capacity_mw"] += edge.ppa_capacity_mw
+        row["source_uris"].update(edge.source_uris)
+        row["relevance_tags"].update(edge.relevance_tags)
+        supplier_rows = row["supplier_rows"]
+        supplier = supplier_rows.setdefault(
+            edge.source_id,
+            {
+                "node_id": edge.source_id,
+                "name": edge.source_name,
+                "ppa_edge_count": 0,
+                "ppa_capacity_mw": 0.0,
+                "source_uris": set(),
+                "relevance_tags": set(),
+            },
+        )
+        supplier["ppa_edge_count"] += 1
+        supplier["ppa_capacity_mw"] += edge.ppa_capacity_mw
+        supplier["source_uris"].update(edge.source_uris)
+        supplier["relevance_tags"].update(edge.relevance_tags)
+
+    rows = []
+    for row in offtakers.values():
+        supplier_rows = [
+            {
+                "node_id": supplier["node_id"],
+                "name": supplier["name"],
+                "ppa_edge_count": supplier["ppa_edge_count"],
+                "ppa_capacity_mw": round(supplier["ppa_capacity_mw"], 3),
+                "source_uri_count": len(supplier["source_uris"]),
+                "relevance_tags": tuple(sorted(supplier["relevance_tags"])),
+            }
+            for supplier in row["supplier_rows"].values()
+        ]
+        supplier_rows.sort(
+            key=lambda supplier: (
+                supplier["ppa_capacity_mw"],
+                supplier["ppa_edge_count"],
+                supplier["name"],
+            ),
+            reverse=True,
+        )
+        rows.append(
+            {
+                "node_id": row["node_id"],
+                "name": row["name"],
+                "roles": row["roles"],
+                "ppa_edge_count": row["ppa_edge_count"],
+                "distinct_power_suppliers": len(row["distinct_power_suppliers"]),
+                "ppa_capacity_mw": round(row["ppa_capacity_mw"], 3),
+                "source_uri_count": len(row["source_uris"]),
+                "relevance_tags": tuple(sorted(row["relevance_tags"])),
+                "top_power_suppliers": supplier_rows[:10],
+            }
+        )
+    rows.sort(
+        key=lambda row: (
+            row["ppa_capacity_mw"],
+            row["distinct_power_suppliers"],
+            row["ppa_edge_count"],
+            row["name"],
+        ),
+        reverse=True,
+    )
+    return rows
 
 
 def _component_id(component: set[str]) -> str:

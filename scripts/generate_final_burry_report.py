@@ -834,6 +834,14 @@ def report_answer_metric_audits(  # noqa: PLR0912, PLR0915
         requires_corroboration=False,
     )
     add(
+        "capital_exposure.ppa_capacity_mw",
+        "Capital-exposure graph PPA capacity",
+        capital_exposure_graph_summary.get("ppa_capacity_mw"),
+        [graph_artifact],
+        unit="MW",
+        requires_corroboration=False,
+    )
+    add(
         "capital_exposure.largest_component_notional",
         "Largest capital-exposure graph component notional",
         capital_exposure_graph_summary.get("largest_component_notional_usd"),
@@ -859,6 +867,7 @@ def report_answer_metric_audits(  # noqa: PLR0912, PLR0915
         "top_ai_infra_components_by_notional",
         "top_contagion_hubs",
         "top_ai_infra_contagion_hubs",
+        "top_ai_infra_ppa_offtakers",
     ):
         rows = capital_exposure_graph_summary.get(key, [])
         if not isinstance(rows, list):
@@ -879,6 +888,14 @@ def report_answer_metric_audits(  # noqa: PLR0912, PLR0915
                 f"Capital exposure graph {key} AI-infra notional",
                 row.get("ai_infra_relevant_notional_usd"),
                 [graph_artifact],
+                requires_corroboration=False,
+            )
+            add(
+                f"capital_exposure.{key}.{row_id}.ppa_capacity",
+                f"Capital exposure graph {key} PPA capacity",
+                row.get("ppa_capacity_mw"),
+                [graph_artifact],
+                unit="MW",
                 requires_corroboration=False,
             )
             top_entities = row.get("top_entities", [])
@@ -2480,11 +2497,13 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:
                 "answer": (
                     "Partially measured, still not final. A source-backed capital exposure "
                     "graph now ranks connected risk components and contagion hubs from "
-                    "extracted deal counterparties, and a contract/ownership path layer "
-                    "joins tranche, collateral, guarantee, SPV, and parent-control evidence "
-                    "where exact legal-name matches exist. Full contagion mapping still "
-                    "requires broader LLM-adjudicated counterparty, ownership, insurer, and "
-                    "contract-term coverage."
+                    "extracted deal counterparties; capacity-weighted PPA offtaker "
+                    "concentration now surfaces hyperscaler demand-side hubs that carry MW "
+                    "rather than dollar notional; and a contract/ownership path layer joins "
+                    "tranche, collateral, guarantee, SPV, and parent-control evidence where "
+                    "exact legal-name matches exist. Full contagion mapping still requires "
+                    "broader LLM-adjudicated counterparty, ownership, insurer, and contract-"
+                    "term coverage."
                 ),
                 "current_ownership_records": coverage.ownership_records,
                 "current_ownership_graph_nodes": ownership_graph_summary.get("nodes", 0),
@@ -2558,6 +2577,10 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:
                 )[:10],
                 "current_top_ai_infra_contagion_hubs": capital_exposure_graph_summary.get(
                     "top_ai_infra_contagion_hubs",
+                    [],
+                )[:10],
+                "current_top_ai_infra_ppa_offtakers": capital_exposure_graph_summary.get(
+                    "top_ai_infra_ppa_offtakers",
                     [],
                 )[:10],
                 "current_contract_contagion_paths": contract_contagion_summary.get("paths", 0),
