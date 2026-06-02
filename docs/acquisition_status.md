@@ -1,13 +1,13 @@
 # Acquisition Status
 
-Last updated: 2026-06-02 05:28 UTC.
+Last updated: 2026-06-02 05:37 UTC.
 
 This file is the operational snapshot for the current evidence corpus. Treat it
 as a run log, not as a final investment conclusion.
 
 ## Current Corpus
 
-- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0528.md`
+- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0537.md`
 - Evidence gate: not high-confidence final.
 - Source invariant audit: passed at 2026-06-02 04:02 UTC, 63 CSV files
   and 9,208,844 rows scanned, 0 violations, 0 warnings.
@@ -25,19 +25,19 @@ as a run log, not as a final investment conclusion.
 - Source-backed contract tranches: 10,051.
 - Source-backed compute rows: 149.
 - Source-backed timing signals: 3,854.
-- Pending source-backed adjudication items: 6,791.
+- Pending source-backed adjudication items: 6,773.
 - Ownership graph: 425,765 LEI nodes, 425,679 named nodes, and 643,828 source-backed relationships.
 - Contract-structure graph: 94,622 nodes and 195,896 source-backed edges.
 - Contract/ownership contagion paths: 8,749 source-backed paths, including
   1,976 ownership-expanded paths, 6,773 contract-only paths, 453 AI-infra
   relevant paths, and 145 high-or-critical paths.
-- Materiality-first LLM adjudication packets: 6,681 blocker groups packaged
-  (full deduped queue), all 6,681 source-backed, 6,681 with local evidence
-  snippets, 724 AI-infra relevant, and $56.030T of total exposure-basis across
+- Materiality-first LLM adjudication packets: 6,663 blocker groups packaged
+  (full deduped queue), all 6,663 source-backed, 6,663 with local evidence
+  snippets, 706 AI-infra relevant, and $56.029T of total exposure-basis across
   the packet set.
-- Automated materiality adjudication decisions: 6,681 decisions, 6,477 with
-  resolved text quotes plus 204 row-context-backed decisions for non-text
-  sources, 4,442 supported as material blockers, 2,239 requiring deeper
+- Automated materiality adjudication decisions: 6,663 decisions, 6,463 with
+  resolved text quotes plus 200 row-context-backed decisions for non-text
+  sources, 4,438 supported as material blockers, 2,225 requiring deeper
   extraction, 0 requiring source retrieval, and 2,872 source-backed rows
   approved for metric use. Those approved rows total $11.911T as row-level
   supported amounts, but source-instrument metric dedupe now collapses
@@ -45,11 +45,11 @@ as a run log, not as a final investment conclusion.
   they are not treated as individual contracts unless contract terms are
   separately extracted.
 - Decision coverage over packaged blocker groups: 100.0%; unresolved decision
-  share remains 33.51% (still extraction-bound, not source-retrieval-bound).
+  share remains 33.39% (still extraction-bound, not source-retrieval-bound).
 - Top remaining decision gaps are now named counterparty role extraction
   (1,364), collateral scope (605), recourse/guarantee scope (576), split
   aggregate disclosure from committed obligations (227),
-  queue/permit/interconnection linkage (57), missing underlying term-level
+  queue/permit/interconnection linkage (43), missing underlying term-level
   clauses (42), and shelf-capacity-vs-committed-financing distinction (20).
 
 ## Phase Transition Readiness
@@ -180,6 +180,10 @@ Ready now:
   (`capacity`, `MW`, `construction`, `planned`, `queue`, `permit`,
   `interconnection`) so source-backed physical weak-link blockers are no longer
   falsely left in unresolved/no-gap status
+- physical record matching now avoids counting a project/facility name match as
+  both name overlap and owner overlap when owner/operator fields are absent,
+  removing inflated permit/equipment project matches while preserving distinct
+  owner-token matches
 - capital boilerplate gating is now carried as an explicit extraction gap
   (`confirm final prospectus or underlying agreement terms`) instead of an
   implicit decision override, and plain `Registration Statement` references in
@@ -488,19 +492,19 @@ Timing layer:
 Adjudication queue:
 
 - Critical items: 86.
-- High items: 877.
-- AI-infra-relevant items: 735.
+- High items: 761.
+- AI-infra-relevant items: 717.
 - Contract-tranche adjudication items: 2,498.
 - Pending capital distinct notional: $11.923T.
 - Pending AI-infra-relevant distinct capital notional: $827.72B.
 - Pending contract-tranche notional: $10.672T.
 - Pending contract-contagion path exposure: $30.028T.
 - Pending compute claim amount: $398.24B.
-- Materiality packets: 6,681 source-backed packets, 724 AI-infra relevant, and
-  6,681 with local evidence snippets.
-- Materiality decisions: 4,442 source-supported blockers, 2,239 requiring
+- Materiality packets: 6,663 source-backed packets, 706 AI-infra relevant, and
+  6,663 with local evidence snippets.
+- Materiality decisions: 4,438 source-supported blockers, 2,225 requiring
   deeper extraction, 0 requiring source retrieval, and 2,872 rows approved
-  for metric use (6,477 quote-backed decisions plus 204 row-context-backed
+  for metric use (6,463 quote-backed decisions plus 200 row-context-backed
   decisions on non-text sources).
 - Automated row-level supported amount approved for metric use: $11.911T.
 - Deduped automated final metric support: $8.861T across 1,880 source-instrument

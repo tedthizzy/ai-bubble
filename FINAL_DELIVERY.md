@@ -32,8 +32,8 @@ The important change is that ecosystem-scale conclusions are now blocked from be
 
 Latest verified evidence-gated report at this checkpoint:
 
-- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0528.md`
-- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0528.json`
+- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0537.md`
+- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0537.json`
 - `high_confidence_final`: `false`
 - Source invariant audit: passed across 63 CSV files and more than 9.2M rows
   with 0 violations and 0 warnings.
@@ -44,9 +44,9 @@ Latest verified evidence-gated report at this checkpoint:
 - Source-backed deals: 62,952.
 - Source-backed compute rows: 149.
 - Source-backed timing signals: 3,854.
-- Pending source-backed adjudication items: 6,791.
-- Automated materiality adjudication decisions: 6,681 decisions, with 4,442
-  supported blockers, 2,239 still requiring deeper extraction, 2,872 approved
+- Pending source-backed adjudication items: 6,773.
+- Automated materiality adjudication decisions: 6,663 decisions, with 4,438
+  supported blockers, 2,225 still requiring deeper extraction, 2,872 approved
   metric rows, and $8.861T source-instrument-deduped final metric support
   across 1,880 metric groups.
 
