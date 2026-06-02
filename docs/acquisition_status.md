@@ -101,10 +101,13 @@ as a run log, not as a final investment conclusion.
   groups;
   they are not treated as individual contracts unless contract terms are
   separately extracted.
-- Report arithmetic invariants pass with 0 violations. The how-large answer now
-  labels the $1.201T curated capital-structure deal-graph debt-like metric
-  separately from the broader $3.674T materiality-adjudicated supported exposure
-  metric so the two scopes are not read as inconsistent or directly additive.
+- Report arithmetic invariants pass with 0 violations, including the AI-linkage
+  relevance partition: direct plus watchlist equals established AI-linked
+  support, and established plus not-established equals the final metric. The
+  how-large answer now labels the $1.201T curated capital-structure deal-graph
+  debt-like metric separately from the broader $3.674T materiality-adjudicated
+  supported exposure metric so the two scopes are not read as inconsistent or
+  directly additive.
 - The when-cracks answer now carries its own debt-service timing coverage
   caveat: the maturity wall is a floor because 165 of 439 distinct debt-service
   obligations and $541.811B of distinct debt-like notional still lack

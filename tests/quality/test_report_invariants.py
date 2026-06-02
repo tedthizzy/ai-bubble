@@ -17,15 +17,17 @@ def test_consistent_report_has_no_invariant_violations() -> None:
             "materiality_adjudication_final_metric_group_count": 10,
             "materiality_adjudication_approved_for_metric_use": 12,
             "materiality_adjudication_decisions": 20,
+            "materiality_relevance_direct_ai_linked_usd": 100,
+            "materiality_relevance_watchlist_ai_linked_usd": 50,
+            "materiality_relevance_established_ai_linked_usd": 150,
+            "materiality_relevance_not_established_linkage_usd": 650,
             "timing_signal_ai_infra_capital_refinancing_usd_2024_2030": 400,
             "timing_signal_capital_refinancing_usd_2024_2030": 500,
             "timing_signal_capital_refinancing_forward_from_as_of_usd": 200,
             "timing_signal_ai_infra_capital_refinancing_forward_from_as_of_usd": 150,
             "tracker_distinct_capacity_high_mw": 90,
             "tracker_capacity_high_mw": 100,
-            "contract_contagion_notional_basis": (
-                "path_summed_multiplicity_inflated_not_exposure"
-            ),
+            "contract_contagion_notional_basis": ("path_summed_multiplicity_inflated_not_exposure"),
             "contract_contagion_ai_infra_notional_basis": (
                 "path_summed_multiplicity_inflated_not_exposure"
             ),
@@ -47,9 +49,7 @@ def test_invariant_checker_flags_superset_violations() -> None:
             "timing_signal_capital_refinancing_usd_2024_2030": 500,
             "timing_signal_capital_refinancing_forward_from_as_of_usd": 600,
             "timing_signal_ai_infra_capital_refinancing_forward_from_as_of_usd": 550,
-            "contract_contagion_notional_basis": (
-                "path_summed_multiplicity_inflated_not_exposure"
-            ),
+            "contract_contagion_notional_basis": ("path_summed_multiplicity_inflated_not_exposure"),
             "contract_contagion_ai_infra_notional_basis": (
                 "path_summed_multiplicity_inflated_not_exposure"
             ),
@@ -69,9 +69,7 @@ def test_invariant_checker_uses_decision_summary_fallback() -> None:
     report = {
         "key_metrics": {
             "capital_distinct_debt_like_notional_usd": 900,
-            "contract_contagion_notional_basis": (
-                "path_summed_multiplicity_inflated_not_exposure"
-            ),
+            "contract_contagion_notional_basis": ("path_summed_multiplicity_inflated_not_exposure"),
             "contract_contagion_ai_infra_notional_basis": (
                 "path_summed_multiplicity_inflated_not_exposure"
             ),
@@ -95,6 +93,30 @@ def test_invariant_checker_uses_decision_summary_fallback() -> None:
     assert by_name["capital distinct debt-like notional <= debt-like notional"].ok is None
 
 
+def test_invariant_checker_flags_materiality_relevance_partition_drift() -> None:
+    report = {
+        "key_metrics": {
+            "materiality_adjudication_final_metric_supported_amount_usd": 800,
+            "materiality_adjudication_approved_row_supported_amount_usd": 1_100,
+            "materiality_relevance_direct_ai_linked_usd": 100,
+            "materiality_relevance_watchlist_ai_linked_usd": 50,
+            "materiality_relevance_established_ai_linked_usd": 160,
+            "materiality_relevance_not_established_linkage_usd": 650,
+            "contract_contagion_notional_basis": ("path_summed_multiplicity_inflated_not_exposure"),
+            "contract_contagion_ai_infra_notional_basis": (
+                "path_summed_multiplicity_inflated_not_exposure"
+            ),
+        }
+    }
+
+    violations = report_invariant_violations(report)
+
+    assert {
+        "materiality established AI-linked == direct + watchlist",
+        "materiality relevance split == final metric",
+    }.issubset({item.name for item in violations})
+
+
 def test_invariant_checker_requires_contract_path_sum_basis_labels() -> None:
     report = {
         "key_metrics": {
@@ -114,7 +136,5 @@ def test_invariant_checker_requires_contract_path_sum_basis_labels() -> None:
 
     by_name = {item.name: item for item in check_report_invariants(report)}
 
-    assert (
-        by_name["contract-contagion total notional is labeled path-summed"].ok is False
-    )
+    assert by_name["contract-contagion total notional is labeled path-summed"].ok is False
     assert by_name["contract-contagion AI notional is labeled path-summed"].ok is True

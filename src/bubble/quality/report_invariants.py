@@ -25,8 +25,9 @@ def check_report_invariants(
     """Check report arithmetic relationships that should always hold.
 
     These invariants do not prove that a source number is correct. They catch
-    internal report regressions where a subset exceeds its superset, a deduped
-    metric exceeds its raw input, or a grouped count exceeds its source rows.
+    internal report regressions where a subset exceeds its superset, a partition
+    no longer sums to its total, a deduped metric exceeds its raw input, or a
+    grouped count exceeds its source rows.
     """
 
     decision_summary = decision_summary or {}
@@ -38,9 +39,7 @@ def check_report_invariants(
         "capital_distinct_debt_like_notional_usd": _num(
             key_metrics.get("capital_distinct_debt_like_notional_usd")
         ),
-        "capital_debt_like_notional_usd": _num(
-            key_metrics.get("capital_debt_like_notional_usd")
-        ),
+        "capital_debt_like_notional_usd": _num(key_metrics.get("capital_debt_like_notional_usd")),
         "capital_total_notional_usd": _num(key_metrics.get("capital_total_notional_usd")),
         "materiality_final_metric_supported_amount_usd": _num(
             key_metrics.get("materiality_adjudication_final_metric_supported_amount_usd")
@@ -53,6 +52,18 @@ def check_report_invariants(
         "materiality_final_metric_group_count": _num(
             key_metrics.get("materiality_adjudication_final_metric_group_count")
             or decision_summary.get("final_metric_group_count")
+        ),
+        "materiality_relevance_direct_ai_linked_usd": _num(
+            key_metrics.get("materiality_relevance_direct_ai_linked_usd")
+        ),
+        "materiality_relevance_watchlist_ai_linked_usd": _num(
+            key_metrics.get("materiality_relevance_watchlist_ai_linked_usd")
+        ),
+        "materiality_relevance_established_ai_linked_usd": _num(
+            key_metrics.get("materiality_relevance_established_ai_linked_usd")
+        ),
+        "materiality_relevance_not_established_linkage_usd": _num(
+            key_metrics.get("materiality_relevance_not_established_linkage_usd")
         ),
         "materiality_approved_for_metric_use": _num(
             key_metrics.get("materiality_adjudication_approved_for_metric_use")
@@ -72,9 +83,7 @@ def check_report_invariants(
             key_metrics.get("timing_signal_capital_refinancing_forward_from_as_of_usd")
         ),
         "timing_ai_infra_capital_refinancing_forward_from_as_of_usd": _num(
-            key_metrics.get(
-                "timing_signal_ai_infra_capital_refinancing_forward_from_as_of_usd"
-            )
+            key_metrics.get("timing_signal_ai_infra_capital_refinancing_forward_from_as_of_usd")
         ),
         "tracker_distinct_capacity_high_mw": _num(
             key_metrics.get("tracker_distinct_capacity_high_mw")
@@ -112,6 +121,22 @@ def check_report_invariants(
             "materiality final metric groups <= approved metric rows",
             figures["materiality_final_metric_group_count"],
             figures["materiality_approved_for_metric_use"],
+        ),
+        _eq(
+            "materiality established AI-linked == direct + watchlist",
+            figures["materiality_relevance_established_ai_linked_usd"],
+            _sum_or_none(
+                figures["materiality_relevance_direct_ai_linked_usd"],
+                figures["materiality_relevance_watchlist_ai_linked_usd"],
+            ),
+        ),
+        _eq(
+            "materiality relevance split == final metric",
+            figures["materiality_final_metric_supported_amount_usd"],
+            _sum_or_none(
+                figures["materiality_relevance_established_ai_linked_usd"],
+                figures["materiality_relevance_not_established_linkage_usd"],
+            ),
         ),
         _le(
             "approved metric rows <= materiality decisions",
@@ -178,6 +203,16 @@ def _le(name: str, smaller: float | None, larger: float | None) -> ReportInvaria
     )
 
 
+def _eq(name: str, actual: float | None, expected: float | None) -> ReportInvariant:
+    if actual is None or expected is None:
+        return ReportInvariant(name=name, ok=None, detail=f"{actual=} == {expected=}")
+    return ReportInvariant(
+        name=name,
+        ok=abs(actual - expected) <= 1.0,
+        detail=f"{actual:,.2f} == {expected:,.2f}",
+    )
+
+
 def _contains(name: str, value: Any, expected: str) -> ReportInvariant:
     if value is None:
         return ReportInvariant(name=name, ok=False, detail=f"missing label; expected {expected!r}")
@@ -195,6 +230,12 @@ def _num(value: Any) -> float | None:
     if isinstance(value, (int, float)):
         return float(value)
     return None
+
+
+def _sum_or_none(*values: float | None) -> float | None:
+    if any(value is None for value in values):
+        return None
+    return sum(value for value in values if value is not None)
 
 
 def _dict(value: Any) -> dict[str, Any]:

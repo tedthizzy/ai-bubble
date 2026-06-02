@@ -56,7 +56,9 @@ Latest verified evidence-gated report at this checkpoint:
   blocked by missing cash-flow inputs and 2 lack debt-service coverage. The
   report consistency checker now also gates current report ID, final metric,
   metric groups, AI-attribution split, audit count, and compute blocked counts;
-  it currently reports 0 errors and 0 warnings.
+  the report invariant checker also verifies that the direct/watchlist/
+  not-established AI-linkage partition sums to the final metric. Current QA
+  reports 0 errors, 0 warnings, and 0 invariant violations.
 - Source invariant audit: passed across 63 CSV files and 9,208,844 rows scanned
   with 0 violations and 0 warnings.
 - Acquired source artifacts: 66,660 / 66,660 attempted.
