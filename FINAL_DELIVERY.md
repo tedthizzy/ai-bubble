@@ -155,6 +155,16 @@ Latest capital and timing outputs:
   survivors across the 8 direct-tier entities versus $40.70B of carded
   facilities, making this the next explicit audit queue for economic-event
   dedupe and primary debt-service extraction.
+- The direct-tier debt-service evidence layer now includes a supplemental
+  primary-EDGAR collateral/recourse/covenant pack:
+  `handoffs/claude_debt_service_verified_collateral_recourse_20260602.md` and
+  `handoffs/fixtures/debt_service_verified_collateral_recourse_20260602.csv`.
+  It adds 30 field-level rows across 8 facilities (27 primary-EDGAR, 2 partial,
+  1 derived) covering IREN Hardware 3 DDTL collateral/limited guarantee/rate,
+  TeraWulf WULF and Flash Compute secured-SPV terms, Hut 8 DC secured notes,
+  and parent-unsecured convertible recourse for CleanSpark, MARA, and Nebius.
+  This improves DSCR, timing, collateral-recovery, and downside-bearer
+  evidence without changing the committed-debt metric.
 - A companion direct-tier economic-event duplicate checker now turns that queue
   into row-level review clusters:
   `scripts/check_direct_tier_economic_event_duplicates.py` writes

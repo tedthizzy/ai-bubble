@@ -213,6 +213,21 @@ as a run log, not as a final investment conclusion.
   needs-extraction facilities totaling $34.95B. The residual extraction target
   is now explicit: 2 primary-verified facility rows still lack collateral, 2
   lack maturity, 1 lacks rate evidence, and 2 lack recourse evidence.
+- A supplemental primary-EDGAR debt-service evidence pack now covers the
+  collateral/recourse/covenant fields that were still thin in the card
+  inventory:
+  `handoffs/claude_debt_service_verified_collateral_recourse_20260602.md` and
+  `handoffs/fixtures/debt_service_verified_collateral_recourse_20260602.csv`.
+  It contributes 30 long-form rows across 8 direct-tier facilities: 27
+  primary-EDGAR rows, 2 primary-EDGAR-partial rows, and 1 derived TeraWulf
+  JV-share row. It primary-verifies IREN Hardware 3's DDTL rate, undrawn fee,
+  GPU/Microsoft-contract collateral, limited parent guarantee, hedge, and
+  covenants; TeraWulf WULF/Flash Compute issuer, coupon, security, guarantor,
+  covenants, and JV share; Hut 8 DC notes' issuer, coupon, security, and
+  covenants; and parent-unsecured/no-subsidiary-guarantee recourse for
+  CleanSpark, MARA, and Nebius convertibles. This is field-level evidence for
+  DSCR/timing/downside analysis and does not change committed-debt metric
+  totals.
 - A read-only direct-tier debt-card alignment checker now compares current
   final-metric survivors with the normalized direct-tier card inventory:
   `scripts/check_direct_tier_debt_card_alignment.py`. On the 21:21 decisions it
