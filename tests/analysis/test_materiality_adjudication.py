@@ -5294,6 +5294,120 @@ def test_materiality_adjudication_does_not_block_primary_note_offering_as_resale
     assert decision.metric_use_status == "approved_for_metric_use"
 
 
+def test_materiality_adjudication_blocks_contract_resale_registration_metric_use(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-contract-resale-registration",
+                "rank": 1,
+                "review_id": "review-contract-resale-registration",
+                "review_group_id": "group-contract-resale-registration",
+                "priority": "high",
+                "category": "contract",
+                "subcategory": "tranche_counterparty",
+                "ecosystem_relevance": "watchlist_entity",
+                "entity": "Example Issuer Inc.",
+                "counterparty": "",
+                "exposure_basis_usd": "2100000000",
+                "reason": (
+                    "pending contract tranche review; tranche: Notes; "
+                    "notional $2,100,000,000; collateral terms present"
+                ),
+                "recommended_action": "Confirm final note offering terms",
+                "source_uri": "https://www.sec.gov/example-contract-resale.htm",
+                "source_uris": json.dumps(["https://www.sec.gov/example-contract-resale.htm"]),
+                "content_hash": "f" * 64,
+                "content_hashes": json.dumps(["f" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/example-contract-resale.htm",
+                            "content_hash": "f" * 64,
+                            "document_id": "example-contract-resale.htm",
+                            "snippet": (
+                                "We or the selling securityholders may offer and sell these "
+                                "securities through underwriters, brokers, dealers or agents, "
+                                "or directly to purchasers on a continuous or delayed basis."
+                            ),
+                        }
+                    ]
+                ),
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+    decision = batch.decisions[0]
+    assert decision.decision == "needs_deeper_extraction"
+    assert (
+        "distinguish resale registration from committed financing"
+        in decision.remaining_gap
+    )
+    assert decision.metric_use_status == "blocked_pending_extraction"
+
+
+def test_materiality_adjudication_does_not_block_contract_primary_note_issuance_as_resale(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-contract-primary-note-issuance",
+                "rank": 1,
+                "review_id": "review-contract-primary-note-issuance",
+                "review_group_id": "group-contract-primary-note-issuance",
+                "priority": "high",
+                "category": "contract",
+                "subcategory": "tranche_counterparty",
+                "ecosystem_relevance": "watchlist_entity",
+                "entity": "Example Issuer Inc.",
+                "counterparty": "noteholders",
+                "exposure_basis_usd": "2100000000",
+                "reason": (
+                    "pending contract tranche review; tranche: Notes; "
+                    "notional $2,100,000,000; collateral terms present"
+                ),
+                "recommended_action": "Confirm final note offering terms",
+                "source_uri": "https://www.sec.gov/example-contract-note.htm",
+                "source_uris": json.dumps(["https://www.sec.gov/example-contract-note.htm"]),
+                "content_hash": "9" * 64,
+                "content_hashes": json.dumps(["9" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/example-contract-note.htm",
+                            "content_hash": "9" * 64,
+                            "document_id": "example-contract-note.htm",
+                            "snippet": (
+                                "The issuer completed an offering of $2,100,000,000 "
+                                "aggregate principal amount of 5.25% senior notes due "
+                                "2034 issued under an indenture. A selling securityholder "
+                                "may sell other registered securities under a separate "
+                                "prospectus."
+                            ),
+                        }
+                    ]
+                ),
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+    decision = batch.decisions[0]
+    assert "distinguish resale registration" not in decision.remaining_gap
+    assert decision.metric_use_status == "approved_for_metric_use"
+
+
 def test_materiality_adjudication_does_not_treat_registration_statement_reference_as_boilerplate(
     tmp_path: Path,
 ) -> None:

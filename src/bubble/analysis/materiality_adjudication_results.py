@@ -1181,7 +1181,7 @@ def _looks_like_resale_registration_not_committed_debt(
     packet: dict[str, str],
     quote: str,
 ) -> bool:
-    if _field(packet, "category") != "capital":
+    if _field(packet, "category") not in {"capital", "contract"}:
         return False
     text = _combined_text(packet, quote)
     if not _contains_any(
