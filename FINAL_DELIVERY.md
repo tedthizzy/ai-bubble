@@ -180,6 +180,14 @@ Latest capital and timing outputs:
   repeated excess; $29.925B is probable same-instrument review and $3.0B is an
   explicit IREN negative control with conflicting maturity years. This is still
   read-only QA, not a metric adjustment.
+- A validated direct-tier debt-event classification fixture now provides the
+  next production-review input:
+  `handoffs/fixtures/direct_tier_debt_events_classified_20260602.csv`, checked
+  by `scripts/check_direct_tier_debt_event_classifications.py`. It validates
+  55 live packet IDs with 0 errors: 26 same-event collapse candidates
+  ($54.030B), 24 keep/negative-control distinct facilities ($96.409B), and 5
+  exclude-or-rebind human-review rows ($25.587B). This is a review fixture, not
+  an automatic metric reduction.
 - A deterministic physical-execution extractor now exists at
   `bubble.ingestion.physical.extract_physical_execution_terms`, turning acquired
   permit/PUC/source text into normalized evidence rows for on-site generation,

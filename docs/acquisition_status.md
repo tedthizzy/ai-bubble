@@ -258,6 +258,18 @@ as a run log, not as a final investment conclusion.
   distinct-facility negative control because the rows carry conflicting 2031,
   2032, and 2033 maturity evidence. This is a reviewer fixture, not a final
   metric reduction.
+- A Claude direct-tier debt-event classification fixture has been imported and
+  repaired for exact live packet IDs:
+  `handoffs/claude_direct_tier_debt_events_classified_20260602.md` and
+  `handoffs/fixtures/direct_tier_debt_events_classified_20260602.csv`.
+  `scripts/check_direct_tier_debt_event_classifications.py` validates it
+  against the current materiality decisions. The current fixture has 55 rows and
+  0 validation errors: 26 `same_event` rows ($54.030B) expected to collapse to a
+  representative after production review, 24 `distinct_facility` rows
+  ($96.409B) expected to stay as keep/negative controls, and 5
+  `needs_human_review` rows ($25.587B) expected to be excluded or rebound only
+  after manual evidence review. This is an adjudication input for future metric
+  logic, not a metric change.
 - A deterministic physical-execution extractor now exists at
   `bubble.ingestion.physical.extract_physical_execution_terms`. It normalizes
   acquired permit/PUC/source text into machine-checkable physical execution
