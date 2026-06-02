@@ -108,6 +108,17 @@ as a run log, not as a final investment conclusion.
   hidden-leverage taxonomy separates committed-debt metrics from excluded
   off-balance-sheet economic commitments such as take-or-pay, hosting,
   colocation, and supplier-financing obligations.
+- A utility/ratepayer acquisition-card pack now gives exact source targets for
+  the first ratepayer-downside extraction pass:
+  `handoffs/codex_utility_ratepayer_acquisition_cards_20260602.md`,
+  `handoffs/fixtures/utility_ratepayer_acquisition_targets_20260602.csv`, and
+  `handoffs/fixtures/source_catalog_utility_ratepayer_20260602.csv`. The
+  catalog fixture validates through `load_source_catalog()` and targets Georgia
+  Power PSC Docket 56002, Entergy Louisiana LPSC U-37425, FPL FPSC
+  20250011-EI, Xcel Colorado PUC 26AL-0137E, Xcel Minnesota MPUC
+  E022/M-25-289, and NextEra/Google multi-GW data-center campus development.
+  These source targets are acquisition scope only; they do not quantify
+  ratepayer exposure until docket/tariff/order extraction is run.
 - The broader materiality metric is now split by adjudicated thesis linkage:
   $0.440T has established direct/watchlist AI-data-center linkage, while
   88.9% is source-backed but not yet established as AI/data-center-linked.

@@ -93,6 +93,12 @@ Latest capital and timing outputs:
   monitoring, and a hidden-leverage taxonomy that keeps the committed-debt
   metric distinct from excluded economic commitments such as take-or-pay,
   hosting, colocation, and supplier-financing obligations.
+- Utility/ratepayer downside is now ready for its first source-acquisition pass:
+  `handoffs/codex_utility_ratepayer_acquisition_cards_20260602.md` and its
+  fixture CSVs identify exact PUC/IRP/rate-case/large-load tariff targets for
+  Georgia Power, Entergy Louisiana, FPL/NextEra, Xcel Colorado, Xcel Minnesota,
+  and NextEra/Google data-center energy development. These are acquisition
+  targets only; they do not yet quantify ratepayer exposure.
 - Broader materiality-adjudicated supported exposure: $3.742T across 1,380
   metric groups; this is a different scope from the curated capital-structure
   deal-graph debt-like metric above, not an additive increment.
