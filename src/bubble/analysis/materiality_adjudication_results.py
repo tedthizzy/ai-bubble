@@ -9,6 +9,7 @@ thing as approval for high-confidence report metrics.
 from __future__ import annotations
 
 import csv
+import hashlib
 import json
 import re
 from collections import Counter
@@ -16,7 +17,10 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import asdict, dataclass
 from datetime import UTC, date, datetime
 from pathlib import Path
-from typing import Any
+from typing import TYPE_CHECKING, Any
+
+if TYPE_CHECKING:
+    from collections.abc import Callable
 
 ADJUDICATOR_ID = "codex-materiality-evidence-adjudicator-v1"
 
@@ -1089,14 +1093,9 @@ def _best_evidence_quote(
     text_snippets = [(item, text) for item, text in text_snippets if text]
     if not text_snippets:
         return "", ()
-    best_snippet = max(
-        text_snippets,
-        key=lambda item: _quote_score(item[1], terms),
-    )
-    snippet = best_snippet[1]
+    best_snippet = max(text_snippets, key=lambda item: _quote_score(item[1], terms))
     snippet_meta = best_snippet[0]
-    sentence = _best_sentence(snippet, terms)
-    quote = sentence[:650].strip()
+    quote = _combined_best_quote([text for _, text in text_snippets], terms)
     refs = tuple(
         value
         for value in [
@@ -1107,6 +1106,51 @@ def _best_evidence_quote(
         if value
     )
     return quote, refs
+
+
+def _combined_best_quote(snippets: list[str], terms: list[str]) -> str:
+    role_clause = _best_clause_from_snippets(
+        snippets, terms, _best_named_counterparty_role_clause
+    )
+    scope_clause = _best_clause_from_snippets(snippets, terms, _best_scope_clause)
+    best_sentence = _best_sentence(
+        max(snippets, key=lambda snippet: _quote_score(snippet, terms)), terms
+    )
+    clauses = [clause for clause in [role_clause, scope_clause, best_sentence] if clause]
+    combined: list[str] = []
+    seen: set[str] = set()
+    for clause in clauses:
+        key = clause[:160].lower()
+        if key in seen:
+            continue
+        seen.add(key)
+        combined.append(clause)
+    quote = " ".join(combined).strip()
+    if len(quote) <= 650:
+        return quote
+    if role_clause and scope_clause:
+        role_part = _trim_window_around_terms(
+            role_clause, _named_counterparty_role_markers(), max_len=315
+        )
+        scope_part = _trim_window_around_terms(scope_clause, _scope_quote_terms(), max_len=315)
+        return f"{role_part} {scope_part}"[:650].strip()
+    return quote[:650].strip()
+
+
+def _best_clause_from_snippets(
+    snippets: list[str],
+    terms: list[str],
+    clause_picker: Callable[[list[str], list[str]], str],
+) -> str:
+    clauses: list[str] = []
+    for snippet in snippets:
+        parts = [part.strip() for part in re.split(r"(?<=[.;:])\s+", snippet) if part.strip()]
+        clause = clause_picker(parts, terms)
+        if clause:
+            clauses.append(clause)
+    if not clauses:
+        return ""
+    return max(clauses, key=lambda clause: _quote_score(clause.lower(), terms))
 
 
 def _best_sentence(text: str, terms: list[str]) -> str:
@@ -1488,41 +1532,120 @@ def _summary(
 def _deduped_final_metric_supported_amount(
     decisions: list[MaterialityAdjudicationDecision],
 ) -> float:
-    direct_sum = 0.0
+    return sum(
+        decision.supported_amount_usd
+        for decision in _final_metric_representative_decisions(decisions)
+    )
+
+
+def _final_metric_group_count(decisions: list[MaterialityAdjudicationDecision]) -> int:
+    return len(_final_metric_representative_decisions(decisions))
+
+
+def _final_metric_representative_decisions(
+    decisions: list[MaterialityAdjudicationDecision],
+) -> list[MaterialityAdjudicationDecision]:
+    direct: list[MaterialityAdjudicationDecision] = []
     grouped: dict[str, MaterialityAdjudicationDecision] = {}
     for decision in decisions:
         if decision.metric_use_status not in FINAL_METRIC_DECISIONS:
             continue
         if decision.metric_aggregation_policy == "latest_snapshot_per_metric_group":
-            key = decision.metric_group_id or decision.packet_id
-            current = grouped.get(key)
+            group_key = decision.metric_group_id or decision.packet_id
+            current = grouped.get(group_key)
             if current is None or _snapshot_sort_key(decision) > _snapshot_sort_key(current):
-                grouped[key] = decision
+                grouped[group_key] = decision
             continue
         if decision.metric_aggregation_policy == "max_amount_per_source_instrument":
-            key = decision.metric_group_id or decision.packet_id
-            current = grouped.get(key)
+            group_key = decision.metric_group_id or decision.packet_id
+            current = grouped.get(group_key)
             if current is None or decision.supported_amount_usd > current.supported_amount_usd:
-                grouped[key] = decision
+                grouped[group_key] = decision
             continue
-        direct_sum += decision.supported_amount_usd
-    return direct_sum + sum(decision.supported_amount_usd for decision in grouped.values())
+        direct.append(decision)
+    representatives = [*direct, *grouped.values()]
+    representatives = _collapse_metric_representatives(
+        representatives,
+        key_fn=_source_hash_metric_dedupe_key,
+    )
+    return _collapse_metric_representatives(
+        representatives,
+        key_fn=_economic_quote_metric_dedupe_key,
+    )
 
 
-def _final_metric_group_count(decisions: list[MaterialityAdjudicationDecision]) -> int:
-    direct_count = 0
-    grouped: set[str] = set()
-    for decision in decisions:
-        if decision.metric_use_status not in FINAL_METRIC_DECISIONS:
+def _collapse_metric_representatives(
+    representatives: list[MaterialityAdjudicationDecision],
+    *,
+    key_fn: Callable[
+        [MaterialityAdjudicationDecision], tuple[str, tuple[str, ...], str] | None
+    ],
+) -> list[MaterialityAdjudicationDecision]:
+    collapsed: dict[
+        tuple[str, tuple[str, ...], str], MaterialityAdjudicationDecision
+    ] = {}
+    unkeyed: list[MaterialityAdjudicationDecision] = []
+    for decision in representatives:
+        dedupe_key = key_fn(decision)
+        if not dedupe_key:
+            unkeyed.append(decision)
             continue
-        if decision.metric_aggregation_policy in {
-            "latest_snapshot_per_metric_group",
-            "max_amount_per_source_instrument",
-        }:
-            grouped.add(decision.metric_group_id or decision.packet_id)
-        else:
-            direct_count += 1
-    return direct_count + len(grouped)
+        current = collapsed.get(dedupe_key)
+        if current is None or _metric_representative_sort_key(
+            decision
+        ) > _metric_representative_sort_key(current):
+            collapsed[dedupe_key] = decision
+    return [*unkeyed, *collapsed.values()]
+
+
+def _source_hash_metric_dedupe_key(
+    decision: MaterialityAdjudicationDecision,
+) -> tuple[str, tuple[str, ...], str] | None:
+    hashes = tuple(
+        sorted(hash_value for hash_value in decision.content_hashes if hash_value)
+    )
+    if not hashes and decision.content_hash:
+        hashes = (decision.content_hash,)
+    if not hashes:
+        return None
+    amount_key = _metric_amount_key(decision.supported_amount_usd)
+    if not amount_key or amount_key == "0":
+        return None
+    return "source-hash", hashes, amount_key
+
+
+def _economic_quote_metric_dedupe_key(
+    decision: MaterialityAdjudicationDecision,
+) -> tuple[str, tuple[str, ...], str] | None:
+    if decision.metric_aggregation_policy != "max_amount_per_source_instrument":
+        return None
+    entity_key = re.sub(r"[^a-z0-9]+", "-", decision.entity.lower()).strip("-")
+    amount_key = _metric_amount_key(decision.supported_amount_usd)
+    quote_key = _normalized_quote_fingerprint(decision.evidence_quote)
+    if not entity_key or not amount_key or amount_key == "0" or not quote_key:
+        return None
+    return "economic-quote", (entity_key, amount_key), quote_key
+
+
+def _normalized_quote_fingerprint(quote: str) -> str:
+    normalized = re.sub(r"[^a-z0-9]+", " ", quote.lower()).strip()
+    if len(normalized) < 80:
+        return ""
+    return hashlib.sha1(normalized.encode()).hexdigest()
+
+
+def _metric_representative_sort_key(
+    decision: MaterialityAdjudicationDecision,
+) -> tuple[int, tuple[str, int], float]:
+    policy_rank = {
+        "max_amount_per_source_instrument": 2,
+        "latest_snapshot_per_metric_group": 1,
+    }.get(decision.metric_aggregation_policy, 0)
+    return (
+        policy_rank,
+        _snapshot_sort_key(decision),
+        decision.supported_amount_usd,
+    )
 
 
 def _snapshot_sort_key(decision: MaterialityAdjudicationDecision) -> tuple[str, int]:

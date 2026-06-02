@@ -395,19 +395,19 @@ def _evidence_snippets(
         text = _read_text(path)
         if not text:
             continue
-        snippet_text = _best_row_snippet(row, text, snippet_chars)
-        if not snippet_text:
-            continue
-        snippet = EvidenceSnippet(
-            source_uri=artifact.get("source_uri", "") or source_uris[0],
-            content_hash=artifact.get("content_hash", "")
-            or (content_hashes[0] if content_hashes else ""),
-            local_path=str(path),
-            document_id=artifact.get("document_id", ""),
-            accession_number=artifact.get("accession_number", ""),
-            snippet=snippet_text,
-        )
-        scored_snippets.append((_evidence_snippet_score(row, snippet_text), snippet))
+        for snippet_text in _row_snippet_candidates(row, text, snippet_chars):
+            if not snippet_text:
+                continue
+            snippet = EvidenceSnippet(
+                source_uri=artifact.get("source_uri", "") or source_uris[0],
+                content_hash=artifact.get("content_hash", "")
+                or (content_hashes[0] if content_hashes else ""),
+                local_path=str(path),
+                document_id=artifact.get("document_id", ""),
+                accession_number=artifact.get("accession_number", ""),
+                snippet=snippet_text,
+            )
+            scored_snippets.append((_evidence_snippet_score(row, snippet_text), snippet))
 
     if not scored_snippets:
         fallback = _row_context_fallback_snippet(row)
@@ -659,18 +659,28 @@ def _best_snippet(text: str, terms: list[str], snippet_chars: int) -> str:
 
 
 def _best_row_snippet(row: dict[str, str], text: str, snippet_chars: int) -> str:
+    candidates = _row_snippet_candidates(row, text, snippet_chars)
+    return candidates[0] if candidates else ""
+
+
+def _row_snippet_candidates(
+    row: dict[str, str], text: str, snippet_chars: int
+) -> list[str]:
     base = _best_snippet(text, _query_terms(row), snippet_chars)
+    candidates = [base] if base else []
+    role_candidate = _best_snippet(text, _counterparty_role_query_terms(row), snippet_chars)
+    if _counterparty_role_hit_count(role_candidate) > _counterparty_role_hit_count(base):
+        candidates.append(role_candidate)
     scope_candidate = _best_snippet(text, _capital_scope_query_terms(row), snippet_chars)
     scope_score = _scope_clause_hit_count(scope_candidate)
     if scope_score >= 2 and scope_score > _scope_clause_hit_count(base):
-        return scope_candidate
-    if not _is_non_specific_capital_candidate_row(row):
-        return base
-    contract_terms = _capital_term_query_terms(row)
-    contract_candidate = _best_snippet(text, contract_terms, snippet_chars)
-    if _capital_term_hit_count(contract_candidate) > _capital_term_hit_count(base):
-        return contract_candidate
-    return base
+        candidates.append(scope_candidate)
+    if _is_non_specific_capital_candidate_row(row):
+        contract_terms = _capital_term_query_terms(row)
+        contract_candidate = _best_snippet(text, contract_terms, snippet_chars)
+        if _capital_term_hit_count(contract_candidate) > _capital_term_hit_count(base):
+            candidates.append(contract_candidate)
+    return _dedupe_snippet_candidates(candidates)
 
 
 def _evidence_snippet_score(row: dict[str, str], snippet: str) -> int:
@@ -679,6 +689,7 @@ def _evidence_snippet_score(row: dict[str, str], snippet: str) -> int:
     if _field(row, "category") in {"capital", "contract"}:
         score += _capital_term_hit_count(snippet) * 8
         score += _scope_clause_hit_count(snippet) * 12
+        score += _counterparty_role_hit_count(snippet) * 12
     if _is_non_specific_capital_candidate_row(row):
         term_hits = _capital_term_hit_count(snippet)
         if term_hits == 0:
@@ -686,6 +697,80 @@ def _evidence_snippet_score(row: dict[str, str], snippet: str) -> int:
         score += term_hits * 6
     score -= _boilerplate_penalty(snippet) * 7
     return score
+
+
+def _dedupe_snippet_candidates(candidates: list[str]) -> list[str]:
+    deduped: list[str] = []
+    seen: set[str] = set()
+    for candidate in candidates:
+        normalized = _normalize_text(candidate)
+        if not normalized:
+            continue
+        key = normalized[:240].lower()
+        if key in seen:
+            continue
+        seen.add(key)
+        deduped.append(normalized)
+    return deduped
+
+
+def _counterparty_role_query_terms(row: dict[str, str]) -> list[str]:
+    if _field(row, "category") not in {"capital", "contract", "contagion", "weak_link"}:
+        return []
+    terms = [
+        "administrative agent",
+        "collateral agent",
+        "facility agent",
+        "syndication agent",
+        "lead arranger",
+        "joint bookrunner",
+        "book-running manager",
+        "initial purchaser",
+        "underwriter",
+        "trustee",
+        "lenders party thereto",
+        "lenders named therein",
+        "borrower",
+        "issuer",
+        "guarantor",
+        "as administrative agent",
+        "as collateral agent",
+        "as trustee",
+        "as initial purchaser",
+        "as underwriter",
+        "entered into",
+        "credit agreement",
+        "indenture",
+    ]
+    terms.extend(_amount_query_terms(_exposure_basis_usd(row)))
+    return terms
+
+
+def _counterparty_role_hit_count(snippet: str) -> int:
+    lowered = snippet.lower()
+    markers = [
+        "administrative agent",
+        "collateral agent",
+        "facility agent",
+        "syndication agent",
+        "lead arranger",
+        "joint bookrunner",
+        "book-running manager",
+        "initial purchaser",
+        "underwriter",
+        "trustee",
+        "lenders party thereto",
+        "lenders named therein",
+        "as administrative agent",
+        "as collateral agent",
+        "as trustee",
+        "as initial purchaser",
+        "as underwriter",
+    ]
+    role_hits = sum(1 for marker in markers if marker in lowered)
+    if role_hits and re.search(r"\b[A-Z][A-Za-z&.,' -]{2,80},\s+as\s+", snippet):
+        role_hits += 2
+    return role_hits
 
 
 def _capital_term_query_terms(row: dict[str, str]) -> list[str]:

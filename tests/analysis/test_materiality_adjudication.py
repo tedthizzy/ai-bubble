@@ -684,6 +684,101 @@ def test_materiality_packet_prioritizes_contract_clause_snippet_for_non_specific
     assert "forward-looking statements" not in snippet
 
 
+def test_materiality_packet_keeps_role_and_scope_clauses_from_same_artifact(
+    tmp_path: Path,
+) -> None:
+    source_path = tmp_path / "data" / "edgar_acquisition" / "documents" / "credit.htm"
+    source_path.parent.mkdir(parents=True, exist_ok=True)
+    source_path.write_text(
+        """
+        <html><body>
+        Credit Agreement, dated as of March 2, 2026, among Example Borrower LLC,
+        the lenders party thereto, and Bank of Example, N.A., as administrative
+        agent. Background transaction narrative and proceeds disclosure.
+        Background transaction narrative and proceeds disclosure.
+        Background transaction narrative and proceeds disclosure.
+        The obligations under the Credit Agreement are secured by substantially
+        all assets of the Borrower and guaranteed by each material subsidiary
+        guarantor.
+        </body></html>
+        """
+    )
+    _write_csv(
+        tmp_path / "data" / "edgar_acquisition" / "edgar_document_inventory.csv",
+        [
+            {
+                "filing_url": "https://www.sec.gov/example-credit.htm",
+                "local_path": str(source_path),
+                "content_hash": "3" * 64,
+                "primary_document": "credit.htm",
+                "accession_number": "0001-26-000012",
+            }
+        ],
+    )
+    _write_csv(
+        tmp_path / "data" / "reports" / "review_queue.csv",
+        [
+            {
+                "review_id": "review-role-scope",
+                "review_group_id": "group-role-scope",
+                "priority": "critical",
+                "category": "capital",
+                "subcategory": "high_notional_debt_like_candidate",
+                "ecosystem_relevance": "direct_ai_infra",
+                "entity": "Example Borrower LLC",
+                "counterparty": "",
+                "deal_id": "deal-role-scope",
+                "source_row_id": "row-role-scope",
+                "notional_amount_usd": "25000000000",
+                "exposure_usd": "0",
+                "capacity_mw": "0",
+                "risk_score": "0.4",
+                "reason": (
+                    "pending adjudication status: pending; debt-like deal type: "
+                    "debt_facility; notional $25,000,000,000; notional context: "
+                    "transaction_facility"
+                ),
+                "recommended_action": (
+                    "Confirm named counterparty plus collateral and guarantee scope"
+                ),
+                "source_uri": "https://www.sec.gov/example-credit.htm",
+                "source_uris": json.dumps(["https://www.sec.gov/example-credit.htm"]),
+                "content_hash": "3" * 64,
+                "content_hashes": json.dumps(["3" * 64]),
+                "human_review_status": "pending",
+            }
+        ],
+    )
+
+    packet_batch = build_materiality_adjudication_packets(
+        [tmp_path / "data"],
+        limit=1,
+        snippets_per_packet=2,
+        snippet_chars=260,
+    )
+    write_materiality_adjudication_packets(packet_batch, tmp_path / "reports")
+    decision_batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    packet_snippets = [
+        snippet.snippet.lower() for snippet in packet_batch.packets[0].evidence_snippets
+    ]
+    assert any("bank of example" in snippet for snippet in packet_snippets)
+    assert any("secured by substantially all assets" in snippet for snippet in packet_snippets)
+    decision = decision_batch.decisions[0]
+    assert "bank of example" in decision.evidence_quote.lower()
+    assert "secured by substantially all assets" in decision.evidence_quote.lower()
+    assert "guaranteed by each material subsidiary guarantor" in (
+        decision.evidence_quote.lower()
+    )
+    assert "extract named counterparty and role" not in decision.remaining_gap
+    assert "determine collateral scope" not in decision.remaining_gap
+    assert "determine recourse and guarantee scope" not in decision.remaining_gap
+    assert decision.metric_use_status == "approved_for_metric_use"
+
+
 def test_materiality_adjudication_decisions_are_conservative(tmp_path: Path) -> None:
     _write_csv(
         tmp_path / "reports" / "materiality_adjudication_packets.csv",
@@ -1259,6 +1354,177 @@ def test_materiality_adjudication_dedupes_same_source_instrument_metric_rows(
     assert {
         decision.metric_aggregation_policy for decision in batch.decisions
     } == {"max_amount_per_source_instrument"}
+
+
+def test_materiality_adjudication_dedupes_same_obligation_across_filings(
+    tmp_path: Path,
+) -> None:
+    quote = (
+        "Example Parent Corp. entered into a credit agreement with Example Bank, "
+        "N.A., as administrative agent, providing a $5.0 billion senior unsecured "
+        "revolving credit facility. The facility is guaranteed by Example Finance LLC."
+    )
+    rows = []
+    for rank, hash_value in [(1, "f" * 64), (2, "9" * 64)]:
+        rows.append(
+            {
+                "packet_id": f"packet-repeat-filing-{rank}",
+                "rank": rank,
+                "review_id": f"review-repeat-filing-{rank}",
+                "review_group_id": f"group-repeat-filing-{rank}",
+                "priority": "high",
+                "category": "capital",
+                "subcategory": "high_notional_debt_like_candidate",
+                "ecosystem_relevance": "watchlist_entity",
+                "entity": "Example Parent Corp.",
+                "counterparty": "Example Bank, N.A.",
+                "exposure_basis_usd": "5000000000",
+                "reason": (
+                    "pending adjudication status: pending; debt-like deal type: "
+                    "debt_facility; notional $5,000,000,000; notional context: "
+                    "transaction_principal; commitment scope: "
+                    "specific_transaction_commitment"
+                ),
+                "recommended_action": "Confirm repeated filing disclosure",
+                "source_uri": f"https://www.sec.gov/example-repeat-{rank}.htm",
+                "source_uris": json.dumps(
+                    [f"https://www.sec.gov/example-repeat-{rank}.htm"]
+                ),
+                "content_hash": hash_value,
+                "content_hashes": json.dumps([hash_value]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": f"https://www.sec.gov/example-repeat-{rank}.htm",
+                            "content_hash": hash_value,
+                            "document_id": f"example-repeat-{rank}.htm",
+                            "snippet": quote,
+                        }
+                    ]
+                ),
+            }
+        )
+    _write_csv(tmp_path / "reports" / "materiality_adjudication_packets.csv", rows)
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    assert batch.summary.approved_for_metric_use == 2
+    assert batch.summary.approved_row_supported_amount_usd == 10_000_000_000
+    assert batch.summary.final_metric_supported_amount_usd == 5_000_000_000
+    assert batch.summary.final_metric_group_count == 1
+    assert len({decision.metric_group_id for decision in batch.decisions}) == 2
+    assert {
+        decision.metric_aggregation_policy for decision in batch.decisions
+    } == {"max_amount_per_source_instrument"}
+
+
+def test_materiality_adjudication_dedupes_source_instrument_and_snapshot_overlap(
+    tmp_path: Path,
+) -> None:
+    shared_hash = "e" * 64
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-source-instrument",
+                "rank": 1,
+                "review_id": "review-source-instrument",
+                "review_group_id": "group-source-instrument",
+                "priority": "high",
+                "category": "capital",
+                "subcategory": "high_notional_debt_like_candidate",
+                "ecosystem_relevance": "watchlist_entity",
+                "entity": "Example Parent Corp.",
+                "counterparty": "Example Bank, N.A.",
+                "exposure_basis_usd": "5000000000",
+                "reason": (
+                    "pending adjudication status: pending; debt-like deal type: "
+                    "debt_facility; notional $5,000,000,000; notional context: "
+                    "transaction_principal; commitment scope: "
+                    "specific_transaction_commitment"
+                ),
+                "recommended_action": "Confirm source instrument",
+                "source_uri": "https://www.sec.gov/example-overlap.htm",
+                "source_uris": json.dumps(["https://www.sec.gov/example-overlap.htm"]),
+                "content_hash": shared_hash,
+                "content_hashes": json.dumps([shared_hash]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/example-overlap.htm",
+                            "content_hash": shared_hash,
+                            "document_id": "example-overlap.htm",
+                            "snippet": (
+                                "Example Parent Corp. entered into a credit agreement "
+                                "with Example Bank, N.A., as administrative agent, "
+                                "providing a $5.0 billion senior unsecured revolving "
+                                "credit facility. The facility is guaranteed by "
+                                "Example Finance LLC."
+                            ),
+                        }
+                    ]
+                ),
+            },
+            {
+                "packet_id": "packet-aggregate-snapshot",
+                "rank": 2,
+                "review_id": "review-aggregate-snapshot",
+                "review_group_id": "group-aggregate-snapshot",
+                "priority": "high",
+                "category": "capital",
+                "subcategory": "high_notional_debt_like_candidate",
+                "ecosystem_relevance": "watchlist_entity",
+                "entity": "Example Parent Corp.",
+                "counterparty": "",
+                "exposure_basis_usd": "5000000000",
+                "reason": (
+                    "notional $5,000,000,000; notional context: "
+                    "aggregate_commitment_snapshot"
+                ),
+                "recommended_action": "Persist aggregate commitment snapshot",
+                "source_uri": "https://www.sec.gov/example-overlap.htm",
+                "source_uris": json.dumps(["https://www.sec.gov/example-overlap.htm"]),
+                "content_hash": shared_hash,
+                "content_hashes": json.dumps([shared_hash]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/example-overlap.htm",
+                            "content_hash": shared_hash,
+                            "document_id": "example-overlap.htm",
+                            "snippet": (
+                                "As of March 31, 2026, Example Parent Corp. had "
+                                "aggregate commitments of $5.0 billion that are "
+                                "disclosed as a total commitments snapshot."
+                            ),
+                        }
+                    ]
+                ),
+            },
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    assert batch.summary.approved_for_metric_use == 2
+    assert batch.summary.approved_row_supported_amount_usd == 10_000_000_000
+    assert batch.summary.final_metric_supported_amount_usd == 5_000_000_000
+    assert batch.summary.final_metric_group_count == 1
+    assert {decision.metric_group_id for decision in batch.decisions} == {
+        f"source-instrument:hashes:{shared_hash}:amount:5000000000",
+        "aggregate-obligation-snapshot:example-parent-corp:"
+        "high-notional-debt-like-candidate",
+    }
+    assert {decision.metric_aggregation_policy for decision in batch.decisions} == {
+        "max_amount_per_source_instrument",
+        "latest_snapshot_per_metric_group",
+    }
 
 
 def test_materiality_adjudication_approves_aggregate_commitment_snapshot(
