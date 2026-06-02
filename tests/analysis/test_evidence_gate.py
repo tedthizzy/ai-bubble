@@ -123,6 +123,28 @@ def test_semantic_gate_preserves_committed_debt_claim():
     assert audit.blocking_issues == []
 
 
+def test_semantic_gate_preserves_committed_amount_and_borrowing_base_claims():
+    gate = EvidenceGate()
+    for text in [
+        "The WM Cayman II Revolver was increased, bringing the total committed amount to $2.5 billion equivalent.",
+        "The reserve-based lending facility size is $1.35 billion and is supported by a borrowing base.",
+        "The Notes, upon issuance, will be Senior Secured Debt under the Common Terms Agreement.",
+    ]:
+        audit = gate.audit_claim(
+            claim_id="capital.real_committed_marker",
+            claim="Claimed amount from committed financing marker",
+            value=1_000_000_000,
+            unit="USD",
+            evidence=[_provenance(SourceType.SEC_EDGAR, confidence=0.9)],
+            high_impact=True,
+            semantic_text=text,
+        )
+
+        assert audit.semantic_bucket == SemanticEvidenceBucket.COMMITTED_DEBT
+        assert audit.effective_confidence == 0.9
+        assert audit.eligible_for_high_confidence is True
+
+
 def test_semantic_gate_preserves_terse_note_issuance_claim():
     gate = EvidenceGate()
     audit = gate.audit_claim(

@@ -3091,6 +3091,86 @@ def test_materiality_adjudication_keeps_single_multi_tranche_offering(
     assert decision.metric_use_status == "approved_for_metric_use"
 
 
+def test_materiality_adjudication_blocks_indeterminate_shelf_capacity(
+    tmp_path: Path,
+) -> None:
+    decision = _single_capacity_decision(
+        tmp_path,
+        packet_id="packet-indeterminate-shelf-capacity",
+        entity="Ameris Bancorp",
+        amount=22_380_000_000,
+        quote=(
+            "An indeterminate amount of securities are being registered under "
+            "this registration statement and may be offered from time to time."
+        ),
+    )
+
+    assert "confirm source quote contains specific committed obligation terms" in (
+        decision.remaining_gap
+    )
+    assert decision.metric_use_status == "blocked_pending_extraction"
+
+
+def test_materiality_adjudication_blocks_preferred_stock_purchase_agreement(
+    tmp_path: Path,
+) -> None:
+    decision = _single_capacity_decision(
+        tmp_path,
+        packet_id="packet-preferred-stock-purchase",
+        entity="Cerebras Systems Inc.",
+        amount=5_000_000_000,
+        quote=(
+            "Series F-1 Preferred Stock Purchase Agreement by and among "
+            "Cerebras Systems Inc. and the purchasers named therein."
+        ),
+    )
+
+    assert "confirm source quote contains specific committed obligation terms" in (
+        decision.remaining_gap
+    )
+    assert decision.metric_use_status == "blocked_pending_extraction"
+
+
+def test_materiality_adjudication_blocks_no_leverage_fund_share_offering(
+    tmp_path: Path,
+) -> None:
+    decision = _single_capacity_decision(
+        tmp_path,
+        packet_id="packet-no-leverage-fund",
+        entity="Fidelity Solana Fund",
+        amount=1_000_000_000,
+        quote=(
+            "The Trust will not utilize leverage, derivatives or similar "
+            "instruments and will issue shares of beneficial interest."
+        ),
+    )
+
+    assert "confirm source quote contains specific committed obligation terms" in (
+        decision.remaining_gap
+    )
+    assert decision.metric_use_status == "blocked_pending_extraction"
+
+
+def test_materiality_adjudication_blocks_acquisition_purchase_price(
+    tmp_path: Path,
+) -> None:
+    decision = _single_capacity_decision(
+        tmp_path,
+        packet_id="packet-acquisition-purchase-price",
+        entity="eBay Inc.",
+        amount=1_200_000_000,
+        quote=(
+            "eBay agreed to acquire Depop, Inc. for approximately "
+            "$1.2 billion in cash, subject to purchase price adjustments."
+        ),
+    )
+
+    assert "confirm source quote contains specific committed obligation terms" in (
+        decision.remaining_gap
+    )
+    assert decision.metric_use_status == "blocked_pending_extraction"
+
+
 def test_materiality_adjudication_does_not_block_underwriter_commitment_boilerplate(
     tmp_path: Path,
 ) -> None:

@@ -100,6 +100,12 @@ COMMITTED_DEBT_MARKERS = (
     "convertible senior",
     "conversion price",
     "convertible debentures",
+    "total committed amount",
+    "facility size",
+    "borrowing base",
+    "senior secured debt",
+    "borrowings under the company's facility",
+    "facility agreement",
 )
 
 ASSET_OR_CAPACITY_MARKERS = (

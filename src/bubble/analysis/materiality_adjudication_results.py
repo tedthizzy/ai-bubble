@@ -308,19 +308,7 @@ def _remaining_gaps(packet: dict[str, str], quote: str) -> list[str]:
         packet, quote
     ) or _looks_like_undrawn_capacity_not_debt(packet, quote):
         gaps.append("split asset, UPB, or financing-capacity disclosure from committed debt")
-    semantic_gap_by_bucket = {
-        SemanticEvidenceBucket.ASSET_OR_CAPACITY: (
-            "split asset, UPB, or financing-capacity disclosure from committed debt"
-        ),
-        SemanticEvidenceBucket.EQUITY_OR_PRODUCTION: (
-            "split equity, share, or mortgage-production disclosure from committed debt"
-        ),
-        SemanticEvidenceBucket.BOILERPLATE_ONLY: (
-            "confirm source quote contains specific committed obligation terms"
-        ),
-    }
-    semantic_bucket = classify_claim_semantics(text)
-    if semantic_gap := semantic_gap_by_bucket.get(semantic_bucket):
+    if semantic_gap := _semantic_remaining_gap(packet, quote, text):
         gaps.append(semantic_gap)
     if _requires_mega_obligation_confirmation(packet, quote):
         gaps.append("confirm mega-obligation amount is committed debt, not assets or capacity")
@@ -336,6 +324,23 @@ def _remaining_gaps(packet: dict[str, str], quote: str) -> list[str]:
         gaps.append("extract explicit maturity or payment schedule evidence")
     gaps.extend(_category_gaps(packet, text, quote))
     return list(dict.fromkeys(gaps))
+
+
+def _semantic_remaining_gap(packet: dict[str, str], quote: str, text: str) -> str:
+    if _looks_like_non_committed_semantic_disclosure(packet, quote):
+        return "confirm source quote contains specific committed obligation terms"
+    semantic_gap_by_bucket = {
+        SemanticEvidenceBucket.ASSET_OR_CAPACITY: (
+            "split asset, UPB, or financing-capacity disclosure from committed debt"
+        ),
+        SemanticEvidenceBucket.EQUITY_OR_PRODUCTION: (
+            "split equity, share, or mortgage-production disclosure from committed debt"
+        ),
+        SemanticEvidenceBucket.BOILERPLATE_ONLY: (
+            "confirm source quote contains specific committed obligation terms"
+        ),
+    }
+    return semantic_gap_by_bucket.get(classify_claim_semantics(text), "")
 
 
 def _category_gaps(packet: dict[str, str], text: str, quote: str = "") -> list[str]:
@@ -2415,6 +2420,76 @@ def _looks_like_rollup_or_unbound_amount_context(
         or comprised_of_rollup
         or amount_unbound_rollup
     )
+
+
+def _looks_like_non_committed_semantic_disclosure(
+    packet: dict[str, str],
+    quote: str,
+) -> bool:
+    quote_lower = quote.lower()
+    if (
+        _field(packet, "category") not in {"capital", "contract"}
+        or _is_committed_contract_value_disclosure(packet, _combined_text(packet, quote))
+        or _has_primary_note_offering_markers(quote_lower)
+        or _has_lender_facility_markers(quote_lower)
+        or _has_committed_debt_amount_markers(quote_lower)
+    ):
+        return False
+
+    direct_false_positive_markers = [
+        "time deposits include brokered cds",
+        "information which may be discussed in the conference call",
+        "earnings supplement presentation",
+        "fair value changes in these assets",
+        "cash and cash equivalents increased",
+        "non-gaap measures to financial measures",
+        "investor day",
+        "compensatory arrangements",
+        "total unencumbered education loans",
+        "will not utilize leverage",
+        "purchase price of approximately",
+        "subject to purchase price adjustments",
+        "pending acquisition",
+        "ordinary shares",
+        "class a common stock",
+        "indeterminate amount of securities",
+        "preferred stock purchase agreement",
+        "series f-1 preferred stock",
+    ]
+    if _contains_any(quote_lower, direct_false_positive_markers):
+        return True
+
+    amount = _float(packet.get("exposure_basis_usd"))
+    source_text = (
+        _combined_local_sec_source_text(packet)
+        if _amount_absent_from_quote(amount, quote)
+        else ""
+    )
+    if source_text:
+        source_false_positive_pairs = [
+            ("indeterminate amount of securities", "registration statement"),
+            ("maximum aggregate principal amount", "expected to be offered"),
+            ("aggregate principal amount of debt securities", "unlimited"),
+            ("series f-1 preferred stock purchase agreement", "purchase price"),
+            ("will not utilize leverage", "shares of beneficial interest"),
+            ("total private education loans", "loans, gross"),
+            ("total unencumbered education loans", "tangible assets"),
+        ]
+        return any(
+            left in source_text and right in source_text
+            for left, right in source_false_positive_pairs
+        )
+    return False
+
+
+def _combined_local_sec_source_text(packet: dict[str, str]) -> str:
+    source_uris = _json_list(packet.get("source_uris")) or [_field(packet, "source_uri")]
+    texts = [
+        text.lower()
+        for uri in source_uris
+        if (text := _local_sec_source_text(uri, str(Path.cwd())))
+    ]
+    return " ".join(texts)
 
 
 def _looks_like_asset_or_capacity_not_debt(packet: dict[str, str], quote: str) -> bool:
