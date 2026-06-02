@@ -35,3 +35,22 @@ this (reads a primary manifest, fetches archive indexes for selected accessions)
 ## Verification
 `python3` filter on `data/reports/materiality_adjudication_decisions.csv` for `decision==needs_deeper_extraction` and the
 two collateral/recourse gaps reproduces the 492 / 309 split. After re-extraction or fetch, those gap counts should drop.
+
+---
+
+## Addendum — counterparty-role gap (the largest gap; lane 5 extension)
+
+Target list: `handoffs/fixtures/counterparty_role_targets.csv` — **914** `needs_deeper` blockers with gap
+`extract named counterparty and role`, split very differently from collateral:
+- **`GENUINE_no_party_in_excerpt` — 834 (91%):** the materiality excerpt has **no party/role** — it grabbed a financial
+  table / covenant / wrong section. The parties are almost always named in the **agreement preamble** of the *same*
+  document (`"This Credit Agreement … among X, as Borrower, … and Y, as Administrative Agent"`). → **fix is
+  excerpt-selection** (point the materiality snippet at the agreement header/recitals), not acquisition.
+- **`RE_EXTRACT_named_party_in_quote` — 69 (7.5%):** **auto-resolvable false positives** — a Borrower/Lender/Agent/
+  Guarantor is already in the quote (top by exposure: MiniMed $18B, Apollo $7.9B, ArcelorMittal $5.5B). These pair with the
+  counterparty-role heuristics in `claude_gap_sampling`.
+- **`FETCH_syndicate_roster` — 11:** role known ("certain Lenders"/"syndicated"); individual names in a syndicate schedule/exhibit.
+
+**Takeaway:** counterparty is dominated by **excerpt-selection** (91%), not acquisition — opposite of collateral (62% agreement-named).
+Cheapest wins: the 69 false-positives (auto-resolve) + retargeting the materiality excerpt to the agreement preamble for the 834.
+Impact: triage / evidence-extraction (not final metrics). CSV columns: `packet_id, entity, exposure_basis_usd, source_form, category, accession, source_uri`.
