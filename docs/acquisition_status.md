@@ -221,6 +221,17 @@ as a run log, not as a final investment conclusion.
   entities are flagged for review because the current metric exceeds carded
   facilities by more than 10%; this is an audit queue for economic-event dedupe
   and primary debt-service extraction, not an automatic metric change.
+- A second read-only direct-tier duplicate checker now isolates same-issuer,
+  same-amount survivor clusters that may represent repeated economic events:
+  `scripts/check_direct_tier_economic_event_duplicates.py`, with fixture
+  `handoffs/fixtures/direct_tier_economic_event_duplicates_20260602.csv`. On
+  the 21:21 decisions it finds 9 clusters with $32.925B of possible repeated
+  same-amount excess. Eight clusters ($29.925B) are classified as probable
+  same-instrument review candidates, led by TeraWulf's $3.2B 2030 note/facility
+  cluster; one IREN $1.0B cluster ($3.0B excess) is intentionally labeled a
+  distinct-facility negative control because the rows carry conflicting 2031,
+  2032, and 2033 maturity evidence. This is a reviewer fixture, not a final
+  metric reduction.
 - A deterministic physical-execution extractor now exists at
   `bubble.ingestion.physical.extract_physical_execution_terms`. It normalizes
   acquired permit/PUC/source text into machine-checkable physical execution

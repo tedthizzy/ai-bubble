@@ -155,6 +155,14 @@ Latest capital and timing outputs:
   survivors across the 8 direct-tier entities versus $40.70B of carded
   facilities, making this the next explicit audit queue for economic-event
   dedupe and primary debt-service extraction.
+- A companion direct-tier economic-event duplicate checker now turns that queue
+  into row-level review clusters:
+  `scripts/check_direct_tier_economic_event_duplicates.py` writes
+  `handoffs/fixtures/direct_tier_economic_event_duplicates_20260602.csv`. The
+  current run finds 9 same-issuer/same-amount clusters with $32.925B of possible
+  repeated excess; $29.925B is probable same-instrument review and $3.0B is an
+  explicit IREN negative control with conflicting maturity years. This is still
+  read-only QA, not a metric adjustment.
 - A deterministic physical-execution extractor now exists at
   `bubble.ingestion.physical.extract_physical_execution_terms`, turning acquired
   permit/PUC/source text into normalized evidence rows for on-site generation,
