@@ -15,6 +15,7 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
+from bubble.analysis.cluster_dscr import IssuerFinancials, compute_cluster_interest_coverage
 from bubble.analysis.compute_economics import (
     ComputeEconomicsBatch,
     analyze_compute_economics,
@@ -1320,13 +1321,31 @@ def report_answer_metric_audits(  # noqa: PLR0912, PLR0915
                 unit="ratio",
             )
 
-        # Physical deliverability mismatch
-        phys = m.get("physical_mismatch", {})
-        if phys.get("deliverable_vs_announced_strong_queue_match_pct") is not None:
+        # Source-backed cluster interest coverage from per-issuer primary filings.
+        cdscr = m.get("cluster_interest_coverage", {})
+        if cdscr.get("status") == "source_backed":
             add(
-                "mismatch.physical.deliverable_vs_announced_pct",
-                "% of tracker-announced capacity backed by strong queue match (deliverable on underwritten timeline)",
-                phys.get("deliverable_vs_announced_strong_queue_match_pct"),
+                "mismatch.cash_flow.cluster_ebitda_interest_coverage",
+                "AI-direct cluster aggregate EBITDA / annual interest expense, from per-issuer "
+                "primary 10-K/10-Q financials (adversarially verified). Below ~1 means operations "
+                "do not cover interest before any principal; this figure is propped by a single "
+                "issuer (negative ex-CoreWeave).",
+                cdscr.get("cluster_ebitda_interest_coverage"),
+                [mismatch_artifact],
+                unit="ratio",
+            )
+
+        # Physical deliverability mismatch. We audit the honest tracker
+        # construction-status proxy, NOT the strong-queue-match figure (which is
+        # a coverage-limited join artifact until the ISO queues are ingested).
+        phys = m.get("physical_mismatch", {})
+        if phys.get("announced_only_mw_pct") is not None:
+            add(
+                "mismatch.physical.announced_only_mw_pct",
+                "% of tracker-announced AI/data-center MW still only announced (not built/under "
+                "construction); high = stranding/timeline-slippage risk. Non-primary tracker status; "
+                "precise firm-vs-queue fraction blocked pending ISO-queue ingestion.",
+                phys.get("announced_only_mw_pct"),
                 [mismatch_artifact],
                 unit="percent",
             )
@@ -2010,59 +2029,137 @@ def compute_burry_mismatch_ratios(  # noqa: PLR0912, PLR0915
             "Reported as an explicit pending gap, not an assumed ratio."
         )
 
-    # 4. Physical mismatch: deliverable (strong queue match + other physical signals) vs announced from trackers
+    # 3b. Source-backed cluster interest coverage from per-issuer primary-filing
+    # financials (the DSCR the per-case payback path is blocked on). Reads the
+    # adversarially-verified AI-direct issuer financials fixture if present.
     try:
-        total_announced_mw = 0.0
-        strong_matched_mw = 0.0
+        issuer_rows = _load_csv_rows(Path("handoffs/fixtures/ai_direct_issuer_financials.csv"))
+
+        def _num(row: dict[str, str], key: str) -> float | None:
+            value = row.get(key)
+            if value in (None, ""):
+                return None
+            try:
+                return float(value)
+            except (TypeError, ValueError):
+                return None
+
+        issuers: list[IssuerFinancials] = [
+            IssuerFinancials(
+                entity=row.get("entity", ""),
+                revenue_usd=_num(row, "revenue_usd"),
+                ebitda_usd=_num(row, "ebitda_usd"),
+                operating_income_usd=_num(row, "operating_income_usd"),
+                net_income_usd=_num(row, "net_income_usd"),
+                total_debt_usd=_num(row, "total_debt_usd"),
+                annual_interest_expense_usd=_num(row, "annual_interest_expense_usd"),
+                annual_debt_service_usd=_num(row, "annual_debt_service_usd"),
+                period=str(row.get("period", ""))[:30],
+                source_uri=row.get("primary_source_uri", ""),
+                source_backed=True,
+            )
+            for row in issuer_rows
+            if (row.get("verification_overall") or "").strip() == "source_backed"
+        ]
+        if issuers:
+            ratios["cluster_interest_coverage"] = compute_cluster_interest_coverage(issuers)
+    except Exception:
+        pass
+
+    # 4. Physical mismatch: deliverable vs announced.
+    # The strong-queue-match % is a COVERAGE-LIMITED join metric, NOT a
+    # deliverability rate: only a small subset of ISO interconnection-queue
+    # records have been parsed into the matchable table (PJM/CAISO/ISO-NE/SPP
+    # raw files remain un-ingested), so the ratio is near-zero by construction.
+    # Surface it honestly, and use the tracker's own construction-status fields
+    # as the (non-primary) deliverability proxy.
+    try:
+        projs: list[dict[str, str]] = []
+        matches: list[dict[str, str]] = []
         for root in resolved_data_dirs:
-            proj_path = Path(root) / "physical" / "projects.csv"
-            match_path = Path(root) / "physical" / "queue_project_matches.csv"
-            projs = _load_csv_rows(proj_path)
-            matches = _load_csv_rows(match_path)
+            projs = _load_csv_rows(Path(root) / "physical" / "projects.csv")
+            matches = _load_csv_rows(Path(root) / "physical" / "queue_project_matches.csv")
             if projs:
-                for p in projs:
-                    for key in ("capacity_mw", "it_load_mw", "capacity_mw_high"):
-                        val = p.get(key)
-                        if val:
-                            try:
-                                total_announced_mw += float(val)
-                                break
-                            except Exception:
-                                pass
-            if matches:
-                strong_ids = {
-                    m.get("matched_project_id")
-                    for m in matches
-                    if (m.get("match_status") or "").lower().startswith("strong")
-                    or float(m.get("match_confidence") or 0) >= 0.8
-                }
-                for p in projs:
-                    pid = p.get("project_id")
-                    if pid in strong_ids:
-                        for key in ("capacity_mw", "it_load_mw"):
-                            val = p.get(key)
-                            if val:
-                                try:
-                                    strong_matched_mw += float(val)
-                                    break
-                                except Exception:
-                                    pass
-            if total_announced_mw > 0:
                 break
 
-        if total_announced_mw > 100:  # only trust if we have meaningful sample
-            pct = (strong_matched_mw / total_announced_mw) * 100
-            ratios["physical_mismatch"]["deliverable_vs_announced_strong_queue_match_pct"] = round(
-                pct, 1
+        def _proj_mw(p: dict[str, str]) -> float:
+            for key in ("capacity_mw", "it_load_mw", "capacity_mw_high"):
+                val = p.get(key)
+                if val:
+                    try:
+                        return float(val)
+                    except (TypeError, ValueError):
+                        return 0.0
+            return 0.0
+
+        total_announced_mw = sum(_proj_mw(p) for p in projs)
+        if total_announced_mw > 100:  # only trust if we have a meaningful sample
+            status_mw: dict[str, float] = {}
+            permit_not_confirmed_mw = 0.0
+            for p in projs:
+                pmw = _proj_mw(p)
+                st = (p.get("construction_status") or "").strip().lower() or "unspecified"
+                status_mw[st] = status_mw.get(st, 0.0) + pmw
+                if (p.get("permit_status") or "").strip().lower() == "not_confirmed":
+                    permit_not_confirmed_mw += pmw
+            strong_ids = {
+                m.get("matched_project_id")
+                for m in matches
+                if (m.get("match_status") or "").lower().startswith("strong")
+                or float(m.get("match_confidence") or 0) >= 0.8
+            }
+            strong_matched_mw = sum(_proj_mw(p) for p in projs if p.get("project_id") in strong_ids)
+
+            queue_rows: list[dict[str, str]] = []
+            for root in resolved_data_dirs:
+                queue_rows = _load_csv_rows(Path(root) / "physical" / "queues.csv")
+                if queue_rows:
+                    break
+            queue_regions: dict[str, int] = {}
+            for q in queue_rows:
+                reg = (q.get("region") or q.get("iso") or "").lower() or "unknown"
+                queue_regions[reg] = queue_regions.get(reg, 0) + 1
+            unparsed: list[str] = []
+            for root in resolved_data_dirs:
+                raw_dir = Path(root) / "source_acquisition" / "raw" / "queue_records"
+                if raw_dir.exists():
+                    unparsed = sorted(f.name for f in raw_dir.iterdir() if f.is_file())
+                    break
+
+            def _pct(mw: float) -> float:
+                return round(100 * mw / total_announced_mw, 1)
+
+            pm = ratios["physical_mismatch"]
+            pm["total_announced_mw_in_sample"] = round(total_announced_mw, 1)
+            # (a) honest deliverability proxy from tracker construction status
+            pm["in_service_mw_pct"] = _pct(status_mw.get("in_service", 0.0))
+            pm["under_construction_mw_pct"] = _pct(status_mw.get("under_construction", 0.0))
+            pm["announced_only_mw_pct"] = _pct(status_mw.get("announced", 0.0))
+            pm["cancelled_or_delayed_mw_pct"] = _pct(
+                status_mw.get("cancelled", 0.0) + status_mw.get("delayed", 0.0)
             )
-            ratios["physical_mismatch"]["total_announced_mw_in_sample"] = round(
-                total_announced_mw, 1
+            pm["permit_not_confirmed_mw_pct"] = _pct(permit_not_confirmed_mw)
+            pm["deliverability_proxy_source"] = (
+                "third_party_project_tracker_construction_status_non_primary"
             )
-            ratios["physical_mismatch"]["strong_queue_matched_mw"] = round(strong_matched_mw, 1)
-            ratios["physical_mismatch"]["note"] = (
-                "Strong match = name/party/location/capacity overlap with ISO queue records (high confidence linkage). "
-                "Real deliverability also requires permits, transformers, gas if applicable, and construction progress. "
-                "Lower % = higher stranding / timeline slippage risk for the debt underwritten against this capacity."
+            # (b) the queue-match figure, explicitly flagged as coverage-limited
+            pm["strong_queue_matched_mw"] = round(strong_matched_mw, 1)
+            pm["strong_queue_match_coverage_pct"] = _pct(strong_matched_mw)
+            pm["queue_match_status"] = "coverage_limited_not_a_deliverability_rate"
+            pm["ingested_iso_queue_rows"] = len(queue_rows)
+            pm["ingested_iso_queue_regions"] = queue_regions
+            pm["unparsed_raw_queue_files"] = unparsed
+            pm["note"] = (
+                f"strong_queue_match_coverage_pct ({_pct(strong_matched_mw)}%) is NOT a "
+                "deliverability rate -- it is a join-coverage artifact: only "
+                f"{len(queue_rows)} ISO queue rows ({queue_regions}) are parsed into the "
+                "matchable table while large raw files (PJM ~9,263 projects, CAISO, ISO-NE, "
+                f"SPP) remain un-ingested ({len(unparsed)} files on disk). Until those are "
+                "parsed, deliverability is read from the tracker's construction-status fields "
+                "(non-primary): most announced AI/data-center MW is not yet built or permitted "
+                "(high announced_only + permit_not_confirmed) -- a directional stranding / "
+                "timeline-slippage signal -- but the precise firm-vs-queue fraction is UNKNOWN "
+                "pending ISO-queue ingestion."
             )
     except Exception:
         pass

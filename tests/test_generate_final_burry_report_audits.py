@@ -593,3 +593,39 @@ def test_cash_flow_mismatch_is_source_backed_with_full_inputs() -> None:
     assert sse["base_dscr_source_backed"] is True
     assert "illustrative_only" not in sse
     assert "SOURCE-BACKED" in sse["note"]
+
+
+def test_physical_mismatch_reports_honest_tracker_proxy_not_join_artifact(tmp_path) -> None:
+    phys = tmp_path / "physical"
+    phys.mkdir(parents=True)
+    (phys / "projects.csv").write_text(
+        "project_id,capacity_mw,construction_status,permit_status\n"
+        "p1,100,in_service,in_service\n"
+        "p2,300,under_construction,not_confirmed\n"
+        "p3,600,announced,not_confirmed\n"
+    )
+    (phys / "queue_project_matches.csv").write_text(
+        "matched_project_id,match_status,match_confidence\n"
+    )
+    (phys / "queues.csv").write_text("region\nnyiso\nmiso\n")
+
+    ratios = compute_burry_mismatch_ratios(
+        debt_service_metrics=object(),
+        compute_metrics=object(),
+        physical_capacity=object(),
+        queue_match_summary={},
+        physical_record_match_summary={},
+        resolved_data_dirs=[str(tmp_path)],
+        payback_cases=[],
+    )
+    pm = ratios["physical_mismatch"]
+
+    # The misleading "deliverable" join metric is gone; honest proxy is present.
+    assert "deliverable_vs_announced_strong_queue_match_pct" not in pm
+    assert pm["queue_match_status"] == "coverage_limited_not_a_deliverability_rate"
+    assert pm["in_service_mw_pct"] == 10.0  # 100 / 1000
+    assert pm["under_construction_mw_pct"] == 30.0  # 300 / 1000
+    assert pm["announced_only_mw_pct"] == 60.0  # 600 / 1000
+    assert pm["permit_not_confirmed_mw_pct"] == 90.0  # (300 + 600) / 1000
+    assert pm["ingested_iso_queue_rows"] == 2
+    assert "non_primary" in pm["deliverability_proxy_source"]

@@ -1,0 +1,436 @@
+[
+ {
+  "key": "physical_deliverability",
+  "verdict": "data_gap_not_reality",
+  "confidence": 0.9,
+  "tier": "MEASURED",
+  "summary": "The repo's 0.5% \"strong queue match\" figure is a DATA-LINKAGE GAP, not a deliverability reality. The 552k-MW denominator covers 1,159 projects across all major DC states (TX, PA, VA, GA, OH...), but the numerator can only match against an ISO-queue table (queues.csv) that ingested just 26 rows from 3 ISOs (NYISO 14, MISO 11, ERCOT 1) and ZERO from PJM \u2014 even though the raw PJM queue file with 9,263 projects, plus CAISO/ISO-NE/SPP, sit un-parsed in data/source_acquisition/raw/queue_records/. So 0.5% mostly measures \"we only joined ~26 of thousands of queue records,\" not undeliverability. The honest deliverability signal from the tracker's own status fields still leans cautious \u2014 ~8% MW in-service, ~24% under construction, ~63% merely announced, ~61% permits not_confirmed \u2014 directionally bubble-supportive but far less extreme than 0.5%.",
+  "evidence_for": "Tracker construction/permit status is the more defensible deliverability proxy and still leans cautious; firm power is genuinely scarce in the small slice actually queue-matched.",
+  "evidence_against": "The 0.5% itself is a join artifact: PJM (33% of MW, all of Virginia) and CAISO/ISO-NE/SPP raw queue files were downloaded but never parsed into the matchable table.",
+  "key_caveat": "The 0.5% denominator (552k MW, all ISOs/states) and numerator (queue matches from only NYISO/MISO/ERCOT, PJM excluded) are computed over mismatched universes, so the ratio is mechanically near-zero by construction and cannot be read as a deliverability rate. The true firm-vs-queue fraction is UNKNOWN until the already-downloaded PJM (9,263), CAISO, ISO-NE, and SPP queue records are parsed and matched. The best available honest proxy is the tracker's own status fields (~8% in-service, ~32% in-service-or-under-construction, ~63% announced-only), which is itself non-primary tracker data, not SEC-filed, and lacks per-project energization/transformer lead-time confirmation.",
+  "quantification": "Reported metric: 2,936 MW strong-match / 552,455 MW announced = 0.53%. Linkage gap: queues.csv = 26 ISO rows (NYISO 14, MISO 11, ERCOT 1, PJM 0) vs raw PJM file = 9,263 projects un-ingested (NYISO raw 400 rows, CAISO 213, ISO-NE + SPP present). Coverage of denominator by any ISO queue match: ~16 of 2,126 projects (<0.8%). Honest tracker-status deliverability: 8.1% MW in_service, 23.6% under_construction, 63.4% announced-only; permit not_confirmed 60.7%. PJM-footprint states = 33.1% of announced MW; Virginia = 454 projects with zero queue coverage.",
+  "sources": [
+   {
+    "claim": "Report computes deliverable% as strong-queue-matched MW / total tracker-announced MW, and concedes the match only reflects name/party/location/capacity overlap, not permits/transformers/construction.",
+    "source_uri": "/Users/ted/Documents/dev-archive/bubble/scripts/generate_final_burry_report.py#L2013-2066",
+    "quote": "Strong match = name/party/location/capacity overlap with ISO queue records (high confidence linkage). Real deliverability also requires permits, transformers, gas if applicable, and construction progress. Lower % = higher stranding / timeline slippage risk",
+    "binding_or_framework": "framework (repo report computation, non-primary)"
+   },
+   {
+    "claim": "The matchable ISO queue table ingested only 26 rows from 3 ISOs with zero PJM coverage.",
+    "source_uri": "/Users/ted/Documents/dev-archive/bubble/data/physical/queues.csv",
+    "quote": "queues rows 26; region Counter({'nyiso': 14, 'miso': 11, 'ercot': 1}); PJM rows: 0",
+    "binding_or_framework": "repo local CSV (ingested artifact)"
+   },
+   {
+    "claim": "Numerator = 9 strong matches summing to 2,936 MW, all small NYISO/ERCOT projects; 2,936/552,455 = 0.53%.",
+    "source_uri": "/Users/ted/Documents/dev-archive/bubble/data/physical/queue_project_matches.csv",
+    "quote": "strong matched_project_capacity_mw sum 2936.0 n 8 ... North Country Data Center 176MW, Treetop Development Project 1000MW, Giga Texas Datacenter 133MW (ERCOT)",
+    "binding_or_framework": "repo local CSV (ingested artifact)"
+   },
+   {
+    "claim": "PJM raw interconnection queue (downloaded, un-ingested) contains 9,263 projects with full status/in-service/MW fields; PJM-footprint states are 33% of announced MW including all 454 Virginia projects.",
+    "source_uri": "/Users/ted/Documents/dev-archive/bubble/data/source_acquisition/raw/queue_records/pjm-planning-queues-xml.xml",
+    "quote": "9263 <Project> ... <Status> <ProjectedInServiceDate> <RightsMW> <SystemImpactStudyStatus> ... announced MW in PJM-footprint states 182768 = 33.1%",
+    "binding_or_framework": "primary (PJM ISO queue, raw but un-parsed)"
+   },
+   {
+    "claim": "Tracker's own status fields give the honest deliverability proxy: 8.1% in_service, 23.6% under_construction, 63.4% announced-only; 60.7% permit not_confirmed.",
+    "source_uri": "/Users/ted/Documents/dev-archive/bubble/data/physical/projects.csv",
+    "quote": "announced 350,470 (63.4%); under_construction 130,478 (23.6%); in_service 44,667 (8.1%); permit not_confirmed 335,387 (60.7%)",
+    "binding_or_framework": "non-primary (third-party project tracker)"
+   }
+  ]
+ },
+ {
+  "key": "refi_wall_2030_2033",
+  "verdict": "holds_with_caveats",
+  "confidence": 0.25,
+  "tier": "CORROBORATED",
+  "summary": "The claim that ~88% of carded AI-direct debt matures in 2030-2033 holds. The repo fixture's arithmetic ($36.6B of $41.7B = 87.8%) reconciles, and my independent verification against primary SEC 8-Ks and issuer releases confirmed ~93% of the carded notional and its maturity-year placement: every material facility (CoreWeave DDTL 4.0 $8.5B/2032, CoreWeave $2.75B notes/Oct-2031, TeraWulf $3.2B+$1.3B/2030, Nebius $1.375B/2030 + $1.375B/2032, MARA $850M/2031, Applied Digital $2.35B/2030 + $2.15B/2031) matures inside 2030-2033, with only Hut 8 ($3.25B/2042) outside, exactly as carded. The wall is real, concentrated in a 2030-2032 peak ($11.2B/$8.8B/$13.0B), and correlated (same GPU-backed secured-SPV/convertible vintage). The biggest weakness is scope, not accuracy: this is a curated ~$41B floor, not an exhaustive census, so \"88% of ALL AI-direct debt\" is not established.",
+  "evidence_for": "Independent reconstruction from the primary debt-service cards reproduces the fixture: 2030-2033 = $36.0-36.6B of $41.1-41.7B = 87.6-87.8% ~ 88%; cumulative and conv/secured sub-totals tie out. Primary-source confirmation of the largest items: CoreWeave DDTL 4.0 $8.5B matures March 2032 (SEC 8-K, accession 000176962826000129, the single largest line, ~20% of wall); CoreWeave $2.75B 9.750% Senior Notes mature Oct 1 2031 (8-K + Kirkland); TeraWulf WULF Compute $3.2B 7.75% and Flash Compute $1.3B 7.25% both due 2030 (8-Ks tm2528904/tm2534384); Nebius $1.375B 1.00% due Sept-15-2030 + $1.375B 2.75% due Sept-15-2032 (6-K/FWP, CIK 1513845); MARA $850M 0.00% due June-1-2031 (issuer + 8-K); Applied Digital $2.35B 9.25% due 2030 and $2.15B 6.75% due 2031 are two distinct ComputeCo issues, both inside the window. CoreWeave DDTL 3.0 ($2.6B, matures 2030-08-21) is primary_verified in-repo (8-K 0001769628-25-000033) and explicitly GPU-collateralized with a contract-realization covenant. Anchor-contract coupling corroborated: CoreWeave's OpenAI commitment runs through Oct-2030 (original $11.9B) / May-2031 (expanded $22.4B), overlapping the maturity peak.",
+  "evidence_against": "The carded universe is a hand-curated ~$41B floor, not an exhaustive census of AI-direct debt, so \"88% of all AI-direct debt\" is not proven by this dataset; the repo's own bulk extraction (data/edgar_acquisition/tranches.csv, 10,051 rows) tags only 4 cluster rows and does NOT corroborate the curated set. The fixture itself self-labels only ~14% ($5.75B) as primary_verified; the other ~86% rests on press/unverified-secondary tiers in-repo (I had to verify externally). One genuine maturity-year error exists in the cards: IREN's Oct-2025 $1.0B convertible is due 2031, not 2030 as the fixture implied (though this only reshuffles within the wall). ~$11.6B of the wall is convertibles (IREN/CleanSpark/Nebius/MARA) that may convert to equity rather than require cash refinancing if issuer equities are in-the-money in 2030-2033, which would soften the cash-refi \"wall.\" The GPU-end-of-life/depreciation coupling is a cross-lane inference, not drawn from these maturity filings.",
+  "key_caveat": "The 88% is \"88% of the carded subset,\" not 88% of the entire AI-direct debt stack. The subset is a floor (CoreWeave's full ~$25B+ is only partly carded), so completing the census would more likely deepen the 2030-2032 peak than flatten it (CoreWeave's uncarded 9.25%-due-2030 and $2.25B 1.75%-conv-due-2031 also land inside the window) - but the headline percentage is a property of a curated sample, not an exhaustive population.",
+  "quantification": "2030-2033 wall = ~$36.6B of ~$41.7B carded = 87.8% (~88%). Peak years: 2030 ~$11.2B, 2031 ~$8.8B, 2032 ~$13.0B. Only facility outside the wall: Hut 8 $3.25B due 2042. Largest single maturity: CoreWeave DDTL 4.0 $8.5B in March 2032. Convertible share of wall ~$11.6B; secured/term ~$24B. Primary-confirmed (after independent checks): ~93% of carded notional.",
+  "sources": [
+   {
+    "claim": "CoreWeave DDTL 4.0 $8.5B delayed-draw term loan matures March 2032 (largest single line item in the wall)",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000129/ex991.htm",
+    "quote": "closed an $8.5 billion delayed draw term loan facility ... allows multiple draws until June 2027 and matures in March 2032",
+    "binding_or_framework": "binding/SEC-filed (8-K exhibit 99.1)"
+   },
+   {
+    "claim": "CoreWeave $2.75B 9.750% Senior Notes mature October 1, 2031",
+    "source_uri": "https://investors.coreweave.com/news/news-details/2026/CoreWeave-Announces-Pricing-of-1000-million-of-9-750-Senior-Notes-due-2031/default.aspx",
+    "quote": "$2.75 billion in aggregate principal amount of 9.750% Senior Notes due 2031 ... mature on October 1, 2031",
+    "binding_or_framework": "primary issuer release corroborated by 8-K (filed)"
+   },
+   {
+    "claim": "TeraWulf WULF Compute $3.2B (7.75%) and Flash Compute $1.3B (7.25%) senior secured notes both due 2030",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/0001083301/000110465925100142/tm2528904d1_ex99-1.htm",
+    "quote": "WULF Compute LLC, priced a $3.2 billion offering of 7.750% senior secured notes due 2030 ... Flash Compute ... $1.3 billion private offering of 7.25% senior secured notes due 2030",
+    "binding_or_framework": "binding/SEC-filed (8-K exhibit)"
+   },
+   {
+    "claim": "Nebius $2.75B convertibles split $1.375B due Sept-15-2030 and $1.375B due Sept-15-2032",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/0001513845/000110465925089203/tm2525502d2_fwp.htm",
+    "quote": "$1.375 billion of 1.00% notes due 2030 and $1.375 billion of 2.75% notes due 2032 ... 2030 Notes will mature on September 15, 2030, and the 2032 Notes on September 15, 2032",
+    "binding_or_framework": "binding/SEC-filed (FWP)"
+   },
+   {
+    "claim": "Applied Digital $2.35B 9.25% ComputeCo notes due 2030 are distinct from the $2.15B 6.75% ComputeCo 2 notes due 2031; both inside the wall",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/0001144879/000149315225022506/ex99-1.htm",
+    "quote": "APLD ComputeCo, priced a $2.35 billion offering of 9.250% senior secured notes due 2030",
+    "binding_or_framework": "binding/SEC-filed (8-K exhibit)"
+   },
+   {
+    "claim": "MARA $850M zero-coupon convertible matures June 1, 2031",
+    "source_uri": "https://ir.mara.com/news-events/press-releases/detail/1384/mara-holdings-inc-completes-850-million-offering-of-zero-coupon-convertible-senior-notes-due-2031",
+    "quote": "$850 million ... Zero-Coupon Convertible Senior Notes due 2031 ... will mature on June 1, 2031",
+    "binding_or_framework": "primary issuer release (8-K filed)"
+   },
+   {
+    "claim": "CoreWeave DDTL 3.0 ($2.6B) matures 2030-08-21 and is GPU-collateralized with a contract-realization covenant - the in-repo primary-verified anchor",
+    "source_uri": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001769628",
+    "quote": "maturity: 2030-08-21 | collateral: substantially all assets of CCAC VII + 100% equity pledge (GPU-backed) | covenant_contract_realization_ratio: >= 0.85x monthly",
+    "binding_or_framework": "binding/SEC-filed (8-K 0001769628-25-000033)"
+   },
+   {
+    "claim": "Anchor-contract coupling: CoreWeave's OpenAI commitment runs through Oct-2030 (original $11.9B) / May-2031 (expanded $22.4B), overlapping the maturity peak",
+    "source_uri": "https://www.prnewswire.com/news-releases/coreweave-announces-agreement-with-openai-to-deliver-ai-infrastructure-302397595.html",
+    "quote": "OpenAI has committed to pay CoreWeave up to $11.9 billion through October 2030 ... expanded deals extend the total commitment to May 2031",
+    "binding_or_framework": "primary issuer release / non-primary reporting (announcement)"
+   },
+   {
+    "claim": "IREN Oct-2025 $1.0B convertible is due 2031 (correcting the fixture's implied 2030 placement; reshuffles within the wall)",
+    "source_uri": "https://irisenergy.gcs-web.com/news-releases/news-release-details/iren-closes-10-billion-convertible-notes-offering",
+    "quote": "$1.0 billion aggregate principal amount of 0.00% convertible senior notes due 2031",
+    "binding_or_framework": "primary issuer release (non-primary for exact terms)"
+   },
+   {
+    "claim": "Repo fixture asserting the distribution under test: $41.7B carded, $36.6B (88%) in 2030-2033, peak 2030-2032",
+    "source_uri": "file:///Users/ted/Documents/dev-archive/bubble/handoffs/fixtures/ai_direct_maturity_wall_20260602.csv",
+    "quote": "2030,10470000000,... 2031,10100000000,... 2032,12030000000,... 2033,4000000000,... 2042,3250000000,...,41700000000,Hut 8 DC notes (only facility outside the wall)",
+    "binding_or_framework": "repo-internal fixture (derived; not itself a primary source)"
+   }
+  ]
+ },
+ {
+  "key": "take_or_pay_holes",
+  "verdict": "holds_with_caveats",
+  "confidence": 0.25,
+  "tier": "MEASURED",
+  "summary": "CoreWeave's take-or-pay backstop is real but materially less durable than \"96% contracted = safe debt\" implies. Its own FY2025 10-K shows the contracts shift utilization risk, not counterparty-default risk: 67% of 2025 revenue rode on one customer (Microsoft), top-two were 77% in 2024, and the filing explicitly names a private, unprofitable counterparty (OpenAI, ~$11.9B + ~$6.5B commitments) while conceding it \"cannot fully eliminate customer credit risk.\" Take-or-pay does not survive a customer insolvency/non-performance \u2014 the filing says non-payment leaves CoreWeave with \"excess capacity\" still owing the related financing.",
+  "evidence_for": "PRIMARY (CoreWeave FY2025 10-K, CIK 1769628, accession 0001769628-26-000104): (1) Take-or-pay is genuine and dominant \u2014 \"committed contracts, which are take-or-pay\" were \"over 98%, 96% and 88% of our revenue\" for 2025/2024/2023; contracts are \"structured as 'take-or-pay' agreements, requiring payment regardless of the level of utilization.\" (2) RPO of $60.7B as of 2025-12-31 (up 302% YoY), 43% recognized within 24 months. (3) Customers prepay 15-25% of TCV; credit managed via \"prepayments, credit analysis... letters of credit, prepayments, and guarantees.\" This is a real, contractual, SEC-filed backstop that does protect against soft demand/utilization declines within a solvent customer.",
+  "evidence_against": "PRIMARY holes from the SAME 10-K: (1) CONCENTRATION \u2014 \"approximately 67% of our revenue from our top customer, Microsoft, for the year ended December 31, 2025\"; \"77% from our top two customers for 2024.\" (2) COUNTERPARTY CREDIT \u2014 \"we may become further subject to counterparty credit risk\"; customers \"may have increased risk of insolvency, bankruptcy\"; names OpenAI \"a private company\" (~$11.9B Mar MSA + ~$6.5B Sept order); admits procedures \"cannot fully eliminate customer credit risk.\" (3) DOES NOT SURVIVE PULLBACK \u2014 on non-payment/non-performance \"we may have excess capacity and may remain responsible for expenditures... as well as related financing... for which we may not receive corresponding revenue.\" (4) TERMINATION CARVE-OUT \u2014 \"does not offer a right of refund... other than for cases of the Company's uncured material breach... bankruptcy or insolvency\" (CoreWeave's own non-delivery is the customer's exit). (5) RPO IS NET OF VARIABLE CONSIDERATION \u2014 reduced for \"amounts that may not be recognized as revenue due to delivery delays\" and capacity \"we have the right to resell,\" so $60.7B is a management estimate, not a hard floor. (6) ISSUER FRAGILITY \u2014 accumulated deficit $2.6B, FY2025 net loss $1.167B, interest expense $1.229B. Local debt-service card (EDGAR 0001769628-25-000033) shows DDTL 3.0 covenant \"Contract Realization Ratio >= 0.85x\" is directly customer-payment-contingent and DSCR test deferred to Apr 2027.",
+  "key_caveat": "Take-or-pay transfers UTILIZATION risk to the customer but NOT counterparty-default risk: a \"96% contracted\" book collapses if one or two concentrated, in-part-private/unprofitable counterparties (Microsoft 67%, OpenAI) stop paying or go insolvent. The durability of the debt is therefore a bet on ~2-3 specific counterparties' credit, not on contract paper \u2014 and the contract's own refund carve-out plus delivery-contingent covenants mean CoreWeave's own buildout execution is a second failure point.",
+  "quantification": "Microsoft = 67% of FY2025 revenue; top-two = 77% (FY2024); take-or-pay = >98% of FY2025 revenue (96% FY2024); RPO = $60.7B (net of variable consideration); customer prepayment = 15-25% of TCV; OpenAI commitments ~$11.9B (Mar 2025) + ~$6.5B (Sep 2025); Meta ~$14.2B through 2031; FY2025 net loss $1.167B; interest expense $1.229B; accumulated deficit $2.643B; DDTL 3.0 Contract Realization Ratio covenant >=0.85x.",
+  "sources": [
+   {
+    "claim": "Take-or-pay committed contracts were over 98%/96%/88% of revenue (2025/2024/2023) and require payment regardless of utilization",
+    "source_uri": "file:///Users/ted/Documents/dev-archive/bubble/data/edgar_acquisition/documents/0001769628/000176962826000104/crwv-20251231.htm",
+    "quote": "We currently sell access to our platform either through committed contracts, which are take-or-pay, or on-demand... For the years ended December 31, 2025, 2024, and 2023, committed contracts accounted for over 98%, 96% and 88% of our revenue, respectively... The terms of these contracts are typically structured as 'take-or-pay' agreements, requiring payment regardless of the level of utilization.",
+    "binding_or_framework": "binding (SEC 10-K, CIK 1769628, accession 0001769628-26-000104, FY2025)"
+   },
+   {
+    "claim": "Customer concentration: 67% of 2025 revenue from Microsoft; 77% from top two in 2024",
+    "source_uri": "file:///Users/ted/Documents/dev-archive/bubble/data/edgar_acquisition/documents/0001769628/000176962826000104/crwv-20251231.htm",
+    "quote": "We recognized an aggregate of approximately 67% of our revenue from our top customer, Microsoft, for the year ended December 31, 2025. We recognized an aggregate of approximately 77% of our revenue from our top two customers for the year ended December 31, 2024.",
+    "binding_or_framework": "binding (SEC 10-K risk factor)"
+   },
+   {
+    "claim": "Counterparty credit risk flagged; OpenAI is a private company with ~$11.9B commitment; credit risk cannot be fully eliminated",
+    "source_uri": "file:///Users/ted/Documents/dev-archive/bubble/data/edgar_acquisition/documents/0001769628/000176962826000104/crwv-20251231.htm",
+    "quote": "we may become further subject to counterparty credit risk... including customers in their early stages and/or private companies that may have increased risk of insolvency, bankruptcy, or other issues impacting their creditworthiness. For example, in March 2025, we entered into a master services agreement with OpenAI, a private company, pursuant to which OpenAI has committed to pay us up to approximately $11.9 billion through October 2030... these procedures and policies cannot fully eliminate customer credit risk",
+    "binding_or_framework": "binding (SEC 10-K risk factor)"
+   },
+   {
+    "claim": "Take-or-pay does not survive non-payment/non-performance: CoreWeave left with excess capacity still owing the financing",
+    "source_uri": "file:///Users/ted/Documents/dev-archive/bubble/data/edgar_acquisition/documents/0001769628/000176962826000104/crwv-20251231.htm",
+    "quote": "Our business is, and may in the future be, subject to the risks of non-payment and non-performance by these customers... In such event, we may have excess capacity and may remain responsible for expenditures for components, infrastructure, and data center leases and build-outs, as well as related financing that we have undertaken for which we may not receive corresponding revenue.",
+    "binding_or_framework": "binding (SEC 10-K risk factor)"
+   },
+   {
+    "claim": "Refund/termination carve-out limited to CoreWeave's own material breach, bankruptcy or insolvency",
+    "source_uri": "file:///Users/ted/Documents/dev-archive/bubble/data/edgar_acquisition/documents/0001769628/000176962826000104/crwv-20251231.htm",
+    "quote": "The Company generally does not offer a right of refund in its contracts other than for cases of the Company's uncured material breach of the agreement, bankruptcy or insolvency.",
+    "binding_or_framework": "binding (SEC 10-K, revenue recognition policy)"
+   },
+   {
+    "claim": "RPO of $60.7B is reported net of variable consideration including delivery delays and resold capacity",
+    "source_uri": "file:///Users/ted/Documents/dev-archive/bubble/data/edgar_acquisition/documents/0001769628/000176962826000104/crwv-20251231.htm",
+    "quote": "As of December 31, 2025, we had $60.7 billion of remaining performance obligations... Variable consideration primarily consists of potential reductions to the transaction price in the future, such as estimates of future potential credits to customers under availability of service agreements, amounts that may not be recognized as revenue due to delivery delays, and estimates of committed cloud computing capacity that the Company has the right to resell.",
+    "binding_or_framework": "binding (SEC 10-K, RPO / rev rec)"
+   },
+   {
+    "claim": "Prepayment backstop only 15-25% of total contract value; issuer is loss-making with heavy interest burden",
+    "source_uri": "file:///Users/ted/Documents/dev-archive/bubble/data/edgar_acquisition/documents/0001769628/000176962826000104/crwv-20251231.htm",
+    "quote": "the weighted-average prepayment across all our active contracts was 15% to 25% of the TCV... we have generated significant losses from operations, as reflected in our accumulated deficit of $2.6 billion",
+    "binding_or_framework": "binding (SEC 10-K)"
+   },
+   {
+    "claim": "DDTL 3.0 facility covenant (Contract Realization Ratio >=0.85x) ties loan compliance directly to customer payment; DSCR test deferred to Apr 2027",
+    "source_uri": "file:///Users/ted/Documents/dev-archive/bubble/handoffs/claude_debt_service_card_coreweave_20260602.md",
+    "quote": "Contract Realization Ratio >= 0.85x monthly (actual billed/received / projected contracted cash flows...). DSCR >= 1.40x but only beginning April 2027 (no debt-service-coverage test during the ramp).",
+    "binding_or_framework": "binding (SEC EDGAR accession 0001769628-25-000033) as summarized in local primary-verified debt-service card"
+   }
+  ]
+ },
+ {
+  "key": "gpu_collateral_erosion",
+  "verdict": "holds_with_caveats",
+  "confidence": 0.25,
+  "tier": "SINGLE_SOURCE",
+  "summary": "The \"book life\" half of the premise is strongly source-backed: SEC 10-K/10-Q filings show hyperscalers and neoclouds depreciate AI compute over 5-7 years straight-line (CoreWeave 6yr, Amazon 5-6yr, Meta 5.5yr, MSFT/Google 6yr, NVIDIA 7yr). The \"economic life\" half is directionally supported but the headline quantification is NOT backed by local primary data. Cloud RENTAL rates show real compression (H100 SXM now $3.29-4.29/hr on-demand vs the ~$8/hr peak), and Amazon's Q3-2025 10-Q explicitly reverted a subset of servers 6yr->5yr citing AI/ML obsolescence pace \u2014 a primary-filed admission the 6yr life was too long. But the dramatic secondary used-hardware price claim ($40K->$6-15K, 60-85% in 2-3yr) has zero backing in the repo's data: the observed_secondary_price_usd column is 100% empty. So a book-vs-economic-life gap is real and partly filing-confirmed, but its magnitude rests on prose, not sources.",
+  "evidence_for": "PRIMARY (SEC-filed): (1) CoreWeave 10-K (FY2025, crwv-20251231): computing equipment depreciated straight-line, life changed 5->6yr eff Jan 1 2023. (2) Amazon Q3-2025 10-Q (amzn-20250930): \"effective January 1, 2025 we changed our estimate of the useful lives of a subset of our servers and networking equipment from six years to five years... The shorter useful lives are due to the increased pace of technology development, particularly in the area of artificial intelligence and machine learning\" \u2014 a binding admission that the extended life was over-optimistic for AI hardware. (3) Meta 10-K (meta-20251231) servers/network at 5.5yr; MSFT 2-6yr; Google 6yr; NVIDIA 2-7yr. (4) Cloud rental rates (Lambda/RunPod IR pages, 45 obs): H100 SXM on-demand $3.29-4.29/hr, H100 PCIe $2.89-3.29/hr \u2014 well below the ~$8/hr 2023-24 peak, evidencing rental-rate compression as newer B200 ($5.89-6.99/hr) arrives. (5) GPU-as-collateral is real and filed: IREN Ltd's \"Hardware 3\" SPV $1.5B debt facility (8-K, CIK 1878848), \"secured by all its assets, including the GPUs acquired by Hardware 3,\" maturing 2031-12-31 \u2014 i.e. GPU collateral will be 5-6yr-old vintage at maturity. Maturity-wall context: 506 secured tranches mature 2030, 546 in 2031.",
+  "evidence_against": "(1) The headline economic-life quantification is UNSOURCED locally: observed_secondary_price_usd is empty for all 45 price observations; the \"$40K->$6-15K secondary, 60-85% in 2-3yr\" figure exists only in the prose handoff, not in any primary or market-data file. (2) The handoff's \"CoreWeave 12-yr server assumption\" is explicitly an analyst (Seeking Alpha) ALLEGATION; the actual CoreWeave 10-K says 6yr \u2014 the bear framing inflates the book life. (3) Direction of accounting changes is MIXED, not uniformly bearish: Meta EXTENDED to 5.5yr (+$2.92B dep reduction/+$2.59B net income, FY2025) and CoreWeave EXTENDED 5->6yr; only Amazon partially reversed, and only on a \"subset.\" (4) The Amazon reversion magnitude in the handoff (-$298M/qtr, -$677M/9mo) is NOT in the captured local quote (truncated at 329 chars) \u2014 unverified locally. (5) The bull counterpoint is filing/press-grounded: depreciation is a LIQUIDATION-value story; while demand holds, utilization keeps GPUs earning regardless of resale price (CoreWeave A100s from 2020 reportedly fully booked, expired-contract H100s re-booked ~95% of original). Erosion only bites on default-forced liquidation or demand softening. (6) GPU collateral is thin in the data: exactly ONE of thousands of tranches explicitly names GPUs as collateral, and it is IREN's, not CoreWeave/TeraWulf/Hut 8 as the handoff implies \u2014 most secured tranches cite generic \"equipment\"/\"property, plant and equipment.\"",
+  "key_caveat": "The premise's strongest number \u2014 the secondary-market price collapse that defines the book-vs-economic-life GAP \u2014 is not backed by any primary or market-data source in the repo (the secondary-price column is entirely empty); only cloud RENTAL rates are hard-sourced, and rental compression is a weaker, demand-confounded proxy for liquidation/resale value. The erosion is also conditional: it only impairs collateral recovery on default-forced liquidation, and the accounting evidence is mixed (Meta/CoreWeave extended lives; only Amazon partially reversed). This is a directional, demand-dependent risk that is real in book life and rental trends but whose headline magnitude is INFERRED, not measured.",
+  "quantification": "Book life: 6yr (CoreWeave, MSFT, Google), 5.5yr (Meta), 5-6yr (Amazon, subset reverted to 5yr eff Jan-2025), 7yr (NVIDIA). Rental rates (hard, primary): H100 SXM $3.29-4.29/hr, H100 PCIe $2.89-3.29/hr on-demand (vs ~$8/hr 2023-24 peak); B200 $5.89-6.99/hr; A100 $1.39-2.79/hr. Meta life-extension earnings benefit: +$2.92B dep reduction / +$2.59B net income (FY2025). Claimed-but-UNSOURCED secondary sale gap: H100 SXM \"$40K->$6-15K (60-85% in ~2-3yr)\" \u2014 prose only, 0 of 45 price rows populated. GPU-collateral exposure: IREN Hardware-3 $1.5B facility, GPU-secured, matures 2031-12-31; 506+546 secured tranches mature 2030-2031.",
+  "sources": [
+   {
+    "claim": "Amazon reverted a subset of servers from 6yr to 5yr effective Jan 2025, citing AI/ML-driven pace of technology development \u2014 a primary admission the extended life was too long for AI hardware",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1018724/000101872425000123/amzn-20250930.htm",
+    "quote": "effective January 1, 2025 we changed our estimate of the useful lives of a subset of our servers and networking equipment from six years to five years. The shorter useful lives are due to the increased pace of technology development, particularly in the area of artificial intelligence and machine learning",
+    "binding_or_framework": "binding (SEC 10-Q)"
+   },
+   {
+    "claim": "CoreWeave depreciates computing equipment straight-line over 6 years (extended from 5yr in 2023); the handoff's '12yr' is an analyst allegation not in the filing",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000104/crwv-20251231.htm",
+    "quote": "Effective January 1, 2023, the Company changed its estimate of the useful life for its computing equipment utilized in data centers from five to six years, reflecting continuous advancements in hardware performance, software optimization, and data center desi",
+    "binding_or_framework": "binding (SEC 10-K)"
+   },
+   {
+    "claim": "Meta EXTENDED server/network useful lives to 5.5yr, boosting net income $2.59B \u2014 a counterpoint showing the accounting trend is mixed, not uniformly toward shorter lives",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1326801/000162828026003942/meta-20251231.htm",
+    "quote": "an increase in the estimated useful lives of most servers and network assets to 5.5 years, effective January 1, 2025... a reduction in depreciation expense of $2.92 billion and an increase in net income of $2.59 billion, or $1.00 per diluted share",
+    "binding_or_framework": "binding (SEC 10-K)"
+   },
+   {
+    "claim": "GPU-as-collateral structure is real and SEC-filed: IREN's Hardware 3 SPV $1.5B facility is secured on the GPUs themselves, maturing 2031 when 2025-26-vintage GPUs are ~5-6yr old",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1878848/000114036126023427/ef20075181_8k.htm",
+    "quote": "The obligations of Hardware 3, in its capacities as Borrower and Issuer, are secured by all its assets, including the GPUs acquired by Hardware 3 to service the [purchase agreement]",
+    "binding_or_framework": "binding (SEC 8-K)"
+   },
+   {
+    "claim": "The only hard local price data is cloud RENTAL rates, not secondary sale prices; H100 SXM on-demand now $3.29-4.29/hr, evidencing rental compression vs the ~$8/hr peak",
+    "source_uri": "https://lambda.ai/pricing",
+    "quote": "NVIDIA H100 SXM 80 GB ... $3.99 [/hr]; H100 SXM ... $4.29; H100 PCIe 80 GB ... $3.29",
+    "binding_or_framework": "non-primary (company IR pricing page); secondary used-hardware SALE price unsourced \u2014 observed_secondary_price_usd column 0/45 populated"
+   }
+  ]
+ },
+ {
+  "key": "circular_financing",
+  "verdict": "data_gap_not_reality",
+  "confidence": 0.2,
+  "tier": "SINGLE_SOURCE",
+  "summary": "The specific round-trip loop edges (NVIDIA->neocloud equity, NVIDIA->OpenAI $100B, OpenAI->CoreWeave compute contract, Microsoft->OpenAI/CoreWeave) are NOT present as binding, SEC-filing-backed, named-counterparty edges in the repo's local EDGAR corpus. What IS SEC-filed and binding are the loop's component legs disclosed at the single-entity level with the counterparty redacted/unnamed: NVIDIA's $30B multi-year cloud-service purchase commitments and $119B supply-purchase commitments (10-Q), CoreWeave's $8.5B/$3.1B DDTL credit facilities expressly entered 'to finance capex required to perform a customer contract, including acquisition of GPU servers' (8-K), Microsoft's $196.6B not-yet-commenced datacenter leases (10-Q), and a separate Amazon->OpenAI $35B 'commitment shares' equity 8-K. The loop is corroborated only by press/framework reporting, not by filing-linked edges in this dataset; the absence is primarily a data-linkage gap (counterparty names live in narrative text the extractor did not join), not evidence the loop is fictional.",
+  "evidence_for": "SEC-filed binding component legs of the loop exist at single-entity level (NVIDIA $30B cloud-service + $119B supply commitments; CoreWeave $8.5B/$3.1B GPU-server customer-contract financing; Amazon->OpenAI $35B equity; Microsoft $196.6B leases), all entities seeded/watchlisted.",
+  "evidence_against": "No named directed loop edge is binding in the corpus: 0 of 7,526 capital-exposure edges touch NVIDIA/CoreWeave/OpenAI/Nebius; NVIDIA appears in only 1 of 62,952 deals (its own bond); every CoreWeave/Microsoft/NVIDIA commitment has an empty counterparty field; the NVIDIA->OpenAI $100B and OpenAI->CoreWeave $11.9B press figures are not in any filing here.",
+  "key_caveat": "Absence of named loop edges here is a data-linkage/extraction gap, not proof the loop is fabricated: the relevant counterparty names sit in filing narrative text (e.g., CoreWeave's 'a customer contract') and in framework/press announcements (NVIDIA's $100B OpenAI letter of intent, OpenAI's CoreWeave contract) that this corpus either redacts or does not ingest as binding deals. The report's own metric confirms this \u2014 it states '90.0% does not yet have established thesis linkage' (materiality_relevance_not_established_linkage_pct: 0.8998) and labels watchlist edges 'AI-specific linkage needs corroboration.' So the binding/announcement separation can be made, but the binding side is single-entity-level commitments with unnamed counterparties, not verified directed loop edges.",
+  "quantification": "Loop edges in capital_exposure graph touching NVIDIA/CoreWeave/OpenAI/Nebius: 0 of 7,526. NVIDIA appearances in 62,952 EDGAR deals: 1 (own bond). SEC-filed binding component legs: NVIDIA cloud-service purchase commitments $30B and supply commitments $119B; CoreWeave DDTL facilities $8.5B + $3.1B (GPU-server customer-contract financing); Microsoft not-yet-commenced datacenter leases $196.6B; Amazon->OpenAI equity $35B. Press/framework-only (not in corpus as binding): NVIDIA->OpenAI ~$100B, OpenAI->CoreWeave ~$11.9B. Report's own non-linkage share: 90.0% ($3.259T of materiality lacks established thesis linkage).",
+  "sources": [
+   {
+    "claim": "NVIDIA discloses $119B supply-vendor purchase commitments and $30B multi-year cloud-service purchase commitments (NVIDIA committing to BUY compute) in its 10-Q; this is the documented loop leg, with counterparty unnamed.",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000052/nvda-20260426.htm",
+    "quote": "As of April 26, 2026, these commitments were $ 119 billion ... Multi-year cloud service agreement commitments as of April 26, 2026, were $ 30 billion",
+    "binding_or_framework": "BINDING (SEC 10-Q) \u2014 single-entity commitment, counterparty unnamed"
+   },
+   {
+    "claim": "CoreWeave's DDTL 4.0 ($8.5B) and DDTL 5.0 ($3.1B) credit facilities were entered to finance GPU-server capex required to perform a (unnamed) customer contract \u2014 the downstream neocloud-buys-NVIDIA leg.",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000236/crwv-20260515.htm",
+    "quote": "providing for a $3.1 billion delayed draw term loan facility ... entered into primarily to finance capital expenditures required to perform certain customer contracts, including the acquisition of GPU servers and related infrastructure",
+    "binding_or_framework": "BINDING (SEC 8-K) \u2014 customer (OpenAI/Microsoft) not named in filing"
+   },
+   {
+    "claim": "Amazon->OpenAI is a filing-verified $35B equity ('commitment shares') edge naming OpenAI Group PBC \u2014 a real loop-adjacent edge, but Amazon rather than NVIDIA.",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1018724/000110465926021050/tm267374d1_8k.htm",
+    "quote": "\u201ccommitment shares\u201d) with an aggregate purchase price of $35.0 billion (the \u201ccommitment amount\u201d)",
+    "binding_or_framework": "BINDING (SEC 8-K) \u2014 names OpenAI; outside the NVIDIA loop"
+   },
+   {
+    "claim": "Microsoft's SEC commitments are its own not-yet-commenced datacenter leases ($196.6B), counterparty unnamed \u2014 not a named Microsoft->OpenAI/CoreWeave financing edge.",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/789019/000119312526191507/msft-20260331.htm",
+    "quote": "As of March 31, 2026, we had additional leases, primarily for datacenters, that had not yet commenced of $ 196.6 billion",
+    "binding_or_framework": "BINDING (SEC 10-Q) \u2014 counterparty unnamed"
+   },
+   {
+    "claim": "The repo's capital-exposure graph contains zero edges touching the loop entities, and the report concedes 90% of materiality lacks established thesis linkage \u2014 confirming the gap is data-linkage, not adjudicated reality.",
+    "source_uri": "/Users/ted/Documents/dev-archive/bubble/data/reports/BURRY_REPORT_EvidenceGated_20260602-2320.md",
+    "quote": "$0.363T has established direct/watchlist AI-data-center linkage while 90.0% does not yet have established thesis linkage",
+    "binding_or_framework": "repo-internal metric (materiality_relevance_not_established_linkage_pct: 0.8998)"
+   },
+   {
+    "claim": "NVIDIA appears in only 1 of 62,952 EDGAR deals (its own bond) and never co-occurs with CoreWeave/OpenAI; the named NVIDIA->neocloud and NVIDIA->OpenAI investment edges are absent from the binding corpus.",
+    "source_uri": "/Users/ted/Documents/dev-archive/bubble/data/edgar_acquisition/deals.csv",
+    "quote": "NVIDIA appearances = 1 (own bond, CIK 1045810); coreweave x nvidia/openai co-occurrence = 0; capital_exposure_edges touching NVIDIA/CoreWeave/OpenAI/Nebius = 0 of 7526",
+    "binding_or_framework": "primary local SEC corpus (absence = extraction/linkage gap)"
+   }
+  ]
+ },
+ {
+  "key": "commitments_binding_vs_framework",
+  "verdict": "holds_with_caveats",
+  "confidence": 0.25,
+  "tier": "CORROBORATED",
+  "summary": "The premise holds: the ~$1.4T \"AI commitment\" headline universe is overwhelmingly framework/LOI/announcement, not binding. The figures that survive primary-filing scrutiny as binding obligations are roughly an order of magnitude smaller (~$110-200B buyer-side, plus CoreWeave's $60.7B seller-side take-or-pay backlog), so on the order of 85-90% of the cited headline is non-binding. OpenAI itself walked its own $1.4T down to ~$600B, and the splashiest numbers (NVIDIA $100B, Oracle $300B, Stargate $500B) are explicitly letters of intent or undisclosed-as-binding.",
+  "evidence_for": "see structured evidence_for above",
+  "evidence_against": "The headline is not pure vapor: real binding obligations DO exist and are large in absolute terms (~$110-200B Microsoft buyer-side; CoreWeave's $60.7B is genuinely binding take-or-pay per ASC 606). The Oracle $300B and Stargate $500B are classified framework PRECISELY because no binding SEC-grade disclosure was located \u2014 absence of a located filing is not proof a binding contract does not exist (e.g., the Oracle-OpenAI 4.5GW deal was \"officially announced\"). Some buyer-side commitments are blended (Microsoft's $109.95B mixes cancellable open POs with take-or-pay; the strict take-or-pay subset is not separately quantified), so the binding number is a range, not a point. Microsoft's $13B in OpenAI is binding but is equity, not a compute/debt commitment.",
+  "key_caveat": "The biggest limitation is a definitional/data-linkage one, not a reality gap: binding take-or-pay lives in ASC 606 RPO footnotes and 10-K MD&A \"purchase commitments\" tables, NOT in debt instruments, so the forensic engine's SEC-debt extractor structurally captures $0 of this tier (it correctly excludes the frameworks too). The \"binding\" total is also a RANGE (~$110-200B) because buyer-side figures are blended and the seller-side CoreWeave RPO is the mirror of buyer obligations (cannot be summed with buyer-side without double-counting OpenAI's $11.9B+ and Microsoft's share). So \"binding vs framework\" is directionally robust but cannot be reduced to a single clean dollar line.",
+  "quantification": "Headline universe ~$1.4T. BINDING (primary-filing verified): CoreWeave $60.7B RPO take-or-pay (seller-side, +302% YoY, ~96% of revenue, includes OpenAI's ~$11.9-18.4B); Microsoft $109.95B datacenter purchase commitments (blended PO + take-or-pay, $103.94B FY2026 + $6.01B thereafter) + $92.7B not-yet-commenced datacenter leases + $13B OpenAI equity. Honestly-sourceable binding BUYER-side \u2248 $110-200B (same order as the $184.8B direct-tier debt). FRAMEWORK/LOI/announcement (excluded): OpenAI $1.4T\u2192~$600B reset, Oracle $300B, NVIDIA $100B LOI, Broadcom 10GW, AMD 6GW, Stargate $500B. Net: roughly 85-90% of the cited headline is non-binding framework, not contractual obligation.",
+  "sources": [
+   {
+    "claim": "CoreWeave had $60.7B of remaining performance obligations (+302% from $15.1B), structured as take-or-pay requiring payment regardless of utilization; committed contracts ~96% of revenue.",
+    "source_uri": "data/edgar_acquisition/documents/0001769628/000176962826000104/crwv-20251231.htm",
+    "quote": "As of December 31, 2025, we had $60.7 billion of remaining performance obligations (RPO), reflecting an increase of 302%, from $15.1 billion ... The terms of these contracts are typically structured as \"take-or-pay\" agreements, requiring payment regardless of the level of utilization.",
+    "binding_or_framework": "BINDING (seller-side take-or-pay, ASC 606 RPO; primary 10-K)"
+   },
+   {
+    "claim": "OpenAI committed to pay CoreWeave up to ~$11.9B through October 2030 \u2014 a binding obligation already inside CoreWeave's $60.7B RPO (do not double-count).",
+    "source_uri": "data/edgar_acquisition/documents/0001769628/000176962826000104/crwv-20251231.htm",
+    "quote": "OpenAI has committed to pay us up to approximately $11.9 billion through October 2030.",
+    "binding_or_framework": "BINDING (subset of CoreWeave RPO)"
+   },
+   {
+    "claim": "Microsoft FY2025 10-K discloses $109.95B of purchase commitments primarily for datacenters (open POs + take-or-pay) and $92.7B of datacenter leases not yet commenced.",
+    "source_uri": "data/edgar_acquisition/documents/0000789019/000095017025100235/msft-20250630.htm",
+    "quote": "Purchase commitments (d) 103,940 6,013 109,953 ... (d) Purchase commitments primarily relate to datacenters and include open purchase orders and take-or-pay contracts ... we had additional leases, primarily for datacenters, that had not yet commenced of $92.7 billion.",
+    "binding_or_framework": "BINDING_BLENDED buyer-side (PO + take-or-pay) + BINDING_LEASE"
+   },
+   {
+    "claim": "The NVIDIA-OpenAI $100B/10GW deal is an explicit letter of intent (non-binding), with investment conditioned on systems deployment (circular).",
+    "source_uri": "https://nvidianews.nvidia.com/news/openai-and-nvidia-announce-strategic-partnership-to-deploy-10gw-of-nvidia-systems",
+    "quote": "OpenAI and NVIDIA today announced a letter of intent for a landmark strategic partnership ... NVIDIA intends to invest up to $100 billion in OpenAI as the new NVIDIA systems are deployed.",
+    "binding_or_framework": "FRAMEWORK/LOI (non-binding, circular financing)"
+   },
+   {
+    "claim": "OpenAI itself reset its own ~$1.4T compute-commitment headline to ~$600B by 2030, tied to expected revenue \u2014 the figure flexes with narrative rather than behaving like a binding obligation.",
+    "source_uri": "https://www.cnbc.com/2026/02/20/openai-resets-spend-expectations-targets-around-600-billion-by-2030.html",
+    "quote": "OpenAI told investors it was targeting roughly $600 billion in total compute spend through 2030 ... after CEO Sam Altman publicly cited roughly $1.4 trillion in infrastructure commitments.",
+    "binding_or_framework": "FRAMEWORK (self-revised headline)"
+   },
+   {
+    "claim": "The $500B Stargate project is reportedly stalled/LOI-based, devolving into bilateral agreements rather than a single binding $500B contract, delayed by partner control disputes.",
+    "source_uri": "https://www.tomshardware.com/tech-industry/artificial-intelligence/stargate-ai-data-centers-for-openai-reportedly-delayed-by-squabbles-between-partners-sources-say-openai-oracle-and-softbank-disagreed-on-who-would-have-ultimate-control-of-the-planned-data-centers",
+    "quote": "Stargate AI data centers for OpenAI reportedly delayed by squabbles between partners ... OpenAI, Oracle, and SoftBank disagreed on who would have ultimate control of the planned data centers.",
+    "binding_or_framework": "FRAMEWORK/LOI (non-primary reporting; flagged)"
+   },
+   {
+    "claim": "The repo's engine codifies the binding-vs-framework taxonomy and excludes frameworks from the committed-debt metric.",
+    "source_uri": "src/bubble/ingestion/compute/economic_commitments.py",
+    "quote": "binding_tier ... \"BINDING_TAKE_OR_PAY\" ... \"BINDING_LEASE\" ... \"NON_BINDING_LESSOR_REVENUE\" ... \"GIGAWATT_ONLY_NO_DOLLAR\"",
+    "binding_or_framework": "engine classification logic"
+   }
+  ]
+ },
+ {
+  "key": "bear_case_against_bubble",
+  "verdict": "holds_with_caveats",
+  "confidence": 0.62,
+  "tier": "CORROBORATED",
+  "summary": "The non-bubble (rational-growth) view is well-supported by this repo's own primary data, and notably the bubble engine cannot refute it. After scanning 197,243 filings, the purpose-built bear engine caps bubble confidence at 25% and concludes the final bubble call is \"not yet supported\": of its $3.62T deduped exposure metric only $362.98B (10.0%) has established AI/data-center linkage and just $142B (3.9%) is direct, while 90% is \"not_established_linkage\"; the directly AI-linked capital graph is only $4.75B and the $44.6T \"contagion\" figure is self-labeled inflated/not-exposure. Critically, the engine's cash-flow (DSCR) mismatch test is \"blocked_missing_source_backed_inputs\" and it finds NO realized GPU depreciation/rental compression gap \u2014 so the two pillars of the bubble case (cash-flow collapse, overstated useful lives) are unproven. Meanwhile demand is contracted and binding: Microsoft's not-yet-commenced datacenter leases grew $92.7B\u2192$196.6B across four consecutive quarter-end filings, Meta discloses $103.77B, NVIDIA discloses $119B purchase + $30B cloud commitments, and disclosed unit economics (WhiteFiber ~30% unlevered pre-tax IRR) can pencil.",
+  "evidence_for": "PRIMARY/SEC-FILED, contracted demand and balance-sheet-backed commitments (all source docs present locally in data/edgar_acquisition/documents/): (1) Microsoft not-yet-commenced datacenter leases rising across four DISTINCT accessions \u2014 $92.7B (Jun 2025, 0000950170-25-100235), $106.2B (Sep 2025, 0001193125-25-256321), $155.1B (Dec 2025, 0001193125-26-027207), $196.6B (Mar 2026, 0001193125-26-191507) \u2014 a real ramp, not a double-count. (2) Meta 10-K Dec-31-2025: \"$103.77 billion, mostly for data centers\" not-yet-commenced lease obligations (0001628280-26-003942). (3) NVIDIA 10-Q Apr-26-2026: \"$119 billion\" purchase commitments + \"$30 billion\" multi-year cloud commitments (0001045810-26-000052) \u2014 suppliers see binding multi-year demand. (4) Cerebras/OpenAI exhibit: \"OpenAI commits to purchase\" 250MW (2026), 500MW (2027), 750MW (2028) (0001628280-26-025762). (5) WhiteFiber S-1: ~30% unlevered pre-tax IRR on B200 ($42k cost / $20k yr-1 rev, 75-80% EBITDA margin) and a contracted \"$20.2 million\" revenue order vs ~$30M H200 capex (0001213900-25-063338 / -109964). WHERE THE BUBBLE THESIS IS WEAKEST (from the repo's own report data/reports/BURRY_REPORT_EvidenceGated_20260602-2320.md): established AI-linked support is only $362.98B/10.0% of the $3.62T metric (direct $142B/3.9%); AI-infra graph notional $4.75B; \"cash_flow_mismatch: blocked_missing_source_backed_inputs\"; stress DSCRs \"ILLUSTRATIVE ONLY... NOT source-backed\"; GPU economics mismatch uncomputed (no realized compression gap). On depreciation, Meta LENGTHENED server lives to 5.5yr and Amazon to 6yr (Jan 2024), undercutting the \"lives overstated\" premise.",
+  "evidence_against": "Honest counter-signals that keep this at \"with caveats,\" not \"strongly\": (1) Amazon 10-K: \"Effective January 1, 2025 we changed our estimate of the useful lives of a subset of our servers and networking equipment from six years to five years. The shorter useful lives are due to the increased pace of technology development\" \u2014 direct primary evidence of faster GPU obsolescence, the core bubble depreciation worry. (2) The contracted demand is heavily concentrated in a handful of names and includes related-party/circular risk (NVIDIA both a top supplier and an investor; OpenAI a customer of multiple counterparties); much of it is \"not yet commenced,\" so it is committed spend, not yet realized revenue. (3) The repo flags real near-term refinancing pressure: AI-infra capital refinancing of $227.2B over 2024-2030 with a peak-stress window 2025-Q3 to 2027-Q3, and 64.2% of debt-like notional lacks explicit rate evidence \u2014 a coverage gap that could hide stress. (4) The non-bubble read leans on hyperscaler self-funding from cash flow, but this repo does NOT contain the operating-cash-flow vs capex series to prove the buildout is self-funded rather than debt/lease-financed; that is an external-data assumption, not established here. (5) WhiteFiber's 30% IRR is a small issuer's own forward estimate (\"if our cloud service business is able to achieve our estimates\"), not realized returns.",
+  "key_caveat": "The strongest non-bubble evidence here is partly an ABSENCE of proof rather than positive proof of health: the bear engine's cash-flow-mismatch and GPU-depreciation-compression tests are BLOCKED/uncomputed for missing source-backed inputs, so \"no demonstrable bubble\" partly reflects an extraction/data-linkage gap on the most decisive metrics (DSCR, realized rental-rate compression, hyperscaler FCF-vs-capex), not a clean confirmation that economics are sound. The demand-side facts (leases, purchase commitments) are binding and verified; the return-side facts that would clinch \"rational, not mania\" (realized utilization, realized payback, self-funding ratios) are the exact inputs the repo still lacks \u2014 i.e., partly data_gap, not yet reality.",
+  "quantification": "Established AI-linked exposure $362.98B = 10.0% of $3.62T deduped metric (direct AI-linked $142.0B = 3.9%); AI-infra-relevant capital-graph notional $4.75B (139 edges); bubble confidence capped at 25%, high_confidence_final=False. Contracted/binding demand: Microsoft not-commenced datacenter leases $92.7B\u2192$196.6B over 4 quarters; Meta $103.77B; NVIDIA $119B purchase + $30B cloud commitments; Cerebras/OpenAI 750MW by 2028. WhiteFiber ~30% unlevered pre-tax IRR; $20.2M contracted revenue vs ~$30M capex. Hyperscaler server useful lives 5.5\u20136 yrs (Amazon shortened a subset 6\u21925 in 2025). Bubble-side: AI-infra refinancing $227.2B 2024-2030, 64.2% of debt-like notional missing rate evidence.",
+  "sources": [
+   {
+    "claim": "Repo's own bear engine cannot establish a bubble: caps confidence at 25%, established AI-linked support is only 10.0% ($362.98B) of the $3.62T metric, direct AI-linked 3.9% ($142B), AI-infra graph notional only $4.75B, and the cash-flow/DSCR mismatch test is blocked for missing source-backed inputs.",
+    "source_uri": "/Users/ted/Documents/dev-archive/bubble/data/reports/BURRY_REPORT_EvidenceGated_20260602-2320.md",
+    "quote": "High-confidence final: False ... Evidence-gated bubble confidence: 25% ... Final bubble/no-bubble conclusion is not yet supported ... materiality_relevance_established_ai_linked_usd: 362975850000.0 ... materiality_relevance_direct_ai_linked_usd: 142025850000.0 ... capital_exposure_graph_ai_infra_relevant_notional_usd: 4750000000.0 ... \"cash_flow_mismatch\": {\"status\": \"blocked_missing_source_backed_inputs\"} ... \"adverse_stressed_dscr_example\": 0.75 ... \"illustrative_only\": true ... ILLUSTRATIVE ONLY: no source-backed base DSCR was available",
+    "binding_or_framework": "framework (repo engine output; underlying inputs are SEC-filed)"
+   },
+   {
+    "claim": "Microsoft's not-yet-commenced datacenter lease commitments rose across four consecutive distinct SEC filings, evidencing real, accelerating contracted demand backed by an investment-grade balance sheet.",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/789019/000119312526191507/",
+    "quote": "As of March 31, 2026, we had additional leases, primarily for datacenters, that had not yet commenced of $196.6 billion. These leases will commence between fiscal year 2026 and fiscal year 2031 with lease terms of 1 year to 21 years.",
+    "binding_or_framework": "binding/SEC-filed (10-Q, accession 0001193125-26-191507; prior quarters 0001193125-26-027207 $155.1B, 0001193125-25-256321 $106.2B, 0000950170-25-100235 $92.7B)"
+   },
+   {
+    "claim": "Meta discloses large binding not-yet-commenced datacenter lease obligations in its 10-K.",
+    "source_uri": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001326801&type=10-K",
+    "quote": "we have additional operating and finance leases, that have not yet commenced, with total lease obligations of approximately $103.77 billion, mostly for data centers, colocations, and network infrastructure ... will commence between 2026 and 2030",
+    "binding_or_framework": "binding/SEC-filed (10-K, accession 0001628280-26-003942)"
+   },
+   {
+    "claim": "NVIDIA discloses binding multi-year purchase and cloud-service commitments, evidence that suppliers see contracted multi-year compute demand.",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000052/nvda-20260426.htm",
+    "quote": "As of April 26, 2026, these commitments were $119 billion for which $95 billion will be paid in the remainder of fiscal year 2027 ... Multi-year cloud service agreement commitments as of April 26, 2026, were $30 billion",
+    "binding_or_framework": "binding/SEC-filed (10-Q, accession 0001045810-26-000052)"
+   },
+   {
+    "claim": "Cerebras/OpenAI compute agreement shows OpenAI making binding purchase commitments for staged capacity, i.e., contracted (not speculative) demand.",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/2021728/000162828026025762/exhibit1011-sx1.htm",
+    "quote": "OpenAI commits to purchase the following Capacity ... 250MW of Capacity by the end of calendar year 2026 ... 250MW of additional Capacity by the end of calendar year 2027 (such that the total aggregate Capacity equals 500MW) ... 250MW of additional Capacity by the end of calendar year 2028 (such that the total aggregate Capacity equals 750MW)",
+    "binding_or_framework": "binding/SEC-filed exhibit (S-1, accession 0001628280-26-025762; note pricing redacted [***])"
+   },
+   {
+    "claim": "WhiteFiber discloses GPU unit economics that pencil to a ~30% unlevered pre-tax IRR and a contracted revenue order exceeding modeled capex payback.",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/2042022/000121390025063338/ea0248382-s1_white.htm",
+    "quote": "If our cloud service business is able to achieve our estimates of costs of approximately $42,000 for a B200 GPU that generates approximately $20,000 of revenue in year one at an EBITDA margin between 75% and 80%, we believe that we can generate an unlevered pre-tax IRR of approximately 30%.",
+    "binding_or_framework": "SEC-filed but management forward estimate (S-1, accession 0001213900-25-063338), not realized returns"
+   },
+   {
+    "claim": "Counter-signal: Amazon shortened a subset of server useful lives citing faster technology development \u2014 direct support for the bubble-side depreciation/obsolescence concern (cuts AGAINST the non-bubble view).",
+    "source_uri": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001018724&type=10-K",
+    "quote": "Effective January 1, 2025 we changed our estimate of the useful lives of a subset of our servers and networking equipment from six years to five years. The shorter useful lives are due to the increased pace of technology development",
+    "binding_or_framework": "binding/SEC-filed (Amazon 10-K depreciation policy)"
+   },
+   {
+    "claim": "Counter-signal: the repo flags genuine near-term AI-infra refinancing pressure and large rate-evidence gaps, a real bubble-side risk the non-bubble view must absorb.",
+    "source_uri": "/Users/ted/Documents/dev-archive/bubble/data/reports/BURRY_REPORT_EvidenceGated_20260602-2320.md",
+    "quote": "timing_signal_ai_infra_capital_refinancing_usd_2024_2030: 227215991567.3 ... timing_signal_candidate_stress_window_start: \"2025-Q3\" ... \"missing_rate_pct_of_debt_like_notional\": 64.2",
+    "binding_or_framework": "framework (repo engine output)"
+   }
+  ]
+ },
+ {
+  "key": "who_bears_downside",
+  "verdict": "data_gap_not_reality",
+  "confidence": 0.25,
+  "tier": "SINGLE_SOURCE",
+  "summary": "If the AI-direct cluster unwinds, the front-line loss-bearers are the SPV secured creditors whose collateral is depreciating GPUs plus one (often single-counterparty) compute contract \u2014 exactly the CoreWeave/IREN \"Financing SPV, non-recourse, secured by substantially all assets including the GPUs\" structures that sit in the raw EDGAR filings. But the repo's own capital-exposure graph drastically understates this: its entire \"AI-infra cluster\" rolls up to just $4.75B of Equinix bonds plus hyperscaler renewable PPAs, while CoreWeave/IREN/Applied Digital/TeraWulf GPU-SPV debt is dropped from the exposure-edge layer because the only named counterparties are agents/trustees (\"lenders party thereto\", \"noteholders\" are generic and skipped). This is a data-linkage gap, not evidence that the exposure is small. The biggest under-discussed exposure is ratepayer/utility socialization: the genuine source-backed power edges in the dataset run through regulated utilities (Entergy, Georgia Power, PSNM, Northern States Power) and public power authorities, whose stranded grid/generation costs are recoverable through the rate base regardless of whether the AI load ever materializes.",
+  "evidence_for": "Raw EDGAR deals.csv contains the archetypal GPU-SPV loss structures the premise describes. CoreWeave: borrower \"COREWEAVE FINANCING DDTL V, LLC\", flagged bankruptcy_remote_spv=true and is_non_recourse=true, collateral = \"first-priority perfected security interest in (i) substantially all ... tangible and intangible assets\" plus \"a pledge of 100% of the equity interests in the Borrower\", with Morgan Stanley as admin agent and U.S. Bank as collateral agent; facilities of $3.1B/$4.46B and $1.75B notes, deal-node notional up to $8.5B. IREN Ltd 8-K is even more explicit: \"The obligations of Hardware 3, in its capacities as Borrower and Issuer, are secured by all its assets, including the GPUs acquired by Hardware 3\" \u2014 depreciating-GPU collateral in a financing SPV. Across AI-direct neocloud/miner names the raw data shows real SPV/non-recourse structuring (CoreWeave, Applied Digital 2 SPV / 7 non-recourse, IREN 4 SPV / 6 non-recourse, TeraWulf, Nebius). Dataset-wide there are 1,113 non-recourse and 524 bankruptcy-remote-SPV deal rows. On the ratepayer tail, the only source-backed AI-relevant power edges with material capacity run through regulated/public utilities: e.g. Northern States Power 7,386 MW, Southern California Public Power Authority via Aron Energy Prepay 5,072 MW, Public Service Company of New Mexico buying from \"EXUS NM Data Center\" suppliers \u2014 utilities whose prudently-incurred costs are rate-base recoverable. The contract-node graph DOES retain CoreWeave's structure (37 nodes, $8.5B deal nodes, spv_signal/tranched flags, watchlist:coreweave tag), proving the data exists and the gap is in the exposure rollup, not ingestion.",
+  "evidence_against": "The repo's headline exposure metric points the other way and looks unreliable in both directions. The graph's top \"risk bearers\" by exposure are dominated by NON-AI noise: WML/Wynn Resorts $44B, Sysco $66.5B, Global Payments, Kadant, Venture Global LNG, and \"Perfect Moment Ltd\" at an impossible $5.09 quadrillion and PennyMac mortgage notes at $883B \u2014 implausible amount-parsing artifacts that show the size rollups cannot be trusted at the top. The \"AI-infra relevant notional\" is only $4.75B and is entirely Equinix investment-grade bonds (Equinix is an established REIT, not the fragile AI-direct cluster). The AI-infra PPA \"offtaker\" list is contaminated by false-positive keyword matches: \"direct:cloud\" fires on Red Cloud Wind, Cloud County Wind Farm and City of St. Cloud; \"direct:compute\" fires on Blackwell Wind/Solar (a place name, also an Nvidia chip); \"direct:data_center\" fires on \"EXUS NM Data Center\" LLCs that look like renewable project SPVs. PPA edges carry $0 notional (capacity only), so they cannot be read as dollar loss exposure. Net: taken at face value the repo would say AI-direct downside is trivial ($4.75B, all Equinix) \u2014 the opposite of the premise \u2014 which is why the honest read is a data gap, not a refutation.",
+  "key_caveat": "The strongest claim I can make is structural/qualitative, not quantified: the raw filings confirm GPU-collateral, non-recourse, bankruptcy-remote SPVs are the designed front-line loss-absorbers, but the repo's exposure graph never wires those SPV debts to their lenders (real lenders are masked as \"lenders party thereto\"/\"noteholders\" and skipped as generic), so there is no source-backed dollar figure for AI-direct secured-creditor or parent-equity loss. The notional sums in the raw data are also inflated by duplicate per-exhibit rows, so even per-name totals (e.g. CoreWeave \"$45B\") overstate true facility size \u2014 only per-facility maxima (~$8.5B CoreWeave deal node) are defensible. The ratepayer-socialization tail is inferred from the regulated identity of the offtakers, not from any explicit rate-recovery clause captured in the dataset.",
+  "quantification": "Repo AI-infra exposure notional = $4.75B (100% Equinix bonds); 0 CoreWeave exposure-graph nodes/edges vs 27 CoreWeave deal rows in raw EDGAR and 37 CoreWeave contract-graph nodes ($8.5B top deal node). Dataset-wide: 1,113 non-recourse + 524 bankruptcy-remote-SPV deal rows. AI-direct GPU-SPV single-facility maxima: CoreWeave ~$8.5B, IREN ~$12.8B (name-level, dup-inflated), TeraWulf ~$16B, Applied Digital ~$5B. Largest non-AI loss component $407.9B sits in the largest connected component with $0 AI-infra notional. Source-backed regulated-utility AI-power capacity: NSP 7,386 MW, SCPPA 5,072 MW.",
+  "sources": [
+   {
+    "claim": "CoreWeave debt is structured as a non-recourse, bankruptcy-remote financing SPV secured by substantially all assets plus a 100% equity pledge \u2014 the GPU-SPV loss structure the premise describes.",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000236/ex101.htm",
+    "quote": "the Obligations shall have been secured by a first-priority perfected security interest in (i) substantially all now owned or at any time hereafter acquired tangible and intangible assets of the C...; bankruptcy_remote_spv=true; is_non_recourse=true; borrower COREWEAVE FINANCING DDTL V, LLC",
+    "binding_or_framework": "binding (SEC-filed exhibit, deals.csv row)"
+   },
+   {
+    "claim": "CoreWeave SPV facility secured by all borrower/subsidiary assets and a pledge of 100% of the equity, evidencing depreciating-asset + equity collateral.",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000236/crwv-20260515.htm",
+    "quote": "Facility are secured by substantially all assets of the Borrower and its subsidiaries and a pledge of 100% of the equity interests in the Borrower held by CW Financing DDTL V Holdco, LLC.",
+    "binding_or_framework": "binding (SEC 8-K, deals.csv row)"
+   },
+   {
+    "claim": "GPUs themselves pledged as collateral inside a financing SPV \u2014 the literal 'collateral = depreciating GPUs' case.",
+    "source_uri": "data/edgar_acquisition/deals.csv (IREN Ltd - 8-K, collateral field)",
+    "quote": "The obligations of Hardware 3, in its capacities as Borrower and Issuer, are secured by all its assets, including the GPUs acquired by Hardware 3",
+    "binding_or_framework": "binding (SEC 8-K, ingested deal row)"
+   },
+   {
+    "claim": "The repo's exposure graph drops CoreWeave entirely because the only named risk-bearers are agents/trustees and real lenders are generic placeholders; so the AI-infra exposure rollup collapses to Equinix.",
+    "source_uri": "data/graph/capital_exposure_graph_summary.json",
+    "quote": "ai_infra_relevant_notional_usd: 4750000000.0; top_ai_infra_risk_bearers = [EQUINIX, INC.]; top_ai_infra_contagion_hubs = Equinix entities only; grep coreweave capital_exposure_nodes.csv = 0",
+    "binding_or_framework": "framework (repo-derived metric / data-linkage gap)"
+   },
+   {
+    "claim": "Source-backed AI-relevant power offtake runs through regulated and public utilities whose stranded costs are rate-base socializable \u2014 the under-discussed ratepayer tail.",
+    "source_uri": "data/graph/capital_exposure_graph_summary.json (top_ai_infra_ppa_offtaker_families)",
+    "quote": "Northern States Power Company ... ppa_capacity_mw 7386.63; Southern California Public Power Authority ... Aron Energy Prepay 23 LLC 5071.96 MW; Public Service Company of New Mexico buying from 'EXUS NM Data Center' suppliers",
+    "binding_or_framework": "framework (repo PPA edges; regulated-utility identity inferred, capacity not dollars)"
+   },
+   {
+    "claim": "Top exposure rollup is dominated by non-AI parsing noise and implausible amounts, so the headline 'who bears downside' numbers cannot be taken at face value.",
+    "source_uri": "data/graph/capital_exposure_graph_summary.json (top_spv_contract_nodes, top_risk_bearers)",
+    "quote": "'Perfect Moment Ltd.' notional_usd 5089960000000.0; PennyMac notes 883508685207.0; top risk bearers WML/Wynn $44.39B, Sysco $66.5B \u2014 none AI-direct",
+    "binding_or_framework": "framework (repo metric artifact)"
+   }
+  ]
+ }
+]
