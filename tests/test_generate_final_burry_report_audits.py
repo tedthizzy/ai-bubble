@@ -189,6 +189,11 @@ def test_report_answer_metric_audits_cover_source_backed_rollup_values() -> None
             "top_signals": [source_row],
         },
         review_queue_summary={
+            "pending_capital_distinct_notional_amount_usd": 11_922_835_694_492.71,
+            "pending_ai_infra_relevant_capital_distinct_notional_amount_usd": (
+                827_720_451_225
+            ),
+            "pending_compute_claim_amount_usd": 398_240_000_000,
             "top_distinct_capital_items": [
                 {
                     **source_row,
@@ -197,9 +202,23 @@ def test_report_answer_metric_audits_cover_source_backed_rollup_values() -> None
                 }
             ]
         },
-        weak_link_summary={"top_weak_links": [], "top_debt_service_weak_links": []},
-        debt_service_metrics_dict={},
-        capital_exposure_graph_summary={},
+        weak_link_summary={
+            "ai_infra_relevant_notional_usd": 333_003_514_666.67,
+            "top_weak_links": [source_row],
+            "top_debt_service_weak_links": [],
+        },
+        debt_service_metrics_dict={
+            "maturity_wall_notional_usd_2024_2030": 278_383_365_879.58,
+        },
+        compute_metrics_dict={
+            "total_gpu_capex_usd": 270_000_000,
+            "compute_asset_count": 49,
+            "gpu_price_observation_count": 3,
+        },
+        capital_exposure_graph_summary={
+            "total_edge_notional_usd": 864_183_460_730.37,
+            "ai_infra_relevant_notional_usd": 5_158_000_000,
+        },
         contract_contagion_summary={},
         materiality_adjudication_decision_summary={
             "final_metric_supported_amount_usd": 4_463_000_000_000,
@@ -213,6 +232,22 @@ def test_report_answer_metric_audits_cover_source_backed_rollup_values() -> None
             "final_metric_group_count": 1591,
         },
     )
+    audit_by_id = {str(audit["claim_id"]): audit for audit in audits}
+    expected_rollup_values = {
+        "review_queue.pending_capital_distinct_notional": 11_922_835_694_492.71,
+        "review_queue.pending_ai_infra_relevant_capital_distinct_notional": (
+            827_720_451_225
+        ),
+        "review_queue.pending_compute_claim_amount": 398_240_000_000,
+        "weak_link.ai_infra_relevant_notional": 333_003_514_666.67,
+        "debt_service.maturity_wall_notional_2024_2030": 278_383_365_879.58,
+        "capital_exposure.total_edge_notional": 864_183_460_730.37,
+        "capital_exposure.ai_infra_relevant_notional": 5_158_000_000,
+        "compute.total_gpu_capex": 270_000_000,
+    }
+    for claim_id, value in expected_rollup_values.items():
+        assert audit_by_id[claim_id]["value"] == value
+
     report = {
         "evidence_quality": {"claim_audits": audits},
         "burry_question_answers": {

@@ -1,19 +1,22 @@
 # Acquisition Status
 
-Last updated: 2026-06-02 17:06 UTC.
+Last updated: 2026-06-02 17:14 UTC.
 
 This file is the operational snapshot for the current evidence corpus. Treat it
 as a run log, not as a final investment conclusion.
 
 ## Current Corpus
 
-- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-1706.md`
+- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-1714.md`
 - Evidence gate: not high-confidence final.
-- Evidence audit coverage: report-level audits now include analyzer-level
-  capital, compute, and debt-service audits plus explicit row/artifact-backed
-  audits for high-impact Burry-answer rollups. Substantive high-impact metric
-  audit warnings are cleared; the remaining consistency warnings are doc-pattern
-  checks, not evidence gaps or a gate opening.
+- Evidence audit coverage: 424 claim audits now include analyzer-level capital,
+  compute, and debt-service audits, explicit row/artifact-backed audits for
+  high-impact Burry-answer rollups, and aggregate hooks for pending review
+  capital, pending AI-infra capital, pending compute, weak-link AI-infra,
+  debt-service maturity-wall, capital-graph total/AI-infra notional, and compute
+  GPU-capex rollups. Substantive high-impact metric audit warnings are cleared;
+  the remaining consistency warnings are doc-pattern checks, not evidence gaps
+  or a gate opening.
 - Source invariant audit: passed at 2026-06-02 04:02 UTC, 63 CSV files
   and 9,208,844 rows scanned, 0 violations, 0 warnings.
 - Generated report assets are internal evidence artifacts; the user-facing

@@ -504,6 +504,7 @@ def report_answer_metric_audits(  # noqa: PLR0912, PLR0915
     review_queue_summary: dict[str, Any],
     weak_link_summary: dict[str, Any],
     debt_service_metrics_dict: dict[str, Any],
+    compute_metrics_dict: dict[str, Any],
     capital_exposure_graph_summary: dict[str, Any],
     contract_contagion_summary: dict[str, Any],
     materiality_adjudication_decision_summary: dict[str, Any] | None = None,
@@ -638,11 +639,74 @@ def report_answer_metric_audits(  # noqa: PLR0912, PLR0915
                 requires_corroboration=False,
             )
 
+    review_artifact = artifact_provenance(
+        source_uri="local:data/reports/review_queue_summary.json",
+        page_or_section="review queue aggregate rollup",
+        payload={
+            key: review_queue_summary.get(key)
+            for key in (
+                "pending_capital_distinct_notional_amount_usd",
+                "pending_ai_infra_relevant_capital_distinct_notional_amount_usd",
+                "pending_compute_claim_amount_usd",
+            )
+        },
+    )
+    review_row_evidence = row_list_provenance(
+        review_rows if isinstance(review_rows, list) else [],
+        fallback_section="review_queue_summary.top_distinct_capital_items",
+    )
+    review_evidence = [review_artifact, *review_row_evidence]
+    add(
+        "review_queue.pending_capital_distinct_notional",
+        "Distinct pending capital review-queue notional",
+        review_queue_summary.get("pending_capital_distinct_notional_amount_usd"),
+        review_evidence,
+        requires_corroboration=False,
+    )
+    add(
+        "review_queue.pending_ai_infra_relevant_capital_distinct_notional",
+        "AI-infra-relevant distinct pending capital review-queue notional",
+        review_queue_summary.get(
+            "pending_ai_infra_relevant_capital_distinct_notional_amount_usd"
+        ),
+        review_evidence,
+        requires_corroboration=False,
+    )
+    add(
+        "review_queue.pending_compute_claim_amount",
+        "Pending compute claim amount in the review queue",
+        review_queue_summary.get("pending_compute_claim_amount_usd"),
+        review_evidence,
+        requires_corroboration=False,
+    )
+
+    weak_link_artifact = artifact_provenance(
+        source_uri="local:data/reports/weak_link_summary.json",
+        page_or_section="weak-link analyzer aggregate rollup",
+        payload={
+            key: weak_link_summary.get(key)
+            for key in (
+                "ai_infra_relevant_notional_usd",
+                "top_weak_links",
+                "top_debt_service_weak_links",
+            )
+        },
+    )
     weak_link_rows: list[Any] = []
     for key in ("top_weak_links", "top_debt_service_weak_links"):
         rows = weak_link_summary.get(key, [])
         if isinstance(rows, list):
             weak_link_rows.extend(rows[:25])
+    weak_link_evidence = [
+        weak_link_artifact,
+        *row_list_provenance(weak_link_rows, fallback_section="weak_link_summary.top_rows"),
+    ]
+    add(
+        "weak_link.ai_infra_relevant_notional",
+        "AI-infra-relevant weak-link exposure rollup",
+        weak_link_summary.get("ai_infra_relevant_notional_usd"),
+        weak_link_evidence,
+    )
     for index, row in enumerate(weak_link_rows):
         if not isinstance(row, dict):
             continue
@@ -690,6 +754,12 @@ def report_answer_metric_audits(  # noqa: PLR0912, PLR0915
         "debt_service.distinct_missing_rate_notional",
         "Distinct debt-like notional still missing explicit rate evidence",
         debt_service_metrics_dict.get("distinct_missing_rate_notional_usd"),
+        debt_evidence,
+    )
+    add(
+        "debt_service.maturity_wall_notional_2024_2030",
+        "Debt-service maturity-wall notional through 2030",
+        debt_service_metrics_dict.get("maturity_wall_notional_usd_2024_2030"),
         debt_evidence,
     )
     for key in ("top_debt_service_quarters", "top_distinct_debt_service_quarters"):
@@ -748,6 +818,20 @@ def report_answer_metric_audits(  # noqa: PLR0912, PLR0915
         source_uri="local:data/graph/capital_exposure_graph_summary.json",
         page_or_section="capital exposure graph summary",
         payload=capital_exposure_graph_summary,
+    )
+    add(
+        "capital_exposure.total_edge_notional",
+        "Total capital-exposure graph edge notional",
+        capital_exposure_graph_summary.get("total_edge_notional_usd"),
+        [graph_artifact],
+        requires_corroboration=False,
+    )
+    add(
+        "capital_exposure.ai_infra_relevant_notional",
+        "AI-infra-relevant capital-exposure graph edge notional",
+        capital_exposure_graph_summary.get("ai_infra_relevant_notional_usd"),
+        [graph_artifact],
+        requires_corroboration=False,
     )
     add(
         "capital_exposure.largest_component_notional",
@@ -828,6 +912,25 @@ def report_answer_metric_audits(  # noqa: PLR0912, PLR0915
         "AI-infra-relevant contract-contagion path notional",
         contract_contagion_summary.get("ai_infra_relevant_notional_usd"),
         [contagion_artifact, *contagion_path_evidence],
+    )
+    compute_artifact = artifact_provenance(
+        source_uri="local:compute_economics_metrics",
+        page_or_section="compute-economics analyzer rollup",
+        payload={
+            key: compute_metrics_dict.get(key)
+            for key in (
+                "total_gpu_capex_usd",
+                "compute_asset_count",
+                "gpu_price_observation_count",
+            )
+        },
+    )
+    add(
+        "compute.total_gpu_capex",
+        "Compute-economics total GPU capex estimate",
+        compute_metrics_dict.get("total_gpu_capex_usd"),
+        [compute_artifact],
+        requires_corroboration=False,
     )
     materiality_summary = materiality_adjudication_decision_summary or {}
     materiality_artifact = artifact_provenance(
@@ -1982,6 +2085,7 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:
                 review_queue_summary=review_queue_summary,
                 weak_link_summary=weak_link_summary,
                 debt_service_metrics_dict=debt_service_metrics_dict,
+                compute_metrics_dict=compute_metrics_dict,
                 capital_exposure_graph_summary=capital_exposure_graph_summary,
                 contract_contagion_summary=contract_contagion_summary,
                 materiality_adjudication_decision_summary=(
