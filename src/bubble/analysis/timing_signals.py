@@ -29,6 +29,7 @@ DEBT_LIKE_DEAL_TYPES = {
     "preferred_equity",
     "guarantee",
 }
+MEGA_TIMING_OBLIGATION_REVIEW_THRESHOLD_USD = 50_000_000_000
 
 START_YEAR = 2024
 END_YEAR = 2030
@@ -247,6 +248,10 @@ def _capital_refinancing_signal(
     if not _has_source_provenance(source_uri, content_hash):
         return None
     context_kind = str(key_terms.get("notional_context_kind") or "").strip()
+    if _looks_like_timing_asset_or_capacity_not_debt(deal_row, source_row):
+        return None
+    if _requires_mega_timing_obligation_confirmation(deal_row, source_row, notional):
+        return None
     tranche_name = _field(source_row, "name") if use_tranche else ""
     description_parts = [
         f"{deal_type} {'tranche ' if use_tranche else ''}maturity",
@@ -310,6 +315,136 @@ def _tranche_rows_by_deal(rows: list[dict[str, str]]) -> dict[str, list[dict[str
         if deal_id:
             by_deal[deal_id].append(row)
     return by_deal
+
+
+def _looks_like_timing_asset_or_capacity_not_debt(
+    deal_row: dict[str, str],
+    source_row: dict[str, str],
+) -> bool:
+    text = _capital_source_text(deal_row, source_row)
+    return _contains_any(
+        text,
+        [
+            "servicing portfolio upb",
+            "total upb",
+            "by upb",
+            "unpaid principal balance",
+            "mortgage servicing rights",
+            "mortgage servicing assets",
+            "msr fair value",
+            "msr term notes",
+            "financing capacity",
+            "amounts available to draw",
+            "available to draw with collateral pledged",
+            "eligible for repurchase",
+            "loans and leases held for investment",
+            "loans held for investment",
+            "loans held for sale",
+            "total loans",
+            "average credit card and other loans",
+            "end-of-period credit card and other loans",
+            "loans at fair value",
+            "asset-backed financing of variable interest entities",
+            "assets under management",
+            "credit-oriented strategies",
+            "total assets",
+            "net assets plus borrowings for investment purposes",
+            "interest income interest-bearing deposits",
+            "debt securities - taxable",
+            "debt securities - nontaxable",
+        ],
+    )
+
+
+def _requires_mega_timing_obligation_confirmation(
+    deal_row: dict[str, str],
+    source_row: dict[str, str],
+    notional: float,
+) -> bool:
+    if notional <= MEGA_TIMING_OBLIGATION_REVIEW_THRESHOLD_USD:
+        return False
+    return not _has_strong_mega_timing_debt_evidence(deal_row, source_row)
+
+
+def _has_strong_mega_timing_debt_evidence(
+    deal_row: dict[str, str],
+    source_row: dict[str, str],
+) -> bool:
+    text = _capital_source_text(deal_row, source_row)
+    if _contains_any(
+        text,
+        [
+            "prospectus supplement",
+            "registration statement",
+            "from time to time",
+            "may offer",
+            "may issue",
+        ],
+    ):
+        return False
+    has_committed_action = _contains_any(
+        text,
+        [
+            "entered into",
+            "issued",
+            "completed its offering",
+            "completed the offering",
+            "borrowed",
+            "incurred",
+            "increased the commitments",
+            "aggregate commitments",
+        ],
+    )
+    has_debt_instrument = _contains_any(
+        text,
+        [
+            "credit agreement",
+            "term loan",
+            "revolving credit facility",
+            "credit facility",
+            "bridge loan",
+            "indenture",
+            "senior notes",
+            "secured notes",
+            "notes due",
+            "lease agreement",
+        ],
+    )
+    return has_committed_action and has_debt_instrument
+
+
+def _capital_source_text(deal_row: dict[str, str], source_row: dict[str, str]) -> str:
+    key_terms = _json_dict(deal_row.get("key_terms"))
+    key_term_values = [
+        str(value)
+        for key, value in key_terms.items()
+        if key
+        in {
+            "agreement_reasons",
+            "collateral_descriptions",
+            "notional_context_excerpt",
+            "notional_context_kind",
+            "notional_commitment_scope",
+            "notional_positive_terms",
+            "notional_rejected_terms",
+            "notional_scope_reasons",
+        }
+    ]
+    return " ".join(
+        [
+            _field(deal_row, "primary_party"),
+            _field(deal_row, "title"),
+            _field(deal_row, "page_or_section"),
+            _field(deal_row, "description"),
+            _field(deal_row, "source_quote"),
+            _field(source_row, "name"),
+            _field(source_row, "collateral_description"),
+            _field(source_row, "guarantors"),
+            _field(source_row, "page_or_section"),
+            _field(source_row, "source_quote"),
+            *key_term_values,
+        ]
+    ).lower()
 
 
 def _physical_cod_signals(roots: list[Path]) -> list[TimingSignal]:
@@ -971,6 +1106,10 @@ def _counterparty_from_row(row: dict[str, str]) -> str:
 
 def _reason(parts: list[str]) -> str:
     return "; ".join(part for part in parts if part)
+
+
+def _contains_any(text: str, needles: list[str]) -> bool:
+    return any(needle in text for needle in needles)
 
 
 def _field(row: dict[str, str], key: str) -> str:

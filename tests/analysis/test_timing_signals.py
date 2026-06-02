@@ -297,3 +297,173 @@ def test_timing_signals_use_tranche_maturities_when_available(tmp_path: Path) ->
         "hash-tranche-b",
     }
     assert all("tranche Term Loan" in signal.description for signal in batch.signals)
+
+
+def test_timing_signals_block_mega_asset_and_capacity_rows(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "edgar_acquisition" / "deals.csv",
+        [
+            {
+                "deal_id": "pennymac-upb",
+                "deal_type": "bond",
+                "title": "PennyMac investor presentation",
+                "primary_party": "PennyMac Financial Services, Inc.",
+                "notional_amount_usd": "471000000000",
+                "maturity_date": "2026-03-31",
+                "source_uri": "https://www.sec.gov/pennymac-upb.htm",
+                "source_confidence": "0.78",
+                "human_review_status": "pending",
+                "page_or_section": "8-K exhibit",
+                "content_hash": "hash-pennymac-upb",
+                "key_terms": json.dumps(
+                    {
+                        "agreement_reasons": ["bond or notes language"],
+                        "notional_context_excerpt": (
+                            "Servicing portfolio UPB of $471.0 billion; notes payable "
+                            "secured by mortgage servicing assets."
+                        ),
+                        "notional_context_kind": "candidate_notional",
+                    }
+                ),
+            },
+            {
+                "deal_id": "blackstone-capacity",
+                "deal_type": "debt_facility",
+                "title": "Blackstone credit strategies disclosure",
+                "primary_party": "Blackstone Secured Lending Fund",
+                "notional_amount_usd": "266400000000",
+                "maturity_date": "2024-09-30",
+                "source_uri": "https://www.sec.gov/blackstone-capacity.htm",
+                "source_confidence": "0.78",
+                "human_review_status": "pending",
+                "page_or_section": "424B2",
+                "content_hash": "hash-blackstone-capacity",
+                "key_terms": json.dumps(
+                    {
+                        "agreement_reasons": ["debt facility language"],
+                        "collateral_descriptions": [
+                            "net assets plus borrowings for investment purposes"
+                        ],
+                        "notional_context_excerpt": (
+                            "$266.4 billion in credit-oriented strategies across "
+                            "direct lending, leveraged loans, high yield bonds, "
+                            "distressed and mezzanine debt."
+                        ),
+                        "notional_context_kind": "candidate_notional",
+                    }
+                ),
+            },
+        ],
+    )
+
+    batch = build_timing_signal_batch([tmp_path])
+
+    assert batch.summary.signals == 0
+    assert batch.summary.capital_refinancing_usd_2024_2030 == 0
+
+
+def test_timing_signals_allow_strong_source_backed_mega_credit_agreement(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "edgar_acquisition" / "deals.csv",
+        [
+            {
+                "deal_id": "mega-committed-credit",
+                "deal_type": "debt_facility",
+                "title": "AI infrastructure committed credit agreement",
+                "primary_party": "Hyperscale AI Borrower",
+                "counterparty_roles": json.dumps({"lender": ["Bank Group"]}),
+                "notional_amount_usd": "60000000000",
+                "maturity_date": "2029-06-30",
+                "source_uri": "https://www.sec.gov/mega-committed-credit.htm",
+                "source_confidence": "0.86",
+                "human_review_status": "pending",
+                "page_or_section": "8-K credit agreement",
+                "content_hash": "hash-mega-credit",
+                "key_terms": json.dumps(
+                    {
+                        "agreement_reasons": [
+                            "debt facility language",
+                            "keyword:credit agreement",
+                        ],
+                        "notional_context_excerpt": (
+                            "The borrower entered into a senior secured credit "
+                            "agreement providing aggregate commitments of "
+                            "$60.0 billion under a revolving credit facility."
+                        ),
+                        "notional_context_kind": "transaction_facility",
+                    }
+                ),
+            }
+        ],
+    )
+
+    batch = build_timing_signal_batch([tmp_path])
+
+    assert batch.summary.signals == 1
+    assert batch.summary.capital_refinancing_usd_2024_2030 == 60_000_000_000
+    assert batch.signals[0].entity == "Hyperscale AI Borrower"
+
+
+def test_timing_signals_block_subthreshold_asset_rows_without_blocking_debt_boilerplate(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "edgar_acquisition" / "deals.csv",
+        [
+            {
+                "deal_id": "community-bank-total-loans",
+                "deal_type": "debt_facility",
+                "title": "Community bank earnings release",
+                "primary_party": "HBT Financial",
+                "notional_amount_usd": "4700000000",
+                "maturity_date": "2026-12-31",
+                "source_uri": "https://www.sec.gov/hbt-total-loans.htm",
+                "source_confidence": "0.78",
+                "human_review_status": "pending",
+                "page_or_section": "8-K exhibit",
+                "content_hash": "hash-hbt-total-loans",
+                "key_terms": json.dumps(
+                    {
+                        "notional_context_excerpt": (
+                            "Total loans were $4.7 billion at quarter end."
+                        ),
+                        "notional_context_kind": "candidate_notional",
+                    }
+                ),
+            },
+            {
+                "deal_id": "first-mortgage-bonds",
+                "deal_type": "bond",
+                "title": "Utility first mortgage bonds",
+                "primary_party": "Utility Issuer",
+                "notional_amount_usd": "12000000000",
+                "maturity_date": "2030-12-31",
+                "source_uri": "https://www.sec.gov/first-mortgage-bonds.htm",
+                "source_confidence": "0.82",
+                "human_review_status": "pending",
+                "page_or_section": "8-K exhibit",
+                "content_hash": "hash-first-mortgage-bonds",
+                "key_terms": json.dumps(
+                    {
+                        "agreement_reasons": ["bond or notes language"],
+                        "notional_context_excerpt": (
+                            "The issuer completed the offering of $12.0 billion "
+                            "principal amount of first mortgage bonds. "
+                            "Forward-looking statements involve risks."
+                        ),
+                        "notional_context_kind": "transaction_principal",
+                    }
+                ),
+            },
+        ],
+    )
+
+    batch = build_timing_signal_batch([tmp_path])
+
+    assert batch.summary.signals == 1
+    assert batch.summary.capital_refinancing_usd_2024_2030 == 12_000_000_000
+    assert batch.signals[0].deal_id == "first-mortgage-bonds"
