@@ -32,8 +32,8 @@ The important change is that ecosystem-scale conclusions are now blocked from be
 
 Latest verified evidence-gated report at this checkpoint:
 
-- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260602-1827.md`
-- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260602-1827.json`
+- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260602-1905.md`
+- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260602-1905.json`
 - `high_confidence_final`: `false`
 - Evidence audit coverage now includes 474 claim audits: analyzer-level capital,
   compute, and debt-service audits, explicit row/artifact-backed audits for
@@ -53,7 +53,8 @@ Latest verified evidence-gated report at this checkpoint:
 - Source-backed normalized entities: 789,787.
 - Projects: 17,227.
 - Source-backed deals: 62,952.
-- Source-backed compute rows: 149.
+- Compute economics rows: 272 total, including 180 source-backed rows after
+  provenance dedupe.
 - Source-backed timing signals: 3,263.
 - Pending source-backed adjudication items: 6,773.
 - Automated materiality adjudication decisions: 6,663 decisions, with 4,252

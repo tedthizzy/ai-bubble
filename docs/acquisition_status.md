@@ -1,13 +1,13 @@
 # Acquisition Status
 
-Last updated: 2026-06-02 18:27 UTC.
+Last updated: 2026-06-02 19:05 UTC.
 
 This file is the operational snapshot for the current evidence corpus. Treat it
 as a run log, not as a final investment conclusion.
 
 ## Current Corpus
 
-- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-1827.md`
+- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-1905.md`
 - Evidence gate: not high-confidence final.
 - Evidence audit coverage: 474 claim audits now include analyzer-level capital,
   compute, and debt-service audits, explicit row/artifact-backed audits for
@@ -36,7 +36,8 @@ as a run log, not as a final investment conclusion.
 - Projects: 17,227.
 - Source-backed deals: 62,952.
 - Source-backed contract tranches: 10,051.
-- Source-backed compute rows: 149.
+- Compute economics rows: 272 total, including 180 source-backed rows after
+  provenance dedupe.
 - Source-backed timing signals: 3,263.
 - Pending source-backed adjudication items: 6,773.
 - Ownership graph: 425,765 LEI nodes, 425,679 named nodes, and 643,828 source-backed relationships.
