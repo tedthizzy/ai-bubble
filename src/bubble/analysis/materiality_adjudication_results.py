@@ -2055,6 +2055,7 @@ def _final_metric_representative_decisions(
         key_fn=_accession_amount_metric_dedupe_key,
     )
     representatives = _collapse_content_hash_quote_collision_representatives(representatives)
+    representatives = _collapse_cross_filing_exact_quote_representatives(representatives)
     return _collapse_cross_filing_instrument_representatives(representatives)
 
 
@@ -2185,6 +2186,45 @@ def _content_hash_metric_quote_collision_key(
     if not entity_key or not hashes or not metric_quote_key:
         return None
     return "content-hash-quote-collision", (entity_key, *hashes), metric_quote_key
+
+
+def _collapse_cross_filing_exact_quote_representatives(
+    representatives: list[MaterialityAdjudicationDecision],
+) -> list[MaterialityAdjudicationDecision]:
+    grouped: dict[
+        tuple[str, tuple[str, ...], str],
+        list[MaterialityAdjudicationDecision],
+    ] = {}
+    unkeyed: list[MaterialityAdjudicationDecision] = []
+    for decision in representatives:
+        dedupe_key = _cross_filing_exact_quote_metric_dedupe_key(decision)
+        if not dedupe_key:
+            unkeyed.append(decision)
+            continue
+        grouped.setdefault(dedupe_key, []).append(decision)
+
+    collapsed: list[MaterialityAdjudicationDecision] = []
+    for decisions in grouped.values():
+        accessions = {_sec_accession(decision.source_uri) for decision in decisions}
+        if len(decisions) > 1 and len(accessions) > 1:
+            collapsed.append(max(decisions, key=_metric_representative_sort_key))
+        else:
+            collapsed.extend(decisions)
+    return [*unkeyed, *collapsed]
+
+
+def _cross_filing_exact_quote_metric_dedupe_key(
+    decision: MaterialityAdjudicationDecision,
+) -> tuple[str, tuple[str, ...], str] | None:
+    if decision.metric_aggregation_policy != "max_amount_per_source_instrument":
+        return None
+    entity_key = re.sub(r"[^a-z0-9]+", "-", decision.entity.lower()).strip("-")
+    amount_key = _metric_amount_key(decision.supported_amount_usd)
+    quote_key = _normalized_quote_fingerprint(decision.evidence_quote)
+    accession = _sec_accession(decision.source_uri)
+    if not entity_key or not amount_key or amount_key == "0" or not quote_key or not accession:
+        return None
+    return "cross-filing-exact-quote", (entity_key, amount_key), quote_key
 
 
 _INSTRUMENT_DESCRIPTOR_RE = re.compile(r"(\d{1,2}\.\d{2,3})\s?%|due (\d{4})", re.I)

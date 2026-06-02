@@ -3615,6 +3615,67 @@ def test_materiality_adjudication_keeps_same_amount_across_accessions(
     assert batch.summary.final_metric_group_count == 2
 
 
+def test_materiality_adjudication_dedupes_cross_filing_exact_quote_amount_repeat(
+    tmp_path: Path,
+) -> None:
+    quote = (
+        "On May 1, 2025, in connection with the Issuer Solutions transaction, "
+        "Example Payments Corp. entered into a Term Loan Credit Agreement with "
+        "Goldman Sachs Bank USA, as administrative agent, providing an $8.0 "
+        "billion senior unsecured term loan facility."
+    )
+    rows = []
+    for rank, accession in [(1, "000119312526096739"), (2, "000119312526073639")]:
+        uri = f"https://www.sec.gov/Archives/edgar/data/1136893/{accession}/example.htm"
+        rows.append(
+            {
+                "packet_id": f"packet-exact-cross-filing-{rank}",
+                "rank": rank,
+                "review_id": f"review-exact-cross-filing-{rank}",
+                "review_group_id": f"group-exact-cross-filing-{rank}",
+                "priority": "high",
+                "category": "capital",
+                "subcategory": "high_notional_debt_like_candidate",
+                "ecosystem_relevance": "not_established",
+                "entity": "Example Payments Corp.",
+                "counterparty": "Goldman Sachs Bank USA",
+                "exposure_basis_usd": "8000000000",
+                "reason": (
+                    "debt-like deal type: debt_facility; notional $8,000,000,000; "
+                    "notional context: transaction_principal; commitment scope: "
+                    "specific_transaction_commitment; guarantee scope present"
+                ),
+                "recommended_action": "Confirm cross-filing exact quote repeat",
+                "source_uri": uri,
+                "source_uris": json.dumps([uri]),
+                "content_hash": str(rank) * 64,
+                "content_hashes": json.dumps([str(rank) * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": uri,
+                            "content_hash": str(rank) * 64,
+                            "document_id": f"example-{rank}.htm",
+                            "snippet": quote,
+                        }
+                    ]
+                ),
+            }
+        )
+    _write_csv(tmp_path / "reports" / "materiality_adjudication_packets.csv", rows)
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    assert batch.summary.approved_for_metric_use == 2
+    assert batch.summary.approved_row_supported_amount_usd == 16_000_000_000
+    assert batch.summary.final_metric_supported_amount_usd == 8_000_000_000
+    assert batch.summary.final_metric_group_count == 1
+    assert len({decision.metric_group_id for decision in batch.decisions}) == 2
+
+
 def test_materiality_adjudication_dedupes_same_obligation_across_filings(
     tmp_path: Path,
 ) -> None:

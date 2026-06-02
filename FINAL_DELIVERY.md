@@ -32,8 +32,8 @@ The important change is that ecosystem-scale conclusions are now blocked from be
 
 Latest verified evidence-gated report at this checkpoint:
 
-- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260602-2033.md`
-- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260602-2033.json`
+- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260602-2043.md`
+- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260602-2043.json`
 - `high_confidence_final`: `false`
 - Evidence audit coverage now includes 473 claim audits: analyzer-level capital,
   compute, and debt-service audits, explicit row/artifact-backed audits for
@@ -72,10 +72,10 @@ Latest verified evidence-gated report at this checkpoint:
 - Pending source-backed adjudication items: 6,773.
 - Automated materiality adjudication decisions: 6,663 decisions, with 4,252
   supported blockers, 2,411 still requiring deeper extraction, 2,707 approved
-  metric rows, and $3.682T deduped final metric support across 1,341
+  metric rows, and $3.674T deduped final metric support across 1,340
   source-instrument/same-accession/strict-cross-filing/economic-obligation/
-  same-content-quote-collision metric groups. Semantic hard flags are now zero
-  in approved metric rows;
+  same-content-quote-collision/exact-cross-filing-quote metric groups. Semantic
+  hard flags are now zero in approved metric rows;
   malformed comma-grouped SEC source amount tokens and residual
   availability/capacity/rollup amount mis-bindings, plus selected source quotes
   that only support mixed shelves, equity, no-leverage funds, acquisition
@@ -153,11 +153,11 @@ Latest capital and timing outputs:
   enforcement-risk flags, 5 queue-bypass/no-queue flags, and 1 ratepayer
   stranded-asset transfer flag. These are source-term sums, not project-deduped
   capacity forecasts.
-- Broader materiality-adjudicated supported exposure: $3.682T across 1,341
+- Broader materiality-adjudicated supported exposure: $3.674T across 1,340
   metric groups; this is a different scope from the curated capital-structure
   deal-graph debt-like metric above, not an additive increment.
 - Established direct/watchlist AI-data-center-linked support inside that broader
-  materiality metric is $0.406T on the same 1,341-group final metric
+  materiality metric is $0.406T on the same 1,340-group final metric
   denominator; 89.0% remains source-backed but not yet thesis-linked.
 - Clear AI/HPC/bitcoin data-center operators are normalized to direct linkage
   when source tags are blank, watchlist, or not established; Galaxy Digital is

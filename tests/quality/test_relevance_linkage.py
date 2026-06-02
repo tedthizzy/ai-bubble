@@ -296,6 +296,104 @@ def test_relevance_summary_keeps_same_content_hash_quote_with_distinct_evidence(
     assert summary["total_usd"] == 11_000_000_000
 
 
+def test_relevance_summary_collapses_cross_filing_exact_quote_amount_repeats() -> None:
+    quote = (
+        "The borrower entered into a term loan credit agreement with Goldman Sachs Bank USA, "
+        "as administrative agent, providing an $8.0 billion senior unsecured term loan facility "
+        "in connection with the issuer solutions transaction."
+    )
+    rows = [
+        _row(
+            "exact-cross-a",
+            entity="Example Payments Corp.",
+            linkage="not_established",
+            usd=8e9,
+            group="exact-cross-a",
+            content_hash="p" * 64,
+            source_uri="https://www.sec.gov/Archives/edgar/data/1/000119312526096739/a.htm",
+            quote=quote,
+        ),
+        _row(
+            "exact-cross-b",
+            entity="Example Payments Corp.",
+            linkage="not_established",
+            usd=8e9,
+            group="exact-cross-b",
+            content_hash="q" * 64,
+            source_uri="https://www.sec.gov/Archives/edgar/data/1/000119312526073639/b.htm",
+            quote=quote,
+        ),
+    ]
+
+    representatives = final_metric_representative_rows(rows)
+    summary = summarize_relevance_linkage(rows)
+
+    assert {row["packet_id"] for row in representatives} == {"exact-cross-a"}
+    assert summary["final_metric_group_count"] == 1
+    assert summary["total_usd"] == 8_000_000_000
+
+
+def test_relevance_summary_keeps_exact_quote_repeats_with_different_amount_or_entity() -> None:
+    quote = (
+        "The borrower entered into a credit agreement with lenders and administrative agent "
+        "for acquisition financing under the same generic transaction description."
+    )
+    rows = [
+        _row(
+            "different-amount-a",
+            entity="Example Payments Corp.",
+            linkage="not_established",
+            usd=8e9,
+            group="different-amount-a",
+            content_hash="r" * 64,
+            source_uri="https://www.sec.gov/Archives/edgar/data/1/000119312526096739/a.htm",
+            quote=quote,
+        ),
+        _row(
+            "different-amount-b",
+            entity="Example Payments Corp.",
+            linkage="not_established",
+            usd=7e9,
+            group="different-amount-b",
+            content_hash="s" * 64,
+            source_uri="https://www.sec.gov/Archives/edgar/data/1/000119312526073639/b.htm",
+            quote=quote,
+        ),
+        _row(
+            "different-entity-a",
+            entity="First Boilerplate Corp.",
+            linkage="not_established",
+            usd=5e9,
+            group="different-entity-a",
+            content_hash="t" * 64,
+            source_uri="https://www.sec.gov/Archives/edgar/data/1/000119312526000001/c.htm",
+            quote=quote,
+        ),
+        _row(
+            "different-entity-b",
+            entity="Second Boilerplate Corp.",
+            linkage="not_established",
+            usd=5e9,
+            group="different-entity-b",
+            content_hash="u" * 64,
+            source_uri="https://www.sec.gov/Archives/edgar/data/2/000119312526000002/d.htm",
+            quote=quote,
+        ),
+    ]
+
+    representatives = final_metric_representative_rows(rows)
+    summary = summarize_relevance_linkage(rows)
+
+    assert {row["packet_id"] for row in representatives} == {
+        "different-amount-a",
+        "different-amount-b",
+        "different-entity-a",
+        "different-entity-b",
+    }
+    assert summary["final_metric_group_count"] == 4
+    assert summary["total_usd"] == 25_000_000_000
+
+
 def test_relevance_summary_collapses_strict_cross_filing_instrument_fingerprints() -> None:
     quote_a = "The notes bear interest at 9.25% and are due 2030 under the indenture."
     quote_b = "Senior secured notes will bear interest at 9.25% and mature due 2030."
