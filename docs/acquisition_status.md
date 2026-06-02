@@ -88,6 +88,11 @@ as a run log, not as a final investment conclusion.
   caveat: the maturity wall is a floor because 165 of 439 distinct debt-service
   obligations and $541.811B of distinct debt-like notional still lack
   maturity-date evidence; distinct measured-rate notional coverage is 44.2%.
+- Five Claude branch-safe research packs were imported for the next graph and
+  downside-bearer passes: graph-layer parity, maturity/rate extraction targets,
+  downside-bearer resolver taxonomy, utility/ratepayer downside, and
+  entity-family graph-display guardrails. They are fixture/design inputs, not
+  production metric changes.
 - The broader materiality metric is now split by adjudicated thesis linkage:
   $0.440T has established direct/watchlist AI-data-center linkage, while
   88.9% is source-backed but not yet established as AI/data-center-linked.
