@@ -515,8 +515,14 @@ def _score_project_match(
         strong_reason="strong_facility_project_name_overlap",
         partial_reason="partial_facility_project_name_overlap",
     )
+    # Owner overlap must use owner tokens that are *distinct* from the project
+    # name; otherwise a facility name that matches the project name is credited a
+    # second time (party_tokens falls back to the name when owner/operator are
+    # absent), double-counting the same signal. Mirrors the queue matcher's
+    # name/party separation.
+    party_only_tokens = project.party_tokens - project.name_tokens
     party_score, party_reason = _overlap_score(
-        _overlap_ratio(row_name_tokens, project.party_tokens),
+        _overlap_ratio(row_name_tokens, party_only_tokens),
         strong_score=0.28,
         partial_score=0.16,
         strong_reason="strong_facility_owner_overlap",

@@ -3,10 +3,75 @@ from __future__ import annotations
 import csv
 from typing import TYPE_CHECKING
 
-from bubble.ingestion.physical.record_matching import match_physical_records_to_projects
+from bubble.ingestion.physical.record_matching import (
+    _ProjectCandidate,
+    _score_project_match,
+    _tokens,
+    match_physical_records_to_projects,
+)
 
 if TYPE_CHECKING:
     from pathlib import Path
+
+
+def test_record_match_does_not_double_count_name_as_owner_when_owner_absent() -> None:
+    """A facility name overlapping the project name must not ALSO be credited as
+    separate 'facility_owner_overlap'.
+
+    When a project has no owner/operator, ``party_tokens`` falls back to the
+    project name, so probing the facility-name tokens against ``party_tokens``
+    re-scores the exact same name overlap a second time (up to +0.28) and adds a
+    misleading owner-overlap reason. Owner overlap must require owner tokens that
+    are *distinct* from the project name.
+    """
+
+    project = _ProjectCandidate.from_row(
+        {
+            "project_id": "tracker:google-cb",
+            "name": "Google Data Center",
+            # owner/operator intentionally omitted -> party_text falls back to name
+            "city": "Council Bluffs",
+            "county": "Pottawattamie",
+            "state": "IA",
+        }
+    )
+
+    confidence, reasons = _score_project_match(
+        row_name_tokens=_tokens("Google Data Center"),
+        row_city="",
+        row_county="",
+        project=project,
+    )
+
+    # No independent owner signal exists, so no owner-overlap reason may appear.
+    assert not any("owner_overlap" in reason for reason in reasons)
+    # Name overlap (0.48) + state (0.06); must NOT include the phantom +0.28.
+    assert confidence < 0.6
+
+
+def test_record_match_still_credits_distinct_owner_overlap() -> None:
+    """A facility name that overlaps a project's *distinct* owner identity (a
+    token not present in the project name) must still be credited as owner
+    overlap — the fix only removes the double-count, not legitimate signal."""
+
+    project = _ProjectCandidate.from_row(
+        {
+            "project_id": "tracker:qts-den1",
+            "name": "DEN1",
+            "owner": "QTS Realty",
+            "operator": "QTS Realty",
+            "state": "CO",
+        }
+    )
+
+    _, reasons = _score_project_match(
+        row_name_tokens=_tokens("QTS DEN1"),
+        row_city="",
+        row_county="",
+        project=project,
+    )
+
+    assert any("owner_overlap" in reason for reason in reasons)
 
 
 def _write_csv(path: Path, rows: list[dict[str, object]]) -> None:
@@ -23,7 +88,7 @@ def _read_csv(path: Path) -> list[dict[str, str]]:
         return list(csv.DictReader(f))
 
 
-def test_physical_record_matching_writes_permit_and_equipment_loader_rows(tmp_path: Path):
+def test_physical_record_matching_writes_permit_and_equipment_loader_rows(tmp_path: Path) -> None:
     projects = tmp_path / "projects.csv"
     permits = tmp_path / "permit_records.csv"
     equipment = tmp_path / "equipment_records.csv"
@@ -147,7 +212,7 @@ def test_physical_record_matching_writes_permit_and_equipment_loader_rows(tmp_pa
     assert _read_csv(equipment_matches)[0]["match_status"] == "strong_match"
 
 
-def test_physical_record_matching_normalizes_full_state_names(tmp_path: Path):
+def test_physical_record_matching_normalizes_full_state_names(tmp_path: Path) -> None:
     projects = tmp_path / "projects.csv"
     permits = tmp_path / "permit_records.csv"
     equipment = tmp_path / "equipment_records.csv"
