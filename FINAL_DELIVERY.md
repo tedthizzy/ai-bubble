@@ -160,6 +160,12 @@ Latest capital and timing outputs:
   deal-graph debt-like metric above, not an additive increment.
 - Established direct/watchlist AI-data-center-linked support inside that broader
   materiality metric is $0.406T on the same 1,340-group final metric
+  representative base. A read-only mixed-evidence collision checker now reviews
+  same-document/same-metric-quote groups with different evidence quotes; current
+  output finds 26 review groups, 25 distinct-facility candidates, and 1 non-AI
+  aggregate/component review candidate with $8.600B potential excess if
+  confirmed. Both AI-linked candidates are distinct-facility cases, so the
+  checker does not currently reduce the $0.406T established AI-linked support.
   denominator; 89.0% remains source-backed but not yet thesis-linked.
 - Clear AI/HPC/bitcoin data-center operators are normalized to direct linkage
   when source tags are blank, watchlist, or not established; Galaxy Digital is
