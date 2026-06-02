@@ -27,6 +27,7 @@ ADJUDICATOR_ID = "codex-materiality-evidence-adjudicator-v1"
 FINAL_METRIC_DECISIONS = {"approved_for_metric_use"}
 BLOCKER_DECISIONS = {"supported_as_material_blocker", "needs_deeper_extraction"}
 REJECT_DECISIONS = {"reject_missing_provenance", "rejected_or_deprioritized"}
+MEGA_OBLIGATION_REVIEW_THRESHOLD_USD = 50_000_000_000
 
 
 @dataclass(frozen=True)
@@ -249,6 +250,10 @@ def _remaining_gaps(packet: dict[str, str], quote: str) -> list[str]:
         gaps.append("confirm final prospectus or underlying agreement terms")
     if _aggregate_lease_context_conflicts_with_quote(packet, quote):
         gaps.append("confirm lease obligation source rather than debt securities prospectus")
+    if _looks_like_asset_or_capacity_not_debt(packet, quote):
+        gaps.append("split asset, UPB, or financing-capacity disclosure from committed debt")
+    if _requires_mega_obligation_confirmation(packet, quote):
+        gaps.append("confirm mega-obligation amount is committed debt, not assets or capacity")
     if _requires_aggregate_split(packet, quote):
         gaps.append("split aggregate disclosure from specific committed obligation")
     if "preliminary prospectus" in text or "not complete and may be changed" in text:
@@ -1784,6 +1789,114 @@ def _requires_aggregate_split(packet: dict[str, str], quote: str) -> bool:
         or _contains_any(text, explicit_non_specific_markers)
         or "aggregate" in text
     )
+
+
+def _looks_like_asset_or_capacity_not_debt(packet: dict[str, str], quote: str) -> bool:
+    if _field(packet, "category") not in {"capital", "contract"}:
+        return False
+    if _is_source_backed_aggregate_obligation_snapshot(packet, quote):
+        return False
+    text = _combined_text(packet, quote)
+    asset_or_capacity_markers = [
+        "servicing portfolio upb",
+        "total upb",
+        "by upb",
+        "unpaid principal balance",
+        "mortgage servicing rights",
+        "msr fair value",
+        "msr term notes",
+        "financing capacity",
+        "eligible for repurchase",
+        "loans and leases held for investment",
+        "loans held for investment",
+        "average credit card and other loans",
+        "end-of-period credit card and other loans",
+        "loans at fair value",
+        "asset-backed financing of variable interest entities",
+        "tangible net worth",
+        "not deposits or other obligations of a bank",
+    ]
+    boilerplate_markers = [
+        "webcast can be accessed",
+        "forward-looking statements involve",
+        "underwriters or agents and their associates may be customers",
+        "validity of the securities will be passed upon",
+        "clearstream participants are recognized financial institutions",
+    ]
+    return _contains_any(text, asset_or_capacity_markers) or _contains_any(
+        text, boilerplate_markers
+    )
+
+
+def _requires_mega_obligation_confirmation(packet: dict[str, str], quote: str) -> bool:
+    if _field(packet, "category") not in {"capital", "contract"}:
+        return False
+    if _float(packet.get("exposure_basis_usd")) <= MEGA_OBLIGATION_REVIEW_THRESHOLD_USD:
+        return False
+    if _is_source_backed_aggregate_obligation_snapshot(packet, quote):
+        return False
+    if _looks_like_asset_or_capacity_not_debt(packet, quote):
+        return True
+    return not _has_strong_mega_committed_debt_evidence(packet, quote)
+
+
+def _has_strong_mega_committed_debt_evidence(packet: dict[str, str], quote: str) -> bool:
+    text = _combined_text(packet, quote)
+    reason = _field(packet, "reason").lower()
+    if _contains_any(
+        text,
+        [
+            "prospectus supplement",
+            "registration statement",
+            "from time to time",
+            "may offer",
+            "may issue",
+        ],
+    ):
+        return False
+    has_committed_action = _contains_any(
+        text,
+        [
+            "entered into",
+            "issued",
+            "completed its offering",
+            "completed the offering",
+            "borrowed",
+            "incurred",
+        ],
+    ) or _contains_any(reason, ["commitment scope: specific_transaction_commitment"])
+    has_debt_instrument = _contains_any(
+        text,
+        [
+            "credit agreement",
+            "term loan",
+            "revolving credit facility",
+            "bridge loan",
+            "indenture",
+            "senior notes",
+            "secured notes",
+            "unsecured notes",
+            "aggregate principal amount",
+        ],
+    )
+    has_term_detail = _contains_any(
+        text,
+        [
+            "matures",
+            "maturity",
+            "due 20",
+            "interest at",
+            "interest rate",
+            "bear interest",
+            "sofr",
+            "administrative agent",
+            "trustee",
+            "guarantor",
+            "guaranteed by",
+            "secured by",
+        ],
+    )
+    return has_committed_action and has_debt_instrument and has_term_detail
 
 
 def _is_committed_contract_value_disclosure(packet: dict[str, str], text: str) -> bool:

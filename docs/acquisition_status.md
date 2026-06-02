@@ -1,13 +1,13 @@
 # Acquisition Status
 
-Last updated: 2026-06-02 06:36 UTC.
+Last updated: 2026-06-02 06:43 UTC.
 
 This file is the operational snapshot for the current evidence corpus. Treat it
 as a run log, not as a final investment conclusion.
 
 ## Current Corpus
 
-- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0636.md`
+- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0643.md`
 - Evidence gate: not high-confidence final.
 - Evidence audit coverage: report-level audits now include analyzer-level
   capital, compute, and debt-service audits plus explicit row/artifact-backed
@@ -42,20 +42,22 @@ as a run log, not as a final investment conclusion.
   the packet set.
 - Automated materiality adjudication decisions: 6,663 decisions, 6,463 with
   resolved text quotes plus 200 row-context-backed decisions for non-text
-  sources, 4,633 supported as material blockers, 2,030 requiring deeper
-  extraction, 0 requiring source retrieval, and 3,055 source-backed rows
-  approved for metric use. Those approved rows total $12.877T as row-level
+  sources, 4,604 supported as material blockers, 2,059 requiring deeper
+  extraction, 0 requiring source retrieval, and 3,026 source-backed rows
+  approved for metric use. Those approved rows total $8.891T as row-level
   supported amounts, but source-instrument and economic-obligation metric
   dedupe now collapses same-document/same-amount and exact repeated filing
-  disclosures to $8.590T across 1,845 metric groups; they are not treated as
+  disclosures to $5.307T across 1,826 metric groups; they are not treated as
   individual contracts unless contract terms are separately extracted.
 - Decision coverage over packaged blocker groups: 100.0%; unresolved decision
-  share remains 30.47% (still extraction-bound, not source-retrieval-bound).
+  share remains 30.90% (still extraction-bound, not source-retrieval-bound).
 - Top remaining decision gaps are now named counterparty role extraction
   (1,212), collateral scope (645), recourse/guarantee scope (517), split
   aggregate disclosure from committed obligations (165),
-  queue/permit/interconnection linkage (43), missing underlying term-level
-  clauses (28), and shelf-capacity-vs-committed-financing distinction (25).
+  queue/permit/interconnection linkage (43), asset/UPB/financing-capacity
+  splitting (37), mega-obligation confirmation (33), missing underlying
+  term-level clauses (28), and shelf-capacity-vs-committed-financing
+  distinction (25).
 
 ## Phase Transition Readiness
 
@@ -512,12 +514,12 @@ Adjudication queue:
 - Pending compute claim amount: $398.24B.
 - Materiality packets: 6,663 source-backed packets, 706 AI-infra relevant, and
   6,663 with local evidence snippets.
-- Materiality decisions: 4,633 source-supported blockers, 2,030 requiring
-  deeper extraction, 0 requiring source retrieval, and 3,055 rows approved
+- Materiality decisions: 4,604 source-supported blockers, 2,059 requiring
+  deeper extraction, 0 requiring source retrieval, and 3,026 rows approved
   for metric use (6,463 quote-backed decisions plus 200 row-context-backed
   decisions on non-text sources).
-- Automated row-level supported amount approved for metric use: $12.877T.
-- Deduped automated final metric support: $8.590T across 1,845
+- Automated row-level supported amount approved for metric use: $8.891T.
+- Deduped automated final metric support: $5.307T across 1,826
   source-instrument, latest-snapshot, and exact economic-obligation metric
   groups.
 - Top unresolved gaps are named counterparty roles, collateral scope,

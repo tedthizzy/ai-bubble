@@ -1699,6 +1699,194 @@ def test_materiality_adjudication_keeps_portfolio_upb_plus_issued_notes_blocked(
     assert "split aggregate disclosure" in decision.remaining_gap
 
 
+def test_materiality_adjudication_blocks_financial_assets_as_mega_debt(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-loans-held-investment",
+                "rank": 1,
+                "review_id": "review-loans-held-investment",
+                "review_group_id": "group-loans-held-investment",
+                "priority": "critical",
+                "category": "capital",
+                "subcategory": "high_notional_debt_like_candidate",
+                "ecosystem_relevance": "not_tagged",
+                "entity": "Example Bank Corp.",
+                "counterparty": "trustee",
+                "exposure_basis_usd": "329200000000",
+                "reason": (
+                    "pending adjudication status: pending; debt-like deal type: bond; "
+                    "notional $329,200,000,000; notional context: transaction_principal"
+                ),
+                "recommended_action": "Confirm whether amount is debt or assets",
+                "source_uri": "https://www.sec.gov/example-bank-assets.htm",
+                "source_uris": json.dumps(["https://www.sec.gov/example-bank-assets.htm"]),
+                "content_hash": "2" * 64,
+                "content_hashes": json.dumps(["2" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/example-bank-assets.htm",
+                            "content_hash": "2" * 64,
+                            "document_id": "example-bank-assets.htm",
+                            "snippet": (
+                                "Consolidated loans and leases held for investment "
+                                "were $329.2 billion. The notes are unsecured "
+                                "obligations under the indenture with the trustee."
+                            ),
+                        }
+                    ]
+                ),
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    decision = batch.decisions[0]
+    assert decision.metric_use_status == "blocked_pending_extraction"
+    assert decision.supported_amount_usd == 0
+    assert (
+        "split asset, UPB, or financing-capacity disclosure from committed debt"
+        in decision.remaining_gap
+    )
+
+
+def test_materiality_adjudication_blocks_mega_boilerplate_as_debt(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-mega-boilerplate",
+                "rank": 1,
+                "review_id": "review-mega-boilerplate",
+                "review_group_id": "group-mega-boilerplate",
+                "priority": "critical",
+                "category": "capital",
+                "subcategory": "high_notional_debt_like_candidate",
+                "ecosystem_relevance": "not_tagged",
+                "entity": "Example Financial Corp.",
+                "counterparty": "trustee",
+                "exposure_basis_usd": "156000000000",
+                "reason": (
+                    "pending adjudication status: pending; debt-like deal type: bond; "
+                    "notional $156,000,000,000; notional context: transaction_principal"
+                ),
+                "recommended_action": "Confirm debt amount",
+                "source_uri": "https://www.sec.gov/example-mega-boilerplate.htm",
+                "source_uris": json.dumps(
+                    ["https://www.sec.gov/example-mega-boilerplate.htm"]
+                ),
+                "content_hash": "3" * 64,
+                "content_hashes": json.dumps(["3" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": (
+                                "https://www.sec.gov/example-mega-boilerplate.htm"
+                            ),
+                            "content_hash": "3" * 64,
+                            "document_id": "example-mega-boilerplate.htm",
+                            "snippet": (
+                                "The notes are not deposits or other obligations of a "
+                                "bank and are not insured by the FDIC. The debt "
+                                "securities may be senior or subordinated and may "
+                                "be secured or unsecured."
+                            ),
+                        }
+                    ]
+                ),
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    decision = batch.decisions[0]
+    assert decision.metric_use_status == "blocked_pending_extraction"
+    assert (
+        "split asset, UPB, or financing-capacity disclosure from committed debt"
+        in decision.remaining_gap
+    )
+    assert (
+        "confirm mega-obligation amount is committed debt, not assets or capacity"
+        in decision.remaining_gap
+    )
+
+
+def test_materiality_adjudication_allows_source_backed_mega_credit_agreement(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-mega-credit-agreement",
+                "rank": 1,
+                "review_id": "review-mega-credit-agreement",
+                "review_group_id": "group-mega-credit-agreement",
+                "priority": "critical",
+                "category": "capital",
+                "subcategory": "high_notional_debt_like_candidate",
+                "ecosystem_relevance": "watchlist_entity",
+                "entity": "Example Mega Borrower Inc.",
+                "counterparty": "Example Bank, N.A.",
+                "exposure_basis_usd": "60000000000",
+                "reason": (
+                    "pending adjudication status: pending; debt-like deal type: "
+                    "debt_facility; notional $60,000,000,000; notional context: "
+                    "transaction_principal; commitment scope: "
+                    "specific_transaction_commitment"
+                ),
+                "recommended_action": "Confirm committed mega facility",
+                "source_uri": "https://www.sec.gov/example-mega-credit.htm",
+                "source_uris": json.dumps(["https://www.sec.gov/example-mega-credit.htm"]),
+                "content_hash": "4" * 64,
+                "content_hashes": json.dumps(["4" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/example-mega-credit.htm",
+                            "content_hash": "4" * 64,
+                            "document_id": "example-mega-credit.htm",
+                            "snippet": (
+                                "Example Mega Borrower Inc. entered into a credit "
+                                "agreement with Example Bank, N.A., as administrative "
+                                "agent, providing a $60.0 billion senior secured term "
+                                "loan facility. The facility matures in 2030, bears "
+                                "interest at SOFR plus a margin, is secured by "
+                                "substantially all assets, and is guaranteed by "
+                                "subsidiary guarantors."
+                            ),
+                        }
+                    ]
+                ),
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    decision = batch.decisions[0]
+    assert decision.metric_use_status == "approved_for_metric_use"
+    assert decision.supported_amount_usd == 60_000_000_000
+    assert decision.remaining_gap == ""
+
+
 def test_materiality_adjudication_keeps_shelf_capacity_blocked(
     tmp_path: Path,
 ) -> None:
