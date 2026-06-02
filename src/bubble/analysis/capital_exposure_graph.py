@@ -97,6 +97,38 @@ DIRECT_AI_INFRA_PATTERNS = {
     ),
 }
 
+LEGAL_FAMILY_PATTERNS = (
+    ("microsoft", "Microsoft legal family", re.compile(r"\bmicrosoft\b", re.I)),
+    (
+        "amazon_or_aws",
+        "Amazon/AWS legal family",
+        re.compile(r"\bamazon\b|\bamazoncom\b|\baws\b", re.I),
+    ),
+    (
+        "alphabet_or_google",
+        "Alphabet/Google legal family",
+        re.compile(r"\balphabet\b|\bgoogle\b", re.I),
+    ),
+    (
+        "meta",
+        "Meta/Facebook legal family",
+        re.compile(r"\bmeta platforms?\b|\bfacebook\b", re.I),
+    ),
+    ("oracle", "Oracle legal family", re.compile(r"\boracle\b", re.I)),
+    ("openai", "OpenAI legal family", re.compile(r"\bopenai\b", re.I)),
+    (
+        "xai",
+        "X.AI legal family",
+        re.compile(r"\bx\.ai\b|\bxai\s+(corp|corporation|group|holdings?|inc|llc)\b", re.I),
+    ),
+    ("nvidia", "NVIDIA legal family", re.compile(r"\bnvidia\b", re.I)),
+    (
+        "amd",
+        "AMD legal family",
+        re.compile(r"\badvanced micro devices\b|\bamd\b", re.I),
+    ),
+)
+
 WATCHLIST_ENTITY_PATTERNS = {
     "amazon_or_aws": re.compile(r"\b(amazon|aws)\b", re.I),
     "alphabet_or_google": re.compile(r"\b(alphabet|google)\b", re.I),
@@ -308,6 +340,7 @@ class CapitalExposureGraphSummary:
     top_contagion_hubs: list[dict[str, Any]]
     top_ai_infra_contagion_hubs: list[dict[str, Any]]
     top_ai_infra_ppa_offtakers: list[dict[str, Any]]
+    top_ai_infra_ppa_offtaker_families: list[dict[str, Any]]
     top_tranche_contract_nodes: list[dict[str, Any]]
     top_spv_contract_nodes: list[dict[str, Any]]
     top_collateral_contract_edges: list[dict[str, Any]]
@@ -575,6 +608,10 @@ def _build_capital_exposure_summary(
         ai_relevant_edges,
         nodes,
     )
+    top_ai_infra_ppa_offtaker_families = _ai_infra_ppa_offtaker_family_concentrations(
+        ai_relevant_edges,
+        nodes,
+    )
     top_ai_infra_risk_bearers = _ai_infra_node_exposure_rows(
         ai_relevant_edges,
         nodes,
@@ -683,6 +720,7 @@ def _build_capital_exposure_summary(
             hub.to_dict() for hub in contagion_hubs if hub.ai_infra_relevant_notional_usd > 0
         ][:25],
         top_ai_infra_ppa_offtakers=top_ai_infra_ppa_offtakers[:25],
+        top_ai_infra_ppa_offtaker_families=top_ai_infra_ppa_offtaker_families[:25],
         top_tranche_contract_nodes=[node.to_dict() for node in tranche_contract_nodes[:25]],
         top_spv_contract_nodes=[node.to_dict() for node in spv_contract_nodes[:25]],
         top_collateral_contract_edges=[edge.to_dict() for edge in collateral_contract_edges[:25]],
@@ -2219,6 +2257,183 @@ def _ai_infra_ppa_offtaker_concentrations(
         reverse=True,
     )
     return rows
+
+
+def _ai_infra_ppa_offtaker_family_concentrations(
+    edges: list[CapitalExposureEdge],
+    nodes: list[CapitalExposureNode],
+) -> list[dict[str, Any]]:
+    """Rank AI/data-center PPA offtaker concentration after legal-family grouping."""
+
+    node_by_id = {node.node_id: node for node in nodes}
+    families: dict[str, dict[str, Any]] = {}
+    for edge in edges:
+        if (
+            edge.deal_type != DealType.PPA.value
+            or edge.relationship_type != "PPA_COUNTERPARTY"
+            or edge.ppa_capacity_mw <= 0
+            or not edge.relevance_tags
+        ):
+            continue
+        target_known_family = _known_legal_family_for_node(
+            edge.target_id,
+            edge.target_name,
+        )
+        if target_known_family is None and not any(
+            tag.startswith("direct:") for tag in edge.relevance_tags
+        ):
+            continue
+        target_family_id, target_family_name = target_known_family or _fallback_family_for_node(
+            edge.target_id,
+            edge.target_name,
+        )
+        source_family_id, _source_family_name = _legal_family_for_node(
+            edge.source_id,
+            edge.source_name,
+        )
+        if target_family_id == source_family_id:
+            continue
+
+        row = families.setdefault(
+            target_family_id,
+            {
+                "family_id": target_family_id,
+                "family_name": target_family_name,
+                "ppa_edge_count": 0,
+                "distinct_power_suppliers": set(),
+                "member_node_ids": set(),
+                "member_rows": {},
+                "ppa_capacity_mw": 0.0,
+                "source_uris": set(),
+                "relevance_tags": set(),
+                "supplier_rows": {},
+            },
+        )
+        row["ppa_edge_count"] += 1
+        row["distinct_power_suppliers"].add(edge.source_id)
+        row["member_node_ids"].add(edge.target_id)
+        row["ppa_capacity_mw"] += edge.ppa_capacity_mw
+        row["source_uris"].update(edge.source_uris)
+        row["relevance_tags"].update(edge.relevance_tags)
+
+        member_rows = row["member_rows"]
+        member = member_rows.setdefault(
+            edge.target_id,
+            {
+                "node_id": edge.target_id,
+                "name": edge.target_name,
+                "roles": node_by_id[edge.target_id].roles
+                if edge.target_id in node_by_id
+                else (),
+                "ppa_edge_count": 0,
+                "ppa_capacity_mw": 0.0,
+                "source_uris": set(),
+            },
+        )
+        member["ppa_edge_count"] += 1
+        member["ppa_capacity_mw"] += edge.ppa_capacity_mw
+        member["source_uris"].update(edge.source_uris)
+
+        supplier_rows = row["supplier_rows"]
+        supplier = supplier_rows.setdefault(
+            edge.source_id,
+            {
+                "node_id": edge.source_id,
+                "name": edge.source_name,
+                "ppa_edge_count": 0,
+                "ppa_capacity_mw": 0.0,
+                "source_uris": set(),
+                "relevance_tags": set(),
+            },
+        )
+        supplier["ppa_edge_count"] += 1
+        supplier["ppa_capacity_mw"] += edge.ppa_capacity_mw
+        supplier["source_uris"].update(edge.source_uris)
+        supplier["relevance_tags"].update(edge.relevance_tags)
+
+    rows = []
+    for row in families.values():
+        member_rows = [
+            {
+                "node_id": member["node_id"],
+                "name": member["name"],
+                "roles": member["roles"],
+                "ppa_edge_count": member["ppa_edge_count"],
+                "ppa_capacity_mw": round(member["ppa_capacity_mw"], 3),
+                "source_uri_count": len(member["source_uris"]),
+            }
+            for member in row["member_rows"].values()
+        ]
+        member_rows.sort(
+            key=lambda member: (
+                member["ppa_capacity_mw"],
+                member["ppa_edge_count"],
+                member["name"],
+            ),
+            reverse=True,
+        )
+        supplier_rows = [
+            {
+                "node_id": supplier["node_id"],
+                "name": supplier["name"],
+                "ppa_edge_count": supplier["ppa_edge_count"],
+                "ppa_capacity_mw": round(supplier["ppa_capacity_mw"], 3),
+                "source_uri_count": len(supplier["source_uris"]),
+                "relevance_tags": tuple(sorted(supplier["relevance_tags"])),
+            }
+            for supplier in row["supplier_rows"].values()
+        ]
+        supplier_rows.sort(
+            key=lambda supplier: (
+                supplier["ppa_capacity_mw"],
+                supplier["ppa_edge_count"],
+                supplier["name"],
+            ),
+            reverse=True,
+        )
+        rows.append(
+            {
+                "family_id": row["family_id"],
+                "family_name": row["family_name"],
+                "member_node_count": len(row["member_node_ids"]),
+                "ppa_edge_count": row["ppa_edge_count"],
+                "distinct_power_suppliers": len(row["distinct_power_suppliers"]),
+                "ppa_capacity_mw": round(row["ppa_capacity_mw"], 3),
+                "source_uri_count": len(row["source_uris"]),
+                "relevance_tags": tuple(sorted(row["relevance_tags"])),
+                "member_nodes": member_rows[:10],
+                "top_power_suppliers": supplier_rows[:10],
+            }
+        )
+    rows.sort(
+        key=lambda row: (
+            row["ppa_capacity_mw"],
+            row["distinct_power_suppliers"],
+            row["ppa_edge_count"],
+            row["family_name"],
+        ),
+        reverse=True,
+    )
+    return rows
+
+
+def _legal_family_for_node(node_id: str, name: str) -> tuple[str, str]:
+    known_family = _known_legal_family_for_node(node_id, name)
+    if known_family is not None:
+        return known_family
+    return _fallback_family_for_node(node_id, name)
+
+
+def _known_legal_family_for_node(node_id: str, name: str) -> tuple[str, str] | None:
+    haystack = f"{node_id} {name}"
+    for family_key, family_name, pattern in LEGAL_FAMILY_PATTERNS:
+        if pattern.search(haystack):
+            return f"family:{family_key}", family_name
+    return None
+
+
+def _fallback_family_for_node(node_id: str, name: str) -> tuple[str, str]:
+    return f"family:{node_id.removeprefix('entity:')}", name
 
 
 def _component_id(component: set[str]) -> str:

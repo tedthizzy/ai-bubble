@@ -441,6 +441,83 @@ def test_capital_exposure_graph_ranks_ai_ppa_offtakers_by_capacity() -> None:
     assert offtakers[1]["ppa_capacity_mw"] == 750
 
 
+def test_capital_exposure_graph_groups_ppa_offtakers_by_legal_family() -> None:
+    microsoft_energy_ppa = Deal(
+        source_deal_id="ppa-microsoft-energy",
+        deal_type=DealType.PPA,
+        title="Renewable power purchase agreement for Microsoft cloud load",
+        parties=["Wind Project LLC", "Microsoft Energy LLC"],
+        counterparty_roles={
+            "seller": ["Wind Project LLC"],
+            "offtaker": ["Microsoft Energy LLC"],
+        },
+        key_terms={"amount_mw": 300},
+        provenance=_provenance("ferc:microsoft-energy"),
+        confidence=0.9,
+    )
+    microsoft_corp_ppa = Deal(
+        source_deal_id="ppa-microsoft-corp",
+        deal_type=DealType.PPA,
+        title="Solar power purchase agreement for Microsoft data center load",
+        parties=["Solar Project LLC", "MICROSOFT CORPORATION"],
+        counterparty_roles={
+            "seller": ["Solar Project LLC"],
+            "offtaker": ["MICROSOFT CORPORATION"],
+        },
+        key_terms={"amount_mw": 200},
+        provenance=_provenance("ferc:microsoft-corp"),
+        confidence=0.9,
+    )
+    intra_family_ppa = Deal(
+        source_deal_id="ppa-microsoft-internal",
+        deal_type=DealType.PPA,
+        title="Microsoft affiliate power purchase agreement",
+        parties=["Microsoft Energy LLC", "MICROSOFT CORPORATION"],
+        counterparty_roles={
+            "seller": ["Microsoft Energy LLC"],
+            "offtaker": ["MICROSOFT CORPORATION"],
+        },
+        key_terms={"amount_mw": 50},
+        provenance=_provenance("ferc:microsoft-internal"),
+        confidence=0.9,
+    )
+    supplier_side_ppa = Deal(
+        source_deal_id="ppa-microsoft-supplier-side",
+        deal_type=DealType.PPA,
+        title="Microsoft Energy resale power purchase agreement",
+        parties=["Microsoft Energy LLC", "Powerex Corp."],
+        counterparty_roles={
+            "seller": ["Microsoft Energy LLC"],
+            "offtaker": ["Powerex Corp."],
+        },
+        key_terms={"amount_mw": 75},
+        provenance=_provenance("ferc:microsoft-supplier-side"),
+        confidence=0.9,
+    )
+
+    graph = build_capital_exposure_graph(
+        [microsoft_energy_ppa, microsoft_corp_ppa, intra_family_ppa, supplier_side_ppa]
+    )
+
+    raw = graph.summary.top_ai_infra_ppa_offtakers
+    assert {row["node_id"]: row["ppa_capacity_mw"] for row in raw} == {
+        "entity:microsoft-energy": 300,
+        "entity:microsoft": 250,
+        "entity:powerex": 75,
+    }
+    families = graph.summary.top_ai_infra_ppa_offtaker_families
+    assert {row["family_id"] for row in families} == {"family:microsoft"}
+    assert families[0]["family_id"] == "family:microsoft"
+    assert families[0]["family_name"] == "Microsoft legal family"
+    assert families[0]["ppa_capacity_mw"] == 500
+    assert families[0]["member_node_count"] == 2
+    assert families[0]["distinct_power_suppliers"] == 2
+    assert {row["node_id"] for row in families[0]["member_nodes"]} == {
+        "entity:microsoft",
+        "entity:microsoft-energy",
+    }
+
+
 def test_capital_exposure_graph_adds_ai_gated_bearer_and_obligor_rankings() -> None:
     casino_guarantee = Deal(
         source_deal_id="casino-notes",

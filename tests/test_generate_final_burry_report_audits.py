@@ -242,6 +242,15 @@ def test_report_answer_metric_audits_cover_source_backed_rollup_values() -> None
                     "ppa_edge_count": 38,
                 }
             ],
+            "top_ai_infra_ppa_offtaker_families": [
+                {
+                    "family_id": "family:microsoft",
+                    "family_name": "Microsoft legal family",
+                    "ppa_capacity_mw": 6_295.3,
+                    "distinct_power_suppliers": 25,
+                    "ppa_edge_count": 25,
+                }
+            ],
         },
         contract_contagion_summary={},
         materiality_adjudication_decision_summary={
@@ -276,6 +285,9 @@ def test_report_answer_metric_audits_cover_source_backed_rollup_values() -> None
         ),
         "capital_exposure.top_ai_infra_ppa_offtakers.entity:amazon-energy.ppa_capacity": (
             15_028.15
+        ),
+        "capital_exposure.top_ai_infra_ppa_offtaker_families.family:microsoft.ppa_capacity": (
+            6_295.3
         ),
         "compute.total_gpu_capex": 270_000_000,
     }

@@ -870,6 +870,7 @@ def report_answer_metric_audits(  # noqa: PLR0912, PLR0915
         "top_ai_infra_risk_bearers",
         "top_ai_infra_obligors",
         "top_ai_infra_ppa_offtakers",
+        "top_ai_infra_ppa_offtaker_families",
     ):
         rows = capital_exposure_graph_summary.get(key, [])
         if not isinstance(rows, list):
@@ -877,7 +878,9 @@ def report_answer_metric_audits(  # noqa: PLR0912, PLR0915
         for index, row in enumerate(rows[:10]):
             if not isinstance(row, dict):
                 continue
-            row_id = str(row.get("component_id") or row.get("node_id") or index)
+            row_id = str(
+                row.get("component_id") or row.get("node_id") or row.get("family_id") or index
+            )
             add(
                 f"capital_exposure.{key}.{row_id}.notional",
                 f"Capital exposure graph {key} notional",
@@ -2590,6 +2593,12 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:
                     "top_ai_infra_ppa_offtakers",
                     [],
                 )[:10],
+                "current_top_ai_infra_ppa_offtaker_families": (
+                    capital_exposure_graph_summary.get(
+                        "top_ai_infra_ppa_offtaker_families",
+                        [],
+                    )[:10]
+                ),
                 "current_contract_contagion_paths": contract_contagion_summary.get("paths", 0),
                 "current_contract_contagion_source_backed_paths": (
                     contract_contagion_summary.get("source_backed_paths", 0)
