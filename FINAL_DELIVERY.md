@@ -32,8 +32,8 @@ The important change is that ecosystem-scale conclusions are now blocked from be
 
 Latest verified evidence-gated report at this checkpoint:
 
-- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0904.md`
-- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0904.json`
+- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0911.md`
+- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0911.json`
 - `high_confidence_final`: `false`
 - Evidence audit coverage now includes analyzer-level capital, compute, and
   debt-service audits plus explicit row/artifact-backed audits for high-impact
@@ -66,8 +66,11 @@ Latest capital and timing outputs:
   metric groups; this is a different scope from the curated capital-structure
   deal-graph debt-like metric above, not an additive increment.
 - Established direct/watchlist AI-data-center-linked support inside that broader
-  materiality metric is $0.360T ($0.074T direct and $0.286T watchlist);
-  $4.005T, or 91.8%, remains source-backed but not yet thesis-linked.
+  materiality metric is $0.465T ($0.178T direct and $0.286T watchlist);
+  $3.901T, or 89.3%, remains source-backed but not yet thesis-linked.
+- Clear AI/HPC/bitcoin data-center operators are normalized to direct linkage
+  when source tags are blank or not established; indirect utility/telecom
+  suppliers remain not-established until a fractional scope rule is sourced.
 - Unconverted HKD face-value rows are blocked from metric use pending
   source-backed USD conversion; six rows now carry that extraction gap.
 - Mixed-currency selected quotes without an explicit USD amount matching the

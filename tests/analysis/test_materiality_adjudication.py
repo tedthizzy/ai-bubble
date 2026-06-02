@@ -1404,6 +1404,119 @@ def test_materiality_adjudication_blocks_cad_face_value_recorded_as_usd(
     assert decision.supported_amount_usd == 0
 
 
+def test_materiality_adjudication_retags_clear_ai_operator_as_direct(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-iren-direct-operator",
+                "rank": 1,
+                "review_id": "review-iren-direct-operator",
+                "review_group_id": "group-iren-direct-operator",
+                "priority": "high",
+                "category": "capital",
+                "subcategory": "high_notional_debt_like_candidate",
+                "ecosystem_relevance": "not_tagged",
+                "entity": "IREN Ltd",
+                "counterparty": "noteholders",
+                "exposure_basis_usd": "3000000000",
+                "reason": (
+                    "debt-like deal type: bond; notional $3,000,000,000; "
+                    "notional context: transaction_principal; collateral terms present; "
+                    "guarantee scope present"
+                ),
+                "recommended_action": "Confirm metric linkage.",
+                "source_uri": "https://www.sec.gov/iren-notes.htm",
+                "source_uris": json.dumps(["https://www.sec.gov/iren-notes.htm"]),
+                "content_hash": "b" * 64,
+                "content_hashes": json.dumps(["b" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/iren-notes.htm",
+                            "content_hash": "b" * 64,
+                            "document_id": "iren-notes.htm",
+                            "snippet": (
+                                "IREN issued $3.0 billion aggregate principal amount "
+                                "of senior unsecured notes due 2030 under an indenture "
+                                "with a trustee for the noteholders."
+                            ),
+                        }
+                    ]
+                ),
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    decision = batch.decisions[0]
+    assert decision.metric_use_status == "approved_for_metric_use"
+    assert decision.ai_data_center_linkage == "direct"
+
+
+def test_materiality_adjudication_keeps_indirect_utility_not_established(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-georgia-power-indirect",
+                "rank": 1,
+                "review_id": "review-georgia-power-indirect",
+                "review_group_id": "group-georgia-power-indirect",
+                "priority": "high",
+                "category": "capital",
+                "subcategory": "high_notional_debt_like_candidate",
+                "ecosystem_relevance": "not_tagged",
+                "entity": "Georgia Power Company",
+                "counterparty": "lenders",
+                "exposure_basis_usd": "3500000000",
+                "reason": (
+                    "debt-like deal type: credit_facility; notional $3,500,000,000; "
+                    "notional context: transaction_principal; collateral terms present; "
+                    "guarantee scope present"
+                ),
+                "recommended_action": "Confirm indirect scope rule.",
+                "source_uri": "https://www.sec.gov/georgia-power-credit.htm",
+                "source_uris": json.dumps(["https://www.sec.gov/georgia-power-credit.htm"]),
+                "content_hash": "c" * 64,
+                "content_hashes": json.dumps(["c" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/georgia-power-credit.htm",
+                            "content_hash": "c" * 64,
+                            "document_id": "georgia-power-credit.htm",
+                            "snippet": (
+                                "Georgia Power Company entered into a $3.5 billion "
+                                "credit agreement with lenders party thereto and an "
+                                "administrative agent; the facility is unsecured and "
+                                "matures in 2030."
+                            ),
+                        }
+                    ]
+                ),
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    decision = batch.decisions[0]
+    assert decision.metric_use_status == "approved_for_metric_use"
+    assert decision.ai_data_center_linkage == "not_established"
+
+
 def test_materiality_adjudication_blocks_mixed_currency_quote_without_recorded_usd(
     tmp_path: Path,
 ) -> None:

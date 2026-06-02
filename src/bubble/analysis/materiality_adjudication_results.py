@@ -30,6 +30,17 @@ FINAL_METRIC_DECISIONS = {"approved_for_metric_use"}
 BLOCKER_DECISIONS = {"supported_as_material_blocker", "needs_deeper_extraction"}
 REJECT_DECISIONS = {"reject_missing_provenance", "rejected_or_deprioritized"}
 MEGA_OBLIGATION_REVIEW_THRESHOLD_USD = 50_000_000_000
+DIRECT_AI_OPERATOR_ENTITY_MARKERS = (
+    "applied digital",
+    "american bitcoin",
+    "cleanspark",
+    "coreweave",
+    "hut 8",
+    "iren",
+    "mara holdings",
+    "marathon digital",
+    "terawulf",
+)
 
 
 @dataclass(frozen=True)
@@ -783,7 +794,15 @@ def _ai_linkage(packet: dict[str, str]) -> str:
         return "compute"
     if relevance == "watchlist_entity":
         return "watchlist"
+    if _is_direct_ai_operator_entity(_field(packet, "entity")):
+        return "direct"
     return "not_established"
+
+
+def _is_direct_ai_operator_entity(entity: str) -> bool:
+    normalized = re.sub(r"[^a-z0-9]+", " ", entity.lower()).strip()
+    padded = f" {normalized} "
+    return any(f" {marker} " in padded for marker in DIRECT_AI_OPERATOR_ENTITY_MARKERS)
 
 
 def _risk_bearer(packet: dict[str, str], quote: str, gaps: list[str]) -> str:
