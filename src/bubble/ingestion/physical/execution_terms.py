@@ -18,9 +18,16 @@ from typing import Any
 _TEXT_SPACING_RE = re.compile(r"\s+")
 _MW_RE = re.compile(
     r"(?P<prefix>>|~|approximately|about)?\s*"
-    r"(?P<value>\d{1,3}(?:,\d{3})*(?:\.\d+)?)\s*(?P<unit>MW|GW)\b"
+    r"(?P<value>\d{1,3}(?:,\d{3})*(?:\.\d+)?)\s*(?P<unit>MW|GW|megawatts?)\b"
     r"(?P<context>.{0,120})",
     re.IGNORECASE | re.DOTALL,
+)
+_NAMED_UNIT_MW_RE = re.compile(
+    r"(?:\b[A-Z][a-z]+\s*)?\(\s*(?P<count_paren>\d+)\s*\)\s*"
+    r"(?P<mw>\d+(?:\.\d+)?)\s*MW\b|"
+    r"\b(?P<count_word>one|two|three|four|five|six|seven|eight|nine|ten|\d+)"
+    r"\s+(?P<mw_word>\d+(?:\.\d+)?)\s*MW\b",
+    re.IGNORECASE,
 )
 _AIR_PERMIT_PATTERNS = [
     re.compile(
@@ -106,7 +113,15 @@ def extract_physical_execution_terms(row: dict[str, Any]) -> list[PhysicalExecut
 
 def _capacity_terms(row: dict[str, Any], text: str) -> list[PhysicalExecutionTerm]:
     terms: list[PhysicalExecutionTerm] = []
+    unit_spans: list[tuple[int, int]] = []
+    named_unit_total = _named_unit_capacity_mw(text)
+    if named_unit_total is not None:
+        total, unit_spans = named_unit_total
+        terms.append(_term(row, "onsite_generation_mw", f"{total:g}", "MW", text))
+
     for match in _MW_RE.finditer(text):
+        if _inside_any_span(match.start(), unit_spans):
+            continue
         context = _quote(text, match.start(), match.end(), radius=100)
         context_lower = context.lower()
         if not _capacity_context_is_relevant(context_lower):
@@ -115,6 +130,8 @@ def _capacity_terms(row: dict[str, Any], text: str) -> list[PhysicalExecutionTer
         unit = match.group("unit").upper()
         if match.group("prefix") == ">":
             value = f">{value}"
+        if unit.startswith("MEGAWATT"):
+            unit = "MW"
         if unit == "GW":
             unit = "MW"
             value = _gw_to_mw(value)
@@ -127,6 +144,50 @@ def _capacity_terms(row: dict[str, Any], text: str) -> list[PhysicalExecutionTer
             term_type = "physical_generation_capacity_mw"
         terms.append(_term(row, term_type, value, unit, context))
     return terms
+
+
+def _named_unit_capacity_mw(text: str) -> tuple[float, list[tuple[int, int]]] | None:
+    text_lower = text.lower()
+    if not any(
+        marker in text_lower for marker in ("onsite", "on-site", "behind", "off grid", "off-grid")
+    ):
+        return None
+    matches = list(_NAMED_UNIT_MW_RE.finditer(text))
+    if len(matches) < 2:
+        return None
+    total = 0.0
+    spans: list[tuple[int, int]] = []
+    for match in matches:
+        count_text = match.group("count_paren") or match.group("count_word")
+        mw_text = match.group("mw") or match.group("mw_word")
+        if not count_text or not mw_text:
+            continue
+        total += _count_value(count_text) * float(mw_text)
+        spans.append((match.start(), match.end()))
+    return (total, spans) if total else None
+
+
+def _inside_any_span(start: int, spans: list[tuple[int, int]]) -> bool:
+    return any(span_start <= start <= span_end for span_start, span_end in spans)
+
+
+def _count_value(value: str) -> int:
+    words = {
+        "one": 1,
+        "two": 2,
+        "three": 3,
+        "four": 4,
+        "five": 5,
+        "six": 6,
+        "seven": 7,
+        "eight": 8,
+        "nine": 9,
+        "ten": 10,
+    }
+    lowered = value.lower()
+    if lowered in words:
+        return words[lowered]
+    return int(value)
 
 
 def _permit_terms(row: dict[str, Any], text: str) -> list[PhysicalExecutionTerm]:
