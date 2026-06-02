@@ -32,10 +32,10 @@ The important change is that ecosystem-scale conclusions are now blocked from be
 
 Latest verified evidence-gated report at this checkpoint:
 
-- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260602-1948.md`
-- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260602-1948.json`
+- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260602-1955.md`
+- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260602-1955.json`
 - `high_confidence_final`: `false`
-- Evidence audit coverage now includes 480 claim audits: analyzer-level capital,
+- Evidence audit coverage now includes 495 claim audits: analyzer-level capital,
   compute, and debt-service audits, explicit row/artifact-backed audits for
   high-impact Burry-answer rollups, and aggregate hooks for pending review
   capital, pending AI-infra capital, pending compute, weak-link AI-infra,
@@ -45,7 +45,10 @@ Latest verified evidence-gated report at this checkpoint:
   risk-bearer/obligor rankings. The who-bears-downside answer also reports a
   downside-bearer taxonomy quality summary, and date/clause fragments are
   treated as unmapped rather than named risk bearers. Physical execution audits
-  now cover the term-level rollup fields added in this checkpoint. The
+  now cover the term-level rollup fields added in this checkpoint. Large
+  numeric `key_metrics` values above $200B now have value-matched claim audits
+  with gross, path-summed, out-of-scope, pre-dedupe, or distinct basis labels
+  where applicable. The
   remaining consistency warnings are doc-pattern checks and do not open the gate.
 - Source invariant audit: passed across 63 CSV files and 9,208,844 rows scanned
   with 0 violations and 0 warnings.

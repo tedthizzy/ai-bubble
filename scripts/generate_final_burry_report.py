@@ -552,8 +552,11 @@ def report_answer_metric_audits(  # noqa: PLR0912, PLR0915
     weak_link_summary: dict[str, Any],
     debt_service_metrics_dict: dict[str, Any],
     compute_metrics_dict: dict[str, Any],
+    capital_metrics_dict: dict[str, Any] | None = None,
+    capital_scope_summary_dict: dict[str, Any] | None = None,
     capital_exposure_graph_summary: dict[str, Any],
     contract_contagion_summary: dict[str, Any],
+    materiality_adjudication_summary: dict[str, Any] | None = None,
     materiality_adjudication_decision_summary: dict[str, Any] | None = None,
     materiality_relevance_summary: dict[str, Any] | None = None,
 ) -> list[dict[str, Any]]:
@@ -711,6 +714,48 @@ def report_answer_metric_audits(  # noqa: PLR0912, PLR0915
         requires_corroboration=False,
     )
     add(
+        "review_queue.pending_notional_gross",
+        "Gross pending review-queue notional before distinct-dedupe; diagnostic only",
+        review_queue_summary.get("pending_notional_amount_usd"),
+        review_evidence,
+        requires_corroboration=False,
+    )
+    add(
+        "review_queue.pending_exposure_gross",
+        "Gross pending review-queue exposure before distinct-dedupe; diagnostic only",
+        review_queue_summary.get("pending_exposure_usd"),
+        review_evidence,
+        requires_corroboration=False,
+    )
+    add(
+        "review_queue.pending_capital_notional_gross",
+        "Gross pending capital review-queue notional before distinct-dedupe; diagnostic only",
+        review_queue_summary.get("pending_capital_notional_amount_usd"),
+        review_evidence,
+        requires_corroboration=False,
+    )
+    add(
+        "review_queue.pending_capital_duplicate_notional",
+        "Duplicate candidate notional inside pending capital review queue",
+        review_queue_summary.get("pending_capital_duplicate_notional_amount_usd"),
+        review_evidence,
+        requires_corroboration=False,
+    )
+    add(
+        "review_queue.pending_ai_infra_relevant_capital_notional_gross",
+        "Gross AI-infra-relevant pending capital review-queue notional before distinct-dedupe",
+        review_queue_summary.get("pending_ai_infra_relevant_capital_notional_amount_usd"),
+        review_evidence,
+        requires_corroboration=False,
+    )
+    add(
+        "review_queue.pending_contagion_path_exposure_path_summed",
+        "Pending contagion-path review exposure, path-summed and multiplicity-inflated",
+        review_queue_summary.get("pending_contagion_path_exposure_usd"),
+        review_evidence,
+        requires_corroboration=False,
+    )
+    add(
         "review_queue.pending_ai_infra_relevant_capital_distinct_notional",
         "AI-infra-relevant distinct pending capital review-queue notional",
         review_queue_summary.get("pending_ai_infra_relevant_capital_distinct_notional_amount_usd"),
@@ -816,10 +861,38 @@ def report_answer_metric_audits(  # noqa: PLR0912, PLR0915
         debt_evidence,
     )
     add(
+        "debt_service.notional_missing_maturity",
+        "Debt-like notional still missing maturity-date evidence before distinct-dedupe",
+        debt_service_metrics_dict.get("notional_missing_maturity_usd"),
+        debt_evidence,
+        requires_corroboration=False,
+    )
+    add(
+        "debt_service.distinct_measured_rate_notional",
+        "Distinct debt-like notional with measured source-backed rates",
+        debt_service_metrics_dict.get("distinct_measured_rate_notional_usd"),
+        debt_evidence,
+        requires_corroboration=False,
+    )
+    add(
         "debt_service.maturity_wall_notional_2024_2030",
         "Debt-service maturity-wall notional through 2030",
         debt_service_metrics_dict.get("maturity_wall_notional_usd_2024_2030"),
         debt_evidence,
+    )
+    add(
+        "debt_service.distinct_maturity_wall_notional_2024_2030",
+        "Distinct debt-service maturity-wall notional through 2030",
+        debt_service_metrics_dict.get("distinct_maturity_wall_notional_usd_2024_2030"),
+        debt_evidence,
+        requires_corroboration=False,
+    )
+    add(
+        "debt_service.out_of_scope_debt_like_notional",
+        "Debt-like notional excluded from debt-service scope",
+        debt_service_metrics_dict.get("out_of_scope_debt_like_notional_usd"),
+        debt_evidence,
+        requires_corroboration=False,
     )
     for key in ("top_debt_service_quarters", "top_distinct_debt_service_quarters"):
         rows = debt_service_metrics_dict.get(key, [])
@@ -1020,6 +1093,72 @@ def report_answer_metric_audits(  # noqa: PLR0912, PLR0915
         [compute_artifact],
         requires_corroboration=False,
     )
+    capital_metrics = capital_metrics_dict or {}
+    capital_metrics_artifact = artifact_provenance(
+        source_uri="local:capital_structure_metrics",
+        page_or_section="capital-structure analyzer rollup",
+        payload={
+            key: capital_metrics.get(key)
+            for key in (
+                "distinct_total_notional_usd",
+                "distinct_debt_like_notional_usd",
+                "duplicate_candidate_notional_usd",
+            )
+        },
+    )
+    add(
+        "capital.distinct_total_notional",
+        "Distinct capital-structure notional after duplicate-candidate collapse",
+        capital_metrics.get("distinct_total_notional_usd"),
+        [capital_metrics_artifact],
+        requires_corroboration=False,
+    )
+    capital_scope = capital_scope_summary_dict or {}
+    capital_scope_artifact = artifact_provenance(
+        source_uri="local:capital_scope_summary",
+        page_or_section="capital scope rollup",
+        payload={
+            key: capital_scope.get(key)
+            for key in (
+                "out_of_scope_debt_like_notional_usd",
+                "balance_sheet_context_debt_like_notional_usd",
+            )
+        },
+    )
+    add(
+        "capital.out_of_scope_debt_like_notional",
+        "Debt-like notional excluded from capital metric scope",
+        capital_scope.get("out_of_scope_debt_like_notional_usd"),
+        [capital_scope_artifact],
+        requires_corroboration=False,
+    )
+    add(
+        "capital.balance_sheet_context_debt_like_notional",
+        "Debt-like notional excluded as balance-sheet context rather than committed exposure",
+        capital_scope.get("balance_sheet_context_debt_like_notional_usd"),
+        [capital_scope_artifact],
+        requires_corroboration=False,
+    )
+    materiality_packet_summary = materiality_adjudication_summary or {}
+    materiality_packet_artifact = artifact_provenance(
+        source_uri="local:data/reports/materiality_adjudication_summary.json",
+        page_or_section="materiality adjudication packet rollup",
+        payload={
+            key: materiality_packet_summary.get(key)
+            for key in (
+                "total_exposure_basis_usd",
+                "packets",
+                "source_backed_packets",
+            )
+        },
+    )
+    add(
+        "materiality_adjudication.total_exposure_basis_gross",
+        "Gross materiality packet exposure basis before metric eligibility and dedupe",
+        materiality_packet_summary.get("total_exposure_basis_usd"),
+        [materiality_packet_artifact],
+        requires_corroboration=False,
+    )
     materiality_summary = materiality_adjudication_decision_summary or {}
     materiality_artifact = artifact_provenance(
         source_uri="local:data/reports/materiality_adjudication_decision_summary.json",
@@ -1033,6 +1172,13 @@ def report_answer_metric_audits(  # noqa: PLR0912, PLR0915
                 "final_metric_group_count",
             )
         },
+    )
+    add(
+        "materiality_adjudication.approved_row_supported_amount_gross",
+        "Approved materiality row-level supported amount before final metric dedupe",
+        materiality_summary.get("approved_row_supported_amount_usd"),
+        [materiality_artifact],
+        requires_corroboration=False,
     )
     add(
         "materiality_adjudication.final_metric_supported_amount",
@@ -2339,8 +2485,11 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:
                 weak_link_summary=weak_link_summary,
                 debt_service_metrics_dict=debt_service_metrics_dict,
                 compute_metrics_dict=compute_metrics_dict,
+                capital_metrics_dict=capital_metrics_dict,
+                capital_scope_summary_dict=capital_scope_summary_dict,
                 capital_exposure_graph_summary=capital_exposure_graph_summary,
                 contract_contagion_summary=contract_contagion_summary,
+                materiality_adjudication_summary=materiality_adjudication_summary,
                 materiality_adjudication_decision_summary=(
                     materiality_adjudication_decision_summary
                 ),

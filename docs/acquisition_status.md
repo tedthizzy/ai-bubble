@@ -1,15 +1,15 @@
 # Acquisition Status
 
-Last updated: 2026-06-02 19:48 UTC.
+Last updated: 2026-06-02 19:55 UTC.
 
 This file is the operational snapshot for the current evidence corpus. Treat it
 as a run log, not as a final investment conclusion.
 
 ## Current Corpus
 
-- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-1948.md`
+- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-1955.md`
 - Evidence gate: not high-confidence final.
-- Evidence audit coverage: 480 claim audits now include analyzer-level capital,
+- Evidence audit coverage: 495 claim audits now include analyzer-level capital,
   compute, and debt-service audits, explicit row/artifact-backed audits for
   high-impact Burry-answer rollups, and aggregate hooks for pending review
   capital, pending AI-infra capital, pending compute, weak-link AI-infra,
@@ -22,6 +22,9 @@ as a run log, not as a final investment conclusion.
   distinct extracted terms, projects, on-site generation MW term-sum,
   behind-the-meter/off-grid flags, permit litigation/enforcement-risk flags,
   and queue-bypass/no-queue flags.
+  Large numeric `key_metrics` values over $200B now have value-matched claim
+  audits, including gross pending, path-summed, out-of-scope, pre-dedupe, and
+  distinct basis labels so diagnostic totals are not read as clean exposure.
   Substantive high-impact metric audit warnings are cleared;
   the remaining consistency warnings are doc-pattern checks, not evidence gaps
   or a gate opening.

@@ -197,18 +197,22 @@ def test_report_answer_metric_audits_cover_source_backed_rollup_values() -> None
             "top_signals": [source_row],
         },
         review_queue_summary={
+            "pending_notional_amount_usd": 23_633_011_843_625.81,
+            "pending_exposure_usd": 31_463_801_592_426.92,
+            "pending_capital_notional_amount_usd": 12_563_069_819_492.71,
             "pending_capital_distinct_notional_amount_usd": 11_922_835_694_492.71,
-            "pending_ai_infra_relevant_capital_distinct_notional_amount_usd": (
-                827_720_451_225
-            ),
+            "pending_capital_duplicate_notional_amount_usd": 640_234_125_000,
+            "pending_ai_infra_relevant_capital_notional_amount_usd": 1_983_466_701_225,
+            "pending_ai_infra_relevant_capital_distinct_notional_amount_usd": (827_720_451_225),
             "pending_compute_claim_amount_usd": 398_240_000_000,
+            "pending_contagion_path_exposure_usd": 30_027_742_282_038,
             "top_distinct_capital_items": [
                 {
                     **source_row,
                     "review_id": "review:test",
                     "notional_amount_usd": 734_000_000_000,
                 }
-            ]
+            ],
         },
         weak_link_summary={
             "ai_infra_relevant_notional_usd": 333_003_514_666.67,
@@ -217,14 +221,25 @@ def test_report_answer_metric_audits_cover_source_backed_rollup_values() -> None
         },
         debt_service_metrics_dict={
             "distinct_debt_like_notional_usd": 1_200_595_124_370.18,
+            "out_of_scope_debt_like_notional_usd": 15_328_280_365_435.22,
+            "notional_missing_maturity_usd": 610_861_214_126.79,
             "distinct_notional_missing_maturity_usd": 541_811_068_259.58,
+            "distinct_measured_rate_notional_usd": 474_858_841_204.44,
             "distinct_missing_rate_notional_usd": 599_461_137_298.53,
             "maturity_wall_notional_usd_2024_2030": 278_383_365_879.58,
+            "distinct_maturity_wall_notional_usd_2024_2030": 241_928_365_879.58,
         },
         compute_metrics_dict={
             "total_gpu_capex_usd": 270_000_000,
             "compute_asset_count": 49,
             "gpu_price_observation_count": 3,
+        },
+        capital_metrics_dict={
+            "distinct_total_notional_usd": 872_828_485_956.18,
+        },
+        capital_scope_summary_dict={
+            "out_of_scope_debt_like_notional_usd": 15_328_280_365_435.22,
+            "balance_sheet_context_debt_like_notional_usd": 1_758_649_865_154.68,
         },
         capital_exposure_graph_summary={
             "total_edge_notional_usd": 864_183_460_730.37,
@@ -269,7 +284,13 @@ def test_report_answer_metric_audits_cover_source_backed_rollup_values() -> None
             "ai_infra_relevant_paths": 453,
             "ai_infra_relevant_notional_usd": 1_918_982_952_450.0,
         },
+        materiality_adjudication_summary={
+            "total_exposure_basis_usd": 56_029_144_923_052.73,
+            "packets": 6_663,
+            "source_backed_packets": 6_663,
+        },
         materiality_adjudication_decision_summary={
+            "approved_row_supported_amount_usd": 7_416_635_302_611.83,
             "final_metric_supported_amount_usd": 4_463_000_000_000,
             "final_metric_group_count": 1591,
         },
@@ -284,15 +305,26 @@ def test_report_answer_metric_audits_cover_source_backed_rollup_values() -> None
     audit_by_id = {str(audit["claim_id"]): audit for audit in audits}
     expected_rollup_values = {
         "review_queue.pending_capital_distinct_notional": 11_922_835_694_492.71,
-        "review_queue.pending_ai_infra_relevant_capital_distinct_notional": (
-            827_720_451_225
-        ),
+        "review_queue.pending_notional_gross": 23_633_011_843_625.81,
+        "review_queue.pending_exposure_gross": 31_463_801_592_426.92,
+        "review_queue.pending_capital_notional_gross": 12_563_069_819_492.71,
+        "review_queue.pending_capital_duplicate_notional": 640_234_125_000,
+        "review_queue.pending_ai_infra_relevant_capital_notional_gross": (1_983_466_701_225),
+        "review_queue.pending_ai_infra_relevant_capital_distinct_notional": (827_720_451_225),
+        "review_queue.pending_contagion_path_exposure_path_summed": 30_027_742_282_038,
         "review_queue.pending_compute_claim_amount": 398_240_000_000,
         "weak_link.ai_infra_relevant_notional": 333_003_514_666.67,
         "debt_service.distinct_debt_like_notional": 1_200_595_124_370.18,
+        "debt_service.out_of_scope_debt_like_notional": 15_328_280_365_435.22,
+        "debt_service.notional_missing_maturity": 610_861_214_126.79,
+        "debt_service.distinct_measured_rate_notional": 474_858_841_204.44,
         "debt_service.distinct_missing_rate_notional": 599_461_137_298.53,
         "debt_service.distinct_missing_maturity_notional": 541_811_068_259.58,
+        "debt_service.distinct_maturity_wall_notional_2024_2030": 241_928_365_879.58,
         "debt_service.maturity_wall_notional_2024_2030": 278_383_365_879.58,
+        "capital.distinct_total_notional": 872_828_485_956.18,
+        "capital.out_of_scope_debt_like_notional": 15_328_280_365_435.22,
+        "capital.balance_sheet_context_debt_like_notional": 1_758_649_865_154.68,
         "capital_exposure.total_edge_notional": 864_183_460_730.37,
         "capital_exposure.ai_infra_relevant_notional": 5_158_000_000,
         "capital_exposure.ppa_capacity_mw": 27_430.5,
@@ -311,6 +343,9 @@ def test_report_answer_metric_audits_cover_source_backed_rollup_values() -> None
         "contract_contagion.ai_infra_relevant_notional": 1_918_982_952_450.0,
         "contract_contagion.total_path_summed_notional": 44_591_146_002_769.22,
         "compute.total_gpu_capex": 270_000_000,
+        "materiality_adjudication.total_exposure_basis_gross": 56_029_144_923_052.73,
+        "materiality_adjudication.approved_row_supported_amount_gross": (7_416_635_302_611.83),
+        "materiality_adjudication.final_metric_supported_amount": 4_463_000_000_000,
     }
     for claim_id, value in expected_rollup_values.items():
         assert audit_by_id[claim_id]["value"] == value
@@ -342,9 +377,7 @@ def test_report_answer_metric_audits_cover_source_backed_rollup_values() -> None
             },
             "hidden_risks_and_contagion": {
                 "current_contract_contagion_total_notional_usd": 44_591_146_002_769.22,
-                "current_contract_contagion_ai_infra_relevant_notional_usd": (
-                    1_918_982_952_450.0
-                ),
+                "current_contract_contagion_ai_infra_relevant_notional_usd": (1_918_982_952_450.0),
             },
             "how_large": {
                 "materiality_final_metric_supported_amount_usd": 4_463_000_000_000,
@@ -377,16 +410,12 @@ def test_debt_service_timing_coverage_fields_surface_maturity_limits() -> None:
     assert fields["current_distinct_debt_service_obligations"] == 439
     assert fields["current_distinct_debt_service_obligations_missing_maturity"] == 165
     assert fields["current_distinct_debt_service_maturity_obligation_coverage_pct"] == 62.41
-    assert fields["current_distinct_debt_service_debt_like_notional_usd"] == (
-        1_200_595_124_370.18
-    )
+    assert fields["current_distinct_debt_service_debt_like_notional_usd"] == (1_200_595_124_370.18)
     assert fields["current_distinct_debt_service_notional_missing_maturity_usd"] == (
         541_811_068_259.58
     )
     assert fields["current_distinct_debt_service_maturity_notional_coverage_pct"] == 54.87
-    assert fields["current_distinct_debt_service_missing_rate_notional_usd"] == (
-        599_461_137_298.53
-    )
+    assert fields["current_distinct_debt_service_missing_rate_notional_usd"] == (599_461_137_298.53)
     assert fields["current_distinct_debt_service_measured_rate_notional_coverage_pct"] == 44.2
     assert "165 of 439" in fields["current_timing_maturity_wall_coverage_note"]
     assert "floor, not a complete schedule" in fields["current_timing_maturity_wall_coverage_note"]
@@ -405,9 +434,7 @@ def test_graph_parity_basis_fields_label_contract_path_sums() -> None:
             "ai_infra_relevant_notional_usd": 1_918_982_952_450.0,
         },
         review_queue_summary={
-            "pending_ai_infra_relevant_capital_distinct_notional_amount_usd": (
-                827_720_451_225.0
-            )
+            "pending_ai_infra_relevant_capital_distinct_notional_amount_usd": (827_720_451_225.0)
         },
     )
 
@@ -420,9 +447,7 @@ def test_graph_parity_basis_fields_label_contract_path_sums() -> None:
     assert fields["current_contract_contagion_ai_infra_notional_basis"] == (
         "path_summed_multiplicity_inflated_not_exposure"
     )
-    assert fields["current_contract_contagion_average_path_notional_usd"] == (
-        5_096_713_453.28
-    )
+    assert fields["current_contract_contagion_average_path_notional_usd"] == (5_096_713_453.28)
     assert fields["current_contract_contagion_ai_infra_average_path_notional_usd"] == (
         4_236_165_457.95
     )
