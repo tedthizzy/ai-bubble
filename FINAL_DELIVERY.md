@@ -32,8 +32,8 @@ The important change is that ecosystem-scale conclusions are now blocked from be
 
 Latest verified evidence-gated report at this checkpoint:
 
-- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260602-1941.md`
-- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260602-1941.json`
+- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260602-1948.md`
+- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260602-1948.json`
 - `high_confidence_final`: `false`
 - Evidence audit coverage now includes 480 claim audits: analyzer-level capital,
   compute, and debt-service audits, explicit row/artifact-backed audits for
@@ -143,8 +143,8 @@ Latest capital and timing outputs:
   metric groups; this is a different scope from the curated capital-structure
   deal-graph debt-like metric above, not an additive increment.
 - Established direct/watchlist AI-data-center-linked support inside that broader
-  materiality metric is $0.440T; 88.9% remains source-backed but not yet
-  thesis-linked.
+  materiality metric is $0.406T on the same 1,380-group final metric
+  denominator; 89.2% remains source-backed but not yet thesis-linked.
 - Clear AI/HPC/bitcoin data-center operators are normalized to direct linkage
   when source tags are blank, watchlist, or not established; Galaxy Digital is
   normalized only for packet text naming Galaxy Helios, CoreWeave, or

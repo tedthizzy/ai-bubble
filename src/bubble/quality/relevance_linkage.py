@@ -110,10 +110,15 @@ def final_metric_representative_rows(rows: list[dict[str, str]]) -> list[dict[st
         representatives,
         key_fn=_economic_quote_metric_dedupe_key,
     )
-    return _collapse_metric_representatives(
+    representatives = _collapse_metric_representatives(
         representatives,
         key_fn=_economic_obligation_metric_dedupe_key,
     )
+    representatives = _collapse_metric_representatives(
+        representatives,
+        key_fn=_accession_amount_metric_dedupe_key,
+    )
+    return _collapse_cross_filing_instrument_representatives(representatives)
 
 
 def _collapse_metric_representatives(
@@ -155,7 +160,8 @@ def _economic_quote_metric_dedupe_key(
         return None
     entity_key = _slug(row.get("entity", ""))
     amount_key = _metric_amount_key(_float(row.get("supported_amount_usd")))
-    quote_key = _normalized_quote_fingerprint(row.get("evidence_quote", ""))
+    stable_quote = row.get("metric_dedupe_quote") or row.get("evidence_quote", "")
+    quote_key = _normalized_quote_fingerprint(stable_quote)
     if not entity_key or not amount_key or amount_key == "0" or not quote_key:
         return None
     return "economic-quote", (entity_key, amount_key), quote_key
@@ -177,6 +183,94 @@ def _economic_obligation_metric_dedupe_key(
         value for value in (subcategory_key, snapshot_key, counterparty_key) if value
     )
     return "economic-obligation", (entity_key, amount_key, *discriminators), "v1"
+
+
+_SEC_ACCESSION_RE = re.compile(r"/(\d{18})/")
+
+
+def _sec_accession(source_uri: str) -> str:
+    match = _SEC_ACCESSION_RE.search(source_uri or "")
+    return match.group(1) if match else ""
+
+
+def _accession_amount_metric_dedupe_key(
+    row: dict[str, str],
+) -> tuple[str, tuple[str, ...], str] | None:
+    if row.get("metric_aggregation_policy") != "max_amount_per_source_instrument":
+        return None
+    entity_key = _slug(row.get("entity", ""))
+    amount_key = _metric_amount_key(_float(row.get("supported_amount_usd")))
+    accession = _sec_accession(row.get("source_uri", ""))
+    if not entity_key or not amount_key or amount_key == "0" or not accession:
+        return None
+    return "accession-amount", (entity_key, accession), amount_key
+
+
+_INSTRUMENT_DESCRIPTOR_RE = re.compile(r"(\d{1,2}\.\d{2,3})\s?%|due (\d{4})", re.I)
+_ENTITY_SUFFIX_RE = re.compile(
+    r"\b(holdco|landco|opco|computeco|hpc holdings|eln-?\d+|far-?\d+|spv|borrower|holdings|llc"
+    r"|inc|corp|co|l\.?p\.?|ltd|plc|finance|funding|trust|series \w+)\b",
+    re.I,
+)
+
+
+def _entity_root_key(entity: str) -> str:
+    stripped = _ENTITY_SUFFIX_RE.sub("", entity.lower())
+    return re.sub(r"[^a-z0-9]", "", stripped)[:12]
+
+
+def _instrument_descriptor_tokens(quote: str) -> frozenset[str]:
+    tokens: set[str] = set()
+    for coupon, year in _INSTRUMENT_DESCRIPTOR_RE.findall(quote or ""):
+        if coupon:
+            tokens.add(f"c{coupon}")
+        if year:
+            tokens.add(f"y{year}")
+    return frozenset(tokens)
+
+
+def _has_strict_common_instrument_fingerprint(
+    descriptors: list[frozenset[str]],
+) -> bool:
+    if not descriptors or not all(descriptors):
+        return False
+    common = set.intersection(*(set(descriptor) for descriptor in descriptors))
+    return any(token.startswith("c") for token in common) and any(
+        token.startswith("y") for token in common
+    )
+
+
+def _collapse_cross_filing_instrument_representatives(
+    representatives: list[dict[str, str]],
+) -> list[dict[str, str]]:
+    keyed: dict[tuple[str, str], list[dict[str, str]]] = {}
+    unkeyed: list[dict[str, str]] = []
+    for row in representatives:
+        if row.get("metric_aggregation_policy") != "max_amount_per_source_instrument":
+            unkeyed.append(row)
+            continue
+        entity_key = _entity_root_key(row.get("entity", ""))
+        amount_key = _metric_amount_key(_float(row.get("supported_amount_usd")))
+        accession = _sec_accession(row.get("source_uri", ""))
+        if not entity_key or not amount_key or amount_key == "0" or not accession:
+            unkeyed.append(row)
+            continue
+        keyed.setdefault((entity_key, amount_key), []).append(row)
+
+    collapsed: list[dict[str, str]] = []
+    for rows in keyed.values():
+        accessions = {_sec_accession(row.get("source_uri", "")) for row in rows}
+        descriptors = [
+            _instrument_descriptor_tokens(
+                row.get("metric_dedupe_quote") or row.get("evidence_quote", "")
+            )
+            for row in rows
+        ]
+        if len(accessions) > 1 and _has_strict_common_instrument_fingerprint(descriptors):
+            collapsed.append(max(rows, key=_metric_representative_sort_key))
+        else:
+            collapsed.extend(rows)
+    return [*unkeyed, *collapsed]
 
 
 def _metric_representative_sort_key(row: dict[str, str]) -> tuple[int, tuple[str, int], float]:

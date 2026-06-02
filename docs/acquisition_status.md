@@ -1,13 +1,13 @@
 # Acquisition Status
 
-Last updated: 2026-06-02 19:41 UTC.
+Last updated: 2026-06-02 19:48 UTC.
 
 This file is the operational snapshot for the current evidence corpus. Treat it
 as a run log, not as a final investment conclusion.
 
 ## Current Corpus
 
-- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-1941.md`
+- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-1948.md`
 - Evidence gate: not high-confidence final.
 - Evidence audit coverage: 480 claim audits now include analyzer-level capital,
   compute, and debt-service audits, explicit row/artifact-backed audits for
@@ -193,8 +193,11 @@ as a run log, not as a final investment conclusion.
   now includes `physical_execution_summary` plus key metrics for distinct terms,
   projects, term-level MW sums, and physical execution risk-term counts.
 - The broader materiality metric is now split by adjudicated thesis linkage:
-  $0.440T has established direct/watchlist AI-data-center linkage, while
-  88.9% is source-backed but not yet established as AI/data-center-linked.
+  $0.406T has established direct/watchlist AI-data-center linkage, while
+  89.2% is source-backed but not yet established as AI/data-center-linked.
+  This split now uses the same 1,380-group final metric denominator as the
+  materiality metric after same-accession and strict cross-filing instrument
+  dedupe.
   The unlinked tail is a scope gap, not a final no-link conclusion.
   Clear AI/HPC/bitcoin data-center operators including IREN, CleanSpark,
   American Bitcoin, MARA/Marathon, Hut 8, Applied Digital, CoreWeave,
@@ -760,9 +763,10 @@ Adjudication queue:
   eligible. This pass removed another 73 approved rows, about $306.50B of
   row-level support, 38 metric groups, and $165.14B of deduped final metric
   support relative to the 16:29 report.
-- Relevance split of that deduped final metric: $0.440T established
-  direct/watchlist AI-data-center linkage; 88.9% remains not-established for
-  thesis linkage.
+- Relevance split of that deduped final metric: $0.406T established
+  direct/watchlist AI-data-center linkage; 89.2% remains not-established for
+  thesis linkage. The split now ties exactly to the $3.742T / 1,380-group final
+  materiality denominator.
 - Clear AI/HPC/bitcoin data-center operators including IREN, CleanSpark,
   American Bitcoin, MARA/Marathon, Hut 8, Applied Digital, CoreWeave,
   TeraWulf, Nebius, and Cerebras are normalized to direct linkage when entity

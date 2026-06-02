@@ -20,6 +20,8 @@ def _row(
     rank: int = 1,
     counterparty: str = "",
     subcategory: str = "capital_exposure",
+    source_uri: str = "",
+    metric_dedupe_quote: str = "",
 ) -> dict[str, str]:
     return {
         "packet_id": packet_id,
@@ -35,6 +37,8 @@ def _row(
         "content_hash": content_hash,
         "content_hashes": f'["{content_hash}"]' if content_hash else "[]",
         "evidence_quote": quote,
+        "metric_dedupe_quote": metric_dedupe_quote,
+        "source_uri": source_uri,
         "ai_data_center_linkage": linkage,
     }
 
@@ -179,3 +183,84 @@ def test_blank_or_unknown_linkage_counts_as_not_established() -> None:
 
     assert summary["direct_usd"] == 10_000_000_000
     assert summary["not_established_usd"] == 12_000_000_000
+
+
+def test_relevance_summary_collapses_same_accession_same_amount_rows() -> None:
+    accession_uri = "https://www.sec.gov/Archives/edgar/data/1/000000000125000001/doc.htm"
+    rows = [
+        _row(
+            "accession-a",
+            entity="CoreWeave",
+            linkage="direct",
+            usd=40e9,
+            group="coreweave-a",
+            content_hash="l" * 64,
+            source_uri=accession_uri,
+        ),
+        _row(
+            "accession-b",
+            entity="CoreWeave",
+            linkage="direct",
+            usd=40e9,
+            group="coreweave-b",
+            content_hash="m" * 64,
+            source_uri=accession_uri,
+        ),
+    ]
+
+    summary = summarize_relevance_linkage(rows)
+
+    assert summary["final_metric_group_count"] == 1
+    assert summary["direct_usd"] == 40_000_000_000
+    assert summary["total_usd"] == 40_000_000_000
+
+
+def test_relevance_summary_collapses_strict_cross_filing_instrument_fingerprints() -> None:
+    quote_a = "The notes bear interest at 9.25% and are due 2030 under the indenture."
+    quote_b = "Senior secured notes will bear interest at 9.25% and mature due 2030."
+    rows = [
+        _row(
+            "cross-a",
+            entity="CoreWeave Inc.",
+            linkage="direct",
+            usd=30e9,
+            group="cross-a",
+            source_uri="https://www.sec.gov/Archives/edgar/data/1/000000000125000001/a.htm",
+            quote=quote_a,
+        ),
+        _row(
+            "cross-b",
+            entity="CoreWeave Funding LLC",
+            linkage="direct",
+            usd=30e9,
+            group="cross-b",
+            source_uri="https://www.sec.gov/Archives/edgar/data/1/000000000225000002/b.htm",
+            quote=quote_b,
+        ),
+        _row(
+            "negative-no-year",
+            entity="CoreWeave Inc.",
+            linkage="direct",
+            usd=31e9,
+            group="negative-no-year",
+            counterparty="Agent A",
+            source_uri="https://www.sec.gov/Archives/edgar/data/1/000000000325000003/c.htm",
+            quote="The notes bear interest at 9.25% under the indenture.",
+        ),
+        _row(
+            "negative-other",
+            entity="CoreWeave Inc.",
+            linkage="direct",
+            usd=31e9,
+            group="negative-other",
+            counterparty="Agent B",
+            source_uri="https://www.sec.gov/Archives/edgar/data/1/000000000425000004/d.htm",
+            quote="The notes bear interest at 9.25% under the indenture.",
+        ),
+    ]
+
+    summary = summarize_relevance_linkage(rows)
+
+    assert summary["final_metric_group_count"] == 3
+    assert summary["direct_usd"] == 92_000_000_000
+    assert summary["total_usd"] == 92_000_000_000
