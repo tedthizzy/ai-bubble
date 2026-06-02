@@ -32,14 +32,14 @@ The important change is that ecosystem-scale conclusions are now blocked from be
 
 Latest verified evidence-gated report at this checkpoint:
 
-- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0838.md`
-- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0838.json`
+- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0845.md`
+- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0845.json`
 - `high_confidence_final`: `false`
 - Evidence audit coverage now includes analyzer-level capital, compute, and
   debt-service audits plus explicit row/artifact-backed audits for high-impact
   Burry-answer rollups. The remaining consistency warnings are doc-pattern
   checks and do not open the gate.
-- Source invariant audit: passed across 63 CSV files and more than 9.2M rows
+- Source invariant audit: passed across 63 CSV files and 9,208,844 rows scanned
   with 0 violations and 0 warnings.
 - Acquired source artifacts: 66,660 / 66,660 attempted.
 - Covered filings: 197,243.
@@ -49,10 +49,10 @@ Latest verified evidence-gated report at this checkpoint:
 - Source-backed compute rows: 149.
 - Source-backed timing signals: 3,263.
 - Pending source-backed adjudication items: 6,773.
-- Automated materiality adjudication decisions: 6,663 decisions, with 4,481
-  supported blockers, 2,182 still requiring deeper extraction, 2,935 approved
-  metric rows, and $4.438T source-instrument/economic-obligation-deduped final
-  metric support across 1,586 metric groups. Semantic hard flags are now zero
+- Automated materiality adjudication decisions: 6,663 decisions, with 4,476
+  supported blockers, 2,187 still requiring deeper extraction, 2,930 approved
+  metric rows, and $4.378T deduped final metric support across 1,581
+  source-instrument/economic-obligation metric groups. Semantic hard flags are now zero
   in approved metric rows; 157 approved rows remain indeterminate semantic
   review candidates.
 
@@ -62,9 +62,11 @@ Latest capital and timing outputs:
 - Capital exposure graph total edge notional: $864.18B.
 - AI-infra-relevant graph notional: $5.16B.
 - In-scope debt-like notional: $1.201T.
-- Broader materiality-adjudicated supported exposure: $4.438T across 1,586
+- Broader materiality-adjudicated supported exposure: $4.378T across 1,581
   metric groups; this is a different scope from the curated capital-structure
   deal-graph debt-like metric above, not an additive increment.
+- Unconverted HKD face-value rows are blocked from metric use pending
+  source-backed USD conversion; six rows now carry that extraction gap.
 - Ownership graph LEI nodes: 425,765.
 - Ownership graph source-backed relationships: 643,828.
 - Ownership graph active relationships: 469,194.

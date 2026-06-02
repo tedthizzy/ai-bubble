@@ -250,6 +250,8 @@ def _remaining_gaps(packet: dict[str, str], quote: str) -> list[str]:
         gaps.append("local source quote not resolved")
     if _field(packet, "category") == "capital" and _looks_like_boilerplate(packet, quote):
         gaps.append("confirm final prospectus or underlying agreement terms")
+    if _requires_foreign_currency_conversion(packet, quote):
+        gaps.append("convert non-USD notional to USD before metric use")
     if _aggregate_lease_context_conflicts_with_quote(packet, quote):
         gaps.append("confirm lease obligation source rather than debt securities prospectus")
     if _looks_like_asset_or_capacity_not_debt(packet, quote):
@@ -2100,6 +2102,46 @@ def _aggregate_lease_context_conflicts_with_quote(packet: dict[str, str], quote:
             "the notes were issued pursuant to an indenture",
         ],
     ) and _contains_any(quote_lower, ["indenture", "debt securities", "notes"])
+
+
+def _requires_foreign_currency_conversion(packet: dict[str, str], quote: str) -> bool:
+    if _field(packet, "category") not in {"capital", "contract"}:
+        return False
+    recorded_amount = _float(packet.get("exposure_basis_usd"))
+    if recorded_amount <= 0:
+        return False
+    text = _combined_text(packet, quote)
+    return any(
+        _amounts_close(recorded_amount, nominal_amount)
+        for nominal_amount in _hk_dollar_nominal_amounts(text)
+    )
+
+
+def _hk_dollar_nominal_amounts(text: str) -> list[float]:
+    amounts: list[float] = []
+    for match in re.finditer(
+        r"\bHK\$\s*(?P<amount>\d+(?:,\d{3})*(?:\.\d+)?)\s*"
+        r"(?P<unit>trillion|billion|million|bn|b|m)?\b",
+        text,
+        flags=re.IGNORECASE,
+    ):
+        amount = _float(match.group("amount").replace(",", ""))
+        unit = (match.group("unit") or "").lower()
+        if unit in {"trillion"}:
+            amount *= 1_000_000_000_000
+        elif unit in {"billion", "bn", "b"}:
+            amount *= 1_000_000_000
+        elif unit in {"million", "m"}:
+            amount *= 1_000_000
+        if amount > 0:
+            amounts.append(amount)
+    return amounts
+
+
+def _amounts_close(left: float, right: float, *, tolerance: float = 0.05) -> bool:
+    if left <= 0 or right <= 0:
+        return False
+    return abs(left - right) / max(left, right) <= tolerance
 
 
 def _as_of_date(text: str) -> date | None:

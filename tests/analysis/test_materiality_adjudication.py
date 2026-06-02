@@ -1227,6 +1227,123 @@ def test_materiality_adjudication_blocks_aggregate_lease_context_when_quote_is_d
     assert decision.supported_amount_usd == 0
 
 
+def test_materiality_adjudication_blocks_unconverted_hk_dollar_face_value(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-hkd-face-value",
+                "rank": 1,
+                "review_id": "review-hkd-face-value",
+                "review_group_id": "group-hkd-face-value",
+                "priority": "critical",
+                "category": "capital",
+                "subcategory": "high_notional_debt_like_candidate",
+                "ecosystem_relevance": "market_contagion",
+                "entity": "MGM Resorts International",
+                "counterparty": "Bank of China Limited, Macau Branch",
+                "exposure_basis_usd": "23400000000",
+                "reason": (
+                    "debt-like deal type: debt_facility; notional $23,400,000,000; "
+                    "notional context: transaction_principal; collateral terms present; "
+                    "guarantee scope present"
+                ),
+                "recommended_action": "Confirm metric currency conversion.",
+                "source_uri": "https://www.sec.gov/mgm-hkd-facility.htm",
+                "source_uris": json.dumps(["https://www.sec.gov/mgm-hkd-facility.htm"]),
+                "content_hash": "d" * 64,
+                "content_hashes": json.dumps(["d" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/mgm-hkd-facility.htm",
+                            "content_hash": "d" * 64,
+                            "document_id": "mgm-hkd-facility.htm",
+                            "snippet": (
+                                "MGM China entered into a HK$23.4 billion unsecured "
+                                "revolving credit facility with Bank of China Limited, "
+                                "Macau Branch as agent and certain lenders party thereto."
+                            ),
+                        }
+                    ]
+                ),
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    decision = batch.decisions[0]
+    assert batch.summary.approved_for_metric_use == 0
+    assert decision.decision == "needs_deeper_extraction"
+    assert decision.metric_use_status == "blocked_pending_extraction"
+    assert "convert non-USD notional to USD before metric use" in decision.remaining_gap
+    assert decision.supported_amount_usd == 0
+
+
+def test_materiality_adjudication_allows_preconverted_hk_dollar_notional(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-hkd-converted",
+                "rank": 1,
+                "review_id": "review-hkd-converted",
+                "review_group_id": "group-hkd-converted",
+                "priority": "high",
+                "category": "capital",
+                "subcategory": "high_notional_debt_like_candidate",
+                "ecosystem_relevance": "market_contagion",
+                "entity": "MGM Resorts International",
+                "counterparty": "Bank of China Limited, Macau Branch",
+                "exposure_basis_usd": "3000000000",
+                "reason": (
+                    "debt-like deal type: debt_facility; notional $3,000,000,000; "
+                    "notional context: transaction_principal; collateral terms present; "
+                    "guarantee scope present"
+                ),
+                "recommended_action": "Confirm metric currency conversion.",
+                "source_uri": "https://www.sec.gov/mgm-hkd-facility.htm",
+                "source_uris": json.dumps(["https://www.sec.gov/mgm-hkd-facility.htm"]),
+                "content_hash": "d" * 64,
+                "content_hashes": json.dumps(["d" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/mgm-hkd-facility.htm",
+                            "content_hash": "d" * 64,
+                            "document_id": "mgm-hkd-facility.htm",
+                            "snippet": (
+                                "MGM China entered into a HK$23.4 billion unsecured "
+                                "revolving credit facility with Bank of China Limited, "
+                                "Macau Branch as agent and certain lenders party thereto."
+                            ),
+                        }
+                    ]
+                ),
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    decision = batch.decisions[0]
+    assert batch.summary.approved_for_metric_use == 1
+    assert decision.metric_use_status == "approved_for_metric_use"
+    assert "convert non-USD notional" not in decision.remaining_gap
+    assert decision.supported_amount_usd == 3_000_000_000
+
+
 def test_materiality_adjudication_blocks_bank_financial_metric_snippet(
     tmp_path: Path,
 ) -> None:
