@@ -6598,6 +6598,354 @@ def test_materiality_adjudication_infers_counterparty_from_financing_role_varian
     assert "PNC Capital Markets LLC" in decisions["packet-no-with-underwriter-reps"].risk_bearer
 
 
+def test_materiality_adjudication_infers_counterparty_from_live_role_grammar(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-bank-is-agent",
+                "rank": 1,
+                "review_id": "review-bank-is-agent",
+                "review_group_id": "group-bank-is-agent",
+                "priority": "high",
+                "category": "contract",
+                "subcategory": "contract_tranche_terms",
+                "ecosystem_relevance": "watchlist_entity",
+                "entity": "Example Borrower, Inc.",
+                "counterparty": "",
+                "exposure_basis_usd": "7420000000",
+                "reason": (
+                    "pending contract tranche review; tranche: Credit Facility; "
+                    "notional $7,420,000,000; collateral terms present; "
+                    "guarantee scope present"
+                ),
+                "recommended_action": "Confirm agent and lender roles",
+                "source_uri": "https://www.sec.gov/example-bank-is-agent.htm",
+                "source_uris": json.dumps(["https://www.sec.gov/example-bank-is-agent.htm"]),
+                "content_hash": "g" * 64,
+                "content_hashes": json.dumps(["g" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/example-bank-is-agent.htm",
+                            "content_hash": "g" * 64,
+                            "document_id": "example-bank-is-agent.htm",
+                            "snippet": (
+                                "Bank of America, N.A. is the Administrative Agent "
+                                "and BofA Securities, Inc., PNC Bank, National "
+                                "Association, J.P. Morgan Chase Bank, N.A. and "
+                                "Barclays Bank PLC served as joint lead arrangers "
+                                "for the upsized credit facility."
+                            ),
+                        }
+                    ]
+                ),
+            },
+            {
+                "packet_id": "packet-syndication-agents",
+                "rank": 2,
+                "review_id": "review-syndication-agents",
+                "review_group_id": "group-syndication-agents",
+                "priority": "high",
+                "category": "contract",
+                "subcategory": "contract_tranche_terms",
+                "ecosystem_relevance": "watchlist_entity",
+                "entity": "Example BDC, Inc.",
+                "counterparty": "",
+                "exposure_basis_usd": "5283000000",
+                "reason": (
+                    "pending contract tranche review; tranche: Revolving Credit Facility; "
+                    "notional $5,283,000,000; collateral terms present; "
+                    "guarantee scope present"
+                ),
+                "recommended_action": "Confirm syndication agents",
+                "source_uri": "https://www.sec.gov/example-syndication-agents.htm",
+                "source_uris": json.dumps(
+                    ["https://www.sec.gov/example-syndication-agents.htm"]
+                ),
+                "content_hash": "h" * 64,
+                "content_hashes": json.dumps(["h" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/example-syndication-agents.htm",
+                            "content_hash": "h" * 64,
+                            "document_id": "example-syndication-agents.htm",
+                            "snippet": (
+                                "Bank of America, N.A. are syndication agents "
+                                "with respect to the Revolving Credit Facility. "
+                                "Wells Fargo Securities, LLC is the agent under "
+                                "the Revolving Funding Facility."
+                            ),
+                        }
+                    ]
+                ),
+            },
+            {
+                "packet_id": "packet-capacity-trustee",
+                "rank": 3,
+                "review_id": "review-capacity-trustee",
+                "review_group_id": "group-capacity-trustee",
+                "priority": "high",
+                "category": "contract",
+                "subcategory": "contract_tranche_terms",
+                "ecosystem_relevance": "watchlist_entity",
+                "entity": "Example Utility, Inc.",
+                "counterparty": "",
+                "exposure_basis_usd": "10100000000",
+                "reason": (
+                    "pending contract tranche review; tranche: Secured Notes; "
+                    "notional $10,100,000,000; collateral terms present; "
+                    "guarantee scope present"
+                ),
+                "recommended_action": "Confirm trustee and collateral agent",
+                "source_uri": "https://www.sec.gov/example-capacity-trustee.htm",
+                "source_uris": json.dumps(["https://www.sec.gov/example-capacity-trustee.htm"]),
+                "content_hash": "i" * 64,
+                "content_hashes": json.dumps(["i" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/example-capacity-trustee.htm",
+                            "content_hash": "i" * 64,
+                            "document_id": "example-capacity-trustee.htm",
+                            "snippet": (
+                                "The Bank of New York Mellon Trust Company, National "
+                                "Association, in each of its capacities referenced "
+                                "herein, including trustee, purchase contract agent, "
+                                "collateral agent, custodial agent, securities "
+                                "intermediary and paying agent, has not participated "
+                                "in preparation of the prospectus."
+                            ),
+                        }
+                    ]
+                ),
+            },
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    decisions = {decision.packet_id: decision for decision in batch.decisions}
+    assert "extract named counterparty and role" not in decisions["packet-bank-is-agent"].remaining_gap
+    assert decisions["packet-bank-is-agent"].risk_bearer.startswith("inferred:")
+    assert "Bank" in decisions["packet-bank-is-agent"].risk_bearer
+    assert (
+        "extract named counterparty and role"
+        not in decisions["packet-syndication-agents"].remaining_gap
+    )
+    assert "Bank of America, N.A" in decisions["packet-syndication-agents"].risk_bearer
+    assert (
+        "extract named counterparty and role"
+        not in decisions["packet-capacity-trustee"].remaining_gap
+    )
+    assert "The Bank of New York Mellon Trust Company" in decisions[
+        "packet-capacity-trustee"
+    ].risk_bearer
+
+
+def test_materiality_adjudication_blocks_malformed_comma_grouped_amount(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-malformed-comma-amount",
+                "rank": 1,
+                "review_id": "review-malformed-comma-amount",
+                "review_group_id": "group-malformed-comma-amount",
+                "priority": "critical",
+                "category": "contract",
+                "subcategory": "contract_tranche_terms",
+                "ecosystem_relevance": "not_tagged",
+                "entity": "Kadant Example Inc.",
+                "counterparty": "lenders party thereto",
+                "exposure_basis_usd": "40750000000",
+                "reason": (
+                    "pending contract tranche review; tranche: Revolving credit facility; "
+                    "notional $40,750,000,000; collateral terms present; "
+                    "guarantee scope present"
+                ),
+                "recommended_action": "Confirm malformed source amount",
+                "source_uri": "https://www.sec.gov/example-malformed-comma.htm",
+                "source_uris": json.dumps(["https://www.sec.gov/example-malformed-comma.htm"]),
+                "content_hash": "j" * 64,
+                "content_hashes": json.dumps(["j" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/example-malformed-comma.htm",
+                            "content_hash": "j" * 64,
+                            "document_id": "example-malformed-comma.htm",
+                            "snippet": (
+                                "The original amount of the Total Revolving Commitments "
+                                "on the amendment effective date is $40750,000,000. "
+                                "The agreement is among Kadant Example Inc., as "
+                                "Borrower, the Lenders from time to time party "
+                                "thereto, Citizens Bank, N.A., as Administrative "
+                                "Agent and Multicurrency Administrative Agent."
+                            ),
+                        }
+                    ]
+                ),
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    decision = batch.decisions[0]
+    assert "reselect malformed comma-grouped amount before metric use" in decision.remaining_gap
+    assert decision.metric_use_status == "blocked_pending_extraction"
+    assert decision.supported_amount_usd == 0
+
+
+def test_materiality_adjudication_blocks_malformed_comma_amount_in_local_source(
+    tmp_path: Path,
+    monkeypatch: object,
+) -> None:
+    source_uri = (
+        "https://www.sec.gov/Archives/edgar/data/123456/"
+        "000123456726000001/example-credit.htm"
+    )
+    source_path = (
+        tmp_path
+        / "data"
+        / "edgar_acquisition"
+        / "documents"
+        / "0000123456"
+        / "000123456726000001"
+        / "example-credit.htm"
+    )
+    source_path.parent.mkdir(parents=True, exist_ok=True)
+    source_path.write_text(
+        "The Total Revolving Commitments on the amendment effective date are "
+        "$40750,000,000 under the credit agreement."
+    )
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-local-source-malformed-comma-amount",
+                "rank": 1,
+                "review_id": "review-local-source-malformed-comma-amount",
+                "review_group_id": "group-local-source-malformed-comma-amount",
+                "priority": "critical",
+                "category": "contract",
+                "subcategory": "contract_tranche_terms",
+                "ecosystem_relevance": "not_tagged",
+                "entity": "Kadant Example Inc.",
+                "counterparty": "lenders party thereto",
+                "exposure_basis_usd": "40750000000",
+                "reason": (
+                    "pending contract tranche review; tranche: Revolving credit facility; "
+                    "notional $40,750,000,000; collateral terms present; "
+                    "guarantee scope present"
+                ),
+                "recommended_action": "Confirm malformed source amount",
+                "source_uri": source_uri,
+                "source_uris": json.dumps([source_uri]),
+                "content_hash": "l" * 64,
+                "content_hashes": json.dumps(["l" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": source_uri,
+                            "content_hash": "l" * 64,
+                            "document_id": "example-credit.htm",
+                            "snippet": (
+                                "The agreement is among Kadant Example Inc., as "
+                                "Borrower, the Lenders from time to time party "
+                                "thereto, Citizens Bank, N.A., as Administrative "
+                                "Agent and Multicurrency Administrative Agent."
+                            ),
+                        }
+                    ]
+                ),
+            }
+        ],
+    )
+    monkeypatch.chdir(tmp_path)
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    decision = batch.decisions[0]
+    assert "reselect malformed comma-grouped amount before metric use" in decision.remaining_gap
+    assert decision.metric_use_status == "blocked_pending_extraction"
+    assert decision.supported_amount_usd == 0
+
+
+def test_materiality_adjudication_allows_valid_comma_grouped_amount(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-valid-comma-amount",
+                "rank": 1,
+                "review_id": "review-valid-comma-amount",
+                "review_group_id": "group-valid-comma-amount",
+                "priority": "critical",
+                "category": "contract",
+                "subcategory": "contract_tranche_terms",
+                "ecosystem_relevance": "not_tagged",
+                "entity": "Valid Borrower Inc.",
+                "counterparty": "lenders party thereto",
+                "exposure_basis_usd": "40750000000",
+                "reason": (
+                    "pending contract tranche review; tranche: Revolving credit facility; "
+                    "notional $40,750,000,000; collateral terms present; "
+                    "guarantee scope present"
+                ),
+                "recommended_action": "Confirm committed facility",
+                "source_uri": "https://www.sec.gov/example-valid-comma.htm",
+                "source_uris": json.dumps(["https://www.sec.gov/example-valid-comma.htm"]),
+                "content_hash": "k" * 64,
+                "content_hashes": json.dumps(["k" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/example-valid-comma.htm",
+                            "content_hash": "k" * 64,
+                            "document_id": "example-valid-comma.htm",
+                            "snippet": (
+                                "The Borrower entered into a senior secured credit "
+                                "agreement with the lenders party thereto and "
+                                "Citizens Bank, N.A., as Administrative Agent. The "
+                                "facility provides total revolving commitments of "
+                                "$40,750,000,000 and is guaranteed by subsidiary "
+                                "guarantors."
+                            ),
+                        }
+                    ]
+                ),
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    decision = batch.decisions[0]
+    assert "reselect malformed comma-grouped amount before metric use" not in decision.remaining_gap
+    assert decision.metric_use_status == "approved_for_metric_use"
+
+
 def test_write_materiality_adjudication_decisions(tmp_path: Path) -> None:
     _write_csv(
         tmp_path / "reports" / "materiality_adjudication_packets.csv",

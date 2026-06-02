@@ -16,6 +16,7 @@ from collections import Counter
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import asdict, dataclass, replace
 from datetime import UTC, date, datetime
+from functools import lru_cache
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
@@ -922,8 +923,15 @@ def _counterparty_from_named_role_patterns(quote: str) -> str:
             [
                 rf"\bamong\b[\s\S]{{2,360}}?\bas\s+borrower\s*,\s*(?P<name>{financial_name})\s*,\s*as\s+(?:the\s+)?{agent_role}\b",
                 rf"(?P<name>{financial_name})\s*,\s*as\s+(?:the\s+)?{agent_role}\b",
+                rf"(?P<name>{financial_name})\s+is\s+(?:the\s+)?{agent_role}\b",
+                rf"(?P<name>{financial_name})\s+is\s+(?:the\s+)?agent\s+under\b",
+                rf"(?P<name>{financial_name})\s+are\s+(?:syndication|administrative|collateral|facility)\s+agents?\b",
                 rf"\bwith\s+(?P<name>[A-Z][A-Za-z0-9 .,&'/-]{{2,220}}?)\s*,?\s+(?:as|serving as)\s+(?:the\s+)?{agent_role}\b",
             ]
+        )
+    if _contains_any(quote_lower, ["trustee", "purchase contract agent", "collateral agent"]):
+        patterns.append(
+            rf"(?P<name>{financial_name})\s*,\s+in\s+each\s+of\s+its\s+capacities[\s\S]{{0,220}}?\b(?:trustee|purchase\s+contract\s+agent|collateral\s+agent)\b"
         )
     if _contains_any(quote_lower, ["arranger", "bookrunner", "placement agent"]):
         patterns.append(
@@ -2437,6 +2445,58 @@ def _looks_like_undrawn_capacity_not_debt(packet: dict[str, str], quote: str) ->
     return _has_terminated_commitment_capacity(text)
 
 
+def _requires_malformed_amount_grouping_reselection(
+    packet: dict[str, str],
+    quote: str,
+) -> bool:
+    amount = _float(packet.get("exposure_basis_usd"))
+    if amount <= 0:
+        return False
+    texts = [_combined_text(packet, quote)]
+    source_uris = _json_list(packet.get("source_uris")) or [_field(packet, "source_uri")]
+    texts.extend(
+        text
+        for uri in source_uris
+        if (text := _local_sec_source_text(uri, str(Path.cwd())))
+    )
+    for text in texts:
+        for match in re.finditer(r"\$\s*(?P<head>\d{4,})(?P<tail>(?:,\d{3})+)", text):
+            malformed_amount = _float(
+                f"{match.group('head')}{match.group('tail').replace(',', '')}"
+            )
+            if _amounts_close(malformed_amount, amount, tolerance=0.001):
+                return True
+    return False
+
+
+_SEC_ARCHIVE_DOCUMENT_RE = re.compile(
+    r"sec\.gov/Archives/edgar/data/(?P<cik>\d+)/(?P<accession>\d+)/(?P<document>[^?#]+)",
+    re.I,
+)
+
+
+@lru_cache(maxsize=4096)
+def _local_sec_source_text(source_uri: str, cwd: str) -> str:
+    match = _SEC_ARCHIVE_DOCUMENT_RE.search(source_uri or "")
+    if not match:
+        return ""
+    path = (
+        Path(cwd)
+        / "data"
+        / "edgar_acquisition"
+        / "documents"
+        / match.group("cik").zfill(10)
+        / match.group("accession")
+        / match.group("document")
+    )
+    if not path.exists() or not path.is_file():
+        return ""
+    try:
+        return path.read_text(errors="replace")
+    except OSError:
+        return ""
+
+
 def _amount_bound_capacity_clauses(text: str, amount: float) -> list[str]:
     if amount <= 0 or not text:
         return []
@@ -2822,6 +2882,8 @@ def _currency_gaps(packet: dict[str, str], quote: str) -> list[str]:
         gaps.append(
             "extract USD-equivalent or reselect source quote for non-USD/mixed-currency obligation"
         )
+    if _requires_malformed_amount_grouping_reselection(packet, quote):
+        gaps.append("reselect malformed comma-grouped amount before metric use")
     return gaps
 
 

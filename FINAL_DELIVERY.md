@@ -32,8 +32,8 @@ The important change is that ecosystem-scale conclusions are now blocked from be
 
 Latest verified evidence-gated report at this checkpoint:
 
-- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260602-1531.md`
-- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260602-1531.json`
+- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260602-1547.md`
+- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260602-1547.json`
 - `high_confidence_final`: `false`
 - Evidence audit coverage now includes analyzer-level capital, compute, and
   debt-service audits plus explicit row/artifact-backed audits for high-impact
@@ -49,12 +49,14 @@ Latest verified evidence-gated report at this checkpoint:
 - Source-backed compute rows: 149.
 - Source-backed timing signals: 3,263.
 - Pending source-backed adjudication items: 6,773.
-- Automated materiality adjudication decisions: 6,663 decisions, with 4,369
-  supported blockers, 2,294 still requiring deeper extraction, 2,823 approved
-  metric rows, and $4.076T deduped final metric support across 1,445
+- Automated materiality adjudication decisions: 6,663 decisions, with 4,383
+  supported blockers, 2,280 still requiring deeper extraction, 2,839 approved
+  metric rows, and $4.056T deduped final metric support across 1,450
   source-instrument/same-accession/strict-cross-filing/economic-obligation metric groups. Semantic hard flags are now zero
-  in approved metric rows; 110 approved rows remain indeterminate semantic
-  review candidates.
+  in approved metric rows; 2,729 approved rows classify as committed
+  debt/obligation text and 110 approved rows remain indeterminate semantic
+  review candidates. Malformed comma-grouped SEC source amount tokens now block
+  metric use pending source-quote reselection or corrected extraction.
 
 Latest capital and timing outputs:
 
@@ -62,11 +64,11 @@ Latest capital and timing outputs:
 - Capital exposure graph total edge notional: $864.18B.
 - AI-infra-relevant graph notional: $5.16B.
 - In-scope debt-like notional: $1.201T.
-- Broader materiality-adjudicated supported exposure: $4.076T across 1,445
+- Broader materiality-adjudicated supported exposure: $4.056T across 1,450
   metric groups; this is a different scope from the curated capital-structure
   deal-graph debt-like metric above, not an additive increment.
 - Established direct/watchlist AI-data-center-linked support inside that broader
-  materiality metric is $0.456T; 89.37% remains source-backed but not yet
+  materiality metric is $0.463T; 89.17% remains source-backed but not yet
   thesis-linked.
 - Clear AI/HPC/bitcoin data-center operators are normalized to direct linkage
   when source tags are blank, watchlist, or not established; Galaxy Digital is
