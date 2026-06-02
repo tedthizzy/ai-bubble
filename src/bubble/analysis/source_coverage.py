@@ -32,6 +32,7 @@ CORPUS_BY_EXACT_FILENAME = {
     "equipment_records.csv": "equipment_records",
     "observations.csv": "construction_observations",
     "construction_observations.csv": "construction_observations",
+    "physical_execution_terms.csv": "physical_execution_terms",
     "deals.csv": "extracted_deals",
     "extracted_deals.csv": "extracted_deals",
     "tranches.csv": "contract_tranches",
@@ -76,6 +77,7 @@ class SourceCoverageReport:
     permit_records: int
     equipment_records: int
     construction_observations: int
+    physical_execution_terms: int
     ppas: int
     lease_agreements: int
     lei_records: int
@@ -126,6 +128,7 @@ def build_source_coverage_report(  # noqa: PLR0912, PLR0915
         "permit_records": [],
         "equipment_records": [],
         "construction_observations": [],
+        "physical_execution_terms": [],
         "ppas": [],
         "lease_agreements": [],
         "lei_records": [],
@@ -313,6 +316,7 @@ def build_source_coverage_report(  # noqa: PLR0912, PLR0915
         permit_records=counts["permit_records"],
         equipment_records=counts["equipment_records"],
         construction_observations=counts["construction_observations"],
+        physical_execution_terms=counts["physical_execution_terms"],
         ppas=ppas,
         lease_agreements=leases,
         lei_records=counts["lei_records"],

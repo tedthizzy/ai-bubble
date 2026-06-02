@@ -48,8 +48,12 @@ _BEHIND_METER_RE = re.compile(
     re.IGNORECASE,
 )
 _QUEUE_BYPASS_RE = re.compile(
-    r"(?:sidestep|skip|bypass|avoid).{0,80}(?:PJM|ERCOT|ISO|interconnection|queue)|"
-    r"(?:no|without).{0,80}(?:ISO|ERCOT|PJM|interconnection).{0,40}(?:queue|INR|record)",
+    r"(?:sidestep|skip|bypass|avoid)(?:s|ed|ing)?\s+"
+    r"(?:the\s+)?(?:PJM|ERCOT|ISO|interconnection|queue)|"
+    r"(?:sidestep|skip|bypass|avoid)(?:s|ed|ing)?.{0,80}"
+    r"(?:lengthy|multi-year|six-year|6-year).{0,40}(?:interconnection|queue)|"
+    r"(?:\bno\b(?!\.)|\bwithout\b).{0,80}(?:ISO|ERCOT|PJM|interconnection).{0,40}"
+    r"(?:queue|INR|record)",
     re.IGNORECASE | re.DOTALL,
 )
 _LITIGATION_RE = re.compile(
@@ -228,11 +232,30 @@ def _boolean_terms(row: dict[str, Any], text: str) -> list[PhysicalExecutionTerm
     terms: list[PhysicalExecutionTerm] = []
     for term_type, pattern in patterns:
         for match in pattern.finditer(text):
-            terms.append(
-                _term(row, term_type, "present", "flag", _quote(text, match.start(), match.end()))
-            )
+            quote = _quote(text, match.start(), match.end())
+            if term_type == "permit_litigation_or_enforcement_risk" and _is_negated_litigation(
+                quote
+            ):
+                continue
+            terms.append(_term(row, term_type, "present", "flag", quote))
             break
     return terms
+
+
+def _is_negated_litigation(quote: str) -> bool:
+    quote_lower = quote.lower()
+    negated_markers = (
+        "no lawsuits",
+        "no public hearing",
+        "no petitions",
+        "no documented local opposition",
+        "no formal protests",
+        "no comments received",
+        "no public comment",
+        "not located",
+        "were located in available sources",
+    )
+    return any(marker in quote_lower for marker in negated_markers)
 
 
 def _capacity_context_is_relevant(context_lower: str) -> bool:

@@ -95,6 +95,33 @@ def test_air_permit_id_does_not_match_iso_queue_terms() -> None:
     assert not any(term.term_type == "queue_bypass_or_no_queue" for term in terms)
 
 
+def test_queue_bypass_does_not_match_bypass_project_name() -> None:
+    row = _row(
+        "Project Name: Nottingham 230kV Reactor Bypass. ProjectType: Upgrade "
+        "Request. metadata.publisher: PJM Interconnection.",
+        project_name="Nottingham 230kV Reactor Bypass",
+    )
+
+    assert not any(
+        term.term_type == "queue_bypass_or_no_queue"
+        for term in extract_physical_execution_terms(row)
+    )
+
+
+def test_queue_bypass_does_not_match_unit_number_abbreviation() -> None:
+    row = _row(
+        "Name: Amos Unit 3. CommercialName: John Amos Generating Plant Unit "
+        "No. 3. Fuel: Coal. ProjectType: Generation Interconnection. "
+        "metadata.publisher: PJM Interconnection.",
+        project_name="Amos Unit 3",
+    )
+
+    assert not any(
+        term.term_type == "queue_bypass_or_no_queue"
+        for term in extract_physical_execution_terms(row)
+    )
+
+
 def test_extracts_utility_grid_buildout_and_ratepayer_transfer() -> None:
     row = _row(
         "The LPSC approval order approved Entergy Louisiana's Hyperion project "
@@ -141,3 +168,16 @@ def test_ignores_generic_financing_text_without_physical_execution_terms() -> No
     )
 
     assert extract_physical_execution_terms(row) == []
+
+
+def test_litigation_risk_ignores_negated_no_lawsuits_language() -> None:
+    row = _row(
+        "Challenges: no public hearing transcripts, petitions, or litigation "
+        "related to the campus were located in available sources.",
+        project_name="Generic campus",
+    )
+
+    assert not any(
+        term.term_type == "permit_litigation_or_enforcement_risk"
+        for term in extract_physical_execution_terms(row)
+    )

@@ -20,7 +20,7 @@ def _write_csv(path: Path, rows: list[dict[str, object]]) -> None:
         writer.writerows(rows)
 
 
-def test_source_coverage_counts_real_corpora_and_missing_gaps(tmp_path: Path):
+def test_source_coverage_counts_real_corpora_and_missing_gaps(tmp_path: Path):  # noqa: PLR0915
     _write_csv(
         tmp_path / "manifests" / "edgar_filing_manifest_20260601.csv",
         [
@@ -49,6 +49,17 @@ def test_source_coverage_counts_real_corpora_and_missing_gaps(tmp_path: Path):
     )
     _write_csv(
         tmp_path / "physical" / "permits.csv", [{"permit_id": "air1", "source_uri": "deq:air1"}]
+    )
+    _write_csv(
+        tmp_path / "physical" / "physical_execution_terms.csv",
+        [
+            {
+                "term_type": "onsite_generation_mw",
+                "value": "360",
+                "source_uri": "deq:air1",
+                "content_hash": "physicalhash",
+            }
+        ],
     )
     _write_csv(
         tmp_path / "capital" / "deals.csv",
@@ -172,6 +183,7 @@ def test_source_coverage_counts_real_corpora_and_missing_gaps(tmp_path: Path):
     assert report.queue_records == 1
     assert report.equipment_records == 1
     assert report.permit_records == 1
+    assert report.physical_execution_terms == 1
     assert report.lease_agreements == 1
     assert report.lei_records == 1
     assert report.ppas == 1

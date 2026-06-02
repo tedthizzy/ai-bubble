@@ -32,8 +32,8 @@ The important change is that ecosystem-scale conclusions are now blocked from be
 
 Latest verified evidence-gated report at this checkpoint:
 
-- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260602-1905.md`
-- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260602-1905.json`
+- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260602-1928.md`
+- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260602-1928.json`
 - `high_confidence_final`: `false`
 - Evidence audit coverage now includes 474 claim audits: analyzer-level capital,
   compute, and debt-service audits, explicit row/artifact-backed audits for
@@ -53,6 +53,7 @@ Latest verified evidence-gated report at this checkpoint:
 - Source-backed normalized entities: 789,787.
 - Projects: 17,227.
 - Source-backed deals: 62,952.
+- Source-backed physical execution terms: 821.
 - Compute economics rows: 272 total, including 180 source-backed rows after
   provenance dedupe.
 - Source-backed timing signals: 3,263.
@@ -126,6 +127,9 @@ Latest capital and timing outputs:
   air permits, behind-the-meter/off-grid status, queue-bypass language,
   litigation/enforcement risk, utility approvals, and ratepayer stranded-asset
   transfer terms.
+- `scripts/extract_physical_execution_terms.py` materializes those rows to
+  `data/physical/physical_execution_terms.csv`; the latest run wrote 821 terms
+  from tracker, queue, and permit source rows.
 - Broader materiality-adjudicated supported exposure: $3.742T across 1,380
   metric groups; this is a different scope from the curated capital-structure
   deal-graph debt-like metric above, not an additive increment.
