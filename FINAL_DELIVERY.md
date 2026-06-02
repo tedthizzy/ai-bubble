@@ -80,11 +80,19 @@ Latest capital and timing outputs:
   maturity wall is now labeled as a floor because 165 of 439 distinct
   debt-service obligations and $541.811B of distinct debt-like notional still
   lack maturity-date evidence; distinct measured-rate notional coverage is
-  44.2%.
+  44.2%. A follow-up fixture pack now identifies sibling-fill candidates where
+  known coupons can be propagated to duplicate instrument rows, narrowing the
+  true residual extraction queue to specific instruments rather than implying a
+  broad mass-extraction pass.
 - Contract-contagion notional is now explicitly labeled as path-summed and
   multiplicity-inflated: $44.591T across 8,749 paths, with $1.919T across
   453 AI-infra-relevant paths, is a diagnostic path surface rather than
   headline AI/data-center exposure.
+- Forward-monitoring and hidden-leverage research packs have been imported as
+  handoff artifacts: a bubble leading-indicator catalog for future crack-window
+  monitoring, and a hidden-leverage taxonomy that keeps the committed-debt
+  metric distinct from excluded economic commitments such as take-or-pay,
+  hosting, colocation, and supplier-financing obligations.
 - Broader materiality-adjudicated supported exposure: $3.742T across 1,380
   metric groups; this is a different scope from the curated capital-structure
   deal-graph debt-like metric above, not an additive increment.

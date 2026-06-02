@@ -1,0 +1,7 @@
+issuer,known_coupons_pct,known_rate_rows,null_rate_rows,disposition,residual_extraction_needed,notes
+TERAWULF INC.,7.75; 6.4,4,9,SIBLING-FILL,none,9 NULL rows are cross-filing duplicates of the 7.75% Senior Secured Notes due 2030 + 6.4% notes across multiple 8-K/press-release filings (tm2529300/tm2528904/tm2528632/tm2611661/wulf-20260428). Propagate known coupon to same-instrument duplicates.
+Hut 8 Corp.,6.192,3,4,SIBLING-FILL,none,NULL rows duplicate the 6.192% Senior Secured Notes due 2042 (tm2613163/tm2612880/tm2612485 same issuance).
+"CoreWeave, Inc.",2.25; 9.0,2,1,SIBLING-FILL,verify the 1 null is the convert or the 9.0% term loan,2.25% convertible + 9.0% facility known; the 1 NULL likely duplicates one of these.
+Applied Digital Corp.,9.25,1,1,SIBLING-FILL,verify the 1 null,9.25% known; confirm the NULL is the same instrument.
+IREN Ltd,(none extracted; 1.00% convertible known from my reselect lane),0,1,GENUINE EXTRACTION,IREN $6B 424b5 (ny20064909x1_424b5) coupon + the $3.0B 1.00% convertibles due 2033 (reselect lane),IREN has NO coupon in debt_service but my reselect lane already verified 1.00% convertibles; the $6B 424b5 needs one extraction.
+"MARA Holdings, Inc.",(none),0,1,GENUINE EXTRACTION,MARA convertible coupon (ex99-1),genuine missing coupon; 1 filing to extract.

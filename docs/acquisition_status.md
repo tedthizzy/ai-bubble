@@ -98,6 +98,16 @@ as a run log, not as a final investment conclusion.
   downside-bearer resolver taxonomy, utility/ratepayer downside, and
   entity-family graph-display guardrails. They are fixture/design inputs, not
   production metric changes.
+- Three additional Claude branch-safe research packs were imported for
+  forward-monitoring and scope calibration: bubble leading indicators,
+  rate-coverage sibling-fill candidates, and hidden-leverage/economic-commitment
+  taxonomy. These are also fixture/design inputs, not production metric changes:
+  the leading-indicator catalog defines what to monitor for future crack-window
+  movement, the rate-coverage sibling-fill pack narrows true coupon-extraction
+  work to residual instruments rather than duplicate rows, and the
+  hidden-leverage taxonomy separates committed-debt metrics from excluded
+  off-balance-sheet economic commitments such as take-or-pay, hosting,
+  colocation, and supplier-financing obligations.
 - The broader materiality metric is now split by adjudicated thesis linkage:
   $0.440T has established direct/watchlist AI-data-center linkage, while
   88.9% is source-backed but not yet established as AI/data-center-linked.
