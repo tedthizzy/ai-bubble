@@ -228,6 +228,17 @@ as a run log, not as a final investment conclusion.
   CleanSpark, MARA, and Nebius convertibles. This is field-level evidence for
   DSCR/timing/downside analysis and does not change committed-debt metric
   totals.
+- A read-only coverage checker now summarizes that verified field pack:
+  `scripts/check_direct_tier_debt_service_field_coverage.py`, writing
+  `handoffs/fixtures/debt_service_verified_field_coverage_20260602.csv`. The
+  current coverage surface has 8 rows: 3
+  `core_structural_fields_verified` facilities, 1
+  `collateral_recourse_rate_verified` facility, 3
+  `parent_unsecured_recourse_verified` convertible facilities, and 1
+  `aggregate_context_only` IREN Hardware 3 row. It preserves 27 primary-EDGAR
+  rows, 2 partial-primary rows, and 1 derived JV-share row, and flags the
+  remaining field gaps explicitly rather than implying full DSCR/payback
+  readiness.
 - A read-only direct-tier debt-card alignment checker now compares current
   final-metric survivors with the normalized direct-tier card inventory:
   `scripts/check_direct_tier_debt_card_alignment.py`. On the 21:21 decisions it

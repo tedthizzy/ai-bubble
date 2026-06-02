@@ -165,6 +165,13 @@ Latest capital and timing outputs:
   and parent-unsecured convertible recourse for CleanSpark, MARA, and Nebius.
   This improves DSCR, timing, collateral-recovery, and downside-bearer
   evidence without changing the committed-debt metric.
+- `scripts/check_direct_tier_debt_service_field_coverage.py` now converts that
+  long-form evidence into a facility-level coverage fixture:
+  `handoffs/fixtures/debt_service_verified_field_coverage_20260602.csv`. It
+  reports 3 core-structural verified facilities, 1 collateral/recourse/rate
+  verified facility, 3 parent-unsecured recourse verified convertibles, and 1
+  aggregate-context row, while keeping remaining missing covenants/rate fields
+  visible for DSCR/payback work.
 - A companion direct-tier economic-event duplicate checker now turns that queue
   into row-level review clusters:
   `scripts/check_direct_tier_economic_event_duplicates.py` writes
