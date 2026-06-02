@@ -1603,6 +1603,172 @@ def test_materiality_adjudication_treats_bank_counterparty_credit_facility_as_re
     assert decision.metric_use_status == "approved_for_metric_use"
 
 
+def test_materiality_adjudication_supports_weak_link_physical_execution_without_gap(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-weak-link-physical",
+                "rank": 1,
+                "review_id": "review-weak-link-physical",
+                "review_group_id": "group-weak-link-physical",
+                "priority": "high",
+                "category": "weak_link",
+                "subcategory": "physical_execution",
+                "ecosystem_relevance": "direct_ai_infra",
+                "entity": "Example Campus LLC",
+                "counterparty": "",
+                "exposure_basis_usd": "24000000000",
+                "reason": (
+                    "weak-link risk level: high; No source-backed grid interconnection "
+                    "record attached.; Project is near target in-service date but not "
+                    "visibly under construction."
+                ),
+                "recommended_action": (
+                    "persist underlying source rows and move composite risk to "
+                    "metric-specific decisions"
+                ),
+                "source_uri": "https://example.org/projects.csv",
+                "source_uris": json.dumps(["https://example.org/projects.csv"]),
+                "content_hash": "a" * 64,
+                "content_hashes": json.dumps(["a" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://example.org/projects.csv",
+                            "content_hash": "a" * 64,
+                            "document_id": "projects.csv",
+                            "snippet": (
+                                "Planned AI campus with 2,400 MW capacity and no visible "
+                                "construction progress."
+                            ),
+                        }
+                    ]
+                ),
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+    decision = batch.decisions[0]
+    assert decision.decision == "supported_as_material_blocker"
+    assert decision.remaining_gap == ""
+    assert decision.metric_use_status == "triage_only"
+
+
+def test_materiality_adjudication_adds_gap_for_not_offer_boilerplate(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-capital-not-offer",
+                "rank": 1,
+                "review_id": "review-capital-not-offer",
+                "review_group_id": "group-capital-not-offer",
+                "priority": "high",
+                "category": "capital",
+                "subcategory": "high_notional_debt_like_candidate",
+                "ecosystem_relevance": "watchlist_entity",
+                "entity": "Example Issuer Inc.",
+                "counterparty": "noteholders",
+                "exposure_basis_usd": "1000000000",
+                "reason": (
+                    "pending adjudication status: pending; debt-like deal type: bond; "
+                    "notional $1,000,000,000; notional context: transaction_principal"
+                ),
+                "recommended_action": "Confirm final offering terms",
+                "source_uri": "https://www.sec.gov/example-not-offer.htm",
+                "source_uris": json.dumps(["https://www.sec.gov/example-not-offer.htm"]),
+                "content_hash": "b" * 64,
+                "content_hashes": json.dumps(["b" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/example-not-offer.htm",
+                            "content_hash": "b" * 64,
+                            "document_id": "example-not-offer.htm",
+                            "snippet": (
+                                "This communication is not an offer to sell any securities."
+                            ),
+                        }
+                    ]
+                ),
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+    decision = batch.decisions[0]
+    assert decision.decision == "needs_deeper_extraction"
+    assert "confirm final prospectus or underlying agreement terms" in decision.remaining_gap
+
+
+def test_materiality_adjudication_does_not_treat_registration_statement_reference_as_boilerplate(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-registration-statement-reference",
+                "rank": 1,
+                "review_id": "review-registration-statement-reference",
+                "review_group_id": "group-registration-statement-reference",
+                "priority": "high",
+                "category": "capital",
+                "subcategory": "high_notional_debt_like_candidate",
+                "ecosystem_relevance": "watchlist_entity",
+                "entity": "Example Issuer Inc.",
+                "counterparty": "",
+                "exposure_basis_usd": "1000000000",
+                "reason": (
+                    "pending adjudication status: pending; debt-like deal type: bond; "
+                    "notional $1,000,000,000; notional context: transaction_principal; "
+                    "commitment scope: specific_transaction_commitment"
+                ),
+                "recommended_action": "Confirm maturity and pricing terms",
+                "source_uri": "https://www.sec.gov/example-424b2.htm",
+                "source_uris": json.dumps(["https://www.sec.gov/example-424b2.htm"]),
+                "content_hash": "c" * 64,
+                "content_hashes": json.dumps(["c" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/example-424b2.htm",
+                            "content_hash": "c" * 64,
+                            "document_id": "example-424b2.htm",
+                            "snippet": (
+                                "Filed pursuant to Rule 424(b)(2) Registration Statement "
+                                "No. 333-275201. Prospectus Supplement. "
+                                "$1,000,000,000 aggregate principal amount of senior "
+                                "unsecured notes due 2035 issued under an indenture."
+                            ),
+                        }
+                    ]
+                ),
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+    decision = batch.decisions[0]
+    assert "confirm final prospectus or underlying agreement terms" not in decision.remaining_gap
+    assert decision.metric_use_status == "approved_for_metric_use"
+
+
 def test_materiality_adjudication_routes_generic_contract_boilerplate_to_term_evidence_gap(
     tmp_path: Path,
 ) -> None:

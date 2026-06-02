@@ -1,13 +1,13 @@
 # Acquisition Status
 
-Last updated: 2026-06-02 00:51 UTC.
+Last updated: 2026-06-02 00:56 UTC.
 
 This file is the operational snapshot for the current evidence corpus. Treat it
 as a run log, not as a final investment conclusion.
 
 ## Current Corpus
 
-- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0050.md`
+- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0055.md`
 - Evidence gate: not high-confidence final.
 - Source invariant audit: passed at 2026-06-01 23:47 UTC, 63 CSV files
   and 9,195,946 rows scanned, 0 violations, 0 warnings.
@@ -36,14 +36,14 @@ as a run log, not as a final investment conclusion.
   the packet set.
 - Automated materiality adjudication decisions: 6,699 decisions, 6,495 with
   resolved text quotes plus 204 row-context-backed decisions for non-text
-  sources, 3,863 supported as material blockers, 2,836 requiring deeper
-  extraction, 0 requiring source retrieval, and 2,384 source-backed rows
-  approved for metric use. Those approved rows total $10.176T as row-level
-  supported amounts and currently remain $10.174T after latest-snapshot metric
-  dedupe across 2,383 metric groups; they are not treated as individual
+  sources, 3,971 supported as material blockers, 2,728 requiring deeper
+  extraction, 0 requiring source retrieval, and 2,391 source-backed rows
+  approved for metric use. Those approved rows total $10.186T as row-level
+  supported amounts and currently remain $10.184T after latest-snapshot metric
+  dedupe across 2,390 metric groups; they are not treated as individual
   contracts unless contract terms are separately extracted.
 - Decision coverage over packaged blocker groups: 100.0%; unresolved decision
-  share remains 42.33% (still extraction-bound, not source-retrieval-bound).
+  share remains 40.72% (still extraction-bound, not source-retrieval-bound).
 - Top remaining decision gaps are now named counterparty role extraction
   (1,461), collateral scope (1,305), recourse/guarantee scope (884), split
   aggregate disclosure from committed obligations (190),
@@ -129,6 +129,15 @@ Ready now:
 - lender-role recourse detection now accepts bank/trust/financial-institution
   counterparty names (not only explicit `lender`/`agent` labels) when rows are
   already source-backed transaction facilities/principal commitments
+- weak-link support-term matching now includes physical execution language
+  (`capacity`, `MW`, `construction`, `planned`, `queue`, `permit`,
+  `interconnection`) so source-backed physical weak-link blockers are no longer
+  falsely left in unresolved/no-gap status
+- capital boilerplate gating is now carried as an explicit extraction gap
+  (`confirm final prospectus or underlying agreement terms`) instead of an
+  implicit decision override, and plain `Registration Statement` references in
+  otherwise term-specific 424B/FWP offerings are no longer treated as boilerplate
+  by themselves
 - issuer-level debt-outstanding snapshots now route to aggregate-to-committed
   split blocking even when upstream context labeled the amount as
   transaction-principal, reducing false contract-level counterparty requirements

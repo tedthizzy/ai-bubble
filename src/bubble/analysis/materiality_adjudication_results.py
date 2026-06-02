@@ -219,8 +219,6 @@ def _decision(
         return "reject_missing_provenance"
     if source_support == "source_uri_only":
         return "needs_source_retrieval"
-    if _field(packet, "category") == "capital" and _looks_like_boilerplate(packet, quote):
-        return "needs_deeper_extraction"
     if gaps:
         return "needs_deeper_extraction"
     if _has_supporting_terms(packet, quote):
@@ -243,6 +241,8 @@ def _remaining_gaps(packet: dict[str, str], quote: str) -> list[str]:
     gaps: list[str] = []
     if not quote:
         gaps.append("local source quote not resolved")
+    if _field(packet, "category") == "capital" and _looks_like_boilerplate(packet, quote):
+        gaps.append("confirm final prospectus or underlying agreement terms")
     if _requires_aggregate_split(packet, quote):
         gaps.append("split aggregate disclosure from specific committed obligation")
     if "preliminary prospectus" in text or "not complete and may be changed" in text:
@@ -812,7 +812,22 @@ def _has_supporting_terms(packet: dict[str, str], quote: str) -> bool:
         "contagion": ["guarantee", "collateral", "parent", "subsidiary", "non-recourse"],
         "physical": ["queue", "permit", "interconnection", "capacity", "mw"],
         "compute": ["gpu", "depreciation", "useful life", "rental", "supply"],
-        "weak_link": ["maturity", "interest", "debt", "lease", "credit", "notes"],
+        "weak_link": [
+            "maturity",
+            "interest",
+            "debt",
+            "lease",
+            "credit",
+            "notes",
+            "queue",
+            "permit",
+            "interconnection",
+            "capacity",
+            "mw",
+            "construction",
+            "in-service",
+            "planned",
+        ],
     }.get(category, [])
     return _contains_any(text, terms)
 
@@ -825,7 +840,6 @@ def _looks_like_boilerplate(packet: dict[str, str], quote: str) -> bool:
             "not an offer to sell",
             "preliminary prospectus",
             "not complete and may be changed",
-            "registration statement",
         ],
     )
 
