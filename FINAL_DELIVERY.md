@@ -116,6 +116,10 @@ Latest capital and timing outputs:
   `handoffs/claude_onsite_gas_stranded_risk_20260602.md`. These are acquisition
   and architecture inputs for permit/PUC/power-contract diligence, not metric
   changes.
+- Compute payback research now has a compact input bridge at
+  `handoffs/claude_compute_payback_inputs_20260602.md`, identifying the
+  per-name revenue, capex, clean-debt, and useful-life inputs needed before the
+  engine can produce decision-useful payback or DSCR conclusions.
 - Broader materiality-adjudicated supported exposure: $3.742T across 1,380
   metric groups; this is a different scope from the curated capital-structure
   deal-graph debt-like metric above, not an additive increment.

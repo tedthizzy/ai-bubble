@@ -1,0 +1,7 @@
+entity,input_field,engine_value,external_verified_value,source,status,what_completes_the_calc
+CoreWeave,contracted_revenue_usd (RPO),null,$60.7B take-or-pay RPO (Dec 31 2025),crwv-20251231 10-K (my economic-commitment research),VERIFIED EXTERNAL -- can populate,need capex + total debt + GPU depreciation life to compute payback/DSCR
+CoreWeave,capex_usd,null,(not in my verified set),-,MISSING,acquire from 10-K cash-flow statement (PP&E additions)
+CoreWeave,debt_service / total_debt,distinct_notional inflated by cross-filing dups (my sibling-fill lane),(needs dedup),-,NEEDS_DEDUP,apply sibling-fill/dedup to get clean per-name debt before DSCR
+WhiteFiber (engine's only payback case),payback_years,2.8yr on a $42K/$15K UNIT-level row (B200 cloud); H200 row null,-,report top_payback_stress_cases,UNIT-LEVEL ONLY (not entity payback),"the engine's only populated payback is a single-GPU unit economics, not a company-level payback -- not decision-useful"
+Cerebras (TAM reality check),tam_to_revenue_multiple,null (realized_revenue null),stated TAM $131B/$72B/$43B (S-1),report top_tam_reality_checks,"TAM-only, no realized revenue",join realized revenue from S-1/10-K to compute the TAM-to-revenue multiple (the bubble red-flag)
+Meta (EPS depreciation impact),eps_drag / economic_depreciation,null (only disclosed_* populated),useful-life change FY2025 (my compute_economics_refresh),report top_eps_impacts,MODEL-LOGIC GAP,populate modeled_economic_life_years to compute the accounting-vs-economic depreciation drag
