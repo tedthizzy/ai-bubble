@@ -1,0 +1,8 @@
+dimension,value,implication,source_tier
+accounting_useful_life_hyperscaler,6 years (from 3-4yr extension early 2020s),slows book depreciation -> boosts earnings,primary_press
+amazon_reversion,6yr -> 5yr eff Jan-2025 (-$298M Q / -$677M 9mo net income),the extension was over-optimistic; partial reversal,primary_filing
+coreweave_useful_life,6 years (neocloud from start; SA alleges up to 12yr server assumption),aggressive vs hardware cycle,press+analyst
+secondary_market_h100,"$40K (late-2023) -> $6-15K (2026); $25-30K -> $15-20K",60-85% decline in ~2-3yr; accelerates after year 2,market_data
+demand_counterpoint,A100s (2020) fully booked; expired-contract H100s re-booked at 95% of original,utilization/value holds WHILE demand holds,primary_press
+impairment_regime,ASC 360 periodic impairment testing,over-stated useful lives -> future write-downs,accounting_standard
+collateral_coverage_gap,book carrying value (6-12yr straight-line) >> secondary liquidation value (60-85% off in 2-3yr),secured-noteholders' recovery = liquidation value not carrying value,derived

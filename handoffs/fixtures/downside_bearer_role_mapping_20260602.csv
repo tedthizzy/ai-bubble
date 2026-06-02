@@ -1,0 +1,279 @@
+risk_bearer_value,count,resolved_role,is_actual_bearer,confidence,note,example_quote
+candidate: noteholders,323,bondholder,YES,high,actual bearer of note loss,"osing NEW YORK, October 30, 2025 – Omnicom Group Inc. (“Omnicom”) (NYS"
+lenders party thereto,277,lender,YES,high,actual bearer of credit-facility loss,e Certificate – Foreign Lenders (Partnerships) 1 BRIDGE LOAN CREDIT AG
+noteholders,154,bondholder,YES,high,actual bearer of note loss,"Notes, the “Notes”) pursuant to Alphabet’s registration statement on F"
+unknown,125,unresolved,no,high,flag for resolution,"our financial condition, which could adversely impact the value of you"
+candidate: lenders party thereto,64,lender,YES,high,actual bearer of credit-facility loss,in blank); (d) all Pledged Debt owing to any Credit Party that is evid
+"inferred: U.S. Bank Trust Company, National Association",19,trustee,no,high,CONFLATION: trustee is agent NOT bearer,"ssued by FedEx under the indenture, dated as of October 23, 2015 (the "
+"inferred: Wilmington Trust, National Association",12,trustee,no,high,CONFLATION: trustee is agent NOT bearer,"4. On March 31, 2021, we issued the Outstanding Notes under that certa"
+"inferred: The Bank of New York Mellon Trust Company, N.A",11,trustee,no,high,CONFLATION: trustee is agent NOT bearer,e “20 Notes”) and $ aggregate principal amount of % Senior Notes due 2
+"JPMorgan Chase Bank, N.A.",10,lender_bank,YES_partial,med,named bank lender; confirm vs agent,“ Existing Lease Agreement ” has the meaning given to such term in the
+"candidate: JPMorgan Chase Bank, N.A.",9,lender_bank,YES_partial,med,named bank lender; confirm vs agent,"t (in such capacities, the “Administrative Agent”). Capitalized terms "
+"Bank of America, N.A.",7,lender_bank,YES_partial,med,named bank lender; confirm vs agent,"rporation (the “ Borrower ”), and the banks, financial institutions an"
+"inferred: Citibank, N.A",6,lender_bank,YES_partial,med,named bank lender; confirm vs agent,regate principal amount of $500 million to be made available in U.S. d
+Inc.,5,other,review,med,manual assignment,sue the notes under a supplemental indenture (the “Supplemental Indent
+"NIKE, Inc., Bank of America, N.A.",4,lender_bank,YES_partial,med,named bank lender; confirm vs agent,"edit Facility On March 6, 2026, NIKE, Inc. (the “Company”) entered int"
+"candidate: Parent, Eaton Capital, the other borrowers and guarantors party thereto and Citibank",3,lender_bank,YES_partial,med,named bank lender; confirm vs agent,"nc., a Delaware corporation, for the aggregate consideration set forth"
+candidate: Sumitomo Mitsui Banking Corporation,3,lender_bank,YES_partial,med,named bank lender; confirm vs agent,"CSF, the “Company”, “our” or “we”) announced today that it has increas"
+inferred: The Bank of New York Mellon,3,trustee,no,high,CONFLATION: trustee is agent NOT bearer,"ber 1, 2015 (the “Execution Date”), as it has heretofore been and may "
+"PepsiCo, Inc.",3,other,review,med,manual assignment,"Bank Trust Company, National Association, as trustee (the “trustee”). "
+"Financing, Inc.",3,other,review,med,manual assignment,s 7.000% First Lien Notes due 2034 (the “Notes”); and • in connection 
+"candidate: Wells Fargo Bank, National Association",3,lender_bank,YES_partial,med,named bank lender; confirm vs agent,e Closing Date were used to repay the Existing Term Loan B Facility an
+Company,3,issuer_affiliate,no,med,likely issuer/affiliate not external bearer,greement (the “Amended Credit Facility”) amending and restating the Fo
+candidate: National Fuel,3,other,review,med,manual assignment,"isition Tranche”), the proceeds of which were to be used to finance th"
+candidate: WML,2,other,review,med,manual assignment,The Company used net proceeds of the WML 2026 Notes and the WML 2028 N
+"WILMINGTON TRUST, NATIONAL ASSOCIATION",2,trustee,no,high,CONFLATION: trustee is agent NOT bearer,7.750% SENIOR SECURED NOTES DUE 2030 _____________________________ IND
+WML,2,other,review,med,manual assignment,le bonds due 2029 (the “WML Convertible Bonds”). The WML Convertible B
+"the lenders, swingline lenders and L/C issuers party thereto, and JPMorgan Chase Bank, N.A.",2,lender_bank,YES_partial,med,named bank lender; confirm vs agent,"the SEC. Recent Developments Credit Facility Amendment On January 5, 2"
+"inferred: Computershare Trust Company, National Association as successor to Wells Fargo Bank, National Association",2,trustee,no,high,CONFLATION: trustee is agent NOT bearer,"indenture, dated as of November 29, 2012, between Amazon.com, Inc. and"
+Goldman Sachs Bank USA,2,lender_bank,YES_partial,med,named bank lender; confirm vs agent,"n May 1, 2025, in connection with the Issuer Solutions transaction, we"
+candidate: Company,2,issuer_affiliate,no,med,likely issuer/affiliate not external bearer,rmation in this section concerning the operations and procedures of DT
+"candidate: banks named therein, JPMorgan Chase Bank, N.A.",2,lender_bank,YES_partial,med,named bank lender; confirm vs agent,mark if the registrant has elected not to use the extended transition 
+"inferred: Boost Newco Borrower, LLC",2,other,review,med,manual assignment,amortized under the effective interest method. Guarantees and Security
+"inferred: JPMorgan Chase Bank, N.A",2,lender_bank,YES_partial,med,named bank lender; confirm vs agent,"☐ Item 1.01 Entry into a Material Definitive Agreement On February 20,"
+Thermo Fisher,2,other,review,med,manual assignment,series of debt securities under an indenture (the “ base indenture ”) 
+"Parent Company, the lenders named thereto and Citibank, N.A.",2,lender_bank,YES_partial,med,named bank lender; confirm vs agent,"nded and Restated Credit Agreement, dated as of November 18, 2022 (the"
+"VENTURE GLOBAL GATOR EXPRESS, LLC",2,other,review,med,manual assignment,"ssued the Notes under an Indenture dated as of April 21, 2025, as supp"
+"Wells Fargo Bank, N.A.",2,lender_bank,YES_partial,med,named bank lender; confirm vs agent,"that AMD’s cash, cash equivalents, and short-term investment balances,"
+Article VI hereof for purposes of this Article VII by declaration to the Company|Affiliate of the Company|Company,2,other,review,med,manual assignment,"EDIT AGREEMENT Dated as of March 6, 2026 Among HONEYWELL INTERNATIONAL"
+"DOC DR Holdco, LLC (as successor to Physicians Realty Trust",2,other,review,med,manual assignment,"PEAK PROPERTIES, INC., as Parent Guarantor, DOC DR HOLDCO, LLC and DOC"
+"inferred: JPMorgan Chase Bank, N.A. (“JPMorgan”)",2,lender_bank,YES_partial,med,named bank lender; confirm vs agent,"ration — 479 Total debt $ 4,791 $ 4,973 18 Credit Facility We are part"
+"IREN Limited (ACN 629 842 799), an Australian company",2,other,review,med,manual assignment,"NTURE , dated as of May 14, 2026, between IREN Limited (ACN 629 842 79"
+"Carnival plc, the Issuer|Carnival plc",2,issuer_affiliate,no,med,likely issuer/affiliate not external bearer,rporated and registered under the laws of England and Wales (“ Carniva
+Marina Bay Sands Pte. Ltd.,2,issuer_affiliate,no,med,likely issuer/affiliate not external bearer,"” means the Facility Agreement, dated as of February 21, 2025, among M"
+candidate: HSBC Holdings,2,lender_bank,YES_partial,med,named bank lender; confirm vs agent,"tion of sale, you may assume this prospectus supplement and the accomp"
+"inferred: JPMorgan Chase Bank, N.A. (“Chase”)",2,lender_bank,YES_partial,med,named bank lender; confirm vs agent,olving Credit Facility The Operating Partnership was a party to a cred
+inferred: Bank of Montreal and BMO Capital Markets Corp,2,other,review,med,manual assignment,pire entered into a commitment letter with Bank of Montreal and BMO Ca
+candidate: Uniti Group LLC,2,other,review,med,manual assignment,The Notes will be issued at an issue price of 100.00%. The Notes will 
+inferred: Deutsche Bank Trust Company Americas,2,trustee,no,high,CONFLATION: trustee is agent NOT bearer,subsidiaries that guarantee the term loans under the Company’s credit 
+candidate: Agree Realty Corporation|Company as obligor or any Guarantor,2,other,review,med,manual assignment,hful or complete. Any representation to the contrary is a criminal off
+inferred: Truist Bank,2,other,review,med,manual assignment,",000 aggregate principal amount of 2036 notes, under an indenture and "
+"inferred: Computershare Trust Company, N.A. (as successor to Wells Fargo Bank, National Association), a national banking association",2,trustee,no,high,CONFLATION: trustee is agent NOT bearer,"among the operating partnership, the guarantors, and Computershare Tru"
+"candidate: Bank of America, N.A.",2,lender_bank,YES_partial,med,named bank lender; confirm vs agent,"lobal Payments, certain of its wholly owned subsidiaries from time to "
+"inferred: BofA Securities, Inc., Goldman Sachs & Co. LLC and Morgan Stanley & Co. LLC",2,lender_bank,YES_partial,med,named bank lender; confirm vs agent,(the “Company”) completed its previously announced offering of $1.5 bi
+"inferred: k of America, N.A., an affiliate of BofA Securities, Inc., and Sumitomo Mitsui Banking Corporation are syndication agents with respect to our Revolving Credit Facility. Wells Fargo Securities, LLC",2,admin_collateral_agent,no,high,CONFLATION: agent not bearer,"Bank of America, N.A., an affiliate of BofA Securities, Inc., and Sumi"
+"Boost Newco Guarantor, LLC|Boost Newco Borrower, LLC",2,other,review,med,manual assignment,the Company entered into an Amendment No. 1 (the 'Amendment No. 1') to
+aggregate obligation snapshot for Keurig Dr Pepper Inc.; counterparties not itemized,1,other,review,med,manual assignment,Termination of a Material Definitive Agreement. As previously reported
+"aggregate obligation snapshot for Sila Realty Trust, Inc.; counterparties not itemized",1,other,review,med,manual assignment,"its unsecured credit facility as of March 31, 2025. On February 18, 20"
+candidate: IPG,1,other,review,med,manual assignment,nge Offers and Consent Solicitations Omnicom Group Inc. (“Omnicom”) pr
+inferred: c. (formerly known as PSAV Intermediate Corp.),1,other,review,med,manual assignment,"c. (formerly known as PSAV Intermediate Corp.), as Holdings, AVSC Hold"
+Pfizer Investment Enterprises Pte. Ltd. and its successors,1,other,review,med,manual assignment,"securities will be issued in one or more series under an indenture, da"
+"USA IV Inc., a Delaware corporation, as tenant, and Google",1,other,review,med,manual assignment,"on HUT 8 DC LLC, as Issuer 6.192% SENIOR SECURED NOTES DUE 2042 INDENT"
+"candidate: Morgan Stanley Senior Funding, Inc. is engaged",1,lender_bank,YES_partial,med,named bank lender; confirm vs agent,The Facility is expected to enhance liquidity and support working capi
+"inferred: Wilmington Trust Company, National Association",1,trustee,no,high,CONFLATION: trustee is agent NOT bearer,plement relating to the subordinated debt securities. Debt securities 
+candidate: APLD FAR-01 HoldCo LLC|APLD FAR-02 HoldCo LLC|APLD FAR-01 LLC|APLD FAR-02 LLC|APLD FAR-01 LandCo LLC|APLD FAR-02 LandCo LLC,1,other,review,med,manual assignment,"uilder and operator of high-performance, sustainably engineered data c"
+candidate: APLD ELN-02 HoldCo LLC|APLD ELN-03 HoldCo LLC|APLD ELN-02 LLC|APLD ELN-02 LandCo LLC|APLD ELN-03 LLC|APLD ELN-03 LandCo LLC,1,other,review,med,manual assignment,"ed that its subsidiary, APLD ComputeCo LLC (“APLD Compute”), intends t"
+APLD ELN-02 HoldCo LLC|APLD ELN-03 HoldCo LLC|APLD ELN-02 LLC|APLD ELN-02 LandCo LLC|APLD ELN-03 LLC|APLD ELN-03 LandCo LLC,1,other,review,med,manual assignment,"Guaranty Agreement, dated as of February 11, 2025, by and among APLD H"
+"candidate: Akamai, the financial institutions identified therein as lenders and JPMorgan Chase Bank, N.A.",1,lender_bank,YES_partial,med,named bank lender; confirm vs agent,f-Balance Sheet Arrangement of a Registrant. The information contained
+candidate: GEORGIA POWER COMPANY,1,issuer_affiliate,no,med,likely issuer/affiliate not external bearer,"A POWER COMPANY (the ' Borrower '), a corporation duly organized and e"
+SMW Finance or America Finance may offer debt securities using this prospectus. CRH plc acts,1,other,review,med,manual assignment,f the Notes and guarantee under the heading “Description of the Debt S
+"United Kingdom made by a guarantor under a guarantee is not certain. If AGF, AIUK or Amcor plc, acting",1,other,review,med,manual assignment,Any payment in respect of the Notes so made in U.S. dollars will not c
+"Chicago Mercantile Exchange Inc., certain lenders, Bank of America, N.A.",1,lender_bank,YES_partial,med,named bank lender; confirm vs agent,"xhibit Number Description 10.1 Amendment No. 11 to Credit Agreement, d"
+"candidate: Banks, BANK OF AMERICA, N.A.",1,lender_bank,YES_partial,med,named bank lender; confirm vs agent,(x) UCC search results with respect to the Company showing only Liens 
+"candidate: CHICAGO MERCANTILE EXCHANGE INC., EACH OF THE BANKS FROM TIME TO TIME PARTY HERETO, BANK OF AMERICA, N.A.",1,lender_bank,YES_partial,med,named bank lender; confirm vs agent,"of April 23, 2025 CREDIT AGREEMENT Dated as of November 2, 2017 among "
+candidate: BMO Harris Bank N.A.,1,other,review,med,manual assignment,"and Truist Securities, Inc., as joint bookrunners and joint lead arran"
+"inferred: tment banking transactions with us and our affiliates for which they have received, and will in the future receive, customary compensation. An affiliate of Citigroup Global Markets Inc",1,other,review,med,manual assignment,in commercial banking or investment banking transactions with us and o
+"inferred: Security Registrar The Bank of New York Mellon Trust Company, N.A",1,trustee,no,high,CONFLATION: trustee is agent NOT bearer,uidity of the trading markets for the Notes. See “ Underwriting .” Gov
+"Company as guarantors, certain banks party thereto as lenders, and Citibank N.A.",1,lender_bank,YES_partial,med,named bank lender; confirm vs agent,"y of Eaton Corporation plc (the “ Company ”), terminated the $8,000,00"
+"FIS, Goldman Sachs Bank USA",1,lender_bank,YES_partial,med,named bank lender; confirm vs agent,an unsecured bridge term loan facility (the “Bridge Facility”) in an a
+Alibaba Group Holding Limited,1,other,review,med,manual assignment,d in November 2019 and US$1.5 billion was repaid in November 2021. The
+"Byline Bancorp, Inc.",1,other,review,med,manual assignment,"ntegral multiple of $1,000 in excess thereof. Unless otherwise require"
+Univest Financial Corporation,1,other,review,med,manual assignment,"ated Notes due 2035, which we refer to in this prospectus as the “Old "
+"candidate: Comcast Corporation, the financial institutions party thereto, JPMorgan Chase Bank, N.A.",1,lender_bank,YES_partial,med,named bank lender; confirm vs agent,"agent, Citibank, N.A., as syndication agent, and Bank of America, N.A."
+"inferred: Bank of America, N.A",1,lender_bank,YES_partial,med,named bank lender; confirm vs agent,"d Amended and Restated Credit Agreement (the 'Credit Agreement', and t"
+inferred: U.S. Bank National Association,1,trustee,no,high,CONFLATION: trustee is agent NOT bearer,"nture ” means that certain Secured Indenture, dated November 26, 2021,"
+Trust,1,other,review,med,manual assignment,"“ Convertible Notes ” means the $1,946,855,965 aggregate principal amo"
+candidate: MIZUHO BANK (USA,1,lender_bank,YES_partial,med,named bank lender; confirm vs agent,poses of enabling or facilitating the proper exercise of the rights an
+Bristol-Myers Squibb Company and its successors,1,other,review,med,manual assignment,n aggregate principal amount of notes that mature in 2026 and are not 
+"inferred: ets, Wells Fargo Securities, and Mizuho Bank who",1,lender_bank,YES_partial,med,named bank lender; confirm vs agent,"ets, Wells Fargo Securities, and Mizuho Bank who served as Joint Lead "
+"inferred: d by a globally diverse lender group composed of 28 banks, led by JPMorgan Chase, BofA Securities, PNC Capital Markets, Wells Fargo Securities, and Mizuho Bank who",1,lender_bank,YES_partial,med,named bank lender; confirm vs agent,"d by a globally diverse lender group composed of 28 banks, led by JPMo"
+"candidate: JPMORGAN CHASE BANK, N.A., a national banking association",1,lender_bank,YES_partial,med,named bank lender; confirm vs agent,"0, 2025, among HUMANA INC., THE SEVERAL BANKS AND OTHER FINANCIAL INST"
+"candidate: the Borrower, KeyBank National Association",1,other,review,med,manual assignment,"On March 6, 2026, Welltower OP LLC (the “Borrower”), a subsidiary of W"
+candidate: A certain affiliate of J.P. Morgan Securities LLC serves,1,other,review,med,manual assignment,into a $4.0 billion 364-day delayed draw term loan facility (the “364-
+United States) and for AstraZeneca PLC,1,issuer_affiliate,no,med,likely issuer/affiliate not external bearer,"Notes will be issued under an indenture dated May 28, 2021 (the “Inden"
+"inferred: The Bank of New York Mellon Trust Company, National Association (successor in trust to JPMorgan Chase Bank)",1,trustee,no,high,CONFLATION: trustee is agent NOT bearer,nergy’s general unsecured obligations. CenterPoint Energy will issue s
+"candidate: VENTURE GLOBAL GATOR EXPRESS, LLC",1,other,review,med,manual assignment,dentures supplemental to the Base Indenture to provide for the issuanc
+"Eaton Corporation, an Ohio corporation",1,other,review,med,manual assignment,"The payment of the principal of, premium, if any, and interest on the "
+INC.,1,other,review,med,manual assignment,530925d1_ex4-2.htm EXHIBIT 4.2 Exhibit 4.2 Equinix Europe 2 Financing 
+"inferred: million outstanding principal balance under its unsecured term loan agreement due October 2024 with Bank of America, N.A",1,lender_bank,YES_partial,med,named bank lender; confirm vs agent,"ence. Item 8.01 Other Events. In connection with the Amendments, on Oc"
+"the lenders named therein, JPMorgan Chase Bank, N.A.",1,lender_bank,YES_partial,med,named bank lender; confirm vs agent,"ed under that certain 364-Day Credit Agreement, dated June 20, 2025, a"
+Carnival plc,1,issuer_affiliate,no,med,likely issuer/affiliate not external bearer,", among CARNIVAL CORPORATION, as Lead Borrower, CARNIVAL PLC, as Co-Bo"
+"the lenders and issuing banks from time to time party thereto and JPMorgan Chase Bank, N.A.",1,lender_bank,YES_partial,med,named bank lender; confirm vs agent,"orporation ('Company'), entered into a credit agreement ('New Credit F"
+Section 3(a)(2) of the Securities,1,other,review,med,manual assignment,"from time to time party hereto, SABRE FINANCIAL BORROWER, LLC, a Delaw"
+Kraft Heinz,1,other,review,med,manual assignment,"ssued under an indenture, dated July 1, 2015, among the Issuer, the Gu"
+"After giving effect to the expected debt-for-equity exchange, BofA Securities, Inc.",1,other,review,med,manual assignment,"as successor in interest to Amentum Parent Holdings LLC), the borrowin"
+Barclays Bank PLC,1,lender_bank,YES_partial,med,named bank lender; confirm vs agent,Entry into a Material Definitive Agreement. Amended and Restated Revol
+"candidate: Roper, the financial institutions from time to time party thereto, JPMorgan Chase Bank, N.A.",1,lender_bank,YES_partial,med,named bank lender; confirm vs agent,"uist Bank, U.S Bank National Association, The Huntington National Bank"
+"candidate: BANK OF AMERICA, N.A.",1,lender_bank,YES_partial,med,named bank lender; confirm vs agent,evolver CUSIP Number: 26884DBA4 REVOLVING CREDIT AGREEMENT dated as of
+Affiliate of the Company,1,issuer_affiliate,no,med,likely issuer/affiliate not external bearer,"AY CREDIT AGREEMENT Dated as of March 6, 2026 Among HONEYWELL AEROSPAC"
+candidate: Entergy Corporation,1,other,review,med,manual assignment,entering into the Fourth Amended and Restated Credit Agreement (the ' 
+"Chase Bank, N.A.",1,other,review,med,manual assignment,entered into an amended and restated credit agreement (the “Credit Agr
+"TotalEnergies Capital USA and the Guarantor|TotalEnergies Capital, TotalEnergies Capital USA or TotalEnergies Capital International, TotalEnergies acts",1,other,review,med,manual assignment,"• first, it can enforce your rights against us if we default. There ar"
+"Alibaba Group Holding Limited, a Cayman Islands exempted company",1,other,review,med,manual assignment,"and Citibank, N.A., as trustee (the “Trustee,” as more fully set forth"
+"candidate: MUFG Bank, Ltd.",1,lender_bank,YES_partial,med,named bank lender; confirm vs agent,"C, Blue Owl Capital Holdings LLC, Blue Owl Capital GP Holdings LP and "
+"Lockheed Martin Corporation, the lenders listed therein, and Bank of America, N.A.",1,lender_bank,YES_partial,med,named bank lender; confirm vs agent,"On August 28, 2025, Lockheed Martin Corporation (the “Company”) entere"
+inferred: The Bank of New York Mellon (formerly known as The Bank of New York),1,trustee,no,high,CONFLATION: trustee is agent NOT bearer,"tes will be issued under an Indenture dated as of November 15, 1992 (t"
+OHI LP,1,other,review,med,manual assignment,The obligations of Omega and the UK Borrower under the Credit Facility
+"candidate: EOG, JPMorgan Chase Bank, N.A.",1,lender_bank,YES_partial,med,named bank lender; confirm vs agent,"2025, EOG Resources, Inc. (EOG) entered into a $3.0 billion senior uns"
+"Freeport-McMoRan Inc., PT Freeport Indonesia, JPMorgan Chase Bank, N.A.",1,lender_bank,YES_partial,med,named bank lender; confirm vs agent,"reeport-McMoRan Inc. (FCX) and PT Freeport Indonesia (PTFI), a subsidi"
+"Sysco Corporation, Sysco Canada, Inc., Sysco Global Holdings B.V., Bank of America, N.A.",1,lender_bank,YES_partial,med,named bank lender; confirm vs agent,"dings B.V., a Netherlands limited liability company (together with Sys"
+candidate: BHP Group Limited acts,1,other,review,med,manual assignment,"The underwriters reserve the right to withdraw, cancel or modify offer"
+"Venture Global Gator Express, LLC",1,other,review,med,manual assignment,“ Secured Parties ” means a collective reference to the Administrative
+"Kimco Realty Corporation, Kimco Realty OP, LLC",1,other,review,med,manual assignment,ffiliates of certain of the underwriters are lenders under our unsecur
+"candidate: Kimco Realty Corporation, Kimco Realty OP, LLC",1,other,review,med,manual assignment,"ing credit facility accrues interest at a rate of Adjusted Term SOFR, "
+"Becton Finance may offer and guarantees thereof by BD (in its role|Becton Finance, BD",1,other,review,med,manual assignment,e date of repurchase. For a more complete description of the S-3 TABLE
+"inferred: Computershare Trust Company, National Association",1,trustee,no,high,CONFLATION: trustee is agent NOT bearer,on trading activity in the notes. Governing Law The notes and the inde
+LLC,1,other,review,med,manual assignment,"rower, and Baker Hughes Company, as parent guarantor, entered into a t"
+"Athene Life Re and the banks party thereto and Wells Fargo Bank, National Association",1,lender_bank,YES_partial,med,named bank lender; confirm vs agent,"☐ Item 1.01 Entry into a Material Definitive Agreement. On June 28, 20"
+"candidate: ALRe and the banks party thereto and Wells Fargo Bank, National Association",1,lender_bank,YES_partial,med,named bank lender; confirm vs agent,"☐ Item 1.01 Entry into a Material Definitive Agreement. On June 27, 20"
+"inferred: king Corporation Limited, Tai Fung Bank Limited, and United Overseas Bank Limited, Hong Kong Branch (incorporated in Singapore with limited liability) have been appointed",1,other,review,med,manual assignment,"king Corporation Limited, Tai Fung Bank Limited, and United Overseas B"
+"inferred: Wells Fargo Bank, National Association",1,lender_bank,YES_partial,med,named bank lender; confirm vs agent,"f America, N.A., JPMorgan Chase Bank, N.A. and Wells Fargo Bank, Natio"
+"MUFG Union Bank, N.A.",1,lender_bank,YES_partial,med,named bank lender; confirm vs agent,"nce expense, ancillary retail expense and realized settlements from ou"
+candidate: Subsidiary of the Company,1,issuer_affiliate,no,med,likely issuer/affiliate not external bearer,55CAW4 Revolver CUSIP: 58155CAX2 CREDIT AGREEMENT Dated as of April 24
+"inferred: Bank of America, N.A. and BofA Securities, Inc",1,lender_bank,YES_partial,med,named bank lender; confirm vs agent,"se described above, on May 18, 2025, Sanmina entered into a commitment"
+candidate: BARCLAYS BANK PLC,1,lender_bank,YES_partial,med,named bank lender; confirm vs agent,"of March 7, 2014, among TENET HEALTHCARE CORPORATION, a Nevada corpora"
+"Company and NXP Funding, as borrowers, Barclays Bank PLC",1,lender_bank,YES_partial,med,named bank lender; confirm vs agent,"orrowers, Barclays Bank PLC, as administrative agent (in such capacity"
+BHP Group Limited acts,1,other,review,med,manual assignment,"outstanding. Because BHP Group Limited is a holding company, the notes"
+"inferred: under the indenture governing the Odeon Notes. About AMC Entertainment Holdings, Inc",1,other,review,med,manual assignment,itute a notice of redemption of the Odeon Notes. Information concernin
+"Partnership, as guarantors, the lenders and letter of credit issuers party thereto and Bank of America, N.A.",1,lender_bank,YES_partial,med,named bank lender; confirm vs agent,"Credit Agreement among the Partnership, as borrower, certain subsidiar"
+LVLT Limited,1,other,review,med,manual assignment,"LEVEL 3 FINANCING, INC., as Borrower (the “ Borrower ”); the LENDERS p"
+"the financial institutions party thereto and JPMorgan Chase Bank, N.A.",1,lender_bank,YES_partial,med,named bank lender; confirm vs agent,", Aramark Intermediate HoldCo Corporation (“Holdings”), certain wholly"
+"inferred: billion revolving credit facility with Citibank, N.A",1,lender_bank,YES_partial,med,named bank lender; confirm vs agent,ts indirect subsidiary Blackstone Holdings Finance Co. L.L.C (the “Iss
+Agree Realty Corporation|Company as obligor or any Guarantor,1,other,review,med,manual assignment,"ccessor in interest to U.S. Bank National Association, as trustee (“tr"
+"Intuit Inc., the lenders parties thereto, JPMorgan Chase Bank, N.A.",1,lender_bank,YES_partial,med,named bank lender; confirm vs agent,"n January 9, 2026, Intuit Inc., a Delaware corporation (the “Company”)"
+"Northrim BanCorp, Inc.",1,other,review,med,manual assignment,"ntegral multiple of $1,000 in excess thereof. Unless otherwise require"
+"GXO Logistics, Inc.",1,other,review,med,manual assignment,"n arrears on and of each year, beginning , 20 . Maturity Dates , 20 fo"
+GLAS Trust Company LLC,1,trustee,no,high,CONFLATION: trustee is agent NOT bearer,tes Indenture. 16 “ Existing Exchangeable Notes Collateral Agent ” has
+"candidate: Citizens Bank, N.A. served",1,other,review,med,manual assignment,RBC Capital Markets served as lead-left arranger on VSE’s Term Loan B.
+"inferred: J.P. Morgan Securities plc, Barclays Bank PLC, BNP PARIBAS and Wells Fargo Securities International Limited",1,lender_bank,YES_partial,med,named bank lender; confirm vs agent,"(the “ Underwriting Agreement ”) with J.P. Morgan Securities plc, Barc"
+"inferred: Citibank Europe plc, UK Branch",1,lender_bank,YES_partial,med,named bank lender; confirm vs agent,"f January 29, 2026 (the “Credit Agreement”), relating to a senior unse"
+"inferred: Wells Fargo Securities, LLC, BNP Paribas Securities Corp., PNC Capital Markets LLC, RBC Capital Markets, LLC and Truist Securities, Inc",1,lender_bank,YES_partial,med,named bank lender; confirm vs agent,"”) with Wells Fargo Securities, LLC, BNP Paribas Securities Corp., PNC"
+"acquisition of ZT, Sanmina entered into a credit agreement with Bank of America, N.A.",1,lender_bank,YES_partial,med,named bank lender; confirm vs agent,"strative agent and swing line lender, and the banks and other financia"
+"inferred: by and among Foot Locker, Inc., the guarantors from time to time party thereto, the lenders from time to time party thereto, and Wells Fargo Bank, National Association",1,lender_bank,YES_partial,med,named bank lender; confirm vs agent,", 2016, by and among Foot Locker, Inc., the guarantors from time to ti"
+"Phoenix Capital Group Holdings, LLC",1,issuer_affiliate,no,med,likely issuer/affiliate not external bearer,EX-4.20 4 ck0001818643-ex4_20.htm EX-4.20 EX-4.20 Exhibit 4.20 Fourth 
+"inferred: dated as of February 10, 2026, with JPMorgan Chase Bank, N.A",1,lender_bank,YES_partial,med,named bank lender; confirm vs agent,"illion 364-Day Credit Agreement (the “364-Day Credit Facility”), dated"
+"candidate: DOC DR Holdco, LLC (as successor to Physicians Realty Trust",1,other,review,med,manual assignment,"5 Dated as of March 23, 2026 to TERM LOAN AGREEMENT Dated as of August"
+"inferred: lity Agreement, the Company, WM Cayman II, Bank of China Limited, Macau Branch",1,other,review,med,manual assignment,"lity Agreement, the Company, WM Cayman II, Bank of China Limited, Maca"
+Collateral Trust,1,other,review,med,manual assignment,"elaware limited liability company (“ APX ” and, together with the Pare"
+"BANK OF AMERICA, N.A.",1,lender_bank,YES_partial,med,named bank lender; confirm vs agent,"Company, a Delaware corporation (the “ Company ” or “ Borrower ”), the"
+Bank of America,1,lender_bank,YES_partial,med,named bank lender; confirm vs agent,lity (if drawn). The “ Existing Credit Agreement ” refers to the Sixth
+"KeyBank National Association, individually and",1,other,review,med,manual assignment,"y 26, 2022, that certain Second Amendment to Second Amended and Restat"
+candidate: BMO Bank N.A. acting,1,other,review,med,manual assignment,(“GNL” or the “Company”) announced today the $1.8 billion refinancing 
+inferred: Bank National Association,1,other,review,med,manual assignment,"., BNP Paribas Securities Corp., Credit Agricole Corporate and Investm"
+"inferred: revolving letter of credit issuers party thereto, Citibank, N.A",1,lender_bank,YES_partial,med,named bank lender; confirm vs agent,"bsidiary of Vistra Corp. (the “Company”), entered into an amendment (t"
+Calpine Corporation|Represents Calpine Corporation,1,other,review,med,manual assignment,Commodity-linked Revolver The $1.786 billion commodity-linked revolvin
+"inferred: Calcasieu Pass Funding, LLC",1,other,review,med,manual assignment,"On April 10, 2026 (the “Closing Date”), Calcasieu Pass Funding, LLC (“"
+Restricted Subsidiary of Holdings,1,issuer_affiliate,no,med,likely issuer/affiliate not external bearer,"low). RECITALS A. To consummate the Transactions (this, and each other"
+"JPMorgan Chase Bank, N.A., individually and",1,lender_bank,YES_partial,med,named bank lender; confirm vs agent,ments to the Credit Agreements (the “Amendments”) with a syndicate of 
+"candidate: the guarantors party thereto and the Bank of America, N.A.",1,lender_bank,YES_partial,med,named bank lender; confirm vs agent,"t certain Amendment No. 1 to Credit Agreement, dated as of May 7, 2025"
+Company|General Partner|IH Merger Sub,1,issuer_affiliate,no,med,likely issuer/affiliate not external bearer,"In addition, U.S. Bancorp Investments, Inc., one of the underwriters, "
+"inferred: under the indenture governing the Odeon Notes. A copy of the press release announcing the Offering and the Redemption is attach a press release announcing that Muvico, LLC",1,other,review,med,manual assignment,ice of redemption of the Odeon Notes. Information concerning the terms
+"inferred: serves as collateral agent for notes issued by non-utility subsidiaries of W.E. Power, LLC",1,admin_collateral_agent,no,high,CONFLATION: agent not bearer,"ed, or if a vacancy exists in the office of trustee for any reason, th"
+candidate: Avenue Capital Management as initial anchor participants) and Royal Bank of Canada,1,other,review,med,manual assignment,"nancing institutions (including Royal Bank of Canada, Goldman Sachs an"
+MOLSON COORS BEVERAGE COMPANY,1,issuer_affiliate,no,med,likely issuer/affiliate not external bearer,EX-4.2 2 tm2614729d15_ex4-2.htm EXHIBIT 4.2 Exhibit 4.2 MOLSON COORS B
+"inferred: tantially the same. JPMorgan Chase Bank, N.A., Truist Securities, Inc., and BMO Capital Markets Corp. are Joint Bookrunners and Joint Lead Arrangers on the Facility. JPMorgan Chase Bank, N.A",1,lender_bank,YES_partial,med,named bank lender; confirm vs agent,The remaining material business terms of the Facility will remain subs
+candidate: Virtu Financial LLC,1,other,review,med,manual assignment,EX-99.1 2 exhibit991-092325.htm EX-99.1 Document Exhibit 99.1 Virtu Fi
+"certain lenders identified therein and Wells Fargo Bank, National Association",1,lender_bank,YES_partial,med,named bank lender; confirm vs agent,"reof (the “Credit Agreement” ); and (b) the $1,505,000,000 Term Loan A"
+"Vistra Intermediate Company LLC, Citibank, N.A.",1,lender_bank,YES_partial,med,named bank lender; confirm vs agent,Trustee specified in Section 12.01 hereof or such other address as to 
+"candidate: LyondellBasell, LYB International Finance, LYB International Finance II or LYB International Finance III",1,other,review,med,manual assignment,the “Description of Debt Securities” and “Description of Guarantees” s
+A certain affiliate of J.P. Morgan Securities LLC serves,1,other,review,med,manual assignment,f J.P. Morgan Securities LLC and Morgan Stanley & Co. LLC serve as joi
+Sumitomo Mitsui Banking Corporation,1,lender_bank,YES_partial,med,named bank lender; confirm vs agent,Revolving Credit Agreement and First Amendment to Guarantee and Securi
+"Day Revolving Credit Agreement, and JPMorgan Chase Bank, N.A.",1,lender_bank,YES_partial,med,named bank lender; confirm vs agent,senior unsecured revolving credit facility in an aggregate principal a
+"DUKE ENERGY CORPORATION, a Delaware corporation",1,other,review,med,manual assignment,"TRUST COMPANY, N.A., a national banking association organized under th"
+candidate: DFI Holdings,1,issuer_affiliate,no,med,likely issuer/affiliate not external bearer,"Co-Documentation Agents CITIBANK, N.A., WELLS FARGO SECURITIES, LLC, B"
+"T-Mobile USA, JPMorgan Chase Bank, N.A.",1,lender_bank,YES_partial,med,named bank lender; confirm vs agent,"ile US, Inc. (“Parent”), entered into a Second Amended and Restated Cr"
+"candidate: us, the guarantors from time to time party thereto, the banks from time to time party thereto and Bank of America, N.A.",1,lender_bank,YES_partial,med,named bank lender; confirm vs agent,"r Term Loan Agreement, dated as of August 5, 2025, among us, the guara"
+"inferred: MUFG Securities Americas Inc., PNC Capital Markets LLC, TD Securities (USA) LLC and Wells Fargo Securities, LLC",1,lender_bank,YES_partial,med,named bank lender; confirm vs agent,e Company and certain of its subsidiary guarantors named therein (the 
+"inferred: The Bank of New York Mellon Trust Company, N.A. (formerly known as “The Bank of New York Trust Company, N.A.”)",1,trustee,no,high,CONFLATION: trustee is agent NOT bearer,"orporation (formerly known as “CVS Corporation”), as issuer, and The B"
+"candidate: If a Change of Control Triggering Event occurs, there can be no assurance that Block Financial (or H&R Block",1,other,review,med,manual assignment,Block Financial entered into a Fifth Amended and Restated Credit and G
+"candidate: On May 29, 2026, the Parent",1,other,review,med,manual assignment,ised of (i) an approximately $1.5 billion delayed draw term loan facil
+candidate: Restricted Subsidiary of the Company,1,issuer_affiliate,no,med,likely issuer/affiliate not external bearer,EX-10.1 2 tm268031d2_ex10-1.htm EXHIBIT 10.1 Exhibit 10.1 Execution Ve
+Banco Santander,1,other,review,med,manual assignment,issued pursuant to the provisions of an indenture to be dated as of th
+inferred: at The Bank,1,other,review,med,manual assignment,orated by reference as an exhibit to the registration statement of whi
+Bank of Nova Scotia,1,other,review,med,manual assignment,"Commerce, and BofA Securities, Inc., as joint lead arrangers. The Sixt"
+"candidate: Deutsche Bank AG, New York Branch, as initial lender, and GLAS USA LLC",1,other,review,med,manual assignment,"re 7.0% and 9.2% , respectively. Credit Agreement On August 15, 2025, "
+"WPC Finance (or the Company|Event of Default. However, WPC Finance and the Company",1,other,review,med,manual assignment,"lobal notes will be made to Euroclear, Clearstream, such nominee or su"
+"Because tax would be imposed upon it as a corporation, the cash available for payment on the notes (in its capacity",1,other,review,med,manual assignment,"we refer to as the “Issuer”), Enterprise Products Partners L.P., as pa"
+"a syndicate of lenders and Wells Fargo Bank, National Association, serving",1,lender_bank,YES_partial,med,named bank lender; confirm vs agent,"any (collectively, the “ Borrowers ”), entered into an Amended and Res"
+"Operating Partnership|Alexandria Real Estate Equities, L.P.",1,other,review,med,manual assignment,and not to any of its subsidiaries. General The notes will be issued p
+"candidate: Operating Partnership|Alexandria Real Estate Equities, L.P.",1,other,review,med,manual assignment,"In addition, neither we nor any of the underwriters make any represent"
+"inferred: Existing Senior Secured Credit Facilities”) maturing February 13, 2028, each pursuant to an Amended",1,other,review,med,manual assignment,"lving Facility” and, together with the Existing Term Loan B Facility, "
+candidate: Sabre Holdings Corporation,1,issuer_affiliate,no,med,likely issuer/affiliate not external bearer,"nc. (“Sabre GLBL”) of $1,325,000,000 (upsized from $975,000,000) aggre"
+"Mav Intermediate Holding II Corporation, as the holding company guarantor, Bank of America, N.A.",1,lender_bank,YES_partial,med,named bank lender; confirm vs agent,"ng McGraw-Hill Education, Inc. and certain subsidiaries thereof, as bo"
+candidate: VTL,1,other,review,med,manual assignment,the Company repaid early all of the $300.0 million in principal amount
+candidate: Secured Bank,1,other,review,med,manual assignment,ii) acknowledges and agrees that the Security Documents shall continue
+"inferred: Computershare Trust Company, N.A",1,trustee,no,high,CONFLATION: trustee is agent NOT bearer,(the “Company”) issued 6.50% senior notes due 2036 (the “New Notes”) a
+"Banks (as defined therein), Bank of America, N.A.",1,lender_bank,YES_partial,med,named bank lender; confirm vs agent,and our subsidiaries. “Clearing House Facility” means the Credit Agree
+CRISPR Therapeutics AG,1,other,review,med,manual assignment,"ght to direct the time, method and place of conducting any proceeding "
+"U.S. Bank Trust Company, National Association",1,trustee,no,high,CONFLATION: trustee is agent NOT bearer,"00,000 aggregate principal amount of its 3.5% Convertible 1.5 Lien Sen"
+candidate: LVLT Limited,1,other,review,med,manual assignment,"m time to time party thereto and Bank of America, N.A., as administrat"
+"inferred: J.P. Morgan Securities LLC, Morgan Stanley & Co. LLC and PNC Capital Markets LLC",1,lender_bank,YES_partial,med,named bank lender; confirm vs agent,(the “Company”) entered into an underwriting agreement (the “Underwrit
+ROYAL CARIBBEAN CRUISES LTD.,1,issuer_affiliate,no,med,likely issuer/affiliate not external bearer,EX-4.2 2 tm267192d1_ex4-2.htm EXHIBIT 4.2 Exhibit 4.2 ROYAL CARIBBEAN 
+"inferred: billion Senior Unsecured Revolving Credit Facility for a five-year term, maturing on January 16, 2031. JPMorgan Chase Bank, N.A",1,lender_bank,YES_partial,med,named bank lender; confirm vs agent,The new agreement extends the Company’s current $1.25 billion Senior U
+"the Borrower and Bank of America, N.A.",1,lender_bank,YES_partial,med,named bank lender; confirm vs agent,"d Rexford Industrial Realty, L.P. (the “Borrower”), as borrower, enter"
+"inferred: BofA Securities, Citigroup, Deutsche Bank Securities, Mizuho and SMBC Nikko",1,lender_bank,YES_partial,med,named bank lender; confirm vs agent,"The sale of the senior notes is expected to settle on March 4, 2025, s"
+candidate: BBVA,1,other,review,med,manual assignment,424B5 1 d432376d424b5.htm 424B5 424B5 Table of Contents Filed pursuant
+candidate: KeyBank National Association,1,other,review,med,manual assignment,"nt letter with Morgan Stanley Senior Funding, Inc., KeyBank National A"
+"JPMorgan Chase Bank, N.A., acting",1,lender_bank,YES_partial,med,named bank lender; confirm vs agent,"25, Generac Holdings, Inc. and its wholly owned subsidiaries, Generac "
+"candidate: VGPL, Venture Global Gator Express, LLC",1,other,review,med,manual assignment,"Entry into a Material Definitive Agreement. On December 9, 2025 (the “"
+"inferred: Computershare Trust Company, National Association (as successor to Wells Fargo Bank, National Association)",1,trustee,no,high,CONFLATION: trustee is agent NOT bearer,"s of May 27, 2016, supplementing the indenture dated as of May 30, 201"
+"inferred: Resideo Funding Inc., a Delaware corporation",1,other,review,med,manual assignment,"Resideo Funding Inc., a Delaware corporation (“Borrower”), entered int"
+Weatherford International Ltd.,1,issuer_affiliate,no,med,likely issuer/affiliate not external bearer,"sly announced tender offer (the “Tender Offer”) for up to $1,300 milli"
+"candidate: Boost Newco Guarantor, LLC|Boost NewCo Borrower, LLC",1,other,review,med,manual assignment,t will be amortized under the effective interest method. Guarantees an
+candidate: Blackstone Inc,1,other,review,med,manual assignment,"L.L.C., its indirect subsidiary. The notes are to be fully and uncondi"
+"PNC Bank, National Association serves",1,other,review,med,manual assignment,agreement (the “2025 Credit Agreement”) with a syndicate of lenders pr
+"Administrative Agent and Citicorp North America, Inc.",1,admin_collateral_agent,no,high,CONFLATION: agent not bearer,"Borrower, the several banks and financial institutions or entities fro"
+"inferred: Offering”) of $625 million principal amount of its 0.00% Convertible Senior Notes due 2030 (the “Notes”), including the exercise in full of the initial purchasers’ option to purchase up to an additional $75 million principal amount of Notes. The Notes were issued pursuant to, an Bank Trust Company, National Association",1,trustee,no,high,CONFLATION: trustee is agent NOT bearer,ly announced private offering (the “Offering”) of $625 million princip
+"candidate: Global Net Lease Operating Partnership, L.P.",1,other,review,med,manual assignment,"y of the OP, this guarantee will be released if the Company achieves a"
+"CLEANSPARK, INC., a corporation organized under the laws of Nevada",1,other,review,med,manual assignment,"nking association, as trustee (the “ Trustee ,” as more fully set fort"
+"ACN 629 842 799), an Australian company",1,issuer_affiliate,no,med,likely issuer/affiliate not external bearer,"E , dated as of December 8, 2025, between IREN Limited (ACN 629 842 79"
+"candidate: Ares Holdings L.P., and the other parties thereto and JPMorgan Chase Bank, N.A.",1,lender_bank,YES_partial,med,named bank lender; confirm vs agent,ck or profit participating equity interests of any such entities for s
+candidate: Truist Bank,1,other,review,med,manual assignment,senior secured revolving credit facility (“Revolving Credit Facility”)
+inferred: a consortium of banks led by JPMorgan,1,lender_bank,YES_partial,med,named bank lender; confirm vs agent,"5, Consumers Energy Company (“Consumers”) amended and restated its $1."
+Cash Management Bank|Hedge Bank,1,other,review,med,manual assignment,"NDED AND RESTATED CREDIT AGREEMENT Dated as of October 31, 2018 Among "
+"inferred: Blackfin Pipeline, LLC",1,other,review,med,manual assignment,"On September 29, 2025 (the “Closing Date”), Blackfin Pipeline, LLC (“B"
+"inferred: Bank Trust Company, National Association (as successor to U.S. Bank National Association) (“U.S. Bank”)",1,trustee,no,high,CONFLATION: trustee is agent NOT bearer,"Bank Trust Company, National Association (as successor to U.S. Bank Na"
+"Park Hotels & Resorts Inc., Park Intermediate Holdings LLC, Wells Fargo Bank, National Association",1,lender_bank,YES_partial,med,named bank lender; confirm vs agent,"of the Company (the “Borrower”), as borrower, entered into a Second Am"
+"candidate: JPMorgan Chase bank, N.A.",1,lender_bank,YES_partial,med,named bank lender; confirm vs agent,".1 ) (16.1 ) Total stockholders’ equity 19,633.9 19,633.9 Total capita"
+"candidate: Operating Partnership, Sabra",1,other,review,med,manual assignment,Guarantees Unless otherwise specified in the applicable prospectus sup
+"MUFG Bank, Ltd.",1,lender_bank,YES_partial,med,named bank lender; confirm vs agent,"“ CEI ” means Cheniere Energy, Inc. “ Credit Agreement ” means the Cre"
+BBVA,1,other,review,med,manual assignment,"anish courts in relation to any Bail-in Dispute. Each of BBVA, the tru"
+"candidate: BofA Securities, Inc. serves",1,other,review,med,manual assignment,curities” in the accompanying prospectus contain more detailed descrip
+"candidate: Parent, LLC",1,other,review,med,manual assignment,"htm EX-99.2 EX-99.2 Exhibit 99.2 Lumen Technologies, Inc. Announces Pr"
+"KeyBank National Association, acting",1,other,review,med,manual assignment,"der a base indenture, dated as of July 28, 2022, and the fourth supple"
+"inferred: Conflict of Interest The Bank of New York Mellon Trust Company, N.A",1,trustee,no,high,CONFLATION: trustee is agent NOT bearer,ed and accepted by us or any underwriter outside of Taiwan (the “Place
+"candidate: Constellation Energy Generation, LLC and the U.S. Department of Energy",1,other,review,med,manual assignment,Creation of a Direct Financial Obligation or an Obligation under an Of
+"MetLife, Inc. is responsible or liable",1,other,review,med,manual assignment,"(as successor in interest to J.P. Morgan Trust Company, National Assoc"
+Substitution of Woodside Finance,1,other,review,med,manual assignment,antees will be governed by New York law. The notes will be governed by
+"inferred: U.S. Bank Trust Company, National Association, a national banking association",1,trustee,no,high,CONFLATION: trustee is agent NOT bearer,persons outside the United States in accordance with Regulation S unde
+"Nomura Holdings, Inc.",1,issuer_affiliate,no,med,likely issuer/affiliate not external bearer,"bject to the same assumptions, qualifications and limitations as set f"
+candidate: BKV,1,other,review,med,manual assignment,or ​ • in any other circumstances falling within Section 86 of the Fin
+"inferred: Bank Trust Company, National Association (as successor in interest to U.S. Bank National Association)",1,trustee,no,high,CONFLATION: trustee is agent NOT bearer,"Bank Trust Company, National Association (as successor in interest to "
+inferred: THE BANK OF NEW YORK MELLON,1,trustee,no,high,CONFLATION: trustee is agent NOT bearer,EX-4.2 4 ef20064707_ex4-2.htm EXHIBIT 4.2 Exhibit 4.2 GE VERNOVA INC. 
+"LYB International Finance III, LLC",1,other,review,med,manual assignment,"ny, N.A., as base trustee (as successor-in-interest to Wells Fargo Ban"
+"inferred: The Bank of New York Mellon Trust Company, N.A. (as successor to The Bank of New York)",1,trustee,no,high,CONFLATION: trustee is agent NOT bearer,pectus. The notes will be issued under our indenture dated as of Septe
+"Computershare Trust Company, N.A., as securities intermediary and paying agent, Bank of America, N.A.",1,trustee,no,high,CONFLATION: trustee is agent NOT bearer,"ted Receivables Loan Agreement”), by and among the Borrower, as borrow"
+"PG&E Corporation, the HoldCo Existing Notes Trustee and JPMorgan Chase Bank, N.A.",1,trustee,no,high,CONFLATION: trustee is agent NOT bearer,es”) and (ii) $1 billion aggregate principal amount of 5.250% Senior S
+SAIC,1,other,review,med,manual assignment,Entry into a Material Definitive Agreement The information required by
+"candidate: Revolving Credit Agreement. An affiliate of an underwriter, Sumitomo Mitsui Banking Corporation, serves",1,lender_bank,YES_partial,med,named bank lender; confirm vs agent,"an affiliate of a representative of the underwriters, Morgan Stanley B"
+"Sumitomo Mitsui Banking Corporation, serves",1,lender_bank,YES_partial,med,named bank lender; confirm vs agent,"edit Agreement (as so amended and restated, the “5-Year Revolving Cred"
+Sabre Holdings Corporation|Sabre Holdings|Sabre Financing Holdings LLC,1,other,review,med,manual assignment,"Concurrently with the Exchange Offers, Sabre GLBL is offering to its l"
+"candidate: ERP Operating Limited Partnership, Bank of America, N.A.",1,lender_bank,YES_partial,med,named bank lender; confirm vs agent,"trant. On December 3, 2025, ERP Operating Limited Partnership (the “Op"
+"Chief Financial Officer DROPBOX HOLDING, LLC.|Vice President and Treasurer DROPBOX INTERNATIONAL UNLIMITED COMPANY",1,other,review,med,manual assignment,ible Notes and the Existing 2028 Convertible Notes. “Existing Credit A
+"candidate: Embraer Finance, Embraer",1,other,review,med,manual assignment,"complete understanding of the notes and the guarantees, please refer t"
+SLB N.V. (SLB Limited) (formerly known as Schlumberger Limited,1,other,review,med,manual assignment,tor. See “Description of the Notes—Ranking of the Notes and Guarantees
+candidate: SLB,1,other,review,med,manual assignment,"n 13(a) of the Exchange Act. ☐ Item 8.01 Other Events. On May 7, 2026,"
+"inferred: conditions, which the Initial Purchasers exercised in full on May 16 Bank Trust Company, National Association",1,trustee,no,high,CONFLATION: trustee is agent NOT bearer,). The aggregate principal amount of the Notes sold in the offering wa
+NEE,1,other,review,med,manual assignment,"and may act, as trustee under various indentures, trusts and guarantee"
+"SURGERY CENTER HOLDINGS, INC.",1,issuer_affiliate,no,med,likely issuer/affiliate not external bearer,"GUARANTORS party hereto from time to time and WILMINGTON TRUST, NATION"
+ConocoPhillips Company,1,issuer_affiliate,no,med,likely issuer/affiliate not external bearer,EX-4.2 3 tm2430231d1_ex4-2.htm EXHIBIT 4.2 Exhibit 4.2 CONOCOPHILLIPS 
+"inferred: by and among Talen Energy Supply, Agreement, dated as of May 17, 2023, by and among Talen Energy Supply, LLC, the lending institutions from time to time parties thereto, Citibank, N.A",1,lender_bank,YES_partial,med,named bank lender; confirm vs agent,"pply, LLC, the subsidiary guarantors party thereto and Citibank, N.A.,"
+"WASTE CONNECTIONS, INC.",1,other,review,med,manual assignment,EX-4.2 2 tm268779d2_ex4-2.htm EXHIBIT 4.2 Exhibit 4.2 WASTE CONNECTION
+"inferred: s subsidiaries and Bank of America, N.A",1,lender_bank,YES_partial,med,named bank lender; confirm vs agent,"rm Loan Facility On April 27, 2026, Octave entered into a credit agree"
+inferred: Computershare Trust Company N.A,1,trustee,no,high,CONFLATION: trustee is agent NOT bearer,"the United States absent registration or an applicable exemption from,"
+FORTIVE CORPORATION,1,other,review,med,manual assignment,of the Note) Signature Guarantee: Signature must be guaranteed by a pa
+"inferred: C (“Vistra Intermediate”), the guarantors party thereto, Credit Suisse AG, Cayman Islands Branch (as successor to Deutsche Bank AG New York Branch)",1,other,review,med,manual assignment,"C (“Vistra Intermediate”), the guarantors party thereto, Credit Suisse"
+candidate: GLADSTONE LAND Corp,1,issuer_affiliate,no,med,likely issuer/affiliate not external bearer,may own up to 9.8%). See “ Description of Capital Stock—Restrictions o
+"JPMorgan Chase Bank, N.A. acts",1,lender_bank,YES_partial,med,named bank lender; confirm vs agent,☐ Item 1.01 Entry into a Material Definitive Agreement. Amendment to a
+candidate: Phillips 66 Company,1,issuer_affiliate,no,med,likely issuer/affiliate not external bearer,Underwriting Agreement incorporated by reference in the Terms Agreemen
+QUEST DIAGNOSTICS INCORPORATED,1,other,review,med,manual assignment,EX-4.2 2 tm2613096d2_ex4-2.htm EXHIBIT 4.2 Exhibit 4.2 QUEST DIAGNOSTI

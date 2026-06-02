@@ -1,0 +1,12 @@
+entity,facility,issuer_structure,security,recourse_to_parent,downside_bearer,source_tier
+CoreWeave,DDTL 3.0 $2.6B,CCAC VII (bankruptcy-remote SPV),secured (GPU + 100% equity pledge),FULL parent guarantee,SPV noteholders + CoreWeave parent,primary_EDGAR
+TeraWulf,WULF Compute $3.2B 7.750% notes,WULF Compute LLC (SPV),senior secured,needs_extraction (SPV; likely limited),SPV noteholders (GPU/campus collateral),primary_EDGAR
+TeraWulf,Flash Compute $1.3B 7.250% notes,Flash Compute LLC (JV w/ Fluidstack),senior secured,partial (JV/project-financed),JV noteholders + project,primary_EDGAR
+Hut 8,Hut 8 DC $3.25B 6.192% notes,Hut 8 DC LLC (indirect wholly-owned SPV),senior secured,needs_extraction (SPV),SPV noteholders,primary_EDGAR
+Applied Digital,APLD ComputeCo 2 $2.15B 6.750% notes,APLD ComputeCo 2 LLC (SPV),senior secured,needs_extraction (SPV),SPV noteholders,primary_EDGAR
+Applied Digital,APLD ComputeCo $2.35B notes,APLD ComputeCo LLC (SPV),senior secured,needs_extraction (SPV),SPV noteholders,primary_press
+IREN,Convertibles ~$6.5B,IREN Limited (parent),senior unsecured convertible,parent (unsecured),convert holders -> equity dilution,primary_press
+IREN,DDTL $1.5B,Hardware 3 (SPV credit agmt),secured,needs_extraction (SPV),SPV lenders,primary_EDGAR
+CleanSpark,$1.15B 0.00% convertibles,CleanSpark Inc (parent),senior unsecured convertible,parent (unsecured),convert holders -> equity dilution,primary_EDGAR
+Nebius,$3.75B convertibles,Nebius Group (parent),senior unsecured convertible,parent (unsecured),convert holders -> equity dilution,primary_press
+MARA Holdings,zero-coupon convertibles,MARA Holdings (parent),senior unsecured convertible,parent (unsecured),convert holders -> equity dilution,primary_press

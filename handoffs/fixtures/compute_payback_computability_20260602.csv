@@ -1,0 +1,9 @@
+company,total_debt_usd,annual_cash_interest_usd,annual_revenue_usd,customer_concentration,maturity_wall,cash_usd,capex_commitments,can_compute_dscr,missing_inputs,source_tier
+CoreWeave,~25000000000 (carded $2.6B+press),216000000+ (carded; true higher),8300000000 ($2.078B/q),Microsoft 62/67/71% + OpenAI $22.4B,2030-2032,NEEDS,$30B+ contracted backlog (press),PARTIAL,cash; full interest (only DDTL3.0 carded); capex,primary+press
+IREN,~11000000000 (conv $6.5B + Hardware3 $3.6B),~98000000 DDTL + ~80M conv,961000000 ($240M/q),Microsoft (Hardware 3 contract),2029-2033,NEEDS,Childress/Sweetwater buildout,PARTIAL,cash; precise revenue/EBITDA split,primary
+TeraWulf,~5350000000 (TeraWulf share),342000000 (full notes),130000000 ($30-35M/q guide),Core42/Fluidstack(Google),2029-2030,NEEDS,Lake Mariner expansion,YES (rev<interest),cash exact,primary
+Applied Digital,~8800000000 est,145000000+,508000000 (TTM $338M),IG hyperscaler ($5B lease) + CoreWeave,2031,NEEDS,Polaris Forge 2 $3B,PARTIAL,cash; ComputeCo close status,primary+press
+Nebius,~3750000000,77000000,1200000000 (ARR Dec-2025),NEEDS,2029-2032,NEEDS,540% DC rev growth target,PARTIAL,cash; customer concentration; capex,primary
+CleanSpark,~1150000000 (+ existing),0 (zero-coupon),546000000 ($136M/q),mining (no single offtaker),2032,NEEDS,mining+HPC pivot,PARTIAL,cash; existing-debt total,primary
+Hut 8,~3250000000,201000000,284000000 ($71M/q),American Bitcoin/HPC,2042,NEEDS,Hut 8 DC buildout,YES (rev>interest but -$253M/q net),cash exact,primary
+MARA Holdings,~3520000000+ (multiple conv),0 (zero-coupon),NEEDS,mining (no single offtaker),2030-2031,NEEDS,mining+HPC,NO,revenue; cash; full debt,primary+press
