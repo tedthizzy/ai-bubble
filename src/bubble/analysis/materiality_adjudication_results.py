@@ -14,7 +14,7 @@ import json
 import re
 from collections import Counter
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, replace
 from datetime import UTC, date, datetime
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
@@ -40,6 +40,21 @@ DIRECT_AI_OPERATOR_ENTITY_MARKERS = (
     "mara holdings",
     "marathon digital",
     "terawulf",
+)
+STRONG_COMMITTED_DEBT_RESELECTION_MARKERS = (
+    "aggregate principal amount",
+    "credit agreement",
+    "credit and guaranty agreement",
+    "delayed draw term loan",
+    "entered into certain commitment letters",
+    "entered into an indenture",
+    "indenture with respect to the notes",
+    "issued pursuant to",
+    "lenders party",
+    "notes due",
+    "senior secured obligations",
+    "senior unsecured notes",
+    "term loan facility",
 )
 
 
@@ -145,6 +160,7 @@ def build_materiality_adjudication_decisions(
             for future in as_completed(futures):
                 by_index[futures[future]] = future.result()
         decisions = [by_index[index] for index in range(len(packets))]
+    decisions = _reselect_semantic_quotes(decisions)
     summary = _summary(decisions)
     return MaterialityAdjudicationDecisionBatch(decisions=decisions, summary=summary)
 
@@ -1508,6 +1524,110 @@ def _clean_snippet_text(value: str) -> str:
     if control_chars / max(len(value), 1) > 0.02:
         return ""
     return _normalize(value)
+
+
+def _reselect_semantic_quotes(
+    decisions: list[MaterialityAdjudicationDecision],
+) -> list[MaterialityAdjudicationDecision]:
+    """Replace weak approved quotes with stronger same-filing committed-debt clauses."""
+
+    by_hash_and_entity: dict[tuple[str, str], list[MaterialityAdjudicationDecision]] = {}
+    for decision in decisions:
+        entity_key = _entity_reselection_key(decision.entity)
+        if not entity_key:
+            continue
+        for content_hash in decision.content_hashes or (decision.content_hash,):
+            if content_hash:
+                by_hash_and_entity.setdefault((content_hash, entity_key), []).append(decision)
+
+    reselected: list[MaterialityAdjudicationDecision] = []
+    for decision in decisions:
+        replacement = _semantic_quote_reselection_candidate(decision, by_hash_and_entity)
+        reselected.append(replacement or decision)
+    return reselected
+
+
+def _semantic_quote_reselection_candidate(
+    decision: MaterialityAdjudicationDecision,
+    by_hash_and_entity: dict[tuple[str, str], list[MaterialityAdjudicationDecision]],
+) -> MaterialityAdjudicationDecision | None:
+    if decision.metric_use_status != "approved_for_metric_use":
+        return None
+    if _report_semantic_bucket(decision) != SemanticEvidenceBucket.INDETERMINATE:
+        return None
+
+    entity_key = _entity_reselection_key(decision.entity)
+    if not entity_key:
+        return None
+
+    terms = _decision_quote_terms(decision)
+    current_score = _quote_score(decision.evidence_quote, terms)
+    candidates: list[MaterialityAdjudicationDecision] = []
+    seen_packet_ids: set[str] = set()
+    for content_hash in decision.content_hashes or (decision.content_hash,):
+        for candidate in by_hash_and_entity.get((content_hash, entity_key), []):
+            if candidate.packet_id == decision.packet_id or candidate.packet_id in seen_packet_ids:
+                continue
+            seen_packet_ids.add(candidate.packet_id)
+            if _is_stronger_semantic_reselection_quote(
+                candidate.evidence_quote,
+                terms,
+                current_score,
+            ):
+                candidates.append(candidate)
+    if not candidates:
+        return None
+
+    best = max(candidates, key=lambda candidate: _quote_score(candidate.evidence_quote, terms))
+    rationale = (
+        f"{decision.rationale} Evidence quote reselected from same source filing "
+        f"packet {best.packet_id} because the original quote was semantically indeterminate."
+    )
+    return replace(
+        decision,
+        evidence_quote=best.evidence_quote,
+        evidence_quote_refs=best.evidence_quote_refs,
+        rationale=rationale,
+    )
+
+
+def _is_stronger_semantic_reselection_quote(
+    quote: str,
+    terms: list[str],
+    current_score: int,
+) -> bool:
+    if classify_claim_semantics(quote) != SemanticEvidenceBucket.COMMITTED_DEBT:
+        return False
+    quote_lower = quote.lower()
+    if not _contains_any(quote_lower, list(STRONG_COMMITTED_DEBT_RESELECTION_MARKERS)):
+        return False
+    return _quote_score(quote, terms) > current_score
+
+
+def _report_semantic_bucket(decision: MaterialityAdjudicationDecision) -> SemanticEvidenceBucket:
+    text = " ".join(
+        value
+        for value in (decision.evidence_quote, decision.packet_reason, decision.rationale)
+        if value
+    )
+    return classify_claim_semantics(text)
+
+
+def _decision_quote_terms(decision: MaterialityAdjudicationDecision) -> list[str]:
+    return _quote_terms(
+        {
+            "entity": decision.entity,
+            "counterparty": decision.counterparty,
+            "category": decision.category,
+            "subcategory": decision.subcategory,
+            "reason": decision.packet_reason,
+            "exposure_basis_usd": str(decision.exposure_basis_usd),
+        }
+    )
+
+
+def _entity_reselection_key(entity: str) -> str:
+    return re.sub(r"[^a-z0-9]+", "-", entity.lower()).strip("-")
 
 
 def _summary(

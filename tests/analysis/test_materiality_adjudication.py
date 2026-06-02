@@ -1517,6 +1517,202 @@ def test_materiality_adjudication_keeps_indirect_utility_not_established(
     assert decision.ai_data_center_linkage == "not_established"
 
 
+def test_materiality_adjudication_reselects_stronger_same_filing_semantic_quote(
+    tmp_path: Path,
+) -> None:
+    shared_hash = "d" * 64
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-peripheral-dtc",
+                "rank": 1,
+                "review_id": "review-peripheral-dtc",
+                "review_group_id": "group-peripheral-dtc",
+                "priority": "high",
+                "category": "contract",
+                "subcategory": "contract_tranche_terms",
+                "ecosystem_relevance": "not_tagged",
+                "entity": "United Community Banks Inc",
+                "counterparty": "noteholders",
+                "exposure_basis_usd": "19200000000",
+                "reason": (
+                    "debt-like deal type: bond; notional $19,200,000,000; "
+                    "notional context: transaction_principal; collateral terms present; "
+                    "guarantee scope present"
+                ),
+                "recommended_action": "Reselect committed-debt clause.",
+                "source_uri": "https://www.sec.gov/united-community-shelf.htm",
+                "source_uris": json.dumps(["https://www.sec.gov/united-community-shelf.htm"]),
+                "content_hash": shared_hash,
+                "content_hashes": json.dumps([shared_hash]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/united-community-shelf.htm",
+                            "content_hash": shared_hash,
+                            "document_id": "united-community-shelf.htm",
+                            "snippet": (
+                                "DTC has no responsibility or liability for any aspect "
+                                "of participant records relating to beneficial interests "
+                                "in global security certificates."
+                            ),
+                        }
+                    ]
+                ),
+            },
+            {
+                "packet_id": "packet-strong-sibling",
+                "rank": 2,
+                "review_id": "review-strong-sibling",
+                "review_group_id": "group-strong-sibling",
+                "priority": "high",
+                "category": "contract",
+                "subcategory": "contract_tranche_terms",
+                "ecosystem_relevance": "not_tagged",
+                "entity": "United Community Banks Inc",
+                "counterparty": "trustee",
+                "exposure_basis_usd": "19200000000",
+                "reason": (
+                    "debt-like deal type: bond; notional $19,200,000,000; "
+                    "notional context: transaction_principal; collateral terms present; "
+                    "guarantee scope present"
+                ),
+                "recommended_action": "Confirm committed-debt clause.",
+                "source_uri": "https://www.sec.gov/united-community-shelf.htm",
+                "source_uris": json.dumps(["https://www.sec.gov/united-community-shelf.htm"]),
+                "content_hash": shared_hash,
+                "content_hashes": json.dumps([shared_hash]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/united-community-shelf.htm",
+                            "content_hash": shared_hash,
+                            "document_id": "united-community-shelf.htm",
+                            "snippet": (
+                                "The company entered into an indenture with respect to "
+                                "the notes with the trustee. The notes are senior "
+                                "unsecured obligations issued pursuant to the indenture "
+                                "and rank equally with other unsecured debt."
+                            ),
+                        }
+                    ]
+                ),
+            },
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    peripheral = next(
+        decision for decision in batch.decisions if decision.packet_id == "packet-peripheral-dtc"
+    )
+    assert peripheral.metric_use_status == "approved_for_metric_use"
+    assert "DTC has no responsibility" not in peripheral.evidence_quote
+    assert "entered into an indenture" in peripheral.evidence_quote
+    assert "packet-strong-sibling" in peripheral.rationale
+
+
+def test_materiality_adjudication_does_not_reselect_semantic_quote_across_entities(
+    tmp_path: Path,
+) -> None:
+    shared_hash = "e" * 64
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-target-entity",
+                "rank": 1,
+                "review_id": "review-target-entity",
+                "review_group_id": "group-target-entity",
+                "priority": "high",
+                "category": "contract",
+                "subcategory": "contract_tranche_terms",
+                "ecosystem_relevance": "not_tagged",
+                "entity": "Target Bancorp",
+                "counterparty": "noteholders",
+                "exposure_basis_usd": "5000000000",
+                "reason": (
+                    "debt-like deal type: bond; notional $5,000,000,000; "
+                    "notional context: transaction_principal; collateral terms present; "
+                    "guarantee scope present"
+                ),
+                "recommended_action": "Reselect committed-debt clause.",
+                "source_uri": "https://www.sec.gov/shared-filing.htm",
+                "source_uris": json.dumps(["https://www.sec.gov/shared-filing.htm"]),
+                "content_hash": shared_hash,
+                "content_hashes": json.dumps([shared_hash]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/shared-filing.htm",
+                            "content_hash": shared_hash,
+                            "document_id": "shared-filing.htm",
+                            "snippet": (
+                                "DTC has no responsibility or liability for participant "
+                                "records relating to beneficial interests in global "
+                                "security certificates."
+                            ),
+                        }
+                    ]
+                ),
+            },
+            {
+                "packet_id": "packet-other-entity",
+                "rank": 2,
+                "review_id": "review-other-entity",
+                "review_group_id": "group-other-entity",
+                "priority": "high",
+                "category": "contract",
+                "subcategory": "contract_tranche_terms",
+                "ecosystem_relevance": "not_tagged",
+                "entity": "Other Bancorp",
+                "counterparty": "trustee",
+                "exposure_basis_usd": "5000000000",
+                "reason": (
+                    "debt-like deal type: bond; notional $5,000,000,000; "
+                    "notional context: transaction_principal; collateral terms present; "
+                    "guarantee scope present"
+                ),
+                "recommended_action": "Confirm committed-debt clause.",
+                "source_uri": "https://www.sec.gov/shared-filing.htm",
+                "source_uris": json.dumps(["https://www.sec.gov/shared-filing.htm"]),
+                "content_hash": shared_hash,
+                "content_hashes": json.dumps([shared_hash]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/shared-filing.htm",
+                            "content_hash": shared_hash,
+                            "document_id": "shared-filing.htm",
+                            "snippet": (
+                                "Other Bancorp entered into an indenture with respect "
+                                "to the notes with the trustee. The notes are senior "
+                                "unsecured obligations issued pursuant to the indenture."
+                            ),
+                        }
+                    ]
+                ),
+            },
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    target = next(
+        decision for decision in batch.decisions if decision.packet_id == "packet-target-entity"
+    )
+    assert target.metric_use_status == "approved_for_metric_use"
+    assert "DTC has no responsibility" in target.evidence_quote
+    assert "entered into an indenture" not in target.evidence_quote
+
+
 def test_materiality_adjudication_blocks_mixed_currency_quote_without_recorded_usd(
     tmp_path: Path,
 ) -> None:

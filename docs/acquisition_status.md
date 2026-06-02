@@ -1,13 +1,13 @@
 # Acquisition Status
 
-Last updated: 2026-06-02 09:11 UTC.
+Last updated: 2026-06-02 09:19 UTC.
 
 This file is the operational snapshot for the current evidence corpus. Treat it
 as a run log, not as a final investment conclusion.
 
 ## Current Corpus
 
-- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0911.md`
+- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0919.md`
 - Evidence gate: not high-confidence final.
 - Evidence audit coverage: report-level audits now include analyzer-level
   capital, compute, and debt-service audits plus explicit row/artifact-backed
@@ -65,10 +65,14 @@ as a run log, not as a final investment conclusion.
   blank or not established; indirect utility/telecom suppliers remain
   not-established until a source-backed fractional scope rule is defined.
 - Semantic metric-validity gating now scans approved materiality rows as a
-  separate source-text dimension: 2,773 approved rows classify as committed
-  debt/obligation text, 157 remain indeterminate review candidates, and 0
+  separate source-text dimension: 2,782 approved rows classify as committed
+  debt/obligation text, 142 remain indeterminate review candidates, and 0
   approved rows are hard-flagged as asset/capacity, equity/production, or
   boilerplate snippets.
+  A same-filing quote-quality pass now reselects stronger committed-debt clauses
+  for approved rows whose original selected snippet was semantically peripheral
+  when a same-entity/same-content-hash sibling clause is available; it changes
+  evidence text quality, not supported metric totals.
 - Decision coverage over packaged blocker groups: 100.0%; unresolved decision
   share remains 32.91% (still extraction-bound, not source-retrieval-bound).
 - Top remaining decision gaps are now named counterparty role extraction
@@ -575,9 +579,13 @@ Adjudication queue:
   matching the recorded metric. USD-confirmed mixed-currency offerings remain
   eligible.
 - Semantic hard flags remaining in approved metric rows: 0
-  asset/capacity, equity/production, or boilerplate rows; 157 indeterminate
+  asset/capacity, equity/production, or boilerplate rows; 142 indeterminate
   rows remain queued for review rather than treated as high-confidence debt
   semantics.
+- Same-filing quote reselection replaced 13 semantically peripheral approved
+  snippets covering $34.71B with stronger same-entity/same-content-hash
+  committed-debt clauses; this reduced indeterminate approved rows without
+  changing approved metric counts or totals.
 - Top unresolved gaps are named counterparty roles, collateral scope,
   recourse/guarantee scope, aggregate-to-committed splitting, and underlying
   term-level clause acquisition.
