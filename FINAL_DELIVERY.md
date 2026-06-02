@@ -32,8 +32,8 @@ The important change is that ecosystem-scale conclusions are now blocked from be
 
 Latest verified evidence-gated report at this checkpoint:
 
-- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260602-2300.md`
-- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260602-2300.json`
+- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260602-2320.md`
+- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260602-2320.json`
 - `high_confidence_final`: `false`
 - Current main checkpoint: `c525027`. Claude's isolated worktree has a clean
   one-commit readiness queue (`f853695`) with repaired branch-side fixtures for
@@ -41,7 +41,7 @@ Latest verified evidence-gated report at this checkpoint:
   binding split, and related direct-tier synthesis packs. Those files are ready
   for review/import or coordinator handoff, but are not included in the report
   metrics until merged and validated on main.
-- Evidence audit coverage now includes 473 claim audits: analyzer-level capital,
+- Evidence audit coverage now includes 475 claim audits: analyzer-level capital,
   compute, and debt-service audits, explicit row/artifact-backed audits for
   high-impact Burry-answer rollups, and aggregate hooks for pending review
   capital, pending AI-infra capital, pending compute, weak-link AI-infra,

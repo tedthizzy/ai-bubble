@@ -51,6 +51,10 @@ graph_parity_basis_fields = cast(
     "Callable[..., dict[str, Any]]",
     _REPORT_MODULE.graph_parity_basis_fields,
 )
+compute_burry_mismatch_ratios = cast(
+    "Callable[..., dict[str, Any]]",
+    _REPORT_MODULE.compute_burry_mismatch_ratios,
+)
 
 
 def _audit(
@@ -510,3 +514,82 @@ def test_materiality_relevance_scope_fields_label_thesis_scope() -> None:
     assert fields["materiality_not_established_linkage_usd"] == 3_863_000_000_000
     assert fields["materiality_established_ai_linked_pct"] == 0.1344
     assert "must not be described as direct AI-bubble leverage" in fields["metric_relevance_note"]
+
+
+class _PaybackCase:
+    """Minimal payback-case stand-in for the mismatch-ratio function."""
+
+    def __init__(
+        self,
+        *,
+        entity: str,
+        utilization_pct: float | None = None,
+        annual_revenue_run_rate_usd: float | None = None,
+        annual_power_cost_usd: float | None = None,
+        annual_debt_service_usd: float | None = None,
+        debt_service_coverage_ratio: float | None = None,
+    ) -> None:
+        self.entity = entity
+        self.utilization_pct = utilization_pct
+        self.annual_revenue_run_rate_usd = annual_revenue_run_rate_usd
+        self.contracted_revenue_usd = None
+        self.annual_power_cost_usd = annual_power_cost_usd
+        self.annual_debt_service_usd = annual_debt_service_usd
+        self.debt_service_coverage_ratio = debt_service_coverage_ratio
+
+
+def _mismatch_ratios(cases: list[Any]) -> dict[str, Any]:
+    return compute_burry_mismatch_ratios(
+        debt_service_metrics=object(),
+        compute_metrics=object(),
+        physical_capacity=object(),
+        queue_match_summary={},
+        physical_record_match_summary={},
+        resolved_data_dirs=[],
+        payback_cases=cases,
+    )
+
+
+def test_cash_flow_mismatch_blocks_and_names_missing_inputs_when_unbacked() -> None:
+    # Cases lack the per-case debt service + utilization a DSCR needs.
+    cases = [
+        _PaybackCase(entity="WhiteFiber, Inc.", annual_revenue_run_rate_usd=9_696_000.0),
+    ]
+
+    ratios = _mismatch_ratios(cases)
+    cf = ratios["cash_flow_mismatch"]
+
+    assert cf["status"] == "blocked_missing_source_backed_inputs"
+    assert cf["source_backed"] is False
+    assert cf["cases_scanned"] == 1
+    assert "annual_debt_service" in cf["missing_inputs"]
+    assert "utilization_pct" in cf["missing_inputs"]
+    # The stress example must not masquerade as source-backed coverage.
+    sse = ratios["scenario_stress_examples"]
+    assert sse["base_dscr_source_backed"] is False
+    assert sse["illustrative_only"] is True
+    assert "ILLUSTRATIVE ONLY" in sse["note"]
+
+
+def test_cash_flow_mismatch_is_source_backed_with_full_inputs() -> None:
+    cases = [
+        _PaybackCase(
+            entity="CoreWeave",
+            utilization_pct=0.75,
+            annual_revenue_run_rate_usd=1_000_000_000.0,
+            annual_power_cost_usd=100_000_000.0,
+            annual_debt_service_usd=500_000_000.0,
+            debt_service_coverage_ratio=1.1,
+        ),
+    ]
+
+    ratios = _mismatch_ratios(cases)
+    cf = ratios["cash_flow_mismatch"]
+    sse = ratios["scenario_stress_examples"]
+
+    assert cf["source_backed"] is True
+    assert cf["cases_with_utilization_data"] == 1
+    assert "dscr_at_realistic_util" in cf["example_cases"][0]
+    assert sse["base_dscr_source_backed"] is True
+    assert "illustrative_only" not in sse
+    assert "SOURCE-BACKED" in sse["note"]

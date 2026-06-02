@@ -559,8 +559,13 @@ def report_answer_metric_audits(  # noqa: PLR0912, PLR0915
     materiality_adjudication_summary: dict[str, Any] | None = None,
     materiality_adjudication_decision_summary: dict[str, Any] | None = None,
     materiality_relevance_summary: dict[str, Any] | None = None,
+    mismatch_ratios: dict[str, Any] | None = None,
 ) -> list[dict[str, Any]]:
-    """Audit high-impact scalar values surfaced directly in Burry answers."""
+    """Audit high-impact scalar values surfaced directly in Burry answers.
+
+    Now also audits key Burry mismatch ratios (DSCR at realistic util, physical deliverable %,
+    GPU life gap, missing-rate fragility) so they can affect the evidence gate.
+    """
 
     gate = EvidenceGate(min_high_confidence=0.75, min_corroborating_sources=2)
     audits: list[dict[str, Any]] = []
@@ -1286,6 +1291,68 @@ def report_answer_metric_audits(  # noqa: PLR0912, PLR0915
         [relevance_artifact],
         requires_corroboration=False,
     )
+
+    # Burry mismatch ratios (the "assumptions baked in, how fragile" claims)
+    if mismatch_ratios:
+        m = mismatch_ratios
+        mismatch_artifact = artifact_provenance(
+            source_uri="local:compute_burry_mismatch_ratios",
+            page_or_section="Burry separation test mismatch ratios from source-backed debt, compute, physical, and queue artifacts",
+            payload=m,
+        )
+
+        # Cash flow fragility at realistic utilization
+        cf = m.get("cash_flow_mismatch", {})
+        if cf.get("median_dscr_at_realistic_util") is not None:
+            add(
+                "mismatch.cash_flow.dscr_at_realistic_util",
+                "Median debt service coverage ratio at conservative realistic sustained utilization (~28%)",
+                cf.get("median_dscr_at_realistic_util"),
+                [mismatch_artifact],
+                unit="ratio",
+            )
+        if cf.get("median_base_dscr_from_cases") is not None:
+            add(
+                "mismatch.cash_flow.base_dscr_from_payback_cases",
+                "Median base DSCR from source-backed payback / cash flow cases (higher assumed utilization)",
+                cf.get("median_base_dscr_from_cases"),
+                [mismatch_artifact],
+                unit="ratio",
+            )
+
+        # Physical deliverability mismatch
+        phys = m.get("physical_mismatch", {})
+        if phys.get("deliverable_vs_announced_strong_queue_match_pct") is not None:
+            add(
+                "mismatch.physical.deliverable_vs_announced_pct",
+                "% of tracker-announced capacity backed by strong queue match (deliverable on underwritten timeline)",
+                phys.get("deliverable_vs_announced_strong_queue_match_pct"),
+                [mismatch_artifact],
+                unit="percent",
+            )
+
+        # GPU life / depreciation assumption fragility
+        gpu = m.get("gpu_economics_mismatch", {})
+        if gpu.get("median_useful_life_gap_years") is not None:
+            add(
+                "mismatch.gpu.useful_life_gap_years",
+                "Median gap between accounting useful life and observed economic/secondary market life (positive = overstated asset life)",
+                gpu.get("median_useful_life_gap_years"),
+                [mismatch_artifact],
+                unit="years",
+            )
+
+        # Debt missing rate (interest rate assumption fragility on the wall)
+        debt = m.get("debt_refinancing_mismatch", {})
+        if debt.get("missing_rate_pct_of_debt_like_notional") is not None:
+            add(
+                "mismatch.debt.missing_explicit_rate_pct",
+                "% of debt-like notional lacking explicit interest rate (hidden burden + refi fragility)",
+                debt.get("missing_rate_pct_of_debt_like_notional"),
+                [mismatch_artifact],
+                unit="percent",
+            )
+
     return audits
 
 
@@ -1769,7 +1836,273 @@ def load_source_invariant_audit(data_dirs: list[str]) -> dict[str, Any]:
     return {}
 
 
-def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:
+def _load_csv_rows(path: Path) -> list[dict[str, str]]:
+    """Lightweight CSV loader for mismatch ratio source data (no pandas dep)."""
+    if not path.exists():
+        return []
+    try:
+        with path.open(newline="") as f:
+            return list(csv.DictReader(f))
+    except Exception:
+        return []
+
+
+def compute_burry_mismatch_ratios(  # noqa: PLR0912, PLR0915
+    *,
+    debt_service_metrics: Any,
+    compute_metrics: Any,
+    physical_capacity: Any,
+    queue_match_summary: dict[str, Any],
+    physical_record_match_summary: dict[str, Any],
+    resolved_data_dirs: list[str],
+    payback_cases: list[Any] | None = None,
+) -> dict[str, Any]:
+    """
+    Turn raw source-backed numbers into Burry-style mismatch ratios.
+
+    These directly implement the "assumptions baked in, how fragile" test:
+    - Cash flow at realistic (low) utilization vs. debt service.
+    - Physical: announced capacity that is actually deliverable (queue+permit+equipment backed).
+    - GPU: accounting life vs. observed economic/obsolescence life.
+    - Debt: missing explicit rate exposure as % of the refinancing wall.
+
+    Each ratio includes supporting counts, conservative assumptions used, and notes
+    so it can be evidence-audited and surfaced as a first-class claim.
+    """
+    ratios: dict[str, Any] = {
+        "cash_flow_mismatch": {},
+        "physical_mismatch": {},
+        "gpu_economics_mismatch": {},
+        "debt_refinancing_mismatch": {},
+        "scenario_stress_examples": {},
+        "notes": "Ratios are computed from source-backed artifacts (EDGAR contracts, tracker projects, queue matches, payback cases, GPU secondary/rental observations) where the required per-deal inputs are disclosed. Where they are not, the ratio is marked blocked or illustrative_only rather than presented as source-backed. Conservative 'realistic' assumptions are applied and labeled where direct per-deal revenue/utilization are not disclosed.",
+        "computation_timestamp": None,
+    }
+
+    # 1. Debt / refinancing mismatch (missing rate is a direct fragility signal)
+    try:
+        distinct_debt = getattr(debt_service_metrics, "distinct_debt_like_notional_usd", 0.0) or 0.0
+        missing_rate = getattr(debt_service_metrics, "missing_rate_notional_usd", 0.0) or 0.0
+        if distinct_debt > 0:
+            ratios["debt_refinancing_mismatch"]["missing_rate_pct_of_debt_like_notional"] = round(
+                (missing_rate / distinct_debt) * 100, 1
+            )
+        ratios["debt_refinancing_mismatch"]["measured_annual_interest_usd"] = getattr(
+            debt_service_metrics, "measured_annual_interest_usd", 0.0
+        )
+        ratios["debt_refinancing_mismatch"]["missing_rate_notional_usd"] = missing_rate
+        wall_24_30 = (
+            getattr(debt_service_metrics, "maturity_wall_notional_usd_2024_2030", 0.0) or 0.0
+        )
+        if wall_24_30 > 0:
+            ratios["debt_refinancing_mismatch"]["maturity_wall_2024_2030_notional_usd"] = wall_24_30
+    except Exception:
+        pass
+
+    # 2. GPU economics mismatch (life assumption fragility)
+    try:
+        gpu_risks = getattr(compute_metrics, "top_gpu_depreciation_risks", []) or []
+        gaps = []
+        for r in gpu_risks:
+            g = getattr(r, "useful_life_gap_years", None)
+            if g is not None:
+                gaps.append(g)
+        if gaps:
+            ratios["gpu_economics_mismatch"]["median_useful_life_gap_years"] = round(
+                sum(gaps) / len(gaps), 1
+            )
+            ratios["gpu_economics_mismatch"]["generations_with_gap"] = len(gaps)
+            ratios["gpu_economics_mismatch"]["red_flag_generations"] = sum(
+                1 for r in gpu_risks if getattr(r, "red_flag", False)
+            )
+        ratios["gpu_economics_mismatch"]["accounting_vs_modeled_life_note"] = (
+            "Positive gap = accounting useful life longer than observed secondary market / rental rate compression implies. Classic bubble signal per Burry-style depreciation reality check."
+        )
+    except Exception:
+        pass
+
+    # 3. Cash flow mismatch at realistic utilization
+    # Use payback cases (they carry utilization_pct, revenue, power, debt_service)
+    realistic_util = (
+        0.28  # conservative sustained for many AI infra workloads per industry cross-checks
+    )
+    cf_examples = []
+    base_dscrs = []
+    stressed_dscrs = []
+
+    cases = payback_cases or []
+    cases_scanned = 0
+    missing_input_counts = {"annual_debt_service": 0, "utilization_pct": 0, "revenue": 0}
+    for case in cases[:50]:  # bounded for speed
+        try:
+            cases_scanned += 1
+            util = getattr(case, "utilization_pct", None)
+            rev = getattr(case, "annual_revenue_run_rate_usd", None) or getattr(
+                case, "contracted_revenue_usd", None
+            )
+            power = getattr(case, "annual_power_cost_usd", None) or 0.0
+            debt_svc = getattr(case, "annual_debt_service_usd", None)
+            if not rev:
+                missing_input_counts["revenue"] += 1
+            if not debt_svc:
+                missing_input_counts["annual_debt_service"] += 1
+            if not (util and util > 0):
+                missing_input_counts["utilization_pct"] += 1
+            if rev and debt_svc and util and util > 0:
+                # scale revenue to realistic util
+                scale = realistic_util / util
+                realistic_rev = rev * scale
+                # very rough gross cash after power (ignore other opex for conservative signal)
+                cash = max(0.0, realistic_rev - (power or 0.0))
+                dscr_real = cash / debt_svc if debt_svc > 0 else None
+                if dscr_real is not None:
+                    cf_examples.append(
+                        {
+                            "entity": getattr(case, "entity", None),
+                            "assumed_util_pct": round(util * 100, 1),
+                            "realistic_util_pct": round(realistic_util * 100, 1),
+                            "dscr_at_realistic_util": round(dscr_real, 2),
+                        }
+                    )
+                    # also capture a 'base' from the case if it had one
+                    if (
+                        hasattr(case, "debt_service_coverage_ratio")
+                        and case.debt_service_coverage_ratio
+                    ):
+                        base_dscrs.append(case.debt_service_coverage_ratio)
+                    stressed_dscrs.append(dscr_real)
+        except Exception:
+            continue
+
+    if cf_examples:
+        ratios["cash_flow_mismatch"]["realistic_utilization_used_pct"] = round(
+            realistic_util * 100, 1
+        )
+        ratios["cash_flow_mismatch"]["example_cases"] = cf_examples[:5]
+        if stressed_dscrs:
+            ratios["cash_flow_mismatch"]["median_dscr_at_realistic_util"] = round(
+                sum(stressed_dscrs) / len(stressed_dscrs), 2
+            )
+        if base_dscrs:
+            ratios["cash_flow_mismatch"]["median_base_dscr_from_cases"] = round(
+                sum(base_dscrs) / len(base_dscrs), 2
+            )
+        ratios["cash_flow_mismatch"]["cases_with_utilization_data"] = len(cf_examples)
+        ratios["cash_flow_mismatch"]["source_backed"] = True
+        ratios["cash_flow_mismatch"]["note"] = (
+            f"Revenue scaled linearly to {int(realistic_util * 100)}% sustained utilization (common conservative assumption for non-hyperscaler or ramping AI loads). "
+            "Power cost held constant. Actual DSCR would also reflect opex, taxes, and contract holes."
+        )
+    else:
+        # Skepticism-first: do not emit a coverage ratio when the per-case inputs a
+        # real DSCR requires are not source-backed. Surface the gap explicitly with
+        # the missing inputs named, so it is an actionable extraction target rather
+        # than an absent or assumed number.
+        ratios["cash_flow_mismatch"]["status"] = "blocked_missing_source_backed_inputs"
+        ratios["cash_flow_mismatch"]["source_backed"] = False
+        ratios["cash_flow_mismatch"]["cases_scanned"] = cases_scanned
+        ratios["cash_flow_mismatch"]["missing_inputs"] = sorted(
+            name for name, count in missing_input_counts.items() if count
+        )
+        ratios["cash_flow_mismatch"]["note"] = (
+            "No source-backed cash-flow mismatch ratio computed: the scanned payback "
+            "cases lack the per-case inputs a DSCR requires (see missing_inputs). "
+            "Reported as an explicit pending gap, not an assumed ratio."
+        )
+
+    # 4. Physical mismatch: deliverable (strong queue match + other physical signals) vs announced from trackers
+    try:
+        total_announced_mw = 0.0
+        strong_matched_mw = 0.0
+        for root in resolved_data_dirs:
+            proj_path = Path(root) / "physical" / "projects.csv"
+            match_path = Path(root) / "physical" / "queue_project_matches.csv"
+            projs = _load_csv_rows(proj_path)
+            matches = _load_csv_rows(match_path)
+            if projs:
+                for p in projs:
+                    for key in ("capacity_mw", "it_load_mw", "capacity_mw_high"):
+                        val = p.get(key)
+                        if val:
+                            try:
+                                total_announced_mw += float(val)
+                                break
+                            except Exception:
+                                pass
+            if matches:
+                strong_ids = {
+                    m.get("matched_project_id")
+                    for m in matches
+                    if (m.get("match_status") or "").lower().startswith("strong")
+                    or float(m.get("match_confidence") or 0) >= 0.8
+                }
+                for p in projs:
+                    pid = p.get("project_id")
+                    if pid in strong_ids:
+                        for key in ("capacity_mw", "it_load_mw"):
+                            val = p.get(key)
+                            if val:
+                                try:
+                                    strong_matched_mw += float(val)
+                                    break
+                                except Exception:
+                                    pass
+            if total_announced_mw > 0:
+                break
+
+        if total_announced_mw > 100:  # only trust if we have meaningful sample
+            pct = (strong_matched_mw / total_announced_mw) * 100
+            ratios["physical_mismatch"]["deliverable_vs_announced_strong_queue_match_pct"] = round(
+                pct, 1
+            )
+            ratios["physical_mismatch"]["total_announced_mw_in_sample"] = round(
+                total_announced_mw, 1
+            )
+            ratios["physical_mismatch"]["strong_queue_matched_mw"] = round(strong_matched_mw, 1)
+            ratios["physical_mismatch"]["note"] = (
+                "Strong match = name/party/location/capacity overlap with ISO queue records (high confidence linkage). "
+                "Real deliverability also requires permits, transformers, gas if applicable, and construction progress. "
+                "Lower % = higher stranding / timeline slippage risk for the debt underwritten against this capacity."
+            )
+    except Exception:
+        pass
+
+    # 5. Simple scenario stress example using the (now data-influenced) engine
+    try:
+        source_backed_base = ratios.get("cash_flow_mismatch", {}).get("median_base_dscr_from_cases")
+        base_for_stress = source_backed_base if source_backed_base else 1.15
+        sse = ratios["scenario_stress_examples"]
+        sse["base_dscr_used_for_stress"] = round(base_for_stress, 2)
+        sse["base_dscr_source_backed"] = bool(source_backed_base)
+        # We can't easily instantiate full graph here without the client; provide the
+        # parameters so the engine can be called later with this base.
+        sse["adverse_stressed_dscr_example"] = round(
+            max(0.2, base_for_stress * (1 - 0.25) / 1.15), 2
+        )  # approx adverse
+        sse["tail_stressed_dscr_example"] = round(max(0.2, base_for_stress * (1 - 0.55) / 2.0), 2)
+        if source_backed_base:
+            sse["note"] = (
+                "Example mismatch ratios from applying conservative utilization + depreciation "
+                "stress to a SOURCE-BACKED base DSCR. Full per-entity run requires the graph "
+                "client + entity linkage."
+            )
+        else:
+            # The base DSCR is a conservative default, not derived from disclosure. Label it
+            # honestly so the stress example is never read as the cluster's real coverage.
+            sse["illustrative_only"] = True
+            sse["status"] = "illustrative_no_source_backed_base_dscr"
+            sse["note"] = (
+                "ILLUSTRATIVE ONLY: no source-backed base DSCR was available, so a conservative "
+                "default (1.15) demonstrates the stress mechanics. These example ratios are NOT "
+                "source-backed and must not be read as the AI-direct cluster's actual coverage."
+            )
+    except Exception:
+        pass
+
+    return ratios
+
+
+def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:  # noqa: PLR0915
     resolved_data_dirs = data_dirs or ["data"]
     coverage = build_source_coverage_report(resolved_data_dirs)
     physical_capacity = build_physical_capacity_summary(resolved_data_dirs)
@@ -1805,6 +2138,15 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:
     debt_service_metrics = analyze_debt_service(
         raw_capital_batch.deals,
         compute_batch.payback_cases,
+    )
+    mismatch_ratios = compute_burry_mismatch_ratios(
+        debt_service_metrics=debt_service_metrics,
+        compute_metrics=compute_metrics,
+        physical_capacity=physical_capacity,
+        queue_match_summary=queue_match_summary,
+        physical_record_match_summary=physical_record_match_summary,
+        resolved_data_dirs=resolved_data_dirs,
+        payback_cases=getattr(compute_batch, "payback_cases", None),
     )
     coverage_dict = coverage.to_dict()
     physical_capacity_dict = physical_capacity.to_dict()
@@ -2561,6 +2903,7 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:
                     materiality_adjudication_decision_summary
                 ),
                 materiality_relevance_summary=materiality_relevance,
+                mismatch_ratios=mismatch_ratios,
             )
         },
     )
@@ -2614,6 +2957,7 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:
         "capital_structure": capital_metrics_dict,
         "compute_economics": compute_metrics_dict,
         "debt_service_mismatch": debt_service_metrics_dict,
+        "burry_separation_test": mismatch_ratios,
         "key_metrics": metrics,
         "executive_summary": {
             "overall_assessment": (
@@ -2673,6 +3017,7 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:
             "is_this_a_bubble": {
                 "answer": "Blocked. The source corpus is not yet broad enough for a defensible binary conclusion.",
                 "confidence": capped_bubble_confidence,
+                "burry_separation_test_reference": "See top-level 'burry_separation_test' for the actual mismatch ratios (DSCR at realistic util, deliverable capacity %, GPU life gap, missing-rate %). These are the assumption-fragility signals that would turn raw notional into a bubble diagnosis.",
                 "required_next_evidence": [
                     "Source-backed leverage and maturity schedules",
                     "Project-level power/permit/queue records",
@@ -3231,6 +3576,20 @@ def main() -> None:
 {report["executive_summary"]["overall_assessment"]}
 
 {report["executive_summary"]["coverage_sentence"]}
+
+## Burry's Separation Test (Mismatch Ratios)
+**Core principle:** Big aggregate notional is irrelevant without testing the assumptions it rests on.
+These ratios quantify the three key mismatches Burry would probe first.
+
+{json.dumps(report.get("burry_separation_test", {}), indent=2)}
+
+**Interpretation guidance (from the ratios above):**
+- Cash flow: DSCR at realistic low utilization (e.g. 28%) vs. the higher utilization baked into debt models / payback cases. <<1.0x = cash flow collapse risk even if headline revenue looks fine.
+- Physical: % of announced/tracker capacity that has strong corroborating queue (or permit/equipment) linkage. Low % = high stranding / delay risk for the debt sized against that capacity.
+- GPU economics: Accounting useful life minus observed secondary/rental market compression. Large positive gap = current depreciation (and thus earnings/cash flow) is understated.
+- Debt refi: % of the wall lacking explicit rates. High missing-rate % + near-term maturities = forced equity raises, higher rates, or default when rolled.
+
+If 2+ of these mismatches are large on source-backed data for the AI-direct core, the capital structure is a bubble regardless of headline $T totals.
 
 ## Key Metrics
 {json.dumps(report["key_metrics"], indent=2)}
