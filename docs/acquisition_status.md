@@ -1,13 +1,13 @@
 # Acquisition Status
 
-Last updated: 2026-06-02 07:15 UTC.
+Last updated: 2026-06-02 07:31 UTC.
 
 This file is the operational snapshot for the current evidence corpus. Treat it
 as a run log, not as a final investment conclusion.
 
 ## Current Corpus
 
-- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0715.md`
+- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0731.md`
 - Evidence gate: not high-confidence final.
 - Evidence audit coverage: report-level audits now include analyzer-level
   capital, compute, and debt-service audits plus explicit row/artifact-backed
@@ -42,22 +42,26 @@ as a run log, not as a final investment conclusion.
   the packet set.
 - Automated materiality adjudication decisions: 6,663 decisions, 6,463 with
   resolved text quotes plus 200 row-context-backed decisions for non-text
-  sources, 4,604 supported as material blockers, 2,059 requiring deeper
-  extraction, 0 requiring source retrieval, and 3,026 source-backed rows
-  approved for metric use. Those approved rows total $8.891T as row-level
+  sources, 4,553 supported as material blockers, 2,110 requiring deeper
+  extraction, 0 requiring source retrieval, and 2,988 source-backed rows
+  approved for metric use. Those approved rows total $8.752T as row-level
   supported amounts, but source-instrument and economic-obligation metric
   dedupe now collapses same-document/same-amount and exact repeated filing
-  disclosures to $4.802T across 1,648 metric groups; they are not treated as
+  disclosures to $4.709T across 1,624 metric groups; they are not treated as
   individual contracts unless contract terms are separately extracted.
+- Semantic metric-validity gating now scans approved materiality rows as a
+  separate source-text dimension: 2,602 approved rows classify as committed
+  debt/obligation text, 386 remain indeterminate review candidates, and 0
+  approved rows are hard-flagged as asset/capacity or boilerplate snippets.
 - Decision coverage over packaged blocker groups: 100.0%; unresolved decision
-  share remains 30.90% (still extraction-bound, not source-retrieval-bound).
+  share remains 31.67% (still extraction-bound, not source-retrieval-bound).
 - Top remaining decision gaps are now named counterparty role extraction
   (1,212), collateral scope (645), recourse/guarantee scope (517), split
   aggregate disclosure from committed obligations (165),
-  queue/permit/interconnection linkage (43), asset/UPB/financing-capacity
-  splitting (37), mega-obligation confirmation (33), missing underlying
-  term-level clauses (28), and shelf-capacity-vs-committed-financing
-  distinction (25).
+  asset/UPB/financing-capacity splitting (89), specific committed-obligation
+  semantic confirmation (53), queue/permit/interconnection linkage (43),
+  mega-obligation confirmation (33), missing underlying term-level clauses
+  (28), and shelf-capacity-vs-committed-financing distinction (25).
 
 ## Phase Transition Readiness
 
@@ -515,14 +519,17 @@ Adjudication queue:
 - Pending compute claim amount: $398.24B.
 - Materiality packets: 6,663 source-backed packets, 706 AI-infra relevant, and
   6,663 with local evidence snippets.
-- Materiality decisions: 4,604 source-supported blockers, 2,059 requiring
-  deeper extraction, 0 requiring source retrieval, and 3,026 rows approved
+- Materiality decisions: 4,553 source-supported blockers, 2,110 requiring
+  deeper extraction, 0 requiring source retrieval, and 2,988 rows approved
   for metric use (6,463 quote-backed decisions plus 200 row-context-backed
   decisions on non-text sources).
-- Automated row-level supported amount approved for metric use: $8.891T.
-- Deduped automated final metric support: $4.802T across 1,648
+- Automated row-level supported amount approved for metric use: $8.752T.
+- Deduped automated final metric support: $4.709T across 1,624
   source-instrument, latest-snapshot, and exact economic-obligation metric
   groups.
+- Semantic hard flags remaining in approved metric rows: 0
+  asset/capacity-or-boilerplate rows; 386 indeterminate rows remain queued for
+  review rather than treated as high-confidence debt semantics.
 - Top unresolved gaps are named counterparty roles, collateral scope,
   recourse/guarantee scope, aggregate-to-committed splitting, and underlying
   term-level clause acquisition.

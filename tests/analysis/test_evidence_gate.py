@@ -1,4 +1,9 @@
-from bubble.analysis.evidence import EvidenceGate, EvidenceTier, inferred_estimate_provenance
+from bubble.analysis.evidence import (
+    EvidenceGate,
+    EvidenceTier,
+    SemanticEvidenceBucket,
+    inferred_estimate_provenance,
+)
 from bubble.models.base import HumanReviewStatus, Provenance, SourceType
 
 
@@ -71,3 +76,67 @@ def test_corroboration_requirement_blocks_single_source_claim():
     assert audit.tier == EvidenceTier.MEASURED
     assert audit.eligible_for_high_confidence is False
     assert any("independent sources" in issue for issue in audit.blocking_issues)
+
+
+def test_semantic_gate_caps_source_backed_asset_claim():
+    gate = EvidenceGate()
+    audit = gate.audit_claim(
+        claim_id="capital.asset_misread",
+        claim="Claimed debt-like amount from asset disclosure",
+        value=33_600_000_000,
+        unit="USD",
+        evidence=[_provenance(SourceType.SEC_EDGAR, confidence=0.92)],
+        high_impact=True,
+        semantic_text=(
+            "The unpaid principal balance of loans held for investment was "
+            "$33.6 billion as of quarter end."
+        ),
+    )
+
+    assert audit.tier == EvidenceTier.MEASURED
+    assert audit.confidence == 0.92
+    assert audit.semantic_bucket == SemanticEvidenceBucket.ASSET_OR_CAPACITY
+    assert audit.effective_confidence == 0.3
+    assert audit.eligible_for_high_confidence is False
+    assert any("asset_or_capacity" in issue for issue in audit.blocking_issues)
+    assert gate.cap_report_confidence(0.82, [audit]) == 0.3
+
+
+def test_semantic_gate_preserves_committed_debt_claim():
+    gate = EvidenceGate()
+    audit = gate.audit_claim(
+        claim_id="capital.real_debt",
+        claim="Claimed debt-like amount from credit agreement",
+        value=5_000_000_000,
+        unit="USD",
+        evidence=[_provenance(SourceType.SEC_EDGAR, confidence=0.9)],
+        high_impact=True,
+        semantic_text=(
+            "The borrower entered into a senior secured term loan credit "
+            "agreement with an aggregate principal amount of $5.0 billion."
+        ),
+    )
+
+    assert audit.semantic_bucket == SemanticEvidenceBucket.COMMITTED_DEBT
+    assert audit.effective_confidence == 0.9
+    assert audit.eligible_for_high_confidence is True
+    assert audit.blocking_issues == []
+
+
+def test_semantic_required_routes_indeterminate_claim_to_review():
+    gate = EvidenceGate()
+    audit = gate.audit_claim(
+        claim_id="capital.fragment",
+        claim="Claimed amount from fragment",
+        value=1_200_000_000,
+        unit="USD",
+        evidence=[_provenance(SourceType.SEC_EDGAR, confidence=0.9)],
+        high_impact=True,
+        semantic_text="The total was $1.2 billion as of December 31.",
+        semantic_required=True,
+    )
+
+    assert audit.semantic_bucket == SemanticEvidenceBucket.INDETERMINATE
+    assert audit.effective_confidence == 0.5
+    assert audit.eligible_for_high_confidence is False
+    assert any("indeterminate" in issue for issue in audit.blocking_issues)

@@ -28,6 +28,16 @@ class EvidenceTier(StrEnum):
     UNSUPPORTED = "unsupported"
 
 
+class SemanticEvidenceBucket(StrEnum):
+    """Whether source text is semantically consistent with the claim domain."""
+
+    NOT_EVALUATED = "not_evaluated"
+    COMMITTED_DEBT = "committed_debt"
+    ASSET_OR_CAPACITY = "asset_or_capacity"
+    BOILERPLATE_ONLY = "boilerplate_only"
+    INDETERMINATE = "indeterminate"
+
+
 PRIMARY_OR_REGULATORY_SOURCE_TYPES = {
     SourceType.SEC_EDGAR,
     SourceType.FERC,
@@ -39,6 +49,61 @@ PRIMARY_OR_REGULATORY_SOURCE_TYPES = {
     SourceType.LOCAL_PLANNING,
     SourceType.GRID_QUEUE,
     SourceType.FOIA,
+}
+
+COMMITTED_DEBT_MARKERS = (
+    "credit agreement",
+    "term loan",
+    "revolving credit",
+    "revolving facility",
+    "senior notes",
+    "secured notes",
+    "unsecured notes",
+    "senior unsecured",
+    "indenture",
+    "first mortgage bond",
+    "aggregate principal amount",
+    "principal amount of",
+    "bridge facility",
+    "bridge loan",
+    "loan facility",
+    "debt facility",
+    "promissory note",
+    "debentures",
+)
+
+ASSET_OR_CAPACITY_MARKERS = (
+    "held for investment",
+    "unpaid principal balance",
+    "upb",
+    " upb",
+    "servicing portfolio",
+    "total loans of",
+    "total assets of",
+    "assets under management",
+    " aum",
+    "mortgage servicing rights",
+    " msr",
+    "net asset value",
+    "financing capacity",
+)
+
+BOILERPLATE_ONLY_MARKERS = (
+    "webcast",
+    "forward-looking",
+    "earnings report",
+    "press release",
+    "does not constitute part of this prospectus",
+    "information contained on",
+    "replay will be available",
+)
+
+SEMANTIC_CONFIDENCE_CAPS = {
+    SemanticEvidenceBucket.NOT_EVALUATED: 1.0,
+    SemanticEvidenceBucket.COMMITTED_DEBT: 1.0,
+    SemanticEvidenceBucket.ASSET_OR_CAPACITY: 0.3,
+    SemanticEvidenceBucket.BOILERPLATE_ONLY: 0.25,
+    SemanticEvidenceBucket.INDETERMINATE: 0.5,
 }
 
 
@@ -77,15 +142,19 @@ class ClaimEvidenceAudit:
     unit: str | None
     tier: EvidenceTier
     confidence: float
+    effective_confidence: float
     source_count: int
     source_types: list[str]
     sources: list[EvidenceRecord]
+    semantic_bucket: SemanticEvidenceBucket
+    semantic_confidence_cap: float
     blocking_issues: list[str]
     eligible_for_high_confidence: bool
 
     def to_dict(self) -> dict[str, Any]:
         data = asdict(self)
         data["tier"] = self.tier.value
+        data["semantic_bucket"] = self.semantic_bucket.value
         return data
 
 
@@ -98,6 +167,11 @@ class EvidenceSummary:
     corroborated_claims: int
     inferred_claims: int
     unsupported_claims: int
+    semantic_evaluated_claims: int
+    semantic_committed_debt_claims: int
+    semantic_asset_or_capacity_claims: int
+    semantic_boilerplate_claims: int
+    semantic_indeterminate_claims: int
     high_confidence_eligible_claims: int
     blocking_issue_count: int
     max_permitted_report_confidence: float
@@ -128,12 +202,17 @@ class EvidenceGate:
         unit: str | None = None,
         requires_corroboration: bool = False,
         high_impact: bool = True,
+        semantic_text: str | None = None,
+        semantic_required: bool = False,
     ) -> ClaimEvidenceAudit:
         records = [EvidenceRecord.from_provenance(p) for p in self._dedupe(evidence or [])]
         source_count = len(records)
         source_types = sorted({record.source_type for record in records})
         confidence = round(min((record.confidence for record in records), default=0.0), 4)
         tier = self._classify(records)
+        semantic_bucket = classify_claim_semantics(semantic_text)
+        semantic_confidence_cap = SEMANTIC_CONFIDENCE_CAPS[semantic_bucket]
+        effective_confidence = round(min(confidence, semantic_confidence_cap), 4)
 
         blocking_issues: list[str] = []
         if tier == EvidenceTier.UNSUPPORTED:
@@ -144,6 +223,23 @@ class EvidenceGate:
             blocking_issues.append(
                 f"Evidence confidence {confidence:.2f} is below high-confidence threshold "
                 f"{self.min_high_confidence:.2f}."
+            )
+        if semantic_bucket in {
+            SemanticEvidenceBucket.ASSET_OR_CAPACITY,
+            SemanticEvidenceBucket.BOILERPLATE_ONLY,
+        }:
+            blocking_issues.append(
+                f"Claim source text is semantic bucket {semantic_bucket.value}, "
+                "not committed-debt evidence."
+            )
+        if semantic_required and semantic_bucket == SemanticEvidenceBucket.INDETERMINATE:
+            blocking_issues.append(
+                "Claim source text is semantically indeterminate and needs deeper review."
+            )
+        if effective_confidence < confidence:
+            blocking_issues.append(
+                f"Semantic confidence cap {semantic_confidence_cap:.2f} lowers effective "
+                f"claim confidence to {effective_confidence:.2f}."
             )
         if requires_corroboration and source_count < self.min_corroborating_sources:
             blocking_issues.append(
@@ -167,7 +263,7 @@ class EvidenceGate:
                 EvidenceTier.CORROBORATED_ESTIMATE,
                 EvidenceTier.SINGLE_SOURCE_ESTIMATE,
             }
-            and confidence >= self.min_high_confidence
+            and effective_confidence >= self.min_high_confidence
         )
 
         return ClaimEvidenceAudit(
@@ -177,9 +273,12 @@ class EvidenceGate:
             unit=unit,
             tier=tier,
             confidence=confidence,
+            effective_confidence=effective_confidence,
             source_count=source_count,
             source_types=source_types,
             sources=records,
+            semantic_bucket=semantic_bucket,
+            semantic_confidence_cap=semantic_confidence_cap,
             blocking_issues=blocking_issues,
             eligible_for_high_confidence=eligible,
         )
@@ -196,6 +295,26 @@ class EvidenceGate:
             ),
             inferred_claims=sum(audit.tier == EvidenceTier.INFERRED for audit in audit_list),
             unsupported_claims=sum(audit.tier == EvidenceTier.UNSUPPORTED for audit in audit_list),
+            semantic_evaluated_claims=sum(
+                audit.semantic_bucket != SemanticEvidenceBucket.NOT_EVALUATED
+                for audit in audit_list
+            ),
+            semantic_committed_debt_claims=sum(
+                audit.semantic_bucket == SemanticEvidenceBucket.COMMITTED_DEBT
+                for audit in audit_list
+            ),
+            semantic_asset_or_capacity_claims=sum(
+                audit.semantic_bucket == SemanticEvidenceBucket.ASSET_OR_CAPACITY
+                for audit in audit_list
+            ),
+            semantic_boilerplate_claims=sum(
+                audit.semantic_bucket == SemanticEvidenceBucket.BOILERPLATE_ONLY
+                for audit in audit_list
+            ),
+            semantic_indeterminate_claims=sum(
+                audit.semantic_bucket == SemanticEvidenceBucket.INDETERMINATE
+                for audit in audit_list
+            ),
             high_confidence_eligible_claims=sum(
                 audit.eligible_for_high_confidence for audit in audit_list
             ),
@@ -211,9 +330,10 @@ class EvidenceGate:
             return 0.25
         if any(audit.tier == EvidenceTier.INFERRED for audit in audits):
             return 0.45
+        weakest_effective_confidence = min(audit.effective_confidence for audit in audits)
         if any(audit.blocking_issues for audit in audits):
-            return 0.6
-        return min(0.95, *(audit.confidence for audit in audits))
+            return min(0.6, weakest_effective_confidence)
+        return min(0.95, weakest_effective_confidence)
 
     def cap_report_confidence(
         self,
@@ -257,6 +377,21 @@ class EvidenceGate:
                 seen.add(key)
                 deduped.append(provenance)
         return deduped
+
+
+def classify_claim_semantics(text: str | None) -> SemanticEvidenceBucket:
+    """Classify whether source text supports committed-debt style use."""
+
+    if not text or not text.strip():
+        return SemanticEvidenceBucket.NOT_EVALUATED
+    normalized = " ".join(text.lower().split())
+    if any(marker in normalized for marker in ASSET_OR_CAPACITY_MARKERS):
+        return SemanticEvidenceBucket.ASSET_OR_CAPACITY
+    if any(marker in normalized for marker in COMMITTED_DEBT_MARKERS):
+        return SemanticEvidenceBucket.COMMITTED_DEBT
+    if any(marker in normalized for marker in BOILERPLATE_ONLY_MARKERS):
+        return SemanticEvidenceBucket.BOILERPLATE_ONLY
+    return SemanticEvidenceBucket.INDETERMINATE
 
 
 def inferred_estimate_provenance(

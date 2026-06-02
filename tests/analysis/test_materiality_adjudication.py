@@ -1906,6 +1906,65 @@ def test_materiality_adjudication_blocks_mega_boilerplate_as_debt(
     )
 
 
+def test_materiality_adjudication_blocks_source_backed_boilerplate_metric_use(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-forward-looking-boilerplate",
+                "rank": 1,
+                "review_id": "review-forward-looking-boilerplate",
+                "review_group_id": "group-forward-looking-boilerplate",
+                "priority": "high",
+                "category": "capital",
+                "subcategory": "high_notional_debt_like_candidate",
+                "ecosystem_relevance": "not_tagged",
+                "entity": "Example Issuer",
+                "counterparty": "noteholders",
+                "exposure_basis_usd": "3200000000",
+                "reason": (
+                    "pending adjudication status: pending; debt-like deal type: bond; "
+                    "notional $3,200,000,000; notional context: transaction_principal; "
+                    "commitment scope: specific_transaction_commitment"
+                ),
+                "recommended_action": "Confirm debt terms",
+                "source_uri": "https://www.sec.gov/example-forward-looking.htm",
+                "source_uris": json.dumps(["https://www.sec.gov/example-forward-looking.htm"]),
+                "content_hash": "9" * 64,
+                "content_hashes": json.dumps(["9" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/example-forward-looking.htm",
+                            "content_hash": "9" * 64,
+                            "document_id": "example-forward-looking.htm",
+                            "snippet": (
+                                "These forward-looking statements are not guarantees of "
+                                "future performance and involve risks and uncertainties."
+                            ),
+                        }
+                    ]
+                ),
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    decision = batch.decisions[0]
+    assert decision.metric_use_status == "blocked_pending_extraction"
+    assert decision.supported_amount_usd == 0
+    assert (
+        "confirm source quote contains specific committed obligation terms"
+        in decision.remaining_gap
+    )
+
+
 def test_materiality_adjudication_allows_source_backed_mega_credit_agreement(
     tmp_path: Path,
 ) -> None:
@@ -3273,6 +3332,61 @@ def test_materiality_adjudication_supports_weak_link_physical_execution_without_
     assert decision.decision == "supported_as_material_blocker"
     assert decision.remaining_gap == ""
     assert decision.metric_use_status == "triage_only"
+
+
+def test_materiality_adjudication_keeps_physical_queue_rows_out_of_metric_use(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-physical-queue-metric",
+                "rank": 1,
+                "review_id": "review-physical-queue-metric",
+                "review_group_id": "group-physical-queue-metric",
+                "priority": "high",
+                "category": "physical",
+                "subcategory": "queue_project_match",
+                "ecosystem_relevance": "physical_execution",
+                "entity": "Example Data Center LLC",
+                "counterparty": "Example Data Center LLC",
+                "exposure_basis_usd": "10000000000",
+                "reason": (
+                    "pending queue-to-project match; match status: strong_match; "
+                    "capacity_mw 1000"
+                ),
+                "recommended_action": "Confirm queue linkage",
+                "source_uri": "https://example.org/interconnection-queue.csv",
+                "source_uris": json.dumps(["https://example.org/interconnection-queue.csv"]),
+                "content_hash": "b" * 64,
+                "content_hashes": json.dumps(["b" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://example.org/interconnection-queue.csv",
+                            "content_hash": "b" * 64,
+                            "document_id": "interconnection-queue.csv",
+                            "snippet": (
+                                "Interconnection queue project for Example Data Center LLC "
+                                "shows 1000 MW planned capacity."
+                            ),
+                        }
+                    ]
+                ),
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+    decision = batch.decisions[0]
+    assert decision.decision == "supported_as_material_blocker"
+    assert decision.remaining_gap == ""
+    assert decision.metric_use_status == "triage_only"
+    assert batch.summary.approved_for_metric_use == 0
 
 
 def test_materiality_adjudication_adds_gap_for_not_offer_boilerplate(

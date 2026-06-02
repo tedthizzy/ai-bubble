@@ -43,6 +43,8 @@ def _audit(
     *,
     tier: str = "measured",
     confidence: float = 0.9,
+    effective_confidence: float | None = None,
+    semantic_bucket: str = "not_evaluated",
     eligible: bool = True,
 ) -> dict[str, object]:
     return {
@@ -52,9 +54,14 @@ def _audit(
         "unit": "USD",
         "tier": tier,
         "confidence": confidence,
+        "effective_confidence": (
+            confidence if effective_confidence is None else effective_confidence
+        ),
         "source_count": 1,
         "source_types": ["sec_edgar"],
         "sources": [],
+        "semantic_bucket": semantic_bucket,
+        "semantic_confidence_cap": 1.0,
         "blocking_issues": [],
         "eligible_for_high_confidence": eligible,
     }
@@ -90,6 +97,26 @@ def test_merge_evidence_audits_includes_top_level_and_nested_analyzer_audits() -
     assert summary["audited_claims"] == 3
     assert summary["unsupported_claims"] == 1
     assert summary["max_permitted_report_confidence"] == 0.25
+
+
+def test_serialized_audit_summary_uses_effective_semantic_confidence() -> None:
+    audits = [
+        _audit(
+            "capital.asset_misread",
+            33_600_000_000,
+            confidence=0.92,
+            effective_confidence=0.3,
+            semantic_bucket="asset_or_capacity",
+            eligible=False,
+        )
+    ]
+
+    summary = summarize_evidence_audit_dicts(audits)
+
+    assert summary["semantic_evaluated_claims"] == 1
+    assert summary["semantic_asset_or_capacity_claims"] == 1
+    assert summary["high_confidence_eligible_claims"] == 0
+    assert summary["max_permitted_report_confidence"] == 0.3
 
 
 def test_merged_scalar_audit_clears_high_impact_metric_warning() -> None:

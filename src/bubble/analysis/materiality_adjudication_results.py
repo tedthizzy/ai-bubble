@@ -19,6 +19,8 @@ from datetime import UTC, date, datetime
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
+from bubble.analysis.evidence import SemanticEvidenceBucket, classify_claim_semantics
+
 if TYPE_CHECKING:
     from collections.abc import Callable
 
@@ -234,7 +236,7 @@ def _decision(
 def _metric_use_status(packet: dict[str, str], decision: str, gaps: list[str]) -> str:
     if decision != "supported_as_material_blocker" or gaps:
         return "blocked_pending_extraction"
-    if _field(packet, "category") not in {"capital", "contract", "physical", "compute"}:
+    if _field(packet, "category") not in {"capital", "contract"}:
         return "triage_only"
     if _float(packet.get("exposure_basis_usd")) <= 0:
         return "triage_only"
@@ -252,6 +254,11 @@ def _remaining_gaps(packet: dict[str, str], quote: str) -> list[str]:
         gaps.append("confirm lease obligation source rather than debt securities prospectus")
     if _looks_like_asset_or_capacity_not_debt(packet, quote):
         gaps.append("split asset, UPB, or financing-capacity disclosure from committed debt")
+    semantic_bucket = classify_claim_semantics(text)
+    if semantic_bucket == SemanticEvidenceBucket.ASSET_OR_CAPACITY:
+        gaps.append("split asset, UPB, or financing-capacity disclosure from committed debt")
+    if semantic_bucket == SemanticEvidenceBucket.BOILERPLATE_ONLY:
+        gaps.append("confirm source quote contains specific committed obligation terms")
     if _requires_mega_obligation_confirmation(packet, quote):
         gaps.append("confirm mega-obligation amount is committed debt, not assets or capacity")
     if _requires_aggregate_split(packet, quote):

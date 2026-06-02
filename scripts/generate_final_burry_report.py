@@ -9,6 +9,7 @@ blocks bubble/leverage/timing conclusions until evidence coverage can support th
 
 from __future__ import annotations
 
+import csv
 import json
 from datetime import UTC, datetime
 from pathlib import Path
@@ -21,7 +22,7 @@ from bubble.analysis.compute_economics import (
 )
 from bubble.analysis.debt_service import analyze_debt_service
 from bubble.analysis.ecosystem_scope import scope_deals
-from bubble.analysis.evidence import EvidenceGate
+from bubble.analysis.evidence import EvidenceGate, SemanticEvidenceBucket, classify_claim_semantics
 from bubble.analysis.physical_capacity import build_physical_capacity_summary
 from bubble.analysis.physical_risk_summary import build_physical_risk_summary
 from bubble.analysis.source_coverage import build_source_coverage_report
@@ -265,6 +266,22 @@ def summarize_evidence_audit_dicts(audits: list[dict[str, Any]]) -> dict[str, An
         "corroborated_claims": sum(tier == "corroborated_estimate" for tier in tiers),
         "inferred_claims": sum(tier == "inferred" for tier in tiers),
         "unsupported_claims": sum(tier == "unsupported" for tier in tiers),
+        "semantic_evaluated_claims": sum(
+            str(audit.get("semantic_bucket") or "not_evaluated") != "not_evaluated"
+            for audit in audits
+        ),
+        "semantic_committed_debt_claims": sum(
+            str(audit.get("semantic_bucket") or "") == "committed_debt" for audit in audits
+        ),
+        "semantic_asset_or_capacity_claims": sum(
+            str(audit.get("semantic_bucket") or "") == "asset_or_capacity" for audit in audits
+        ),
+        "semantic_boilerplate_claims": sum(
+            str(audit.get("semantic_bucket") or "") == "boilerplate_only" for audit in audits
+        ),
+        "semantic_indeterminate_claims": sum(
+            str(audit.get("semantic_bucket") or "") == "indeterminate" for audit in audits
+        ),
         "high_confidence_eligible_claims": sum(
             bool(audit.get("eligible_for_high_confidence")) for audit in audits
         ),
@@ -285,14 +302,14 @@ def max_permitted_report_confidence_from_audit_dicts(
         return 0.25
     if "inferred" in tiers:
         return 0.45
-    if any(audit.get("blocking_issues") for audit in audits):
-        return 0.6
     confidences = [
         float(confidence)
         for audit in audits
-        for confidence in [audit.get("confidence")]
+        for confidence in [audit.get("effective_confidence", audit.get("confidence"))]
         if isinstance(confidence, (int, float)) and not isinstance(confidence, bool)
     ]
+    if any(audit.get("blocking_issues") for audit in audits):
+        return min(0.6, *confidences) if confidences else 0.6
     return min(0.95, *confidences) if confidences else 0.2
 
 
@@ -458,6 +475,8 @@ def audit_scalar_claim(
     unit: str,
     evidence: list[Provenance],
     requires_corroboration: bool = True,
+    semantic_text: str | None = None,
+    semantic_required: bool = False,
 ) -> dict[str, Any] | None:
     if not isinstance(value, (int, float)) or isinstance(value, bool):
         return None
@@ -469,6 +488,8 @@ def audit_scalar_claim(
         evidence=evidence,
         requires_corroboration=requires_corroboration,
         high_impact=True,
+        semantic_text=semantic_text,
+        semantic_required=semantic_required,
     ).to_dict()
     return dict(audit)
 
@@ -495,6 +516,8 @@ def report_answer_metric_audits(  # noqa: PLR0912, PLR0915
         *,
         unit: str = "USD",
         requires_corroboration: bool = True,
+        semantic_text: str | None = None,
+        semantic_required: bool = False,
     ) -> None:
         audit = audit_scalar_claim(
             gate,
@@ -504,6 +527,8 @@ def report_answer_metric_audits(  # noqa: PLR0912, PLR0915
             unit=unit,
             evidence=evidence,
             requires_corroboration=requires_corroboration,
+            semantic_text=semantic_text,
+            semantic_required=semantic_required,
         )
         if audit is not None:
             audits.append(audit)
@@ -930,6 +955,93 @@ def load_materiality_adjudication_decision_summary(data_dirs: list[str]) -> dict
     return {}
 
 
+def load_materiality_adjudication_decisions(data_dirs: list[str]) -> list[dict[str, str]]:
+    """Load automated materiality adjudication decision rows for report QA."""
+
+    for root in data_dirs:
+        decisions_path = Path(root) / "reports" / "materiality_adjudication_decisions.csv"
+        if not decisions_path.exists():
+            continue
+        with decisions_path.open(newline="") as handle:
+            return [dict(row) for row in csv.DictReader(handle)]
+    return []
+
+
+def _float_value(value: Any) -> float:
+    try:
+        return float(value)
+    except (TypeError, ValueError):
+        return 0.0
+
+
+def materiality_semantic_summary(decisions: list[dict[str, str]]) -> dict[str, Any]:
+    """Summarize semantic validity for approved materiality metric rows."""
+
+    approved_rows = [
+        row
+        for row in decisions
+        if row.get("decision") == "approved_for_metric_use"
+        or row.get("metric_use_status") == "approved_for_metric_use"
+    ]
+    bucket_counts = {bucket.value: 0 for bucket in SemanticEvidenceBucket}
+    top_semantic_flags: list[dict[str, Any]] = []
+    top_indeterminate: list[dict[str, Any]] = []
+
+    for row in approved_rows:
+        semantic_text = " ".join(
+            value
+            for value in (
+                row.get("evidence_quote", ""),
+                row.get("packet_reason", ""),
+                row.get("rationale", ""),
+            )
+            if value
+        )
+        bucket = classify_claim_semantics(semantic_text)
+        bucket_counts[bucket.value] += 1
+        if bucket in {
+            SemanticEvidenceBucket.ASSET_OR_CAPACITY,
+            SemanticEvidenceBucket.BOILERPLATE_ONLY,
+        }:
+            top_semantic_flags.append(_materiality_semantic_row(row, bucket))
+        elif bucket == SemanticEvidenceBucket.INDETERMINATE:
+            top_indeterminate.append(_materiality_semantic_row(row, bucket))
+
+    return {
+        "approved_metric_rows_scanned": len(approved_rows),
+        "semantic_committed_debt_rows": bucket_counts[SemanticEvidenceBucket.COMMITTED_DEBT.value],
+        "semantic_asset_or_capacity_rows": bucket_counts[
+            SemanticEvidenceBucket.ASSET_OR_CAPACITY.value
+        ],
+        "semantic_boilerplate_rows": bucket_counts[SemanticEvidenceBucket.BOILERPLATE_ONLY.value],
+        "semantic_indeterminate_rows": bucket_counts[SemanticEvidenceBucket.INDETERMINATE.value],
+        "semantic_not_evaluated_rows": bucket_counts[SemanticEvidenceBucket.NOT_EVALUATED.value],
+        "semantic_hard_flag_rows": (
+            bucket_counts[SemanticEvidenceBucket.ASSET_OR_CAPACITY.value]
+            + bucket_counts[SemanticEvidenceBucket.BOILERPLATE_ONLY.value]
+        ),
+        "top_semantic_flags": top_semantic_flags[:25],
+        "top_indeterminate_review_rows": top_indeterminate[:25],
+    }
+
+
+def _materiality_semantic_row(
+    row: dict[str, str],
+    bucket: SemanticEvidenceBucket,
+) -> dict[str, Any]:
+    amount = _float_value(row.get("supported_amount_usd"))
+    return {
+        "packet_id": row.get("packet_id"),
+        "entity": row.get("entity"),
+        "counterparty": row.get("counterparty"),
+        "supported_amount_usd": amount,
+        "semantic_bucket": bucket.value,
+        "source_uri": row.get("source_uri"),
+        "content_hash": row.get("content_hash"),
+        "evidence_quote": row.get("evidence_quote", "")[:500],
+    }
+
+
 def load_timing_signal_summary(data_dirs: list[str]) -> dict[str, Any]:
     """Load optional source-backed crack-window timing signal summary."""
 
@@ -973,6 +1085,10 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:
     materiality_adjudication_decision_summary = load_materiality_adjudication_decision_summary(
         resolved_data_dirs
     )
+    materiality_adjudication_decisions = load_materiality_adjudication_decisions(
+        resolved_data_dirs,
+    )
+    materiality_semantics = materiality_semantic_summary(materiality_adjudication_decisions)
     timing_signal_summary = load_timing_signal_summary(resolved_data_dirs)
     source_invariant_audit = load_source_invariant_audit(resolved_data_dirs)
     raw_capital_batch = load_report_capital_evidence(resolved_data_dirs)
@@ -2162,6 +2278,7 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:
         },
         "evidence_quality": {
             "summary": evidence_summary,
+            "materiality_semantic_summary": materiality_semantics,
             "claim_audits": evidence_audits,
         },
         "next_required_acquisition": [
