@@ -120,6 +120,12 @@ Latest capital and timing outputs:
   `handoffs/claude_compute_payback_inputs_20260602.md`, identifying the
   per-name revenue, capex, clean-debt, and useful-life inputs needed before the
   engine can produce decision-useful payback or DSCR conclusions.
+- A deterministic physical-execution extractor now exists at
+  `bubble.ingestion.physical.extract_physical_execution_terms`, turning acquired
+  permit/PUC/source text into normalized evidence rows for on-site generation,
+  air permits, behind-the-meter/off-grid status, queue-bypass language,
+  litigation/enforcement risk, utility approvals, and ratepayer stranded-asset
+  transfer terms.
 - Broader materiality-adjudicated supported exposure: $3.742T across 1,380
   metric groups; this is a different scope from the curated capital-structure
   deal-graph debt-like metric above, not an additive increment.

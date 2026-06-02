@@ -166,6 +166,14 @@ as a run log, not as a final investment conclusion.
   the current payback/unit-economics layer is input-starved and identifies the
   per-name revenue, capex, debt, and useful-life inputs needed before DSCR or
   payback conclusions can be made.
+- A deterministic physical-execution extractor now exists at
+  `bubble.ingestion.physical.extract_physical_execution_terms`. It normalizes
+  acquired permit/PUC/source text into machine-checkable physical execution
+  evidence such as on-site generation MW, air permit identifiers,
+  behind-the-meter/off-grid flags, queue-bypass/no-queue language,
+  permit-litigation risk, PUC/utility approvals, and ratepayer stranded-asset
+  transfer language. This is the first production bridge from the physical
+  handoff cards to source-backed extraction rows.
 - The broader materiality metric is now split by adjudicated thesis linkage:
   $0.440T has established direct/watchlist AI-data-center linkage, while
   88.9% is source-backed but not yet established as AI/data-center-linked.
