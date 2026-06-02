@@ -19,7 +19,9 @@ def _write_csv(path: Path, rows: list[dict[str, object]]) -> None:
         writer.writerows(rows)
 
 
-def test_physical_capacity_summary_rolls_up_queue_and_equipment_capacity(tmp_path: Path):
+def test_physical_capacity_summary_rolls_up_queue_and_equipment_capacity(
+    tmp_path: Path,
+) -> None:
     _write_csv(
         tmp_path / "source_rows" / "queue_records.csv",
         [
@@ -237,7 +239,7 @@ def test_physical_capacity_summary_rolls_up_queue_and_equipment_capacity(tmp_pat
 
 def test_physical_capacity_summary_skips_completed_or_withdrawn_queue_rows(
     tmp_path: Path,
-):
+) -> None:
     _write_csv(
         tmp_path / "source_rows" / "queue_records.csv",
         [
@@ -284,7 +286,9 @@ def test_physical_capacity_summary_skips_completed_or_withdrawn_queue_rows(
     assert summary.skipped_rows == {"queue_out_of_scope_status": 1}
 
 
-def test_physical_capacity_summary_reports_distinct_tracker_capacity(tmp_path: Path):
+def test_physical_capacity_summary_reports_distinct_tracker_capacity(
+    tmp_path: Path,
+) -> None:
     _write_csv(
         tmp_path / "physical" / "projects.csv",
         [
@@ -359,3 +363,43 @@ def test_physical_capacity_summary_reports_distinct_tracker_capacity(tmp_path: P
         "announced": 100,
     }
     assert summary.tracker_distinct_capacity_by_state_mw == {"AL": 214, "TX": 100}
+
+
+def test_physical_capacity_summary_keeps_delayed_and_mechanical_statuses(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "physical" / "projects.csv",
+        [
+            {
+                "project_id": "delayed-campus",
+                "name": "Delayed Campus",
+                "state": "TX",
+                "source_id": "tracker",
+                "source_uri": "https://example.com/tracker.csv",
+                "source_type": "project_tracker",
+                "content_hash": "hash-delayed",
+                "capacity_mw_high": "300",
+                "construction_status": "delayed",
+            },
+            {
+                "project_id": "commissioning-campus",
+                "name": "Commissioning Campus",
+                "state": "VA",
+                "source_id": "tracker",
+                "source_uri": "https://example.com/tracker.csv",
+                "source_type": "project_tracker",
+                "content_hash": "hash-mechanical",
+                "capacity_mw_high": "125",
+                "construction_status": "mechanical_completion",
+            },
+        ],
+    )
+
+    summary = build_physical_capacity_summary([tmp_path])
+
+    assert summary.tracker_distinct_pipeline_capacity_high_mw == 425
+    assert summary.tracker_distinct_capacity_by_status_mw == {
+        "delayed": 300,
+        "mechanical_completion": 125,
+    }

@@ -11,6 +11,8 @@ from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any
 
+from bubble.ingestion.physical.status_taxonomy import construction_status_from_text
+
 
 @dataclass(frozen=True)
 class TrackerProjectExtractionSummary:
@@ -246,22 +248,7 @@ def _major_equipment(row: dict[str, str], *, investment: float | None) -> dict[s
 
 
 def _construction_status(status: str) -> str:
-    normalized = status.strip().lower()
-    checks = [
-        (normalized in {"operating", "operational", "in service"}, "in_service"),
-        ("cancel" in normalized, "cancelled"),
-        (
-            "under construction" in normalized
-            or "under-construction" in normalized
-            or "expansion" in normalized,
-            "under_construction",
-        ),
-        ("approved" in normalized or "permitted" in normalized, "permitted"),
-    ]
-    for matched, status_value in checks:
-        if matched:
-            return status_value
-    return "announced"
+    return construction_status_from_text(status)
 
 
 def _permit_status(status: str) -> str:

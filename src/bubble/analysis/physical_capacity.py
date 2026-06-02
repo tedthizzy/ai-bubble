@@ -683,7 +683,13 @@ def _canonical_tracker_metrics(
             capacity_by_status[status] += high_capacity
             state = str(project["state"] or "unknown")
             capacity_by_state[state] += high_capacity
-            if status in {"announced", "permitted", "under_construction"}:
+            if status in {
+                "announced",
+                "delayed",
+                "mechanical_completion",
+                "permitted",
+                "under_construction",
+            }:
                 pipeline_capacity_high_mw += high_capacity
             elif status == "in_service":
                 operating_capacity_high_mw += high_capacity
@@ -737,7 +743,15 @@ def _canonical_tracker_project_key(row: Mapping[str, str]) -> str:
 
 def _canonical_status(statuses: Any) -> str:
     status_set = {str(status) for status in statuses if status}
-    for status in ["under_construction", "permitted", "announced", "in_service", "cancelled"]:
+    for status in [
+        "cancelled",
+        "delayed",
+        "in_service",
+        "mechanical_completion",
+        "under_construction",
+        "permitted",
+        "announced",
+    ]:
         if status in status_set:
             return status
     return "unknown"

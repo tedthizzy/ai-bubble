@@ -1,13 +1,13 @@
 # Acquisition Status
 
-Last updated: 2026-06-02 05:37 UTC.
+Last updated: 2026-06-02 05:51 UTC.
 
 This file is the operational snapshot for the current evidence corpus. Treat it
 as a run log, not as a final investment conclusion.
 
 ## Current Corpus
 
-- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0537.md`
+- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0551.md`
 - Evidence gate: not high-confidence final.
 - Source invariant audit: passed at 2026-06-02 04:02 UTC, 63 CSV files
   and 9,208,844 rows scanned, 0 violations, 0 warnings.
@@ -20,7 +20,7 @@ as a run log, not as a final investment conclusion.
 - Source-backed normalized entities: 789,787 distinct entities from 1,397,581
   source-backed mentions.
 - Expanded SEC CIK candidates: 2,356.
-- Projects: 17,226.
+- Projects: 17,227.
 - Source-backed deals: 62,952.
 - Source-backed contract tranches: 10,051.
 - Source-backed compute rows: 149.
@@ -184,6 +184,11 @@ Ready now:
   both name overlap and owner overlap when owner/operator fields are absent,
   removing inflated permit/equipment project matches while preserving distinct
   owner-token matches
+- physical project and observation ingestion now share one construction-status
+  taxonomy, so delayed/suspended/on-hold projects are carried as `delayed`
+  instead of being folded into `announced`; the refreshed physical summaries
+  now surface 50 delayed projects and 8,680 MW of delayed tracker capacity as
+  explicit deliverability evidence
 - capital boilerplate gating is now carried as an explicit extraction gap
   (`confirm final prospectus or underlying agreement terms`) instead of an
   implicit decision override, and plain `Registration Statement` references in

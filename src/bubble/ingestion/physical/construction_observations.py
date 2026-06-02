@@ -11,6 +11,8 @@ from datetime import date
 from pathlib import Path
 from typing import Any
 
+from bubble.ingestion.physical.status_taxonomy import construction_status_from_text
+
 OBSERVATION_FIELDS = [
     "project_id",
     "observed_on",
@@ -183,18 +185,7 @@ def _date_token(value: str | None) -> date | None:
 
 
 def _status_from_tracker(row: dict[str, str]) -> str:
-    raw = row.get("tracker_status", "").strip().lower()
-    if raw in {"operational", "online", "in service", "in-service"}:
-        return "in_service"
-    if raw in {"under-construction", "under construction", "construction"}:
-        return "under_construction"
-    if raw in {"planned", "announced", "proposed"}:
-        return "announced"
-    if raw in {"cancelled", "canceled"}:
-        return "cancelled"
-    if raw == "delayed":
-        return "delayed"
-    return "announced"
+    return construction_status_from_text(row.get("tracker_status"))
 
 
 def _visible_indicators(row: dict[str, str], *, status: str) -> list[str]:

@@ -32,15 +32,15 @@ The important change is that ecosystem-scale conclusions are now blocked from be
 
 Latest verified evidence-gated report at this checkpoint:
 
-- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0537.md`
-- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0537.json`
+- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0551.md`
+- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0551.json`
 - `high_confidence_final`: `false`
 - Source invariant audit: passed across 63 CSV files and more than 9.2M rows
   with 0 violations and 0 warnings.
 - Acquired source artifacts: 66,660 / 66,660 attempted.
 - Covered filings: 197,243.
 - Source-backed normalized entities: 789,787.
-- Projects: 17,226.
+- Projects: 17,227.
 - Source-backed deals: 62,952.
 - Source-backed compute rows: 149.
 - Source-backed timing signals: 3,854.
