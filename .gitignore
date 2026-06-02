@@ -76,3 +76,8 @@ Desktop.ini
 *.orig
 TODO
 *.patch
+
+# Local agent coordination/runtime files
+.codex/
+to-claude-from-codex.md
+to-codex-from-claude.md

@@ -32,8 +32,8 @@ The important change is that ecosystem-scale conclusions are now blocked from be
 
 Latest verified evidence-gated report at this checkpoint:
 
-- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260602-1805.md`
-- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260602-1805.json`
+- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260602-1806.md`
+- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260602-1806.json`
 - `high_confidence_final`: `false`
 - Evidence audit coverage now includes 471 claim audits: analyzer-level capital,
   compute, and debt-service audits, explicit row/artifact-backed audits for
