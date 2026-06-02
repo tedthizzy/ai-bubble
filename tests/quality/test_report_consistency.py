@@ -17,6 +17,7 @@ from bubble.quality.report_consistency import (
     check_metric_audit_coverage,
     check_metric_total_agreement,
     check_report_path_freshness,
+    check_summary_csv_counts,
     check_timestamp_freshness,
     latest_report_stem,
 )
@@ -196,6 +197,19 @@ def test_audited_high_impact_metric_has_no_finding() -> None:
     }
 
     assert check_metric_audit_coverage(report, threshold=100e9) == []
+
+
+def test_flags_summary_count_not_matching_csv() -> None:
+    findings = check_summary_csv_counts([("decisions", 6699, 6700)])
+
+    assert len(findings) == 1
+    assert findings[0].check == "summary_csv_count_mismatch"
+    assert findings[0].severity == "warning"
+    assert "6699" in findings[0].message and "6700" in findings[0].message
+
+
+def test_matching_summary_csv_counts_have_no_finding() -> None:
+    assert check_summary_csv_counts([("decisions", 6699, 6699)]) == []
 
 
 def test_flags_artifact_older_than_its_dependency() -> None:

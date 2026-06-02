@@ -268,6 +268,36 @@ def check_confidence_flags(
 _TIMESTAMP_RE = re.compile(r"(\d{4}-\d{2}-\d{2})[ T](\d{2}:\d{2})")
 
 
+def check_summary_csv_counts(
+    checks: list[tuple[str, int | None, int | None]],
+) -> list[ConsistencyFinding]:
+    """Flag a summary-JSON count that disagrees with its source CSV row count.
+
+    ``checks`` is a list of ``(label, summary_count, csv_row_count)``. Warning-level
+    (counts can transiently diverge mid-rebuild). Addresses "summary CSV/JSON
+    mismatches" / "stale materiality packet/decision mismatches"."""
+
+    findings: list[ConsistencyFinding] = []
+    for label, summary_count, csv_count in checks:
+        if summary_count is None or csv_count is None:
+            continue
+        if int(summary_count) != int(csv_count):
+            findings.append(
+                ConsistencyFinding(
+                    check="summary_csv_count_mismatch",
+                    severity="warning",
+                    doc=label,
+                    message=(
+                        f"{label}: summary count {summary_count} disagrees with the source "
+                        f"CSV ({csv_count} rows) — one was regenerated without the other."
+                    ),
+                    expected=str(summary_count),
+                    actual=str(csv_count),
+                )
+            )
+    return findings
+
+
 def check_artifact_freshness(
     mtimes: dict[str, float],
     *,
