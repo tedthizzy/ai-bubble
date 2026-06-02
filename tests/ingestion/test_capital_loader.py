@@ -144,7 +144,7 @@ def test_analyze_capital_evidence_computes_metrics(tmp_path: Path) -> None:
         "2027-Q2": 500_000_000,
         "2028-Q1": 800_000_000,
     }
-    assert metrics.evidence_summary["high_confidence_eligible_claims"] == 14
+    assert metrics.evidence_summary["high_confidence_eligible_claims"] == 17
 
 
 def test_ingest_capital_evidence_merges_deals_and_returns_metrics(tmp_path: Path) -> None:
@@ -167,5 +167,5 @@ def test_ingest_capital_evidence_merges_deals_and_returns_metrics(tmp_path: Path
     assert summary["pending_review_debt_like_notional_usd"] == 0
     assert summary["notional_review_required_usd"] == 0
     assert summary["notional_review_required_deals"] == 0
-    assert summary["high_confidence_claims"] == 14
+    assert summary["high_confidence_claims"] == 17
     assert labels == ["Deal", "Deal", "Deal"]

@@ -507,6 +507,27 @@ class CapitalStructureAnalyzer:
                 high_impact=True,
             ),
             self.evidence_gate.audit_claim(
+                claim_id="capital.notional_review_required.notional",
+                claim="High-notional pending-adjudication debt-like extraction candidates",
+                value=round(notional_review_required_usd, 2),
+                unit="USD",
+                evidence=evidence,
+                requires_corroboration=True,
+                high_impact=True,
+            ),
+            self.evidence_gate.audit_claim(
+                claim_id="capital.notional_review_required.distinct_notional",
+                claim=(
+                    "Distinct high-notional pending-adjudication debt-like "
+                    "extraction candidates"
+                ),
+                value=round(notional_review_required_distinct_usd, 2),
+                unit="USD",
+                evidence=evidence,
+                requires_corroboration=True,
+                high_impact=True,
+            ),
+            self.evidence_gate.audit_claim(
                 claim_id="capital.refinancing_wall",
                 claim="Debt-like maturities by calendar quarter",
                 value=refinancing_wall,
@@ -535,6 +556,15 @@ class CapitalStructureAnalyzer:
                     ),
                 },
                 unit="USD by role",
+                evidence=evidence,
+                requires_corroboration=True,
+                high_impact=True,
+            ),
+            self.evidence_gate.audit_claim(
+                claim_id="capital.unmapped_downside_bearer",
+                claim="Downside exposure with no mapped bearer",
+                value=round(unmapped_downside_bearer_usd, 2),
+                unit="USD",
                 evidence=evidence,
                 requires_corroboration=True,
                 high_impact=True,

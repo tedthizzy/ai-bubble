@@ -129,8 +129,40 @@ def test_capital_structure_metrics_quantify_leverage_refi_and_off_balance_sheet(
         "2030-Q1": 700_000_000,
     }
     assert metrics.near_term_refinancing_usd == 2_300_000_000
-    assert metrics.evidence_summary["audited_claims"] == 14
-    assert metrics.evidence_summary["high_confidence_eligible_claims"] == 14
+    assert metrics.evidence_summary["audited_claims"] == 17
+    assert metrics.evidence_summary["high_confidence_eligible_claims"] == 17
+
+
+def test_capital_structure_emits_scalar_audits_for_dict_valued_metrics() -> None:
+    pending = Deal(
+        deal_type=DealType.DEBT_FACILITY,
+        title="Unreviewed mega credit facility",
+        parties=["mega-spv", "lender-syndicate"],
+        counterparty_roles={"borrower": ["mega-spv"], "lender": ["lender-syndicate"]},
+        notional_amount_usd=30_000_000_000,
+        maturity_date=date(2029, 9, 30),
+        provenance=_prov("sec:unreviewed-mega-facility", status=HumanReviewStatus.PENDING),
+    )
+
+    metrics = CapitalStructureAnalyzer().analyze([pending], as_of=date(2026, 1, 1))
+    audits = {audit["claim_id"]: audit for audit in metrics.claim_audits}
+
+    assert metrics.notional_review_required_usd >= 25_000_000_000
+    assert metrics.notional_review_required_distinct_usd >= 25_000_000_000
+    assert isinstance(audits["capital.notional_review_required"]["value"], dict)
+    assert isinstance(audits["capital.downside_bearers"]["value"], dict)
+
+    notional = audits["capital.notional_review_required.notional"]
+    assert not isinstance(notional["value"], dict)
+    assert notional["value"] == metrics.notional_review_required_usd
+
+    distinct = audits["capital.notional_review_required.distinct_notional"]
+    assert not isinstance(distinct["value"], dict)
+    assert distinct["value"] == metrics.notional_review_required_distinct_usd
+
+    unmapped = audits["capital.unmapped_downside_bearer"]
+    assert not isinstance(unmapped["value"], dict)
+    assert unmapped["value"] == metrics.unmapped_downside_bearer_usd
 
 
 def test_capital_structure_counts_guarantor_role_as_guarantee_linked_exposure() -> None:
@@ -270,7 +302,12 @@ def test_capital_structure_tracks_unmapped_downside_bearer_identity_gaps() -> No
     assert metrics.unmapped_downside_bearer_deal_count == 1
     assert metrics.unmapped_downside_bearer_mention_count == 2
     assert metrics.unmapped_downside_bearer_usd == 200_000_000
-    assert metrics.claim_audits[-1]["value"]["unmapped_downside_bearer_mention_count"] == 2
+    downside_audit = next(
+        audit
+        for audit in metrics.claim_audits
+        if audit["claim_id"] == "capital.downside_bearers"
+    )
+    assert downside_audit["value"]["unmapped_downside_bearer_mention_count"] == 2
 
 
 def test_capital_structure_consolidates_downside_bearer_name_variants() -> None:
@@ -308,5 +345,5 @@ def test_capital_structure_with_no_deals_is_evidence_blocked() -> None:
 
     assert metrics.deal_count == 0
     assert metrics.debt_like_notional_usd == 0
-    assert metrics.evidence_summary["unsupported_claims"] == 14
+    assert metrics.evidence_summary["unsupported_claims"] == 17
     assert metrics.evidence_summary["high_confidence_eligible_claims"] == 0

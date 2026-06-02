@@ -1,14 +1,18 @@
 # Acquisition Status
 
-Last updated: 2026-06-02 05:51 UTC.
+Last updated: 2026-06-02 05:59 UTC.
 
 This file is the operational snapshot for the current evidence corpus. Treat it
 as a run log, not as a final investment conclusion.
 
 ## Current Corpus
 
-- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0551.md`
+- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0559.md`
 - Evidence gate: not high-confidence final.
+- Evidence audit coverage: report-level audits now merge analyzer-level
+  capital, compute, and debt-service audits, reducing high-impact metric audit
+  warnings from 36 to 24. Remaining warnings are builder-level audit gaps, not
+  a gate opening.
 - Source invariant audit: passed at 2026-06-02 04:02 UTC, 63 CSV files
   and 9,208,844 rows scanned, 0 violations, 0 warnings.
 - Generated report assets are internal evidence artifacts; the user-facing

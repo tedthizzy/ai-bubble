@@ -207,6 +207,95 @@ def audit_report_evidence(
     )
 
 
+def claim_audits_from_metric_payload(payload: Any) -> list[dict[str, Any]]:
+    """Extract top-level or nested analyzer claim audits from a metric payload."""
+
+    if not isinstance(payload, dict):
+        return []
+    direct = payload.get("claim_audits")
+    if isinstance(direct, list):
+        return [audit for audit in direct if isinstance(audit, dict)]
+    evidence_summary = payload.get("evidence_summary")
+    if isinstance(evidence_summary, dict):
+        nested = evidence_summary.get("claim_audits")
+        if isinstance(nested, list):
+            return [audit for audit in nested if isinstance(audit, dict)]
+    return []
+
+
+def merge_evidence_audits(
+    base_audits: list[dict[str, Any]],
+    *metric_payloads: Any,
+) -> list[dict[str, Any]]:
+    """Append analyzer-level audits to report-level audits, deduped by claim id."""
+
+    merged = list(base_audits)
+    seen = {
+        str(audit.get("claim_id"))
+        for audit in merged
+        if isinstance(audit, dict) and audit.get("claim_id")
+    }
+    for payload in metric_payloads:
+        for audit in claim_audits_from_metric_payload(payload):
+            claim_id = audit.get("claim_id")
+            if not claim_id:
+                continue
+            claim_key = str(claim_id)
+            if claim_key in seen:
+                continue
+            seen.add(claim_key)
+            merged.append(audit)
+    return merged
+
+
+def summarize_evidence_audit_dicts(audits: list[dict[str, Any]]) -> dict[str, Any]:
+    """Summarize serialized EvidenceGate audits after report-level merging."""
+
+    tiers = [str(audit.get("tier") or "") for audit in audits]
+    blocking_issue_count = sum(
+        len(issues)
+        for audit in audits
+        for issues in [audit.get("blocking_issues")]
+        if isinstance(issues, list)
+    )
+    max_confidence = max_permitted_report_confidence_from_audit_dicts(audits)
+    return {
+        "audited_claims": len(audits),
+        "measured_claims": sum(tier == "measured" for tier in tiers),
+        "corroborated_claims": sum(tier == "corroborated_estimate" for tier in tiers),
+        "inferred_claims": sum(tier == "inferred" for tier in tiers),
+        "unsupported_claims": sum(tier == "unsupported" for tier in tiers),
+        "high_confidence_eligible_claims": sum(
+            bool(audit.get("eligible_for_high_confidence")) for audit in audits
+        ),
+        "blocking_issue_count": blocking_issue_count,
+        "max_permitted_report_confidence": max_confidence,
+    }
+
+
+def max_permitted_report_confidence_from_audit_dicts(
+    audits: list[dict[str, Any]],
+) -> float:
+    """Conservative confidence cap equivalent for serialized audits."""
+
+    if not audits:
+        return 0.2
+    tiers = {str(audit.get("tier") or "") for audit in audits}
+    if "unsupported" in tiers:
+        return 0.25
+    if "inferred" in tiers:
+        return 0.45
+    if any(audit.get("blocking_issues") for audit in audits):
+        return 0.6
+    confidences = [
+        float(confidence)
+        for audit in audits
+        for confidence in [audit.get("confidence")]
+        if isinstance(confidence, (int, float)) and not isinstance(confidence, bool)
+    ]
+    return min(0.95, *confidences) if confidences else 0.2
+
+
 def load_report_capital_evidence(data_dirs: list[str]) -> CapitalEvidenceBatch:
     """Load all report-ready deal CSVs under known acquisition/evidence directories."""
 
@@ -1058,7 +1147,18 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:
         "compute_eps_red_flag_count": compute_metrics.eps_red_flag_count,
         "compute_chip_supply_red_flag_count": compute_metrics.chip_supply_red_flag_count,
     }
-    evidence_audits, evidence_summary, capped_bubble_confidence = audit_report_evidence(metrics)
+    evidence_audits, _, _ = audit_report_evidence(metrics)
+    evidence_audits = merge_evidence_audits(
+        evidence_audits,
+        capital_metrics_dict,
+        compute_metrics_dict,
+        debt_service_metrics_dict,
+    )
+    evidence_summary = summarize_evidence_audit_dicts(evidence_audits)
+    capped_bubble_confidence = round(
+        min(0.82, evidence_summary["max_permitted_report_confidence"]),
+        4,
+    )
 
     missing = coverage.missing_corpora
     report = {
