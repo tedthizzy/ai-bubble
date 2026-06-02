@@ -140,10 +140,14 @@ class ComputeEconomicsMetrics:
     chip_supply_observation_count: int
     total_gpu_capex_usd: float
     gpu_depreciation_red_flag_count: int
+    gpu_depreciation_blocked_generation_count: int
     tam_red_flag_count: int
+    tam_blocked_claim_count: int
     payback_red_flag_count: int
     eps_red_flag_count: int
+    eps_blocked_impact_count: int
     chip_supply_red_flag_count: int
+    chip_supply_blocked_observation_count: int
     top_gpu_depreciation_risks: list[GpuDepreciationRisk]
     top_tam_reality_checks: list[TamRealityCheck]
     top_payback_stress_cases: list[PaybackStressResult]
@@ -224,10 +228,28 @@ class ComputeEconomicsAnalyzer:
                 2,
             ),
             gpu_depreciation_red_flag_count=sum(item.red_flag for item in gpu_risks),
+            gpu_depreciation_blocked_generation_count=sum(
+                item.price_depreciation_pct is None
+                and item.rental_rate_decline_pct is None
+                and item.useful_life_gap_years is None
+                for item in gpu_risks
+            ),
             tam_red_flag_count=sum(item.red_flag for item in tam_checks),
+            tam_blocked_claim_count=sum(
+                item.tam_to_revenue_multiple is None
+                and item.implied_revenue_capture_assumption_pct is None
+                for item in tam_checks
+            ),
             payback_red_flag_count=sum(item.red_flag for item in payback_results),
             eps_red_flag_count=sum(item.red_flag for item in eps_results),
+            eps_blocked_impact_count=sum(
+                item.economic_depreciation_usd is None or item.eps_drag is None
+                for item in eps_results
+            ),
             chip_supply_red_flag_count=sum(item.red_flag for item in chip_supply_gaps),
+            chip_supply_blocked_observation_count=sum(
+                item.delivery_gap_count is None for item in chip_supply_gaps
+            ),
             top_gpu_depreciation_risks=sorted(
                 gpu_risks,
                 key=lambda item: (

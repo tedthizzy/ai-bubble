@@ -1083,9 +1083,13 @@ def report_answer_metric_audits(  # noqa: PLR0912, PLR0915
                 "total_gpu_capex_usd",
                 "compute_asset_count",
                 "gpu_price_observation_count",
+                "gpu_depreciation_blocked_generation_count",
+                "tam_blocked_claim_count",
                 "payback_case_count",
                 "payback_blocked_case_count",
                 "payback_missing_debt_service_count",
+                "eps_blocked_impact_count",
+                "chip_supply_blocked_observation_count",
             )
         },
     )
@@ -1094,6 +1098,22 @@ def report_answer_metric_audits(  # noqa: PLR0912, PLR0915
         "Compute-economics total GPU capex estimate",
         compute_metrics_dict.get("total_gpu_capex_usd"),
         [compute_artifact],
+        requires_corroboration=False,
+    )
+    add(
+        "compute.gpu_depreciation_blocked_generations",
+        "Compute-economics GPU generations missing comparable depreciation inputs",
+        compute_metrics_dict.get("gpu_depreciation_blocked_generation_count"),
+        [compute_artifact],
+        unit="generations",
+        requires_corroboration=False,
+    )
+    add(
+        "compute.tam_blocked_claims",
+        "Compute-economics TAM claims missing realized-revenue comparators",
+        compute_metrics_dict.get("tam_blocked_claim_count"),
+        [compute_artifact],
+        unit="claims",
         requires_corroboration=False,
     )
     add(
@@ -1110,6 +1130,22 @@ def report_answer_metric_audits(  # noqa: PLR0912, PLR0915
         compute_metrics_dict.get("payback_missing_debt_service_count"),
         [compute_artifact],
         unit="cases",
+        requires_corroboration=False,
+    )
+    add(
+        "compute.eps_blocked_impacts",
+        "Compute-economics EPS impact cases missing modeled economic depreciation",
+        compute_metrics_dict.get("eps_blocked_impact_count"),
+        [compute_artifact],
+        unit="cases",
+        requires_corroboration=False,
+    )
+    add(
+        "compute.chip_supply_blocked_observations",
+        "Compute-economics chip-supply observations missing delivered-count comparators",
+        compute_metrics_dict.get("chip_supply_blocked_observation_count"),
+        [compute_artifact],
+        unit="observations",
         requires_corroboration=False,
     )
     capital_metrics = capital_metrics_dict or {}
@@ -2490,10 +2526,18 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:
         "compute_gpu_depreciation_red_flag_count": (
             compute_metrics.gpu_depreciation_red_flag_count
         ),
+        "compute_gpu_depreciation_blocked_generation_count": (
+            compute_metrics.gpu_depreciation_blocked_generation_count
+        ),
         "compute_tam_red_flag_count": compute_metrics.tam_red_flag_count,
+        "compute_tam_blocked_claim_count": compute_metrics.tam_blocked_claim_count,
         "compute_payback_red_flag_count": compute_metrics.payback_red_flag_count,
         "compute_eps_red_flag_count": compute_metrics.eps_red_flag_count,
+        "compute_eps_blocked_impact_count": compute_metrics.eps_blocked_impact_count,
         "compute_chip_supply_red_flag_count": compute_metrics.chip_supply_red_flag_count,
+        "compute_chip_supply_blocked_observation_count": (
+            compute_metrics.chip_supply_blocked_observation_count
+        ),
     }
     evidence_audits, _, _ = audit_report_evidence(metrics)
     evidence_audits = merge_evidence_audits(
@@ -3106,14 +3150,22 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:
                 "status": compute_metrics.status,
                 "current_compute_assets": compute_metrics.compute_asset_count,
                 "current_gpu_price_observations": compute_metrics.gpu_price_observation_count,
+                "current_gpu_depreciation_blocked_generations": (
+                    compute_metrics.gpu_depreciation_blocked_generation_count
+                ),
                 "current_tam_claims": compute_metrics.tam_claim_count,
+                "current_tam_blocked_claims": compute_metrics.tam_blocked_claim_count,
                 "current_payback_cases": compute_metrics.payback_case_count,
                 "current_payback_blocked_cases": compute_metrics.payback_blocked_case_count,
                 "current_payback_missing_debt_service_cases": (
                     compute_metrics.payback_missing_debt_service_count
                 ),
                 "current_eps_impacts": compute_metrics.eps_impact_count,
+                "current_eps_blocked_impacts": compute_metrics.eps_blocked_impact_count,
                 "current_chip_supply_observations": (compute_metrics.chip_supply_observation_count),
+                "current_chip_supply_blocked_observations": (
+                    compute_metrics.chip_supply_blocked_observation_count
+                ),
                 "top_gpu_depreciation_risks": [
                     item.to_dict() for item in compute_metrics.top_gpu_depreciation_risks[:10]
                 ],

@@ -32,10 +32,10 @@ The important change is that ecosystem-scale conclusions are now blocked from be
 
 Latest verified evidence-gated report at this checkpoint:
 
-- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260602-2005.md`
-- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260602-2005.json`
+- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260602-2012.md`
+- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260602-2012.json`
 - `high_confidence_final`: `false`
-- Evidence audit coverage now includes 469 claim audits: analyzer-level capital,
+- Evidence audit coverage now includes 473 claim audits: analyzer-level capital,
   compute, and debt-service audits, explicit row/artifact-backed audits for
   high-impact Burry-answer rollups, and aggregate hooks for pending review
   capital, pending AI-infra capital, pending compute, weak-link AI-infra,
@@ -48,9 +48,12 @@ Latest verified evidence-gated report at this checkpoint:
   now cover the term-level rollup fields added in this checkpoint. Large
   numeric `key_metrics` values above $200B now have value-matched claim audits
   with gross, path-summed, out-of-scope, pre-dedupe, or distinct basis labels
-  where applicable. Compute payback coverage now separates missing-input
-  blockage from true clean reads: 2 payback cases, 1 blocked by missing
-  cash-flow inputs, and 2 missing debt-service coverage inputs. The
+  where applicable. Compute-economics coverage now separates missing-comparator
+  blockage from true clean reads: 18 GPU generations lack comparable
+  depreciation signals, 10 TAM claims lack realized-revenue comparators, 2 EPS
+  impacts lack modeled economic depreciation, 9 chip-supply observations lack
+  delivered-count comparators, and the payback layer has 2 cases where 1 is
+  blocked by missing cash-flow inputs and 2 lack debt-service coverage. The
   remaining consistency warnings are doc-pattern checks and do not open the gate.
 - Source invariant audit: passed across 63 CSV files and 9,208,844 rows scanned
   with 0 violations and 0 warnings.
@@ -128,8 +131,9 @@ Latest capital and timing outputs:
   `handoffs/claude_compute_payback_inputs_20260602.md`, identifying the
   per-name revenue, capex, clean-debt, and useful-life inputs needed before the
   engine can produce decision-useful payback or DSCR conclusions. The generated
-  report now exposes blocked payback and missing-debt-service counts so the
-  compute layer cannot mistake missing inputs for no payback stress.
+  report now exposes blocked comparator counts across GPU depreciation, TAM,
+  payback, EPS, and chip supply so the compute layer cannot mistake missing
+  inputs for no stress.
 - A deterministic physical-execution extractor now exists at
   `bubble.ingestion.physical.extract_physical_execution_terms`, turning acquired
   permit/PUC/source text into normalized evidence rows for on-site generation,

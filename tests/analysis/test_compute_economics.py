@@ -121,10 +121,12 @@ def test_compute_economics_flags_depreciation_tam_payback_eps_and_supply_risk() 
     assert metrics.status == "measured"
     assert metrics.total_gpu_capex_usd == 30_000_000
     assert metrics.gpu_depreciation_red_flag_count == 1
+    assert metrics.gpu_depreciation_blocked_generation_count == 0
     assert metrics.top_gpu_depreciation_risks[0].price_depreciation_pct == 60
     assert metrics.top_gpu_depreciation_risks[0].rental_rate_decline_pct == 62.5
     assert metrics.top_gpu_depreciation_risks[0].useful_life_gap_years == 2.5
     assert metrics.tam_red_flag_count == 1
+    assert metrics.tam_blocked_claim_count == 0
     assert metrics.top_tam_reality_checks[0].tam_to_revenue_multiple == 24
     assert metrics.payback_red_flag_count == 1
     assert metrics.payback_blocked_case_count == 0
@@ -133,9 +135,11 @@ def test_compute_economics_flags_depreciation_tam_payback_eps_and_supply_risk() 
     assert metrics.top_payback_stress_cases[0].payback_years == 25
     assert metrics.top_payback_stress_cases[0].debt_service_coverage_ratio == 0.8
     assert metrics.eps_red_flag_count == 1
+    assert metrics.eps_blocked_impact_count == 0
     assert metrics.top_eps_impacts[0].incremental_depreciation_usd == 2_000_000_000
     assert metrics.top_eps_impacts[0].eps_drag == 1.6
     assert metrics.chip_supply_red_flag_count == 1
+    assert metrics.chip_supply_blocked_observation_count == 0
     assert metrics.top_chip_supply_gaps[0].delivery_gap_count == 6000
     assert metrics.top_chip_supply_gaps[0].implied_gpus_per_mw == 100
 
@@ -197,6 +201,67 @@ def test_compute_payback_missing_inputs_are_counted_as_blocked_not_clean() -> No
     blocked = metrics.top_payback_stress_cases[1]
     assert blocked.payback_years is None
     assert blocked.blocking_issues == ["Missing gross margin."]
+
+
+def test_compute_comparator_gaps_are_counted_as_blocked_not_clean() -> None:
+    batch = ComputeEconomicsBatch(
+        assets=[],
+        gpu_price_observations=[
+            GpuPriceObservation(
+                source_observation_id="single-h100-price",
+                gpu_generation="H100",
+                observed_date=date(2026, 6, 1),
+                observed_secondary_price_usd=30_000,
+                provenance=_prov("https://market.example/h100-single"),
+            )
+        ],
+        depreciation_policies=[],
+        tam_claims=[
+            TamClaim(
+                source_claim_id="tam-without-revenue",
+                entity="Cerebras Systems Inc.",
+                claimed_market="AI compute market",
+                stated_tam_usd=131_000_000_000,
+                realized_revenue_usd=None,
+                provenance=_prov("https://www.sec.gov/cerebras-s1"),
+            )
+        ],
+        payback_cases=[],
+        eps_impacts=[
+            EpsDepreciationImpact(
+                source_impact_id="eps-without-modeled-life",
+                entity="Meta Platforms, Inc.",
+                fiscal_year=2025,
+                gpu_capex_estimate_usd=90_000_000_000,
+                accounting_useful_life_years=5,
+                modeled_economic_life_years=None,
+                disclosed_depreciation_usd=2_920_000_000,
+                provenance=_prov("https://www.sec.gov/meta-10k"),
+            )
+        ],
+        chip_supply_observations=[
+            ChipSupplyObservation(
+                source_observation_id="capacity-without-delivery",
+                entity="Cerebras Systems Inc.",
+                gpu_generation="UNSPECIFIED",
+                announced_mw=250,
+                announced_gpu_count=None,
+                delivered_gpu_count=None,
+                provenance=_prov("https://www.sec.gov/cerebras-capacity"),
+            )
+        ],
+    )
+
+    metrics = analyze_compute_economics(batch)
+
+    assert metrics.gpu_depreciation_red_flag_count == 0
+    assert metrics.gpu_depreciation_blocked_generation_count == 1
+    assert metrics.tam_red_flag_count == 0
+    assert metrics.tam_blocked_claim_count == 1
+    assert metrics.eps_red_flag_count == 1
+    assert metrics.eps_blocked_impact_count == 1
+    assert metrics.chip_supply_red_flag_count == 0
+    assert metrics.chip_supply_blocked_observation_count == 1
 
 
 def test_gpu_rental_decline_requires_comparable_time_series() -> None:

@@ -1,15 +1,15 @@
 # Acquisition Status
 
-Last updated: 2026-06-02 20:05 UTC.
+Last updated: 2026-06-02 20:12 UTC.
 
 This file is the operational snapshot for the current evidence corpus. Treat it
 as a run log, not as a final investment conclusion.
 
 ## Current Corpus
 
-- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-2005.md`
+- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-2012.md`
 - Evidence gate: not high-confidence final.
-- Evidence audit coverage: 469 claim audits now include analyzer-level capital,
+- Evidence audit coverage: 473 claim audits now include analyzer-level capital,
   compute, and debt-service audits, explicit row/artifact-backed audits for
   high-impact Burry-answer rollups, and aggregate hooks for pending review
   capital, pending AI-infra capital, pending compute, weak-link AI-infra,
@@ -25,9 +25,12 @@ as a run log, not as a final investment conclusion.
   Large numeric `key_metrics` values over $200B now have value-matched claim
   audits, including gross pending, path-summed, out-of-scope, pre-dedupe, and
   distinct basis labels so diagnostic totals are not read as clean exposure.
-  Compute payback coverage now also separates zero red flags from missing-input
-  blockage: the report has 2 payback cases, 1 blocked by missing cash-flow
-  inputs, and 2 missing debt-service coverage inputs.
+  Compute-economics coverage now also separates zero red flags from missing
+  comparators: the report has 18 GPU generations without comparable
+  depreciation signals, 10 TAM claims missing realized-revenue comparators, 2
+  EPS impacts missing modeled economic depreciation, 9 chip-supply observations
+  missing delivered-count comparators, plus 2 payback cases where 1 is blocked
+  by missing cash-flow inputs and 2 are missing debt-service coverage inputs.
   Substantive high-impact metric audit warnings are cleared;
   the remaining consistency warnings are doc-pattern checks, not evidence gaps
   or a gate opening.
@@ -181,7 +184,8 @@ as a run log, not as a final investment conclusion.
   the current payback/unit-economics layer is input-starved and identifies the
   per-name revenue, capex, debt, and useful-life inputs needed before DSCR or
   payback conclusions can be made. The report now carries explicit blocked
-  payback counts so missing inputs are not silently reported as clean.
+  compute-economics counts so missing comparators are not silently reported as
+  clean.
 - A deterministic physical-execution extractor now exists at
   `bubble.ingestion.physical.extract_physical_execution_terms`. It normalizes
   acquired permit/PUC/source text into machine-checkable physical execution
@@ -833,13 +837,17 @@ Compute economics:
 
 - Compute assets: 49.
 - GPU price observations: 45.
+- GPU generations missing comparable depreciation inputs: 18.
 - Depreciation policies: 32.
 - TAM claims: 10.
+- TAM claims missing realized-revenue comparators: 10.
 - Capex payback cases: 2.
 - Payback cases blocked by missing cash-flow inputs: 1.
 - Payback cases missing debt-service coverage inputs: 2.
 - EPS depreciation impacts: 2.
+- EPS impacts missing modeled economic depreciation: 2.
 - Chip supply observations: 9.
+- Chip supply observations missing delivered-count comparators: 9.
 
 ## Next Acquisition Priorities
 
