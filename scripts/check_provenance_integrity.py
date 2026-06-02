@@ -2,14 +2,15 @@
 """Read-only provenance-integrity scan of the acquired EDGAR corpus.
 
 Novel checks beyond the existing source-invariant audit:
-- `divergent_document_hash` — one document (accession/primary_document) carrying
-  more than one content_hash (re-fetch drift / corruption) — ERROR.
+- `divergent_document_hash` — one document carrying more than one content_hash
+  (re-fetch drift / corruption) — ERROR.
 - `invalid_content_hash` / `missing_content_hash` — non-sha256 or blank hash on a
   sourced row — ERROR.
-- `hash_conflicting_document_ids` — one content_hash under multiple document_ids
-  (duplicate content across filings; relevant to extraction double-counting) — WARNING.
+- a per-source `content_hash -> multiple ids` fanout summary (one source document
+  producing many rows) — informational, relevant to extraction/metric dedup.
 
-Reads only. Rebuilds nothing. Exit code non-zero on any error-severity finding.
+Scans the EDGAR document inventory, deals.csv, and tranches.csv. Reads only,
+rebuilds nothing. Exit code non-zero on any error-severity finding.
 
     PYTHONPATH=src uv run scripts/check_provenance_integrity.py \
         --repo-root /Users/ted/Documents/dev-archive/bubble
@@ -29,14 +30,35 @@ from bubble.quality.provenance_audit import (
     check_invalid_hashes,
 )
 
+# (relative path, label, id columns joined by "/", hash column, uri column)
+SCAN_TARGETS = (
+    (
+        "data/edgar_acquisition/edgar_document_inventory.csv",
+        "edgar_document_inventory.csv",
+        ("accession_number", "primary_document"),
+        "content_hash",
+        "filing_url",
+    ),
+    ("data/edgar_acquisition/deals.csv", "deals.csv", ("deal_id",), "content_hash", "source_uri"),
+    (
+        "data/edgar_acquisition/tranches.csv",
+        "tranches.csv",
+        ("deal_id", "tranche_id"),
+        "content_hash",
+        "source_uri",
+    ),
+)
 
-def _inventory_rows(inventory_csv: Path) -> list[dict[str, str]]:
-    with inventory_csv.open() as handle:
+
+def _read_rows(
+    csv_path: Path, id_fields: tuple[str, ...], hash_field: str, uri_field: str
+) -> list[dict[str, str]]:
+    with csv_path.open() as handle:
         return [
             {
-                "document_id": f"{record.get('accession_number', '')}/{record.get('primary_document', '')}",
-                "content_hash": record.get("content_hash", ""),
-                "source_uri": record.get("filing_url", ""),
+                "document_id": "/".join(record.get(field, "") for field in id_fields),
+                "content_hash": record.get(hash_field, ""),
+                "source_uri": record.get(uri_field, ""),
             }
             for record in csv.DictReader(handle)
         ]
@@ -51,30 +73,32 @@ def main() -> int:
         help="Checkout whose data/ to scan (default: this checkout).",
     )
     args = parser.parse_args()
-    inventory_csv = args.repo_root / "data" / "edgar_acquisition" / "edgar_document_inventory.csv"
+    root: Path = args.repo_root
 
-    print(f"Provenance-integrity scan: {inventory_csv}")
-    if not inventory_csv.exists():
-        print("  inventory not found (point --repo-root at the checkout that holds data/).")
-        return 0
+    print(f"Provenance-integrity scan (repo-root: {root})")
+    errors: list[ProvenanceFinding] = []
+    for rel, label, id_fields, hash_field, uri_field in SCAN_TARGETS:
+        csv_path = root / rel
+        if not csv_path.exists():
+            print(f"  (skipped — not found: {rel})")
+            continue
+        rows = _read_rows(csv_path, id_fields, hash_field, uri_field)
+        divergent = check_divergent_document_hashes(rows, source_label=label)
+        invalid = check_invalid_hashes(rows, source_label=label)
+        fanout = check_hash_conflicting_document_ids(rows, source_label=label)
+        errors.extend(divergent)
+        errors.extend(invalid)
+        print(
+            f"  {label}: {len(rows)} rows | "
+            f"divergent_document_hash={len(divergent)} | invalid/missing_hash={len(invalid)} | "
+            f"content_hash->multiple_ids (fanout)={len(fanout)}"
+        )
+        for finding in divergent[:10]:
+            print(f"    ERROR [{finding.check}] {finding.message}")
+        for finding in invalid[:10]:
+            print(f"    ERROR [{finding.check}] {finding.message}")
 
-    rows = _inventory_rows(inventory_csv)
-    label = "edgar_document_inventory.csv"
-    findings: list[ProvenanceFinding] = []
-    findings += check_divergent_document_hashes(rows, source_label=label)
-    findings += check_invalid_hashes(rows, source_label=label)
-    findings += check_hash_conflicting_document_ids(rows, source_label=label)
-
-    errors = [f for f in findings if f.severity == "error"]
-    warnings = [f for f in findings if f.severity == "warning"]
-    print(f"  rows scanned: {len(rows)}")
-    print(f"  errors: {len(errors)}  warnings: {len(warnings)}")
-    for finding in errors[:50]:
-        print(f"  ERROR [{finding.check}] {finding.message}")
-    for finding in warnings[:20]:
-        print(f"  warn  [{finding.check}] {finding.message}")
-    if len(warnings) > 20:
-        print(f"  … and {len(warnings) - 20} more warnings")
+    print(f"\n{len(errors)} error-severity finding(s) across all targets.")
     return 1 if errors else 0
 
 
