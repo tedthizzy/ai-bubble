@@ -253,7 +253,7 @@ def _remaining_gaps(packet: dict[str, str], quote: str) -> list[str]:
         gaps.append("extract explicit interest/rent rate evidence")
     if "missing-maturity" in text or "missing maturity" in text:
         gaps.append("extract explicit maturity or payment schedule evidence")
-    gaps.extend(_category_gaps(packet, quote))
+    gaps.extend(_category_gaps(packet, text))
     return list(dict.fromkeys(gaps))
 
 
