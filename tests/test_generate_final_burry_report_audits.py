@@ -47,6 +47,10 @@ debt_service_timing_coverage_fields = cast(
     "Callable[[dict[str, Any]], dict[str, Any]]",
     _REPORT_MODULE.debt_service_timing_coverage_fields,
 )
+graph_parity_basis_fields = cast(
+    "Callable[..., dict[str, Any]]",
+    _REPORT_MODULE.graph_parity_basis_fields,
+)
 
 
 def _audit(
@@ -259,7 +263,12 @@ def test_report_answer_metric_audits_cover_source_backed_rollup_values() -> None
                 }
             ],
         },
-        contract_contagion_summary={},
+        contract_contagion_summary={
+            "paths": 8_749,
+            "total_notional_usd": 44_591_146_002_769.22,
+            "ai_infra_relevant_paths": 453,
+            "ai_infra_relevant_notional_usd": 1_918_982_952_450.0,
+        },
         materiality_adjudication_decision_summary={
             "final_metric_supported_amount_usd": 4_463_000_000_000,
             "final_metric_group_count": 1591,
@@ -299,6 +308,8 @@ def test_report_answer_metric_audits_cover_source_backed_rollup_values() -> None
         "capital_exposure.top_ai_infra_ppa_offtaker_families.family:microsoft.ppa_capacity": (
             6_295.3
         ),
+        "contract_contagion.ai_infra_relevant_notional": 1_918_982_952_450.0,
+        "contract_contagion.total_path_summed_notional": 44_591_146_002_769.22,
         "compute.total_gpu_capex": 270_000_000,
     }
     for claim_id, value in expected_rollup_values.items():
@@ -328,6 +339,12 @@ def test_report_answer_metric_audits_cover_source_backed_rollup_values() -> None
                     }
                 ],
                 "current_top_timing_signals": [{"amount_usd": 165_000_000_000}],
+            },
+            "hidden_risks_and_contagion": {
+                "current_contract_contagion_total_notional_usd": 44_591_146_002_769.22,
+                "current_contract_contagion_ai_infra_relevant_notional_usd": (
+                    1_918_982_952_450.0
+                ),
             },
             "how_large": {
                 "materiality_final_metric_supported_amount_usd": 4_463_000_000_000,
@@ -373,6 +390,46 @@ def test_debt_service_timing_coverage_fields_surface_maturity_limits() -> None:
     assert fields["current_distinct_debt_service_measured_rate_notional_coverage_pct"] == 44.2
     assert "165 of 439" in fields["current_timing_maturity_wall_coverage_note"]
     assert "floor, not a complete schedule" in fields["current_timing_maturity_wall_coverage_note"]
+
+
+def test_graph_parity_basis_fields_label_contract_path_sums() -> None:
+    fields = graph_parity_basis_fields(
+        capital_exposure_graph_summary={
+            "total_edge_notional_usd": 864_183_460_730.37,
+            "ai_infra_relevant_notional_usd": 4_750_000_000,
+        },
+        contract_contagion_summary={
+            "paths": 8_749,
+            "total_notional_usd": 44_591_146_002_769.22,
+            "ai_infra_relevant_paths": 453,
+            "ai_infra_relevant_notional_usd": 1_918_982_952_450.0,
+        },
+        review_queue_summary={
+            "pending_ai_infra_relevant_capital_distinct_notional_amount_usd": (
+                827_720_451_225.0
+            )
+        },
+    )
+
+    assert fields["current_capital_exposure_notional_basis"] == (
+        "deduped_edge_level_financing_notional"
+    )
+    assert fields["current_contract_contagion_notional_basis"] == (
+        "path_summed_multiplicity_inflated_not_exposure"
+    )
+    assert fields["current_contract_contagion_ai_infra_notional_basis"] == (
+        "path_summed_multiplicity_inflated_not_exposure"
+    )
+    assert fields["current_contract_contagion_average_path_notional_usd"] == (
+        5_096_713_453.28
+    )
+    assert fields["current_contract_contagion_ai_infra_average_path_notional_usd"] == (
+        4_236_165_457.95
+    )
+    assert fields["current_ai_infra_distinct_capital_reconciler_notional_usd"] == (
+        827_720_451_225.0
+    )
+    assert "must not be quoted as headline" in fields["current_graph_parity_note"]
 
 
 def test_capital_materiality_scope_fields_label_distinct_size_metrics() -> None:

@@ -1,15 +1,15 @@
 # Acquisition Status
 
-Last updated: 2026-06-02 18:16 UTC.
+Last updated: 2026-06-02 18:27 UTC.
 
 This file is the operational snapshot for the current evidence corpus. Treat it
 as a run log, not as a final investment conclusion.
 
 ## Current Corpus
 
-- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-1816.md`
+- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-1827.md`
 - Evidence gate: not high-confidence final.
-- Evidence audit coverage: 473 claim audits now include analyzer-level capital,
+- Evidence audit coverage: 474 claim audits now include analyzer-level capital,
   compute, and debt-service audits, explicit row/artifact-backed audits for
   high-impact Burry-answer rollups, and aggregate hooks for pending review
   capital, pending AI-infra capital, pending compute, weak-link AI-infra,
@@ -88,6 +88,11 @@ as a run log, not as a final investment conclusion.
   caveat: the maturity wall is a floor because 165 of 439 distinct debt-service
   obligations and $541.811B of distinct debt-like notional still lack
   maturity-date evidence; distinct measured-rate notional coverage is 44.2%.
+- The hidden-risks/contagion answer now labels graph notional bases explicitly:
+  capital-graph notional is deduped edge-level financing exposure, while
+  contract-contagion notional is path-summed and multiplicity-inflated. The
+  $44.591T total contract path notional and $1.919T AI-infra-relevant path
+  notional are diagnostic graph-path surfaces, not headline exposure figures.
 - Five Claude branch-safe research packs were imported for the next graph and
   downside-bearer passes: graph-layer parity, maturity/rate extraction targets,
   downside-bearer resolver taxonomy, utility/ratepayer downside, and

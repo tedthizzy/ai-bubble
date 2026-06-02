@@ -951,6 +951,12 @@ def report_answer_metric_audits(  # noqa: PLR0912, PLR0915
         contract_contagion_summary.get("ai_infra_relevant_notional_usd"),
         [contagion_artifact, *contagion_path_evidence],
     )
+    add(
+        "contract_contagion.total_path_summed_notional",
+        "Contract-contagion path-summed notional",
+        contract_contagion_summary.get("total_notional_usd"),
+        [contagion_artifact, *contagion_path_evidence],
+    )
     compute_artifact = artifact_provenance(
         source_uri="local:compute_economics_metrics",
         page_or_section="compute-economics analyzer rollup",
@@ -1361,6 +1367,74 @@ def debt_service_timing_coverage_fields(
     }
 
 
+def graph_parity_basis_fields(
+    *,
+    capital_exposure_graph_summary: dict[str, Any],
+    contract_contagion_summary: dict[str, Any],
+    review_queue_summary: dict[str, Any],
+) -> dict[str, Any]:
+    """Label graph notional bases so path sums are not read as exposures."""
+
+    contract_paths = int(_float_value(contract_contagion_summary.get("paths")))
+    contract_ai_paths = int(_float_value(contract_contagion_summary.get("ai_infra_relevant_paths")))
+    contract_total_notional = _float_value(contract_contagion_summary.get("total_notional_usd"))
+    contract_ai_notional = _float_value(
+        contract_contagion_summary.get("ai_infra_relevant_notional_usd")
+    )
+    capital_total_notional = _float_value(
+        capital_exposure_graph_summary.get("total_edge_notional_usd")
+    )
+    capital_ai_notional = _float_value(
+        capital_exposure_graph_summary.get("ai_infra_relevant_notional_usd")
+    )
+    distinct_ai_reconciler = _float_value(
+        review_queue_summary.get("pending_ai_infra_relevant_capital_distinct_notional_amount_usd")
+    )
+
+    return {
+        "current_capital_exposure_notional_basis": (
+            "deduped_edge_level_financing_notional"
+        ),
+        "current_capital_exposure_total_edge_notional_usd": capital_total_notional,
+        "current_capital_exposure_ai_infra_relevant_notional_usd": capital_ai_notional,
+        "current_contract_contagion_notional_basis": (
+            "path_summed_multiplicity_inflated_not_exposure"
+        ),
+        "current_contract_contagion_total_notional_usd": contract_total_notional,
+        "current_contract_contagion_path_count": contract_paths,
+        "current_contract_contagion_average_path_notional_usd": _safe_average(
+            contract_total_notional,
+            contract_paths,
+        ),
+        "current_contract_contagion_ai_infra_notional_basis": (
+            "path_summed_multiplicity_inflated_not_exposure"
+        ),
+        "current_contract_contagion_ai_infra_relevant_notional_usd": contract_ai_notional,
+        "current_contract_contagion_ai_infra_path_count": contract_ai_paths,
+        "current_contract_contagion_ai_infra_average_path_notional_usd": _safe_average(
+            contract_ai_notional,
+            contract_ai_paths,
+        ),
+        "current_ai_infra_distinct_capital_reconciler_notional_usd": distinct_ai_reconciler,
+        "current_ai_infra_distinct_capital_reconciler_basis": (
+            "deduped_distinct_pending_capital_notional_not_path_summed"
+        ),
+        "current_graph_parity_note": (
+            "Capital graph notional is deduped edge-level financing exposure; "
+            "contract-contagion notional is path-summed across graph paths and "
+            "is multiplicity-inflated, so it must not be quoted as headline "
+            "AI/data-center exposure. Use the distinct AI-infra pending-capital "
+            "basis as the cross-layer reconciler."
+        ),
+    }
+
+
+def _safe_average(total: float, count: int) -> float:
+    if count <= 0:
+        return 0.0
+    return round(total / count, 2)
+
+
 def materiality_semantic_summary(decisions: list[dict[str, str]]) -> dict[str, Any]:
     """Summarize semantic validity for approved materiality metric rows."""
 
@@ -1608,9 +1682,19 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:
             "ai_infra_relevant_paths",
             0,
         ),
+        "contract_contagion_total_notional_usd": contract_contagion_summary.get(
+            "total_notional_usd",
+            0,
+        ),
+        "contract_contagion_notional_basis": (
+            "path_summed_multiplicity_inflated_not_exposure"
+        ),
         "contract_contagion_ai_infra_relevant_notional_usd": contract_contagion_summary.get(
             "ai_infra_relevant_notional_usd",
             0,
+        ),
+        "contract_contagion_ai_infra_notional_basis": (
+            "path_summed_multiplicity_inflated_not_exposure"
         ),
         "review_queue_items": review_queue_summary.get("items", 0),
         "review_queue_critical_items": review_queue_summary.get("critical_items", 0),
@@ -2218,6 +2302,11 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:
     debt_service_timing_coverage = debt_service_timing_coverage_fields(
         debt_service_metrics_dict
     )
+    graph_parity_basis = graph_parity_basis_fields(
+        capital_exposure_graph_summary=capital_exposure_graph_summary,
+        contract_contagion_summary=contract_contagion_summary,
+        review_queue_summary=review_queue_summary,
+    )
 
     missing = coverage.missing_corpora
     report = {
@@ -2711,6 +2800,7 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:
                 "current_contract_contagion_ai_infra_relevant_notional_usd": (
                     contract_contagion_summary.get("ai_infra_relevant_notional_usd", 0)
                 ),
+                **graph_parity_basis,
                 "current_top_contract_contagion_paths": contract_contagion_summary.get(
                     "top_paths",
                     [],

@@ -31,6 +31,8 @@ def check_report_invariants(
 
     decision_summary = decision_summary or {}
     key_metrics = _dict(report.get("key_metrics"))
+    answers = _dict(report.get("burry_question_answers"))
+    hidden_risks = _dict(answers.get("hidden_risks_and_contagion"))
 
     figures = {
         "capital_distinct_debt_like_notional_usd": _num(
@@ -78,6 +80,16 @@ def check_report_invariants(
             key_metrics.get("tracker_distinct_capacity_high_mw")
         ),
         "tracker_capacity_high_mw": _num(key_metrics.get("tracker_capacity_high_mw")),
+    }
+    labels = {
+        "contract_contagion_notional_basis": (
+            key_metrics.get("contract_contagion_notional_basis")
+            or hidden_risks.get("current_contract_contagion_notional_basis")
+        ),
+        "contract_contagion_ai_infra_notional_basis": (
+            key_metrics.get("contract_contagion_ai_infra_notional_basis")
+            or hidden_risks.get("current_contract_contagion_ai_infra_notional_basis")
+        ),
     }
 
     checks = [
@@ -131,6 +143,16 @@ def check_report_invariants(
             figures["tracker_distinct_capacity_high_mw"],
             figures["tracker_capacity_high_mw"],
         ),
+        _contains(
+            "contract-contagion total notional is labeled path-summed",
+            labels["contract_contagion_notional_basis"],
+            "path_summed_multiplicity_inflated_not_exposure",
+        ),
+        _contains(
+            "contract-contagion AI notional is labeled path-summed",
+            labels["contract_contagion_ai_infra_notional_basis"],
+            "path_summed_multiplicity_inflated_not_exposure",
+        ),
     ]
     return checks
 
@@ -153,6 +175,17 @@ def _le(name: str, smaller: float | None, larger: float | None) -> ReportInvaria
         name=name,
         ok=smaller <= larger + 1e-6,
         detail=f"{smaller:,.2f} <= {larger:,.2f}",
+    )
+
+
+def _contains(name: str, value: Any, expected: str) -> ReportInvariant:
+    if value is None:
+        return ReportInvariant(name=name, ok=False, detail=f"missing label; expected {expected!r}")
+    text = str(value)
+    return ReportInvariant(
+        name=name,
+        ok=expected in text,
+        detail=f"{text!r} contains {expected!r}",
     )
 
 

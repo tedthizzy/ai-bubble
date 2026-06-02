@@ -23,6 +23,12 @@ def test_consistent_report_has_no_invariant_violations() -> None:
             "timing_signal_ai_infra_capital_refinancing_forward_from_as_of_usd": 150,
             "tracker_distinct_capacity_high_mw": 90,
             "tracker_capacity_high_mw": 100,
+            "contract_contagion_notional_basis": (
+                "path_summed_multiplicity_inflated_not_exposure"
+            ),
+            "contract_contagion_ai_infra_notional_basis": (
+                "path_summed_multiplicity_inflated_not_exposure"
+            ),
         }
     }
 
@@ -41,6 +47,12 @@ def test_invariant_checker_flags_superset_violations() -> None:
             "timing_signal_capital_refinancing_usd_2024_2030": 500,
             "timing_signal_capital_refinancing_forward_from_as_of_usd": 600,
             "timing_signal_ai_infra_capital_refinancing_forward_from_as_of_usd": 550,
+            "contract_contagion_notional_basis": (
+                "path_summed_multiplicity_inflated_not_exposure"
+            ),
+            "contract_contagion_ai_infra_notional_basis": (
+                "path_summed_multiplicity_inflated_not_exposure"
+            ),
         }
     }
 
@@ -54,7 +66,17 @@ def test_invariant_checker_flags_superset_violations() -> None:
 
 
 def test_invariant_checker_uses_decision_summary_fallback() -> None:
-    report = {"key_metrics": {"capital_distinct_debt_like_notional_usd": 900}}
+    report = {
+        "key_metrics": {
+            "capital_distinct_debt_like_notional_usd": 900,
+            "contract_contagion_notional_basis": (
+                "path_summed_multiplicity_inflated_not_exposure"
+            ),
+            "contract_contagion_ai_infra_notional_basis": (
+                "path_summed_multiplicity_inflated_not_exposure"
+            ),
+        }
+    }
     decision_summary = {
         "final_metric_supported_amount_usd": 800,
         "approved_row_supported_amount_usd": 1_100,
@@ -71,3 +93,28 @@ def test_invariant_checker_uses_decision_summary_fallback() -> None:
     assert by_name["materiality final metric <= approved row supported amount"].ok is True
     assert by_name["approved metric rows <= materiality decisions"].ok is True
     assert by_name["capital distinct debt-like notional <= debt-like notional"].ok is None
+
+
+def test_invariant_checker_requires_contract_path_sum_basis_labels() -> None:
+    report = {
+        "key_metrics": {
+            "capital_distinct_debt_like_notional_usd": 900,
+            "capital_debt_like_notional_usd": 1_000,
+            "capital_total_notional_usd": 1_200,
+            "contract_contagion_notional_basis": "deduped_exposure",
+        },
+        "burry_question_answers": {
+            "hidden_risks_and_contagion": {
+                "current_contract_contagion_ai_infra_notional_basis": (
+                    "path_summed_multiplicity_inflated_not_exposure"
+                )
+            }
+        },
+    }
+
+    by_name = {item.name: item for item in check_report_invariants(report)}
+
+    assert (
+        by_name["contract-contagion total notional is labeled path-summed"].ok is False
+    )
+    assert by_name["contract-contagion AI notional is labeled path-summed"].ok is True
