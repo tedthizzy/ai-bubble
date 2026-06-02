@@ -93,6 +93,10 @@ Latest capital and timing outputs:
   monitoring, and a hidden-leverage taxonomy that keeps the committed-debt
   metric distinct from excluded economic commitments such as take-or-pay,
   hosting, colocation, and supplier-financing obligations.
+- A sourced economic-commitment handoff now gives the first candidate numbers
+  for that excluded tier, separating binding buyer-side commitments/leases from
+  seller-side backlog mirrors and non-binding lessor-revenue or framework
+  claims. This tier remains separate from the committed-debt metric.
 - Utility/ratepayer downside is now ready for its first source-acquisition pass:
   `handoffs/codex_utility_ratepayer_acquisition_cards_20260602.md` and its
   fixture CSVs identify exact PUC/IRP/rate-case/large-load tariff targets for

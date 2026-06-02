@@ -129,6 +129,13 @@ as a run log, not as a final investment conclusion.
   bring-your-own-generation directives, and data-center load-driver flags. This
   makes the PUC/IRP target pack machine-checkable once acquired, but still does
   not decide final ratepayer exposure.
+- A Claude economic-commitment tier pack was imported for the hidden-leverage
+  under-count side: `handoffs/claude_economic_commitment_tier_20260602.md` and
+  `handoffs/fixtures/economic_commitment_tier_20260602.csv`. It separates
+  binding buyer-side commitments and leases from seller-side backlog mirrors and
+  non-binding/lessor-revenue claims. This is not folded into the committed-debt
+  metric; it is a separate candidate exposure tier for take-or-pay, lease, and
+  compute-capacity obligations.
 - The broader materiality metric is now split by adjudicated thesis linkage:
   $0.440T has established direct/watchlist AI-data-center linkage, while
   88.9% is source-backed but not yet established as AI/data-center-linked.
