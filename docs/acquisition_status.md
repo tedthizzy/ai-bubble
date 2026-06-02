@@ -1,13 +1,13 @@
 # Acquisition Status
 
-Last updated: 2026-06-02 09:28 UTC.
+Last updated: 2026-06-02 09:48 UTC.
 
 This file is the operational snapshot for the current evidence corpus. Treat it
 as a run log, not as a final investment conclusion.
 
 ## Current Corpus
 
-- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0928.md`
+- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0948.md`
 - Evidence gate: not high-confidence final.
 - Evidence audit coverage: report-level audits now include analyzer-level
   capital, compute, and debt-service audits plus explicit row/artifact-backed
@@ -55,10 +55,9 @@ as a run log, not as a final investment conclusion.
   separately from the broader $4.365T materiality-adjudicated supported exposure
   metric so the two scopes are not read as inconsistent or directly additive.
 - The broader materiality metric is now split by adjudicated thesis linkage:
-  $0.474T has established direct/watchlist AI-data-center linkage ($0.217T
-  direct and $0.258T watchlist), while $3.891T, or 89.1%, is source-backed
-  but not yet established as AI/data-center-linked. The unlinked tail is a
-  scope gap, not a final no-link conclusion.
+  $0.479T has established direct/watchlist AI-data-center linkage, while
+  89.0% is source-backed but not yet established as AI/data-center-linked.
+  The unlinked tail is a scope gap, not a final no-link conclusion.
   Clear AI/HPC/bitcoin data-center operators including IREN, CleanSpark,
   American Bitcoin, MARA/Marathon, Hut 8, Applied Digital, CoreWeave,
   TeraWulf, Nebius, and Cerebras are normalized to direct linkage when entity
@@ -68,14 +67,16 @@ as a run log, not as a final investment conclusion.
   not-established. Indirect utility/telecom suppliers remain not-established
   until a source-backed fractional scope rule is defined.
 - Semantic metric-validity gating now scans approved materiality rows as a
-  separate source-text dimension: 2,782 approved rows classify as committed
-  debt/obligation text, 142 remain indeterminate review candidates, and 0
+  separate source-text dimension: 2,813 approved rows classify as committed
+  debt/obligation text, 111 remain indeterminate review candidates, and 0
   approved rows are hard-flagged as asset/capacity, equity/production, or
   boilerplate snippets.
   A same-filing quote-quality pass now reselects stronger committed-debt clauses
   for approved rows whose original selected snippet was semantically peripheral
-  when a same-entity/same-content-hash sibling clause is available; it changes
-  evidence text quality, not supported metric totals.
+  or lacked exact amount committed-instrument text when a same-entity/same-
+  content-hash sibling clause is available. Quote reselection preserves a stable
+  metric-dedupe quote, so it changes evidence text quality without changing
+  supported metric totals.
 - Decision coverage over packaged blocker groups: 100.0%; unresolved decision
   share remains 32.91% (still extraction-bound, not source-retrieval-bound).
 - Top remaining decision gaps are now named counterparty role extraction
@@ -564,9 +565,9 @@ Adjudication queue:
 - Deduped automated final metric support: $4.365T across 1,579 metric groups
   after source-instrument, latest-snapshot, and exact economic-obligation
   grouping.
-- Relevance split of that deduped final metric: $0.474T established
-  direct/watchlist AI-data-center linkage, including $0.217T direct and
-  $0.258T watchlist; $3.891T / 89.1% remains not-established for thesis linkage.
+- Relevance split of that deduped final metric: $0.479T established
+  direct/watchlist AI-data-center linkage; 89.0% remains not-established for
+  thesis linkage.
 - Clear AI/HPC/bitcoin data-center operators including IREN, CleanSpark,
   American Bitcoin, MARA/Marathon, Hut 8, Applied Digital, CoreWeave,
   TeraWulf, Nebius, and Cerebras are normalized to direct linkage when entity
@@ -585,13 +586,13 @@ Adjudication queue:
   matching the recorded metric. USD-confirmed mixed-currency offerings remain
   eligible.
 - Semantic hard flags remaining in approved metric rows: 0
-  asset/capacity, equity/production, or boilerplate rows; 142 indeterminate
+  asset/capacity, equity/production, or boilerplate rows; 111 indeterminate
   rows remain queued for review rather than treated as high-confidence debt
   semantics.
-- Same-filing quote reselection replaced 13 semantically peripheral approved
-  snippets covering $34.71B with stronger same-entity/same-content-hash
-  committed-debt clauses; this reduced indeterminate approved rows without
-  changing approved metric counts or totals.
+- Same-filing quote reselection now replaces semantically peripheral or
+  exact-amount-weak approved snippets with stronger same-entity/same-content-hash
+  committed-debt clauses while preserving stable metric dedupe; this reduced
+  indeterminate approved rows without changing approved metric counts or totals.
 - Top unresolved gaps are named counterparty roles, collateral scope,
   recourse/guarantee scope, aggregate-to-committed splitting, and underlying
   term-level clause acquisition.

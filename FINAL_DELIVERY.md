@@ -32,8 +32,8 @@ The important change is that ecosystem-scale conclusions are now blocked from be
 
 Latest verified evidence-gated report at this checkpoint:
 
-- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0928.md`
-- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0928.json`
+- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0948.md`
+- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0948.json`
 - `high_confidence_final`: `false`
 - Evidence audit coverage now includes analyzer-level capital, compute, and
   debt-service audits plus explicit row/artifact-backed audits for high-impact
@@ -53,7 +53,7 @@ Latest verified evidence-gated report at this checkpoint:
   supported blockers, 2,193 still requiring deeper extraction, 2,924 approved
   metric rows, and $4.365T deduped final metric support across 1,579
   source-instrument/economic-obligation metric groups. Semantic hard flags are now zero
-  in approved metric rows; 142 approved rows remain indeterminate semantic
+  in approved metric rows; 111 approved rows remain indeterminate semantic
   review candidates.
 
 Latest capital and timing outputs:
@@ -66,17 +66,17 @@ Latest capital and timing outputs:
   metric groups; this is a different scope from the curated capital-structure
   deal-graph debt-like metric above, not an additive increment.
 - Established direct/watchlist AI-data-center-linked support inside that broader
-  materiality metric is $0.474T ($0.217T direct and $0.258T watchlist);
-  $3.891T, or 89.1%, remains source-backed but not yet thesis-linked.
+  materiality metric is $0.479T; 89.0% remains source-backed but not yet
+  thesis-linked.
 - Clear AI/HPC/bitcoin data-center operators are normalized to direct linkage
   when source tags are blank, watchlist, or not established; Galaxy Digital is
   normalized only for packet text naming Galaxy Helios, CoreWeave, or
   data-center context. Indirect utility/telecom suppliers remain
   not-established until a fractional scope rule is sourced.
-- Same-filing quote reselection now replaces semantically peripheral approved
-  snippets with stronger same-entity/same-content-hash committed-debt clauses
-  where available; 13 approved rows covering $34.71B were reselected without
-  changing metric totals.
+- Same-filing quote reselection now replaces semantically peripheral or
+  exact-amount-weak approved snippets with stronger same-entity/same-content-hash
+  committed-debt clauses where available. Reselection preserves stable metric
+  dedupe quotes, so it improves evidence text without changing metric totals.
 - Unconverted HKD face-value rows are blocked from metric use pending
   source-backed USD conversion; six rows now carry that extraction gap.
 - Mixed-currency selected quotes without an explicit USD amount matching the

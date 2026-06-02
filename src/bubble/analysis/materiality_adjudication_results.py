@@ -95,6 +95,7 @@ class MaterialityAdjudicationDecision:
     risk_bearer: str
     remaining_gap: str
     required_next_extraction: str
+    metric_dedupe_quote: str
     evidence_quote: str
     evidence_quote_refs: tuple[str, ...]
     rationale: str
@@ -145,6 +146,16 @@ class MaterialityAdjudicationDecisionBatch:
     summary: MaterialityAdjudicationDecisionSummary
 
 
+@dataclass(frozen=True)
+class _SemanticQuoteCandidate:
+    """Candidate replacement quote from a same-filing decision or packet snippet."""
+
+    packet_id: str
+    evidence_quote: str
+    evidence_quote_refs: tuple[str, ...]
+    allow_general_reselection: bool
+
+
 def build_materiality_adjudication_decisions(
     data_dirs: list[str | Path] | None = None,
     *,
@@ -169,7 +180,7 @@ def build_materiality_adjudication_decisions(
             for future in as_completed(futures):
                 by_index[futures[future]] = future.result()
         decisions = [by_index[index] for index in range(len(packets))]
-    decisions = _reselect_semantic_quotes(decisions)
+    decisions = _reselect_semantic_quotes(decisions, packets)
     summary = _summary(decisions)
     return MaterialityAdjudicationDecisionBatch(decisions=decisions, summary=summary)
 
@@ -239,6 +250,7 @@ def _adjudicate_packet(
         risk_bearer=risk_bearer,
         remaining_gap=" | ".join(gaps),
         required_next_extraction=_required_next_extraction(packet, quote, gaps),
+        metric_dedupe_quote=quote,
         evidence_quote=quote,
         evidence_quote_refs=quote_refs,
         rationale=_rationale(packet, quote, decision, metric_use_status, source_support, gaps),
@@ -1548,17 +1560,49 @@ def _clean_snippet_text(value: str) -> str:
 
 def _reselect_semantic_quotes(
     decisions: list[MaterialityAdjudicationDecision],
+    packets: list[dict[str, str]] | None = None,
 ) -> list[MaterialityAdjudicationDecision]:
     """Replace weak approved quotes with stronger same-filing committed-debt clauses."""
 
-    by_hash_and_entity: dict[tuple[str, str], list[MaterialityAdjudicationDecision]] = {}
+    by_hash_and_entity: dict[tuple[str, str], list[_SemanticQuoteCandidate]] = {}
     for decision in decisions:
         entity_key = _entity_reselection_key(decision.entity)
         if not entity_key:
             continue
+        candidate = _SemanticQuoteCandidate(
+            packet_id=decision.packet_id,
+            evidence_quote=decision.evidence_quote,
+            evidence_quote_refs=decision.evidence_quote_refs,
+            allow_general_reselection=True,
+        )
         for content_hash in decision.content_hashes or (decision.content_hash,):
             if content_hash:
-                by_hash_and_entity.setdefault((content_hash, entity_key), []).append(decision)
+                by_hash_and_entity.setdefault((content_hash, entity_key), []).append(candidate)
+    for packet in packets or []:
+        entity_key = _entity_reselection_key(_field(packet, "entity"))
+        if not entity_key:
+            continue
+        for snippet in _json_dicts(packet.get("evidence_snippets")):
+            quote = _clean_snippet_text(str(snippet.get("snippet") or ""))
+            content_hash = str(snippet.get("content_hash") or _field(packet, "content_hash"))
+            if not quote or not content_hash:
+                continue
+            refs = tuple(
+                value
+                for value in [
+                    str(snippet.get("source_uri") or _field(packet, "source_uri")),
+                    content_hash,
+                    str(snippet.get("document_id") or ""),
+                ]
+                if value
+            )
+            candidate = _SemanticQuoteCandidate(
+                packet_id=_field(packet, "packet_id"),
+                evidence_quote=quote,
+                evidence_quote_refs=refs,
+                allow_general_reselection=False,
+            )
+            by_hash_and_entity.setdefault((content_hash, entity_key), []).append(candidate)
 
     reselected: list[MaterialityAdjudicationDecision] = []
     for decision in decisions:
@@ -1569,11 +1613,16 @@ def _reselect_semantic_quotes(
 
 def _semantic_quote_reselection_candidate(
     decision: MaterialityAdjudicationDecision,
-    by_hash_and_entity: dict[tuple[str, str], list[MaterialityAdjudicationDecision]],
+    by_hash_and_entity: dict[tuple[str, str], list[_SemanticQuoteCandidate]],
 ) -> MaterialityAdjudicationDecision | None:
     if decision.metric_use_status != "approved_for_metric_use":
         return None
-    if _report_semantic_bucket(decision) != SemanticEvidenceBucket.INDETERMINATE:
+    semantic_bucket = _report_semantic_bucket(decision)
+    needs_exact_amount_quote = not _exact_amount_committed_reselection_quote(
+        decision.evidence_quote,
+        decision.exposure_basis_usd,
+    )
+    if semantic_bucket != SemanticEvidenceBucket.INDETERMINATE and not needs_exact_amount_quote:
         return None
 
     entity_key = _entity_reselection_key(decision.entity)
@@ -1582,46 +1631,150 @@ def _semantic_quote_reselection_candidate(
 
     terms = _decision_quote_terms(decision)
     current_score = _quote_score(decision.evidence_quote, terms)
-    candidates: list[MaterialityAdjudicationDecision] = []
-    seen_packet_ids: set[str] = set()
+    candidates: list[tuple[_SemanticQuoteCandidate, str]] = []
+    seen_candidates: set[tuple[str, tuple[str, ...], str]] = set()
     for content_hash in decision.content_hashes or (decision.content_hash,):
         for candidate in by_hash_and_entity.get((content_hash, entity_key), []):
-            if candidate.packet_id == decision.packet_id or candidate.packet_id in seen_packet_ids:
+            if candidate.packet_id == decision.packet_id:
                 continue
-            seen_packet_ids.add(candidate.packet_id)
-            if _is_stronger_semantic_reselection_quote(
+            candidate_key = (
+                candidate.packet_id,
+                candidate.evidence_quote_refs,
+                candidate.evidence_quote[:160],
+            )
+            if candidate_key in seen_candidates:
+                continue
+            seen_candidates.add(candidate_key)
+            replacement_quote = _semantic_reselection_quote(
                 candidate.evidence_quote,
                 terms,
                 current_score,
-            ):
-                candidates.append(candidate)
+                decision.exposure_basis_usd,
+                allow_general_reselection=(
+                    candidate.allow_general_reselection
+                    and semantic_bucket == SemanticEvidenceBucket.INDETERMINATE
+                ),
+            )
+            if replacement_quote:
+                candidates.append((candidate, replacement_quote))
     if not candidates:
         return None
 
-    best = max(candidates, key=lambda candidate: _quote_score(candidate.evidence_quote, terms))
+    best, best_quote = max(
+        candidates,
+        key=lambda item: _quote_score(item[1], terms),
+    )
+    reselect_reason = (
+        "because the original quote was semantically indeterminate"
+        if semantic_bucket == SemanticEvidenceBucket.INDETERMINATE
+        else "because the original quote lacked exact amount committed-instrument text"
+    )
     rationale = (
         f"{decision.rationale} Evidence quote reselected from same source filing "
-        f"packet {best.packet_id} because the original quote was semantically indeterminate."
+        f"packet {best.packet_id} {reselect_reason}."
     )
     return replace(
         decision,
-        evidence_quote=best.evidence_quote,
+        evidence_quote=best_quote,
         evidence_quote_refs=best.evidence_quote_refs,
         rationale=rationale,
     )
 
 
-def _is_stronger_semantic_reselection_quote(
+def _semantic_reselection_quote(
     quote: str,
     terms: list[str],
     current_score: int,
-) -> bool:
+    amount: float,
+    *,
+    allow_general_reselection: bool,
+) -> str:
+    if exact_quote := _exact_amount_committed_reselection_quote(quote, amount):
+        return exact_quote
+    if not allow_general_reselection:
+        return ""
     if classify_claim_semantics(quote) != SemanticEvidenceBucket.COMMITTED_DEBT:
-        return False
+        return ""
     quote_lower = quote.lower()
     if not _contains_any(quote_lower, list(STRONG_COMMITTED_DEBT_RESELECTION_MARKERS)):
-        return False
-    return _quote_score(quote, terms) > current_score
+        return ""
+    return quote if _quote_score(quote, terms) > current_score else ""
+
+
+def _exact_amount_committed_reselection_quote(quote: str, amount: float) -> str:
+    if amount <= 0:
+        return ""
+    for candidate_amount, amount_span in _usd_nominal_amount_matches(quote):
+        if not _amounts_close(amount, candidate_amount, tolerance=0.02):
+            continue
+        if _exact_amount_reselection_blocked_context(quote, amount_span):
+            continue
+        if _has_committed_instrument_phrase_near_amount(quote, amount_span):
+            return _trim_window_around_span(quote, amount_span, max_len=650)
+    return ""
+
+
+def _exact_amount_reselection_blocked_context(
+    text: str,
+    amount_span: tuple[int, int],
+) -> bool:
+    context = text[max(0, amount_span[0] - 140) : amount_span[1] + 180].lower()
+    blocked_patterns = [
+        r"\bability\s+to\s+borrow\b",
+        r"\bborrow\s+up\s+to\b",
+        r"\bup\s+to\s+an\s+additional\b",
+        r"\bavailable\s+under\b",
+        r"\bavailability\s+under\b",
+        r"\bunused\b",
+        r"\bunborrowed\b",
+        r"\bcommercial\s+paper\s+program\b",
+    ]
+    return any(re.search(pattern, context) for pattern in blocked_patterns)
+
+
+def _has_committed_instrument_phrase_near_amount(
+    text: str,
+    amount_span: tuple[int, int],
+    *,
+    max_distance: int = 35,
+) -> bool:
+    phrase_patterns = [
+        r"\baggregate\s+principal\s+amount\b",
+        r"\bnotes?\s+due\s+\d{4}\b",
+        r"\bsenior\s+(?:secured|unsecured)\s+notes?\b",
+        r"\brevolving\s+credit\s+facility\b",
+        r"\bdelayed\s+draw\s+term\s+loan\s+facility\b",
+        r"\bterm\s+loan\s+facility\b",
+    ]
+    lowered = text.lower()
+    for pattern in phrase_patterns:
+        for match in re.finditer(pattern, lowered):
+            if _span_distance(amount_span, match.span()) <= max_distance:
+                return True
+    return False
+
+
+def _span_distance(left: tuple[int, int], right: tuple[int, int]) -> int:
+    if left[1] < right[0]:
+        return right[0] - left[1]
+    if right[1] < left[0]:
+        return left[0] - right[1]
+    return 0
+
+
+def _trim_window_around_span(
+    text: str,
+    span: tuple[int, int],
+    *,
+    max_len: int,
+) -> str:
+    if len(text) <= max_len:
+        return text.strip()
+    center = (span[0] + span[1]) // 2
+    start = max(0, center - (max_len // 2))
+    if start + max_len > len(text):
+        start = max(0, len(text) - max_len)
+    return text[start : start + max_len].strip()
 
 
 def _report_semantic_bucket(decision: MaterialityAdjudicationDecision) -> SemanticEvidenceBucket:
@@ -1800,7 +1953,8 @@ def _economic_quote_metric_dedupe_key(
         return None
     entity_key = re.sub(r"[^a-z0-9]+", "-", decision.entity.lower()).strip("-")
     amount_key = _metric_amount_key(decision.supported_amount_usd)
-    quote_key = _normalized_quote_fingerprint(decision.evidence_quote)
+    stable_quote = decision.metric_dedupe_quote or decision.evidence_quote
+    quote_key = _normalized_quote_fingerprint(stable_quote)
     if not entity_key or not amount_key or amount_key == "0" or not quote_key:
         return None
     return "economic-quote", (entity_key, amount_key), quote_key
@@ -2353,6 +2507,29 @@ def _usd_nominal_amounts(text: str) -> list[float]:
     for pattern in patterns:
         amounts.extend(_nominal_amounts_from_pattern(text, pattern))
     return amounts
+
+
+def _usd_nominal_amount_matches(text: str) -> list[tuple[float, tuple[int, int]]]:
+    patterns = [
+        r"\bUS\$\s*(?P<amount>\d+(?:,\d{3})*(?:\.\d+)?)\s*"
+        r"(?P<unit>trillion|billion|million|bn|b|m)?\b",
+        r"(?<![A-Za-z])\$\s*(?P<amount>\d+(?:,\d{3})*(?:\.\d+)?)\s*"
+        r"(?P<unit>trillion|billion|million|bn|b|m)?\b",
+    ]
+    matches: list[tuple[float, tuple[int, int]]] = []
+    for pattern in patterns:
+        for match in re.finditer(pattern, text, flags=re.IGNORECASE):
+            amount = _float(match.group("amount").replace(",", ""))
+            unit = (match.group("unit") or "").lower()
+            if unit in {"trillion"}:
+                amount *= 1_000_000_000_000
+            elif unit in {"billion", "bn", "b"}:
+                amount *= 1_000_000_000
+            elif unit in {"million", "m"}:
+                amount *= 1_000_000
+            if amount > 0:
+                matches.append((amount, match.span()))
+    return matches
 
 
 def _nominal_amounts_from_pattern(text: str, pattern: str) -> list[float]:

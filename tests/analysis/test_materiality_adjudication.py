@@ -1839,6 +1839,434 @@ def test_materiality_adjudication_reselects_stronger_same_filing_semantic_quote(
     assert "packet-strong-sibling" in peripheral.rationale
 
 
+def test_materiality_adjudication_reselects_exact_amount_committed_snippet(
+    tmp_path: Path,
+) -> None:
+    shared_hash = "x" * 64
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-amazon-peripheral-series-list",
+                "rank": 1,
+                "review_id": "review-amazon-peripheral-series-list",
+                "review_group_id": "group-amazon-peripheral-series-list",
+                "priority": "high",
+                "category": "contract",
+                "subcategory": "contract_tranche_terms",
+                "ecosystem_relevance": "watchlist_entity",
+                "entity": "AMAZON COM INC",
+                "counterparty": "underwriters",
+                "exposure_basis_usd": "6000000000",
+                "reason": (
+                    "pending contract tranche review; tranche: Notes; "
+                    "notional $6,000,000,000; interest rate 0.0385; "
+                    "collateral terms present; guarantee scope present"
+                ),
+                "recommended_action": "Reselect exact amount note clause.",
+                "source_uri": "https://www.sec.gov/amazon-notes.htm",
+                "source_uris": json.dumps(["https://www.sec.gov/amazon-notes.htm"]),
+                "content_hash": shared_hash,
+                "content_hashes": json.dumps([shared_hash]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/amazon-notes.htm",
+                            "content_hash": shared_hash,
+                            "document_id": "amazon-notes.htm",
+                            "snippet": (
+                                "2029 Floating Rate Notes, 2028 Notes, 2029 Notes, "
+                                "2031 Notes, 2033 Notes, 2036 Notes, 2046 Notes, "
+                                "2056 Notes, and 2066 Notes, the Notes, pursuant "
+                                "to an Underwriting Agreement among the Company and "
+                                "J.P. Morgan Securities LLC."
+                            ),
+                        }
+                    ]
+                ),
+            },
+            {
+                "packet_id": "packet-amazon-exact-amount-sibling",
+                "rank": 2,
+                "review_id": "review-amazon-exact-amount-sibling",
+                "review_group_id": "group-amazon-exact-amount-sibling",
+                "priority": "high",
+                "category": "capital",
+                "subcategory": "high_notional_debt_like_candidate",
+                "ecosystem_relevance": "watchlist_entity",
+                "entity": "AMAZON COM INC",
+                "counterparty": "noteholders",
+                "exposure_basis_usd": "6000000000",
+                "reason": (
+                    "debt-like deal type: bond; notional $6,000,000,000; "
+                    "notional context: transaction_principal; "
+                    "collateral terms present; guarantee scope present"
+                ),
+                "recommended_action": "Confirm exact amount note clause.",
+                "source_uri": "https://www.sec.gov/amazon-notes.htm",
+                "source_uris": json.dumps(["https://www.sec.gov/amazon-notes.htm"]),
+                "content_hash": shared_hash,
+                "content_hashes": json.dumps([shared_hash]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/amazon-notes.htm",
+                            "content_hash": shared_hash,
+                            "document_id": "amazon-notes.htm",
+                            "snippet": (
+                                "The Company issued $6,000,000,000 aggregate "
+                                "principal amount of its 4.875% notes due 2036 "
+                                "under the supplemental indenture."
+                            ),
+                        }
+                    ]
+                ),
+            },
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    peripheral = next(
+        decision
+        for decision in batch.decisions
+        if decision.packet_id == "packet-amazon-peripheral-series-list"
+    )
+    assert peripheral.metric_use_status == "approved_for_metric_use"
+    assert "$6,000,000,000 aggregate principal amount" in peripheral.evidence_quote
+    assert "4.875% notes due 2036" in peripheral.evidence_quote
+    assert "packet-amazon-exact-amount-sibling" in peripheral.rationale
+
+
+def test_materiality_adjudication_quote_reselection_preserves_metric_dedupe(
+    tmp_path: Path,
+) -> None:
+    weak_quote = (
+        "2029 Floating Rate Notes, 2028 Notes, 2029 Notes, 2031 Notes, "
+        "2033 Notes, 2036 Notes, 2046 Notes, 2056 Notes, and 2066 Notes, "
+        "the Notes, pursuant to an Underwriting Agreement among the Company "
+        "and J.P. Morgan Securities LLC."
+    )
+    exact_quote = (
+        "The Company issued $6,000,000,000 aggregate principal amount of "
+        "its 4.875% notes due 2036 under the supplemental indenture."
+    )
+    hash_a = "a" * 64
+    hash_b = "b" * 64
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-reselect-target",
+                "rank": 1,
+                "review_id": "review-reselect-target",
+                "review_group_id": "group-reselect-target",
+                "priority": "high",
+                "category": "contract",
+                "subcategory": "contract_tranche_terms",
+                "ecosystem_relevance": "watchlist_entity",
+                "entity": "Example Cloud Corp.",
+                "counterparty": "underwriters",
+                "exposure_basis_usd": "6000000000",
+                "reason": (
+                    "pending contract tranche review; tranche: Notes; "
+                    "notional $6,000,000,000; interest rate 0.04875; "
+                    "collateral terms present; guarantee scope present"
+                ),
+                "recommended_action": "Reselect exact amount note clause.",
+                "source_uri": "https://www.sec.gov/example-notes-a.htm",
+                "source_uris": json.dumps(["https://www.sec.gov/example-notes-a.htm"]),
+                "content_hash": hash_a,
+                "content_hashes": json.dumps([hash_a]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/example-notes-a.htm",
+                            "content_hash": hash_a,
+                            "document_id": "example-notes-a.htm",
+                            "snippet": weak_quote,
+                        }
+                    ]
+                ),
+            },
+            {
+                "packet_id": "packet-exact-amount-snippet",
+                "rank": 2,
+                "review_id": "review-exact-amount-snippet",
+                "review_group_id": "group-exact-amount-snippet",
+                "priority": "low",
+                "category": "physical",
+                "subcategory": "permitting_watch",
+                "ecosystem_relevance": "not_tagged",
+                "entity": "Example Cloud Corp.",
+                "counterparty": "",
+                "exposure_basis_usd": "0",
+                "reason": "non-metric packet carrying a better same-filing snippet",
+                "recommended_action": "Do not count as a metric row.",
+                "source_uri": "https://www.sec.gov/example-notes-a.htm",
+                "source_uris": json.dumps(["https://www.sec.gov/example-notes-a.htm"]),
+                "content_hash": hash_a,
+                "content_hashes": json.dumps([hash_a]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/example-notes-a.htm",
+                            "content_hash": hash_a,
+                            "document_id": "example-notes-a.htm",
+                            "snippet": exact_quote,
+                        }
+                    ]
+                ),
+            },
+            {
+                "packet_id": "packet-repeat-disclosure",
+                "rank": 3,
+                "review_id": "review-repeat-disclosure",
+                "review_group_id": "group-repeat-disclosure",
+                "priority": "high",
+                "category": "capital",
+                "subcategory": "high_notional_debt_like_candidate",
+                "ecosystem_relevance": "watchlist_entity",
+                "entity": "Example Cloud Corp.",
+                "counterparty": "trustee",
+                "exposure_basis_usd": "6000000000",
+                "reason": (
+                    "debt-like deal type: bond; notional $6,000,000,000; "
+                    "notional context: transaction_principal; "
+                    "collateral terms present; guarantee scope present"
+                ),
+                "recommended_action": "Repeated disclosure of the same obligation.",
+                "source_uri": "https://www.sec.gov/example-notes-b.htm",
+                "source_uris": json.dumps(["https://www.sec.gov/example-notes-b.htm"]),
+                "content_hash": hash_b,
+                "content_hashes": json.dumps([hash_b]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/example-notes-b.htm",
+                            "content_hash": hash_b,
+                            "document_id": "example-notes-b.htm",
+                            "snippet": weak_quote,
+                        }
+                    ]
+                ),
+            },
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    target = next(
+        decision for decision in batch.decisions if decision.packet_id == "packet-reselect-target"
+    )
+    assert target.metric_use_status == "approved_for_metric_use"
+    assert "2029 Floating Rate Notes" in target.metric_dedupe_quote
+    assert "$6,000,000,000 aggregate principal amount" not in target.metric_dedupe_quote
+    assert "$6,000,000,000 aggregate principal amount" in target.evidence_quote
+    assert batch.summary.approved_for_metric_use == 2
+    assert batch.summary.approved_row_supported_amount_usd == 12_000_000_000
+    assert batch.summary.final_metric_supported_amount_usd == 6_000_000_000
+    assert batch.summary.final_metric_group_count == 1
+
+
+def test_materiality_adjudication_does_not_reselect_exact_amount_boilerplate(
+    tmp_path: Path,
+) -> None:
+    shared_hash = "y" * 64
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-fee-table-target",
+                "rank": 1,
+                "review_id": "review-fee-table-target",
+                "review_group_id": "group-fee-table-target",
+                "priority": "high",
+                "category": "capital",
+                "subcategory": "high_notional_debt_like_candidate",
+                "ecosystem_relevance": "not_tagged",
+                "entity": "GE Vernova Inc.",
+                "counterparty": "underwriters",
+                "exposure_basis_usd": "2567180000",
+                "reason": (
+                    "debt-like deal type: bond; notional $2,567,180,000; "
+                    "notional context: transaction_principal; "
+                    "collateral terms present; guarantee scope present"
+                ),
+                "recommended_action": "Do not promote filing fee table.",
+                "source_uri": "https://www.sec.gov/ge-vernova-fee-table.htm",
+                "source_uris": json.dumps(["https://www.sec.gov/ge-vernova-fee-table.htm"]),
+                "content_hash": shared_hash,
+                "content_hashes": json.dumps([shared_hash]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/ge-vernova-fee-table.htm",
+                            "content_hash": shared_hash,
+                            "document_id": "ge-vernova-fee-table.htm",
+                            "snippet": (
+                                "The notes were offered pursuant to a prospectus "
+                                "supplement and an underwriting agreement."
+                            ),
+                        }
+                    ]
+                ),
+            },
+            {
+                "packet_id": "packet-fee-table-sibling",
+                "rank": 2,
+                "review_id": "review-fee-table-sibling",
+                "review_group_id": "group-fee-table-sibling",
+                "priority": "high",
+                "category": "capital",
+                "subcategory": "high_notional_debt_like_candidate",
+                "ecosystem_relevance": "not_tagged",
+                "entity": "GE Vernova Inc.",
+                "counterparty": "registrant",
+                "exposure_basis_usd": "2567180000",
+                "reason": (
+                    "debt-like deal type: bond; notional $2,567,180,000; "
+                    "notional context: transaction_principal; "
+                    "collateral terms present; guarantee scope present"
+                ),
+                "recommended_action": "Reject fee-table amount as quote replacement.",
+                "source_uri": "https://www.sec.gov/ge-vernova-fee-table.htm",
+                "source_uris": json.dumps(["https://www.sec.gov/ge-vernova-fee-table.htm"]),
+                "content_hash": shared_hash,
+                "content_hashes": json.dumps([shared_hash]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/ge-vernova-fee-table.htm",
+                            "content_hash": shared_hash,
+                            "document_id": "ge-vernova-fee-table.htm",
+                            "snippet": (
+                                "CALCULATION OF FILING FEE TABLE. Maximum aggregate "
+                                "offering amount $2,567,180,000. Total fees "
+                                "previously paid were offset against the registration fee."
+                            ),
+                        }
+                    ]
+                ),
+            },
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    target = next(
+        decision for decision in batch.decisions if decision.packet_id == "packet-fee-table-target"
+    )
+    assert target.metric_use_status == "approved_for_metric_use"
+    assert "FILING FEE TABLE" not in target.evidence_quote
+    assert "packet-fee-table-sibling" not in target.rationale
+
+
+def test_materiality_adjudication_does_not_reselect_capacity_quote_as_exact_amount(
+    tmp_path: Path,
+) -> None:
+    shared_hash = "z" * 64
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-capacity-target",
+                "rank": 1,
+                "review_id": "review-capacity-target",
+                "review_group_id": "group-capacity-target",
+                "priority": "high",
+                "category": "capital",
+                "subcategory": "high_notional_debt_like_candidate",
+                "ecosystem_relevance": "not_tagged",
+                "entity": "Oracle Example Corp.",
+                "counterparty": "underwriters",
+                "exposure_basis_usd": "9900000000",
+                "reason": (
+                    "debt-like deal type: bond; notional $9,900,000,000; "
+                    "notional context: transaction_principal; "
+                    "collateral terms present; guarantee scope present"
+                ),
+                "recommended_action": "Do not promote capacity language.",
+                "source_uri": "https://www.sec.gov/oracle-capacity.htm",
+                "source_uris": json.dumps(["https://www.sec.gov/oracle-capacity.htm"]),
+                "content_hash": shared_hash,
+                "content_hashes": json.dumps([shared_hash]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/oracle-capacity.htm",
+                            "content_hash": shared_hash,
+                            "document_id": "oracle-capacity.htm",
+                            "snippet": (
+                                "The notes are senior unsecured obligations and "
+                                "were offered under the underwriting agreement."
+                            ),
+                        }
+                    ]
+                ),
+            },
+            {
+                "packet_id": "packet-capacity-sibling",
+                "rank": 2,
+                "review_id": "review-capacity-sibling",
+                "review_group_id": "group-capacity-sibling",
+                "priority": "high",
+                "category": "capital",
+                "subcategory": "high_notional_debt_like_candidate",
+                "ecosystem_relevance": "not_tagged",
+                "entity": "Oracle Example Corp.",
+                "counterparty": "lenders",
+                "exposure_basis_usd": "9900000000",
+                "reason": (
+                    "debt-like deal type: debt_facility; notional $9,900,000,000; "
+                    "notional context: financing_capacity; "
+                    "collateral terms present; guarantee scope present"
+                ),
+                "recommended_action": "Capacity quote is not committed debt.",
+                "source_uri": "https://www.sec.gov/oracle-capacity.htm",
+                "source_uris": json.dumps(["https://www.sec.gov/oracle-capacity.htm"]),
+                "content_hash": shared_hash,
+                "content_hashes": json.dumps([shared_hash]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/oracle-capacity.htm",
+                            "content_hash": shared_hash,
+                            "document_id": "oracle-capacity.htm",
+                            "snippet": (
+                                "The company had the ability to borrow up to an "
+                                "additional $9.9 billion under its revolving "
+                                "credit facility and commercial paper program."
+                            ),
+                        }
+                    ]
+                ),
+            },
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    target = next(
+        decision for decision in batch.decisions if decision.packet_id == "packet-capacity-target"
+    )
+    assert target.metric_use_status == "approved_for_metric_use"
+    assert "ability to borrow" not in target.evidence_quote
+    assert "packet-capacity-sibling" not in target.rationale
+
+
 def test_materiality_adjudication_does_not_reselect_semantic_quote_across_entities(
     tmp_path: Path,
 ) -> None:
