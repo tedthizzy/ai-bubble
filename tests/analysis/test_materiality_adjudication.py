@@ -4130,7 +4130,7 @@ def test_materiality_adjudication_approves_aggregate_commitment_snapshot(
     assert batch.decisions[0].remaining_gap == ""
 
 
-def test_materiality_adjudication_approves_committed_lease_contract_value_snapshot(
+def test_materiality_adjudication_blocks_seller_side_lease_contract_revenue_snapshot(
     tmp_path: Path,
 ) -> None:
     _write_csv(
@@ -4145,7 +4145,7 @@ def test_materiality_adjudication_approves_committed_lease_contract_value_snapsh
                 "category": "capital",
                 "subcategory": "high_notional_debt_like_candidate",
                 "ecosystem_relevance": "direct_ai_infra",
-                "entity": "Example Compute Lessor Inc.",
+                "entity": "TeraWulf Inc.",
                 "counterparty": "",
                 "exposure_basis_usd": "12800000000",
                 "reason": (
@@ -4183,11 +4183,13 @@ def test_materiality_adjudication_approves_committed_lease_contract_value_snapsh
     )
 
     decision = batch.decisions[0]
-    assert decision.metric_use_status == "approved_for_metric_use"
-    assert decision.remaining_gap == ""
-    assert decision.metric_aggregation_policy == "latest_snapshot_per_metric_group"
-    assert decision.duplicate_or_aggregate == "yes"
-    assert "aggregate obligation snapshot" in decision.risk_bearer
+    assert decision.metric_use_status == "blocked_pending_extraction"
+    assert (
+        "separate seller-side contracted revenue from issuer debt obligation"
+        in decision.remaining_gap
+    )
+    assert decision.supported_amount_usd == 0
+    assert batch.summary.approved_for_metric_use == 0
 
 
 def test_materiality_adjudication_keeps_portfolio_upb_plus_issued_notes_blocked(

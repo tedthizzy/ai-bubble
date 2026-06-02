@@ -302,8 +302,7 @@ def _remaining_gaps(packet: dict[str, str], quote: str) -> list[str]:
     if _looks_like_resale_registration_not_committed_debt(packet, quote):
         gaps.append("distinguish resale registration from committed financing")
     gaps.extend(_currency_gaps(packet, quote))
-    if _aggregate_lease_context_conflicts_with_quote(packet, quote):
-        gaps.append("confirm lease obligation source rather than debt securities prospectus")
+    gaps.extend(_non_debt_obligation_snapshot_gaps(packet, quote))
     if _looks_like_asset_or_capacity_not_debt(
         packet, quote
     ) or _looks_like_undrawn_capacity_not_debt(packet, quote):
@@ -451,26 +450,41 @@ def _category_gaps(packet: dict[str, str], text: str, quote: str = "") -> list[s
     return gaps
 
 
+def _non_debt_obligation_snapshot_gaps(packet: dict[str, str], quote: str) -> list[str]:
+    gaps: list[str] = []
+    if _aggregate_lease_context_conflicts_with_quote(packet, quote):
+        gaps.append("confirm lease obligation source rather than debt securities prospectus")
+    if _looks_like_seller_side_contract_revenue(packet, quote):
+        gaps.append("separate seller-side contracted revenue from issuer debt obligation")
+    return gaps
+
+
 def _early_category_gap(packet: dict[str, str], text: str, text_lower: str) -> str | None:
     category = _field(packet, "category")
-    if category == "capital" and _is_source_backed_aggregate_obligation_snapshot(packet, text):
-        return ""
-    if category == "capital" and _is_non_specific_capital_candidate_without_term_evidence(
+    gap: str | None = None
+    if category in {"capital", "contract"} and _looks_like_seller_side_contract_revenue(
         packet, text
     ):
-        return "acquire underlying agreement or debt schedule clause for term-level extraction"
-    if category in {"capital", "contract"} and _looks_like_non_contract_financing_disclosure(
+        gap = "separate seller-side contracted revenue from issuer debt obligation"
+    elif category == "capital" and _is_source_backed_aggregate_obligation_snapshot(packet, text):
+        gap = ""
+    elif category == "capital" and _is_non_specific_capital_candidate_without_term_evidence(
+        packet, text
+    ):
+        gap = "acquire underlying agreement or debt schedule clause for term-level extraction"
+    elif category in {"capital", "contract"} and _looks_like_non_contract_financing_disclosure(
         text_lower
     ):
         if category == "capital":
-            return "split aggregate disclosure from specific committed obligation"
-        return "acquire underlying agreement or debt schedule clause for term-level extraction"
-    if category == "capital" and _requires_aggregate_split(packet, text):
+            gap = "split aggregate disclosure from specific committed obligation"
+        else:
+            gap = "acquire underlying agreement or debt schedule clause for term-level extraction"
+    elif category == "capital" and _requires_aggregate_split(packet, text):
         # Aggregate/shelf rows are blocked on committed-obligation splitting first.
         # Do not stack term-level party/collateral/recourse gaps until a specific
         # contract-level source row is extracted.
-        return ""
-    return None
+        gap = ""
+    return gap
 
 
 def _is_note_offering_without_named_counterparty(
@@ -3004,6 +3018,8 @@ def _has_strong_mega_committed_debt_evidence(packet: dict[str, str], quote: str)
 
 
 def _is_committed_contract_value_disclosure(packet: dict[str, str], text: str) -> bool:
+    if _looks_like_seller_side_contract_revenue(packet, text):
+        return False
     reason = _field(packet, "reason").lower()
     is_lease_or_service_contract = _contains_any(
         reason,
@@ -3053,6 +3069,51 @@ def _is_committed_contract_value_disclosure(packet: dict[str, str], text: str) -
             "total consolidated long-term debt",
         ],
     )
+
+
+def _looks_like_seller_side_contract_revenue(packet: dict[str, str], quote: str) -> bool:
+    if _field(packet, "category") not in {"capital", "contract"}:
+        return False
+    text = _combined_text(packet, quote)
+    if _contains_any(
+        text,
+        [
+            "future lease payments",
+            "minimum lease payments",
+            "lease obligations",
+            "finance lease obligations",
+            "operating lease obligations",
+            "not yet recorded on our consolidated balance sheets",
+        ],
+    ):
+        return False
+    has_contract_value = _contains_any(
+        text,
+        [
+            "aggregate contractual value",
+            "total contract value",
+            "contractual value",
+            "contract value",
+            "minimum contracted revenue",
+            "contracted revenue",
+            "anticipated rental revenue",
+            "estimated cumulative revenue",
+        ],
+    )
+    has_provider_lease_context = _contains_any(
+        text,
+        [
+            "hpc lease agreements",
+            "lease agreements representing",
+            "lease with",
+            "hosting agreements",
+            "colocation agreements",
+            "customer contracts",
+            "supported by google's credit",
+            "supported by google s credit",
+        ],
+    )
+    return has_contract_value and has_provider_lease_context
 
 
 def _looks_like_debt_outstanding_snapshot(text: str) -> bool:
