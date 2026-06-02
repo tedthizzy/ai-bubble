@@ -562,6 +562,30 @@ def report_answer_metric_audits(  # noqa: PLR0912, PLR0915
         timing_evidence,
     )
     add(
+        "timing.capital_refinancing_forward_from_as_of",
+        "Forward timing-signal capital refinancing from the report as-of quarter",
+        timing_signal_summary.get("capital_refinancing_forward_from_as_of_usd"),
+        timing_evidence,
+    )
+    add(
+        "timing.ai_infra_capital_refinancing_forward_from_as_of",
+        "Forward AI-infra-relevant timing-signal capital refinancing from the report as-of quarter",
+        timing_signal_summary.get("ai_infra_capital_refinancing_forward_from_as_of_usd"),
+        timing_evidence,
+    )
+    add(
+        "timing.capital_refinancing_historical_to_as_of",
+        "Historical-to-as-of timing-signal capital refinancing included in the 2024-2030 wall",
+        timing_signal_summary.get("capital_refinancing_historical_to_as_of_usd"),
+        timing_evidence,
+    )
+    add(
+        "timing.ai_infra_capital_refinancing_historical_to_as_of",
+        "Historical-to-as-of AI-infra timing-signal capital refinancing included in the 2024-2030 wall",
+        timing_signal_summary.get("ai_infra_capital_refinancing_historical_to_as_of_usd"),
+        timing_evidence,
+    )
+    add(
         "timing.compute_amount_2024_2030",
         "Source-backed compute timing-signal amount through 2030",
         timing_signal_summary.get("compute_amount_usd_2024_2030"),
@@ -1462,6 +1486,24 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:
         "timing_signal_ai_infra_capital_refinancing_usd_2024_2030": (
             timing_signal_summary.get("ai_infra_capital_refinancing_usd_2024_2030", 0)
         ),
+        "timing_signal_capital_refinancing_forward_from_as_of_usd": (
+            timing_signal_summary.get("capital_refinancing_forward_from_as_of_usd", 0)
+        ),
+        "timing_signal_ai_infra_capital_refinancing_forward_from_as_of_usd": (
+            timing_signal_summary.get(
+                "ai_infra_capital_refinancing_forward_from_as_of_usd",
+                0,
+            )
+        ),
+        "timing_signal_forward_refinancing_as_of_quarter": (
+            timing_signal_summary.get("forward_refinancing_as_of_quarter")
+        ),
+        "timing_signal_forward_peak_refinancing_quarter": (
+            timing_signal_summary.get("forward_peak_refinancing_quarter")
+        ),
+        "timing_signal_forward_peak_ai_infra_refinancing_quarter": (
+            timing_signal_summary.get("forward_peak_ai_infra_refinancing_quarter")
+        ),
         "timing_signal_physical_capacity_mw_2024_2030": timing_signal_summary.get(
             "physical_capacity_mw_2024_2030",
             0,
@@ -2034,6 +2076,50 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:
                 "current_timing_ai_infra_capital_refinancing_usd_2024_2030": (
                     timing_signal_summary.get(
                         "ai_infra_capital_refinancing_usd_2024_2030",
+                        0,
+                    )
+                ),
+                "current_timing_forward_refinancing_as_of_quarter": (
+                    timing_signal_summary.get("forward_refinancing_as_of_quarter")
+                ),
+                "current_timing_capital_refinancing_historical_to_as_of_usd": (
+                    timing_signal_summary.get(
+                        "capital_refinancing_historical_to_as_of_usd",
+                        0,
+                    )
+                ),
+                "current_timing_ai_infra_capital_refinancing_historical_to_as_of_usd": (
+                    timing_signal_summary.get(
+                        "ai_infra_capital_refinancing_historical_to_as_of_usd",
+                        0,
+                    )
+                ),
+                "current_timing_capital_refinancing_forward_from_as_of_usd": (
+                    timing_signal_summary.get(
+                        "capital_refinancing_forward_from_as_of_usd",
+                        0,
+                    )
+                ),
+                "current_timing_ai_infra_capital_refinancing_forward_from_as_of_usd": (
+                    timing_signal_summary.get(
+                        "ai_infra_capital_refinancing_forward_from_as_of_usd",
+                        0,
+                    )
+                ),
+                "current_timing_forward_peak_refinancing_quarter": (
+                    timing_signal_summary.get("forward_peak_refinancing_quarter")
+                ),
+                "current_timing_forward_peak_refinancing_usd": (
+                    timing_signal_summary.get("forward_peak_refinancing_usd", 0)
+                ),
+                "current_timing_forward_peak_ai_infra_refinancing_quarter": (
+                    timing_signal_summary.get(
+                        "forward_peak_ai_infra_refinancing_quarter"
+                    )
+                ),
+                "current_timing_forward_peak_ai_infra_refinancing_usd": (
+                    timing_signal_summary.get(
+                        "forward_peak_ai_infra_refinancing_usd",
                         0,
                     )
                 ),

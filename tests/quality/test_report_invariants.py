@@ -19,6 +19,8 @@ def test_consistent_report_has_no_invariant_violations() -> None:
             "materiality_adjudication_decisions": 20,
             "timing_signal_ai_infra_capital_refinancing_usd_2024_2030": 400,
             "timing_signal_capital_refinancing_usd_2024_2030": 500,
+            "timing_signal_capital_refinancing_forward_from_as_of_usd": 200,
+            "timing_signal_ai_infra_capital_refinancing_forward_from_as_of_usd": 150,
             "tracker_distinct_capacity_high_mw": 90,
             "tracker_capacity_high_mw": 100,
         }
@@ -36,6 +38,9 @@ def test_invariant_checker_flags_superset_violations() -> None:
             "capital_total_notional_usd": 1_200,
             "materiality_adjudication_final_metric_supported_amount_usd": 1_300,
             "materiality_adjudication_approved_row_supported_amount_usd": 1_100,
+            "timing_signal_capital_refinancing_usd_2024_2030": 500,
+            "timing_signal_capital_refinancing_forward_from_as_of_usd": 600,
+            "timing_signal_ai_infra_capital_refinancing_forward_from_as_of_usd": 550,
         }
     }
 
@@ -44,6 +49,7 @@ def test_invariant_checker_flags_superset_violations() -> None:
     assert {item.name for item in violations} == {
         "capital distinct debt-like notional <= debt-like notional",
         "materiality final metric <= approved row supported amount",
+        "forward timing wall <= total timing wall",
     }
 
 

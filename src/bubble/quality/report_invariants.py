@@ -66,6 +66,14 @@ def check_report_invariants(
         "timing_capital_refinancing_usd_2024_2030": _num(
             key_metrics.get("timing_signal_capital_refinancing_usd_2024_2030")
         ),
+        "timing_capital_refinancing_forward_from_as_of_usd": _num(
+            key_metrics.get("timing_signal_capital_refinancing_forward_from_as_of_usd")
+        ),
+        "timing_ai_infra_capital_refinancing_forward_from_as_of_usd": _num(
+            key_metrics.get(
+                "timing_signal_ai_infra_capital_refinancing_forward_from_as_of_usd"
+            )
+        ),
         "tracker_distinct_capacity_high_mw": _num(
             key_metrics.get("tracker_distinct_capacity_high_mw")
         ),
@@ -102,6 +110,21 @@ def check_report_invariants(
             "AI-infra timing wall <= total timing wall",
             figures["timing_ai_infra_capital_refinancing_usd_2024_2030"],
             figures["timing_capital_refinancing_usd_2024_2030"],
+        ),
+        _le(
+            "forward timing wall <= total timing wall",
+            figures["timing_capital_refinancing_forward_from_as_of_usd"],
+            figures["timing_capital_refinancing_usd_2024_2030"],
+        ),
+        _le(
+            "AI-infra forward timing wall <= forward timing wall",
+            figures["timing_ai_infra_capital_refinancing_forward_from_as_of_usd"],
+            figures["timing_capital_refinancing_forward_from_as_of_usd"],
+        ),
+        _le(
+            "AI-infra forward timing wall <= AI-infra timing wall",
+            figures["timing_ai_infra_capital_refinancing_forward_from_as_of_usd"],
+            figures["timing_ai_infra_capital_refinancing_usd_2024_2030"],
         ),
         _le(
             "tracker distinct capacity <= raw tracker capacity",

@@ -33,6 +33,7 @@ MEGA_TIMING_OBLIGATION_REVIEW_THRESHOLD_USD = 50_000_000_000
 
 START_YEAR = 2024
 END_YEAR = 2030
+FORWARD_REFINANCING_AS_OF_QUARTER = "2026-Q2"
 SEVERITY_ORDER = {"critical": 0, "high": 1, "medium": 2, "watch": 3}
 SEVERITY_WEIGHT = {"critical": 4.0, "high": 3.0, "medium": 2.0, "watch": 1.0}
 
@@ -108,6 +109,15 @@ class TimingSignalSummary:
     candidate_stress_window_end: str | None
     capital_refinancing_usd_2024_2030: float
     ai_infra_capital_refinancing_usd_2024_2030: float
+    capital_refinancing_historical_to_as_of_usd: float
+    ai_infra_capital_refinancing_historical_to_as_of_usd: float
+    capital_refinancing_forward_from_as_of_usd: float
+    ai_infra_capital_refinancing_forward_from_as_of_usd: float
+    forward_refinancing_as_of_quarter: str
+    forward_peak_refinancing_quarter: str | None
+    forward_peak_ai_infra_refinancing_quarter: str | None
+    forward_peak_refinancing_usd: float
+    forward_peak_ai_infra_refinancing_usd: float
     physical_capacity_mw_2024_2030: float
     compute_amount_usd_2024_2030: float
     chip_supply_capacity_mw_2024_2030: float
@@ -763,6 +773,28 @@ def _summary(signals: list[TimingSignal], quarters: list[TimingQuarter]) -> Timi
     peak = quarters[0].quarter if quarters else None
     high_quarters = [quarter.quarter for quarter in quarters if quarter.stress_score >= 0.6]
     sorted_high_quarters = sorted(high_quarters, key=_quarter_sort_key)
+    historical_capital_refinancing = _capital_refinancing_sum(
+        signals,
+        ai_infra_only=False,
+        forward=False,
+    )
+    historical_ai_refinancing = _capital_refinancing_sum(
+        signals,
+        ai_infra_only=True,
+        forward=False,
+    )
+    forward_capital_refinancing = _capital_refinancing_sum(
+        signals,
+        ai_infra_only=False,
+        forward=True,
+    )
+    forward_ai_refinancing = _capital_refinancing_sum(
+        signals,
+        ai_infra_only=True,
+        forward=True,
+    )
+    forward_peak = _forward_peak_quarter(quarters, ai_infra_only=False)
+    forward_ai_peak = _forward_peak_quarter(quarters, ai_infra_only=True)
     return TimingSignalSummary(
         signals=len(signals),
         source_backed_signals=sum(1 for signal in signals if signal.source_uri),
@@ -787,6 +819,35 @@ def _summary(signals: list[TimingSignal], quarters: list[TimingQuarter]) -> Timi
             ),
             2,
         ),
+        capital_refinancing_historical_to_as_of_usd=round(
+            historical_capital_refinancing,
+            2,
+        ),
+        ai_infra_capital_refinancing_historical_to_as_of_usd=round(
+            historical_ai_refinancing,
+            2,
+        ),
+        capital_refinancing_forward_from_as_of_usd=round(
+            forward_capital_refinancing,
+            2,
+        ),
+        ai_infra_capital_refinancing_forward_from_as_of_usd=round(
+            forward_ai_refinancing,
+            2,
+        ),
+        forward_refinancing_as_of_quarter=FORWARD_REFINANCING_AS_OF_QUARTER,
+        forward_peak_refinancing_quarter=forward_peak.quarter if forward_peak else None,
+        forward_peak_ai_infra_refinancing_quarter=(
+            forward_ai_peak.quarter if forward_ai_peak else None
+        ),
+        forward_peak_refinancing_usd=(
+            round(forward_peak.capital_refinancing_usd, 2) if forward_peak else 0.0
+        ),
+        forward_peak_ai_infra_refinancing_usd=(
+            round(forward_ai_peak.ai_infra_capital_refinancing_usd, 2)
+            if forward_ai_peak
+            else 0.0
+        ),
         physical_capacity_mw_2024_2030=round(
             sum(signal.capacity_mw for signal in signals if signal.category == "physical"),
             2,
@@ -806,6 +867,55 @@ def _summary(signals: list[TimingSignal], quarters: list[TimingQuarter]) -> Timi
         top_quarters=top_quarters,
         top_signals=[signal.to_dict() for signal in signals[:25]],
     )
+
+
+def _capital_refinancing_sum(
+    signals: list[TimingSignal],
+    *,
+    ai_infra_only: bool,
+    forward: bool,
+) -> float:
+    return sum(
+        signal.amount_usd
+        for signal in signals
+        if signal.category == "capital"
+        and (not ai_infra_only or _is_ai_relevant(signal))
+        and _is_forward_refinancing_quarter(signal.quarter) == forward
+    )
+
+
+def _forward_peak_quarter(
+    quarters: list[TimingQuarter],
+    *,
+    ai_infra_only: bool,
+) -> TimingQuarter | None:
+    forward_quarters = [
+        quarter
+        for quarter in quarters
+        if _is_forward_refinancing_quarter(quarter.quarter)
+        and (
+            quarter.ai_infra_capital_refinancing_usd
+            if ai_infra_only
+            else quarter.capital_refinancing_usd
+        )
+        > 0
+    ]
+    if not forward_quarters:
+        return None
+    return max(
+        forward_quarters,
+        key=lambda quarter: (
+            quarter.ai_infra_capital_refinancing_usd
+            if ai_infra_only
+            else quarter.capital_refinancing_usd,
+            -_quarter_sort_key(quarter.quarter)[0],
+            -_quarter_sort_key(quarter.quarter)[1],
+        ),
+    )
+
+
+def _is_forward_refinancing_quarter(quarter: str) -> bool:
+    return _quarter_sort_key(quarter) >= _quarter_sort_key(FORWARD_REFINANCING_AS_OF_QUARTER)
 
 
 def _dedupe_signals(signals: list[TimingSignal]) -> list[TimingSignal]:

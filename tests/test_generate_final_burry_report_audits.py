@@ -176,6 +176,10 @@ def test_report_answer_metric_audits_cover_source_backed_rollup_values() -> None
         timing_signal_summary={
             "capital_refinancing_usd_2024_2030": 5_756_305_034_829.88,
             "ai_infra_capital_refinancing_usd_2024_2030": 292_289_419_740.72,
+            "capital_refinancing_forward_from_as_of_usd": 330_000_000_000,
+            "ai_infra_capital_refinancing_forward_from_as_of_usd": 110_000_000_000,
+            "capital_refinancing_historical_to_as_of_usd": 5_426_305_034_829.88,
+            "ai_infra_capital_refinancing_historical_to_as_of_usd": 182_289_419_740.72,
             "compute_amount_usd_2024_2030": 219_410_000_000,
             "top_quarters": [
                 {
@@ -213,6 +217,18 @@ def test_report_answer_metric_audits_cover_source_backed_rollup_values() -> None
                 ),
                 "current_timing_ai_infra_capital_refinancing_usd_2024_2030": (
                     292_289_419_740.72
+                ),
+                "current_timing_capital_refinancing_forward_from_as_of_usd": (
+                    330_000_000_000
+                ),
+                "current_timing_ai_infra_capital_refinancing_forward_from_as_of_usd": (
+                    110_000_000_000
+                ),
+                "current_timing_capital_refinancing_historical_to_as_of_usd": (
+                    5_426_305_034_829.88
+                ),
+                "current_timing_ai_infra_capital_refinancing_historical_to_as_of_usd": (
+                    182_289_419_740.72
                 ),
                 "current_timing_compute_amount_usd_2024_2030": 219_410_000_000,
                 "current_top_timing_quarters": [

@@ -367,6 +367,76 @@ def test_timing_signals_dedupe_repeated_capital_obligation_disclosures(
     assert {signal.quarter for signal in batch.signals} == {"2026-Q1", "2026-Q2"}
 
 
+def test_timing_summary_splits_historical_and_forward_refinancing_wall(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "edgar_acquisition" / "deals.csv",
+        [
+            {
+                "deal_id": "coreweave-past-q1",
+                "deal_type": "debt_facility",
+                "title": "CoreWeave AI data center credit agreement",
+                "primary_party": "CoreWeave",
+                "counterparty_roles": json.dumps({"lender": ["Bank Group"]}),
+                "notional_amount_usd": "5000000000",
+                "maturity_date": "2026-03-31",
+                "source_uri": "https://www.sec.gov/coreweave-q1.htm",
+                "source_confidence": "0.84",
+                "human_review_status": "pending",
+                "page_or_section": "8-K credit agreement",
+                "content_hash": "hash-coreweave-q1",
+                "key_terms": json.dumps({"notional_context_kind": "transaction_facility"}),
+            },
+            {
+                "deal_id": "coreweave-forward-q2",
+                "deal_type": "debt_facility",
+                "title": "CoreWeave AI data center credit agreement",
+                "primary_party": "CoreWeave",
+                "counterparty_roles": json.dumps({"lender": ["Bank Group"]}),
+                "notional_amount_usd": "7000000000",
+                "maturity_date": "2026-06-30",
+                "source_uri": "https://www.sec.gov/coreweave-q2.htm",
+                "source_confidence": "0.84",
+                "human_review_status": "pending",
+                "page_or_section": "8-K credit agreement",
+                "content_hash": "hash-coreweave-q2",
+                "key_terms": json.dumps({"notional_context_kind": "transaction_facility"}),
+            },
+            {
+                "deal_id": "utility-forward-q4",
+                "deal_type": "bond",
+                "title": "Utility first mortgage bonds",
+                "primary_party": "Utility Issuer",
+                "notional_amount_usd": "6000000000",
+                "maturity_date": "2026-12-31",
+                "source_uri": "https://www.sec.gov/utility-q4.htm",
+                "source_confidence": "0.82",
+                "human_review_status": "pending",
+                "page_or_section": "8-K bond issuance",
+                "content_hash": "hash-utility-q4",
+                "key_terms": json.dumps({"notional_context_kind": "transaction_principal"}),
+            },
+        ],
+    )
+
+    batch = build_timing_signal_batch([tmp_path])
+
+    assert batch.summary.forward_refinancing_as_of_quarter == "2026-Q2"
+    assert batch.summary.capital_refinancing_usd_2024_2030 == 18_000_000_000
+    assert batch.summary.capital_refinancing_historical_to_as_of_usd == 5_000_000_000
+    assert batch.summary.capital_refinancing_forward_from_as_of_usd == 13_000_000_000
+    assert (
+        batch.summary.ai_infra_capital_refinancing_historical_to_as_of_usd
+        == 5_000_000_000
+    )
+    assert batch.summary.ai_infra_capital_refinancing_forward_from_as_of_usd == 7_000_000_000
+    assert batch.summary.forward_peak_refinancing_quarter == "2026-Q2"
+    assert batch.summary.forward_peak_refinancing_usd == 7_000_000_000
+    assert batch.summary.forward_peak_ai_infra_refinancing_quarter == "2026-Q2"
+    assert batch.summary.forward_peak_ai_infra_refinancing_usd == 7_000_000_000
+
+
 def test_timing_signals_block_mega_asset_and_capacity_rows(
     tmp_path: Path,
 ) -> None:

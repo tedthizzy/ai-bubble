@@ -1,13 +1,13 @@
 # Acquisition Status
 
-Last updated: 2026-06-02 08:13 UTC.
+Last updated: 2026-06-02 08:20 UTC.
 
 This file is the operational snapshot for the current evidence corpus. Treat it
 as a run log, not as a final investment conclusion.
 
 ## Current Corpus
 
-- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0813.md`
+- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0820.md`
 - Evidence gate: not high-confidence final.
 - Evidence audit coverage: report-level audits now include analyzer-level
   capital, compute, and debt-service audits plus explicit row/artifact-backed
@@ -505,7 +505,12 @@ Timing layer:
 - Peak stress quarter: 2026-Q2.
 - Candidate stress window: 2025-Q3 to 2027-Q3.
 - Capital refinancing 2024-2030: $3.2533T.
-- AI-infra capital refinancing 2024-2030: $227.22B.
+- AI-infra capital refinancing 2024-2030: $227.22B, of which $127.91B
+  matured before the 2026-Q2 report as-of quarter and $99.31B remains forward
+  from 2026-Q2.
+- Forward AI-infra refinancing peak: 2027-Q3, with $22.25B of source-backed
+  AI-infra refinancing maturities in that quarter.
+- Whole-corpus forward capital refinancing from 2026-Q2: $1.4411T.
 - Physical capacity 2024-2030: 177,293 MW.
 - Compute amount 2024-2030: $124.21B.
 - Source-backed timing signals: 3,263.
