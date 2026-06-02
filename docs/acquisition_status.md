@@ -7,7 +7,7 @@ as a run log, not as a final investment conclusion.
 
 ## Current Corpus
 
-- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-2347.md`
+- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-2355.md`
 - Evidence gate: not high-confidence final.
 - Evidence audit coverage: 476 claim audits now include analyzer-level capital,
   compute, and debt-service audits, explicit row/artifact-backed audits for

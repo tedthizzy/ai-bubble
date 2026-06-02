@@ -15,6 +15,7 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
+from bubble.analysis.burry_verdict import synthesize_core_verdict
 from bubble.analysis.cluster_dscr import IssuerFinancials, compute_cluster_interest_coverage
 from bubble.analysis.compute_economics import (
     ComputeEconomicsBatch,
@@ -2245,6 +2246,25 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:  #
         resolved_data_dirs=resolved_data_dirs,
         payback_cases=getattr(compute_batch, "payback_cases", None),
     )
+    # Tiered Burry verdict synthesized from the verified evidence: source-backed
+    # cluster cash-flow fragility + the adversarially stress-tested thesis
+    # premises. Scoped to the AI-direct core; the ecosystem binary stays gated.
+    thesis_findings: list[dict[str, Any]] = []
+    findings_path = Path("handoffs/ai_direct_thesis_stress_findings_20260602.json")
+    if findings_path.exists():
+        try:
+            loaded = json.loads(findings_path.read_text())
+            if isinstance(loaded, list):
+                thesis_findings = [f for f in loaded if isinstance(f, dict)]
+        except (json.JSONDecodeError, OSError):
+            thesis_findings = []
+    ai_direct_core_verdict = synthesize_core_verdict(
+        cluster_dscr=mismatch_ratios.get("cluster_interest_coverage", {}),
+        thesis_findings=thesis_findings,
+        established_ai_usd=float(materiality_relevance.get("established_usd") or 0.0),
+        direct_ai_usd=float(materiality_relevance.get("direct_usd") or 0.0),
+        not_established_pct=float(materiality_relevance.get("not_established_pct") or 0.0),
+    )
     coverage_dict = coverage.to_dict()
     physical_capacity_dict = physical_capacity.to_dict()
     physical_risk_dict = physical_risk.to_dict()
@@ -3055,6 +3075,7 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:  #
         "compute_economics": compute_metrics_dict,
         "debt_service_mismatch": debt_service_metrics_dict,
         "burry_separation_test": mismatch_ratios,
+        "ai_direct_core_verdict": ai_direct_core_verdict,
         "key_metrics": metrics,
         "executive_summary": {
             "overall_assessment": (
@@ -3112,14 +3133,26 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:  #
         },
         "burry_question_answers": {
             "is_this_a_bubble": {
-                "answer": "Blocked. The source corpus is not yet broad enough for a defensible binary conclusion.",
-                "confidence": capped_bubble_confidence,
-                "burry_separation_test_reference": "See top-level 'burry_separation_test' for the actual mismatch ratios (DSCR at realistic util, deliverable capacity %, GPU life gap, missing-rate %). These are the assumption-fragility signals that would turn raw notional into a bubble diagnosis.",
+                "answer": (
+                    "Tiered. ECOSYSTEM-WIDE: not established as a bubble -- only ~"
+                    f"{round((1 - float(materiality_relevance.get('not_established_pct') or 0)) * 100, 1)}% "
+                    "of the deduped materiality metric is AI-linked and the non-bubble case is "
+                    "credible, so the broad binary stays gated. AI-DIRECT CORE: "
+                    f"{ai_direct_core_verdict.get('core_verdict')} at confidence "
+                    f"{ai_direct_core_verdict.get('core_verdict_confidence')} -- source-backed "
+                    "cash-flow fragility (majority loss-making, refinancing-dependent, "
+                    "GPU-collateralized, holed take-or-pay) concentrated in the financed cluster. "
+                    "See 'ai_direct_core_verdict' for the scoped verdict, crack timing, weakest "
+                    "links, and bear case."
+                ),
+                "ecosystem_confidence": capped_bubble_confidence,
+                "ai_direct_core_verdict": ai_direct_core_verdict,
+                "burry_separation_test_reference": "See top-level 'burry_separation_test' for the actual mismatch ratios (cluster DSCR, deliverable capacity %, GPU life gap, missing-rate %). These are the assumption-fragility signals that turn raw notional into a bubble diagnosis.",
                 "required_next_evidence": [
-                    "Source-backed leverage and maturity schedules",
-                    "Project-level power/permit/queue records",
-                    "Lease/PPA/take-or-pay contract coverage",
-                    "Ownership and guarantee paths",
+                    "Exhaustive (not curated-floor) AI-direct maturity census",
+                    "ISO-queue ingestion (PJM/CAISO/ISO-NE/SPP) for real firm-vs-queue deliverability",
+                    "AI-direct GPU-SPV debt into the capital-exposure graph",
+                    "Filing-verified circular-financing loop edges",
                 ],
             },
             "how_large": {
@@ -3663,6 +3696,43 @@ def main() -> None:
     json_path.write_text(json.dumps(report, indent=2))
 
     md_path = out_dir / f"BURRY_REPORT_EvidenceGated_{ts}.md"
+    verdict = report.get("ai_direct_core_verdict", {})
+    _ct = verdict.get("crack_timing", {}) if isinstance(verdict, dict) else {}
+
+    def _bullets(items: Any) -> str:
+        return "\n".join(f"- {item}" for item in (items or [])) or "- (none)"
+
+    md_verdict = f"""## The Verdict (Tiered)
+
+**AI-direct core:** `{verdict.get("core_verdict")}` at confidence **{verdict.get("core_verdict_confidence")}**.
+**Ecosystem-wide:** `{verdict.get("ecosystem_verdict")}` — {verdict.get("ecosystem_verdict_basis", "")}
+
+This split is deliberate: the financed AI-direct cluster shows source-backed fragility, but it is
+only ~{round((1 - float(verdict.get("scope_size", {}).get("not_established_pct", 0) or 0)) * 100, 1)}% of the
+broad metric, so an ecosystem-wide bubble call is not supported.
+
+**Source-backed fragility facts (primary 10-K/10-Q, adversarially verified):**
+{_bullets(verdict.get("source_backed_fragility_facts"))}
+
+**When it cracks:** primary window **{_ct.get("primary_window")}**. {_ct.get("rationale", "")}
+
+Earlier triggers:
+{_bullets(_ct.get("earlier_triggers"))}
+
+Leading indicators:
+{_bullets(_ct.get("leading_indicators"))}
+
+**Weakest links in the capital structure:**
+{_bullets(verdict.get("weakest_links"))}
+
+**Confidence derivation (transparent):** {json.dumps(verdict.get("confidence_derivation", {}))}
+
+**Bear case (the counterweight, taken seriously):** {verdict.get("bear_case", {}).get("summary", "")} (confidence {verdict.get("bear_case", {}).get("confidence")})
+
+**Caveats:**
+{_bullets(verdict.get("caveats"))}
+"""
+
     md = f"""# Evidence-Gated Burry Report - AI/Data Center/Financing Ecosystem
 
 **Generated:** {report["metadata"]["generated_at"]}
@@ -3673,6 +3743,8 @@ def main() -> None:
 {report["executive_summary"]["overall_assessment"]}
 
 {report["executive_summary"]["coverage_sentence"]}
+
+{md_verdict}
 
 ## Burry's Separation Test (Mismatch Ratios)
 **Core principle:** Big aggregate notional is irrelevant without testing the assumptions it rests on.

@@ -32,8 +32,8 @@ The important change is that ecosystem-scale conclusions are now blocked from be
 
 Latest verified evidence-gated report at this checkpoint:
 
-- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260602-2347.md`
-- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260602-2347.json`
+- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260602-2355.md`
+- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260602-2355.json`
 - `high_confidence_final`: `false`
 - Current main checkpoint: `c525027`. Claude's isolated worktree has a clean
   one-commit readiness queue (`f853695`) with repaired branch-side fixtures for
