@@ -1184,7 +1184,15 @@ def _looks_like_resale_registration_not_committed_debt(
     if _field(packet, "category") not in {"capital", "contract"}:
         return False
     text = _combined_text(packet, quote)
-    if not _contains_any(
+    if not _has_resale_registration_markers(text):
+        return False
+    return not (
+        _has_primary_note_offering_markers(text) or _has_lender_facility_markers(text)
+    )
+
+
+def _has_resale_registration_markers(text: str) -> bool:
+    return _contains_any(
         text,
         [
             "will not receive any proceeds",
@@ -1193,10 +1201,6 @@ def _looks_like_resale_registration_not_committed_debt(
             "selling stockholder",
             "for the account of the selling",
         ],
-    ):
-        return False
-    return not (
-        _has_primary_note_offering_markers(text) or _has_lender_facility_markers(text)
     )
 
 
@@ -1215,7 +1219,12 @@ def _best_evidence_quote(
         return "", ()
     best_snippet = max(text_snippets, key=lambda item: _quote_score(item[1], terms))
     snippet_meta = best_snippet[0]
-    quote = _combined_best_quote([text for _, text in text_snippets], terms)
+    snippet_texts = [text for _, text in text_snippets]
+    best_text = best_snippet[1]
+    if _should_limit_quote_to_committed_financing_snippet(packet, best_text, snippet_texts):
+        quote = _combined_best_quote([best_text], terms)
+    else:
+        quote = _combined_best_quote(snippet_texts, terms)
     refs = tuple(
         value
         for value in [
@@ -1226,6 +1235,30 @@ def _best_evidence_quote(
         if value
     )
     return quote, refs
+
+
+def _should_limit_quote_to_committed_financing_snippet(
+    packet: dict[str, str],
+    best_text: str,
+    snippets: list[str],
+) -> bool:
+    if _field(packet, "category") not in {"capital", "contract"}:
+        return False
+    lowered_best = best_text.lower()
+    if not (
+        _has_primary_note_offering_markers(lowered_best)
+        or _has_lender_facility_markers(lowered_best)
+    ):
+        return False
+    return any(
+        _has_resale_registration_markers(snippet.lower())
+        and not (
+            _has_primary_note_offering_markers(snippet.lower())
+            or _has_lender_facility_markers(snippet.lower())
+        )
+        for snippet in snippets
+        if snippet != best_text
+    )
 
 
 def _combined_best_quote(snippets: list[str], terms: list[str]) -> str:

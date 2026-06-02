@@ -5408,6 +5408,147 @@ def test_materiality_adjudication_does_not_block_contract_primary_note_issuance_
     assert decision.metric_use_status == "approved_for_metric_use"
 
 
+def test_materiality_adjudication_prefers_primary_note_snippet_over_resale_wrapper(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-contract-note-with-separate-resale-wrapper",
+                "rank": 1,
+                "review_id": "review-contract-note-with-separate-resale-wrapper",
+                "review_group_id": "group-contract-note-with-separate-resale-wrapper",
+                "priority": "high",
+                "category": "contract",
+                "subcategory": "tranche_counterparty",
+                "ecosystem_relevance": "watchlist_entity",
+                "entity": "Nebius Group N.V.",
+                "counterparty": "U.S. Bank Trust Company",
+                "exposure_basis_usd": "3162500000",
+                "reason": (
+                    "pending contract tranche review; tranche: Convertible Notes; "
+                    "notional $3,162,500,000; collateral terms present; "
+                    "guarantee scope present"
+                ),
+                "recommended_action": "Confirm final note offering terms",
+                "source_uri": "https://www.sec.gov/nebius-notes.htm",
+                "source_uris": json.dumps(["https://www.sec.gov/nebius-notes.htm"]),
+                "content_hash": "a" * 64,
+                "content_hashes": json.dumps(["a" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/nebius-notes.htm",
+                            "content_hash": "a" * 64,
+                            "document_id": "nebius-notes.htm",
+                            "snippet": (
+                                "Nebius Group offered and issued an aggregate of "
+                                "$3,162,500,000 in convertible notes, including "
+                                "$1,581,250,000 aggregate principal amount of "
+                                "1.00% convertible notes due 2030 and "
+                                "$1,581,250,000 aggregate principal amount of "
+                                "2.75% convertible notes due 2032. The notes were "
+                                "issued pursuant to indentures with U.S. Bank "
+                                "Trust Company."
+                            ),
+                        },
+                        {
+                            "source_uri": "https://www.sec.gov/nebius-notes.htm",
+                            "content_hash": "a" * 64,
+                            "document_id": "nebius-notes.htm",
+                            "snippet": (
+                                "We will not receive any proceeds from the sale of "
+                                "ordinary shares by the selling securityholders. "
+                                "The selling securityholders may offer these "
+                                "securities from time to time."
+                            ),
+                        },
+                    ]
+                ),
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+    decision = batch.decisions[0]
+    assert "distinguish resale registration" not in decision.remaining_gap
+    assert decision.metric_use_status == "approved_for_metric_use"
+    assert "selling securityholders" not in decision.evidence_quote
+    assert "$3,162,500,000 in convertible notes" in decision.evidence_quote
+
+
+def test_materiality_adjudication_prefers_public_notes_offering_over_resale_wrapper(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-public-notes-with-separate-resale-wrapper",
+                "rank": 1,
+                "review_id": "review-public-notes-with-separate-resale-wrapper",
+                "review_group_id": "group-public-notes-with-separate-resale-wrapper",
+                "priority": "high",
+                "category": "contract",
+                "subcategory": "tranche_counterparty",
+                "ecosystem_relevance": "watchlist_entity",
+                "entity": "Oracle Example Corp.",
+                "counterparty": "noteholders",
+                "exposure_basis_usd": "25000000000",
+                "reason": (
+                    "pending contract tranche review; tranche: Senior Notes; "
+                    "notional $25,000,000,000; collateral terms present"
+                ),
+                "recommended_action": "Confirm final note offering terms",
+                "source_uri": "https://www.sec.gov/oracle-notes.htm",
+                "source_uris": json.dumps(["https://www.sec.gov/oracle-notes.htm"]),
+                "content_hash": "b" * 64,
+                "content_hashes": json.dumps(["b" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/oracle-notes.htm",
+                            "content_hash": "b" * 64,
+                            "document_id": "oracle-notes.htm",
+                            "snippet": (
+                                "The company announced a public offering of "
+                                "$25 billion aggregate principal amount of "
+                                "senior notes. The notes will be issued under "
+                                "an indenture and will be unsecured senior "
+                                "obligations."
+                            ),
+                        },
+                        {
+                            "source_uri": "https://www.sec.gov/oracle-notes.htm",
+                            "content_hash": "b" * 64,
+                            "document_id": "oracle-notes.htm",
+                            "snippet": (
+                                "This prospectus relates to the sale by selling "
+                                "securityholders, and we will not receive any "
+                                "proceeds from sales by selling securityholders."
+                            ),
+                        },
+                    ]
+                ),
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+    decision = batch.decisions[0]
+    assert "distinguish resale registration" not in decision.remaining_gap
+    assert decision.metric_use_status == "approved_for_metric_use"
+    assert "will not receive any proceeds" not in decision.evidence_quote
+    assert "$25 billion aggregate principal amount" in decision.evidence_quote
+
+
 def test_materiality_adjudication_does_not_treat_registration_statement_reference_as_boilerplate(
     tmp_path: Path,
 ) -> None:
