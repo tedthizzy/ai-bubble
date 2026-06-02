@@ -339,21 +339,7 @@ def _category_gaps(packet: dict[str, str], text: str) -> list[str]:
         if not (
             collateral_scope_present
             or unsecured_scope_present
-            or _contains_any(
-                text_lower,
-                [
-                    "collateral",
-                    "secured",
-                    "security interest",
-                    "pledge",
-                    "gpu-backed",
-                    "gpu backed",
-                    "asset-backed",
-                    "asset backed",
-                    "infrastructure-backed",
-                    "infrastructure backed",
-                ],
-            )
+            or _contains_any(text_lower, _collateral_scope_terms())
         ):
             gaps.append("determine collateral scope")
     if category == "contagion" and not _contains_any(
@@ -986,7 +972,25 @@ def _best_scope_clause(parts: list[str], terms: list[str]) -> str:
             scope_windows.append(window)
     if not scope_windows:
         return ""
-    return max(scope_windows, key=lambda window: _quote_score(window.lower(), terms))[:650].strip()
+    window = max(scope_windows, key=lambda value: _quote_score(value.lower(), terms))
+    return _trim_window_around_terms(window, _scope_quote_terms(), max_len=650)
+
+
+def _trim_window_around_terms(text: str, terms: list[str], max_len: int) -> str:
+    if len(text) <= max_len:
+        return text.strip()
+    lowered = text.lower()
+    positions = [
+        index
+        for term in terms
+        if term and (index := lowered.find(term.lower())) >= 0
+    ]
+    if not positions:
+        return text[:max_len].strip()
+    start = max(0, min(positions) - 180)
+    if start + max_len > len(text):
+        start = max(0, len(text) - max_len)
+    return text[start : start + max_len].strip()
 
 
 def _quote_terms(packet: dict[str, str]) -> list[str]:
@@ -1045,10 +1049,46 @@ def _scope_quote_terms() -> list[str]:
         "guarantor",
         "guarantors",
         "collateral",
+        "collateral agreement",
+        "collateral document",
+        "collateral documents",
         "secured by",
         "senior secured",
         "secured",
         "security interest",
+        "security agreement",
+        "security document",
+        "security documents",
+        "loan and security agreement",
+        "asset-based revolving credit agreement",
+        "asset based revolving credit agreement",
+        "borrowing base",
+        "pledge",
+        "pledged",
+        "gpu-backed",
+        "gpu backed",
+        "asset-backed",
+        "asset backed",
+        "infrastructure-backed",
+        "infrastructure backed",
+    ]
+
+
+def _collateral_scope_terms() -> list[str]:
+    return [
+        "collateral",
+        "collateral agreement",
+        "collateral document",
+        "collateral documents",
+        "secured",
+        "security interest",
+        "security agreement",
+        "security document",
+        "security documents",
+        "loan and security agreement",
+        "asset-based revolving credit agreement",
+        "asset based revolving credit agreement",
+        "borrowing base",
         "pledge",
         "pledged",
         "gpu-backed",

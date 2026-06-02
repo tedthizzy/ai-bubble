@@ -1490,6 +1490,130 @@ def test_materiality_adjudication_quote_selection_keeps_asset_backed_scope_windo
     assert decision.metric_use_status == "approved_for_metric_use"
 
 
+def test_materiality_adjudication_treats_security_documents_as_collateral_scope(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-security-documents",
+                "rank": 1,
+                "review_id": "review-security-documents",
+                "review_group_id": "group-security-documents",
+                "priority": "high",
+                "category": "capital",
+                "subcategory": "high_notional_debt_like_candidate",
+                "ecosystem_relevance": "direct_ai_infra",
+                "entity": "Example Cloud Borrower, Inc.",
+                "counterparty": "lenders party thereto",
+                "exposure_basis_usd": "4459200000",
+                "reason": (
+                    "pending adjudication status: pending; debt-like deal type: debt_facility; "
+                    "notional $4,459,200,000; notional context: transaction_principal; "
+                    "guarantee scope present"
+                ),
+                "recommended_action": "Confirm collateral package",
+                "source_uri": "https://www.sec.gov/example-security-documents.htm",
+                "source_uris": json.dumps(
+                    ["https://www.sec.gov/example-security-documents.htm"]
+                ),
+                "content_hash": "d" * 64,
+                "content_hashes": json.dumps(["d" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/example-security-documents.htm",
+                            "content_hash": "d" * 64,
+                            "document_id": "example-security-documents.htm",
+                            "snippet": (
+                                "\"Loan Documents\" means this Agreement, the Security "
+                                "Documents, promissory notes, fee letters, and each "
+                                "other document entered into in connection with the "
+                                "Facilities."
+                            ),
+                        }
+                    ]
+                ),
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    decision = batch.decisions[0]
+    assert "security documents" in decision.evidence_quote.lower(), decision
+    assert "determine collateral scope" not in decision.remaining_gap
+    assert decision.metric_use_status == "approved_for_metric_use"
+
+
+def test_materiality_adjudication_scope_quote_trim_keeps_late_secured_terms(
+    tmp_path: Path,
+) -> None:
+    long_intro = (
+        "The company described background liquidity and related offering details. "
+        * 14
+    )
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-late-secured-term",
+                "rank": 1,
+                "review_id": "review-late-secured-term",
+                "review_group_id": "group-late-secured-term",
+                "priority": "high",
+                "category": "capital",
+                "subcategory": "high_notional_debt_like_candidate",
+                "ecosystem_relevance": "watchlist_entity",
+                "entity": "Example Borrower, Inc.",
+                "counterparty": "Example Lender Bank",
+                "exposure_basis_usd": "2350000000",
+                "reason": (
+                    "pending adjudication status: pending; debt-like deal type: debt_facility; "
+                    "notional $2,350,000,000; notional context: transaction_facility; "
+                    "guarantee scope present"
+                ),
+                "recommended_action": "Confirm collateral package",
+                "source_uri": "https://www.sec.gov/example-late-secured-term.htm",
+                "source_uris": json.dumps(
+                    ["https://www.sec.gov/example-late-secured-term.htm"]
+                ),
+                "content_hash": "e" * 64,
+                "content_hashes": json.dumps(["e" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/example-late-secured-term.htm",
+                            "content_hash": "e" * 64,
+                            "document_id": "example-late-secured-term.htm",
+                            "snippet": (
+                                long_intro
+                                + "The refinancing replaced prior loans with a term "
+                                "loan facility and revolving credit facility, together "
+                                "defined as the Senior Secured Credit Facilities."
+                            ),
+                        }
+                    ]
+                ),
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    decision = batch.decisions[0]
+    assert "senior secured credit facilities" in decision.evidence_quote.lower(), decision
+    assert "determine collateral scope" not in decision.remaining_gap
+    assert decision.metric_use_status == "approved_for_metric_use"
+
+
 def test_materiality_adjudication_treats_note_offering_counterparty_as_non_bilateral(
     tmp_path: Path,
 ) -> None:
