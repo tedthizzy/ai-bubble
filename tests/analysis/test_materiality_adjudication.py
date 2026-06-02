@@ -1547,6 +1547,62 @@ def test_materiality_adjudication_treats_unsecured_term_facility_as_scope_resolv
     assert decision.metric_use_status == "approved_for_metric_use"
 
 
+def test_materiality_adjudication_treats_bank_counterparty_credit_facility_as_recourse_resolved(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-bank-counterparty-recourse",
+                "rank": 1,
+                "review_id": "review-bank-counterparty-recourse",
+                "review_group_id": "group-bank-counterparty-recourse",
+                "priority": "high",
+                "category": "capital",
+                "subcategory": "high_notional_debt_like_candidate",
+                "ecosystem_relevance": "direct_ai_infra",
+                "entity": "Example Borrower, Inc.",
+                "counterparty": "Bank of America, N.A.",
+                "exposure_basis_usd": "9500000000",
+                "reason": (
+                    "pending adjudication status: pending; debt-like deal type: debt_facility; "
+                    "notional $9,500,000,000; notional context: transaction_facility; "
+                    "commitment scope: specific_transaction_commitment"
+                ),
+                "recommended_action": "Confirm maturity and pricing terms",
+                "source_uri": "https://www.sec.gov/example-bank-counterparty.htm",
+                "source_uris": json.dumps(["https://www.sec.gov/example-bank-counterparty.htm"]),
+                "content_hash": "9" * 64,
+                "content_hashes": json.dumps(["9" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/example-bank-counterparty.htm",
+                            "content_hash": "9" * 64,
+                            "document_id": "example-bank-counterparty.htm",
+                            "snippet": (
+                                "The company entered into a secured revolving credit "
+                                "facility with Bank of America, N.A."
+                            ),
+                        }
+                    ]
+                ),
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    decision = batch.decisions[0]
+    assert "determine recourse and guarantee scope" not in decision.remaining_gap
+    assert "determine collateral scope" not in decision.remaining_gap
+    assert decision.metric_use_status == "approved_for_metric_use"
+
+
 def test_materiality_adjudication_routes_generic_contract_boilerplate_to_term_evidence_gap(
     tmp_path: Path,
 ) -> None:

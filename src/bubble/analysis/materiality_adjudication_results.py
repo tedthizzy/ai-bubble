@@ -304,6 +304,11 @@ def _category_gaps(packet: dict[str, str], text: str) -> list[str]:
                 "lenders",
                 "administrative agent",
                 "collateral agent",
+                "bank",
+                "n.a",
+                "trust",
+                "financial institution",
+                "financial institutions",
                 "noteholders",
             ],
         )
