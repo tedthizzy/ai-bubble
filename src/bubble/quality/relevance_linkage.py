@@ -13,6 +13,11 @@ import json
 import re
 from typing import Any
 
+from bubble.analysis.materiality_adjudication_results import (
+    canonical_direct_tier_entity,
+    economic_event_year_coupon_tokens,
+)
+
 FINAL_METRIC_STATUSES = {"approved_for_metric_use"}
 DIRECT_LINKAGES = {"direct"}
 WATCHLIST_LINKAGES = {"watchlist"}
@@ -120,7 +125,76 @@ def final_metric_representative_rows(rows: list[dict[str, str]]) -> list[dict[st
     )
     representatives = _collapse_content_hash_quote_collision_representatives(representatives)
     representatives = _collapse_cross_filing_exact_quote_representatives(representatives)
-    return _collapse_cross_filing_instrument_representatives(representatives)
+    representatives = _collapse_cross_filing_instrument_representatives(representatives)
+    return _collapse_economic_event_representatives(representatives)
+
+
+def _economic_event_row_text(row: dict[str, str]) -> str:
+    return " ".join(
+        value
+        for value in (
+            row.get("metric_dedupe_quote", ""),
+            row.get("evidence_quote", ""),
+            row.get("packet_reason", ""),
+        )
+        if value
+    )
+
+
+def _classify_economic_event_rows(rows: list[dict[str, str]]) -> str:
+    accessions = {
+        _sec_accession(row.get("source_uri", "")) for row in rows if row.get("source_uri")
+    }
+    years: set[str] = set()
+    coupons: set[str] = set()
+    for row in rows:
+        r_years, r_coupons = economic_event_year_coupon_tokens(_economic_event_row_text(row))
+        years.update(r_years)
+        coupons.update(r_coupons)
+    if len(years) > 1 or len(coupons) > 1:
+        return "distinct_facility_negative_control"
+    if len(accessions) <= 1:
+        return "same_accession_review"
+    if years or coupons:
+        return "probable_same_instrument_review"
+    return "amount_only_review"
+
+
+def _collapse_economic_event_representatives(
+    representatives: list[dict[str, str]],
+) -> list[dict[str, str]]:
+    """Dict-row mirror of the dataclass economic-event collapse.
+
+    Collapses repeated economic events (one offering counted across filings) for
+    curated direct-tier AI/data-center issuers, only for the conservative
+    ``probable_same_instrument_review`` class. Shares the issuer alias map and
+    descriptor extraction with the dataclass pipeline so the two cannot drift.
+    """
+
+    keyed: dict[tuple[str, str], list[dict[str, str]]] = {}
+    unkeyed: list[dict[str, str]] = []
+    for row in representatives:
+        if row.get("metric_aggregation_policy") != "max_amount_per_source_instrument":
+            unkeyed.append(row)
+            continue
+        entity_key = canonical_direct_tier_entity(row.get("entity", ""))
+        amount_key = _metric_amount_key(_float(row.get("supported_amount_usd")))
+        accession = _sec_accession(row.get("source_uri", ""))
+        if not entity_key or not amount_key or amount_key == "0" or not accession:
+            unkeyed.append(row)
+            continue
+        keyed.setdefault((entity_key, amount_key), []).append(row)
+
+    collapsed: list[dict[str, str]] = []
+    for rows in keyed.values():
+        if (
+            len(rows) > 1
+            and _classify_economic_event_rows(rows) == "probable_same_instrument_review"
+        ):
+            collapsed.append(max(rows, key=_metric_representative_sort_key))
+        else:
+            collapsed.extend(rows)
+    return [*unkeyed, *collapsed]
 
 
 def _collapse_metric_representatives(

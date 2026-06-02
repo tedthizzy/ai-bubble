@@ -3,10 +3,12 @@
 Consolidated implementation knowledge for the Burry forensic engine. Durable technical facts only.
 
 ## Current State (2026-06-02)
-- Latest report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-2121.json/.md`
+- Latest report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-2300.json/.md`
 - Gate: `high_confidence_final=false`, `bubble_confidence=0.25`.
-- Final metric: ~`$3.652T` across `1,338` final-metric groups from `2,705` approved rows.
-- AI/data-center linkage in the metric: `$392.9B` established direct/watchlist; `89.2%` not-established.
+- Final metric: ~`$3.622T` across `1,326` final-metric groups from `2,705` approved rows (post
+  economic-event collapse; was `$3.652T`/`1,338`).
+- AI/data-center linkage in the metric: `$362.98B` established direct/watchlist; `90.0%` not-established
+  (was `$392.9B`/`89.2%` — the ~$29.9B economic-event collapse fell entirely in the `direct` bucket).
 - Report consistency + strict invariants pass (0 errors / 0 violations).
 - Loose untracked file `scripts/seed_graph 2.py` is a pre-existing stray — do not stage; it is not part of the build.
 
@@ -55,7 +57,18 @@ layers (order matters; any change needs a before/after-total regression):
 4. `_accession_amount_metric_dedupe_key` — same filing + amount.
 5. `_collapse_content_hash_quote_collision_representatives` — exact quote repeats in one doc.
 6. `_collapse_cross_filing_exact_quote_representatives` — same quote across filings.
-7. `_collapse_cross_filing_instrument_representatives` — same instrument across filings.
+7. `_collapse_cross_filing_instrument_representatives` — same instrument across filings (strict: needs
+   common coupon AND year).
+8. `_collapse_economic_event_representatives` — economic-event repeats: one offering counted across
+   proposed→priced→closed→indenture filings. Scoped to the 8 curated direct-tier AI issuers
+   (`DIRECT_TIER_ENTITY_ALIASES`); collapses only the `probable_same_instrument_review` class (same
+   amount + consistent single coupon/year + multi-accession, ignoring counterparty which varies across an
+   instrument's filings); preserves `distinct_facility` (conflicting year/coupon, e.g. IREN $1B ×4) and
+   descriptor-free `amount_only`. **The dict-row mirror in `quality/relevance_linkage.py` re-implements
+   the full pipeline INCLUDING this layer — both must stay in sync; they share the alias map + descriptor
+   core via import (`canonical_direct_tier_entity`, `economic_event_year_coupon_tokens`).** Oracle:
+   `scripts/check_direct_tier_economic_event_duplicates.py` should show `probable_same_instrument_review`
+   → 0 clusters after collapse (negative control `distinct_facility` preserved).
 
 ## Landed Guards & Checkers (production logic)
 - Dedup: same-accession, strict cross-filing, resale-wrapper, amount-binding, malformed comma-grouping, semantic
@@ -70,12 +83,20 @@ layers (order matters; any change needs a before/after-total regression):
   `entity,facility,field,value,source_tier,source` (+ optional source_uri, filing_accession, source_quote).
 
 ## Key Forensic Findings
-- **AI-direct over-count ~$84.6B (economic-event repeats):** one offering counted across proposed→priced→closed→indenture
-  docs. Primary-EDGAR-verified per name vs largest-ever-offering ceiling: IREN $43.88B→~$9B (largest offering $3.0B),
-  TeraWulf $36→~$5.35B ($3.2B notes ×5, Flash Compute ×4), CleanSpark $13.64B→~$1.15B, Hut 8 $9.75B→~$3.25B (one
-  offering ×3). Would move AI-direct core $392.9B → ~$310-321B. Fixtures: `miner_cluster_overcount_confirmed`,
+- **AI-direct over-count — economic-event repeats (collapse LANDED for the conservative same-amount class):**
+  one offering counted across proposed→priced→closed→indenture docs. The **same-amount/same-instrument** subset
+  (`probable_same_instrument_review`: identical amount + consistent coupon/year across multiple accessions) is now
+  collapsed in-pipeline (layer 8 above): **−$29.925B across 8 clusters**, moving established AI direct/watchlist
+  `$392.9B → $362.98B` (all from the `direct` bucket); total metric `$3.652T → $3.622T`, survivors `1,338 → 1,326`.
+  Collapsed clusters (primary-EDGAR-verified): TeraWulf $3.2B/7.750%/2030 ×5, Applied Digital $2.35B ×3 + $2.15B ×2,
+  Hut 8 $3.25B/6.192%/2042 ×2, IREN $2.6B ×2 + $2.0B ×2, TeraWulf $1.275B ×2, CleanSpark $1.15B/0.00%/2032 ×2.
+  Negative control preserved: IREN $1.0B ×4 (`distinct_facility`, years 2031;2032;2033, coupons 0.25;1.00).
+  **The larger ~$84.6B figure additionally included staged-amount repeats (proposed $X vs priced $Y, different
+  amount-keys → not caught by the same-amount checker); those remain flagged for human review, NOT auto-collapsed**
+  (skepticism-first: only the unambiguous same-amount class is automated). Fixtures: `miner_cluster_overcount_confirmed`,
   `direct_tier_debt_events_classified` (same_event/distinct_facility/needs_human_review + negative controls
-  Eaton/Simon/Venture Global). The economic-event duplicate checker exists; the collapse logic does not yet.
+  Eaton/Simon/Venture Global). Tests: `tests/analysis/test_economic_event_collapse.py`,
+  `tests/quality/test_relevance_linkage.py`.
 - **Bubble thesis (AI-direct core):** loss-making issuers → secured debt via bankruptcy-remote SPVs on *depreciating GPU*
   collateral + single-customer contract cash flows (IREN Hardware 3: GPUs + Microsoft Contract cash flows, Limited
   Parent Guarantee; TeraWulf WULF/Flash Compute; Hut 8 DC; CoreWeave CCAC VII full parent guarantee) → serviceable only

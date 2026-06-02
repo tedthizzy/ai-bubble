@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from bubble.quality.relevance_linkage import (
+    _collapse_economic_event_representatives,
     final_metric_representative_rows,
     summarize_relevance_linkage,
 )
@@ -252,6 +253,133 @@ def test_relevance_summary_collapses_same_content_hash_and_quote_collision() -> 
     assert summary["total_usd"] == 8_000_000_000
 
 
+def _econ_uri(accession: str) -> str:
+    return f"https://www.sec.gov/Archives/edgar/data/1/{accession}/doc.htm"
+
+
+def test_relevance_summary_collapses_economic_event_repeats() -> None:
+    # Same TeraWulf 7.750%/2030 notes counted across two filings: the partition
+    # must apply the economic-event collapse so the direct bucket is not inflated.
+    rows = [
+        _row(
+            "wulf-a",
+            entity="TERAWULF INC.",
+            linkage="direct",
+            usd=3.2e9,
+            group="wulf-a",
+            content_hash="o" * 64,
+            quote="TeraWulf priced 7.750% senior secured notes due 2030.",
+            source_uri=_econ_uri("000110465925100142"),
+        ),
+        _row(
+            "wulf-b",
+            entity="TERAWULF INC.",
+            linkage="direct",
+            usd=3.2e9,
+            group="wulf-b",
+            content_hash="p" * 64,
+            quote="Indenture for the 7.750% senior secured notes due 2030.",
+            source_uri=_econ_uri("000110465925101866"),
+        ),
+    ]
+
+    summary = summarize_relevance_linkage(rows)
+
+    assert summary["final_metric_group_count"] == 1
+    assert summary["direct_usd"] == 3_200_000_000
+    assert summary["total_usd"] == 3_200_000_000
+
+
+def test_economic_event_collapse_preserves_distinct_facility_negative_control() -> None:
+    # IREN $1B convertibles with conflicting maturity years AND coupons are
+    # distinct facilities; tested on the collapse layer in isolation so the
+    # upstream economic-obligation layer does not mask the behavior.
+    rows = [
+        _row(
+            "iren-2031",
+            entity="IREN LIMITED",
+            linkage="direct",
+            usd=1e9,
+            content_hash="q" * 64,
+            quote="0.25% convertible senior notes due 2031.",
+            source_uri=_econ_uri("000114036125037488"),
+        ),
+        _row(
+            "iren-2033",
+            entity="IREN LIMITED",
+            linkage="direct",
+            usd=1e9,
+            content_hash="r" * 64,
+            quote="1.00% convertible senior notes due 2033.",
+            source_uri=_econ_uri("000114036125043803"),
+        ),
+    ]
+
+    collapsed = _collapse_economic_event_representatives(rows)
+
+    assert len(collapsed) == 2
+
+
+def test_economic_event_collapse_leaves_out_of_scope_issuer_repeats() -> None:
+    # Out-of-scope issuer (not in the curated direct-tier alias map) is never
+    # touched by the economic-event collapse, even with a same-instrument signal.
+    rows = [
+        _row(
+            "eaton-a",
+            entity="EATON CORP PLC",
+            linkage="not_established",
+            usd=3.2e9,
+            content_hash="s" * 64,
+            quote="7.750% senior notes due 2030.",
+            source_uri=_econ_uri("000110465925100142"),
+        ),
+        _row(
+            "eaton-b",
+            entity="EATON CORP PLC",
+            linkage="not_established",
+            usd=3.2e9,
+            content_hash="t" * 64,
+            quote="Indenture for the 7.750% senior notes due 2030.",
+            source_uri=_econ_uri("000110465925101866"),
+        ),
+    ]
+
+    collapsed = _collapse_economic_event_representatives(rows)
+
+    assert len(collapsed) == 2
+
+
+def test_economic_event_collapse_merges_same_instrument_across_filings() -> None:
+    # Same TeraWulf 7.750%/2030 notes across two filings collapse to one,
+    # even though the counterparty descriptor differs between the filings.
+    rows = [
+        _row(
+            "wulf-press",
+            entity="TERAWULF INC.",
+            linkage="direct",
+            usd=3.2e9,
+            content_hash="u" * 64,
+            counterparty="Morgan Stanley Senior Funding, Inc.",
+            quote="TeraWulf priced 7.750% senior secured notes due 2030.",
+            source_uri=_econ_uri("000110465925100142"),
+        ),
+        _row(
+            "wulf-indenture",
+            entity="TERAWULF INC.",
+            linkage="direct",
+            usd=3.2e9,
+            content_hash="v" * 64,
+            counterparty="WILMINGTON TRUST, NATIONAL ASSOCIATION",
+            quote="Indenture for the 7.750% senior secured notes due 2030.",
+            source_uri=_econ_uri("000110465925101866"),
+        ),
+    ]
+
+    collapsed = _collapse_economic_event_representatives(rows)
+
+    assert len(collapsed) == 1
+
+
 def test_relevance_summary_keeps_same_content_hash_quote_with_distinct_evidence() -> None:
     metric_quote = (
         "Example Borrower entered into a credit agreement with lenders, issuing banks, and the "
@@ -416,9 +544,11 @@ def test_relevance_summary_collapses_strict_cross_filing_instrument_fingerprints
             source_uri="https://www.sec.gov/Archives/edgar/data/1/000000000225000002/b.htm",
             quote=quote_b,
         ),
+        # Non-curated issuer: the strict layer still must not collapse a no-year
+        # case, and the curated-scope economic-event layer leaves it untouched.
         _row(
             "negative-no-year",
-            entity="CoreWeave Inc.",
+            entity="Equinix Inc.",
             linkage="direct",
             usd=31e9,
             group="negative-no-year",
@@ -428,7 +558,7 @@ def test_relevance_summary_collapses_strict_cross_filing_instrument_fingerprints
         ),
         _row(
             "negative-other",
-            entity="CoreWeave Inc.",
+            entity="Equinix Inc.",
             linkage="direct",
             usd=31e9,
             group="negative-other",

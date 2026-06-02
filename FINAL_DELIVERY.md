@@ -32,8 +32,8 @@ The important change is that ecosystem-scale conclusions are now blocked from be
 
 Latest verified evidence-gated report at this checkpoint:
 
-- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260602-2121.md`
-- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260602-2121.json`
+- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260602-2300.md`
+- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260602-2300.json`
 - `high_confidence_final`: `false`
 - Current main checkpoint: `c525027`. Claude's isolated worktree has a clean
   one-commit readiness queue (`f853695`) with repaired branch-side fixtures for
@@ -80,9 +80,14 @@ Latest verified evidence-gated report at this checkpoint:
 - Pending source-backed adjudication items: 6,773.
 - Automated materiality adjudication decisions: 6,663 decisions, with 4,250
   supported blockers, 2,413 still requiring deeper extraction, 2,705 approved
-  metric rows, and $3.652T deduped final metric support across 1,338
+  metric rows, and $3.622T deduped final metric support across 1,326
   source-instrument/same-accession/strict-cross-filing/economic-obligation/
-  same-content-quote-collision/exact-cross-filing-quote metric groups. Semantic
+  same-content-quote-collision/exact-cross-filing-quote/economic-event metric
+  groups. The economic-event layer collapses one offering counted across
+  proposed/priced/closed/indenture filings for curated direct-tier AI issuers,
+  removing ~$29.9B of same-instrument over-count from the direct-linkage bucket
+  while preserving distinct facilities (conflicting coupon/maturity-year).
+  Semantic
   hard flags are now zero in approved metric rows;
   malformed comma-grouped SEC source amount tokens and residual
   availability/capacity/rollup amount mis-bindings, plus selected source quotes
@@ -210,23 +215,23 @@ Latest capital and timing outputs:
   enforcement-risk flags, 5 queue-bypass/no-queue flags, and 1 ratepayer
   stranded-asset transfer flag. These are source-term sums, not project-deduped
   capacity forecasts.
-- Broader materiality-adjudicated supported exposure: $3.652T across 1,338
+- Broader materiality-adjudicated supported exposure: $3.622T across 1,326
   metric groups; this is a different scope from the curated capital-structure
   deal-graph debt-like metric above, not an additive increment.
 - Established direct/watchlist AI-data-center-linked support inside that broader
-  materiality metric is $0.393T on the same 1,338-group final metric
+  materiality metric is $0.363T on the same 1,326-group final metric
   representative base. A read-only mixed-evidence collision checker now reviews
   same-document/same-metric-quote groups with different evidence quotes; current
   output finds 26 review groups, all distinct-facility candidates, with 0
   aggregate/component candidates. Both AI-linked candidates are
-  distinct-facility cases, so the checker does not currently reduce the $0.393T
+  distinct-facility cases, so the checker does not currently reduce the $0.363T
   established AI-linked support. The prior Hilton aggregate/component candidate
   is now resolved by blocking the unsupported $8.85B transaction-tranche-sum row
   while preserving the $7.60B term-loan and $1.00B revolver component rows.
   A seller-side revenue guard now blocks the TeraWulf $12.8B HPC lease aggregate
   contractual-value row from being counted as TeraWulf debt; it remains a
   source-backed blocker pending buyer/seller economic-commitment classification.
-  89.2% remains source-backed but not yet thesis-linked.
+  90.0% remains source-backed but not yet thesis-linked.
 - Clear AI/HPC/bitcoin data-center operators are normalized to direct linkage
   when source tags are blank, watchlist, or not established; Galaxy Digital is
   normalized only for packet text naming Galaxy Helios, CoreWeave, or

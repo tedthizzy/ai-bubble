@@ -20,22 +20,16 @@ from pathlib import Path
 from typing import Any
 
 from bubble.analysis.materiality_adjudication_results import (
+    DIRECT_TIER_ENTITY_ALIASES,
     FINAL_METRIC_DECISIONS,
     MaterialityAdjudicationDecision,
     _final_metric_representative_decisions,
     _json_list,
 )
 
-ENTITY_ALIASES: dict[str, tuple[str, ...]] = {
-    "Applied Digital": ("applied digital",),
-    "CleanSpark": ("cleanspark",),
-    "CoreWeave": ("coreweave",),
-    "Hut 8": ("hut 8",),
-    "IREN": ("iren",),
-    "MARA Holdings": ("mara holdings",),
-    "Nebius": ("nebius",),
-    "TeraWulf": ("terawulf",),
-}
+# Single source of truth lives in the analysis module so the economic-event
+# collapse and these QA checkers cannot drift on which issuers are direct-tier.
+ENTITY_ALIASES = DIRECT_TIER_ENTITY_ALIASES
 
 
 @dataclass(frozen=True)

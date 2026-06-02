@@ -2175,7 +2175,8 @@ def _final_metric_representative_decisions(
     )
     representatives = _collapse_content_hash_quote_collision_representatives(representatives)
     representatives = _collapse_cross_filing_exact_quote_representatives(representatives)
-    return _collapse_cross_filing_instrument_representatives(representatives)
+    representatives = _collapse_cross_filing_instrument_representatives(representatives)
+    return _collapse_economic_event_representatives(representatives)
 
 
 def _collapse_metric_representatives(
@@ -2405,6 +2406,153 @@ def _collapse_cross_filing_instrument_representatives(
             for decision in decisions
         ]
         if len(accessions) > 1 and _has_strict_common_instrument_fingerprint(descriptors):
+            collapsed.append(max(decisions, key=_metric_representative_sort_key))
+        else:
+            collapsed.extend(decisions)
+    return [*unkeyed, *collapsed]
+
+
+# --- Economic-event (same-instrument) collapse ---------------------------------
+#
+# One offering is frequently disclosed across a sequence of filings (proposed ->
+# priced -> closed -> indenture). Each filing carries a different document, quote
+# fragment and accession, so the repeats are invisible to the content-hash and
+# exact-quote dedupe layers above. This layer collapses the conservative subset
+# where the repeats are unambiguous: a curated direct-tier AI/data-center issuer,
+# an identical amount, and a consistent single coupon/maturity-year fingerprint
+# spanning multiple accessions. Distinct facilities (conflicting year/coupon) and
+# descriptor-free amount-only repeats are preserved, and the curated alias map
+# keeps every out-of-scope issuer (the negative controls) untouched.
+
+DIRECT_TIER_ENTITY_ALIASES: dict[str, tuple[str, ...]] = {
+    "Applied Digital": ("applied digital",),
+    "CleanSpark": ("cleanspark",),
+    "CoreWeave": ("coreweave",),
+    "Hut 8": ("hut 8",),
+    "IREN": ("iren",),
+    "MARA Holdings": ("mara holdings",),
+    "Nebius": ("nebius",),
+    "TeraWulf": ("terawulf",),
+}
+
+_ECONOMIC_EVENT_YEAR_NOTE_RE = re.compile(
+    r"\b(20[2-4]\d)\s+(?:notes?|senior\s+notes?|convertible\s+notes?)\b", re.I
+)
+_ECONOMIC_EVENT_COUPON_RE = re.compile(r"\b(\d{1,2}\.\d{2,3})\s?%")
+_ECONOMIC_EVENT_COUPON_EXCLUDE_RE = re.compile(r"\b(issue|offering)\s+price\b|\bpremium\b")
+_ECONOMIC_EVENT_COUPON_CONTEXT_RE = re.compile(
+    r"\b(coupon|interest|senior|secured|unsecured|notes?\s+due)\b"
+)
+
+
+def canonical_direct_tier_entity(entity: str) -> str:
+    """Canonical curated name for a direct-tier AI/data-center issuer, else ``""``."""
+
+    lowered = entity.lower()
+    if "marathon petroleum" in lowered:
+        return ""
+    for canonical, aliases in DIRECT_TIER_ENTITY_ALIASES.items():
+        if any(alias in lowered for alias in aliases):
+            return canonical
+    return ""
+
+
+def _economic_event_text(decision: MaterialityAdjudicationDecision) -> str:
+    return " ".join(
+        value
+        for value in (
+            decision.metric_dedupe_quote,
+            decision.evidence_quote,
+            decision.packet_reason,
+        )
+        if value
+    )
+
+
+def _economic_event_coupon_tokens(text: str) -> set[str]:
+    coupons: set[str] = set()
+    lowered = text.lower()
+    for match in _ECONOMIC_EVENT_COUPON_RE.finditer(text):
+        context = lowered[max(0, match.start() - 90) : match.end() + 120]
+        if _ECONOMIC_EVENT_COUPON_EXCLUDE_RE.search(context):
+            continue
+        if _ECONOMIC_EVENT_COUPON_CONTEXT_RE.search(context):
+            coupons.add(match.group(1))
+    return coupons
+
+
+def economic_event_year_coupon_tokens(text: str) -> tuple[set[str], set[str]]:
+    """Shared descriptor core: (maturity years, coupons) from instrument prose.
+
+    Importable so the dict-row relevance-linkage mirror computes identical
+    economic-event descriptors and cannot drift from the dataclass pipeline.
+    """
+
+    tokens = _instrument_descriptor_tokens(text)
+    years = {token[1:] for token in tokens if token.startswith("y")}
+    years.update(match.group(1) for match in _ECONOMIC_EVENT_YEAR_NOTE_RE.finditer(text))
+    coupons = _economic_event_coupon_tokens(text)
+    return years, coupons
+
+
+def _economic_event_descriptor_parts(
+    decision: MaterialityAdjudicationDecision,
+) -> tuple[set[str], set[str]]:
+    return economic_event_year_coupon_tokens(_economic_event_text(decision))
+
+
+def classify_economic_event_cluster(
+    decisions: list[MaterialityAdjudicationDecision],
+) -> str:
+    """Classify a same-issuer/same-amount cluster for economic-event dedupe.
+
+    ``distinct_facility_negative_control`` -> conflicting maturity-year or coupon
+    descriptors (genuinely different instruments; never collapse).
+    ``same_accession_review`` -> all rows share one accession (handled upstream).
+    ``probable_same_instrument_review`` -> a consistent single coupon/year
+    fingerprint across multiple accessions (the collapsible class).
+    ``amount_only_review`` -> no instrument descriptors at all (too weak; keep).
+    """
+
+    accessions = {_sec_accession(d.source_uri) for d in decisions if d.source_uri}
+    years: set[str] = set()
+    coupons: set[str] = set()
+    for decision in decisions:
+        d_years, d_coupons = _economic_event_descriptor_parts(decision)
+        years.update(d_years)
+        coupons.update(d_coupons)
+    if len(years) > 1 or len(coupons) > 1:
+        return "distinct_facility_negative_control"
+    if len(accessions) <= 1:
+        return "same_accession_review"
+    if years or coupons:
+        return "probable_same_instrument_review"
+    return "amount_only_review"
+
+
+def _collapse_economic_event_representatives(
+    representatives: list[MaterialityAdjudicationDecision],
+) -> list[MaterialityAdjudicationDecision]:
+    keyed: dict[tuple[str, str], list[MaterialityAdjudicationDecision]] = {}
+    unkeyed: list[MaterialityAdjudicationDecision] = []
+    for decision in representatives:
+        if decision.metric_aggregation_policy != "max_amount_per_source_instrument":
+            unkeyed.append(decision)
+            continue
+        entity_key = canonical_direct_tier_entity(decision.entity)
+        amount_key = _metric_amount_key(decision.supported_amount_usd)
+        accession = _sec_accession(decision.source_uri)
+        if not entity_key or not amount_key or amount_key == "0" or not accession:
+            unkeyed.append(decision)
+            continue
+        keyed.setdefault((entity_key, amount_key), []).append(decision)
+
+    collapsed: list[MaterialityAdjudicationDecision] = []
+    for decisions in keyed.values():
+        if (
+            len(decisions) > 1
+            and classify_economic_event_cluster(decisions) == "probable_same_instrument_review"
+        ):
             collapsed.append(max(decisions, key=_metric_representative_sort_key))
         else:
             collapsed.extend(decisions)
