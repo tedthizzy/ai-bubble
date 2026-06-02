@@ -660,6 +660,10 @@ def _best_snippet(text: str, terms: list[str], snippet_chars: int) -> str:
 
 def _best_row_snippet(row: dict[str, str], text: str, snippet_chars: int) -> str:
     base = _best_snippet(text, _query_terms(row), snippet_chars)
+    scope_candidate = _best_snippet(text, _capital_scope_query_terms(row), snippet_chars)
+    scope_score = _scope_clause_hit_count(scope_candidate)
+    if scope_score >= 2 and scope_score > _scope_clause_hit_count(base):
+        return scope_candidate
     if not _is_non_specific_capital_candidate_row(row):
         return base
     contract_terms = _capital_term_query_terms(row)
@@ -674,6 +678,7 @@ def _evidence_snippet_score(row: dict[str, str], snippet: str) -> int:
     score = _snippet_score(snippet.lower(), 0, len(snippet), lower_terms)
     if _field(row, "category") in {"capital", "contract"}:
         score += _capital_term_hit_count(snippet) * 8
+        score += _scope_clause_hit_count(snippet) * 12
     if _is_non_specific_capital_candidate_row(row):
         term_hits = _capital_term_hit_count(snippet)
         if term_hits == 0:
@@ -706,6 +711,45 @@ def _capital_term_query_terms(row: dict[str, str]) -> list[str]:
     return terms
 
 
+def _capital_scope_query_terms(row: dict[str, str]) -> list[str]:
+    if _field(row, "category") not in {"capital", "contract", "contagion", "weak_link"}:
+        return []
+    terms = [
+        "security documents",
+        "collateral documents",
+        "security agreement",
+        "collateral agreement",
+        "loan and security agreement",
+        "senior secured",
+        "secured by",
+        "shall be secured",
+        "are secured by",
+        "is secured by",
+        "will be secured by",
+        "substantially all assets",
+        "first priority",
+        "first-priority",
+        "first lien",
+        "second lien",
+        "borrowing base",
+        "pledges",
+        "pledged",
+        "grants a security interest",
+        "unsecured obligations",
+        "unsecured indebtedness",
+        "senior unsecured",
+        "without collateral",
+        "non-recourse",
+        "limited recourse",
+        "guaranteed by",
+        "guarantees of",
+        "guaranty",
+        "full and unconditional guarantee",
+    ]
+    terms.extend(_amount_query_terms(_exposure_basis_usd(row)))
+    return terms
+
+
 def _capital_term_hit_count(snippet: str) -> int:
     lowered = snippet.lower()
     markers = [
@@ -727,6 +771,91 @@ def _capital_term_hit_count(snippet: str) -> int:
         "entered into",
     ]
     return sum(1 for marker in markers if marker in lowered)
+
+
+def _scope_clause_hit_count(snippet: str) -> int:
+    lowered = snippet.lower()
+    strong_markers = [
+        "security documents",
+        "collateral documents",
+        "loan and security agreement",
+        "asset-based revolving credit agreement",
+        "asset based revolving credit agreement",
+        "senior secured",
+        "secured by",
+        "shall be secured",
+        "are secured by",
+        "is secured by",
+        "will be secured by",
+        "substantially all assets",
+        "first priority",
+        "first-priority",
+        "first lien",
+        "second lien",
+        "borrowing base",
+        "grants a security interest",
+        "pledges",
+        "pledged",
+        "unsecured obligations",
+        "unsecured indebtedness",
+        "senior unsecured",
+        "without collateral",
+        "non-recourse",
+        "limited recourse",
+        "guaranteed by",
+        "guarantees of",
+        "full and unconditional guarantee",
+    ]
+    generic_markers = [
+        "security agreement",
+        "collateral agreement",
+        "security interest",
+        "collateral agent",
+        "guarantees",
+        "guarantors",
+        "guaranty",
+        "recourse",
+    ]
+    strong_hits = sum(1 for marker in strong_markers if marker in lowered)
+    generic_hits = sum(1 for marker in generic_markers if marker in lowered)
+    if _contains_definition_only_scope(lowered):
+        if not _has_executable_scope_clause(lowered):
+            return 0
+        generic_hits = max(0, generic_hits - 2)
+    return strong_hits * 2 + generic_hits
+
+
+def _has_executable_scope_clause(text: str) -> bool:
+    return any(
+        marker in text
+        for marker in (
+            "shall be secured",
+            "are secured by",
+            "is secured by",
+            "will be secured by",
+            "grants a security interest",
+            "guaranteed by",
+            "full and unconditional guarantee",
+            "without collateral",
+            "non-recourse",
+            "senior unsecured",
+            "unsecured indebtedness",
+            "unsecured obligations",
+        )
+    )
+
+
+def _contains_definition_only_scope(text: str) -> bool:
+    return any(
+        marker in text
+        for marker in (
+            "lien means",
+            "permitted liens",
+            "debt rating",
+            "unsecured debt issued by the borrower",
+            "secured by any lien on property",
+        )
+    )
 
 
 def _boilerplate_penalty(snippet: str) -> int:

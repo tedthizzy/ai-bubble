@@ -164,6 +164,160 @@ def test_materiality_adjudication_packets_dedupe_and_attach_snippets(tmp_path: P
     assert all(packet.review_id != "review-approved" for packet in batch.packets)
 
 
+def test_materiality_packet_snippet_prefers_late_collateral_scope_clause(
+    tmp_path: Path,
+) -> None:
+    source_path = tmp_path / "data" / "edgar_acquisition" / "documents" / "secured.htm"
+    source_path.parent.mkdir(parents=True, exist_ok=True)
+    source_path.write_text(
+        """
+        <html><body>
+        Example Borrower, Inc. entered into a $2.35 billion term loan facility
+        with Example Lender Bank. The opening summary discusses liquidity,
+        proceeds, working capital, and general corporate purposes.
+        Background liquidity and transaction overview. Background liquidity and
+        transaction overview. Background liquidity and transaction overview.
+        Definitions. Lien means any mortgage, pledge, charge, security interest
+        or encumbrance of any kind, whether arising by contract or law.
+        Collateral and Guarantee Support. The obligations under the facilities
+        shall be secured by a first priority security interest in substantially
+        all assets of the borrower and guaranteed by the subsidiary guarantors.
+        </body></html>
+        """
+    )
+    _write_csv(
+        tmp_path / "data" / "edgar_acquisition" / "edgar_document_inventory.csv",
+        [
+            {
+                "filing_url": "https://www.sec.gov/example-secured.htm",
+                "local_path": str(source_path),
+                "content_hash": "1" * 64,
+                "primary_document": "secured.htm",
+                "accession_number": "0001-26-000002",
+            }
+        ],
+    )
+    _write_csv(
+        tmp_path / "data" / "reports" / "review_queue.csv",
+        [
+            {
+                "review_id": "review-late-scope",
+                "review_group_id": "group-late-scope",
+                "priority": "high",
+                "category": "capital",
+                "subcategory": "high_notional_debt_like_candidate",
+                "ecosystem_relevance": "watchlist_entity",
+                "entity": "Example Borrower, Inc.",
+                "counterparty": "Example Lender Bank",
+                "deal_id": "deal-late-scope",
+                "source_row_id": "row-late-scope",
+                "notional_amount_usd": "2350000000",
+                "exposure_usd": "0",
+                "capacity_mw": "0",
+                "risk_score": "0.6",
+                "reason": (
+                    "pending adjudication status: pending; debt-like deal type: "
+                    "debt_facility; notional $2,350,000,000; notional context: "
+                    "transaction_facility"
+                ),
+                "recommended_action": "Confirm collateral package",
+                "source_uri": "https://www.sec.gov/example-secured.htm",
+                "source_uris": json.dumps(["https://www.sec.gov/example-secured.htm"]),
+                "content_hash": "1" * 64,
+                "content_hashes": json.dumps(["1" * 64]),
+                "page_or_section": "credit agreement exhibit",
+                "human_review_status": "pending",
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_packets(
+        [tmp_path / "data"],
+        limit=1,
+        snippet_chars=360,
+    )
+
+    snippet = batch.packets[0].evidence_snippets[0].snippet.lower()
+    assert "shall be secured by a first priority security interest" in snippet
+    assert "substantially all assets" in snippet
+    assert "lien means" not in snippet
+
+
+def test_materiality_packet_snippet_does_not_prefer_definition_only_scope(
+    tmp_path: Path,
+) -> None:
+    source_path = tmp_path / "data" / "edgar_acquisition" / "documents" / "defs.htm"
+    source_path.parent.mkdir(parents=True, exist_ok=True)
+    source_path.write_text(
+        """
+        <html><body>
+        Example Finance Corp. entered into a $4.0 billion revolving credit
+        facility with Example Administrative Agent to refinance existing debt.
+        The facility matures in 2030 and bears interest at SOFR plus a margin.
+        Boilerplate definitions follow. Lien means any mortgage, pledge,
+        security interest, encumbrance or charge, including obligations secured
+        by any lien on property. Permitted Liens include statutory liens and
+        other customary exceptions.
+        </body></html>
+        """
+    )
+    _write_csv(
+        tmp_path / "data" / "edgar_acquisition" / "edgar_document_inventory.csv",
+        [
+            {
+                "filing_url": "https://www.sec.gov/example-defs.htm",
+                "local_path": str(source_path),
+                "content_hash": "2" * 64,
+                "primary_document": "defs.htm",
+                "accession_number": "0001-26-000003",
+            }
+        ],
+    )
+    _write_csv(
+        tmp_path / "data" / "reports" / "review_queue.csv",
+        [
+            {
+                "review_id": "review-definitions",
+                "review_group_id": "group-definitions",
+                "priority": "high",
+                "category": "capital",
+                "subcategory": "high_notional_debt_like_candidate",
+                "ecosystem_relevance": "watchlist_entity",
+                "entity": "Example Finance Corp.",
+                "counterparty": "Example Administrative Agent",
+                "deal_id": "deal-definitions",
+                "source_row_id": "row-definitions",
+                "notional_amount_usd": "4000000000",
+                "exposure_usd": "0",
+                "capacity_mw": "0",
+                "risk_score": "0.6",
+                "reason": (
+                    "pending adjudication status: pending; debt-like deal type: "
+                    "debt_facility; notional $4,000,000,000; notional context: "
+                    "transaction_facility"
+                ),
+                "recommended_action": "Confirm collateral package",
+                "source_uri": "https://www.sec.gov/example-defs.htm",
+                "source_uris": json.dumps(["https://www.sec.gov/example-defs.htm"]),
+                "content_hash": "2" * 64,
+                "content_hashes": json.dumps(["2" * 64]),
+                "page_or_section": "credit agreement exhibit",
+                "human_review_status": "pending",
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_packets(
+        [tmp_path / "data"],
+        limit=1,
+        snippet_chars=260,
+    )
+
+    snippet = batch.packets[0].evidence_snippets[0].snippet.lower()
+    assert "entered into a $4.0 billion revolving credit facility" in snippet
+    assert "permitted liens include statutory liens" not in snippet
+
+
 def test_write_materiality_adjudication_packets(tmp_path: Path) -> None:
     _write_csv(
         tmp_path / "reports" / "review_queue.csv",
