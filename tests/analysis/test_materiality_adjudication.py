@@ -2969,6 +2969,128 @@ def test_materiality_adjudication_keeps_committed_bridge_and_revolver_controls(
     )
 
 
+def test_materiality_adjudication_blocks_pro_forma_combined_financing_total(
+    tmp_path: Path,
+) -> None:
+    decision = _single_capacity_decision(
+        tmp_path,
+        packet_id="packet-pro-forma-combined-total",
+        entity="Brown & Brown, Inc.",
+        amount=11_960_000_000,
+        quote=(
+            "The Company funded the purchase price with a combination of "
+            "net proceeds from a follow-on common stock offering, net proceeds "
+            "from the issuance of certain series of unsecured senior notes and "
+            "the Equity Consideration, described further in Note 3 to this "
+            "unaudited pro forma condensed combined financial information."
+        ),
+        reason=(
+            "pending adjudication status: pending; debt-like deal type: bond; "
+            "notional $11,960,000,000; notional context: transaction_tranche_sum; "
+            "commitment scope: specific_transaction_commitment"
+        ),
+    )
+
+    assert "split aggregate disclosure from specific committed obligation" in (
+        decision.remaining_gap
+    )
+    assert decision.metric_use_status == "blocked_pending_extraction"
+
+
+def test_materiality_adjudication_blocks_loan_portfolio_asset_total(
+    tmp_path: Path,
+) -> None:
+    decision = _single_capacity_decision(
+        tmp_path,
+        packet_id="packet-loan-portfolio-asset-total",
+        entity="Navient Corp.",
+        amount=15_963_000_000,
+        quote=(
+            "We expect to fund our ongoing liquidity needs, including the "
+            "repayment of $1.2 billion of senior unsecured notes and the "
+            "remaining $4.1 billion of senior unsecured notes, through sources "
+            "including our cash on hand and Private Education Loan portfolios."
+        ),
+        reason=(
+            "pending contract tranche review; tranche: Notes; notional "
+            "$15,963,000,000; maturity 2025-03-31; collateral terms present"
+        ),
+    )
+
+    assert "split aggregate disclosure from specific committed obligation" in (
+        decision.remaining_gap
+    )
+    assert decision.metric_use_status == "blocked_pending_extraction"
+
+
+def test_materiality_adjudication_blocks_debt_rollup_total(
+    tmp_path: Path,
+) -> None:
+    decision = _single_capacity_decision(
+        tmp_path,
+        packet_id="packet-debt-rollup-total",
+        entity="MidCap Financial Investment Corp.",
+        amount=2_058_000_000,
+        quote=(
+            "Total debt totaled $2,058 million which was comprised of "
+            "$125 million of Senior Unsecured Notes, $80 million of Senior "
+            "Unsecured Notes, $232 million outstanding Class A-1 Notes, "
+            "$399 million outstanding secured debt and $1,222 million "
+            "outstanding under the Company's Senior Secured Facility."
+        ),
+    )
+
+    assert "split aggregate disclosure from specific committed obligation" in (
+        decision.remaining_gap
+    )
+    assert decision.metric_use_status == "blocked_pending_extraction"
+
+
+def test_materiality_adjudication_blocks_total_capacity_bundle(
+    tmp_path: Path,
+) -> None:
+    decision = _single_capacity_decision(
+        tmp_path,
+        packet_id="packet-total-capacity-bundle",
+        entity="NRG Energy, Inc.",
+        amount=8_000_000_000,
+        quote=(
+            "Total capacity of Revolving Credit Facility and collective "
+            "collateral facilities was $8.0 billion as of September 30, 2025."
+        ),
+    )
+
+    assert "split aggregate disclosure from specific committed obligation" in (
+        decision.remaining_gap
+    )
+    assert decision.metric_use_status == "blocked_pending_extraction"
+
+
+def test_materiality_adjudication_keeps_single_multi_tranche_offering(
+    tmp_path: Path,
+) -> None:
+    decision = _single_capacity_decision(
+        tmp_path,
+        packet_id="packet-single-multi-tranche-offering",
+        entity="Baker Hughes Company",
+        amount=6_500_000_000,
+        quote=(
+            "Baker Hughes is offering $6.5 billion aggregate principal amount "
+            "of senior notes consisting of five tranches under the indenture."
+        ),
+        reason=(
+            "pending adjudication status: pending; debt-like deal type: bond; "
+            "notional $6,500,000,000; notional context: transaction_principal"
+        ),
+        counterparty="underwriters",
+    )
+
+    assert "split aggregate disclosure from specific committed obligation" not in (
+        decision.remaining_gap
+    )
+    assert decision.metric_use_status == "approved_for_metric_use"
+
+
 def test_materiality_adjudication_does_not_block_underwriter_commitment_boilerplate(
     tmp_path: Path,
 ) -> None:

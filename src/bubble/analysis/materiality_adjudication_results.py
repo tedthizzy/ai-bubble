@@ -2313,6 +2313,8 @@ def _requires_aggregate_split(packet: dict[str, str], quote: str) -> bool:
         packet, quote
     ) or _looks_like_debt_outstanding_snapshot(text):
         return True
+    if _looks_like_rollup_or_unbound_amount_context(packet, quote):
+        return True
     if _is_committed_contract_value_disclosure(packet, text):
         return False
     hard_non_specific_markers = [
@@ -2362,6 +2364,56 @@ def _requires_aggregate_split(packet: dict[str, str], quote: str) -> bool:
         has_hard_non_specific_terms
         or _contains_any(text, explicit_non_specific_markers)
         or "aggregate" in text
+    )
+
+
+def _looks_like_rollup_or_unbound_amount_context(
+    packet: dict[str, str],
+    quote: str,
+) -> bool:
+    is_capital_or_contract = _field(packet, "category") in {"capital", "contract"}
+    amount = _float(packet.get("exposure_basis_usd"))
+    if not is_capital_or_contract or amount <= 0:
+        return False
+    text = _combined_text(packet, quote)
+    direct_rollup = _contains_any(
+        text,
+        [
+            "pro forma condensed combined financial information",
+            "portfolio, gross",
+            "loans, gross",
+            "total private education loans",
+            "total long-term debt",
+            "total capacity of",
+            "debt maturities by year",
+            "% of total debt",
+        ],
+    )
+    debt_schedule_rollup = "total indebtedness" in text and _contains_any(
+        text,
+        ["schedule", "senior unsecured notes", "letters of credit"],
+    )
+    comprised_of_rollup = (
+        "totaled" in text
+        and "comprised of" in text
+        and len(_usd_nominal_amounts(text)) >= 3
+    )
+    amount_unbound_rollup = _amount_absent_from_quote(amount, quote) and _contains_any(
+        text,
+        [
+            "loan portfolio",
+            "loan portfolios",
+            "available under its revolving credit facility",
+            "future offerings or financings, possibly to zero",
+            "combined weighted average interest rate",
+            "governing law the notes and the indentures",
+        ],
+    )
+    return (
+        direct_rollup
+        or debt_schedule_rollup
+        or comprised_of_rollup
+        or amount_unbound_rollup
     )
 
 
