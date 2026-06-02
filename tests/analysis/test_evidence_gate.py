@@ -123,6 +123,67 @@ def test_semantic_gate_preserves_committed_debt_claim():
     assert audit.blocking_issues == []
 
 
+def test_semantic_gate_preserves_terse_note_issuance_claim():
+    gate = EvidenceGate()
+    audit = gate.audit_claim(
+        claim_id="capital.note_issuance",
+        claim="Claimed note amount from offering document",
+        value=6_000_000_000,
+        unit="USD",
+        evidence=[_provenance(SourceType.SEC_EDGAR, confidence=0.9)],
+        high_impact=True,
+        semantic_text=(
+            "The Notes were issued pursuant to an Underwriting Agreement "
+            "among the Company and the underwriters."
+        ),
+    )
+
+    assert audit.semantic_bucket == SemanticEvidenceBucket.COMMITTED_DEBT
+    assert audit.effective_confidence == 0.9
+    assert audit.eligible_for_high_confidence is True
+
+
+def test_semantic_gate_preserves_credit_and_guaranty_facility_claim():
+    gate = EvidenceGate()
+    audit = gate.audit_claim(
+        claim_id="capital.credit_guaranty",
+        claim="Claimed facility amount from credit agreement",
+        value=2_350_000_000,
+        unit="USD",
+        evidence=[_provenance(SourceType.SEC_EDGAR, confidence=0.9)],
+        high_impact=True,
+        semantic_text=(
+            "Credit and Guaranty Agreement by and among the borrower, "
+            "subsidiary guarantors, lenders party thereto and Sumitomo "
+            "Mitsui Banking Corporation as administrative agent."
+        ),
+    )
+
+    assert audit.semantic_bucket == SemanticEvidenceBucket.COMMITTED_DEBT
+    assert audit.effective_confidence == 0.9
+    assert audit.eligible_for_high_confidence is True
+
+
+def test_semantic_gate_caps_bank_financial_metric_claim():
+    gate = EvidenceGate()
+    audit = gate.audit_claim(
+        claim_id="capital.bank_presentation_metric",
+        claim="Claimed note amount from bank financial metric slide",
+        value=41_594_000_000,
+        unit="USD",
+        evidence=[_provenance(SourceType.SEC_EDGAR, confidence=0.9)],
+        high_impact=True,
+        semantic_text=(
+            "Net income of $109.8 million, return on average assets of "
+            "1.65%, tangible book value growth and efficiency ratio improved."
+        ),
+    )
+
+    assert audit.semantic_bucket == SemanticEvidenceBucket.ASSET_OR_CAPACITY
+    assert audit.effective_confidence == 0.3
+    assert audit.eligible_for_high_confidence is False
+
+
 def test_semantic_required_routes_indeterminate_claim_to_review():
     gate = EvidenceGate()
     audit = gate.audit_claim(

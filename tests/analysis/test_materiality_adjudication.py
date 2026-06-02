@@ -414,7 +414,9 @@ def test_materiality_packets_extract_xlsx_artifact_snippets(tmp_path: Path) -> N
                 "recommended_action": "Confirm queue linkage",
                 "source_uri": "https://www.nyiso.com/documents/20142/1407078/NYISO-Interconnection-Queue.xlsx",
                 "source_uris": json.dumps(
-                    ["https://www.nyiso.com/documents/20142/1407078/NYISO-Interconnection-Queue.xlsx"]
+                    [
+                        "https://www.nyiso.com/documents/20142/1407078/NYISO-Interconnection-Queue.xlsx"
+                    ]
                 ),
                 "content_hash": "9" * 64,
                 "content_hashes": json.dumps(["9" * 64]),
@@ -770,9 +772,7 @@ def test_materiality_packet_keeps_role_and_scope_clauses_from_same_artifact(
     decision = decision_batch.decisions[0]
     assert "bank of example" in decision.evidence_quote.lower()
     assert "secured by substantially all assets" in decision.evidence_quote.lower()
-    assert "guaranteed by each material subsidiary guarantor" in (
-        decision.evidence_quote.lower()
-    )
+    assert "guaranteed by each material subsidiary guarantor" in (decision.evidence_quote.lower())
     assert "extract named counterparty and role" not in decision.remaining_gap
     assert "determine collateral scope" not in decision.remaining_gap
     assert "determine recourse and guarantee scope" not in decision.remaining_gap
@@ -1191,9 +1191,7 @@ def test_materiality_adjudication_blocks_aggregate_lease_context_when_quote_is_d
                 ),
                 "recommended_action": "Confirm whether row is duplicate or aggregate obligation",
                 "source_uri": "https://www.sec.gov/alphabet-debt-prospectus.htm",
-                "source_uris": json.dumps(
-                    ["https://www.sec.gov/alphabet-debt-prospectus.htm"]
-                ),
+                "source_uris": json.dumps(["https://www.sec.gov/alphabet-debt-prospectus.htm"]),
                 "content_hash": "c" * 64,
                 "content_hashes": json.dumps(["c" * 64]),
                 "evidence_snippets": json.dumps(
@@ -1226,6 +1224,123 @@ def test_materiality_adjudication_blocks_aggregate_lease_context_when_quote_is_d
     assert decision.metric_use_status == "blocked_pending_extraction"
     assert "confirm lease obligation source" in decision.remaining_gap
     assert "split aggregate disclosure" in decision.remaining_gap
+    assert decision.supported_amount_usd == 0
+
+
+def test_materiality_adjudication_blocks_bank_financial_metric_snippet(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-bank-financial-metric",
+                "rank": 1,
+                "review_id": "review-bank-financial-metric",
+                "review_group_id": "group-bank-financial-metric",
+                "priority": "critical",
+                "category": "contract",
+                "subcategory": "contract_tranche_terms",
+                "ecosystem_relevance": "market_contagion",
+                "entity": "Example Bancorp",
+                "counterparty": "noteholders",
+                "exposure_basis_usd": "41594000000",
+                "reason": (
+                    "pending contract tranche review; tranche: Notes; notional $41,594,000,000"
+                ),
+                "recommended_action": "Confirm whether this is debt or bank metrics",
+                "source_uri": "https://www.sec.gov/example-bank-results.htm",
+                "source_uris": json.dumps(["https://www.sec.gov/example-bank-results.htm"]),
+                "content_hash": "d" * 64,
+                "content_hashes": json.dumps(["d" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/example-bank-results.htm",
+                            "content_hash": "d" * 64,
+                            "document_id": "example-bank-results.htm",
+                            "snippet": (
+                                "Net income of $109.8 million, return on average "
+                                "assets of 1.65%, tangible book value growth, "
+                                "market capitalization and efficiency ratio improved."
+                            ),
+                        }
+                    ]
+                ),
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    decision = batch.decisions[0]
+    assert (
+        "split asset, UPB, or financing-capacity disclosure from committed debt"
+        in decision.remaining_gap
+    )
+    assert decision.metric_use_status == "blocked_pending_extraction"
+    assert decision.supported_amount_usd == 0
+
+
+def test_materiality_adjudication_blocks_enterprise_value_acquisition_snippet(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-enterprise-value",
+                "rank": 1,
+                "review_id": "review-enterprise-value",
+                "review_group_id": "group-enterprise-value",
+                "priority": "critical",
+                "category": "contract",
+                "subcategory": "contract_tranche_terms",
+                "ecosystem_relevance": "market_contagion",
+                "entity": "Example Payments Inc.",
+                "counterparty": "noteholders",
+                "exposure_basis_usd": "24250000000",
+                "reason": (
+                    "pending contract tranche review; tranche: Notes; notional $24,250,000,000"
+                ),
+                "recommended_action": "Confirm whether this is debt or acquisition value",
+                "source_uri": "https://www.sec.gov/example-acquisition.htm",
+                "source_uris": json.dumps(["https://www.sec.gov/example-acquisition.htm"]),
+                "content_hash": "e" * 64,
+                "content_hashes": json.dumps(["e" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/example-acquisition.htm",
+                            "content_hash": "e" * 64,
+                            "document_id": "example-acquisition.htm",
+                            "snippet": (
+                                "Completion of Acquisition or Disposition of Assets. "
+                                "The aggregate purchase price was based on a $24.25 "
+                                "billion enterprise valuation for the acquired "
+                                "business."
+                            ),
+                        }
+                    ]
+                ),
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    decision = batch.decisions[0]
+    assert (
+        "split asset, UPB, or financing-capacity disclosure from committed debt"
+        in decision.remaining_gap
+    )
+    assert decision.metric_use_status == "blocked_pending_extraction"
     assert decision.supported_amount_usd == 0
 
 
@@ -1351,9 +1466,9 @@ def test_materiality_adjudication_dedupes_same_source_instrument_metric_rows(
     assert {decision.metric_group_id for decision in batch.decisions} == {
         f"source-instrument:hashes:{'d' * 64}:amount:3500000000"
     }
-    assert {
-        decision.metric_aggregation_policy for decision in batch.decisions
-    } == {"max_amount_per_source_instrument"}
+    assert {decision.metric_aggregation_policy for decision in batch.decisions} == {
+        "max_amount_per_source_instrument"
+    }
 
 
 def test_materiality_adjudication_dedupes_same_obligation_across_filings(
@@ -1387,9 +1502,7 @@ def test_materiality_adjudication_dedupes_same_obligation_across_filings(
                 ),
                 "recommended_action": "Confirm repeated filing disclosure",
                 "source_uri": f"https://www.sec.gov/example-repeat-{rank}.htm",
-                "source_uris": json.dumps(
-                    [f"https://www.sec.gov/example-repeat-{rank}.htm"]
-                ),
+                "source_uris": json.dumps([f"https://www.sec.gov/example-repeat-{rank}.htm"]),
                 "content_hash": hash_value,
                 "content_hashes": json.dumps([hash_value]),
                 "evidence_snippets": json.dumps(
@@ -1416,9 +1529,9 @@ def test_materiality_adjudication_dedupes_same_obligation_across_filings(
     assert batch.summary.final_metric_supported_amount_usd == 5_000_000_000
     assert batch.summary.final_metric_group_count == 1
     assert len({decision.metric_group_id for decision in batch.decisions}) == 2
-    assert {
-        decision.metric_aggregation_policy for decision in batch.decisions
-    } == {"max_amount_per_source_instrument"}
+    assert {decision.metric_aggregation_policy for decision in batch.decisions} == {
+        "max_amount_per_source_instrument"
+    }
 
 
 def test_materiality_adjudication_dedupes_same_obligation_with_varied_filing_wording(
@@ -1476,10 +1589,7 @@ def test_materiality_adjudication_dedupes_same_obligation_with_varied_filing_wor
                 "evidence_snippets": json.dumps(
                     [
                         {
-                            "source_uri": (
-                                "https://www.sec.gov/"
-                                f"example-varied-repeat-{rank}.htm"
-                            ),
+                            "source_uri": (f"https://www.sec.gov/example-varied-repeat-{rank}.htm"),
                             "content_hash": str(rank) * 64,
                             "document_id": f"example-varied-repeat-{rank}.htm",
                             "snippet": quote,
@@ -1562,8 +1672,7 @@ def test_materiality_adjudication_dedupes_source_instrument_and_snapshot_overlap
                 "counterparty": "",
                 "exposure_basis_usd": "5000000000",
                 "reason": (
-                    "notional $5,000,000,000; notional context: "
-                    "aggregate_commitment_snapshot"
+                    "notional $5,000,000,000; notional context: aggregate_commitment_snapshot"
                 ),
                 "recommended_action": "Persist aggregate commitment snapshot",
                 "source_uri": "https://www.sec.gov/example-overlap.htm",
@@ -1599,8 +1708,7 @@ def test_materiality_adjudication_dedupes_source_instrument_and_snapshot_overlap
     assert batch.summary.final_metric_group_count == 1
     assert {decision.metric_group_id for decision in batch.decisions} == {
         f"source-instrument:hashes:{shared_hash}:amount:5000000000",
-        "aggregate-obligation-snapshot:example-parent-corp:"
-        "high-notional-debt-like-candidate",
+        "aggregate-obligation-snapshot:example-parent-corp:high-notional-debt-like-candidate",
     }
     assert {decision.metric_aggregation_policy for decision in batch.decisions} == {
         "max_amount_per_source_instrument",
@@ -1745,17 +1853,13 @@ def test_materiality_adjudication_keeps_portfolio_upb_plus_issued_notes_blocked(
                 ),
                 "recommended_action": "Split portfolio UPB from issued debt",
                 "source_uri": "https://www.sec.gov/example-upb-issued-notes.htm",
-                "source_uris": json.dumps(
-                    ["https://www.sec.gov/example-upb-issued-notes.htm"]
-                ),
+                "source_uris": json.dumps(["https://www.sec.gov/example-upb-issued-notes.htm"]),
                 "content_hash": "1" * 64,
                 "content_hashes": json.dumps(["1" * 64]),
                 "evidence_snippets": json.dumps(
                     [
                         {
-                            "source_uri": (
-                                "https://www.sec.gov/example-upb-issued-notes.htm"
-                            ),
+                            "source_uri": ("https://www.sec.gov/example-upb-issued-notes.htm"),
                             "content_hash": "1" * 64,
                             "document_id": "example-upb-issued-notes.htm",
                             "snippet": (
@@ -1863,17 +1967,13 @@ def test_materiality_adjudication_blocks_mega_boilerplate_as_debt(
                 ),
                 "recommended_action": "Confirm debt amount",
                 "source_uri": "https://www.sec.gov/example-mega-boilerplate.htm",
-                "source_uris": json.dumps(
-                    ["https://www.sec.gov/example-mega-boilerplate.htm"]
-                ),
+                "source_uris": json.dumps(["https://www.sec.gov/example-mega-boilerplate.htm"]),
                 "content_hash": "3" * 64,
                 "content_hashes": json.dumps(["3" * 64]),
                 "evidence_snippets": json.dumps(
                     [
                         {
-                            "source_uri": (
-                                "https://www.sec.gov/example-mega-boilerplate.htm"
-                            ),
+                            "source_uri": ("https://www.sec.gov/example-mega-boilerplate.htm"),
                             "content_hash": "3" * 64,
                             "document_id": "example-mega-boilerplate.htm",
                             "snippet": (
@@ -2390,9 +2490,7 @@ def test_materiality_adjudication_quote_selection_prefers_unsecured_scope(
                 ),
                 "recommended_action": "Confirm collateral and recourse",
                 "source_uri": "https://www.sec.gov/example-unsecured-facility.htm",
-                "source_uris": json.dumps(
-                    ["https://www.sec.gov/example-unsecured-facility.htm"]
-                ),
+                "source_uris": json.dumps(["https://www.sec.gov/example-unsecured-facility.htm"]),
                 "content_hash": "8" * 64,
                 "content_hashes": json.dumps(["8" * 64]),
                 "evidence_snippets": json.dumps(
@@ -2511,9 +2609,7 @@ def test_materiality_adjudication_treats_security_documents_as_collateral_scope(
                 ),
                 "recommended_action": "Confirm collateral package",
                 "source_uri": "https://www.sec.gov/example-security-documents.htm",
-                "source_uris": json.dumps(
-                    ["https://www.sec.gov/example-security-documents.htm"]
-                ),
+                "source_uris": json.dumps(["https://www.sec.gov/example-security-documents.htm"]),
                 "content_hash": "d" * 64,
                 "content_hashes": json.dumps(["d" * 64]),
                 "evidence_snippets": json.dumps(
@@ -2523,7 +2619,7 @@ def test_materiality_adjudication_treats_security_documents_as_collateral_scope(
                             "content_hash": "d" * 64,
                             "document_id": "example-security-documents.htm",
                             "snippet": (
-                                "\"Loan Documents\" means this Agreement, the Security "
+                                '"Loan Documents" means this Agreement, the Security '
                                 "Documents, promissory notes, fee letters, and each "
                                 "other document entered into in connection with the "
                                 "Facilities."
@@ -2549,10 +2645,7 @@ def test_materiality_adjudication_treats_security_documents_as_collateral_scope(
 def test_materiality_adjudication_scope_quote_trim_keeps_late_secured_terms(
     tmp_path: Path,
 ) -> None:
-    long_intro = (
-        "The company described background liquidity and related offering details. "
-        * 14
-    )
+    long_intro = "The company described background liquidity and related offering details. " * 14
     _write_csv(
         tmp_path / "reports" / "materiality_adjudication_packets.csv",
         [
@@ -2575,9 +2668,7 @@ def test_materiality_adjudication_scope_quote_trim_keeps_late_secured_terms(
                 ),
                 "recommended_action": "Confirm collateral package",
                 "source_uri": "https://www.sec.gov/example-late-secured-term.htm",
-                "source_uris": json.dumps(
-                    ["https://www.sec.gov/example-late-secured-term.htm"]
-                ),
+                "source_uris": json.dumps(["https://www.sec.gov/example-late-secured-term.htm"]),
                 "content_hash": "e" * 64,
                 "content_hashes": json.dumps(["e" * 64]),
                 "evidence_snippets": json.dumps(
@@ -2587,8 +2678,7 @@ def test_materiality_adjudication_scope_quote_trim_keeps_late_secured_terms(
                             "content_hash": "e" * 64,
                             "document_id": "example-late-secured-term.htm",
                             "snippet": (
-                                long_intro
-                                + "The refinancing replaced prior loans with a term "
+                                long_intro + "The refinancing replaced prior loans with a term "
                                 "loan facility and revolving credit facility, together "
                                 "defined as the Senior Secured Credit Facilities."
                             ),
@@ -2635,17 +2725,13 @@ def test_materiality_adjudication_treats_first_mortgage_bond_as_scope_resolved(
                 ),
                 "recommended_action": "Confirm mortgage-bond scope",
                 "source_uri": "https://www.sec.gov/example-first-mortgage-bond.htm",
-                "source_uris": json.dumps(
-                    ["https://www.sec.gov/example-first-mortgage-bond.htm"]
-                ),
+                "source_uris": json.dumps(["https://www.sec.gov/example-first-mortgage-bond.htm"]),
                 "content_hash": "f" * 64,
                 "content_hashes": json.dumps(["f" * 64]),
                 "evidence_snippets": json.dumps(
                     [
                         {
-                            "source_uri": (
-                                "https://www.sec.gov/example-first-mortgage-bond.htm"
-                            ),
+                            "source_uri": ("https://www.sec.gov/example-first-mortgage-bond.htm"),
                             "content_hash": "f" * 64,
                             "document_id": "example-first-mortgage-bond.htm",
                             "snippet": (
@@ -2696,9 +2782,7 @@ def test_materiality_adjudication_treats_first_lien_notes_as_collateral_scope(
                 ),
                 "recommended_action": "Confirm lien-rank collateral scope",
                 "source_uri": "https://www.sec.gov/example-first-lien-notes.htm",
-                "source_uris": json.dumps(
-                    ["https://www.sec.gov/example-first-lien-notes.htm"]
-                ),
+                "source_uris": json.dumps(["https://www.sec.gov/example-first-lien-notes.htm"]),
                 "content_hash": "d" * 64,
                 "content_hashes": json.dumps(["d" * 64]),
                 "evidence_snippets": json.dumps(
@@ -2764,9 +2848,7 @@ def test_materiality_adjudication_keeps_mortgage_bond_outstanding_total_blocked(
                 "evidence_snippets": json.dumps(
                     [
                         {
-                            "source_uri": (
-                                "https://www.sec.gov/example-mortgage-bond-summary.htm"
-                            ),
+                            "source_uri": ("https://www.sec.gov/example-mortgage-bond-summary.htm"),
                             "content_hash": "1" * 64,
                             "document_id": "example-mortgage-bond-summary.htm",
                             "snippet": (
@@ -2787,10 +2869,7 @@ def test_materiality_adjudication_keeps_mortgage_bond_outstanding_total_blocked(
     )
 
     decision = batch.decisions[0]
-    assert (
-        "split aggregate disclosure from specific committed obligation"
-        in decision.remaining_gap
-    )
+    assert "split aggregate disclosure from specific committed obligation" in decision.remaining_gap
     assert "determine collateral scope" not in decision.remaining_gap
     assert "determine recourse and guarantee scope" not in decision.remaining_gap
     assert decision.metric_use_status == "blocked_pending_extraction"
@@ -2821,17 +2900,13 @@ def test_materiality_adjudication_keeps_generic_mortgage_bond_shelf_blocked(
                 ),
                 "recommended_action": "Confirm specific mortgage-bond issuance",
                 "source_uri": "https://www.sec.gov/example-mortgage-bond-shelf.htm",
-                "source_uris": json.dumps(
-                    ["https://www.sec.gov/example-mortgage-bond-shelf.htm"]
-                ),
+                "source_uris": json.dumps(["https://www.sec.gov/example-mortgage-bond-shelf.htm"]),
                 "content_hash": "2" * 64,
                 "content_hashes": json.dumps(["2" * 64]),
                 "evidence_snippets": json.dumps(
                     [
                         {
-                            "source_uri": (
-                                "https://www.sec.gov/example-mortgage-bond-shelf.htm"
-                            ),
+                            "source_uri": ("https://www.sec.gov/example-mortgage-bond-shelf.htm"),
                             "content_hash": "2" * 64,
                             "document_id": "example-mortgage-bond-shelf.htm",
                             "snippet": (
@@ -2914,10 +2989,7 @@ def test_materiality_adjudication_keeps_mortgage_bond_repayment_proceeds_blocked
     )
 
     decision = batch.decisions[0]
-    assert (
-        "split aggregate disclosure from specific committed obligation"
-        in decision.remaining_gap
-    )
+    assert "split aggregate disclosure from specific committed obligation" in decision.remaining_gap
     assert decision.metric_use_status == "blocked_pending_extraction"
 
 
@@ -3125,9 +3197,7 @@ def test_materiality_adjudication_keeps_term_facility_with_note_reference_bilate
                 ),
                 "recommended_action": "Extract lender parties",
                 "source_uri": "https://www.sec.gov/example-term-note-reference.htm",
-                "source_uris": json.dumps(
-                    ["https://www.sec.gov/example-term-note-reference.htm"]
-                ),
+                "source_uris": json.dumps(["https://www.sec.gov/example-term-note-reference.htm"]),
                 "content_hash": "a" * 64,
                 "content_hashes": json.dumps(["a" * 64]),
                 "evidence_snippets": json.dumps(
@@ -3353,8 +3423,7 @@ def test_materiality_adjudication_keeps_physical_queue_rows_out_of_metric_use(
                 "counterparty": "Example Data Center LLC",
                 "exposure_basis_usd": "10000000000",
                 "reason": (
-                    "pending queue-to-project match; match status: strong_match; "
-                    "capacity_mw 1000"
+                    "pending queue-to-project match; match status: strong_match; capacity_mw 1000"
                 ),
                 "recommended_action": "Confirm queue linkage",
                 "source_uri": "https://example.org/interconnection-queue.csv",
@@ -3758,9 +3827,7 @@ def test_materiality_adjudication_infers_named_borrower_from_defined_party_label
                 ),
                 "recommended_action": "Confirm parties and financing roles",
                 "source_uri": "https://www.sec.gov/example-defined-borrower.htm",
-                "source_uris": json.dumps(
-                    ["https://www.sec.gov/example-defined-borrower.htm"]
-                ),
+                "source_uris": json.dumps(["https://www.sec.gov/example-defined-borrower.htm"]),
                 "content_hash": "6" * 64,
                 "content_hashes": json.dumps(["6" * 64]),
                 "evidence_snippets": json.dumps(
@@ -3817,9 +3884,7 @@ def test_materiality_adjudication_infers_together_commitment_parties(
                 ),
                 "recommended_action": "Confirm parties and financing roles",
                 "source_uri": "https://www.sec.gov/example-together-commitment.htm",
-                "source_uris": json.dumps(
-                    ["https://www.sec.gov/example-together-commitment.htm"]
-                ),
+                "source_uris": json.dumps(["https://www.sec.gov/example-together-commitment.htm"]),
                 "content_hash": "7" * 64,
                 "content_hashes": json.dumps(["7" * 64]),
                 "evidence_snippets": json.dumps(
@@ -4004,9 +4069,7 @@ def test_materiality_adjudication_infers_counterparty_from_financing_role_varian
                 ),
                 "recommended_action": "Confirm parties and financing roles",
                 "source_uri": "https://www.sec.gov/example-na-serving-agent.htm",
-                "source_uris": json.dumps(
-                    ["https://www.sec.gov/example-na-serving-agent.htm"]
-                ),
+                "source_uris": json.dumps(["https://www.sec.gov/example-na-serving-agent.htm"]),
                 "content_hash": "a" * 64,
                 "content_hashes": json.dumps(["a" * 64]),
                 "evidence_snippets": json.dumps(
@@ -4190,9 +4253,7 @@ def test_materiality_adjudication_infers_counterparty_from_financing_role_varian
                 ),
                 "recommended_action": "Confirm underwriter representatives",
                 "source_uri": "https://www.sec.gov/example-no-with-underwriters.htm",
-                "source_uris": json.dumps(
-                    ["https://www.sec.gov/example-no-with-underwriters.htm"]
-                ),
+                "source_uris": json.dumps(["https://www.sec.gov/example-no-with-underwriters.htm"]),
                 "content_hash": "f" * 64,
                 "content_hashes": json.dumps(["f" * 64]),
                 "evidence_snippets": json.dumps(
@@ -4219,34 +4280,35 @@ def test_materiality_adjudication_infers_counterparty_from_financing_role_varian
     )
 
     decisions = {decision.packet_id: decision for decision in batch.decisions}
-    assert "extract named counterparty and role" not in decisions[
-        "packet-na-serving-agent"
-    ].remaining_gap
+    assert (
+        "extract named counterparty and role"
+        not in decisions["packet-na-serving-agent"].remaining_gap
+    )
     assert "Citibank, N.A" in decisions["packet-na-serving-agent"].risk_bearer
-    assert "extract named counterparty and role" not in decisions[
-        "packet-underwriter-representatives"
-    ].remaining_gap
-    assert "BofA Securities, Inc." in decisions[
-        "packet-underwriter-representatives"
-    ].risk_bearer
-    assert "extract named counterparty and role" not in decisions[
-        "packet-trustee-label"
-    ].remaining_gap
+    assert (
+        "extract named counterparty and role"
+        not in decisions["packet-underwriter-representatives"].remaining_gap
+    )
+    assert "BofA Securities, Inc." in decisions["packet-underwriter-representatives"].risk_bearer
+    assert (
+        "extract named counterparty and role" not in decisions["packet-trustee-label"].remaining_gap
+    )
     assert "U.S. Bank Trust Company" in decisions["packet-trustee-label"].risk_bearer
-    assert "extract named counterparty and role" not in decisions[
-        "packet-borrower-agent"
-    ].remaining_gap
+    assert (
+        "extract named counterparty and role"
+        not in decisions["packet-borrower-agent"].remaining_gap
+    )
     assert "JPMorgan Chase Bank" in decisions["packet-borrower-agent"].risk_bearer
-    assert "extract named counterparty and role" not in decisions[
-        "packet-combined-agent-role"
-    ].remaining_gap
+    assert (
+        "extract named counterparty and role"
+        not in decisions["packet-combined-agent-role"].remaining_gap
+    )
     assert "Credit Suisse AG" in decisions["packet-combined-agent-role"].risk_bearer
-    assert "extract named counterparty and role" not in decisions[
-        "packet-no-with-underwriter-reps"
-    ].remaining_gap
-    assert "PNC Capital Markets LLC" in decisions[
-        "packet-no-with-underwriter-reps"
-    ].risk_bearer
+    assert (
+        "extract named counterparty and role"
+        not in decisions["packet-no-with-underwriter-reps"].remaining_gap
+    )
+    assert "PNC Capital Markets LLC" in decisions["packet-no-with-underwriter-reps"].risk_bearer
 
 
 def test_write_materiality_adjudication_decisions(tmp_path: Path) -> None:

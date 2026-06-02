@@ -305,9 +305,9 @@ def _category_gaps(packet: dict[str, str], text: str, quote: str = "") -> list[s
             unsecured_scope_present
             or _is_note_offering_without_collateral_scope(packet, text_lower, reason_text)
         )
-        issuer_note_scope_present = _contains_any(text_lower, ["indenture", "issuer"]) and _contains_any(
-            text_lower, ["notes", "noteholders"]
-        )
+        issuer_note_scope_present = _contains_any(
+            text_lower, ["indenture", "issuer"]
+        ) and _contains_any(text_lower, ["notes", "noteholders"])
         secured_lender_scope_present = _contains_any(
             reason_text,
             [
@@ -367,7 +367,9 @@ def _category_gaps(packet: dict[str, str], text: str, quote: str = "") -> list[s
         text_lower, ["parent", "subsidiary", "guarantee"]
     ):
         if _looks_like_non_contract_financing_disclosure(text_lower):
-            gaps.append("acquire underlying agreement or debt schedule clause for term-level extraction")
+            gaps.append(
+                "acquire underlying agreement or debt schedule clause for term-level extraction"
+            )
         elif not _has_source_backed_ownership_path(packet, text_lower):
             gaps.append("validate legal-entity path and risk transfer mechanism")
     if category == "physical" and not _contains_any(
@@ -598,12 +600,16 @@ def _has_primary_note_offering_markers(text: str) -> bool:
 
 def _has_source_backed_ownership_path(packet: dict[str, str], text: str) -> bool:
     reason = _field(packet, "reason").lower()
-    if not _contains_any(reason, ["ownership expanded contagion path", "ownership/control path depth"]):
+    if not _contains_any(
+        reason, ["ownership expanded contagion path", "ownership/control path depth"]
+    ):
         return False
     source_uris = " ".join(_json_list(packet.get("source_uris"))).lower()
     has_sec = "sec.gov" in source_uris
     has_lei = "leidata.gleif.org" in source_uris
-    has_path_depth = _contains_any(reason, ["ownership/control path depth", "contract relationship:"])
+    has_path_depth = _contains_any(
+        reason, ["ownership/control path depth", "contract relationship:"]
+    )
     return has_sec and has_lei and has_path_depth
 
 
@@ -1121,9 +1127,7 @@ def _best_evidence_quote(
 
 
 def _combined_best_quote(snippets: list[str], terms: list[str]) -> str:
-    role_clause = _best_clause_from_snippets(
-        snippets, terms, _best_named_counterparty_role_clause
-    )
+    role_clause = _best_clause_from_snippets(snippets, terms, _best_named_counterparty_role_clause)
     scope_clause = _best_clause_from_snippets(snippets, terms, _best_scope_clause)
     best_sentence = _best_sentence(
         max(snippets, key=lambda snippet: _quote_score(snippet, terms)), terms
@@ -1216,11 +1220,7 @@ def _trim_window_around_terms(text: str, terms: list[str], max_len: int) -> str:
     if len(text) <= max_len:
         return text.strip()
     lowered = text.lower()
-    positions = [
-        index
-        for term in terms
-        if term and (index := lowered.find(term.lower())) >= 0
-    ]
+    positions = [index for term in terms if term and (index := lowered.find(term.lower())) >= 0]
     if not positions:
         return text[:max_len].strip()
     start = max(0, min(positions) - 180)
@@ -1593,13 +1593,9 @@ def _final_metric_representative_decisions(
 def _collapse_metric_representatives(
     representatives: list[MaterialityAdjudicationDecision],
     *,
-    key_fn: Callable[
-        [MaterialityAdjudicationDecision], tuple[str, tuple[str, ...], str] | None
-    ],
+    key_fn: Callable[[MaterialityAdjudicationDecision], tuple[str, tuple[str, ...], str] | None],
 ) -> list[MaterialityAdjudicationDecision]:
-    collapsed: dict[
-        tuple[str, tuple[str, ...], str], MaterialityAdjudicationDecision
-    ] = {}
+    collapsed: dict[tuple[str, tuple[str, ...], str], MaterialityAdjudicationDecision] = {}
     unkeyed: list[MaterialityAdjudicationDecision] = []
     for decision in representatives:
         dedupe_key = key_fn(decision)
@@ -1617,9 +1613,7 @@ def _collapse_metric_representatives(
 def _source_hash_metric_dedupe_key(
     decision: MaterialityAdjudicationDecision,
 ) -> tuple[str, tuple[str, ...], str] | None:
-    hashes = tuple(
-        sorted(hash_value for hash_value in decision.content_hashes if hash_value)
-    )
+    hashes = tuple(sorted(hash_value for hash_value in decision.content_hashes if hash_value))
     if not hashes and decision.content_hash:
         hashes = (decision.content_hash,)
     if not hashes:
@@ -1652,13 +1646,9 @@ def _economic_obligation_metric_dedupe_key(
     amount_key = _metric_amount_key(decision.supported_amount_usd)
     if not entity_key or not amount_key or amount_key == "0":
         return None
-    subcategory_key = re.sub(
-        r"[^a-z0-9]+", "-", decision.subcategory.lower()
-    ).strip("-")
+    subcategory_key = re.sub(r"[^a-z0-9]+", "-", decision.subcategory.lower()).strip("-")
     snapshot_key = decision.metric_snapshot_date[:7]
-    counterparty_key = re.sub(
-        r"[^a-z0-9]+", "-", decision.counterparty.lower()
-    ).strip("-")[:48]
+    counterparty_key = re.sub(r"[^a-z0-9]+", "-", decision.counterparty.lower()).strip("-")[:48]
     discriminators = tuple(
         value for value in (subcategory_key, snapshot_key, counterparty_key) if value
     )
@@ -1792,9 +1782,7 @@ def _requires_aggregate_split(packet: dict[str, str], quote: str) -> bool:
         "entered into",
         "repaid all outstanding obligations",
     ]
-    has_specific_terms = _contains_any(
-        reason, explicit_specific_markers
-    ) or _contains_any(
+    has_specific_terms = _contains_any(reason, explicit_specific_markers) or _contains_any(
         text,
         ["tranche", "credit agreement", "term loan", "revolver", "indenture"],
     )
@@ -1848,13 +1836,38 @@ def _looks_like_asset_or_capacity_not_debt(packet: dict[str, str], quote: str) -
         "asset-backed financing of variable interest entities",
         "tangible net worth",
         "not deposits or other obligations of a bank",
+        "enterprise valuation",
+        "purchase price paid",
+        "aggregate purchase price",
+        "completion of acquisition or disposition of assets",
+        "net income of",
+        "return on average assets",
+        "return on average tangible common equity",
+        "tangible book value",
+        "market capitalization",
+        "efficiency ratio",
+        "loan growth",
+        "gross credit losses",
+        "loans / loans hfi",
+        "loan-to-deposit",
+        "loan - to - deposit",
+        "client deposits",
+        "core deposits",
+        "gross loan portfolio",
     ]
     boilerplate_markers = [
         "webcast can be accessed",
         "forward-looking statements involve",
+        "conference call, conference id",
         "underwriters or agents and their associates may be customers",
         "validity of the securities will be passed upon",
         "clearstream participants are recognized financial institutions",
+        "available for certain fee-based wrap accounts",
+        "fee-based wrap accounts",
+        "entity name tax id number",
+        "authorized signatory",
+        "unless otherwise defined herein",
+        "same meanings as in the prospectus",
     ]
     return _contains_any(text, asset_or_capacity_markers) or _contains_any(
         text, boilerplate_markers
