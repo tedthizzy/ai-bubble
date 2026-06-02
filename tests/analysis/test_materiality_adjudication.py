@@ -1427,6 +1427,126 @@ def test_materiality_adjudication_treats_note_offering_counterparty_as_non_bilat
     assert decision.metric_use_status == "approved_for_metric_use"
 
 
+def test_materiality_adjudication_treats_mistagged_note_offering_as_non_bilateral(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-mistagged-note-offering",
+                "rank": 1,
+                "review_id": "review-mistagged-note-offering",
+                "review_group_id": "group-mistagged-note-offering",
+                "priority": "high",
+                "category": "capital",
+                "subcategory": "high_notional_debt_like_candidate",
+                "ecosystem_relevance": "watchlist_entity",
+                "entity": "Example Issuer Inc.",
+                "counterparty": "",
+                "exposure_basis_usd": "18000000000",
+                "reason": (
+                    "pending adjudication status: pending; debt-like deal type: debt_facility; "
+                    "notional $18,000,000,000; notional context: transaction_principal; "
+                    "commitment scope: specific_transaction_commitment"
+                ),
+                "recommended_action": "Confirm maturity and pricing terms",
+                "source_uri": "https://www.sec.gov/example-mistagged-note-offering.htm",
+                "source_uris": json.dumps(
+                    ["https://www.sec.gov/example-mistagged-note-offering.htm"]
+                ),
+                "content_hash": "5" * 64,
+                "content_hashes": json.dumps(["5" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/example-mistagged-note-offering.htm",
+                            "content_hash": "5" * 64,
+                            "document_id": "example-mistagged-note-offering.htm",
+                            "snippet": (
+                                "PROSPECTUS SUPPLEMENT Example Issuer Inc. issued "
+                                "$18,000,000,000 aggregate principal amount of senior "
+                                "unsecured notes due 2036 under an indenture."
+                            ),
+                        }
+                    ]
+                ),
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    decision = batch.decisions[0]
+    assert "extract named counterparty and role" not in decision.remaining_gap
+    assert "determine collateral scope" not in decision.remaining_gap
+    assert "determine recourse and guarantee scope" not in decision.remaining_gap
+    assert decision.metric_use_status == "approved_for_metric_use"
+
+
+def test_materiality_adjudication_treats_unsecured_term_facility_as_scope_resolved(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-unsecured-term-facility",
+                "rank": 1,
+                "review_id": "review-unsecured-term-facility",
+                "review_group_id": "group-unsecured-term-facility",
+                "priority": "high",
+                "category": "capital",
+                "subcategory": "high_notional_debt_like_candidate",
+                "ecosystem_relevance": "direct_ai_infra",
+                "entity": "Example Borrower, Inc.",
+                "counterparty": "Example Lender Bank",
+                "exposure_basis_usd": "11200000000",
+                "reason": (
+                    "pending adjudication status: pending; debt-like deal type: debt_facility; "
+                    "notional $11,200,000,000; notional context: transaction_facility; "
+                    "commitment scope: specific_transaction_commitment"
+                ),
+                "recommended_action": "Confirm maturity and pricing terms",
+                "source_uri": "https://www.sec.gov/example-unsecured-term-facility.htm",
+                "source_uris": json.dumps(
+                    ["https://www.sec.gov/example-unsecured-term-facility.htm"]
+                ),
+                "content_hash": "8" * 64,
+                "content_hashes": json.dumps(["8" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": (
+                                "https://www.sec.gov/example-unsecured-term-facility.htm"
+                            ),
+                            "content_hash": "8" * 64,
+                            "document_id": "example-unsecured-term-facility.htm",
+                            "snippet": (
+                                "The company entered into an $11.2 billion unsecured "
+                                "Term A-2 facility maturing in 2028."
+                            ),
+                        }
+                    ]
+                ),
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    decision = batch.decisions[0]
+    assert "determine collateral scope" not in decision.remaining_gap
+    assert "determine recourse and guarantee scope" not in decision.remaining_gap
+    assert decision.metric_use_status == "approved_for_metric_use"
+
+
 def test_materiality_adjudication_routes_generic_contract_boilerplate_to_term_evidence_gap(
     tmp_path: Path,
 ) -> None:

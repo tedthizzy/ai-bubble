@@ -382,29 +382,28 @@ def _is_note_offering_without_named_counterparty(
     text_lower: str,
     reason_text: str,
 ) -> bool:
-    if not _contains_any(reason_text, ["debt-like deal type: bond", "tranche: notes"]):
+    has_note_markers = _has_note_offering_markers(text_lower)
+    if not has_note_markers:
         return False
-    if _contains_any(
-        text_lower,
-        [
-            "credit agreement",
-            "administrative agent",
-            "collateral agent",
-            "lenders party thereto",
-            "revolving credit",
-            "term loan",
-            "bridge loan",
-        ],
-    ):
+    if _has_lender_facility_markers(text_lower):
         return False
+    if _contains_any(reason_text, ["debt-like deal type: bond", "tranche: notes"]):
+        return True
+    # Upstream deterministic extraction sometimes mis-tags note offerings as
+    # debt facilities. Keep this fallback narrow to note/indenture language.
     return _contains_any(
         text_lower,
         [
             "prospectus",
+            "indenture",
+            "debt securities",
+            "series of debt securities",
+            "aggregate principal amount",
             "notes due",
             "senior notes",
-            "indenture",
+            "subordinated notes",
             "noteholders",
+            "noteholder",
         ],
     )
 
@@ -414,13 +413,12 @@ def _is_note_offering_without_collateral_scope(
     text_lower: str,
     reason_text: str,
 ) -> bool:
-    if not _contains_any(reason_text, ["debt-like deal type: bond", "tranche: notes"]):
-        return False
     if _contains_any(text_lower, ["secured notes", "collateral", "security interest", "pledge"]):
         return False
     if _contains_any(
         text_lower,
         [
+            "unsecured",
             "senior unsecured",
             "unsecured obligations",
             "none of which was secured debt",
@@ -429,6 +427,10 @@ def _is_note_offering_without_collateral_scope(
         ],
     ):
         return True
+    if _has_lender_facility_markers(text_lower):
+        return False
+    if not _is_note_offering_without_named_counterparty(packet, text_lower, reason_text):
+        return False
     if _contains_any(text_lower, ["senior notes due", "notes due"]) and _contains_any(
         text_lower,
         ["prospectus", "offering", "aggregate principal amount"],
@@ -476,6 +478,43 @@ def _looks_like_non_contract_financing_disclosure(text: str) -> bool:
         "book-entry transfers and pledges",
     ]
     return _contains_any(text, generic_markers)
+
+
+def _has_note_offering_markers(text: str) -> bool:
+    return _contains_any(
+        text,
+        [
+            "prospectus",
+            "notes due",
+            "senior notes",
+            "subordinated notes",
+            "debt securities",
+            "indenture",
+            "noteholders",
+            "noteholder",
+            "aggregate principal amount",
+            "series of debt securities",
+        ],
+    )
+
+
+def _has_lender_facility_markers(text: str) -> bool:
+    return _contains_any(
+        text,
+        [
+            "credit agreement",
+            "administrative agent",
+            "collateral agent",
+            "facility agent",
+            "lenders party thereto",
+            "lenders named therein",
+            "revolving credit",
+            "term loan",
+            "bridge loan",
+            "delayed draw term loan",
+            "syndicated facility",
+        ],
+    )
 
 
 def _has_source_backed_ownership_path(packet: dict[str, str], text: str) -> bool:
