@@ -32,8 +32,8 @@ The important change is that ecosystem-scale conclusions are now blocked from be
 
 Latest verified evidence-gated report at this checkpoint:
 
-- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0805.md`
-- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0805.json`
+- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0813.md`
+- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0813.json`
 - `high_confidence_final`: `false`
 - Evidence audit coverage now includes analyzer-level capital, compute, and
   debt-service audits plus explicit row/artifact-backed audits for high-impact
@@ -62,6 +62,9 @@ Latest capital and timing outputs:
 - Capital exposure graph total edge notional: $864.18B.
 - AI-infra-relevant graph notional: $5.16B.
 - In-scope debt-like notional: $1.201T.
+- Broader materiality-adjudicated supported exposure: $4.463T across 1,591
+  metric groups; this is a different scope from the curated capital-structure
+  deal-graph debt-like metric above, not an additive increment.
 - Ownership graph LEI nodes: 425,765.
 - Ownership graph source-backed relationships: 643,828.
 - Ownership graph active relationships: 469,194.

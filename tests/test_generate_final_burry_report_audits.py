@@ -35,6 +35,10 @@ report_answer_metric_audits = cast(
     "Callable[..., list[dict[str, Any]]]",
     _REPORT_MODULE.report_answer_metric_audits,
 )
+capital_materiality_scope_fields = cast(
+    "Callable[..., dict[str, Any]]",
+    _REPORT_MODULE.capital_materiality_scope_fields,
+)
 
 
 def _audit(
@@ -195,6 +199,10 @@ def test_report_answer_metric_audits_cover_source_backed_rollup_values() -> None
         debt_service_metrics_dict={},
         capital_exposure_graph_summary={},
         contract_contagion_summary={},
+        materiality_adjudication_decision_summary={
+            "final_metric_supported_amount_usd": 4_463_000_000_000,
+            "final_metric_group_count": 1591,
+        },
     )
     report = {
         "evidence_quality": {"claim_audits": audits},
@@ -216,6 +224,7 @@ def test_report_answer_metric_audits_cover_source_backed_rollup_values() -> None
                 "current_top_timing_signals": [{"amount_usd": 165_000_000_000}],
             },
             "how_large": {
+                "materiality_final_metric_supported_amount_usd": 4_463_000_000_000,
                 "top_distinct_capital_review_queue_items": [
                     {"notional_amount_usd": 734_000_000_000}
                 ]
@@ -224,3 +233,22 @@ def test_report_answer_metric_audits_cover_source_backed_rollup_values() -> None
     }
 
     assert check_metric_audit_coverage(report, threshold=100e9) == []
+
+
+def test_capital_materiality_scope_fields_label_distinct_size_metrics() -> None:
+    fields = capital_materiality_scope_fields(
+        capital_debt_like_notional_usd=1_200_000_000_000,
+        materiality_decision_summary={
+            "final_metric_supported_amount_usd": 4_463_000_000_000,
+            "final_metric_group_count": 1591,
+        },
+    )
+
+    assert fields["capital_metric_scope"] == "curated_capital_structure_deal_graph"
+    assert fields["materiality_metric_scope"] == (
+        "broader_materiality_adjudication_supported_exposure"
+    )
+    assert fields["materiality_final_metric_supported_amount_usd"] == 4_463_000_000_000
+    assert fields["materiality_final_metric_group_count"] == 1591
+    assert fields["capital_to_materiality_scope_ratio"] == 3.7192
+    assert "not directly additive" in fields["metric_scope_note"]

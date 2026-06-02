@@ -1,13 +1,13 @@
 # Acquisition Status
 
-Last updated: 2026-06-02 08:05 UTC.
+Last updated: 2026-06-02 08:13 UTC.
 
 This file is the operational snapshot for the current evidence corpus. Treat it
 as a run log, not as a final investment conclusion.
 
 ## Current Corpus
 
-- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0805.md`
+- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0813.md`
 - Evidence gate: not high-confidence final.
 - Evidence audit coverage: report-level audits now include analyzer-level
   capital, compute, and debt-service audits plus explicit row/artifact-backed
@@ -49,6 +49,10 @@ as a run log, not as a final investment conclusion.
   dedupe now collapses same-document/same-amount and exact repeated filing
   disclosures to $4.463T across 1,591 metric groups; they are not treated as
   individual contracts unless contract terms are separately extracted.
+- Report arithmetic invariants pass with 0 violations. The how-large answer now
+  labels the $1.201T curated capital-structure deal-graph debt-like metric
+  separately from the broader $4.463T materiality-adjudicated supported exposure
+  metric so the two scopes are not read as inconsistent or directly additive.
 - Semantic metric-validity gating now scans approved materiality rows as a
   separate source-text dimension: 2,727 approved rows classify as committed
   debt/obligation text, 213 remain indeterminate review candidates, and 0

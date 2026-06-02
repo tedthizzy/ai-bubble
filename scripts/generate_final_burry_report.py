@@ -506,6 +506,7 @@ def report_answer_metric_audits(  # noqa: PLR0912, PLR0915
     debt_service_metrics_dict: dict[str, Any],
     capital_exposure_graph_summary: dict[str, Any],
     contract_contagion_summary: dict[str, Any],
+    materiality_adjudication_decision_summary: dict[str, Any] | None = None,
 ) -> list[dict[str, Any]]:
     """Audit high-impact scalar values surfaced directly in Burry answers."""
 
@@ -801,6 +802,27 @@ def report_answer_metric_audits(  # noqa: PLR0912, PLR0915
         contract_contagion_summary.get("ai_infra_relevant_notional_usd"),
         [contagion_artifact, *contagion_path_evidence],
     )
+    materiality_summary = materiality_adjudication_decision_summary or {}
+    materiality_artifact = artifact_provenance(
+        source_uri="local:data/reports/materiality_adjudication_decision_summary.json",
+        page_or_section="materiality adjudication metric rollup",
+        payload={
+            key: materiality_summary.get(key)
+            for key in (
+                "approved_for_metric_use",
+                "approved_row_supported_amount_usd",
+                "final_metric_supported_amount_usd",
+                "final_metric_group_count",
+            )
+        },
+    )
+    add(
+        "materiality_adjudication.final_metric_supported_amount",
+        "Broader materiality-adjudicated supported exposure after metric dedupe",
+        materiality_summary.get("final_metric_supported_amount_usd"),
+        [materiality_artifact],
+        requires_corroboration=False,
+    )
     return audits
 
 
@@ -976,6 +998,42 @@ def _float_value(value: Any) -> float:
         return float(value)
     except (TypeError, ValueError):
         return 0.0
+
+
+def capital_materiality_scope_fields(
+    *,
+    capital_debt_like_notional_usd: float,
+    materiality_decision_summary: dict[str, Any],
+) -> dict[str, Any]:
+    """Label the two report size metrics so they are not read as contradictions."""
+
+    materiality_final = _float_value(
+        materiality_decision_summary.get("final_metric_supported_amount_usd")
+    )
+    scope_ratio = (
+        round(materiality_final / capital_debt_like_notional_usd, 4)
+        if capital_debt_like_notional_usd
+        else 0.0
+    )
+    return {
+        "capital_metric_scope": "curated_capital_structure_deal_graph",
+        "materiality_metric_scope": (
+            "broader_materiality_adjudication_supported_exposure"
+        ),
+        "materiality_final_metric_supported_amount_usd": materiality_final,
+        "materiality_final_metric_group_count": materiality_decision_summary.get(
+            "final_metric_group_count",
+            0,
+        ),
+        "capital_to_materiality_scope_ratio": scope_ratio,
+        "metric_scope_note": (
+            "current_debt_like_notional_usd is the curated capital-structure "
+            "deal-graph estimate. materiality_final_metric_supported_amount_usd "
+            "is a broader adjudicated source-backed support total after "
+            "source-instrument and economic-obligation dedupe; it is not directly "
+            "additive to, or a contradiction of, the curated capital-structure metric."
+        ),
+    }
 
 
 def materiality_semantic_summary(decisions: list[dict[str, str]]) -> dict[str, Any]:
@@ -1765,6 +1823,9 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:
                 debt_service_metrics_dict=debt_service_metrics_dict,
                 capital_exposure_graph_summary=capital_exposure_graph_summary,
                 contract_contagion_summary=contract_contagion_summary,
+                materiality_adjudication_decision_summary=(
+                    materiality_adjudication_decision_summary
+                ),
             )
         },
     )
@@ -1881,6 +1942,10 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:
                 "current_debt_like_notional_usd": capital_metrics.debt_like_notional_usd,
                 "current_distinct_debt_like_notional_usd": (
                     capital_metrics.distinct_debt_like_notional_usd
+                ),
+                **capital_materiality_scope_fields(
+                    capital_debt_like_notional_usd=capital_metrics.debt_like_notional_usd,
+                    materiality_decision_summary=materiality_adjudication_decision_summary,
                 ),
                 "current_duplicate_candidate_notional_usd": (
                     capital_metrics.duplicate_candidate_notional_usd
