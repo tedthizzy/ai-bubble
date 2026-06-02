@@ -34,6 +34,7 @@ class SemanticEvidenceBucket(StrEnum):
     NOT_EVALUATED = "not_evaluated"
     COMMITTED_DEBT = "committed_debt"
     ASSET_OR_CAPACITY = "asset_or_capacity"
+    EQUITY_OR_PRODUCTION = "equity_or_production"
     BOILERPLATE_ONLY = "boilerplate_only"
     INDETERMINATE = "indeterminate"
 
@@ -86,6 +87,10 @@ COMMITTED_DEBT_MARKERS = (
     "first-priority liens",
     "long-term hpc lease agreements",
     "aggregate contractual value",
+    "convertible notes",
+    "convertible senior",
+    "conversion price",
+    "convertible debentures",
 )
 
 ASSET_OR_CAPACITY_MARKERS = (
@@ -122,6 +127,25 @@ ASSET_OR_CAPACITY_MARKERS = (
     "gross loan portfolio",
 )
 
+EQUITY_OR_PRODUCTION_MARKERS = (
+    "shares of our common stock",
+    "shares of series",
+    "common stock dividends",
+    "market stand-off",
+    "ordinary shares",
+    "repurchase program",
+    "share repurchase",
+    "stock purchase agreement",
+    "into shares of",
+    "class a common stock",
+    "per share",
+    "last reported sale price",
+    "loan production",
+    "mortgage closed loan",
+    "closed loan production",
+    "origination volume",
+)
+
 BOILERPLATE_ONLY_MARKERS = (
     "webcast",
     "forward-looking",
@@ -143,6 +167,7 @@ SEMANTIC_CONFIDENCE_CAPS = {
     SemanticEvidenceBucket.NOT_EVALUATED: 1.0,
     SemanticEvidenceBucket.COMMITTED_DEBT: 1.0,
     SemanticEvidenceBucket.ASSET_OR_CAPACITY: 0.3,
+    SemanticEvidenceBucket.EQUITY_OR_PRODUCTION: 0.3,
     SemanticEvidenceBucket.BOILERPLATE_ONLY: 0.25,
     SemanticEvidenceBucket.INDETERMINATE: 0.5,
 }
@@ -211,6 +236,7 @@ class EvidenceSummary:
     semantic_evaluated_claims: int
     semantic_committed_debt_claims: int
     semantic_asset_or_capacity_claims: int
+    semantic_equity_or_production_claims: int
     semantic_boilerplate_claims: int
     semantic_indeterminate_claims: int
     high_confidence_eligible_claims: int
@@ -267,6 +293,7 @@ class EvidenceGate:
             )
         if semantic_bucket in {
             SemanticEvidenceBucket.ASSET_OR_CAPACITY,
+            SemanticEvidenceBucket.EQUITY_OR_PRODUCTION,
             SemanticEvidenceBucket.BOILERPLATE_ONLY,
         }:
             blocking_issues.append(
@@ -346,6 +373,10 @@ class EvidenceGate:
             ),
             semantic_asset_or_capacity_claims=sum(
                 audit.semantic_bucket == SemanticEvidenceBucket.ASSET_OR_CAPACITY
+                for audit in audit_list
+            ),
+            semantic_equity_or_production_claims=sum(
+                audit.semantic_bucket == SemanticEvidenceBucket.EQUITY_OR_PRODUCTION
                 for audit in audit_list
             ),
             semantic_boilerplate_claims=sum(
@@ -430,6 +461,8 @@ def classify_claim_semantics(text: str | None) -> SemanticEvidenceBucket:
         return SemanticEvidenceBucket.ASSET_OR_CAPACITY
     if any(marker in normalized for marker in COMMITTED_DEBT_MARKERS):
         return SemanticEvidenceBucket.COMMITTED_DEBT
+    if any(marker in normalized for marker in EQUITY_OR_PRODUCTION_MARKERS):
+        return SemanticEvidenceBucket.EQUITY_OR_PRODUCTION
     if any(marker in normalized for marker in BOILERPLATE_ONLY_MARKERS):
         return SemanticEvidenceBucket.BOILERPLATE_ONLY
     return SemanticEvidenceBucket.INDETERMINATE

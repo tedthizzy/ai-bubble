@@ -254,11 +254,20 @@ def _remaining_gaps(packet: dict[str, str], quote: str) -> list[str]:
         gaps.append("confirm lease obligation source rather than debt securities prospectus")
     if _looks_like_asset_or_capacity_not_debt(packet, quote):
         gaps.append("split asset, UPB, or financing-capacity disclosure from committed debt")
+    semantic_gap_by_bucket = {
+        SemanticEvidenceBucket.ASSET_OR_CAPACITY: (
+            "split asset, UPB, or financing-capacity disclosure from committed debt"
+        ),
+        SemanticEvidenceBucket.EQUITY_OR_PRODUCTION: (
+            "split equity, share, or mortgage-production disclosure from committed debt"
+        ),
+        SemanticEvidenceBucket.BOILERPLATE_ONLY: (
+            "confirm source quote contains specific committed obligation terms"
+        ),
+    }
     semantic_bucket = classify_claim_semantics(text)
-    if semantic_bucket == SemanticEvidenceBucket.ASSET_OR_CAPACITY:
-        gaps.append("split asset, UPB, or financing-capacity disclosure from committed debt")
-    if semantic_bucket == SemanticEvidenceBucket.BOILERPLATE_ONLY:
-        gaps.append("confirm source quote contains specific committed obligation terms")
+    if semantic_gap := semantic_gap_by_bucket.get(semantic_bucket):
+        gaps.append(semantic_gap)
     if _requires_mega_obligation_confirmation(packet, quote):
         gaps.append("confirm mega-obligation amount is committed debt, not assets or capacity")
     if _requires_aggregate_split(packet, quote):

@@ -119,6 +119,26 @@ def test_serialized_audit_summary_uses_effective_semantic_confidence() -> None:
     assert summary["max_permitted_report_confidence"] == 0.3
 
 
+def test_serialized_audit_summary_counts_equity_or_production_claims() -> None:
+    audits = [
+        _audit(
+            "capital.equity_misread",
+            12_023_000_000,
+            confidence=0.92,
+            effective_confidence=0.3,
+            semantic_bucket="equity_or_production",
+            eligible=False,
+        )
+    ]
+
+    summary = summarize_evidence_audit_dicts(audits)
+
+    assert summary["semantic_evaluated_claims"] == 1
+    assert summary["semantic_equity_or_production_claims"] == 1
+    assert summary["high_confidence_eligible_claims"] == 0
+    assert summary["max_permitted_report_confidence"] == 0.3
+
+
 def test_merged_scalar_audit_clears_high_impact_metric_warning() -> None:
     report = {
         "evidence_quality": {

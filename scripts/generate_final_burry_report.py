@@ -276,6 +276,10 @@ def summarize_evidence_audit_dicts(audits: list[dict[str, Any]]) -> dict[str, An
         "semantic_asset_or_capacity_claims": sum(
             str(audit.get("semantic_bucket") or "") == "asset_or_capacity" for audit in audits
         ),
+        "semantic_equity_or_production_claims": sum(
+            str(audit.get("semantic_bucket") or "") == "equity_or_production"
+            for audit in audits
+        ),
         "semantic_boilerplate_claims": sum(
             str(audit.get("semantic_bucket") or "") == "boilerplate_only" for audit in audits
         ),
@@ -1001,6 +1005,7 @@ def materiality_semantic_summary(decisions: list[dict[str, str]]) -> dict[str, A
         bucket_counts[bucket.value] += 1
         if bucket in {
             SemanticEvidenceBucket.ASSET_OR_CAPACITY,
+            SemanticEvidenceBucket.EQUITY_OR_PRODUCTION,
             SemanticEvidenceBucket.BOILERPLATE_ONLY,
         }:
             top_semantic_flags.append(_materiality_semantic_row(row, bucket))
@@ -1013,11 +1018,15 @@ def materiality_semantic_summary(decisions: list[dict[str, str]]) -> dict[str, A
         "semantic_asset_or_capacity_rows": bucket_counts[
             SemanticEvidenceBucket.ASSET_OR_CAPACITY.value
         ],
+        "semantic_equity_or_production_rows": bucket_counts[
+            SemanticEvidenceBucket.EQUITY_OR_PRODUCTION.value
+        ],
         "semantic_boilerplate_rows": bucket_counts[SemanticEvidenceBucket.BOILERPLATE_ONLY.value],
         "semantic_indeterminate_rows": bucket_counts[SemanticEvidenceBucket.INDETERMINATE.value],
         "semantic_not_evaluated_rows": bucket_counts[SemanticEvidenceBucket.NOT_EVALUATED.value],
         "semantic_hard_flag_rows": (
             bucket_counts[SemanticEvidenceBucket.ASSET_OR_CAPACITY.value]
+            + bucket_counts[SemanticEvidenceBucket.EQUITY_OR_PRODUCTION.value]
             + bucket_counts[SemanticEvidenceBucket.BOILERPLATE_ONLY.value]
         ),
         "top_semantic_flags": top_semantic_flags[:25],

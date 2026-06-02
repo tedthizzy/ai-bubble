@@ -184,6 +184,58 @@ def test_semantic_gate_caps_bank_financial_metric_claim():
     assert audit.eligible_for_high_confidence is False
 
 
+def test_semantic_gate_caps_equity_or_mortgage_production_claim():
+    gate = EvidenceGate()
+    equity_audit = gate.audit_claim(
+        claim_id="capital.equity_misread",
+        claim="Claimed debt-like amount from equity snippet",
+        value=12_023_000_000,
+        unit="USD",
+        evidence=[_provenance(SourceType.SEC_EDGAR, confidence=0.92)],
+        high_impact=True,
+        semantic_text=(
+            "The bonds convert into Shares of Alibaba Health Information "
+            "Technology Limited."
+        ),
+    )
+    production_audit = gate.audit_claim(
+        claim_id="capital.production_misread",
+        claim="Claimed debt-like amount from mortgage production volume",
+        value=6_260_000_000,
+        unit="USD",
+        evidence=[_provenance(SourceType.SEC_EDGAR, confidence=0.92)],
+        high_impact=True,
+        semantic_text="Mortgage closed loan production for the year ended December 31.",
+    )
+
+    assert equity_audit.semantic_bucket == SemanticEvidenceBucket.EQUITY_OR_PRODUCTION
+    assert equity_audit.effective_confidence == 0.3
+    assert equity_audit.eligible_for_high_confidence is False
+    assert any("equity_or_production" in issue for issue in equity_audit.blocking_issues)
+    assert production_audit.semantic_bucket == SemanticEvidenceBucket.EQUITY_OR_PRODUCTION
+    assert production_audit.effective_confidence == 0.3
+
+
+def test_semantic_gate_preserves_convertible_debt_with_share_language():
+    gate = EvidenceGate()
+    audit = gate.audit_claim(
+        claim_id="capital.convertible_notes",
+        claim="Claimed debt-like amount from convertible note clause",
+        value=1_500_000_000,
+        unit="USD",
+        evidence=[_provenance(SourceType.SEC_EDGAR, confidence=0.9)],
+        high_impact=True,
+        semantic_text=(
+            "The company issued senior unsecured convertible notes with a "
+            "conversion price for shares of common stock."
+        ),
+    )
+
+    assert audit.semantic_bucket == SemanticEvidenceBucket.COMMITTED_DEBT
+    assert audit.effective_confidence == 0.9
+    assert audit.eligible_for_high_confidence is True
+
+
 def test_semantic_required_routes_indeterminate_claim_to_review():
     gate = EvidenceGate()
     audit = gate.audit_claim(

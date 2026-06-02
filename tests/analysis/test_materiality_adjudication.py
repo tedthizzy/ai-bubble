@@ -2065,6 +2065,129 @@ def test_materiality_adjudication_blocks_source_backed_boilerplate_metric_use(
     )
 
 
+def test_materiality_adjudication_blocks_equity_or_mortgage_production_metric_use(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-equity-production",
+                "rank": 1,
+                "review_id": "review-equity-production",
+                "review_group_id": "group-equity-production",
+                "priority": "critical",
+                "category": "capital",
+                "subcategory": "high_notional_debt_like_candidate",
+                "ecosystem_relevance": "not_tagged",
+                "entity": "Example Issuer",
+                "counterparty": "noteholders",
+                "exposure_basis_usd": "12023000000",
+                "reason": (
+                    "pending adjudication status: pending; debt-like deal type: bond; "
+                    "notional $12,023,000,000; notional context: transaction_principal; "
+                    "commitment scope: specific_transaction_commitment"
+                ),
+                "recommended_action": "Confirm debt terms",
+                "source_uri": "https://www.sec.gov/example-equity-production.htm",
+                "source_uris": json.dumps(
+                    ["https://www.sec.gov/example-equity-production.htm"]
+                ),
+                "content_hash": "a" * 64,
+                "content_hashes": json.dumps(["a" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/example-equity-production.htm",
+                            "content_hash": "a" * 64,
+                            "document_id": "example-equity-production.htm",
+                            "snippet": (
+                                "The bonds convert into Shares of Alibaba Health "
+                                "Information Technology Limited."
+                            ),
+                        }
+                    ]
+                ),
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    decision = batch.decisions[0]
+    assert decision.metric_use_status == "blocked_pending_extraction"
+    assert decision.supported_amount_usd == 0
+    assert (
+        "split equity, share, or mortgage-production disclosure from committed debt"
+        in decision.remaining_gap
+    )
+
+
+def test_materiality_adjudication_preserves_convertible_debt_with_share_language(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-convertible-notes",
+                "rank": 1,
+                "review_id": "review-convertible-notes",
+                "review_group_id": "group-convertible-notes",
+                "priority": "high",
+                "category": "capital",
+                "subcategory": "high_notional_debt_like_candidate",
+                "ecosystem_relevance": "not_tagged",
+                "entity": "Example Issuer",
+                "counterparty": "noteholders",
+                "exposure_basis_usd": "1500000000",
+                "reason": (
+                    "pending adjudication status: pending; debt-like deal type: bond; "
+                    "notional $1,500,000,000; notional context: transaction_principal; "
+                    "commitment scope: specific_transaction_commitment"
+                ),
+                "recommended_action": "Confirm debt terms",
+                "source_uri": "https://www.sec.gov/example-convertible-notes.htm",
+                "source_uris": json.dumps(
+                    ["https://www.sec.gov/example-convertible-notes.htm"]
+                ),
+                "content_hash": "b" * 64,
+                "content_hashes": json.dumps(["b" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/example-convertible-notes.htm",
+                            "content_hash": "b" * 64,
+                            "document_id": "example-convertible-notes.htm",
+                            "snippet": (
+                                "The company issued senior unsecured convertible "
+                                "notes with a conversion price for shares of "
+                                "common stock."
+                            ),
+                        }
+                    ]
+                ),
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    decision = batch.decisions[0]
+    assert decision.metric_use_status == "approved_for_metric_use"
+    assert decision.supported_amount_usd == 1_500_000_000
+    assert (
+        "split equity, share, or mortgage-production disclosure from committed debt"
+        not in decision.remaining_gap
+    )
+
+
 def test_materiality_adjudication_allows_source_backed_mega_credit_agreement(
     tmp_path: Path,
 ) -> None:
