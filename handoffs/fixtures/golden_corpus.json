@@ -1,0 +1,1158 @@
+{
+  "generated_from": "prebuild-fixture-packs workflow w4stu6z3n",
+  "note": "packet_ids auto-validated against live decisions CSV; content_hash/entity/source_uri taken from the LIVE row when verified (agent-reported hashes were sometimes fabricated). Snapshot moving.",
+  "total_fixtures": 100,
+  "verified": 89,
+  "packs": {
+    "instrument_identity_resolver": {
+      "count": 6,
+      "fixtures": [
+        {
+          "packet_id": "adjudication:589075b22598df51",
+          "verified_in_live_csv": true,
+          "expected": "Distinct instrument from adjacent tranches with same content_hash (ce6e7b2443086bcc9256874d216a7742ac6dc4139de4094e1f17e75bd0079f3f) but different amounts ($1.0B primary vs $1.0B term_loan_commitments vs $35M/$700M/$5M commitments). FIXTURE A demonstrates over-collapse risk: same content_hash should NOT collapse distinct tranches with different notionals and seniority levels.",
+          "entity": "DROPBOX, INC.",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1467623/000146762326000040/june2026exhibit102.htm",
+          "content_hash": "ce6e7b2443086bcc9256874d216a7742ac6dc4139de4094e1f17e75bd0079f3f",
+          "remaining_gap": "",
+          "metric_use_status": "approved_for_metric_use",
+          "agent_note": "Accession 000146762326000040 exhibits 5 tranches under same deal_id (edgar:0001467623:000146762326000040:debt_facility:ce6e7b244308) with amounts: 1000M (primary), 1000M (term_loan_commitments), 35M, "
+        },
+        {
+          "packet_id": "adjudication:6bb2cf23dfff3704",
+          "verified_in_live_csv": true,
+          "expected": "Legitimate cross-document collapse: same entity + amount ($18.4B) with DIFFERENT content hashes (0f84334c00408b266214963dc397cb97946b9311d49865fc4161078e8a2ef338 vs 936e46ba3a3d6a51a9b886366a17549541fc652e53660185eb66a9c90931b4d5 vs e2756a337f301b345c723d0251da509def7b3104f44822e359fd3cd9372e7b2d) across separate SEC filings (gpc2025d vs gpc2025a vs gpc2025b). FIXTURE B shows proposed key correctl",
+          "entity": "GEORGIA POWER CO",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/41091/000004109125000028/gpc2025dseniornotesprelimi.htm",
+          "content_hash": "0f84334c00408b266214963dc397cb97946b9311d49865fc4161078e8a2ef338",
+          "remaining_gap": "",
+          "metric_use_status": "approved_for_metric_use",
+          "agent_note": "102 Georgia Power $18.4B records in decisions CSV with same entity + amount but different content_hashes across 9+ source URIs. Represents legitimate instrument replication across preliminary/final pr"
+        },
+        {
+          "packet_id": "adjudication:37d5d6096ff1635c",
+          "verified_in_live_csv": true,
+          "expected": "Second instance of over-collapse: same content_hash as adj:589075b22598df51 but ALSO $1.0B amount. Two packets, same hash, same notional -> potential duplicate counting or incorrect aggregation. Demonstrates why excluding content_hash from identity key is essential: hash is document-level fingerprint, not instrument-level.",
+          "entity": "DROPBOX, INC.",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1467623/000146762326000040/june2026exhibit102.htm",
+          "content_hash": "ce6e7b2443086bcc9256874d216a7742ac6dc4139de4094e1f17e75bd0079f3f",
+          "remaining_gap": "",
+          "metric_use_status": "approved_for_metric_use",
+          "agent_note": "Two distinct packet_ids (adj:589075b22598df51 and adj:37d5d6096ff1635c) for same source_uri + amount. Current system may double-count. With proposed key including tranche_id, resolution: if both from "
+        },
+        {
+          "packet_id": "adjudication:75e475d0611efc3d",
+          "verified_in_live_csv": true,
+          "expected": "Third tranche from same exhibit but DIFFERENT amount ($1.74B vs $1.0B). Must be distinguished from primary/term_loan tranches. Accession + exhibit + tranche_id alone would collapse primary + term_loan_commitments (both $1.0B different seniority). Adding notional + seniority disambiguates: (000146762326000040, 0001467623, june2026exhibit102.htm, 1740000000.0, , 2021-02-26, ?, ?) uniquely identifies",
+          "entity": "DROPBOX, INC.",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1467623/000146762326000040/june2026exhibit102.htm",
+          "content_hash": "ce6e7b2443086bcc9256874d216a7742ac6dc4139de4094e1f17e75bd0079f3f",
+          "remaining_gap": "",
+          "metric_use_status": "approved_for_metric_use",
+          "agent_note": "Confirms fixture A diagnosis: same source_uri, same content_hash, THREE distinct amounts across three packet_ids. Extraction metadata (tranches.csv) must provide the tranche_id to disambiguate; senior"
+        },
+        {
+          "packet_id": "adjudication:04d858400797c9c6",
+          "verified_in_live_csv": true,
+          "expected": "Fixture B validation instance 2: $18.4B with content_hash 936e46ba3a3d6a51a9b886366a17549541fc652e53660185eb66a9c90931b4d5 (different from adj:6bb2cf23dfff3704). Both from Georgia Power, same amount, different accessions (000004109125000004 vs 000004109125000028). Proposed key respects accession boundary while legitimate collapse recognizes these as the same economic instrument (confirmed by decis",
+          "entity": "GEORGIA POWER CO",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/41091/000004109125000004/gpc2025aseniornoteprelimin.htm",
+          "content_hash": "936e46ba3a3d6a51a9b886366a17549541fc652e53660185eb66a9c90931b4d5",
+          "remaining_gap": "",
+          "metric_use_status": "approved_for_metric_use",
+          "agent_note": "Content_hash MUST NOT be primary key component because syndicated debt has different preliminary/final prospectuses (different content) but same economics (same notional, rate, maturity). Key design e"
+        },
+        {
+          "packet_id": "adjudication:c0e5d7aa5f67bed4",
+          "verified_in_live_csv": true,
+          "expected": "Fixture B validation instance 3: third content_hash variant (e2756a337f301b345c723d0251da509def7b3104f44822e359fd3cd9372e7b2d) for same $18.4B. Shows that one economic instrument (GPC 2025 senior notes, $18.4B notional) exists as multiple physical documents across reopening/supplement tranches. Proposed key enables: (1) deduplicate by entity+notional+rate+maturity across all accessions, (2) preser",
+          "entity": "GEORGIA POWER CO",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/41091/000004109126000002/gpc2025bseniornotesreopeni.htm",
+          "content_hash": "e2756a337f301b345c723d0251da509def7b3104f44822e359fd3cd9372e7b2d",
+          "remaining_gap": "",
+          "metric_use_status": "approved_for_metric_use",
+          "agent_note": "Accession boundary (e.g., 000004109126000002) separate from preliminary (000004109125000004). Within single economic instrument, expect different content_hashes due to amendment history, reopening ter"
+        }
+      ]
+    },
+    "golden_fp_fn_corpus": {
+      "count": 30,
+      "fixtures": [
+        {
+          "packet_id": "adjudication:55493a9f36f88aff",
+          "verified_in_live_csv": true,
+          "expected": "Decision=approved (supported_as_material_blocker); Status=supported_as_material_blocker",
+          "entity": "SPACE EXPLORATION TECHNOLOGIES CORP",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1181412/000162828026036936/exhibit109-sx1.htm",
+          "content_hash": "836d3d6b79f863ead551bfb6324620822d3f52eaa8bf6c07710e9ba16398662a",
+          "remaining_gap": "",
+          "metric_use_status": "approved_for_metric_use",
+          "agent_note": "note_offerings"
+        },
+        {
+          "packet_id": "adjudication:ece1bd0f44cd8ba3",
+          "verified_in_live_csv": true,
+          "expected": "Decision=approved (supported_as_material_blocker); Status=supported_as_material_blocker",
+          "entity": "PennyMac Financial Services, Inc.",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1745916/000110465926008004/tm264391d1_ex99-1.htm",
+          "content_hash": "307aaa67b2536d9e514bf4a8b9557479714e660bce60f7fb515aee3b7bc784a2",
+          "remaining_gap": "",
+          "metric_use_status": "approved_for_metric_use",
+          "agent_note": "note_offerings"
+        },
+        {
+          "packet_id": "adjudication:d0d045f9a91bb92c",
+          "verified_in_live_csv": true,
+          "expected": "Decision=approved (supported_as_material_blocker); Status=supported_as_material_blocker",
+          "entity": "PennyMac Financial Services, Inc.",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1745916/000110465926008004/tm264391d1_ex99-2.htm",
+          "content_hash": "32cbd3979dd7d1ddc9e1dee834029f9d3b770b776fa10ee0cf543a19e4d870af",
+          "remaining_gap": "",
+          "metric_use_status": "approved_for_metric_use",
+          "agent_note": "note_offerings"
+        },
+        {
+          "packet_id": "adjudication:b36e8fa2062a462d",
+          "verified_in_live_csv": true,
+          "expected": "Decision=approved (supported_as_material_blocker); Status=supported_as_material_blocker",
+          "entity": "PennyMac Financial Services, Inc.",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1745916/000110465926055670/tm2613557d1_ex99-2.htm",
+          "content_hash": "baf849bf5e7be96d7df64c9a85e3d4a32dbeadf9a512dff09f612f0460c22877",
+          "remaining_gap": "",
+          "metric_use_status": "approved_for_metric_use",
+          "agent_note": "note_offerings"
+        },
+        {
+          "packet_id": "adjudication:7aeb229f6e1c2a13",
+          "verified_in_live_csv": true,
+          "expected": "Decision=approved (supported_as_material_blocker); Status=supported_as_material_blocker",
+          "entity": "TRUIST FINANCIAL CORP",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/92230/000119312526218283/d32795d424b3.htm",
+          "content_hash": "4f1f9dc2df50beeeef6b625376d40fb90e3d7c8a7c0c21e7e9420b8d4af61aad",
+          "remaining_gap": "",
+          "metric_use_status": "approved_for_metric_use",
+          "agent_note": "note_offerings"
+        },
+        {
+          "packet_id": "adjudication:dbae5c09faa1b52b",
+          "verified_in_live_csv": true,
+          "expected": "Decision=approved (supported_as_material_blocker); Status=supported_as_material_blocker",
+          "entity": "onovan Drive Holdings LLC",
+          "source_uri": "https://www.nyiso.com/documents/20142/1407078/NYISO-Interconnection-Queue.xlsx",
+          "content_hash": "26441da89aa6ec9cb963cbf70512ddf28fb9f297e15b8e55783e172b0bf71b2c",
+          "remaining_gap": "",
+          "metric_use_status": "approved_for_metric_use",
+          "agent_note": "facilities"
+        },
+        {
+          "packet_id": "adjudication:b7994c9c66765888",
+          "verified_in_live_csv": true,
+          "expected": "Decision=approved (supported_as_material_blocker); Status=supported_as_material_blocker",
+          "entity": "",
+          "source_uri": "https://www.nyiso.com/documents/20142/1407078/NYISO-Interconnection-Queue.xlsx",
+          "content_hash": "26441da89aa6ec9cb963cbf70512ddf28fb9f297e15b8e55783e172b0bf71b2c",
+          "remaining_gap": "",
+          "metric_use_status": "approved_for_metric_use",
+          "agent_note": "facilities"
+        },
+        {
+          "packet_id": "adjudication:350a3a88a0a74ed1",
+          "verified_in_live_csv": true,
+          "expected": "Decision=approved (supported_as_material_blocker); Status=supported_as_material_blocker",
+          "entity": "",
+          "source_uri": "https://www.nyiso.com/documents/20142/1407078/NYISO-Interconnection-Queue.xlsx",
+          "content_hash": "26441da89aa6ec9cb963cbf70512ddf28fb9f297e15b8e55783e172b0bf71b2c",
+          "remaining_gap": "",
+          "metric_use_status": "approved_for_metric_use",
+          "agent_note": "facilities"
+        },
+        {
+          "packet_id": "adjudication:690d3c00c0e96578",
+          "verified_in_live_csv": true,
+          "expected": "Decision=approved (supported_as_material_blocker); Status=supported_as_material_blocker",
+          "entity": "Petawatt Holdings",
+          "source_uri": "https://www.nyiso.com/documents/20142/1407078/NYISO-Interconnection-Queue.xlsx",
+          "content_hash": "26441da89aa6ec9cb963cbf70512ddf28fb9f297e15b8e55783e172b0bf71b2c",
+          "remaining_gap": "",
+          "metric_use_status": "approved_for_metric_use",
+          "agent_note": "facilities"
+        },
+        {
+          "packet_id": "adjudication:33582fb6478b01b7",
+          "verified_in_live_csv": true,
+          "expected": "Decision=approved (supported_as_material_blocker); Status=supported_as_material_blocker",
+          "entity": "",
+          "source_uri": "https://www.nyiso.com/documents/20142/1407078/NYISO-Interconnection-Queue.xlsx",
+          "content_hash": "26441da89aa6ec9cb963cbf70512ddf28fb9f297e15b8e55783e172b0bf71b2c",
+          "remaining_gap": "",
+          "metric_use_status": "approved_for_metric_use",
+          "agent_note": "facilities"
+        },
+        {
+          "packet_id": "adjudication:5f6fb3f4d098825a",
+          "verified_in_live_csv": true,
+          "expected": "Decision=needs_deeper_extraction; Status=blocked_pending_extraction",
+          "entity": "Alphabet Inc.",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1652044/000119312526204938/d152073d424b5.htm",
+          "content_hash": "a86eadc303955e885b357667727510cba72f8a54625b8eb24bcb03bb813b1cd0",
+          "remaining_gap": "confirm lease obligation source rather than debt securities prospectus | split aggregate disclosure from specific committed obligation",
+          "metric_use_status": "blocked_pending_extraction",
+          "agent_note": "aggregate_shelf"
+        },
+        {
+          "packet_id": "adjudication:c0b81605ab2835f8",
+          "verified_in_live_csv": true,
+          "expected": "Decision=needs_deeper_extraction; Status=blocked_pending_extraction",
+          "entity": "Alphabet Inc.",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1652044/000119312526041936/d108033d424b5.htm",
+          "content_hash": "3047b8bf6486b8cbfd0d5bcb3c19535ee315acfc66d1260a30c3a7daaf9d91f2",
+          "remaining_gap": "confirm lease obligation source rather than debt securities prospectus | split aggregate disclosure from specific committed obligation",
+          "metric_use_status": "blocked_pending_extraction",
+          "agent_note": "aggregate_shelf"
+        },
+        {
+          "packet_id": "adjudication:afc07b3c1e380c92",
+          "verified_in_live_csv": true,
+          "expected": "Decision=needs_deeper_extraction; Status=blocked_pending_extraction",
+          "entity": "Alphabet Inc.",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1652044/000119312525267232/d65573d424b2.htm",
+          "content_hash": "12bbd028b6f8f8b19bf30f80b63070674bf2ff4fce3668726e04f7e8c66b8c55",
+          "remaining_gap": "confirm lease obligation source rather than debt securities prospectus | split aggregate disclosure from specific committed obligation",
+          "metric_use_status": "blocked_pending_extraction",
+          "agent_note": "aggregate_shelf"
+        },
+        {
+          "packet_id": "adjudication:a6506e15c7f034a3",
+          "verified_in_live_csv": true,
+          "expected": "Decision=needs_deeper_extraction; Status=blocked_pending_extraction",
+          "entity": "Broadcom Inc.",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1730168/000119312525158202/d89787d8k.htm",
+          "content_hash": "b1390999e0b75785e90d32fa73c8904691b9809127d6b1c8b9694dbf1055ee95",
+          "remaining_gap": "determine collateral scope",
+          "metric_use_status": "blocked_pending_extraction",
+          "agent_note": "aggregate_shelf"
+        },
+        {
+          "packet_id": "adjudication:ebf86f9a40fd2eae",
+          "verified_in_live_csv": true,
+          "expected": "Decision=approved (supported_as_material_blocker); Status=supported_as_material_blocker",
+          "entity": "ORACLE CORP",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1341439/000119312526037818/d60756d424b5.htm",
+          "content_hash": "ade68f0df0f42fb1c6b6a60677a8f3db8b5f91338158fd17fb4632e794436116",
+          "remaining_gap": "",
+          "metric_use_status": "approved_for_metric_use",
+          "agent_note": "aggregate_shelf"
+        },
+        {
+          "packet_id": "adjudication:ca90d6e62095d218",
+          "verified_in_live_csv": true,
+          "expected": "Decision=approved (supported_as_material_blocker); Status=supported_as_material_blocker",
+          "entity": "Morgan Stanley Senior Funding, Inc.",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1181412/000162828026036936/exhibit109-sx1.htm",
+          "content_hash": "836d3d6b79f863ead551bfb6324620822d3f52eaa8bf6c07710e9ba16398662a",
+          "remaining_gap": "",
+          "metric_use_status": "triage_only",
+          "agent_note": "recourse"
+        },
+        {
+          "packet_id": "adjudication:44b9a32d150f4be2",
+          "verified_in_live_csv": true,
+          "expected": "Decision=approved (supported_as_material_blocker); Status=supported_as_material_blocker",
+          "entity": "GOLDMAN SACHS BANK USA",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1181412/000162828026036936/exhibit109-sx1.htm",
+          "content_hash": "836d3d6b79f863ead551bfb6324620822d3f52eaa8bf6c07710e9ba16398662a",
+          "remaining_gap": "",
+          "metric_use_status": "triage_only",
+          "agent_note": "recourse"
+        },
+        {
+          "packet_id": "adjudication:701fc2f3b0e4d0fe",
+          "verified_in_live_csv": true,
+          "expected": "Decision=approved (supported_as_material_blocker); Status=supported_as_material_blocker",
+          "entity": "GOLDMAN SACHS BANK USA",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1181412/000162828026036936/exhibit109-sx1.htm",
+          "content_hash": "836d3d6b79f863ead551bfb6324620822d3f52eaa8bf6c07710e9ba16398662a",
+          "remaining_gap": "",
+          "metric_use_status": "triage_only",
+          "agent_note": "recourse"
+        },
+        {
+          "packet_id": "adjudication:e9cee6acc69caea9",
+          "verified_in_live_csv": true,
+          "expected": "Decision=approved (supported_as_material_blocker); Status=supported_as_material_blocker",
+          "entity": "Morgan Stanley Senior Funding, Inc.",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1181412/000162828026036936/exhibit109-sx1.htm",
+          "content_hash": "836d3d6b79f863ead551bfb6324620822d3f52eaa8bf6c07710e9ba16398662a",
+          "remaining_gap": "",
+          "metric_use_status": "triage_only",
+          "agent_note": "recourse"
+        },
+        {
+          "packet_id": "adjudication:10a9c6c3087c91e3",
+          "verified_in_live_csv": true,
+          "expected": "Decision=approved (supported_as_material_blocker); Status=supported_as_material_blocker",
+          "entity": "SPACE EXPLORATION TECHNOLOGIES CORP - SEC exhibit exhibit109-sx1.htm - Principal tranche",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1181412/000162828026036936/exhibit109-sx1.htm",
+          "content_hash": "836d3d6b79f863ead551bfb6324620822d3f52eaa8bf6c07710e9ba16398662a",
+          "remaining_gap": "",
+          "metric_use_status": "triage_only",
+          "agent_note": "recourse"
+        },
+        {
+          "packet_id": "adjudication:ab90ab8b88c84e7e",
+          "verified_in_live_csv": true,
+          "expected": "Decision=needs_deeper_extraction; Status=blocked_pending_extraction",
+          "entity": "TERAWULF INC.",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1083301/000110465925101866/tm2529300d1_8k.htm",
+          "content_hash": "8d76ebe9ac32da05d2ba113c85c7ae78ff1784de5fd791fcb7a6da541287cdc2",
+          "remaining_gap": "extract explicit interest/rent rate evidence",
+          "metric_use_status": "blocked_pending_extraction",
+          "agent_note": "lease_debt_conflict"
+        },
+        {
+          "packet_id": "adjudication:d596314a0527b77a",
+          "verified_in_live_csv": true,
+          "expected": "Decision=needs_deeper_extraction; Status=blocked_pending_extraction",
+          "entity": "EQUINIX INC",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1101239/000110465925113094/tm2530576-3_424b5.htm",
+          "content_hash": "f626cde53004fdb0ab736f948238282d57dd3936b8eff26214f2a2c87f9b2211",
+          "remaining_gap": "extract explicit maturity or payment schedule evidence",
+          "metric_use_status": "blocked_pending_extraction",
+          "agent_note": "lease_debt_conflict"
+        },
+        {
+          "packet_id": "adjudication:7349b8492ace8683",
+          "verified_in_live_csv": true,
+          "expected": "Decision=needs_deeper_extraction; Status=blocked_pending_extraction",
+          "entity": "Hut 8 Corp.",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1964789/000110465926053247/tm2613163d1_8k.htm",
+          "content_hash": "13de85cffe9ea2037abfe223a16c5cdcfd78254e64e774cbd586ad9b344b4596",
+          "remaining_gap": "extract explicit interest/rent rate evidence",
+          "metric_use_status": "blocked_pending_extraction",
+          "agent_note": "lease_debt_conflict"
+        },
+        {
+          "packet_id": "adjudication:1b6c937d3dc41699",
+          "verified_in_live_csv": true,
+          "expected": "Decision=needs_deeper_extraction; Status=blocked_pending_extraction",
+          "entity": "Applied Digital Corp.",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1144879/000149315225024479/form8-k.htm",
+          "content_hash": "aafa9429ffbb3e73719bc347424935b8cedcf7866ffe80391f8560eb4df009d6",
+          "remaining_gap": "extract explicit interest/rent rate evidence",
+          "metric_use_status": "blocked_pending_extraction",
+          "agent_note": "lease_debt_conflict"
+        },
+        {
+          "packet_id": "adjudication:f9cff0b739312730",
+          "verified_in_live_csv": true,
+          "expected": "Decision=needs_deeper_extraction; Status=blocked_pending_extraction",
+          "entity": "IREN Ltd",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1878848/000114036125043802/ny20060080x1_424b5.htm",
+          "content_hash": "d088a9fd9068cf0a2c03fa3a5860d8fa7baa90ca3add2afcc7358bcf7f167f05",
+          "remaining_gap": "extract explicit interest/rent rate evidence",
+          "metric_use_status": "blocked_pending_extraction",
+          "agent_note": "lease_debt_conflict"
+        },
+        {
+          "packet_id": "adjudication:ab90ab8b88c84e7e",
+          "verified_in_live_csv": true,
+          "expected": "Decision=needs_deeper_extraction; Status=blocked_pending_extraction",
+          "entity": "TERAWULF INC.",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1083301/000110465925101866/tm2529300d1_8k.htm",
+          "content_hash": "8d76ebe9ac32da05d2ba113c85c7ae78ff1784de5fd791fcb7a6da541287cdc2",
+          "remaining_gap": "extract explicit interest/rent rate evidence",
+          "metric_use_status": "blocked_pending_extraction",
+          "agent_note": "source_provenance_edge"
+        },
+        {
+          "packet_id": "adjudication:5f6fb3f4d098825a",
+          "verified_in_live_csv": true,
+          "expected": "Decision=needs_deeper_extraction; Status=blocked_pending_extraction",
+          "entity": "Alphabet Inc.",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1652044/000119312526204938/d152073d424b5.htm",
+          "content_hash": "a86eadc303955e885b357667727510cba72f8a54625b8eb24bcb03bb813b1cd0",
+          "remaining_gap": "confirm lease obligation source rather than debt securities prospectus | split aggregate disclosure from specific committed obligation",
+          "metric_use_status": "blocked_pending_extraction",
+          "agent_note": "source_provenance_edge"
+        },
+        {
+          "packet_id": "adjudication:c0b81605ab2835f8",
+          "verified_in_live_csv": true,
+          "expected": "Decision=needs_deeper_extraction; Status=blocked_pending_extraction",
+          "entity": "Alphabet Inc.",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1652044/000119312526041936/d108033d424b5.htm",
+          "content_hash": "3047b8bf6486b8cbfd0d5bcb3c19535ee315acfc66d1260a30c3a7daaf9d91f2",
+          "remaining_gap": "confirm lease obligation source rather than debt securities prospectus | split aggregate disclosure from specific committed obligation",
+          "metric_use_status": "blocked_pending_extraction",
+          "agent_note": "source_provenance_edge"
+        },
+        {
+          "packet_id": "adjudication:afc07b3c1e380c92",
+          "verified_in_live_csv": true,
+          "expected": "Decision=needs_deeper_extraction; Status=blocked_pending_extraction",
+          "entity": "Alphabet Inc.",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1652044/000119312525267232/d65573d424b2.htm",
+          "content_hash": "12bbd028b6f8f8b19bf30f80b63070674bf2ff4fce3668726e04f7e8c66b8c55",
+          "remaining_gap": "confirm lease obligation source rather than debt securities prospectus | split aggregate disclosure from specific committed obligation",
+          "metric_use_status": "blocked_pending_extraction",
+          "agent_note": "source_provenance_edge"
+        },
+        {
+          "packet_id": "adjudication:d481e9a341180ee6",
+          "verified_in_live_csv": true,
+          "expected": "Decision=needs_deeper_extraction; Status=blocked_pending_extraction",
+          "entity": "ORACLE CORP",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1341439/000119312526037818/d60756d424b5.htm",
+          "content_hash": "ade68f0df0f42fb1c6b6a60677a8f3db8b5f91338158fd17fb4632e794436116",
+          "remaining_gap": "acquire underlying agreement or debt schedule clause for term-level extraction",
+          "metric_use_status": "blocked_pending_extraction",
+          "agent_note": "source_provenance_edge"
+        }
+      ]
+    },
+    "counterparty_role_parser": {
+      "count": 10,
+      "fixtures": [
+        {
+          "packet_id": "adjudication:0235e5f4c7d2be4f",
+          "verified_in_live_csv": true,
+          "expected": "{\"party_name\": \"GOLDMAN SACHS BANK USA\", \"role\": \"administrative_agent\"}",
+          "entity": "SPACE EXPLORATION TECHNOLOGIES CORP",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1181412/000162828026036936/exhibit109-sx1.htm",
+          "content_hash": "15d825479ca2749bdb9874b81fa8cac4af5292595c5d8162c912c344e9e5c533",
+          "remaining_gap": "",
+          "metric_use_status": "triage_only",
+          "agent_note": "Standard administrative agent pattern from credit agreement header"
+        },
+        {
+          "packet_id": "adjudication:abc8ef907ce50324",
+          "verified_in_live_csv": true,
+          "expected": "{\"party_name\": \"GOLDMAN SACHS BANK USA\", \"role\": \"administrative_agent\"}",
+          "entity": "SPACE EXPLORATION TECHNOLOGIES CORP",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1181412/000162828026036936/exhibit109-sx1.htm",
+          "content_hash": "15d825479ca2749bdb9874b81fa8cac4af5292595c5d8162c912c344e9e5c533",
+          "remaining_gap": "",
+          "metric_use_status": "triage_only",
+          "agent_note": "Administrative agent identified amid multi-party enumeration"
+        },
+        {
+          "packet_id": "adjudication:fc9c81d53507107c",
+          "verified_in_live_csv": true,
+          "expected": "{\"party_name\": \"Goldman Sachs Bank USA\", \"role\": \"lead_arranger\"}",
+          "entity": "X.AI Corp, as holdings, X.AI LLC",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1181412/000162828026036936/exhibit109-sx1.htm",
+          "content_hash": "836d3d6b79f863ead551bfb6324620822d3f52eaa8bf6c07710e9ba16398662a",
+          "remaining_gap": "",
+          "metric_use_status": "triage_only",
+          "agent_note": "Lead arranger role with compound capacity descriptors"
+        },
+        {
+          "packet_id": "adjudication:e858240547281636",
+          "verified_in_live_csv": true,
+          "expected": "{\"party_name\": \"SPACE EXPLORATION TECHNOLOGIES CORP.\", \"role\": \"borrower\"}",
+          "entity": "SPACE EXPLORATION TECHNOLOGIES CORP",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1181412/000162828026036936/exhibit109-sx1.htm",
+          "content_hash": "836d3d6b79f863ead551bfb6324620822d3f52eaa8bf6c07710e9ba16398662a",
+          "remaining_gap": "",
+          "metric_use_status": "triage_only",
+          "agent_note": "Borrower explicit assignment in credit agreement preamble"
+        },
+        {
+          "packet_id": "adjudication:141ca871a22437f4",
+          "verified_in_live_csv": true,
+          "expected": "{\"party_name\": \"COMPUTERSHARE TRUST COMPANY, NATIONAL ASSOCIATION\", \"role\": \"trustee\"}",
+          "entity": "AMAZON COM INC",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1018724/000110465925114647/tm2530638d3_ex4-1.htm",
+          "content_hash": "5b972f20800640071b22c62c46b8cc5b4e95afcba222d5ef8dd7327b8f81c7c4",
+          "remaining_gap": "",
+          "metric_use_status": "triage_only",
+          "agent_note": "Trustee role from indenture signature block (note form)"
+        },
+        {
+          "packet_id": "adjudication:823a33cd668697fc",
+          "verified_in_live_csv": true,
+          "expected": "{\"party_name\": \"WILMINGTON TRUST, NATIONAL ASSOCIATION\", \"role\": \"trustee\"}",
+          "entity": "Hut 8 Corp.",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1964789/000110465926053247/tm2613163d1_ex4-1.htm",
+          "content_hash": "f06a8369b7eb1c30dcadd84c33308b11542db64fa5db192a26708b93f5bdf75b",
+          "remaining_gap": "",
+          "metric_use_status": "triage_only",
+          "agent_note": "Trustee role from note signature block variant"
+        },
+        {
+          "packet_id": "adjudication:cae624166762c9c3",
+          "verified_in_live_csv": true,
+          "expected": "{\"party_name\": \"MORGAN STANLEY SENIOR FUNDING, INC.\", \"role\": \"administrative_agent\"}",
+          "entity": "COREWEAVE FINANCING DDTL V, LLC",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000236/ex101.htm",
+          "content_hash": "10c2161f1d60249e088a9d019b564817aa15955d6108e90f1dccb5273dfea0cd",
+          "remaining_gap": "",
+          "metric_use_status": "triage_only",
+          "agent_note": "Administrative agent from data center infrastructure credit agreement"
+        },
+        {
+          "packet_id": "adjudication:b01603e1d234e3a8",
+          "verified_in_live_csv": true,
+          "expected": "{\"party_name\": \"U.S. BANK TRUST COMPANY, NATIONAL ASSOCIATION\", \"role\": \"collateral_agent\"}",
+          "entity": "CoreWeave, Inc.",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000129/ex1011.htm",
+          "content_hash": "5b417f8bb45ace30de42315c979cbe69106a29bf4db98fcaa8e6fcdb060a3541",
+          "remaining_gap": "",
+          "metric_use_status": "triage_only",
+          "agent_note": "Collateral agent paired with administrative agent in multi-agent structure"
+        },
+        {
+          "packet_id": "adjudication:2c459a8ea02ff379",
+          "verified_in_live_csv": true,
+          "expected": "{\"party_name\": \"BANK OF AMERICA, N.A.\", \"role\": \"lender\"}",
+          "entity": "Tennessee Valley Authority",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1376986/000137698623000002/exhibit101fourthamendmentj.htm",
+          "content_hash": "e999f917039138ef796cc515be3b3286098cd52f89534bbf377ff5d6c710f905",
+          "remaining_gap": "determine collateral scope",
+          "metric_use_status": "blocked_pending_extraction",
+          "agent_note": "Lender role from legacy credit agreement amendment"
+        },
+        {
+          "packet_id": "adjudication:cae624166762c9c3",
+          "verified_in_live_csv": true,
+          "expected": "{\"party_name\": \"MUFG BANK, LTD.\", \"role\": \"lead_arranger\"}",
+          "entity": "COREWEAVE FINANCING DDTL V, LLC",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000236/ex101.htm",
+          "content_hash": "10c2161f1d60249e088a9d019b564817aa15955d6108e90f1dccb5273dfea0cd",
+          "remaining_gap": "",
+          "metric_use_status": "triage_only",
+          "agent_note": "Lead arranger with compound role descriptor (lead + book runner)"
+        }
+      ]
+    },
+    "collateral_recourse_classifier": {
+      "count": 16,
+      "fixtures": [
+        {
+          "packet_id": "adjudication:3eb593f26083f2a5",
+          "verified_in_live_csv": true,
+          "expected": "asset-backed",
+          "entity": "PennyMac Mortgage Investment Trust",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1464423/000119312525089233/d906209dex992.htm",
+          "content_hash": "c7c3e1e5d47d3298a31a56bbdae2b6e8db4c236f67d1836dd4a304c5a33a036e",
+          "remaining_gap": "",
+          "metric_use_status": "approved_for_metric_use",
+          "agent_note": "Asset-backed financing structure on balance sheet; signals securitization of mortgage portfolio"
+        },
+        {
+          "packet_id": "adjudication:c18c60ff10d3589e",
+          "verified_in_live_csv": true,
+          "expected": "asset-backed",
+          "entity": "AMERICAN ELECTRIC POWER CO INC",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/4904/000000490426000034/ex4baep20261q.htm",
+          "content_hash": "b476aee5a07b9b5f20a5229620d17dbffad7a0523ed08f4d50b8b4312280a42c",
+          "remaining_gap": "",
+          "metric_use_status": "approved_for_metric_use",
+          "agent_note": "Regulatory treatment of securitization transition assets; indicates asset-backed program activity"
+        },
+        {
+          "packet_id": "adjudication:d077ff4f94255a52",
+          "verified_in_live_csv": true,
+          "expected": "borrowing-base",
+          "entity": "Matador Resources Co",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1520006/000110465925120120/tm2533173d2_ex99-1.htm",
+          "content_hash": "bb34834b5b4eea3f67d361247fd4f6bb127ed0c8fc655cc16e132f55c9d914ef",
+          "remaining_gap": "extract named counterparty and role | determine recourse and guarantee scope",
+          "metric_use_status": "blocked_pending_extraction",
+          "agent_note": "Reserves-based borrowing base; common in energy/commodity lending"
+        },
+        {
+          "packet_id": "adjudication:266fe1d94c670569",
+          "verified_in_live_csv": true,
+          "expected": "borrowing-base",
+          "entity": "ARES CAPITAL CORP",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1287750/000128775025000036/arccq2-2025exhibit991.htm",
+          "content_hash": "2436d4713407554339d0c5354d95f5577e02e3424596c7d2f543691bc13a327b",
+          "remaining_gap": "extract named counterparty and role | determine recourse and guarantee scope",
+          "metric_use_status": "blocked_pending_extraction",
+          "agent_note": "Borrowing base limits facility size; indicates collateral-dependent credit"
+        },
+        {
+          "packet_id": "adjudication:a775362cdc1fc3cf",
+          "verified_in_live_csv": true,
+          "expected": "collateral-document",
+          "entity": "Super Micro Computer, Inc.",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1375365/000137536524000015/smci-20240221.htm",
+          "content_hash": "97aeb36c0c1f411b12d7d941e955fa09846816f803f30f5157b03cf8b74beda7",
+          "remaining_gap": "",
+          "metric_use_status": "approved_for_metric_use",
+          "agent_note": "Filing references collateral documentation; limited evidence in excerpt"
+        },
+        {
+          "packet_id": "adjudication:3c8422a7a71eb3ac",
+          "verified_in_live_csv": true,
+          "expected": "collateral-document",
+          "entity": "Hilton Worldwide Holdings Inc. - SEC exhibit d40086dex101.htm",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1585689/000119312526113998/d40086dex101.htm",
+          "content_hash": "777fba2641e1d65c8f524de65d7d8393d95be9c6de0b277b0da8f42d3c4f6515",
+          "remaining_gap": "",
+          "metric_use_status": "triage_only",
+          "agent_note": "Explicit security interest in mortgages and tangible assets; perfected pledge required"
+        },
+        {
+          "packet_id": "adjudication:86202aa81f4d80b4",
+          "verified_in_live_csv": true,
+          "expected": "first-lien",
+          "entity": "Blackstone Secured Lending Fund - 424B2 - Primary tranche",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1736035/000119312525008530/d859398d424b2.htm",
+          "content_hash": "ba39bf90ae3cfa7f2d145ab81fcd346e8d1e2d81bb0f29f1d6eb4ce5698d49a8",
+          "remaining_gap": "",
+          "metric_use_status": "triage_only",
+          "agent_note": "Explicit first-lien portfolio positioning; primary collateral position"
+        },
+        {
+          "packet_id": "adjudication:7179a50e46810c19",
+          "verified_in_live_csv": true,
+          "expected": "first-lien",
+          "entity": "Blackstone Secured Lending Fund - 424B2",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1736035/000119312525008530/d859398d424b2.htm",
+          "content_hash": "ba39bf90ae3cfa7f2d145ab81fcd346e8d1e2d81bb0f29f1d6eb4ce5698d49a8",
+          "remaining_gap": "",
+          "metric_use_status": "triage_only",
+          "agent_note": "Same fund, same filing; reinforces first-lien strategy"
+        },
+        {
+          "packet_id": "adjudication:ab90ab8b88c84e7e",
+          "verified_in_live_csv": true,
+          "expected": "guarantee",
+          "entity": "TERAWULF INC.",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1083301/000110465925101866/tm2529300d1_8k.htm",
+          "content_hash": "8d76ebe9ac32da05d2ba113c85c7ae78ff1784de5fd791fcb7a6da541287cdc2",
+          "remaining_gap": "extract explicit interest/rent rate evidence",
+          "metric_use_status": "blocked_pending_extraction",
+          "agent_note": "Guarantor pledge of cash collateral; supports guarantee obligation"
+        },
+        {
+          "packet_id": "adjudication:0235e5f4c7d2be4f",
+          "verified_in_live_csv": true,
+          "expected": "guarantee",
+          "entity": "SPACE EXPLORATION TECHNOLOGIES CORP",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1181412/000162828026036936/exhibit109-sx1.htm",
+          "content_hash": "15d825479ca2749bdb9874b81fa8cac4af5292595c5d8162c912c344e9e5c533",
+          "remaining_gap": "",
+          "metric_use_status": "triage_only",
+          "agent_note": "Bridge loan structure; likely includes guarantees but quote is sparse"
+        },
+        {
+          "packet_id": "adjudication:3c64b6215971c7ab",
+          "verified_in_live_csv": true,
+          "expected": "non-recourse",
+          "entity": "CoreWeave, Inc.",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000129/ex991.htm",
+          "content_hash": "7d244dfa0d70095c752a266df461490ff8edb0e01248a74c3bb6c3b374791bd9",
+          "remaining_gap": "extract named counterparty and role",
+          "metric_use_status": "blocked_pending_extraction",
+          "agent_note": "Landmark non-recourse HPC/AI data-center financing; no borrower recourse on cash collateral"
+        },
+        {
+          "packet_id": "adjudication:e4452759a1db84cf",
+          "verified_in_live_csv": true,
+          "expected": "non-recourse",
+          "entity": "ENBRIDGE INC",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/895728/000110465926033629/tm269416d1_424b5.htm",
+          "content_hash": "5f838bfe629b24fc5cf8e2b0f3cdf2620e8cceee75f493de9ab9ff32d5348fdf",
+          "remaining_gap": "split aggregate disclosure from specific committed obligation",
+          "metric_use_status": "blocked_pending_extraction",
+          "agent_note": "False positive: mentions absence of secured debt, not non-recourse status"
+        },
+        {
+          "packet_id": "adjudication:dbe8150b7d94e1f1",
+          "verified_in_live_csv": true,
+          "expected": "secured",
+          "entity": "Blackstone Secured Lending Fund",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1736035/000119312525008530/d859398d424b2.htm",
+          "content_hash": "ba39bf90ae3cfa7f2d145ab81fcd346e8d1e2d81bb0f29f1d6eb4ce5698d49a8",
+          "remaining_gap": "extract named counterparty and role | determine recourse and guarantee scope",
+          "metric_use_status": "blocked_pending_extraction",
+          "agent_note": "Senior secured credit facilities; explicit secured status"
+        },
+        {
+          "packet_id": "adjudication:c065a678f427f05f",
+          "verified_in_live_csv": true,
+          "expected": "secured",
+          "entity": "Encore Inc.",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/2089161/000119312526151431/d23359ds1.htm",
+          "content_hash": "a5f0eddc36a00f958c03719b28c25d0c7249b6e2b06ebbfb9650e1538327505d",
+          "remaining_gap": "extract named counterparty and role | determine recourse and guarantee scope",
+          "metric_use_status": "blocked_pending_extraction",
+          "agent_note": "Senior secured term loan facility; typical corporate secured borrowing"
+        },
+        {
+          "packet_id": "adjudication:ebf86f9a40fd2eae",
+          "verified_in_live_csv": true,
+          "expected": "unsecured",
+          "entity": "ORACLE CORP",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1341439/000119312526037818/d60756d424b5.htm",
+          "content_hash": "ade68f0df0f42fb1c6b6a60677a8f3db8b5f91338158fd17fb4632e794436116",
+          "remaining_gap": "",
+          "metric_use_status": "approved_for_metric_use",
+          "agent_note": "Unsecured senior debt; no collateral; pari passu with other unsecured"
+        },
+        {
+          "packet_id": "adjudication:5f6fb3f4d098825a",
+          "verified_in_live_csv": true,
+          "expected": "unsecured",
+          "entity": "Alphabet Inc.",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1652044/000119312526204938/d152073d424b5.htm",
+          "content_hash": "a86eadc303955e885b357667727510cba72f8a54625b8eb24bcb03bb813b1cd0",
+          "remaining_gap": "confirm lease obligation source rather than debt securities prospectus | split aggregate disclosure from specific committed obligation",
+          "metric_use_status": "blocked_pending_extraction",
+          "agent_note": "Over-broad generic prospectus prose; classifier should flag such boilerplate"
+        }
+      ]
+    },
+    "aggregate_shelf_classifier": {
+      "count": 12,
+      "fixtures": [
+        {
+          "packet_id": "adjudication:5f6fb3f4d098825a",
+          "verified_in_live_csv": true,
+          "expected": "shelf_capacity",
+          "entity": "Alphabet Inc.",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1652044/000119312526204938/d152073d424b5.htm",
+          "content_hash": "a86eadc303955e885b357667727510cba72f8a54625b8eb24bcb03bb813b1cd0",
+          "remaining_gap": "confirm lease obligation source rather than debt securities prospectus | split aggregate disclosure from specific committed obligation",
+          "metric_use_status": "blocked_pending_extraction",
+          "agent_note": ""
+        },
+        {
+          "packet_id": "adjudication:0235e5f4c7d2be4f",
+          "verified_in_live_csv": true,
+          "expected": "committed_obligation",
+          "entity": "SPACE EXPLORATION TECHNOLOGIES CORP",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1181412/000162828026036936/exhibit109-sx1.htm",
+          "content_hash": "15d825479ca2749bdb9874b81fa8cac4af5292595c5d8162c912c344e9e5c533",
+          "remaining_gap": "",
+          "metric_use_status": "triage_only",
+          "agent_note": ""
+        },
+        {
+          "packet_id": "adjudication:a6506e15c7f034a3",
+          "verified_in_live_csv": true,
+          "expected": "debt_outstanding_snapshot",
+          "entity": "Broadcom Inc.",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1730168/000119312525158202/d89787d8k.htm",
+          "content_hash": "b1390999e0b75785e90d32fa73c8904691b9809127d6b1c8b9694dbf1055ee95",
+          "remaining_gap": "determine collateral scope",
+          "metric_use_status": "blocked_pending_extraction",
+          "agent_note": ""
+        },
+        {
+          "packet_id": "adjudication:03c20e6eeadb4dd4",
+          "verified_in_live_csv": true,
+          "expected": "portfolio_rollup",
+          "entity": "PennyMac Financial Services, Inc.",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1745916/000110465926008004/tm264391d1_ex99-1.htm",
+          "content_hash": "307aaa67b2536d9e514bf4a8b9557479714e660bce60f7fb515aee3b7bc784a2",
+          "remaining_gap": "split aggregate disclosure from specific committed obligation",
+          "metric_use_status": "blocked_pending_extraction",
+          "agent_note": ""
+        },
+        {
+          "packet_id": "adjudication:b4a0d1affb9256ca",
+          "verified_in_live_csv": true,
+          "expected": "debt_outstanding_snapshot",
+          "entity": "PennyMac Financial Services, Inc.",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1745916/000110465926055670/tm2613557d1_ex99-2.htm",
+          "content_hash": "baf849bf5e7be96d7df64c9a85e3d4a32dbeadf9a512dff09f612f0460c22877",
+          "remaining_gap": "split aggregate disclosure from specific committed obligation",
+          "metric_use_status": "blocked_pending_extraction",
+          "agent_note": ""
+        },
+        {
+          "packet_id": "adjudication:be51712b6f23e9c7",
+          "verified_in_live_csv": true,
+          "expected": "portfolio_rollup",
+          "entity": "PennyMac Financial Services, Inc.",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1745916/000110465926008004/tm264391d1_ex99-2.htm",
+          "content_hash": "32cbd3979dd7d1ddc9e1dee834029f9d3b770b776fa10ee0cf543a19e4d870af",
+          "remaining_gap": "split aggregate disclosure from specific committed obligation",
+          "metric_use_status": "blocked_pending_extraction",
+          "agent_note": ""
+        },
+        {
+          "packet_id": "adjudication:64e8b93432f8e2f7",
+          "verified_in_live_csv": true,
+          "expected": "aggregate_lease_or_payment_schedule",
+          "entity": "Hut 8 Corp.",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1964789/000110465926049711/hut-20260611xdef14a.htm",
+          "content_hash": "a7ff1a911ac95703d8a30666a2f400b55401f56b4daffabad358564c785563ac",
+          "remaining_gap": "extract named counterparty and role | determine recourse and guarantee scope",
+          "metric_use_status": "blocked_pending_extraction",
+          "agent_note": ""
+        },
+        {
+          "packet_id": "adjudication:d3204238fcfdda2a",
+          "verified_in_live_csv": true,
+          "expected": "debt_outstanding_snapshot",
+          "entity": "Amcor plc",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1748790/000110465925112437/tm2530646-2_424b5.htm",
+          "content_hash": "c38c26eefbd27cc109ac746a03768fe6550b26aaf2eeebf5a257e3fe22646202",
+          "remaining_gap": "",
+          "metric_use_status": "approved_for_metric_use",
+          "agent_note": ""
+        },
+        {
+          "packet_id": "adjudication:efcadf83e93ac3b3",
+          "verified_in_live_csv": true,
+          "expected": "portfolio_rollup",
+          "entity": "PennyMac Financial Services, Inc. - SEC exhibit tm264391d1_ex99-1.htm",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1745916/000110465926008004/tm264391d1_ex99-1.htm",
+          "content_hash": "307aaa67b2536d9e514bf4a8b9557479714e660bce60f7fb515aee3b7bc784a2",
+          "remaining_gap": "",
+          "metric_use_status": "triage_only",
+          "agent_note": ""
+        },
+        {
+          "packet_id": "adjudication:c0b81605ab2835f8",
+          "verified_in_live_csv": true,
+          "expected": "shelf_capacity",
+          "entity": "Alphabet Inc.",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1652044/000119312526041936/d108033d424b5.htm",
+          "content_hash": "3047b8bf6486b8cbfd0d5bcb3c19535ee315acfc66d1260a30c3a7daaf9d91f2",
+          "remaining_gap": "confirm lease obligation source rather than debt securities prospectus | split aggregate disclosure from specific committed obligation",
+          "metric_use_status": "blocked_pending_extraction",
+          "agent_note": ""
+        },
+        {
+          "packet_id": "adjudication:78210f2310a60fbb",
+          "verified_in_live_csv": true,
+          "expected": "shelf_capacity",
+          "entity": "Alphabet Inc.",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1652044/000119312526212210/d152073d424b2.htm",
+          "content_hash": "cde31d704e5e612cf40f1364711d3cd0205168f7dc8790fdb0d0bceffc4aad3e",
+          "remaining_gap": "extract explicit maturity or payment schedule evidence",
+          "metric_use_status": "blocked_pending_extraction",
+          "agent_note": ""
+        },
+        {
+          "packet_id": "adjudication:afc07b3c1e380c92",
+          "verified_in_live_csv": true,
+          "expected": "aggregate_lease_or_payment_schedule",
+          "entity": "Alphabet Inc.",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1652044/000119312525267232/d65573d424b2.htm",
+          "content_hash": "12bbd028b6f8f8b19bf30f80b63070674bf2ff4fce3668726e04f7e8c66b8c55",
+          "remaining_gap": "confirm lease obligation source rather than debt securities prospectus | split aggregate disclosure from specific committed obligation",
+          "metric_use_status": "blocked_pending_extraction",
+          "agent_note": ""
+        }
+      ]
+    },
+    "lender_as_entity_audit": {
+      "count": 4,
+      "fixtures": [
+        {
+          "packet_id": "adjudication:7b639726ddf8d62b",
+          "verified_in_live_csv": true,
+          "expected": "risk-bearer: noteholders/capital market investors; entity should be the obligor on the notes or omitted if debt issuance is off-scope for metric use",
+          "entity": "M&T BANK CORP",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/36270/000119312526158073/d19553d424b5.htm",
+          "content_hash": "d90f07d6fbc5d7ceac45c498756aaa62459d49a2aa8fe8517731f5514f0a1fa2",
+          "remaining_gap": "",
+          "metric_use_status": "approved_for_metric_use",
+          "agent_note": "M&T Bank issuing subordinated debt to capital markets. Risk is borne by noteholders, not by M&T as operational entity. Metric leakage: debt issuance metrics should not inflate entity-level exposure at"
+        },
+        {
+          "packet_id": "adjudication:33bfd7269fe2dd64",
+          "verified_in_live_csv": true,
+          "expected": "risk-bearer: noteholders/capital market investors; Bank of Nova Scotia is issuer/borrower in capital markets, not lender",
+          "entity": "BANK OF NOVA SCOTIA",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/9631/000119312526245465/d114782d424b2.htm",
+          "content_hash": "60cd810ec21756b966764e84822e37210c98d77488e566c59934f56ca39317f8",
+          "remaining_gap": "",
+          "metric_use_status": "approved_for_metric_use",
+          "agent_note": "Clear debt offering document. Entity is the issuer. Noteholders bear credit risk. Current classification creates entity-level inflation in AI/data-center linkage metrics if Nova Scotia has such exposu"
+        },
+        {
+          "packet_id": "adjudication:bfb50c6989dd9555",
+          "verified_in_live_csv": true,
+          "expected": "risk-bearer: noteholders; Deutsche Bank AG is issuer, not lender or obligor in a credit arrangement",
+          "entity": "DEUTSCHE BANK AKTIENGESELLSCHAFT",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1159508/000095010326005642/dp245102_424b2-d16.htm",
+          "content_hash": "2f0f22c1c47ffaa455880e0840be13bbe350eba1f1efe94de4cfbdfbb271b3ab",
+          "remaining_gap": "",
+          "metric_use_status": "approved_for_metric_use",
+          "agent_note": "Pricing supplement for unsecured senior notes. DB is issuer/borrower. Metric leakage: noteholder risk is being attributed to bank entity category, inflating materiality for DB."
+        },
+        {
+          "packet_id": "adjudication:be42bd3685a8204d",
+          "verified_in_live_csv": true,
+          "expected": "risk-bearer: noteholders/investors; Bank of Nova Scotia is unsecured debt issuer in capital markets",
+          "entity": "BANK OF NOVA SCOTIA",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/9631/000119312526245465/d114782d424b2.htm",
+          "content_hash": "60cd810ec21756b966764e84822e37210c98d77488e566c59934f56ca39317f8",
+          "remaining_gap": "",
+          "metric_use_status": "approved_for_metric_use",
+          "agent_note": "Duplicate source document as packet 33bfd7269fe2dd64 but different metric category (capital/high_notional_debt_like_candidate). Same leakage pattern. Notes explicitly unsecured."
+        }
+      ]
+    },
+    "entity_family_attribution: Utility parent/subsidiary/guarantor clusters with same content_hash+amount across affiliated entity names (Entergy regional subs, Ameren parent+IL sub, CMS parent+Consumers sub, Eversource parent+NSTAR subsidiary). Propose collapse rules: (1) Entergy 4-state facility = collapse to parent (ENTERGY CORP /DE/) metric group, one $3.5B blocker; (2) Ameren/CMS joint facilities = collapse to parent entity metric group (single $1.4B and $1.1B blockers respectively); (3) Entergy tranches (424B2/B3/B5) = collapse base entity variant to core Entergy LA only, eliminate tranche duplicates as derivative instruments. Rules: same content_hash + same amount + parent-subsidiary relationship = single metric entry at parent level, mark duplicates aggregate_status=yes.": {
+      "count": 6,
+      "fixtures": [
+        {
+          "packet_id": "adjudication:db31dd5644050ec3",
+          "verified_in_live_csv": true,
+          "expected": "Collapse to ENTERGY CORP /DE/ parent-level metric; single $3.5B blocker for 4-state joint facility (same content_hash 6fd721f7fbb4e2ee across AR/MS/LA/TX subs)",
+          "entity": "ENTERGY ARKANSAS, LLC",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/7323/000006598424000062/etr-20240611.htm",
+          "content_hash": "6fd721f7fbb4e2ee72856c6069e597d67034c74f5262b98fa4f699c59530ac27",
+          "remaining_gap": "",
+          "metric_use_status": "approved_for_metric_use",
+          "agent_note": "Part of 8-entity cluster (4 regional subs + duplicates); all supported_as_material_blocker; same metric_group_id"
+        },
+        {
+          "packet_id": "adjudication:c6f267d8f5d3b9a9",
+          "verified_in_live_csv": true,
+          "expected": "Same $3.5B instrument as AR/LA/TX subs; should consolidate under parent metric_group",
+          "entity": "ENTERGY MISSISSIPPI, LLC",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/66901/000006598424000062/etr-20240611.htm",
+          "content_hash": "6fd721f7fbb4e2ee72856c6069e597d67034c74f5262b98fa4f699c59530ac27",
+          "remaining_gap": "",
+          "metric_use_status": "approved_for_metric_use",
+          "agent_note": "Duplicate of AR packet; same amount, same content_hash, different SEC filing entity"
+        },
+        {
+          "packet_id": "adjudication:1756b20febc66881",
+          "verified_in_live_csv": true,
+          "expected": "Collapse to AMEREN CORP parent-level metric; joint obligor on $1.4B facility, eliminate subsidiary duplicate",
+          "entity": "Ameren Illinois Co",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/18654/000110465925119977/tm2533090d1_8k.htm",
+          "content_hash": "b2983ca2ff362f47db31abe8d422d6a8d07da375c4aa34ba911b6a107d30d60f",
+          "remaining_gap": "",
+          "metric_use_status": "approved_for_metric_use",
+          "agent_note": "Joint borrower with parent AMEREN CORP (packet a410f083e296876e); both flagged duplicate_or_aggregate=yes; same metric_group_id"
+        },
+        {
+          "packet_id": "adjudication:a410f083e296876e",
+          "verified_in_live_csv": true,
+          "expected": "Keep as parent-level metric; subsidiary variant (IL sub) should collapse here; represents actual obligor",
+          "entity": "AMEREN CORP",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1002910/000110465925119977/tm2533090d1_8k.htm",
+          "content_hash": "b2983ca2ff362f47db31abe8d422d6a8d07da375c4aa34ba911b6a107d30d60f",
+          "remaining_gap": "",
+          "metric_use_status": "approved_for_metric_use",
+          "agent_note": "Parent entity; also includes Union Electric Co (Missouri sub) in same facility; Ameren is consolidating guarantor"
+        },
+        {
+          "packet_id": "adjudication:ce1f706da5c98b39",
+          "verified_in_live_csv": true,
+          "expected": "Keep as parent-level metric; Consumers Energy Co (subsidiary, packet 9958fb3809831c3c) should collapse here as joint obligor",
+          "entity": "CMS ENERGY CORP",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/811156/000110465925114875/tm2531890d1_8k.htm",
+          "content_hash": "d6e6eff68c20b5ec0edcb8f95202e5620aae91d53f8c62d2ed3815c3c92dd6d4",
+          "remaining_gap": "",
+          "metric_use_status": "approved_for_metric_use",
+          "agent_note": "Parent entity, CMS Facility increased from $550M to $750M; Consumers Energy is primary borrower"
+        },
+        {
+          "packet_id": "adjudication:9958fb3809831c3c",
+          "verified_in_live_csv": true,
+          "expected": "Collapse to CMS ENERGY CORP parent-level metric; subsidiary joint obligor, same $1.1B instrument",
+          "entity": "CONSUMERS ENERGY CO",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/201533/000110465925114875/tm2531890d1_8k.htm",
+          "content_hash": "d6e6eff68c20b5ec0edcb8f95202e5620aae91d53f8c62d2ed3815c3c92dd6d4",
+          "remaining_gap": "",
+          "metric_use_status": "approved_for_metric_use",
+          "agent_note": "Primary operational borrower; must consolidate under parent CMS ENERGY CORP to avoid double-counting"
+        }
+      ]
+    },
+    "metric_aggregation_simulator": {
+      "count": 5,
+      "fixtures": [
+        {
+          "packet_id": "adjudication:dbae5c09faa1b52b",
+          "verified_in_live_csv": true,
+          "expected": "$10,000,000,000 counted once in S4 under (hash 26441da89aa6ec9c..., category physical); this packet has no EDGAR accession so fails S3 but passes S2/S4/S5",
+          "entity": "onovan Drive Holdings LLC",
+          "source_uri": "https://www.nyiso.com/documents/20142/1407078/NYISO-Interconnection-Queue.xlsx",
+          "content_hash": "26441da89aa6ec9cb963cbf70512ddf28fb9f297e15b8e55783e172b0bf71b2c",
+          "remaining_gap": "",
+          "metric_use_status": "approved_for_metric_use",
+          "agent_note": "Non-EDGAR source; S3 excludes it (accession_fail), but S4 retains via category route"
+        },
+        {
+          "packet_id": "adjudication:a4b3605a0d520df8",
+          "verified_in_live_csv": true,
+          "expected": "$2,500,000,000 + related packets with same hash must be deduplicated at category level in S4; S2 would count only once globally, losing category granularity",
+          "entity": "TeraWulf",
+          "source_uri": "https://www.nyiso.com/documents/20142/1407078/NYISO-Interconnection-Queue.xlsx",
+          "content_hash": "26441da89aa6ec9cb963cbf70512ddf28fb9f297e15b8e55783e172b0bf71b2c",
+          "remaining_gap": "",
+          "metric_use_status": "approved_for_metric_use",
+          "agent_note": "Same hash as onovan & Petawatt; all three share hash from NYISO queue snapshot, yet each is separate queue entry with distinct MW, entity, financing need"
+        },
+        {
+          "packet_id": "adjudication:690d3c00c0e96578",
+          "verified_in_live_csv": true,
+          "expected": "$2,000,000,000 counted once in S4 under (same hash, physical category); collided with onovan and TeraWulf in S2 but split in S4",
+          "entity": "Petawatt Holdings",
+          "source_uri": "https://www.nyiso.com/documents/20142/1407078/NYISO-Interconnection-Queue.xlsx",
+          "content_hash": "26441da89aa6ec9cb963cbf70512ddf28fb9f297e15b8e55783e172b0bf71b2c",
+          "remaining_gap": "",
+          "metric_use_status": "approved_for_metric_use",
+          "agent_note": "Triple collision (onovan $10B, TeraWulf $2.5B, Petawatt $2B all same hash); S1 sums all three ($14.5B), S2 sums once ($10B), S4 sums once ($10B per category=physical)"
+        },
+        {
+          "packet_id": "adjudication:de367ec99cc5fed4",
+          "verified_in_live_csv": true,
+          "expected": "$3,427,000,000 is one of 10 packets under hash 4be34d0b7f0b8c82; S1 counts all 10 ($15.708B), S2 counts once ($3.427B from first), S4 counts per category",
+          "entity": "Galaxy Digital Inc.",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1859392/000095010325013968/dp236467_ex9902.htm",
+          "content_hash": "4be34d0b7f0b8c821547aee2771db5ede414d11922302d68e2d8f5bcaa7b9ff6",
+          "remaining_gap": "",
+          "metric_use_status": "approved_for_metric_use",
+          "agent_note": "Exemplifies SEC multi-lender, multi-tranche refiling pattern; each tranche or lender perspective creates separate adjudication packet with identical source hash but distinct counterparty role"
+        },
+        {
+          "packet_id": "adjudication:27534f79441f60d9",
+          "verified_in_live_csv": true,
+          "expected": "$5,000,000,000 from NYISO queue source; contributes $5B to each of S1/S2/S4/S5 (all strategies count it), $0 to S3 due to non-EDGAR source",
+          "entity": "",
+          "source_uri": "https://www.nyiso.com/documents/20142/1407078/NYISO-Interconnection-Queue.xlsx",
+          "content_hash": "26441da89aa6ec9cb963cbf70512ddf28fb9f297e15b8e55783e172b0bf71b2c",
+          "remaining_gap": "",
+          "metric_use_status": "approved_for_metric_use",
+          "agent_note": "S3 exclusion example: non-EDGAR source causes $5B to vanish in accession strategy, widening S3 gap"
+        }
+      ]
+    },
+    "contagion_path_qa": {
+      "count": 5,
+      "fixtures": [
+        {
+          "packet_id": "contagion:55f81b5e6de77e98",
+          "verified_in_live_csv": false,
+          "expected": "Self-referential paths (entity name appears in counterparty) should be treated as intra-entity transactions or marked for manual review; currently 1,134 such paths (13.0%) may represent false ownership joins",
+          "entity": "PFIZER INC",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/78003/000119312525289779/d95338d424b5.htm",
+          "content_hash": "(unverified)",
+          "remaining_gap": "",
+          "metric_use_status": "",
+          "agent_note": "Self-reference pattern occurs across many issuers (Pfizer, Goldman Sachs, Morgan Stanley) suggesting a systematic entity name disambiguation issue in counterparty extraction"
+        },
+        {
+          "packet_id": "contagion:15f915ba83078475",
+          "verified_in_live_csv": false,
+          "expected": "DEAL_RISK_BEARER paths with notional >$5B must include at least one of: SPV, collateral, guarantee, or bankruptcy_remote flag; currently 75 paths (0.9%) missing all transfer mechanisms",
+          "entity": "Deutsche Bank Trust Company Americas",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1156375/000115637525000098/exhibit102cmeamendedclea.htm",
+          "content_hash": "(unverified)",
+          "remaining_gap": "",
+          "metric_use_status": "",
+          "agent_note": "Risk-bearer without documented transfer mechanism creates implicit contagion assumption; materiality depends on whether trustee role includes guarantee"
+        },
+        {
+          "packet_id": "contagion:1bb33d2721e23b21",
+          "verified_in_live_csv": false,
+          "expected": "Same as above: DEAL_RISK_BEARER $10B paths must show collateral/SPV/guarantee linkage",
+          "entity": "Deutsche Bank Trust Company Americas",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1156375/000119312524113786/d818559dex101.htm",
+          "content_hash": "(unverified)",
+          "remaining_gap": "",
+          "metric_use_status": "",
+          "agent_note": "Duplicate path to different SEC filing; suggests multiple trustee amendments not consolidated"
+        },
+        {
+          "packet_id": "contagion:c2fe177cc020ad45",
+          "verified_in_live_csv": false,
+          "expected": "Paths with only ENTITY_SUPPLIED_ONLY ownership validation (1,675 paths, 19.1%) should be marked 'low-confidence' or downranked until corroborated via GLEIF, regulator filings, or third-party sources",
+          "entity": "Morgan Stanley Senior Funding, Inc.",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1181412/000162828026036936/exhibit109-sx1.htm",
+          "content_hash": "(unverified)",
+          "remaining_gap": "",
+          "metric_use_status": "",
+          "agent_note": "ENTITY_SUPPLIED_ONLY represents unilateral claim; absence of FULLY_CORROBORATED flag for 93.6% of paths means ownership structure is largely unverified"
+        },
+        {
+          "packet_id": "contagion:4230e088e65f77bb",
+          "verified_in_live_csv": false,
+          "expected": "Exact duplicate signatures (entity, counterparty, relationship type) totaling 1,979 paths (22.6%) should be merged by deal_id and notional_usd; deduplicate or consolidate into single path with aggregated notional",
+          "entity": "ENTERPRISE PRODUCTS PARTNERS L.P. - 424B5 - Primary tranche",
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1061219/000119312525142715/d11297d424b5.htm",
+          "content_hash": "(unverified)",
+          "remaining_gap": "",
+          "metric_use_status": "",
+          "agent_note": "Duplicates likely arise from multiple sections of same SEC filing (e.g., 424B5 exhibits cited in multiple pages); consolidation needed to avoid notional inflation"
+        }
+      ]
+    },
+    "physical_deliverability_qa": {
+      "count": 6,
+      "fixtures": [
+        {
+          "packet_id": "queue-match:8818a6e1e4e4e2c4",
+          "verified_in_live_csv": false,
+          "expected": "Combined Cycle queue request (MISO) with 820 MW capacity should match to active generation project; currently unmatched",
+          "entity": "Combined Cycle (MISO Region)",
+          "source_uri": "https://www.nyiso.com/documents/20142/1407078/NYISO-Interconnection-Queue.xlsx",
+          "content_hash": "(unverified)",
+          "remaining_gap": "",
+          "metric_use_status": "",
+          "agent_note": "17 high-capacity MISO queue records remain unmatched (3.9 GW aggregate); deterministic matching failed"
+        },
+        {
+          "packet_id": "permit-match:45f1cedf9b06e1eb",
+          "verified_in_live_csv": false,
+          "expected": "LOCKHEED MARTIN permit should NOT match H5 Data Centers Denver project (distinct operator, facility names differ by vendor)",
+          "entity": "H5 Data Centers Denver",
+          "source_uri": "https://echo.epa.gov/files/echodownloads/ICIS-AIR_downloads.zip",
+          "content_hash": "(unverified)",
+          "remaining_gap": "",
+          "metric_use_status": "",
+          "agent_note": "11 permit candidate matches flagged (confidence 0.54-0.66); 3 matched to H5 Denver alone"
+        },
+        {
+          "packet_id": "permit-match:080000003805300202",
+          "verified_in_live_csv": false,
+          "expected": "CRUSOE MARSUPIALS EAST PAD should match to Crusoe Energy data center project (operator name match, energy sector linkage)",
+          "entity": "CRUSOE Energy - ND Operations",
+          "source_uri": "https://echo.epa.gov/files/echodownloads/ICIS-AIR_downloads.zip",
+          "content_hash": "(unverified)",
+          "remaining_gap": "",
+          "metric_use_status": "",
+          "agent_note": "3+ CRUSOE permits unmatched; ecosystem linkage to data center operations not recognized"
+        },
+        {
+          "packet_id": "equipment-match:05360ab526e3f5f2",
+          "verified_in_live_csv": false,
+          "expected": "Apple PV2 equipment candidate should either achieve strong match confidence or be rejected (0.6 < 0.7 threshold)",
+          "entity": "Apple Data Center PV2",
+          "source_uri": "https://www.epa.gov/system/files/documents/2025-06/egrid2023_data_rev2.xlsx",
+          "content_hash": "(unverified)",
+          "remaining_gap": "",
+          "metric_use_status": "",
+          "agent_note": "8 equipment candidate matches need human triage; 188 unmatched equipment records"
+        },
+        {
+          "packet_id": "fractracker-data-centers-000000-001000:1769139941076-1038",
+          "verified_in_live_csv": false,
+          "expected": "Equinix project should have max 1-2 on-site generation permits; currently linked to 39 equipment records across multiple facilities",
+          "entity": "Equinix",
+          "source_uri": "https://www.epa.gov/system/files/documents/2025-06/egrid2023_data_rev2.xlsx",
+          "content_hash": "(unverified)",
+          "remaining_gap": "",
+          "metric_use_status": "",
+          "agent_note": "Equinix data center with unknown generation status across multiple equipment records; generator status ambiguity flagged in risk summary"
+        },
+        {
+          "packet_id": "queue-match:622261fd96ba773f",
+          "verified_in_live_csv": false,
+          "expected": "MISO Combined Cycle 1640 MW interconnection request should match to identified generation project",
+          "entity": "MISO Interconnection Queue - Combined Cycle",
+          "source_uri": "https://cdn.misoenergy.org/ERAS%20Interconnection%20Requests718482.xlsx?v=20250925100619",
+          "content_hash": "(unverified)",
+          "remaining_gap": "",
+          "metric_use_status": "",
+          "agent_note": "False negatives in queue matching affect firm power attestation for 23 projects (per risk summary)"
+        }
+      ]
+    }
+  }
+}
