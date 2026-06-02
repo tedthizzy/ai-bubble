@@ -127,6 +127,91 @@ def test_capital_exposure_graph_filters_guarantor_clause_fragments() -> None:
     assert graph.summary.generic_counterparty_mentions_skipped == 1
 
 
+def test_capital_exposure_graph_recovers_real_entities_from_artifact_fragments() -> None:
+    carnival_plc = Deal(
+        source_deal_id="carnival-plc-issuer-fragment",
+        deal_type=DealType.BOND,
+        title="Carnival note offering",
+        parties=["Carnival Corp Ltd.", "Carnival plc, the Issuer"],
+        counterparty_roles={
+            "issuer": ["Carnival Corp Ltd."],
+            "noteholder": ["Carnival plc, the Issuer"],
+        },
+        notional_amount_usd=4_250_000_000,
+        provenance=_provenance("sec:carnival-plc"),
+        confidence=0.9,
+    )
+    bank_fragment = Deal(
+        source_deal_id="astronova-bank-fragment",
+        deal_type=DealType.DEBT_FACILITY,
+        title="AstroNova credit agreement",
+        parties=["AstroNova, Inc.", "Guarantors (defined herein), and BANK OF AMERICA, N.A."],
+        counterparty_roles={
+            "borrower": ["AstroNova, Inc."],
+            "lender": ["Guarantors (defined herein), and BANK OF AMERICA, N.A."],
+        },
+        notional_amount_usd=24_232_000,
+        provenance=_provenance("sec:astronova-bank"),
+        confidence=0.9,
+    )
+    merger_fragment = Deal(
+        source_deal_id="minimed-merger-fragment",
+        deal_type=DealType.DEBT_FACILITY,
+        title="MiniMed merger clause",
+        parties=[
+            "MiniMed Group, Inc.",
+            "into the Company, with the Company surviving the Merger and continuing",
+        ],
+        counterparty_roles={
+            "borrower": ["MiniMed Group, Inc."],
+            "lender": [
+                "into the Company, with the Company surviving the Merger and continuing"
+            ],
+        },
+        notional_amount_usd=500_000_000,
+        provenance=_provenance("sec:minimed-fragment"),
+        confidence=0.9,
+    )
+
+    graph = build_capital_exposure_graph([carnival_plc, bank_fragment, merger_fragment])
+
+    edge_targets = {edge.target_name for edge in graph.edges}
+    assert "BANK OF AMERICA, N.A." in edge_targets
+    assert "Carnival plc" not in edge_targets
+    assert not any("the Issuer" in edge.target_name for edge in graph.edges)
+    assert not any("surviving the Merger" in edge.target_name for edge in graph.edges)
+    assert graph.summary.generic_counterparty_mentions_skipped == 1
+    contract_entity_names = {
+        node.name for node in graph.contract_nodes if node.node_type == "entity"
+    }
+    assert "BANK OF AMERICA, N.A." in contract_entity_names
+    assert not any("defined herein" in name for name in contract_entity_names)
+    assert not any("the Issuer" in name for name in contract_entity_names)
+
+
+def test_capital_exposure_graph_keeps_institutional_trustee_names() -> None:
+    deal = Deal(
+        source_deal_id="university-trustees",
+        deal_type=DealType.PPA,
+        title="Solar PPA with university trustees",
+        parties=["Great Cove Solar LLC", "The Trustees of the University of Pennsylvania"],
+        counterparty_roles={
+            "seller": ["Great Cove Solar LLC"],
+            "buyer": ["The Trustees of the University of Pennsylvania"],
+        },
+        notional_amount_usd=0,
+        key_terms={"amount_mw": 50},
+        provenance=_provenance("sec:university-trustees"),
+        confidence=0.9,
+    )
+
+    graph = build_capital_exposure_graph([deal])
+
+    assert graph.summary.edges == 1
+    assert graph.edges[0].target_name == "The Trustees of the University of Pennsylvania"
+    assert graph.summary.generic_counterparty_mentions_skipped == 0
+
+
 def test_capital_exposure_graph_dedupes_duplicate_source_instrument_notional() -> None:
     content_hash = Provenance.compute_content_hash("same-credit-agreement")
     duplicate_a = Deal(

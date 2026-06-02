@@ -1141,8 +1141,8 @@ def _entity_contract_node(
     deal: Deal,
     relevance_tags: tuple[str, ...],
 ) -> CapitalContractNode | None:
-    name = str(entity).strip()
-    if not name or _is_generic_entity(name):
+    name = _graph_entity_name(entity)
+    if not name:
         return None
     risk_flags = ("spv_signal",) if _looks_like_spv_name(name) else ()
     return _contract_node(
@@ -1429,16 +1429,15 @@ def _edges_for_deal(deal: Deal) -> tuple[list[dict[str, Any]], int]:
     edges: list[dict[str, Any]] = []
     generic_skipped = 0
     for source, source_role in source_entities:
-        source_name = str(source).strip()
-        if not source_name or _is_generic_entity(source_name):
+        source_name = _graph_entity_name(source)
+        if not source_name:
             generic_skipped += 1
             continue
         for target, role in target_entities:
-            target_name = str(target).strip()
+            target_name = _graph_entity_name(target)
             if not target_name or target_name == source_name:
-                continue
-            if _is_generic_entity(target_name):
-                generic_skipped += 1
+                if not target_name:
+                    generic_skipped += 1
                 continue
             source_id = _entity_id(source_name)
             target_id = _entity_id(target_name)
@@ -1536,7 +1535,8 @@ def _dedupe_role_entities(items: Iterable[tuple[str, str]]) -> list[tuple[str, s
     seen: set[tuple[str, str]] = set()
     deduped: list[tuple[str, str]] = []
     for entity, role in items:
-        key = (_entity_id(str(entity)), role)
+        normalized_entity = _graph_entity_name(entity) or str(entity)
+        key = (_entity_id(normalized_entity), role)
         if key in seen:
             continue
         seen.add(key)
@@ -2088,6 +2088,73 @@ def _is_obligor_node(node: CapitalExposureNode) -> bool:
 
 def _is_generic_entity(name: str) -> bool:
     return is_generic_entity_name(name)
+
+
+def _graph_entity_name(raw: str) -> str:
+    name = " ".join(str(raw).split()).strip(" ,;")
+    if not name:
+        return ""
+    recovered = _recover_entity_from_artifact_name(name)
+    if recovered:
+        return "" if _is_generic_entity(recovered) else recovered
+    if _is_graph_artifact_name(name) or _is_generic_entity(name):
+        return ""
+    return name
+
+
+GRAPH_ARTIFACT_ALLOWLIST_MARKERS = (
+    "trustees of the university",
+    "trustees of the ",
+    "university of ",
+    "regents of ",
+    "board of trustees",
+    "board of regents",
+)
+
+
+GRAPH_ARTIFACT_MARKERS = (
+    "defined herein",
+    "surviving the merger",
+    "continuing the merger",
+    "into the company",
+    "with the company",
+    "the company surviving",
+)
+
+
+def _is_graph_artifact_name(name: str) -> bool:
+    lowered = name.lower()
+    if any(marker in lowered for marker in GRAPH_ARTIFACT_ALLOWLIST_MARKERS):
+        return False
+    if re.fullmatch(r"the[- ]+(issuer|trustee|company|borrower|guarantors?)", lowered):
+        return True
+    return any(marker in lowered for marker in GRAPH_ARTIFACT_MARKERS)
+
+
+def _recover_entity_from_artifact_name(name: str) -> str:
+    issuer_match = re.match(
+        r"(?P<issuer>[A-Z][A-Za-z0-9&.,' -]{2,80}),?\s+the issuer\b",
+        name,
+        flags=re.I,
+    )
+    if issuer_match:
+        return issuer_match.group("issuer").strip(" ,;")
+
+    bank_match = re.search(r"\band\s+(?P<bank>[A-Z][A-Z0-9&.,' -]{2,80})", name)
+    if bank_match:
+        candidate = bank_match.group("bank").strip(" ,;")
+        if _contains_financial_institution_token(candidate):
+            return candidate
+    return ""
+
+
+def _contains_financial_institution_token(name: str) -> bool:
+    return bool(
+        re.search(
+            r"\b(BANK|BANC|TRUST|N\.A\.|NATIONAL ASSOCIATION)\b",
+            name,
+        )
+    )
 
 
 def _entity_id(name: str) -> str:

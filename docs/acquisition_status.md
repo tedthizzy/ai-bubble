@@ -1,13 +1,13 @@
 # Acquisition Status
 
-Last updated: 2026-06-02 07:44 UTC.
+Last updated: 2026-06-02 07:54 UTC.
 
 This file is the operational snapshot for the current evidence corpus. Treat it
 as a run log, not as a final investment conclusion.
 
 ## Current Corpus
 
-- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0744.md`
+- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0754.md`
 - Evidence gate: not high-confidence final.
 - Evidence audit coverage: report-level audits now include analyzer-level
   capital, compute, and debt-service audits plus explicit row/artifact-backed
@@ -32,7 +32,7 @@ as a run log, not as a final investment conclusion.
 - Source-backed timing signals: 3,263.
 - Pending source-backed adjudication items: 6,773.
 - Ownership graph: 425,765 LEI nodes, 425,679 named nodes, and 643,828 source-backed relationships.
-- Contract-structure graph: 93,825 nodes and 189,131 source-backed edges.
+- Contract-structure graph: 93,822 nodes and 189,129 source-backed edges.
 - Contract/ownership contagion paths: 8,749 source-backed paths, including
   1,976 ownership-expanded paths, 6,773 contract-only paths, 453 AI-infra
   relevant paths, and 145 high-or-critical paths.
@@ -448,18 +448,18 @@ coverage counts.
 
 Capital exposure graph:
 
-- Nodes: 5,040.
-- Source-backed edges: 7,529.
-- Total edge notional: $868.70B.
+- Nodes: 5,036.
+- Source-backed edges: 7,526.
+- Total edge notional: $864.18B.
 - AI-infra-relevant notional: $5.16B.
 - AI-infra-relevant edges: 156.
-- Generic/artifact counterparty mentions skipped: 11,642.
-- Contract-structure nodes: 93,825.
-- Source-backed contract-structure edges: 189,131.
+- Generic/artifact counterparty mentions skipped: 11,644.
+- Contract-structure nodes: 93,822.
+- Source-backed contract-structure edges: 189,129.
 - Deal contract nodes: 62,952.
 - Tranche contract nodes: 10,051.
 - Collateral contract nodes: 10,065.
-- Guarantee contract edges: 1,761.
+- Guarantee contract edges: 1,757.
 - Collateral contract edges: 26,842.
 - Non-recourse deal/tranche contract nodes: 2,586.
 - Bankruptcy-remote/SPV deal/tranche contract nodes: 1,277.
