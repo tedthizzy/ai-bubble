@@ -10,6 +10,7 @@ from __future__ import annotations
 from bubble.quality.report_consistency import (
     CountExpectation,
     build_expectations,
+    check_confidence_flags,
     check_invariant_audit_status,
     check_labeled_counts,
     check_metric_total_agreement,
@@ -128,6 +129,35 @@ def test_flags_report_metric_total_disagreeing_with_decision_summary() -> None:
     assert len(findings) == 1
     assert findings[0].check == "metric_total_mismatch"
     assert findings[0].severity == "error"
+
+
+def test_flags_doc_claiming_wrong_confidence_flags() -> None:
+    doc = "High-confidence final: True\nEvidence-gated bubble confidence: 80%\n"
+
+    findings = check_confidence_flags(
+        high_confidence_final=False,
+        bubble_confidence=0.25,
+        doc_text=doc,
+        doc_name="FINAL_DELIVERY.md",
+    )
+
+    checks = {f.check for f in findings}
+    assert "stale_high_confidence_final" in checks
+    assert "stale_bubble_confidence" in checks
+    assert all(f.severity == "error" for f in findings)
+
+
+def test_matching_confidence_flags_have_no_findings() -> None:
+    doc = "high_confidence_final: false\nbubble confidence: 25%\n"
+
+    findings = check_confidence_flags(
+        high_confidence_final=False,
+        bubble_confidence=0.25,
+        doc_text=doc,
+        doc_name="acquisition_status.md",
+    )
+
+    assert findings == []
 
 
 def test_agreeing_metric_totals_have_no_findings() -> None:

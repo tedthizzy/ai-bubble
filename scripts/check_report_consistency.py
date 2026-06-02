@@ -26,6 +26,7 @@ from typing import Any
 
 from bubble.quality.report_consistency import (
     build_expectations,
+    check_confidence_flags,
     check_invariant_audit_status,
     check_labeled_counts,
     check_metric_total_agreement,
@@ -77,6 +78,9 @@ def main() -> int:
         invariant_audit=invariant_audit,
     )
 
+    high_confidence_final = report.get("metadata", {}).get("high_confidence_final")
+    bubble_confidence = report.get("executive_summary", {}).get("bubble_confidence")
+
     findings = []
     findings.extend(check_invariant_audit_status(invariant_audit))
     findings.extend(check_metric_total_agreement(report=report, decision_summary=decision_summary))
@@ -92,6 +96,15 @@ def main() -> int:
         findings.extend(
             check_labeled_counts(doc_text=doc_text, doc_name=rel, expectations=expectations)
         )
+        if isinstance(high_confidence_final, bool) and isinstance(bubble_confidence, int | float):
+            findings.extend(
+                check_confidence_flags(
+                    high_confidence_final=high_confidence_final,
+                    bubble_confidence=float(bubble_confidence),
+                    doc_text=doc_text,
+                    doc_name=rel,
+                )
+            )
 
     errors = [f for f in findings if f.severity == "error"]
     warnings = [f for f in findings if f.severity == "warning"]

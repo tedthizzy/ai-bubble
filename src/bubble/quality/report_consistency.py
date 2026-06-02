@@ -212,6 +212,59 @@ def check_labeled_counts(
     return findings
 
 
+_HCF_RE = re.compile(r"high[_ -]?confidence[_ -]?final[:*\s]+(true|false)", re.IGNORECASE)
+_BUBBLE_PCT_RE = re.compile(r"bubble[_ -]?confidence[^0-9]{0,20}?([0-9]{1,3})\s*%", re.IGNORECASE)
+
+
+def check_confidence_flags(
+    *,
+    high_confidence_final: bool,
+    bubble_confidence: float,
+    doc_text: str,
+    doc_name: str,
+) -> list[ConsistencyFinding]:
+    """Flag a doc whose stated high_confidence_final / bubble_confidence disagrees
+    with the latest report's actual values."""
+
+    findings: list[ConsistencyFinding] = []
+    hcf_match = _HCF_RE.search(doc_text)
+    if hcf_match:
+        stated = hcf_match.group(1).lower() == "true"
+        if stated != high_confidence_final:
+            findings.append(
+                ConsistencyFinding(
+                    check="stale_high_confidence_final",
+                    severity="error",
+                    doc=doc_name,
+                    message=(
+                        f"{doc_name} states high_confidence_final={stated}, but the "
+                        f"latest report is {high_confidence_final}."
+                    ),
+                    expected=str(high_confidence_final),
+                    actual=str(stated),
+                )
+            )
+    bubble_match = _BUBBLE_PCT_RE.search(doc_text)
+    if bubble_match:
+        stated_pct = int(bubble_match.group(1))
+        actual_pct = round(bubble_confidence * 100)
+        if stated_pct != actual_pct:
+            findings.append(
+                ConsistencyFinding(
+                    check="stale_bubble_confidence",
+                    severity="error",
+                    doc=doc_name,
+                    message=(
+                        f"{doc_name} states bubble confidence {stated_pct}%, but the "
+                        f"latest report is {actual_pct}%."
+                    ),
+                    expected=f"{actual_pct}%",
+                    actual=f"{stated_pct}%",
+                )
+            )
+    return findings
+
+
 def check_invariant_audit_status(invariant_audit: dict[str, Any]) -> list[ConsistencyFinding]:
     """Flag a source-invariant audit that is missing, not passing, or has
     violations — the provenance gate must be green before any report is trusted."""
