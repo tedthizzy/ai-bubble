@@ -227,6 +227,49 @@ def test_semantic_gate_caps_bank_financial_metric_claim():
     assert audit.eligible_for_high_confidence is False
 
 
+def test_semantic_gate_caps_quarterly_earnings_header_claim():
+    gate = EvidenceGate()
+
+    for semantic_text in (
+        "PennyMac Mortgage Investment Trust Reports Fourth Quarter and Full-Year 2025 Results",
+        "Results of Operations and Financial Condition. On October 28, 2025, Carrier Global Corp.",
+        "Today reported net income attributable to common shareholders of $312.4 million.",
+    ):
+        audit = gate.audit_claim(
+            claim_id="capital.earnings_header",
+            claim="Claimed debt-like amount from earnings-release header",
+            value=5_500_000_000,
+            unit="USD",
+            evidence=[_provenance(SourceType.SEC_EDGAR, confidence=0.9)],
+            high_impact=True,
+            semantic_text=semantic_text,
+        )
+
+        assert audit.semantic_bucket == SemanticEvidenceBucket.BOILERPLATE_ONLY
+        assert audit.effective_confidence == 0.25
+        assert audit.eligible_for_high_confidence is False
+
+
+def test_semantic_gate_keeps_notes_due_negative_control_committed():
+    gate = EvidenceGate()
+    audit = gate.audit_claim(
+        claim_id="capital.notes_due",
+        claim="Claimed note amount from offering terms",
+        value=1_000_000_000,
+        unit="USD",
+        evidence=[_provenance(SourceType.SEC_EDGAR, confidence=0.9)],
+        high_impact=True,
+        semantic_text=(
+            "Senior notes due 2030 in an aggregate principal amount of "
+            "$1.0 billion."
+        ),
+    )
+
+    assert audit.semantic_bucket == SemanticEvidenceBucket.COMMITTED_DEBT
+    assert audit.effective_confidence == 0.9
+    assert audit.eligible_for_high_confidence is True
+
+
 def test_semantic_gate_caps_equity_or_mortgage_production_claim():
     gate = EvidenceGate()
     equity_audit = gate.audit_claim(
