@@ -1944,6 +1944,136 @@ def test_materiality_adjudication_infers_counterparty_from_quote_role_clause(
     assert decision.metric_use_status == "approved_for_metric_use", decision
 
 
+def test_materiality_adjudication_infers_commitment_parties_from_financing_letter(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-commitment-parties",
+                "rank": 1,
+                "review_id": "review-commitment-parties",
+                "review_group_id": "group-commitment-parties",
+                "priority": "high",
+                "category": "contract",
+                "subcategory": "contract_tranche_terms",
+                "ecosystem_relevance": "watchlist_entity",
+                "entity": "Example Borrower, Inc.",
+                "counterparty": "",
+                "exposure_basis_usd": "15700000000",
+                "reason": (
+                    "pending contract tranche review; tranche: Bridge Facility; "
+                    "notional $15,700,000,000; interest rate 0.045; "
+                    "collateral terms present; guarantee scope present"
+                ),
+                "recommended_action": "Confirm parties and financing roles",
+                "source_uri": "https://www.sec.gov/example-commitment.htm",
+                "source_uris": json.dumps(["https://www.sec.gov/example-commitment.htm"]),
+                "content_hash": "4" * 64,
+                "content_hashes": json.dumps(["4" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/example-commitment.htm",
+                            "content_hash": "4" * 64,
+                            "document_id": "example-commitment.htm",
+                            "snippet": (
+                                "Example Borrower entered into a commitment letter with "
+                                "Citigroup Global Markets Inc., Goldman Sachs Bank USA "
+                                "and Morgan Stanley Senior Funding, Inc. (the "
+                                "Commitment Parties), pursuant to which the Commitment "
+                                "Parties agreed to provide committed financing. The "
+                                "Bridge Facility provides for a senior secured 364-day "
+                                "bridge term loan credit facility in an aggregate "
+                                "principal amount of up to $15.7 billion."
+                            ),
+                        }
+                    ]
+                ),
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    decision = batch.decisions[0]
+    assert "extract named counterparty and role" not in decision.remaining_gap, decision
+    assert "Citigroup Global Markets Inc." in decision.risk_bearer, decision
+    assert decision.metric_use_status == "approved_for_metric_use", decision
+
+
+def test_materiality_adjudication_quote_selection_prefers_named_arranger_evidence(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-arranger-quote-selection",
+                "rank": 1,
+                "review_id": "review-arranger-quote-selection",
+                "review_group_id": "group-arranger-quote-selection",
+                "priority": "high",
+                "category": "contract",
+                "subcategory": "contract_tranche_terms",
+                "ecosystem_relevance": "direct_ai_infra",
+                "entity": "Example Cloud, Inc.",
+                "counterparty": "",
+                "exposure_basis_usd": "3100000000",
+                "reason": (
+                    "pending contract tranche review; tranche: Delayed draw term loan "
+                    "facility; notional $3,100,000,000; interest rate 0.045; "
+                    "collateral terms present; guarantee scope present"
+                ),
+                "recommended_action": "Confirm parties and financing roles",
+                "source_uri": "https://www.sec.gov/example-arranger.htm",
+                "source_uris": json.dumps(["https://www.sec.gov/example-arranger.htm"]),
+                "content_hash": "5" * 64,
+                "content_hashes": json.dumps(["5" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/example-arranger.htm",
+                            "content_hash": "5" * 64,
+                            "document_id": "example-arranger.htm",
+                            "snippet": (
+                                "The DDTL 5.0 Facility has a maturity of approximately "
+                                "5.5 years and is structured as a delayed draw term "
+                                "loan facility supporting GPU infrastructure assets."
+                            ),
+                        },
+                        {
+                            "source_uri": "https://www.sec.gov/example-arranger.htm",
+                            "content_hash": "5" * 64,
+                            "document_id": "example-arranger.htm",
+                            "snippet": (
+                                "Morgan Stanley and Mitsubishi UFJ Financial Group "
+                                "served as joint lead arrangers and bookrunners for "
+                                "the transaction."
+                            ),
+                        },
+                    ]
+                ),
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    decision = batch.decisions[0]
+    assert "extract named counterparty and role" not in decision.remaining_gap, decision
+    assert "Morgan Stanley" in decision.risk_bearer, decision
+    assert "joint lead arrangers" in decision.evidence_quote.lower(), decision
+    assert decision.metric_use_status == "approved_for_metric_use", decision
+
+
 def test_write_materiality_adjudication_decisions(tmp_path: Path) -> None:
     _write_csv(
         tmp_path / "reports" / "materiality_adjudication_packets.csv",

@@ -687,6 +687,33 @@ def _risk_bearer(packet: dict[str, str], quote: str, gaps: list[str]) -> str:
 def _inferred_counterparty_from_quote(quote: str) -> str:
     if not quote:
         return ""
+    candidate = _counterparty_from_named_role_patterns(quote)
+    if candidate:
+        return candidate
+    candidate = _counterparty_from_lenders_clause(quote)
+    if candidate:
+        return candidate
+    return _counterparty_from_agent_or_trustee_clause(quote)
+
+
+def _counterparty_from_named_role_patterns(quote: str) -> str:
+    patterns = [
+        r"\bwith\s+(?P<name>[^()]{2,260}?)\s*\(\s*(?:the\s+)?[\"'“”]?Commitment Parties[\"'“”]?\s*\)\s*,?\s*pursuant to which\b",
+        r"\bwith\s+(?P<name>[^.;]{2,220}?)\s*,?\s+(?:as|serving as)\s+(?:the\s+)?(?:(?:administrative|collateral|facility|syndication)\s+)?agent\b",
+        r"(?P<name>[A-Z][^.;]{2,220}?)\s+(?:served as|as)\s+(?:joint\s+)?(?:lead\s+)?(?:arrangers?|bookrunners?|placement agents?)\b",
+        r"\bwith\s+(?P<name>[^.;]{2,220}?)\s+as\s+representative of the several initial purchasers\b",
+    ]
+    for pattern in patterns:
+        match = re.search(pattern, quote, flags=re.IGNORECASE)
+        if not match:
+            continue
+        candidate = _normalize_counterparty_candidate(match.group("name"))
+        if candidate and _looks_like_counterparty_name(candidate):
+            return candidate
+    return ""
+
+
+def _counterparty_from_lenders_clause(quote: str) -> str:
     lenders_clause = re.search(
         r"(?:the lenders named therein|the lenders party thereto)\s*,\s*(?P<name>[^;]{2,180}?)\s*,\s*as\s+(?:the\s+)?(?:administrative|collateral|facility|syndication)\s+agent\b",
         quote,
@@ -696,7 +723,10 @@ def _inferred_counterparty_from_quote(quote: str) -> str:
         candidate = _normalize_counterparty_candidate(lenders_clause.group("name"))
         if candidate:
             return candidate
+    return ""
 
+
+def _counterparty_from_agent_or_trustee_clause(quote: str) -> str:
     role_clause = re.search(
         r"(?P<prefix>[^;]{2,320}?)\s*,\s*as\s+(?:the\s+)?(?:administrative|collateral|facility|syndication)\s+agent\b|(?P<prefix_trustee>[^;]{2,320}?)\s*,\s*as\s+(?:the\s+)?trustee\b",
         quote,
@@ -759,6 +789,13 @@ def _looks_like_counterparty_name(candidate: str) -> bool:
             "partners",
             "holdings",
             "funding",
+            "financial group",
+            "morgan stanley",
+            "goldman sachs",
+            "citigroup",
+            "jpmorgan",
+            "mufg",
+            "mitsubishi ufj",
         ],
     )
 
@@ -883,12 +920,28 @@ def _best_sentence(text: str, terms: list[str]) -> str:
     parts = [part.strip() for part in re.split(r"(?<=[.;:])\s+", text) if part.strip()]
     if not parts:
         return text
+    role_clause = _best_named_counterparty_role_clause(parts, terms)
+    if role_clause:
+        return role_clause
     sentence = max(parts, key=lambda part: _quote_score(part.lower(), terms))
     if len(sentence) >= 120:
         return sentence
     index = parts.index(sentence)
     neighbors = parts[max(0, index - 1) : index + 2]
     return " ".join(neighbors)
+
+
+def _best_named_counterparty_role_clause(parts: list[str], terms: list[str]) -> str:
+    role_windows: list[str] = []
+    for index, part in enumerate(parts):
+        if not _contains_any(part.lower(), _named_counterparty_role_markers()):
+            continue
+        window = " ".join(parts[max(0, index - 2) : index + 2]).strip()
+        if _has_named_counterparty_role_evidence(window.lower()):
+            role_windows.append(window)
+    if not role_windows:
+        return ""
+    return max(role_windows, key=lambda window: _quote_score(window.lower(), terms))[:650].strip()
 
 
 def _quote_terms(packet: dict[str, str]) -> list[str]:
@@ -948,7 +1001,56 @@ def _amount_quote_terms(amount: float) -> list[str]:
 
 def _quote_score(text: str, terms: list[str]) -> int:
     lowered = text.lower()
-    return sum(1 for term in terms if term in lowered)
+    score = sum(1 for term in terms if term in lowered)
+    if _has_named_counterparty_role_evidence(lowered):
+        score += 10
+    return score
+
+
+def _has_named_counterparty_role_evidence(text: str) -> bool:
+    if not _contains_any(text, _named_counterparty_role_markers()):
+        return False
+    return _contains_any(
+        text,
+        [
+            "bank",
+            "trust",
+            "capital",
+            "credit",
+            "securities",
+            "morgan stanley",
+            "goldman",
+            "citigroup",
+            "jpmorgan",
+            "barclays",
+            "mufg",
+            "mitsubishi",
+            "wells fargo",
+            "bofa",
+            "deutsche bank",
+            "mizuho",
+            "lenders named",
+            "lenders party",
+        ],
+    )
+
+
+def _named_counterparty_role_markers() -> list[str]:
+    return [
+        "administrative agent",
+        "collateral agent",
+        "facility agent",
+        "syndication agent",
+        "lead arranger",
+        "lead arrangers",
+        "bookrunner",
+        "bookrunners",
+        "commitment parties",
+        "initial purchasers",
+        "placement agent",
+        "placement agents",
+        "trustee",
+    ]
 
 
 def _clean_snippet_text(value: str) -> str:

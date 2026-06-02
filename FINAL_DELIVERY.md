@@ -1,7 +1,11 @@
-# CURRENT DELIVERY STATUS - bubble (Evidence-Gated Prototype)
+# Historical Delivery Status - bubble (Evidence-Gated Prototype)
 
-**Date:** 2026-06-01  
+**Date:** 2026-06-02  
 **Status:** Not complete. The previous "final delivery" claim is superseded.
+
+This file is a checkpoint note, not the live run log. Use
+`docs/acquisition_status.md` as the current operational source of truth for
+corpus counts, adjudication metrics, report paths, and next extraction gaps.
 
 ## What Is True Now
 
@@ -26,35 +30,39 @@ The repository has a useful prototype for the Burry-style AI/data center financi
 
 The important change is that ecosystem-scale conclusions are now blocked from being presented as high-confidence when they are only inferred. The generated report labels current metrics as directional hypotheses and caps report confidence accordingly.
 
-Latest verified evidence-gated report:
+Latest verified evidence-gated report at this checkpoint:
 
-- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260601-1355.md`
-- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260601-1355.json`
+- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0215.md`
+- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0215.json`
 - `high_confidence_final`: `false`
-- Source invariant audit: passed across 49 CSV files and 3,266,269 rows with 0 violations and 0 warnings.
-- Acquired source artifacts: 25,852 / 25,852 attempted.
-- Covered filings: 41,688.
-- Source-backed normalized entities: 7,237.
+- Source invariant audit: passed across 63 CSV files and more than 9.2M rows
+  with 0 violations and 0 warnings.
+- Acquired source artifacts: 66,660 / 66,660 attempted.
+- Covered filings: 197,243.
+- Source-backed normalized entities: 789,787.
 - Projects: 17,226.
-- Source-backed deals: 49,717.
+- Source-backed deals: 62,952.
 - Source-backed compute rows: 166.
-- Source-backed timing signals: 1,324.
-- Pending source-backed review items: 1,437.
+- Source-backed timing signals: 3,854.
+- Pending source-backed adjudication items: 6,809.
+- Automated materiality adjudication decisions: 6,699 decisions, with 4,120
+  supported blockers, 2,579 still requiring deeper extraction, 2,539 approved
+  metric rows, and $10.887T deduped final metric support.
 
 Latest capital and timing outputs:
 
-- Capital exposure graph source-backed edges: 7,444.
-- Capital exposure graph total edge notional: $2.954T.
-- AI-infra-relevant graph notional: $280.45B.
-- In-scope debt-like notional: $1.101T.
-- Ownership graph LEI nodes: 425,746.
-- Ownership graph source-backed relationships: 643,807.
-- Ownership graph active relationships: 469,175.
-- Ownership graph direct consolidation edges: 183,847.
-- Ownership graph ultimate consolidation edges: 191,832.
+- Capital exposure graph source-backed edges: 10,142.
+- Capital exposure graph total edge notional: $10.497T.
+- AI-infra-relevant graph notional: $659.08B.
+- In-scope debt-like notional: $1.201T.
+- Ownership graph LEI nodes: 425,765.
+- Ownership graph source-backed relationships: 643,828.
+- Ownership graph active relationships: 469,194.
+- Ownership graph direct consolidation edges: 183,849.
+- Ownership graph ultimate consolidation edges: 191,834.
 - Peak stress quarter: 2026-Q2.
-- Candidate stress window: 2025-Q3 to 2026-Q4.
-- AI-infra capital refinancing 2024-2030: $267.99B.
+- Candidate stress window: 2025-Q3 to 2027-Q3.
+- AI-infra capital refinancing 2024-2030: $292.29B.
 
 See `docs/acquisition_status.md` for the current run log and acquisition backlog.
 
@@ -104,6 +112,9 @@ just capital-evidence data/capital --as-of 2026-12-31 --near-term-end 2029-12-31
 6. Feed real credit agreements, bond filings, leases, PPAs, and guarantee disclosures into `CapitalStructureAnalyzer` at ecosystem scale.
 7. Expand graph schema coverage for SPVs, guarantees, tranches, collateral, and risk-transfer paths.
 8. Add source-backed evidence audits to entity-level reports, not only the Go Big report.
-9. Require human approval for high-impact claims before any report can be labeled final.
+9. Require automated LLM adjudication or corroborating source evidence for
+   high-impact claims before any report can be labeled final. Legacy fields
+   named `human_review_status` are adjudication-status fields, not an operator
+   approval gate.
 
 The system should remain skeptical of its own outputs until the evidence gate can prove the claims.

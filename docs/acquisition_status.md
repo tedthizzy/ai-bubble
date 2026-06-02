@@ -1,16 +1,16 @@
 # Acquisition Status
 
-Last updated: 2026-06-02 00:56 UTC.
+Last updated: 2026-06-02 02:15 UTC.
 
 This file is the operational snapshot for the current evidence corpus. Treat it
 as a run log, not as a final investment conclusion.
 
 ## Current Corpus
 
-- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0055.md`
+- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0215.md`
 - Evidence gate: not high-confidence final.
-- Source invariant audit: passed at 2026-06-01 23:47 UTC, 63 CSV files
-  and 9,195,946 rows scanned, 0 violations, 0 warnings.
+- Source invariant audit: passed at 2026-06-02 02:13 UTC, 63 CSV files
+  and 9,208,844 rows scanned, 0 violations, 0 warnings.
 - Generated report assets are internal evidence artifacts; the user-facing
   deliverable remains a high-level chat summary once the evidence supports it.
 - Source catalog artifacts: 586 / 586 attempted in the latest broad public-source run.
@@ -36,19 +36,19 @@ as a run log, not as a final investment conclusion.
   the packet set.
 - Automated materiality adjudication decisions: 6,699 decisions, 6,495 with
   resolved text quotes plus 204 row-context-backed decisions for non-text
-  sources, 3,971 supported as material blockers, 2,728 requiring deeper
-  extraction, 0 requiring source retrieval, and 2,391 source-backed rows
-  approved for metric use. Those approved rows total $10.186T as row-level
-  supported amounts and currently remain $10.184T after latest-snapshot metric
-  dedupe across 2,390 metric groups; they are not treated as individual
+  sources, 4,120 supported as material blockers, 2,579 requiring deeper
+  extraction, 0 requiring source retrieval, and 2,539 source-backed rows
+  approved for metric use. Those approved rows total $10.887T as row-level
+  supported amounts and currently remain $10.887T after latest-snapshot metric
+  dedupe across 2,539 metric groups; they are not treated as individual
   contracts unless contract terms are separately extracted.
 - Decision coverage over packaged blocker groups: 100.0%; unresolved decision
-  share remains 40.72% (still extraction-bound, not source-retrieval-bound).
+  share remains 38.50% (still extraction-bound, not source-retrieval-bound).
 - Top remaining decision gaps are now named counterparty role extraction
-  (1,461), collateral scope (1,305), recourse/guarantee scope (884), split
-  aggregate disclosure from committed obligations (190),
+  (1,415), collateral scope (1,186), recourse/guarantee scope (834), split
+  aggregate disclosure from committed obligations (174),
   queue/permit/interconnection linkage (57), and missing underlying term-level
-  clauses (54).
+  clauses (56).
 
 ## Phase Transition Readiness
 
@@ -100,8 +100,11 @@ Ready now:
   metric use with latest-snapshot dedupe, while still blocking individual
   contract conclusions until counterparties, recourse, collateral, maturities,
   and payment schedules are extracted
-- role-clause counterparty inference now auto-populates agent/trustee
-  counterparties from source quotes when `counterparty` fields are blank
+- role-clause counterparty inference now auto-populates agent/trustee,
+  commitment-party, lead-arranger/bookrunner, placement-agent, and initial
+  purchaser representative counterparties from source quotes when `counterparty`
+  fields are blank; quote selection now gives explicit named financing-role
+  clauses enough weight to beat generic facility prose
 - non-specific capital candidate rows now route to an explicit
   `acquire underlying agreement or debt schedule clause for term-level extraction`
   gap when quote text lacks term-level contract evidence, reducing false
