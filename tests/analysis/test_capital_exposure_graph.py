@@ -3,13 +3,13 @@ from bubble.models.base import DealType, HumanReviewStatus, Provenance, SourceTy
 from bubble.models.deal import Deal, DebtTranche
 
 
-def _provenance(source_uri: str) -> Provenance:
+def _provenance(source_uri: str, *, content_hash: str | None = None) -> Provenance:
     return Provenance(
         source_uri=source_uri,
         source_type=SourceType.SEC_EDGAR,
         confidence=0.9,
         human_review_status=HumanReviewStatus.PENDING,
-        content_hash=Provenance.compute_content_hash(source_uri),
+        content_hash=content_hash or Provenance.compute_content_hash(source_uri),
     )
 
 
@@ -56,6 +56,49 @@ def test_capital_exposure_graph_builds_named_source_backed_edges() -> None:
     assert graph.summary.top_contagion_hubs[0]["distinct_counterparties"] == 2
     assert graph.summary.top_contagion_hubs[0]["risk_bearer_neighbor_count"] == 2
     assert graph.summary.top_ai_infra_contagion_hubs[0]["name"] == "CoreWeave SPV"
+
+
+def test_capital_exposure_graph_dedupes_duplicate_source_instrument_notional() -> None:
+    content_hash = Provenance.compute_content_hash("same-credit-agreement")
+    duplicate_a = Deal(
+        source_deal_id="deal-duplicate-a",
+        deal_type=DealType.DEBT_FACILITY,
+        title="GPU cloud credit agreement",
+        parties=["CoreWeave SPV", "Apollo Credit"],
+        counterparty_roles={
+            "borrower": ["CoreWeave SPV"],
+            "lender": ["Apollo Credit"],
+        },
+        notional_amount_usd=3_500_000_000,
+        provenance=_provenance("sec:credit-copy-a", content_hash=content_hash),
+        confidence=0.9,
+    )
+    duplicate_b = Deal(
+        source_deal_id="deal-duplicate-b",
+        deal_type=DealType.DEBT_FACILITY,
+        title="GPU cloud credit agreement duplicate filing",
+        parties=["CoreWeave SPV", "Apollo Credit"],
+        counterparty_roles={
+            "borrower": ["CoreWeave SPV"],
+            "lender": ["Apollo Credit"],
+        },
+        notional_amount_usd=3_500_000_000,
+        provenance=_provenance("sec:credit-copy-b", content_hash=content_hash),
+        confidence=0.9,
+    )
+
+    graph = build_capital_exposure_graph([duplicate_a, duplicate_b])
+
+    assert graph.summary.deals_scanned == 2
+    assert graph.summary.deals_with_edges == 2
+    assert graph.summary.edges == 1
+    assert graph.edges[0].deal_count == 2
+    assert set(graph.edges[0].source_uris) == {"sec:credit-copy-a", "sec:credit-copy-b"}
+    assert graph.edges[0].content_hashes == (content_hash,)
+    assert graph.edges[0].notional_usd == 3_500_000_000
+    assert graph.summary.total_edge_notional_usd == 3_500_000_000
+    assert graph.summary.ai_infra_relevant_notional_usd == 3_500_000_000
+    assert graph.nodes[0].exposure_usd == 3_500_000_000
 
 
 def test_capital_exposure_graph_builds_contract_structure_graph() -> None:

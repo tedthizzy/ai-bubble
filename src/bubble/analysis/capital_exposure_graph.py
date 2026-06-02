@@ -306,6 +306,7 @@ class _NodeAccumulator:
     roles: set[str] = field(default_factory=set)
     deal_ids: set[str] = field(default_factory=set)
     source_uris: set[str] = field(default_factory=set)
+    contribution_keys: set[tuple[str, ...]] = field(default_factory=set)
     exposure_usd: float = 0.0
 
 
@@ -323,6 +324,7 @@ class _EdgeAccumulator:
     content_hashes: set[str] = field(default_factory=set)
     human_review_statuses: set[str] = field(default_factory=set)
     relevance_tags: set[str] = field(default_factory=set)
+    contribution_keys: set[tuple[str, ...]] = field(default_factory=set)
     notional_usd: float = 0.0
     ppa_capacity_mw: float = 0.0
 
@@ -336,6 +338,61 @@ class CapitalExposureGraph:
     contract_nodes: list[CapitalContractNode]
     contract_edges: list[CapitalContractEdge]
     summary: CapitalExposureGraphSummary
+
+
+def _merge_deal_edge(
+    node_acc: dict[str, _NodeAccumulator],
+    edge_acc: dict[tuple[str, str, str, str], _EdgeAccumulator],
+    deal_edge: Mapping[str, Any],
+) -> None:
+    key = (
+        str(deal_edge["source_id"]),
+        str(deal_edge["target_id"]),
+        str(deal_edge["relationship_type"]),
+        str(deal_edge["deal_type"]),
+    )
+    acc = edge_acc.get(key)
+    if acc is None:
+        acc = _EdgeAccumulator(
+            source_id=str(deal_edge["source_id"]),
+            source_name=str(deal_edge["source_name"]),
+            target_id=str(deal_edge["target_id"]),
+            target_name=str(deal_edge["target_name"]),
+            relationship_type=str(deal_edge["relationship_type"]),
+            deal_type=str(deal_edge["deal_type"]),
+        )
+        edge_acc[key] = acc
+    acc.roles.add(str(deal_edge["role"]))
+    acc.deal_ids.add(str(deal_edge["deal_id"]))
+    acc.source_uris.add(str(deal_edge["source_uri"]))
+    acc.content_hashes.add(str(deal_edge["content_hash"]))
+    acc.human_review_statuses.add(str(deal_edge["human_review_status"]))
+    acc.relevance_tags.update(deal_edge["relevance_tags"])
+    contribution_key = _edge_contribution_key(key, deal_edge)
+    if contribution_key not in acc.contribution_keys:
+        acc.contribution_keys.add(contribution_key)
+        acc.notional_usd += float(deal_edge["notional_usd"])
+        acc.ppa_capacity_mw += float(deal_edge["ppa_capacity_mw"])
+    _add_node(
+        node_acc,
+        str(deal_edge["source_id"]),
+        str(deal_edge["source_name"]),
+        str(deal_edge["source_role"]),
+        str(deal_edge["deal_id"]),
+        str(deal_edge["source_uri"]),
+        float(deal_edge["notional_usd"]),
+        contribution_key,
+    )
+    _add_node(
+        node_acc,
+        str(deal_edge["target_id"]),
+        str(deal_edge["target_name"]),
+        str(deal_edge["target_role"]),
+        str(deal_edge["deal_id"]),
+        str(deal_edge["source_uri"]),
+        float(deal_edge["notional_usd"]),
+        contribution_key,
+    )
 
 
 def build_capital_exposure_graph(deals: list[Deal]) -> CapitalExposureGraph:
@@ -369,50 +426,7 @@ def build_capital_exposure_graph(deals: list[Deal]) -> CapitalExposureGraph:
             high_notional_unmapped.append(_unmapped_deal_row(deal, ["no_named_counterparty_edge"]))
 
         for deal_edge in deal_edges:
-            key = (
-                deal_edge["source_id"],
-                deal_edge["target_id"],
-                deal_edge["relationship_type"],
-                deal_edge["deal_type"],
-            )
-            acc = edge_acc.get(key)
-            if acc is None:
-                acc = _EdgeAccumulator(
-                    source_id=deal_edge["source_id"],
-                    source_name=deal_edge["source_name"],
-                    target_id=deal_edge["target_id"],
-                    target_name=deal_edge["target_name"],
-                    relationship_type=deal_edge["relationship_type"],
-                    deal_type=deal_edge["deal_type"],
-                )
-                edge_acc[key] = acc
-            acc.roles.add(deal_edge["role"])
-            acc.deal_ids.add(deal_edge["deal_id"])
-            acc.source_uris.add(deal_edge["source_uri"])
-            acc.content_hashes.add(deal_edge["content_hash"])
-            acc.human_review_statuses.add(deal_edge["human_review_status"])
-            acc.relevance_tags.update(deal_edge["relevance_tags"])
-            acc.notional_usd += deal_edge["notional_usd"]
-            acc.ppa_capacity_mw += deal_edge["ppa_capacity_mw"]
-
-            _add_node(
-                node_acc,
-                deal_edge["source_id"],
-                deal_edge["source_name"],
-                deal_edge["source_role"],
-                deal_edge["deal_id"],
-                deal_edge["source_uri"],
-                deal_edge["notional_usd"],
-            )
-            _add_node(
-                node_acc,
-                deal_edge["target_id"],
-                deal_edge["target_name"],
-                deal_edge["target_role"],
-                deal_edge["deal_id"],
-                deal_edge["source_uri"],
-                deal_edge["notional_usd"],
-            )
+            _merge_deal_edge(node_acc, edge_acc, deal_edge)
 
     nodes = [
         CapitalExposureNode(
@@ -1767,6 +1781,20 @@ def _deal_relevance_tags(deal: Deal) -> tuple[str, ...]:
     return tuple(sorted(set(tags)))
 
 
+def _edge_contribution_key(
+    edge_key: tuple[str, str, str, str],
+    deal_edge: Mapping[str, Any],
+) -> tuple[str, ...]:
+    source_ref = str(deal_edge.get("content_hash") or "").strip().lower()
+    if not source_ref:
+        source_ref = str(deal_edge.get("source_uri") or "").strip().lower()
+    if not source_ref:
+        source_ref = str(deal_edge.get("deal_id") or "").strip().lower()
+    notional = round(float(deal_edge.get("notional_usd") or 0.0), 2)
+    ppa_capacity = round(float(deal_edge.get("ppa_capacity_mw") or 0.0), 3)
+    return (*edge_key, source_ref, f"{notional:.2f}", f"{ppa_capacity:.3f}")
+
+
 def _add_node(
     nodes: dict[str, _NodeAccumulator],
     node_id: str,
@@ -1775,6 +1803,7 @@ def _add_node(
     deal_id: str,
     source_uri: str,
     exposure_usd: float,
+    contribution_key: tuple[str, ...],
 ) -> None:
     acc = nodes.get(node_id)
     if acc is None:
@@ -1783,7 +1812,9 @@ def _add_node(
     acc.roles.add(role)
     acc.deal_ids.add(deal_id)
     acc.source_uris.add(source_uri)
-    acc.exposure_usd += exposure_usd
+    if contribution_key not in acc.contribution_keys:
+        acc.contribution_keys.add(contribution_key)
+        acc.exposure_usd += exposure_usd
 
 
 def _connected_components(edges: list[CapitalExposureEdge]) -> list[set[str]]:

@@ -32,8 +32,8 @@ The important change is that ecosystem-scale conclusions are now blocked from be
 
 Latest verified evidence-gated report at this checkpoint:
 
-- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0429.md`
-- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0429.json`
+- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0445.md`
+- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0445.json`
 - `high_confidence_final`: `false`
 - Source invariant audit: passed across 63 CSV files and more than 9.2M rows
   with 0 violations and 0 warnings.
@@ -44,8 +44,8 @@ Latest verified evidence-gated report at this checkpoint:
 - Source-backed deals: 62,952.
 - Source-backed compute rows: 166.
 - Source-backed timing signals: 3,854.
-- Pending source-backed adjudication items: 6,809.
-- Automated materiality adjudication decisions: 6,699 decisions, with 4,384
+- Pending source-backed adjudication items: 6,799.
+- Automated materiality adjudication decisions: 6,689 decisions, with 4,374
   supported blockers, 2,315 still requiring deeper extraction, 2,800 approved
   metric rows, and $9.281T source-instrument-deduped final metric support
   across 1,942 metric groups.
@@ -53,8 +53,8 @@ Latest verified evidence-gated report at this checkpoint:
 Latest capital and timing outputs:
 
 - Capital exposure graph source-backed edges: 10,142.
-- Capital exposure graph total edge notional: $10.497T.
-- AI-infra-relevant graph notional: $659.08B.
+- Capital exposure graph total edge notional: $5.386T.
+- AI-infra-relevant graph notional: $333.00B.
 - In-scope debt-like notional: $1.201T.
 - Ownership graph LEI nodes: 425,765.
 - Ownership graph source-backed relationships: 643,828.

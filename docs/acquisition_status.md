@@ -1,13 +1,13 @@
 # Acquisition Status
 
-Last updated: 2026-06-02 04:29 UTC.
+Last updated: 2026-06-02 04:45 UTC.
 
 This file is the operational snapshot for the current evidence corpus. Treat it
 as a run log, not as a final investment conclusion.
 
 ## Current Corpus
 
-- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0429.md`
+- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0445.md`
 - Evidence gate: not high-confidence final.
 - Source invariant audit: passed at 2026-06-02 04:02 UTC, 63 CSV files
   and 9,208,844 rows scanned, 0 violations, 0 warnings.
@@ -25,19 +25,19 @@ as a run log, not as a final investment conclusion.
 - Source-backed contract tranches: 10,051.
 - Source-backed compute rows: 166.
 - Source-backed timing signals: 3,854.
-- Pending source-backed adjudication items: 6,809.
+- Pending source-backed adjudication items: 6,799.
 - Ownership graph: 425,765 LEI nodes, 425,679 named nodes, and 643,828 source-backed relationships.
 - Contract-structure graph: 94,622 nodes and 195,896 source-backed edges.
 - Contract/ownership contagion paths: 8,749 source-backed paths, including
   1,976 ownership-expanded paths, 6,773 contract-only paths, 453 AI-infra
   relevant paths, and 145 high-or-critical paths.
-- Materiality-first LLM adjudication packets: 6,699 blocker groups packaged
-  (full deduped queue), all 6,699 source-backed, 6,699 with local evidence
-  snippets, 742 AI-infra relevant, and $56.464T of total exposure-basis across
+- Materiality-first LLM adjudication packets: 6,689 blocker groups packaged
+  (full deduped queue), all 6,689 source-backed, 6,689 with local evidence
+  snippets, 732 AI-infra relevant, and $56.030T of total exposure-basis across
   the packet set.
-- Automated materiality adjudication decisions: 6,699 decisions, 6,495 with
+- Automated materiality adjudication decisions: 6,689 decisions, 6,485 with
   resolved text quotes plus 204 row-context-backed decisions for non-text
-  sources, 4,384 supported as material blockers, 2,315 requiring deeper
+  sources, 4,374 supported as material blockers, 2,315 requiring deeper
   extraction, 0 requiring source retrieval, and 2,800 source-backed rows
   approved for metric use. Those approved rows total $11.840T as row-level
   supported amounts, but source-instrument metric dedupe now collapses
@@ -45,7 +45,7 @@ as a run log, not as a final investment conclusion.
   they are not treated as individual contracts unless contract terms are
   separately extracted.
 - Decision coverage over packaged blocker groups: 100.0%; unresolved decision
-  share remains 34.56% (still extraction-bound, not source-retrieval-bound).
+  share remains 34.61% (still extraction-bound, not source-retrieval-bound).
 - Top remaining decision gaps are now named counterparty role extraction
   (1,285), collateral scope (799), recourse/guarantee scope (565), split
   aggregate disclosure from committed obligations (222), missing underlying
@@ -107,6 +107,10 @@ Ready now:
   supported amount before final metric support is reported, preventing
   same-document/same-amount affiliate or repeated-extraction rows from inflating
   final supported notional
+- capital exposure graph edge notionals now also dedupe repeated source
+  instruments inside each entity-pair/deal-type edge, retaining source fanout
+  evidence while preventing weak-link ranking and graph summaries from summing
+  the same instrument across repeated filings/extractions
 - role-clause counterparty inference now auto-populates agent/trustee,
   commitment-party, lead-arranger/bookrunner, placement-agent, and initial
   purchaser representative counterparties from source quotes when `counterparty`
@@ -418,19 +422,19 @@ Capital exposure graph:
 
 - Nodes: 6,690.
 - Source-backed edges: 10,142.
-- Total edge notional: $10.510T.
-- AI-infra-relevant notional: $659.08B.
+- Total edge notional: $5.386T.
+- AI-infra-relevant notional: $333.00B.
 - AI-infra-relevant edges: 232.
 - Contract-structure nodes: 94,622.
 - Source-backed contract-structure edges: 195,896.
-- Deal contract nodes: 62,950.
+- Deal contract nodes: 62,952.
 - Tranche contract nodes: 10,051.
 - Collateral contract nodes: 10,065.
 - Guarantee contract edges: 1,791.
-- Collateral contract edges: 26,839.
+- Collateral contract edges: 26,842.
 - Non-recourse deal/tranche contract nodes: 2,586.
 - Bankruptcy-remote/SPV deal/tranche contract nodes: 1,277.
-- SPV-flagged deal/tranche contract nodes: 26,304.
+- SPV-flagged deal/tranche contract nodes: 26,306.
 - Tranche nodes with maturity: 6,037.
 - Tranche nodes with interest rate: 5,081.
 - Outputs: `data/reports/capital_exposure_nodes.csv`,
@@ -476,19 +480,19 @@ Timing layer:
 Adjudication queue:
 
 - Critical items: 86.
-- High items: 884.
-- AI-infra-relevant items: 753.
+- High items: 877.
+- AI-infra-relevant items: 743.
 - Contract-tranche adjudication items: 2,498.
 - Pending capital distinct notional: $11.923T.
 - Pending AI-infra-relevant distinct capital notional: $827.72B.
 - Pending contract-tranche notional: $10.672T.
 - Pending contract-contagion path exposure: $30.028T.
 - Pending compute claim amount: $398.24B.
-- Materiality packets: 6,699 source-backed packets, 742 AI-infra relevant, and
-  6,699 with local evidence snippets.
-- Materiality decisions: 4,384 source-supported blockers, 2,315 requiring
+- Materiality packets: 6,689 source-backed packets, 732 AI-infra relevant, and
+  6,689 with local evidence snippets.
+- Materiality decisions: 4,374 source-supported blockers, 2,315 requiring
   deeper extraction, 0 requiring source retrieval, and 2,800 rows approved
-  for metric use (6,495 quote-backed decisions plus 204 row-context-backed
+  for metric use (6,485 quote-backed decisions plus 204 row-context-backed
   decisions on non-text sources).
 - Automated row-level supported amount approved for metric use: $11.840T.
 - Deduped automated final metric support: $9.281T across 1,942 source-instrument
@@ -516,12 +520,12 @@ Contract/ownership contagion:
 Weak links:
 
 - Candidates: 540.
-- High or critical candidates: 27.
+- High or critical candidates: 20.
 - Capital candidates: 232.
 - Physical candidates: 250.
 - Combined capital/physical candidates: 39.
 - Debt-service candidates: 19.
-- AI-infra-relevant weak-link notional: $659.08B.
+- AI-infra-relevant weak-link notional: $333.00B.
 
 Compute economics:
 
