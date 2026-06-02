@@ -213,6 +213,14 @@ as a run log, not as a final investment conclusion.
   needs-extraction facilities totaling $34.95B. The residual extraction target
   is now explicit: 2 primary-verified facility rows still lack collateral, 2
   lack maturity, 1 lacks rate evidence, and 2 lack recourse evidence.
+- A read-only direct-tier debt-card alignment checker now compares current
+  final-metric survivors with the normalized direct-tier card inventory:
+  `scripts/check_direct_tier_debt_card_alignment.py`. On the 21:21 decisions it
+  finds 8 direct-tier entities with $140.901B of current metric survivors versus
+  $40.70B of carded facilities, of which only $5.75B is primary verified. All 8
+  entities are flagged for review because the current metric exceeds carded
+  facilities by more than 10%; this is an audit queue for economic-event dedupe
+  and primary debt-service extraction, not an automatic metric change.
 - A deterministic physical-execution extractor now exists at
   `bubble.ingestion.physical.extract_physical_execution_terms`. It normalizes
   acquired permit/PUC/source text into machine-checkable physical execution

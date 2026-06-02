@@ -1,0 +1,9 @@
+entity,survivor_count,current_metric_usd,all_carded_facility_usd,primary_verified_carded_usd,unverified_carded_usd,metric_less_all_carded_usd,metric_less_primary_verified_usd,status
+IREN,17,43878900000.00,8000000000.00,1000000000.00,7000000000.00,35878900000.00,42878900000.00,review_metric_exceeds_carded_facilities
+TeraWulf,11,23235000000.00,5350000000.00,0.00,5350000000.00,17885000000.00,23235000000.00,review_metric_exceeds_carded_facilities
+Applied Digital,7,17921000000.00,4500000000.00,2150000000.00,2350000000.00,13421000000.00,15771000000.00,review_metric_exceeds_carded_facilities
+CleanSpark,7,13640000000.00,1150000000.00,0.00,1150000000.00,12490000000.00,13640000000.00,review_metric_exceeds_carded_facilities
+CoreWeave,7,23059200000.00,13850000000.00,2600000000.00,11250000000.00,9209200000.00,20459200000.00,review_metric_exceeds_carded_facilities
+Hut 8,3,9748000000.00,3250000000.00,0.00,3250000000.00,6498000000.00,9748000000.00,review_metric_exceeds_carded_facilities
+MARA Holdings,3,3525000000.00,850000000.00,0.00,850000000.00,2675000000.00,3525000000.00,review_metric_exceeds_carded_facilities
+Nebius,3,5893750000.00,3750000000.00,0.00,3750000000.00,2143750000.00,5893750000.00,review_metric_exceeds_carded_facilities

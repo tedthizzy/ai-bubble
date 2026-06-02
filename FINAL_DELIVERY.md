@@ -150,7 +150,11 @@ Latest capital and timing outputs:
   actionable facilities: 3 primary-verified facilities totaling $5.75B and 16
   unverified or needs-extraction facilities totaling $34.95B, with the remaining
   primary-card gaps concentrated in collateral, recourse, maturity, and rate
-  fields.
+  fields. A read-only alignment checker now compares these cards with current
+  final-metric survivors; the 21:21 decisions show $140.901B of current metric
+  survivors across the 8 direct-tier entities versus $40.70B of carded
+  facilities, making this the next explicit audit queue for economic-event
+  dedupe and primary debt-service extraction.
 - A deterministic physical-execution extractor now exists at
   `bubble.ingestion.physical.extract_physical_execution_terms`, turning acquired
   permit/PUC/source text into normalized evidence rows for on-site generation,
