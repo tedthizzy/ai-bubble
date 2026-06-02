@@ -32,8 +32,8 @@ The important change is that ecosystem-scale conclusions are now blocked from be
 
 Latest verified evidence-gated report at this checkpoint:
 
-- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0820.md`
-- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0820.json`
+- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0828.md`
+- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0828.json`
 - `high_confidence_final`: `false`
 - Evidence audit coverage now includes analyzer-level capital, compute, and
   debt-service audits plus explicit row/artifact-backed audits for high-impact
@@ -76,6 +76,9 @@ Latest capital and timing outputs:
 - AI-infra capital refinancing 2024-2030: $227.22B. The forward signal from
   the 2026-Q2 report as-of quarter is $99.31B, with $127.91B already matured
   before that quarter and a forward AI-infra peak of $22.25B in 2027-Q3.
+- Project tracker physical capacity: raw tracker capacity is 552,455 MW; the
+  calibrated distinct-site rollup now reports 543,335 MW after collapsing 42
+  duplicate tracker rows across 36 groups.
 
 See `docs/acquisition_status.md` for the current run log and acquisition backlog.
 

@@ -350,19 +350,112 @@ def test_physical_capacity_summary_reports_distinct_tracker_capacity(
 
     assert summary.tracker_project_records_scanned == 3
     assert summary.tracker_capacity_high_mw == 514
-    assert summary.tracker_distinct_projects == 2
-    assert summary.tracker_duplicate_groups == 1
-    assert summary.tracker_duplicate_rows_collapsed == 1
-    assert summary.tracker_distinct_capacity_high_mw == 314
-    assert summary.tracker_distinct_capacity_low_mw == 264
-    assert summary.tracker_distinct_operating_capacity_high_mw == 214
+    assert summary.tracker_distinct_projects == 3
+    assert summary.tracker_duplicate_groups == 0
+    assert summary.tracker_duplicate_rows_collapsed == 0
+    assert summary.tracker_distinct_capacity_high_mw == 514
+    assert summary.tracker_distinct_capacity_low_mw == 364
+    assert summary.tracker_distinct_operating_capacity_high_mw == 414
     assert summary.tracker_distinct_pipeline_capacity_high_mw == 100
-    assert summary.tracker_distinct_investment_usd == 1_700_000_000
+    assert summary.tracker_distinct_investment_usd == 2_500_000_000
     assert summary.tracker_distinct_capacity_by_status_mw == {
-        "in_service": 214,
+        "in_service": 414,
         "announced": 100,
     }
-    assert summary.tracker_distinct_capacity_by_state_mw == {"AL": 214, "TX": 100}
+    assert summary.tracker_distinct_capacity_by_state_mw == {"AL": 414, "TX": 100}
+
+
+def test_physical_capacity_summary_collapses_exact_named_tracker_sites(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "physical" / "projects.csv",
+        [
+            {
+                "project_id": "server:homer-city",
+                "name": "Homer City Energy Campus",
+                "city": "Homer City",
+                "state": "Pennsylvania",
+                "operator": "Homer City Redevelopment, LLC",
+                "source_id": "server-country-all-projects",
+                "source_uri": "https://servercountry.org/data/all_projects.csv",
+                "source_type": "project_tracker",
+                "content_hash": "hash-server",
+                "capacity_mw_high": "4500",
+                "investment_usd": "10000000000",
+                "construction_status": "announced",
+            },
+            {
+                "project_id": "fractracker:homer-city",
+                "name": "Homer City Energy Campus",
+                "city": "Homer City",
+                "state": "PA",
+                "address": "1750 Power Plant Road",
+                "operator": "Homer City Redevelopment",
+                "source_id": "fractracker-data-centers-000000-001000",
+                "source_uri": "https://services.arcgis.com/example/query",
+                "source_type": "project_tracker",
+                "content_hash": "hash-frac",
+                "capacity_mw_high": "4500",
+                "investment_usd": "12000000000",
+                "construction_status": "announced",
+            },
+        ],
+    )
+
+    summary = build_physical_capacity_summary([tmp_path])
+
+    assert summary.tracker_capacity_high_mw == 9000
+    assert summary.tracker_distinct_projects == 1
+    assert summary.tracker_duplicate_groups == 1
+    assert summary.tracker_duplicate_rows_collapsed == 1
+    assert summary.tracker_distinct_capacity_high_mw == 4500
+    assert summary.tracker_distinct_pipeline_capacity_high_mw == 4500
+    assert summary.tracker_distinct_investment_usd == 12_000_000_000
+
+
+def test_physical_capacity_summary_keeps_same_name_different_cities_distinct(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "physical" / "projects.csv",
+        [
+            {
+                "project_id": "cielo:hudson",
+                "name": "Cielo Digital Infrastructure",
+                "city": "Hudson",
+                "state": "CO",
+                "operator": "Cielo Digital Infrastructure",
+                "source_id": "fractracker-data-centers-000000-001000",
+                "source_uri": "https://services.arcgis.com/example/query",
+                "source_type": "project_tracker",
+                "content_hash": "hash-cielo",
+                "capacity_mw_high": "500",
+                "construction_status": "announced",
+            },
+            {
+                "project_id": "cielo:kansas-city",
+                "name": "Cielo Digital Infrastructure",
+                "city": "Kansas City",
+                "state": "MO",
+                "operator": "Cielo Digital Infrastructure",
+                "source_id": "fractracker-data-centers-000000-001000",
+                "source_uri": "https://services.arcgis.com/example/query",
+                "source_type": "project_tracker",
+                "content_hash": "hash-cielo",
+                "capacity_mw_high": "500",
+                "construction_status": "announced",
+            },
+        ],
+    )
+
+    summary = build_physical_capacity_summary([tmp_path])
+
+    assert summary.tracker_capacity_high_mw == 1000
+    assert summary.tracker_distinct_projects == 2
+    assert summary.tracker_duplicate_groups == 0
+    assert summary.tracker_duplicate_rows_collapsed == 0
+    assert summary.tracker_distinct_capacity_high_mw == 1000
 
 
 def test_physical_capacity_summary_keeps_delayed_and_mechanical_statuses(

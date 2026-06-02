@@ -1,13 +1,13 @@
 # Acquisition Status
 
-Last updated: 2026-06-02 08:20 UTC.
+Last updated: 2026-06-02 08:28 UTC.
 
 This file is the operational snapshot for the current evidence corpus. Treat it
 as a run log, not as a final investment conclusion.
 
 ## Current Corpus
 
-- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0820.md`
+- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0828.md`
 - Evidence gate: not high-confidence final.
 - Evidence audit coverage: report-level audits now include analyzer-level
   capital, compute, and debt-service audits plus explicit row/artifact-backed
@@ -206,6 +206,12 @@ Ready now:
   instead of being folded into `announced`; the refreshed physical summaries
   now surface 50 delayed projects and 8,680 MW of delayed tracker capacity as
   explicit deliverability evidence
+- physical project tracker rollups now use a calibrated distinct-site key
+  based on normalized project name plus city/state, with address/operator only
+  as fallback keys for sparse rows; raw tracker capacity remains 552,455 MW,
+  while duplicate-adjusted distinct tracker capacity is now 543,335 MW after
+  collapsing 42 duplicate rows across 36 groups, without merging same-name
+  multi-city operator portfolios
 - capital boilerplate gating is now carried as an explicit extraction gap
   (`confirm final prospectus or underlying agreement terms`) instead of an
   implicit decision override, and plain `Registration Statement` references in

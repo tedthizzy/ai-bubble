@@ -716,27 +716,19 @@ def _canonical_tracker_metrics(
 def _canonical_tracker_project_key(row: Mapping[str, str]) -> str:
     state = _project_state(row)
     city = _slug_text(row.get("city") or "")
+    name_key = "-".join(_name_tokens(row.get("name") or ""))
+    if state and city and name_key:
+        return f"name:{state}:{city}:{name_key}"
+
     address = _slug_text(row.get("address") or "")
     if state and city and address:
         return f"address:{state}:{city}:{address}"
 
     operator = _normalize_company(row.get("operator") or row.get("owner") or "")
-    name_tokens = _name_tokens(row.get("name") or "")
-    operator_tokens = set(operator.split("-")) if operator else set()
-    residual_tokens = [
-        token
-        for token in name_tokens
-        if token not in operator_tokens and token not in GENERIC_PROJECT_TERMS
-    ]
-    if (
-        state
-        and city
-        and operator
-        and (not residual_tokens or set(residual_tokens).issubset(set(city.split("-"))))
-    ):
+    if state and city and operator:
         return f"operator:{state}:{city}:{operator}"
 
-    name_key = "-".join(name_tokens) or _slug_text(row.get("project_id") or "unknown")
+    name_key = name_key or _slug_text(row.get("project_id") or "unknown")
     place = f"{state}:{city}" if state or city else _slug_text(row.get("jurisdiction") or "")
     return f"name:{place}:{name_key}"
 
