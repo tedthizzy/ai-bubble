@@ -322,8 +322,10 @@ def _category_gaps(packet: dict[str, str], text: str, quote: str = "") -> list[s
                 "guarantee terms present",
             ],
         )
+        mortgage_bond_scope_present = _is_mortgage_bond_scope_present(text_lower)
         if not (
             guarantee_scope_present
+            or mortgage_bond_scope_present
             or unsecured_scope_present
             or issuer_note_scope_present
             or secured_lender_scope_present
@@ -340,6 +342,7 @@ def _category_gaps(packet: dict[str, str], text: str, quote: str = "") -> list[s
         )
         if not (
             collateral_scope_present
+            or mortgage_bond_scope_present
             or unsecured_scope_present
             or _contains_any(text_lower, _collateral_scope_terms())
         ):
@@ -1028,6 +1031,10 @@ def _has_supporting_terms(packet: dict[str, str], quote: str) -> bool:
             "facility",
             "loan",
             "notes",
+            "bond",
+            "bonds",
+            "mortgage bond",
+            "mortgage bonds",
             "lease",
             "obligation",
             "commitment",
@@ -1233,6 +1240,12 @@ def _scope_quote_terms() -> list[str]:
         "security document",
         "security documents",
         "loan and security agreement",
+        "first mortgage bond",
+        "first mortgage bonds",
+        "collateral trust mortgage bond",
+        "collateral trust mortgage bonds",
+        "first and refunding mortgage bond",
+        "first and refunding mortgage bonds",
         "asset-based revolving credit agreement",
         "asset based revolving credit agreement",
         "borrowing base",
@@ -1259,6 +1272,12 @@ def _collateral_scope_terms() -> list[str]:
         "security document",
         "security documents",
         "loan and security agreement",
+        "first mortgage bond",
+        "first mortgage bonds",
+        "collateral trust mortgage bond",
+        "collateral trust mortgage bonds",
+        "first and refunding mortgage bond",
+        "first and refunding mortgage bonds",
         "asset-based revolving credit agreement",
         "asset based revolving credit agreement",
         "borrowing base",
@@ -1286,6 +1305,20 @@ def _amount_quote_terms(amount: float) -> list[str]:
         compact = f"{millions:g}"
         terms.extend([compact, f"${compact}", f"{compact} million"])
     return terms
+
+
+def _is_mortgage_bond_scope_present(text: str) -> bool:
+    return _contains_any(
+        text,
+        [
+            "first mortgage bond",
+            "first mortgage bonds",
+            "collateral trust mortgage bond",
+            "collateral trust mortgage bonds",
+            "first and refunding mortgage bond",
+            "first and refunding mortgage bonds",
+        ],
+    )
 
 
 def _quote_score(text: str, terms: list[str]) -> int:
@@ -1570,6 +1603,13 @@ def _requires_aggregate_split(packet: dict[str, str], quote: str) -> bool:
         return True
     if _is_committed_contract_value_disclosure(packet, text):
         return False
+    hard_non_specific_markers = [
+        "from time to time, we may offer",
+        "may periodically offer",
+        "create and issue further first mortgage bonds",
+        "create and issue further collateral trust mortgage bonds",
+    ]
+    has_hard_non_specific_terms = _contains_any(text, hard_non_specific_markers)
     explicit_specific_markers = [
         "commitment scope: specific_transaction_commitment",
         "notional context: transaction_",
@@ -1589,7 +1629,7 @@ def _requires_aggregate_split(packet: dict[str, str], quote: str) -> bool:
         text,
         ["tranche", "credit agreement", "term loan", "revolver", "indenture"],
     )
-    if has_specific_terms:
+    if has_specific_terms and not has_hard_non_specific_terms:
         return False
 
     explicit_non_specific_markers = [
@@ -1602,10 +1642,17 @@ def _requires_aggregate_split(packet: dict[str, str], quote: str) -> bool:
         "notional context: candidate_notional",
         "shelf capacity",
         "from time to time, we may offer",
+        "may periodically offer",
+        "create and issue further first mortgage bonds",
+        "create and issue further collateral trust mortgage bonds",
         "may issue up to",
         "registration statement",
     ]
-    return _contains_any(text, explicit_non_specific_markers) or "aggregate" in text
+    return (
+        has_hard_non_specific_terms
+        or _contains_any(text, explicit_non_specific_markers)
+        or "aggregate" in text
+    )
 
 
 def _is_committed_contract_value_disclosure(packet: dict[str, str], text: str) -> bool:
@@ -1661,6 +1708,47 @@ def _is_committed_contract_value_disclosure(packet: dict[str, str], text: str) -
 
 
 def _looks_like_debt_outstanding_snapshot(text: str) -> bool:
+    if _is_mortgage_bond_scope_present(text):
+        has_principal_amount = _contains_any(
+            text,
+            ["aggregate principal amount", "principal amount"],
+        )
+        has_outstanding_mortgage_principal = _contains_any(
+            text,
+            [
+                "outstanding first mortgage",
+                "outstanding collateral trust mortgage",
+                "outstanding indebtedness",
+            ],
+        ) or bool(
+            re.search(
+                r"\boutstanding\s+\$?\s*[\d,.]+(?:\s*(?:million|billion|trillion))?\s+"
+                r"aggregate\s+principal\s+amount\s+of\s+(?:our\s+)?"
+                r"(?:(?:first|collateral\s+trust|first\s+and\s+refunding)\s+)?"
+                r"mortgage\s+bonds?\b",
+                text,
+            )
+        )
+        if has_principal_amount and _contains_any(
+            text,
+            ["were outstanding", "was outstanding", "outstanding under"],
+        ):
+            return True
+        if (
+            has_principal_amount
+            and _contains_any(
+                text,
+                [
+                    "repay or redeem",
+                    "repay at maturity",
+                    "repayment at maturity",
+                    "offer to prepay",
+                    "prepay",
+                ],
+            )
+            and has_outstanding_mortgage_principal
+        ):
+            return True
     return _contains_any(
         text,
         [

@@ -1862,6 +1862,257 @@ def test_materiality_adjudication_scope_quote_trim_keeps_late_secured_terms(
     assert decision.metric_use_status == "approved_for_metric_use"
 
 
+def test_materiality_adjudication_treats_first_mortgage_bond_as_scope_resolved(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-first-mortgage-bond",
+                "rank": 1,
+                "review_id": "review-first-mortgage-bond",
+                "review_group_id": "group-first-mortgage-bond",
+                "priority": "high",
+                "category": "capital",
+                "subcategory": "high_notional_debt_like_candidate",
+                "ecosystem_relevance": "watchlist_entity",
+                "entity": "Example Utility Co.",
+                "counterparty": "noteholders",
+                "exposure_basis_usd": "2204000000",
+                "reason": (
+                    "pending adjudication status: pending; debt-like deal type: bond; "
+                    "notional $2,204,000,000; notional context: transaction_tranche_sum; "
+                    "commitment scope: specific_transaction_commitment"
+                ),
+                "recommended_action": "Confirm mortgage-bond scope",
+                "source_uri": "https://www.sec.gov/example-first-mortgage-bond.htm",
+                "source_uris": json.dumps(
+                    ["https://www.sec.gov/example-first-mortgage-bond.htm"]
+                ),
+                "content_hash": "f" * 64,
+                "content_hashes": json.dumps(["f" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": (
+                                "https://www.sec.gov/example-first-mortgage-bond.htm"
+                            ),
+                            "content_hash": "f" * 64,
+                            "document_id": "example-first-mortgage-bond.htm",
+                            "snippet": (
+                                "UNION ELECTRIC COMPANY 4.80% FIRST MORTGAGE BOND "
+                                "DUE 2036 CUSIP 906548CM2."
+                            ),
+                        }
+                    ]
+                ),
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    decision = batch.decisions[0]
+    assert "first mortgage bond" in decision.evidence_quote.lower(), decision
+    assert "determine collateral scope" not in decision.remaining_gap
+    assert "determine recourse and guarantee scope" not in decision.remaining_gap
+    assert decision.metric_use_status == "approved_for_metric_use"
+
+
+def test_materiality_adjudication_keeps_mortgage_bond_outstanding_total_blocked(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-mortgage-bond-outstanding-total",
+                "rank": 1,
+                "review_id": "review-mortgage-bond-outstanding-total",
+                "review_group_id": "group-mortgage-bond-outstanding-total",
+                "priority": "critical",
+                "category": "capital",
+                "subcategory": "high_notional_debt_like_candidate",
+                "ecosystem_relevance": "watchlist_entity",
+                "entity": "Example Utility Co.",
+                "counterparty": "",
+                "exposure_basis_usd": "10221000000",
+                "reason": (
+                    "pending adjudication status: pending; debt-like deal type: bond; "
+                    "notional $10,221,000,000; notional context: transaction_principal; "
+                    "source extraction marked requires LLM adjudication"
+                ),
+                "recommended_action": "Split outstanding series from current issuance",
+                "source_uri": "https://www.sec.gov/example-mortgage-bond-summary.htm",
+                "source_uris": json.dumps(
+                    ["https://www.sec.gov/example-mortgage-bond-summary.htm"]
+                ),
+                "content_hash": "1" * 64,
+                "content_hashes": json.dumps(["1" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": (
+                                "https://www.sec.gov/example-mortgage-bond-summary.htm"
+                            ),
+                            "content_hash": "1" * 64,
+                            "document_id": "example-mortgage-bond-summary.htm",
+                            "snippet": (
+                                "At June 30, 2023, 40 series of first mortgage bonds "
+                                "in an aggregate principal amount of approximately "
+                                "$10.221 billion were outstanding under the indenture."
+                            ),
+                        }
+                    ]
+                ),
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    decision = batch.decisions[0]
+    assert (
+        "split aggregate disclosure from specific committed obligation"
+        in decision.remaining_gap
+    )
+    assert "determine collateral scope" not in decision.remaining_gap
+    assert "determine recourse and guarantee scope" not in decision.remaining_gap
+    assert decision.metric_use_status == "blocked_pending_extraction"
+
+
+def test_materiality_adjudication_keeps_generic_mortgage_bond_shelf_blocked(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-generic-mortgage-bond-shelf",
+                "rank": 1,
+                "review_id": "review-generic-mortgage-bond-shelf",
+                "review_group_id": "group-generic-mortgage-bond-shelf",
+                "priority": "critical",
+                "category": "capital",
+                "subcategory": "high_notional_debt_like_candidate",
+                "ecosystem_relevance": "watchlist_entity",
+                "entity": "Example Utility Co.",
+                "counterparty": "noteholders",
+                "exposure_basis_usd": "2195000000",
+                "reason": (
+                    "pending adjudication status: pending; debt-like deal type: bond; "
+                    "notional $2,195,000,000; notional context: transaction_principal; "
+                    "source extraction marked requires LLM adjudication"
+                ),
+                "recommended_action": "Confirm specific mortgage-bond issuance",
+                "source_uri": "https://www.sec.gov/example-mortgage-bond-shelf.htm",
+                "source_uris": json.dumps(
+                    ["https://www.sec.gov/example-mortgage-bond-shelf.htm"]
+                ),
+                "content_hash": "2" * 64,
+                "content_hashes": json.dumps(["2" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": (
+                                "https://www.sec.gov/example-mortgage-bond-shelf.htm"
+                            ),
+                            "content_hash": "2" * 64,
+                            "document_id": "example-mortgage-bond-shelf.htm",
+                            "snippet": (
+                                "FIRST MORTGAGE BONDS Example Utility Co. may "
+                                "periodically offer our first mortgage bonds in one "
+                                "or more series."
+                            ),
+                        }
+                    ]
+                ),
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    decision = batch.decisions[0]
+    assert decision.remaining_gap
+    assert decision.metric_use_status == "blocked_pending_extraction"
+
+
+def test_materiality_adjudication_keeps_mortgage_bond_repayment_proceeds_blocked(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-mortgage-bond-repayment-proceeds",
+                "rank": 1,
+                "review_id": "review-mortgage-bond-repayment-proceeds",
+                "review_group_id": "group-mortgage-bond-repayment-proceeds",
+                "priority": "critical",
+                "category": "capital",
+                "subcategory": "high_notional_debt_like_candidate",
+                "ecosystem_relevance": "watchlist_entity",
+                "entity": "Example Utility Co.",
+                "counterparty": "noteholders",
+                "exposure_basis_usd": "6985000000",
+                "reason": (
+                    "pending adjudication status: pending; debt-like deal type: bond; "
+                    "notional $6,985,000,000; notional context: transaction_principal; "
+                    "commitment scope: specific_transaction_commitment"
+                ),
+                "recommended_action": "Split proceeds use from current issuance",
+                "source_uri": "https://www.sec.gov/example-mortgage-bond-proceeds.htm",
+                "source_uris": json.dumps(
+                    ["https://www.sec.gov/example-mortgage-bond-proceeds.htm"]
+                ),
+                "content_hash": "3" * 64,
+                "content_hashes": json.dumps(["3" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": (
+                                "https://www.sec.gov/example-mortgage-bond-proceeds.htm"
+                            ),
+                            "content_hash": "3" * 64,
+                            "document_id": "example-mortgage-bond-proceeds.htm",
+                            "snippet": (
+                                "We intend to use the net proceeds from the issuance "
+                                "and sale of the bonds to repay or redeem the "
+                                "outstanding $1 billion aggregate principal amount "
+                                "of our Collateral Trust Mortgage Bonds, 0.95% "
+                                "Series due 2024."
+                            ),
+                        }
+                    ]
+                ),
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    decision = batch.decisions[0]
+    assert (
+        "split aggregate disclosure from specific committed obligation"
+        in decision.remaining_gap
+    )
+    assert decision.metric_use_status == "blocked_pending_extraction"
+
+
 def test_materiality_adjudication_treats_note_offering_counterparty_as_non_bilateral(
     tmp_path: Path,
 ) -> None:
