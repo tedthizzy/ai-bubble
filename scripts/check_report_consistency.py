@@ -31,6 +31,7 @@ from bubble.quality.report_consistency import (
     check_labeled_counts,
     check_metric_total_agreement,
     check_report_path_freshness,
+    check_timestamp_freshness,
     latest_report_stem,
 )
 
@@ -103,6 +104,15 @@ def main() -> int:
                     bubble_confidence=float(bubble_confidence),
                     doc_text=doc_text,
                     doc_name=rel,
+                )
+            )
+        if invariant_audit.get("generated_at"):
+            findings.extend(
+                check_timestamp_freshness(
+                    doc_text=doc_text,
+                    doc_name=rel,
+                    label="Source invariant audit",
+                    authoritative_iso=str(invariant_audit["generated_at"]),
                 )
             )
 

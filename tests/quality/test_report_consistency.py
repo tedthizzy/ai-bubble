@@ -15,6 +15,7 @@ from bubble.quality.report_consistency import (
     check_labeled_counts,
     check_metric_total_agreement,
     check_report_path_freshness,
+    check_timestamp_freshness,
     latest_report_stem,
 )
 
@@ -155,6 +156,34 @@ def test_matching_confidence_flags_have_no_findings() -> None:
         bubble_confidence=0.25,
         doc_text=doc,
         doc_name="acquisition_status.md",
+    )
+
+    assert findings == []
+
+
+def test_warns_on_stale_doc_timestamp() -> None:
+    doc = "Source invariant audit: passed at 2026-06-02 02:35 UTC, 63 CSV files.\n"
+
+    findings = check_timestamp_freshness(
+        doc_text=doc,
+        doc_name="acquisition_status.md",
+        label="Source invariant audit",
+        authoritative_iso="2026-06-02T03:07:08+00:00",
+    )
+
+    assert len(findings) == 1
+    assert findings[0].check == "stale_timestamp"
+    assert findings[0].severity == "warning"
+
+
+def test_current_doc_timestamp_has_no_findings() -> None:
+    doc = "Source invariant audit: passed at 2026-06-02 03:07 UTC.\n"
+
+    findings = check_timestamp_freshness(
+        doc_text=doc,
+        doc_name="acquisition_status.md",
+        label="Source invariant audit",
+        authoritative_iso="2026-06-02T03:07:08+00:00",
     )
 
     assert findings == []

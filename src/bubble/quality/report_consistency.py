@@ -265,6 +265,45 @@ def check_confidence_flags(
     return findings
 
 
+_TIMESTAMP_RE = re.compile(r"(\d{4}-\d{2}-\d{2})[ T](\d{2}:\d{2})")
+
+
+def check_timestamp_freshness(
+    *,
+    doc_text: str,
+    doc_name: str,
+    label: str,
+    authoritative_iso: str,
+) -> list[ConsistencyFinding]:
+    """Warn when the timestamp a doc states near ``label`` is older than the
+    authoritative source timestamp. Warning-level (timestamps can be noisy)."""
+
+    index = doc_text.find(label)
+    if index == -1:
+        return []
+    doc_match = _TIMESTAMP_RE.search(doc_text[index : index + 200])
+    auth_match = _TIMESTAMP_RE.search(authoritative_iso)
+    if not doc_match or not auth_match:
+        return []
+    doc_stamp = f"{doc_match.group(1)} {doc_match.group(2)}"
+    auth_stamp = f"{auth_match.group(1)} {auth_match.group(2)}"
+    if doc_stamp < auth_stamp:  # lexical order == chronological for this format
+        return [
+            ConsistencyFinding(
+                check="stale_timestamp",
+                severity="warning",
+                doc=doc_name,
+                message=(
+                    f"{doc_name} states the {label} timestamp as {doc_stamp}, but the "
+                    f"authoritative source is {auth_stamp}."
+                ),
+                expected=auth_stamp,
+                actual=doc_stamp,
+            )
+        ]
+    return []
+
+
 def check_invariant_audit_status(invariant_audit: dict[str, Any]) -> list[ConsistencyFinding]:
     """Flag a source-invariant audit that is missing, not passing, or has
     violations — the provenance gate must be green before any report is trusted."""
