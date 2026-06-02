@@ -2727,6 +2727,139 @@ def test_materiality_adjudication_dedupes_same_source_instrument_metric_rows(
     }
 
 
+def test_materiality_adjudication_dedupes_same_accession_amount_metric_rows(
+    tmp_path: Path,
+) -> None:
+    accession = "000000000000000001"
+    rows = []
+    for rank, subcategory, counterparty, hash_value, quote in [
+        (
+            1,
+            "contract_tranche_terms",
+            "underwriters",
+            "a" * 64,
+            "Example Cloud Corp. completed an offering of $6,000,000,000 "
+            "aggregate principal amount of its senior unsecured notes due 2036.",
+        ),
+        (
+            2,
+            "high_notional_debt_like_candidate",
+            "trustee",
+            "b" * 64,
+            "The notes are senior unsecured obligations issued pursuant to an "
+            "indenture with the trustee and include $6.0 billion principal due 2036.",
+        ),
+    ]:
+        uri = f"https://www.sec.gov/Archives/edgar/data/1234/{accession}/example-{rank}.htm"
+        rows.append(
+            {
+                "packet_id": f"packet-same-accession-{rank}",
+                "rank": rank,
+                "review_id": f"review-same-accession-{rank}",
+                "review_group_id": f"group-same-accession-{rank}",
+                "priority": "high",
+                "category": "capital",
+                "subcategory": subcategory,
+                "ecosystem_relevance": "watchlist_entity",
+                "entity": "Example Cloud Corp.",
+                "counterparty": counterparty,
+                "exposure_basis_usd": "6000000000",
+                "reason": (
+                    "debt-like deal type: bond; notional $6,000,000,000; "
+                    "notional context: transaction_principal; "
+                    "collateral terms present; guarantee scope present"
+                ),
+                "recommended_action": "Confirm same-accession duplicate",
+                "source_uri": uri,
+                "source_uris": json.dumps([uri]),
+                "content_hash": hash_value,
+                "content_hashes": json.dumps([hash_value]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": uri,
+                            "content_hash": hash_value,
+                            "document_id": f"example-{rank}.htm",
+                            "snippet": quote,
+                        }
+                    ]
+                ),
+            }
+        )
+    _write_csv(tmp_path / "reports" / "materiality_adjudication_packets.csv", rows)
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    assert batch.summary.approved_for_metric_use == 2
+    assert batch.summary.approved_row_supported_amount_usd == 12_000_000_000
+    assert batch.summary.final_metric_supported_amount_usd == 6_000_000_000
+    assert batch.summary.final_metric_group_count == 1
+    assert len({decision.metric_group_id for decision in batch.decisions}) == 2
+
+
+def test_materiality_adjudication_keeps_same_amount_across_accessions(
+    tmp_path: Path,
+) -> None:
+    rows = []
+    for rank, accession, hash_value in [
+        (1, "000000000000000001", "c" * 64),
+        (2, "000000000000000002", "d" * 64),
+    ]:
+        uri = f"https://www.sec.gov/Archives/edgar/data/1234/{accession}/example-{rank}.htm"
+        rows.append(
+            {
+                "packet_id": f"packet-different-accession-{rank}",
+                "rank": rank,
+                "review_id": f"review-different-accession-{rank}",
+                "review_group_id": f"group-different-accession-{rank}",
+                "priority": "high",
+                "category": "capital",
+                "subcategory": "high_notional_debt_like_candidate",
+                "ecosystem_relevance": "watchlist_entity",
+                "entity": "Example Repeat Issuer Corp.",
+                "counterparty": f"trustee-{rank}",
+                "exposure_basis_usd": "4000000000",
+                "reason": (
+                    "debt-like deal type: bond; notional $4,000,000,000; "
+                    "notional context: transaction_principal; "
+                    "collateral terms present; guarantee scope present"
+                ),
+                "recommended_action": "Keep distinct accessions separate",
+                "source_uri": uri,
+                "source_uris": json.dumps([uri]),
+                "content_hash": hash_value,
+                "content_hashes": json.dumps([hash_value]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": uri,
+                            "content_hash": hash_value,
+                            "document_id": f"example-{rank}.htm",
+                            "snippet": (
+                                f"Example Repeat Issuer Corp. issued $4.0 billion "
+                                f"aggregate principal amount of senior notes due 20{30 + rank}."
+                            ),
+                        }
+                    ]
+                ),
+            }
+        )
+    _write_csv(tmp_path / "reports" / "materiality_adjudication_packets.csv", rows)
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    assert batch.summary.approved_for_metric_use == 2
+    assert batch.summary.approved_row_supported_amount_usd == 8_000_000_000
+    assert batch.summary.final_metric_supported_amount_usd == 8_000_000_000
+    assert batch.summary.final_metric_group_count == 2
+
+
 def test_materiality_adjudication_dedupes_same_obligation_across_filings(
     tmp_path: Path,
 ) -> None:

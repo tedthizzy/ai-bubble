@@ -1906,9 +1906,13 @@ def _final_metric_representative_decisions(
         representatives,
         key_fn=_economic_quote_metric_dedupe_key,
     )
-    return _collapse_metric_representatives(
+    representatives = _collapse_metric_representatives(
         representatives,
         key_fn=_economic_obligation_metric_dedupe_key,
+    )
+    return _collapse_metric_representatives(
+        representatives,
+        key_fn=_accession_amount_metric_dedupe_key,
     )
 
 
@@ -1976,6 +1980,27 @@ def _economic_obligation_metric_dedupe_key(
         value for value in (subcategory_key, snapshot_key, counterparty_key) if value
     )
     return "economic-obligation", (entity_key, amount_key, *discriminators), "v1"
+
+
+_SEC_ACCESSION_RE = re.compile(r"/(\d{18})/")
+
+
+def _sec_accession(source_uri: str) -> str:
+    match = _SEC_ACCESSION_RE.search(source_uri or "")
+    return match.group(1) if match else ""
+
+
+def _accession_amount_metric_dedupe_key(
+    decision: MaterialityAdjudicationDecision,
+) -> tuple[str, tuple[str, ...], str] | None:
+    if decision.metric_aggregation_policy != "max_amount_per_source_instrument":
+        return None
+    entity_key = re.sub(r"[^a-z0-9]+", "-", decision.entity.lower()).strip("-")
+    amount_key = _metric_amount_key(decision.supported_amount_usd)
+    accession = _sec_accession(decision.source_uri)
+    if not entity_key or not amount_key or amount_key == "0" or not accession:
+        return None
+    return "accession-amount", (entity_key, accession), amount_key
 
 
 def _normalized_quote_fingerprint(quote: str) -> str:

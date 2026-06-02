@@ -32,8 +32,8 @@ The important change is that ecosystem-scale conclusions are now blocked from be
 
 Latest verified evidence-gated report at this checkpoint:
 
-- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0948.md`
-- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0948.json`
+- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260602-1316.md`
+- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260602-1316.json`
 - `high_confidence_final`: `false`
 - Evidence audit coverage now includes analyzer-level capital, compute, and
   debt-service audits plus explicit row/artifact-backed audits for high-impact
@@ -51,8 +51,8 @@ Latest verified evidence-gated report at this checkpoint:
 - Pending source-backed adjudication items: 6,773.
 - Automated materiality adjudication decisions: 6,663 decisions, with 4,470
   supported blockers, 2,193 still requiring deeper extraction, 2,924 approved
-  metric rows, and $4.365T deduped final metric support across 1,579
-  source-instrument/economic-obligation metric groups. Semantic hard flags are now zero
+  metric rows, and $4.145T deduped final metric support across 1,463
+  source-instrument/same-accession/economic-obligation metric groups. Semantic hard flags are now zero
   in approved metric rows; 111 approved rows remain indeterminate semantic
   review candidates.
 
@@ -62,7 +62,7 @@ Latest capital and timing outputs:
 - Capital exposure graph total edge notional: $864.18B.
 - AI-infra-relevant graph notional: $5.16B.
 - In-scope debt-like notional: $1.201T.
-- Broader materiality-adjudicated supported exposure: $4.365T across 1,579
+- Broader materiality-adjudicated supported exposure: $4.145T across 1,463
   metric groups; this is a different scope from the curated capital-structure
   deal-graph debt-like metric above, not an additive increment.
 - Established direct/watchlist AI-data-center-linked support inside that broader

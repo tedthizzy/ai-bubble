@@ -1,13 +1,13 @@
 # Acquisition Status
 
-Last updated: 2026-06-02 09:48 UTC.
+Last updated: 2026-06-02 13:16 UTC.
 
 This file is the operational snapshot for the current evidence corpus. Treat it
 as a run log, not as a final investment conclusion.
 
 ## Current Corpus
 
-- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0948.md`
+- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-1316.md`
 - Evidence gate: not high-confidence final.
 - Evidence audit coverage: report-level audits now include analyzer-level
   capital, compute, and debt-service audits plus explicit row/artifact-backed
@@ -45,14 +45,15 @@ as a run log, not as a final investment conclusion.
   sources, 4,470 supported as material blockers, 2,193 requiring deeper
   extraction, 0 requiring source retrieval, and 2,924 source-backed rows
   approved for metric use. Those approved rows total $8.301T as row-level
-  supported amounts, but source-instrument and economic-obligation metric
-  dedupe now collapses same-document/same-amount and exact repeated filing
-  disclosures to $4.365T deduped final metric support across 1,579 metric groups;
+  supported amounts, but source-instrument, same-accession/same-amount, and
+  economic-obligation metric dedupe now collapses same-document/same-amount and
+  exact repeated filing disclosures to $4.145T deduped final metric support
+  across 1,463 metric groups;
   they are not treated as individual contracts unless contract terms are
   separately extracted.
 - Report arithmetic invariants pass with 0 violations. The how-large answer now
   labels the $1.201T curated capital-structure deal-graph debt-like metric
-  separately from the broader $4.365T materiality-adjudicated supported exposure
+  separately from the broader $4.145T materiality-adjudicated supported exposure
   metric so the two scopes are not read as inconsistent or directly additive.
 - The broader materiality metric is now split by adjudicated thesis linkage:
   $0.479T has established direct/watchlist AI-data-center linkage, while
@@ -562,9 +563,12 @@ Adjudication queue:
   for metric use (6,463 quote-backed decisions plus 200 row-context-backed
   decisions on non-text sources).
 - Automated row-level supported amount approved for metric use: $8.301T.
-- Deduped automated final metric support: $4.365T across 1,579 metric groups
-  after source-instrument, latest-snapshot, and exact economic-obligation
-  grouping.
+- Deduped automated final metric support: $4.145T across 1,463 metric groups
+  after source-instrument, same-accession/same-amount, latest-snapshot, and
+  exact economic-obligation grouping. The same-accession collapse removed
+  $220.077B of same-issuer, same-filing duplicate survivors that had different
+  snippets, content hashes, subcategories, or counterparties but represented the
+  same filed amount.
 - Relevance split of that deduped final metric: $0.479T established
   direct/watchlist AI-data-center linkage; 89.0% remains not-established for
   thesis linkage.
