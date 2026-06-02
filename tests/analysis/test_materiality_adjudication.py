@@ -918,6 +918,68 @@ def test_materiality_adjudication_approves_source_backed_aggregate_obligation_sn
     assert "not treated as an individual contract" in batch.decisions[0].rationale
 
 
+def test_materiality_adjudication_blocks_aggregate_lease_context_when_quote_is_debt_prospectus(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-lease-context-debt-prospectus",
+                "rank": 1,
+                "review_id": "review-lease-context-debt-prospectus",
+                "review_group_id": "group-lease-context-debt-prospectus",
+                "priority": "critical",
+                "category": "capital",
+                "subcategory": "high_notional_debt_like_candidate",
+                "ecosystem_relevance": "direct_ai_infra",
+                "entity": "Alphabet Inc.",
+                "counterparty": "",
+                "exposure_basis_usd": "75600000000",
+                "reason": (
+                    "notional context: aggregate_lease_obligation; source extraction "
+                    "marked requires LLM adjudication"
+                ),
+                "recommended_action": "Confirm whether row is duplicate or aggregate obligation",
+                "source_uri": "https://www.sec.gov/alphabet-debt-prospectus.htm",
+                "source_uris": json.dumps(
+                    ["https://www.sec.gov/alphabet-debt-prospectus.htm"]
+                ),
+                "content_hash": "c" * 64,
+                "content_hashes": json.dumps(["c" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/alphabet-debt-prospectus.htm",
+                            "content_hash": "c" * 64,
+                            "document_id": "alphabet-debt-prospectus.htm",
+                            "snippet": (
+                                "DESCRIPTION OF DEBT SECURITIES We may offer secured "
+                                "or unsecured debt securities in one or more series. "
+                                "The following is a summary of certain general terms "
+                                "of the debt securities and the indenture, dated as "
+                                "of February 12, 2016, with the trustee."
+                            ),
+                        }
+                    ]
+                ),
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    decision = batch.decisions[0]
+    assert batch.summary.approved_for_metric_use == 0
+    assert decision.metric_use_status == "blocked_pending_extraction"
+    assert "confirm lease obligation source" in decision.remaining_gap
+    assert "split aggregate disclosure" in decision.remaining_gap
+    assert decision.supported_amount_usd == 0
+
+
 def test_materiality_adjudication_dedupes_aggregate_snapshots_to_latest_metric(
     tmp_path: Path,
 ) -> None:
@@ -2435,6 +2497,120 @@ def test_materiality_adjudication_infers_counterparty_from_financing_role_varian
                     ]
                 ),
             },
+            {
+                "packet_id": "packet-borrower-agent",
+                "rank": 4,
+                "review_id": "review-borrower-agent",
+                "review_group_id": "group-borrower-agent",
+                "priority": "high",
+                "category": "capital",
+                "subcategory": "high_notional_debt_like_candidate",
+                "ecosystem_relevance": "watchlist_entity",
+                "entity": "Example Power Borrower, Inc.",
+                "counterparty": "",
+                "exposure_basis_usd": "2900000000",
+                "reason": (
+                    "pending adjudication status: pending; debt-like deal type: debt_facility; "
+                    "notional $2,900,000,000; notional context: transaction_principal; "
+                    "collateral terms present; guarantee scope present"
+                ),
+                "recommended_action": "Confirm administrative agent and lenders",
+                "source_uri": "https://www.sec.gov/example-borrower-agent.htm",
+                "source_uris": json.dumps(["https://www.sec.gov/example-borrower-agent.htm"]),
+                "content_hash": "d" * 64,
+                "content_hashes": json.dumps(["d" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/example-borrower-agent.htm",
+                            "content_hash": "d" * 64,
+                            "document_id": "example-borrower-agent.htm",
+                            "snippet": (
+                                "The Term Loan Credit Agreement was entered among "
+                                "Example Energy Supply, as borrower, JPMorgan Chase "
+                                "Bank, N.A., as administrative agent, and the lenders "
+                                "party thereto."
+                            ),
+                        }
+                    ]
+                ),
+            },
+            {
+                "packet_id": "packet-combined-agent-role",
+                "rank": 5,
+                "review_id": "review-combined-agent-role",
+                "review_group_id": "group-combined-agent-role",
+                "priority": "high",
+                "category": "capital",
+                "subcategory": "high_notional_debt_like_candidate",
+                "ecosystem_relevance": "watchlist_entity",
+                "entity": "Example Utility HoldCo, Inc.",
+                "counterparty": "",
+                "exposure_basis_usd": "1200000000",
+                "reason": (
+                    "pending adjudication status: pending; debt-like deal type: debt_facility; "
+                    "notional $1,200,000,000; notional context: transaction_principal; "
+                    "collateral terms present; guarantee scope present"
+                ),
+                "recommended_action": "Confirm combined agent role",
+                "source_uri": "https://www.sec.gov/example-combined-agent.htm",
+                "source_uris": json.dumps(["https://www.sec.gov/example-combined-agent.htm"]),
+                "content_hash": "e" * 64,
+                "content_hashes": json.dumps(["e" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/example-combined-agent.htm",
+                            "content_hash": "e" * 64,
+                            "document_id": "example-combined-agent.htm",
+                            "snippet": (
+                                "The amendment was entered among the borrower, the "
+                                "guarantors party thereto, Credit Suisse AG, Cayman "
+                                "Islands Branch, as administrative and collateral "
+                                "agent, and the other lenders party thereto."
+                            ),
+                        }
+                    ]
+                ),
+            },
+            {
+                "packet_id": "packet-no-with-underwriter-reps",
+                "rank": 6,
+                "review_id": "review-no-with-underwriter-reps",
+                "review_group_id": "group-no-with-underwriter-reps",
+                "priority": "high",
+                "category": "contract",
+                "subcategory": "contract_tranche_terms",
+                "ecosystem_relevance": "watchlist_entity",
+                "entity": "Example Notes Issuer II, Inc.",
+                "counterparty": "",
+                "exposure_basis_usd": "800000000",
+                "reason": (
+                    "pending contract tranche review; tranche: Senior Notes; "
+                    "notional $800,000,000; collateral terms present; guarantee scope present"
+                ),
+                "recommended_action": "Confirm underwriter representatives",
+                "source_uri": "https://www.sec.gov/example-no-with-underwriters.htm",
+                "source_uris": json.dumps(
+                    ["https://www.sec.gov/example-no-with-underwriters.htm"]
+                ),
+                "content_hash": "f" * 64,
+                "content_hashes": json.dumps(["f" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/example-no-with-underwriters.htm",
+                            "content_hash": "f" * 64,
+                            "document_id": "example-no-with-underwriters.htm",
+                            "snippet": (
+                                "PNC Capital Markets LLC, TD Securities (USA) LLC "
+                                "and Wells Fargo Securities, LLC, as representatives "
+                                "of the several underwriters listed in the agreement."
+                            ),
+                        }
+                    ]
+                ),
+            },
         ],
     )
 
@@ -2458,6 +2634,20 @@ def test_materiality_adjudication_infers_counterparty_from_financing_role_varian
         "packet-trustee-label"
     ].remaining_gap
     assert "U.S. Bank Trust Company" in decisions["packet-trustee-label"].risk_bearer
+    assert "extract named counterparty and role" not in decisions[
+        "packet-borrower-agent"
+    ].remaining_gap
+    assert "JPMorgan Chase Bank" in decisions["packet-borrower-agent"].risk_bearer
+    assert "extract named counterparty and role" not in decisions[
+        "packet-combined-agent-role"
+    ].remaining_gap
+    assert "Credit Suisse AG" in decisions["packet-combined-agent-role"].risk_bearer
+    assert "extract named counterparty and role" not in decisions[
+        "packet-no-with-underwriter-reps"
+    ].remaining_gap
+    assert "PNC Capital Markets LLC" in decisions[
+        "packet-no-with-underwriter-reps"
+    ].risk_bearer
 
 
 def test_write_materiality_adjudication_decisions(tmp_path: Path) -> None:

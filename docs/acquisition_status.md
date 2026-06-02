@@ -1,15 +1,15 @@
 # Acquisition Status
 
-Last updated: 2026-06-02 02:47 UTC.
+Last updated: 2026-06-02 03:04 UTC.
 
 This file is the operational snapshot for the current evidence corpus. Treat it
 as a run log, not as a final investment conclusion.
 
 ## Current Corpus
 
-- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0247.md`
+- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0304.md`
 - Evidence gate: not high-confidence final.
-- Source invariant audit: passed at 2026-06-02 02:45 UTC, 63 CSV files
+- Source invariant audit: passed at 2026-06-02 03:07 UTC, 63 CSV files
   and 9,208,844 rows scanned, 0 violations, 0 warnings.
 - Generated report assets are internal evidence artifacts; the user-facing
   deliverable remains a high-level chat summary once the evidence supports it.
@@ -17,7 +17,8 @@ as a run log, not as a final investment conclusion.
 - Latest source-catalog extracted rows: 4,878,655.
 - Covered filings: 197,243.
 - Raw source documents: 66,660.
-- Source-backed normalized/extracted entity rows: 7,691,307.
+- Source-backed normalized entities: 789,787 distinct entities from 1,397,581
+  source-backed mentions.
 - Expanded SEC CIK candidates: 2,356.
 - Projects: 17,226.
 - Source-backed deals: 62,952.
@@ -36,19 +37,20 @@ as a run log, not as a final investment conclusion.
   the packet set.
 - Automated materiality adjudication decisions: 6,699 decisions, 6,495 with
   resolved text quotes plus 204 row-context-backed decisions for non-text
-  sources, 4,322 supported as material blockers, 2,377 requiring deeper
-  extraction, 0 requiring source retrieval, and 2,736 source-backed rows
-  approved for metric use. Those approved rows total $11.896T as row-level
-  supported amounts and currently remain $11.894T after latest-snapshot metric
-  dedupe across 2,735 metric groups; they are not treated as individual
+  sources, 4,330 supported as material blockers, 2,369 requiring deeper
+  extraction, 0 requiring source retrieval, and 2,744 source-backed rows
+  approved for metric use. Those approved rows total $11.713T as row-level
+  supported amounts and currently remain $11.712T after latest-snapshot metric
+  dedupe across 2,743 metric groups; they are not treated as individual
   contracts unless contract terms are separately extracted.
 - Decision coverage over packaged blocker groups: 100.0%; unresolved decision
-  share remains 35.48% (still extraction-bound, not source-retrieval-bound).
+  share remains 35.36% (still extraction-bound, not source-retrieval-bound).
 - Top remaining decision gaps are now named counterparty role extraction
-  (1,375), collateral scope (822), recourse/guarantee scope (585), split
-  aggregate disclosure from committed obligations (193), missing underlying
+  (1,366), collateral scope (822), recourse/guarantee scope (585), split
+  aggregate disclosure from committed obligations (196), missing underlying
   term-level clauses (68), queue/permit/interconnection linkage (57), and
-  shelf-capacity-vs-committed-financing distinction (27).
+  shelf-capacity-vs-committed-financing distinction (27). Three rows now carry
+  an explicit debt-prospectus-vs-lease-obligation source conflict gap.
 
 ## Phase Transition Readiness
 
@@ -166,6 +168,12 @@ Ready now:
   (for example, cumulative “debt and equity investments” rollups and “contract
   value based on prevailing market rates”), and treats “maximum aggregate amount
   of those offerings” language as shelf-capacity context
+- aggregate lease-obligation rows now block metric use when the selected source
+  quote is debt-securities prospectus or indenture boilerplate without direct
+  lease-payment evidence
+- named financing-role inference now handles borrower-then-agent clauses,
+  combined administrative/collateral agent roles, and underwriter representative
+  lists without preserving lead-in prose as the counterparty name
 
 Must move next:
 
@@ -460,12 +468,12 @@ Adjudication queue:
 - Pending compute claim amount: $398.24B.
 - Materiality packets: 6,699 source-backed packets, 742 AI-infra relevant, and
   6,699 with local evidence snippets.
-- Materiality decisions: 4,322 source-supported blockers, 2,377 requiring
-  deeper extraction, 0 requiring source retrieval, and 2,736 rows approved
+- Materiality decisions: 4,330 source-supported blockers, 2,369 requiring
+  deeper extraction, 0 requiring source retrieval, and 2,744 rows approved
   for metric use (6,495 quote-backed decisions plus 204 row-context-backed
   decisions on non-text sources).
-- Automated row-level supported amount approved for metric use: $11.896T.
-- Deduped automated final metric support: $11.894T across 2,735 latest-snapshot
+- Automated row-level supported amount approved for metric use: $11.713T.
+- Deduped automated final metric support: $11.712T across 2,743 latest-snapshot
   metric groups.
 - Top unresolved gaps are named counterparty roles, collateral scope,
   recourse/guarantee scope, aggregate-to-committed splitting, and underlying

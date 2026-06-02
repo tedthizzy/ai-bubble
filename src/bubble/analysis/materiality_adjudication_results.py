@@ -243,6 +243,8 @@ def _remaining_gaps(packet: dict[str, str], quote: str) -> list[str]:
         gaps.append("local source quote not resolved")
     if _field(packet, "category") == "capital" and _looks_like_boilerplate(packet, quote):
         gaps.append("confirm final prospectus or underlying agreement terms")
+    if _aggregate_lease_context_conflicts_with_quote(packet, quote):
+        gaps.append("confirm lease obligation source rather than debt securities prospectus")
     if _requires_aggregate_split(packet, quote):
         gaps.append("split aggregate disclosure from specific committed obligation")
     if "preliminary prospectus" in text or "not complete and may be changed" in text:
@@ -697,11 +699,25 @@ def _inferred_counterparty_from_quote(quote: str) -> str:
 
 
 def _counterparty_from_named_role_patterns(quote: str) -> str:
+    agent_role = (
+        r"(?:(?:administrative|collateral|facility|syndication)"
+        r"(?:\s+and\s+(?:administrative|collateral|facility|syndication))?\s+)?agent"
+    )
+    financial_name = (
+        r"[A-Z][A-Za-z0-9 .,&'()/-]{2,180}?"
+        r"(?:Bank(?:,?\s*N\.A\.?)?|N\.A\.?|Securities(?:\s+LLC|,\s+LLC)?|"
+        r"Capital Markets LLC|Trust Company|National Association|"
+        r"AG(?:,\s+[A-Za-z ]+ Branch)?|PLC|LLC|Inc\.?|Corp(?:oration)?)"
+    )
+    underwriter_names = rf"{financial_name}(?:\s*(?:,|and)\s*{financial_name})*"
     patterns = [
-        r"\bwith\s+(?P<name>[^()]{2,260}?)\s*\(\s*(?:the\s+)?[\"'“”]?Commitment Parties[\"'“”]?\s*\)\s*,?\s*pursuant to which\b",
-        r"\bwith\s+(?P<name>[A-Z][A-Za-z0-9 .,&'/-]{2,220}?)\s*,?\s+(?:as|serving as)\s+(?:the\s+)?(?:(?:administrative|collateral|facility|syndication)\s+)?agent\b",
+        r"\b(?:commitment letter|debt commitment letter|financing commitment)\s+with\s+(?P<name>[^()]{2,260}?)\s*\(\s*(?:the\s+)?[\"'“”]?Commitment Parties[\"'“”]?\s*\)\s*,?\s*pursuant to which\b",
+        rf"\bamong\b[\s\S]{{2,360}}?\bas\s+borrower\s*,\s*(?P<name>{financial_name})\s*,\s*as\s+(?:the\s+)?{agent_role}\b",
+        rf"(?P<name>{financial_name})\s*,\s*as\s+(?:the\s+)?{agent_role}\b",
+        rf"\bwith\s+(?P<name>[A-Z][A-Za-z0-9 .,&'/-]{{2,220}}?)\s*,?\s+(?:as|serving as)\s+(?:the\s+)?{agent_role}\b",
         r"(?P<name>[A-Z][^.;]{2,220}?)\s+(?:served as|as)\s+(?:joint\s+)?(?:lead\s+)?(?:arrangers?|bookrunners?|placement agents?)\b",
         r"\bwith\s+(?P<name>[A-Z][^;]{2,320}?)\s*,?\s+as\s+representatives?\s+of\s+the\s+several\s+(?:underwriters|initial purchasers)\b",
+        rf"(?P<name>{underwriter_names})\s*,?\s+as\s+representatives?\s+of\s+the\s+several\s+(?:underwriters|initial purchasers)\b",
         r"(?P<name>[A-Z][^;]{2,320}?)\s*,?\s+acting\s+for\s+themselves\s+and\s+as\s+representatives?\s+of\s+the\s+several\s+underwriters\b",
         r"(?P<name>[A-Z][^.;]{2,260}?)\s+(?:are|were)\s+acting\s+as\s+joint\s+book-running\s+managers\b",
         r"\btrustee\s+(?P<name>[A-Z][A-Za-z0-9 .,&'/-]{2,180}(?:National Association|Trust Company|N\.A\.?|LLC|Inc\.?|Bank))\b",
@@ -731,7 +747,7 @@ def _counterparty_from_lenders_clause(quote: str) -> str:
 
 def _counterparty_from_agent_or_trustee_clause(quote: str) -> str:
     role_clause = re.search(
-        r"(?P<prefix>[^;]{2,320}?)\s*,\s*as\s+(?:the\s+)?(?:administrative|collateral|facility|syndication)\s+agent\b|(?P<prefix_trustee>[^;]{2,320}?)\s*,\s*as\s+(?:the\s+)?trustee\b",
+        r"(?P<prefix>[^;]{2,320}?)\s*,\s*as\s+(?:the\s+)?(?:(?:administrative|collateral|facility|syndication)(?:\s+and\s+(?:administrative|collateral|facility|syndication))?\s+)?agent\b|(?P<prefix_trustee>[^;]{2,320}?)\s*,\s*as\s+(?:the\s+)?trustee\b",
         quote,
         flags=re.IGNORECASE,
     )
@@ -756,6 +772,18 @@ def _counterparty_from_agent_or_trustee_clause(quote: str) -> str:
 
 def _normalize_counterparty_candidate(raw: str) -> str:
     candidate = _normalize(raw)
+    candidate = re.sub(
+        r"^.*\bamong\s+the\s+(?:company|issuer)\s+and\s+",
+        "",
+        candidate,
+        flags=re.IGNORECASE,
+    )
+    candidate = re.sub(
+        r"^.*\b(?:lenders|banks|guarantors|subsidiary guarantors)[^,;]{0,160}?\band\s+",
+        "",
+        candidate,
+        flags=re.IGNORECASE,
+    )
     candidate = re.sub(r"\s*,\s*as\s+.*$", "", candidate, flags=re.IGNORECASE)
     candidate = re.sub(
         r"\s*,?\s*acting\s+for\s+themselves\s+and\s+as\s+.*$",
@@ -1180,6 +1208,7 @@ def _has_financing_scope_evidence(text: str) -> bool:
 
 def _named_counterparty_role_markers() -> list[str]:
     return [
+        "administrative and collateral agent",
         "administrative agent",
         "collateral agent",
         "facility agent",
@@ -1379,7 +1408,9 @@ def _requires_aggregate_split(packet: dict[str, str], quote: str) -> bool:
         return False
     text = _combined_text(packet, quote)
     reason = _field(packet, "reason").lower()
-    if _looks_like_debt_outstanding_snapshot(text):
+    if _aggregate_lease_context_conflicts_with_quote(
+        packet, quote
+    ) or _looks_like_debt_outstanding_snapshot(text):
         return True
     explicit_specific_markers = [
         "commitment scope: specific_transaction_commitment",
@@ -1394,9 +1425,13 @@ def _requires_aggregate_split(packet: dict[str, str], quote: str) -> bool:
         "entered into",
         "repaid all outstanding obligations",
     ]
-    if _contains_any(reason, explicit_specific_markers):
-        return False
-    if _contains_any(text, ["tranche", "credit agreement", "term loan", "revolver", "indenture"]):
+    has_specific_terms = _contains_any(
+        reason, explicit_specific_markers
+    ) or _contains_any(
+        text,
+        ["tranche", "credit agreement", "term loan", "revolver", "indenture"],
+    )
+    if has_specific_terms:
         return False
 
     explicit_non_specific_markers = [
@@ -1412,9 +1447,7 @@ def _requires_aggregate_split(packet: dict[str, str], quote: str) -> bool:
         "may issue up to",
         "registration statement",
     ]
-    if _contains_any(text, explicit_non_specific_markers):
-        return True
-    return "aggregate" in text
+    return _contains_any(text, explicit_non_specific_markers) or "aggregate" in text
 
 
 def _looks_like_debt_outstanding_snapshot(text: str) -> bool:
@@ -1438,6 +1471,38 @@ def _looks_like_debt_outstanding_snapshot(text: str) -> bool:
             "total liabilities",
         ],
     )
+
+
+def _aggregate_lease_context_conflicts_with_quote(packet: dict[str, str], quote: str) -> bool:
+    reason = _field(packet, "reason").lower()
+    if "aggregate_lease_obligation" not in reason:
+        return False
+    quote_lower = quote.lower()
+    if not quote_lower:
+        return False
+    has_lease_evidence = _contains_any(
+        quote_lower,
+        [
+            "future lease payments",
+            "lease payments",
+            "operating lease obligations",
+            "finance lease obligations",
+            "entered into leases",
+            "leases primarily related to data centers",
+        ],
+    )
+    if has_lease_evidence:
+        return False
+    return _contains_any(
+        quote_lower,
+        [
+            "description of debt securities",
+            "we may offer secured or unsecured debt securities",
+            "debt securities and the indenture",
+            "series of debt securities",
+            "the notes were issued pursuant to an indenture",
+        ],
+    ) and _contains_any(quote_lower, ["indenture", "debt securities", "notes"])
 
 
 def _as_of_date(text: str) -> date | None:
