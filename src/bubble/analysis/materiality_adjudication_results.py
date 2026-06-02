@@ -33,13 +33,22 @@ MEGA_OBLIGATION_REVIEW_THRESHOLD_USD = 50_000_000_000
 DIRECT_AI_OPERATOR_ENTITY_MARKERS = (
     "applied digital",
     "american bitcoin",
+    "cerebras",
     "cleanspark",
     "coreweave",
     "hut 8",
     "iren",
     "mara holdings",
     "marathon digital",
+    "nebius",
     "terawulf",
+)
+DIRECT_AI_OPERATOR_CONTEXT_MARKERS = (
+    "coreweave",
+    "data center",
+    "data centers",
+    "galaxy helios",
+    "helios campus",
 )
 STRONG_COMMITTED_DEBT_RESELECTION_MARKERS = (
     "aggregate principal amount",
@@ -194,7 +203,7 @@ def _adjudicate_packet(
     source_support = _source_support(packet, quote, evidence_snippets)
     gaps = _remaining_gaps(packet, quote)
     duplicate_or_aggregate = _duplicate_or_aggregate(packet, quote)
-    ai_linkage = _ai_linkage(packet)
+    ai_linkage = _ai_linkage(packet, quote)
     decision = _decision(packet, quote, gaps, source_support)
     metric_use_status = _metric_use_status(packet, decision, gaps)
     confidence = _confidence(decision, source_support, gaps)
@@ -800,18 +809,21 @@ def _metric_amount_key(amount: float) -> str:
     return str(round(amount))
 
 
-def _ai_linkage(packet: dict[str, str]) -> str:
+def _ai_linkage(packet: dict[str, str], quote: str) -> str:
     relevance = _field(packet, "ecosystem_relevance")
-    if relevance == "direct_ai_infra":
-        return "direct"
-    if relevance == "physical_execution":
-        return "physical"
-    if relevance == "compute_economics":
-        return "compute"
-    if relevance == "watchlist_entity":
-        return "watchlist"
+    direct_relevance = {
+        "direct_ai_infra": "direct",
+        "physical_execution": "physical",
+        "compute_economics": "compute",
+    }.get(relevance)
+    if direct_relevance:
+        return direct_relevance
     if _is_direct_ai_operator_entity(_field(packet, "entity")):
         return "direct"
+    if _has_direct_ai_operator_context(packet, quote):
+        return "direct"
+    if relevance == "watchlist_entity":
+        return "watchlist"
     return "not_established"
 
 
@@ -819,6 +831,14 @@ def _is_direct_ai_operator_entity(entity: str) -> bool:
     normalized = re.sub(r"[^a-z0-9]+", " ", entity.lower()).strip()
     padded = f" {normalized} "
     return any(f" {marker} " in padded for marker in DIRECT_AI_OPERATOR_ENTITY_MARKERS)
+
+
+def _has_direct_ai_operator_context(packet: dict[str, str], quote: str) -> bool:
+    entity = _field(packet, "entity").lower()
+    if "galaxy digital" not in entity and "galaxy helios" not in entity:
+        return False
+    text = _combined_text(packet, quote).lower()
+    return _contains_any(text, list(DIRECT_AI_OPERATOR_CONTEXT_MARKERS))
 
 
 def _risk_bearer(packet: dict[str, str], quote: str, gaps: list[str]) -> str:

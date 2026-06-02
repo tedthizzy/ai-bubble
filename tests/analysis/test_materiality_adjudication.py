@@ -1460,6 +1460,229 @@ def test_materiality_adjudication_retags_clear_ai_operator_as_direct(
     assert decision.ai_data_center_linkage == "direct"
 
 
+def test_materiality_adjudication_upgrades_stale_watchlist_ai_operator_to_direct(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-nebius-direct-operator",
+                "rank": 1,
+                "review_id": "review-nebius-direct-operator",
+                "review_group_id": "group-nebius-direct-operator",
+                "priority": "high",
+                "category": "capital",
+                "subcategory": "high_notional_debt_like_candidate",
+                "ecosystem_relevance": "watchlist_entity",
+                "entity": "Nebius Group N.V.",
+                "counterparty": "noteholders",
+                "exposure_basis_usd": "3162500000",
+                "reason": (
+                    "debt-like deal type: bond; notional $3,162,500,000; "
+                    "notional context: transaction_principal; collateral terms present; "
+                    "guarantee scope present"
+                ),
+                "recommended_action": "Confirm metric linkage.",
+                "source_uri": "https://www.sec.gov/nebius-notes.htm",
+                "source_uris": json.dumps(["https://www.sec.gov/nebius-notes.htm"]),
+                "content_hash": "n" * 64,
+                "content_hashes": json.dumps(["n" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/nebius-notes.htm",
+                            "content_hash": "n" * 64,
+                            "document_id": "nebius-notes.htm",
+                            "snippet": (
+                                "Nebius Group issued $3,162,500,000 aggregate "
+                                "principal amount of convertible notes due 2032 "
+                                "under indentures with U.S. Bank Trust Company."
+                            ),
+                        }
+                    ]
+                ),
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    decision = batch.decisions[0]
+    assert decision.metric_use_status == "approved_for_metric_use"
+    assert decision.ai_data_center_linkage == "direct"
+
+
+def test_materiality_adjudication_retags_cerebras_operator_as_direct(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-cerebras-direct-operator",
+                "rank": 1,
+                "review_id": "review-cerebras-direct-operator",
+                "review_group_id": "group-cerebras-direct-operator",
+                "priority": "high",
+                "category": "capital",
+                "subcategory": "high_notional_debt_like_candidate",
+                "ecosystem_relevance": "not_tagged",
+                "entity": "Cerebras Systems Inc.",
+                "counterparty": "lenders",
+                "exposure_basis_usd": "5000000000",
+                "reason": (
+                    "debt-like deal type: credit_facility; notional $5,000,000,000; "
+                    "notional context: transaction_principal; collateral terms present; "
+                    "guarantee scope present"
+                ),
+                "recommended_action": "Confirm metric linkage.",
+                "source_uri": "https://www.sec.gov/cerebras-credit.htm",
+                "source_uris": json.dumps(["https://www.sec.gov/cerebras-credit.htm"]),
+                "content_hash": "e" * 64,
+                "content_hashes": json.dumps(["e" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/cerebras-credit.htm",
+                            "content_hash": "e" * 64,
+                            "document_id": "cerebras-credit.htm",
+                            "snippet": (
+                                "Cerebras Systems Inc., as borrower, entered into a "
+                                "$5.0 billion credit agreement with the lenders and "
+                                "Morgan Stanley Senior Funding as administrative agent."
+                            ),
+                        }
+                    ]
+                ),
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    decision = batch.decisions[0]
+    assert decision.metric_use_status == "approved_for_metric_use"
+    assert decision.ai_data_center_linkage == "direct"
+
+
+def test_materiality_adjudication_retags_galaxy_helios_context_as_direct(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-galaxy-helios-direct",
+                "rank": 1,
+                "review_id": "review-galaxy-helios-direct",
+                "review_group_id": "group-galaxy-helios-direct",
+                "priority": "high",
+                "category": "contract",
+                "subcategory": "contract_tranche_terms",
+                "ecosystem_relevance": "not_tagged",
+                "entity": "Galaxy Digital Inc.",
+                "counterparty": "Deutsche Bank AG",
+                "exposure_basis_usd": "1400000000",
+                "reason": (
+                    "pending contract tranche review; tranche: Debt facility; "
+                    "notional $1,400,000,000; maturity 2028-08-15; collateral terms present"
+                ),
+                "recommended_action": "Confirm metric linkage.",
+                "source_uri": "https://www.sec.gov/galaxy-helios-credit.htm",
+                "source_uris": json.dumps(["https://www.sec.gov/galaxy-helios-credit.htm"]),
+                "content_hash": "g" * 64,
+                "content_hashes": json.dumps(["g" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/galaxy-helios-credit.htm",
+                            "content_hash": "g" * 64,
+                            "document_id": "galaxy-helios-credit.htm",
+                            "snippet": (
+                                "Galaxy Helios I, as borrower, entered into a "
+                                "$1.4 billion senior secured term loan facility "
+                                "to finance development of the Helios data center campus."
+                            ),
+                        }
+                    ]
+                ),
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    decision = batch.decisions[0]
+    assert decision.metric_use_status == "approved_for_metric_use"
+    assert decision.ai_data_center_linkage == "direct"
+
+
+def test_materiality_adjudication_keeps_generic_galaxy_debt_not_established(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-galaxy-generic-debt",
+                "rank": 1,
+                "review_id": "review-galaxy-generic-debt",
+                "review_group_id": "group-galaxy-generic-debt",
+                "priority": "high",
+                "category": "capital",
+                "subcategory": "high_notional_debt_like_candidate",
+                "ecosystem_relevance": "not_tagged",
+                "entity": "Galaxy Digital Inc.",
+                "counterparty": "noteholders",
+                "exposure_basis_usd": "3427000000",
+                "reason": (
+                    "debt-like deal type: bond; notional $3,427,000,000; "
+                    "notional context: transaction_principal; collateral terms present; "
+                    "guarantee scope present"
+                ),
+                "recommended_action": "Confirm metric linkage.",
+                "source_uri": "https://www.sec.gov/galaxy-notes.htm",
+                "source_uris": json.dumps(["https://www.sec.gov/galaxy-notes.htm"]),
+                "content_hash": "h" * 64,
+                "content_hashes": json.dumps(["h" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/galaxy-notes.htm",
+                            "content_hash": "h" * 64,
+                            "document_id": "galaxy-notes.htm",
+                            "snippet": (
+                                "Galaxy Digital issued $3,427,000,000 aggregate "
+                                "principal amount of exchangeable senior notes due "
+                                "2031 for general corporate purposes."
+                            ),
+                        }
+                    ]
+                ),
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    decision = batch.decisions[0]
+    assert decision.metric_use_status == "approved_for_metric_use"
+    assert decision.ai_data_center_linkage == "not_established"
+
+
 def test_materiality_adjudication_keeps_indirect_utility_not_established(
     tmp_path: Path,
 ) -> None:

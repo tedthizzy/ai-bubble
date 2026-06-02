@@ -1,13 +1,13 @@
 # Acquisition Status
 
-Last updated: 2026-06-02 09:19 UTC.
+Last updated: 2026-06-02 09:28 UTC.
 
 This file is the operational snapshot for the current evidence corpus. Treat it
 as a run log, not as a final investment conclusion.
 
 ## Current Corpus
 
-- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0919.md`
+- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0928.md`
 - Evidence gate: not high-confidence final.
 - Evidence audit coverage: report-level audits now include analyzer-level
   capital, compute, and debt-service audits plus explicit row/artifact-backed
@@ -55,15 +55,18 @@ as a run log, not as a final investment conclusion.
   separately from the broader $4.365T materiality-adjudicated supported exposure
   metric so the two scopes are not read as inconsistent or directly additive.
 - The broader materiality metric is now split by adjudicated thesis linkage:
-  $0.465T has established direct/watchlist AI-data-center linkage ($0.178T
-  direct and $0.286T watchlist), while $3.901T, or 89.3%, is source-backed
+  $0.474T has established direct/watchlist AI-data-center linkage ($0.217T
+  direct and $0.258T watchlist), while $3.891T, or 89.1%, is source-backed
   but not yet established as AI/data-center-linked. The unlinked tail is a
   scope gap, not a final no-link conclusion.
   Clear AI/HPC/bitcoin data-center operators including IREN, CleanSpark,
-  American Bitcoin, MARA/Marathon, Hut 8, Applied Digital, CoreWeave, and
-  TeraWulf are normalized to direct linkage when entity tags are otherwise
-  blank or not established; indirect utility/telecom suppliers remain
-  not-established until a source-backed fractional scope rule is defined.
+  American Bitcoin, MARA/Marathon, Hut 8, Applied Digital, CoreWeave,
+  TeraWulf, Nebius, and Cerebras are normalized to direct linkage when entity
+  tags are otherwise blank, watchlist, or not established. Galaxy Digital rows
+  are normalized to direct only when the packet text itself names Galaxy Helios,
+  CoreWeave, or data-center context; generic Galaxy corporate notes remain
+  not-established. Indirect utility/telecom suppliers remain not-established
+  until a source-backed fractional scope rule is defined.
 - Semantic metric-validity gating now scans approved materiality rows as a
   separate source-text dimension: 2,782 approved rows classify as committed
   debt/obligation text, 142 remain indeterminate review candidates, and 0
@@ -561,14 +564,17 @@ Adjudication queue:
 - Deduped automated final metric support: $4.365T across 1,579 metric groups
   after source-instrument, latest-snapshot, and exact economic-obligation
   grouping.
-- Relevance split of that deduped final metric: $0.465T established
-  direct/watchlist AI-data-center linkage, including $0.178T direct and
-  $0.286T watchlist; $3.901T remains not-established for thesis linkage.
+- Relevance split of that deduped final metric: $0.474T established
+  direct/watchlist AI-data-center linkage, including $0.217T direct and
+  $0.258T watchlist; $3.891T / 89.1% remains not-established for thesis linkage.
 - Clear AI/HPC/bitcoin data-center operators including IREN, CleanSpark,
-  American Bitcoin, MARA/Marathon, Hut 8, Applied Digital, CoreWeave, and
-  TeraWulf are normalized to direct linkage when entity tags are otherwise
-  blank or not established; indirect utility/telecom suppliers remain
-  not-established until a source-backed fractional scope rule is defined.
+  American Bitcoin, MARA/Marathon, Hut 8, Applied Digital, CoreWeave,
+  TeraWulf, Nebius, and Cerebras are normalized to direct linkage when entity
+  tags are otherwise blank, watchlist, or not established. Galaxy Digital rows
+  are normalized to direct only when the packet text itself names Galaxy Helios,
+  CoreWeave, or data-center context; generic Galaxy corporate notes remain
+  not-established. Indirect utility/telecom suppliers remain not-established
+  until a source-backed fractional scope rule is defined.
 - Six HKD-denominated rows whose source text carries `HK$` face values now
   block on `convert non-USD notional to USD before metric use`; they are not
   carried as USD-supported metric amounts until the currency token and
