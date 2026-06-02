@@ -2724,6 +2724,251 @@ def test_materiality_adjudication_blocks_amount_bound_undrawn_revolver_capacity(
     assert decision.metric_use_status == "blocked_pending_extraction"
 
 
+def _single_capacity_decision(
+    tmp_path: Path,
+    *,
+    packet_id: str,
+    entity: str,
+    amount: int,
+    quote: str,
+    reason: str | None = None,
+    counterparty: str = "revolving lenders",
+) -> object:
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": packet_id,
+                "rank": 1,
+                "review_id": f"review-{packet_id}",
+                "review_group_id": f"group-{packet_id}",
+                "priority": "high",
+                "category": "capital",
+                "subcategory": "high_notional_debt_like_candidate",
+                "ecosystem_relevance": "watchlist_entity",
+                "entity": entity,
+                "counterparty": counterparty,
+                "exposure_basis_usd": str(amount),
+                "reason": reason
+                or (
+                    "pending adjudication status: pending; debt-like deal type: "
+                    f"debt_facility; notional ${amount:,.0f}; notional context: "
+                    "transaction_facility"
+                ),
+                "recommended_action": "Confirm amount binding",
+                "source_uri": f"https://www.sec.gov/{packet_id}.htm",
+                "source_uris": json.dumps([f"https://www.sec.gov/{packet_id}.htm"]),
+                "content_hash": "q" * 64,
+                "content_hashes": json.dumps(["q" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": f"https://www.sec.gov/{packet_id}.htm",
+                            "content_hash": "q" * 64,
+                            "document_id": f"{packet_id}.htm",
+                            "snippet": quote,
+                        }
+                    ]
+                ),
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+    return batch.decisions[0]
+
+
+def test_materiality_adjudication_blocks_consolidated_indebtedness_rollup(
+    tmp_path: Path,
+) -> None:
+    decision = _single_capacity_decision(
+        tmp_path,
+        packet_id="packet-consolidated-indebtedness-rollup",
+        entity="Equinix Inc.",
+        amount=18_100_000_000,
+        quote=(
+            "As of March 31, 2025, Equinix, Inc. had approximately "
+            "$18.1 billion of consolidated indebtedness, which included "
+            "finance lease liabilities, mortgage and loans payable and senior "
+            "notes. The company also had $3.9 billion available under its "
+            "revolving credit facility."
+        ),
+    )
+
+    assert (
+        "split asset, UPB, or financing-capacity disclosure from committed debt"
+        in decision.remaining_gap
+    )
+    assert decision.metric_use_status == "blocked_pending_extraction"
+
+
+def test_materiality_adjudication_blocks_available_borrowing_capacity(
+    tmp_path: Path,
+) -> None:
+    decision = _single_capacity_decision(
+        tmp_path,
+        packet_id="packet-available-borrowing-capacity",
+        entity="General Motors Co.",
+        amount=6_000_000_000,
+        quote=(
+            "The Facility is unsecured, provides available borrowing capacity "
+            "of $6.0 billion, and matures on October 1, 2024."
+        ),
+    )
+
+    assert (
+        "split asset, UPB, or financing-capacity disclosure from committed debt"
+        in decision.remaining_gap
+    )
+    assert decision.metric_use_status == "blocked_pending_extraction"
+
+
+def test_materiality_adjudication_blocks_covenant_basket_amount(
+    tmp_path: Path,
+) -> None:
+    decision = _single_capacity_decision(
+        tmp_path,
+        packet_id="packet-covenant-basket-amount",
+        entity="Advanced Micro Devices Inc.",
+        amount=1_250_000_000,
+        quote=(
+            "The notes are not at least equally and ratably secured would not "
+            "exceed the greater of (a) $1.25 billion and (b) 25% of our "
+            "Consolidated Net Tangible Assets."
+        ),
+    )
+
+    assert (
+        "split asset, UPB, or financing-capacity disclosure from committed debt"
+        in decision.remaining_gap
+    )
+    assert decision.metric_use_status == "blocked_pending_extraction"
+
+
+def test_materiality_adjudication_blocks_weak_quote_without_bound_amount(
+    tmp_path: Path,
+) -> None:
+    decision = _single_capacity_decision(
+        tmp_path,
+        packet_id="packet-weak-rate-grid-quote",
+        entity="General Motors Co.",
+        amount=1_000_000_000,
+        quote=(
+            "If not available, then the rating most recently in effect prior "
+            "to such change or cessation shall apply. Credit Agreement "
+            "Schedule 1.1C lists Applicable Margin, Facility Fee Rate and "
+            "Existing Liens."
+        ),
+    )
+
+    assert (
+        "split asset, UPB, or financing-capacity disclosure from committed debt"
+        in decision.remaining_gap
+    )
+    assert decision.metric_use_status == "blocked_pending_extraction"
+
+
+def test_materiality_adjudication_blocks_zero_draw_replacement_revolver(
+    tmp_path: Path,
+) -> None:
+    decision = _single_capacity_decision(
+        tmp_path,
+        packet_id="packet-zero-draw-replacement-revolver",
+        entity="Advanced Micro Devices Inc.",
+        amount=5_000_000_000,
+        quote=(
+            "The Credit Agreement provides for a five-year, $5.0 billion "
+            "unsecured revolving credit facility and replaces the Company's "
+            "existing Credit Agreement. As of the Closing Date, there are no "
+            "borrowings outstanding under the Revolving Facility."
+        ),
+    )
+
+    assert (
+        "split asset, UPB, or financing-capacity disclosure from committed debt"
+        in decision.remaining_gap
+    )
+    assert decision.metric_use_status == "blocked_pending_extraction"
+
+
+def test_materiality_adjudication_keeps_committed_bridge_and_revolver_controls(
+    tmp_path: Path,
+) -> None:
+    rows = []
+    for packet_id, entity, amount, quote in [
+        (
+            "packet-committed-bridge-control",
+            "Public Storage",
+            2_000_000_000,
+            "The Parent Commitment Parties committed to provide, subject to "
+            "the terms and conditions of the Parent Commitment Letter, up to "
+            "$2.0 billion of senior unsecured bridge loans.",
+        ),
+        (
+            "packet-committed-revolver-control",
+            "Wynn Resorts Ltd.",
+            2_500_000_000,
+            "We increased the borrowing capacity under the WM Cayman II "
+            "Revolver by an additional aggregate amount of $1.0 billion, "
+            "bringing the total committed amount to $2.5 billion equivalent.",
+        ),
+    ]:
+        rows.append(
+            {
+                "packet_id": packet_id,
+                "rank": len(rows) + 1,
+                "review_id": f"review-{packet_id}",
+                "review_group_id": f"group-{packet_id}",
+                "priority": "high",
+                "category": "capital",
+                "subcategory": "high_notional_debt_like_candidate",
+                "ecosystem_relevance": "watchlist_entity",
+                "entity": entity,
+                "counterparty": "commitment parties",
+                "exposure_basis_usd": str(amount),
+                "reason": (
+                    "pending adjudication status: pending; debt-like deal type: "
+                    f"debt_facility; notional ${amount:,.0f}; notional context: "
+                    "transaction_facility"
+                ),
+                "recommended_action": "Confirm amount binding",
+                "source_uri": f"https://www.sec.gov/{packet_id}.htm",
+                "source_uris": json.dumps([f"https://www.sec.gov/{packet_id}.htm"]),
+                "content_hash": "r" * 64,
+                "content_hashes": json.dumps(["r" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": f"https://www.sec.gov/{packet_id}.htm",
+                            "content_hash": "r" * 64,
+                            "document_id": f"{packet_id}.htm",
+                            "snippet": quote,
+                        }
+                    ]
+                ),
+            }
+        )
+    _write_csv(tmp_path / "reports" / "materiality_adjudication_packets.csv", rows)
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    decisions = {decision.packet_id: decision for decision in batch.decisions}
+    for decision in decisions.values():
+        assert (
+            "split asset, UPB, or financing-capacity disclosure from committed debt"
+            not in decision.remaining_gap
+        )
+    assert decisions["packet-committed-bridge-control"].metric_use_status == (
+        "approved_for_metric_use"
+    )
+
+
 def test_materiality_adjudication_does_not_block_underwriter_commitment_boilerplate(
     tmp_path: Path,
 ) -> None:

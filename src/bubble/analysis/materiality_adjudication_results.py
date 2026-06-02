@@ -2433,16 +2433,23 @@ def _looks_like_undrawn_capacity_not_debt(packet: dict[str, str], quote: str) ->
     if _is_source_backed_aggregate_obligation_snapshot(packet, quote):
         return False
     text = _combined_text(packet, quote).lower()
+    amount = _float(packet.get("exposure_basis_usd"))
+    if _amount_absent_from_quote(amount, quote) and _looks_like_weak_amount_binding_quote(
+        quote
+    ):
+        return True
     amount_clauses = _amount_bound_capacity_clauses(
-        text, _float(packet.get("exposure_basis_usd"))
+        text, amount
     )
     if amount_clauses:
-        return any(_amount_clause_is_undrawn_capacity(clause) for clause in amount_clauses)
-    if _is_underwriter_commitment_boilerplate(text):
-        return False
-    if _has_committed_debt_amount_markers(text):
-        return False
-    return _has_terminated_commitment_capacity(text)
+        has_capacity = any(_amount_clause_is_undrawn_capacity(clause) for clause in amount_clauses)
+    elif _is_underwriter_commitment_boilerplate(text) or _has_committed_debt_amount_markers(
+        text
+    ):
+        has_capacity = False
+    else:
+        has_capacity = _has_terminated_commitment_capacity(text)
+    return has_capacity
 
 
 def _requires_malformed_amount_grouping_reselection(
@@ -2543,11 +2550,16 @@ def _amount_clause_is_undrawn_capacity(clause: str) -> bool:
     bridge_capacity = _contains_any(
         amount_part, ["bridge loan facility", "bridge facility"]
     ) and _contains_any(lowered, ["terminated", "reduced to zero", "reduced to z"])
-    if bridge_capacity:
+    if (
+        bridge_capacity
+        or _amount_part_is_balance_sheet_debt_rollup(lowered)
+        or _amount_part_is_covenant_basket(lowered)
+        or _amount_part_is_revolver_zero_draw_or_replacement_capacity(amount_part, lowered)
+    ):
         return True
-    if _amount_part_has_committed_debt_markers(amount_part):
-        return False
-    if _is_underwriter_commitment_boilerplate(lowered):
+    if _amount_part_has_committed_debt_markers(
+        amount_part
+    ) or _is_underwriter_commitment_boilerplate(lowered):
         return False
     direct_capacity = _contains_any(
         amount_part,
@@ -2555,6 +2567,10 @@ def _amount_clause_is_undrawn_capacity(clause: str) -> bool:
             "commitments available",
             "availability under",
             "available under",
+            "available borrowing capacity",
+            "borrowing capacity of",
+            "provides available borrowing capacity",
+            "made available to",
         ],
     )
     revolver_capacity = _contains_any(
@@ -2569,7 +2585,9 @@ def _amount_clause_is_undrawn_capacity(clause: str) -> bool:
             "commitments available",
             "availability under",
             "available under",
+            "outstanding borrowings totaling",
             "borrowing availability",
+            "replaces the company's existing credit agreement",
         ],
     )
     free_capacity = _contains_any(
@@ -2589,11 +2607,95 @@ def _amount_clause_is_undrawn_capacity(clause: str) -> bool:
     )
 
 
+def _amount_part_is_revolver_zero_draw_or_replacement_capacity(
+    amount_part: str,
+    clause: str,
+) -> bool:
+    return _contains_any(
+        amount_part,
+        ["revolving credit agreement", "revolving credit facility", "revolver"],
+    ) and _contains_any(
+        clause,
+        [
+            "no borrowings",
+            "no borrowings outstanding",
+            "replaces the company's existing credit agreement",
+            "replaces the company s existing credit agreement",
+        ],
+    )
+
+
+def _amount_absent_from_quote(amount: float, quote: str) -> bool:
+    if amount <= 0 or not quote:
+        return False
+    return not any(
+        _amounts_close(amount, quote_amount, tolerance=0.02)
+        for quote_amount in _usd_nominal_amounts(quote)
+    )
+
+
+def _looks_like_weak_amount_binding_quote(quote: str) -> bool:
+    lowered = quote.lower()
+    if _has_committed_debt_amount_markers(lowered):
+        return False
+    return _contains_any(
+        lowered,
+        [
+            "if not available",
+            "rating most recently in effect",
+            "applicable margin",
+            "facility fee rate",
+            "existing liens",
+            "schedule 1.1",
+            "negative pledge",
+        ],
+    )
+
+
+def _amount_part_is_balance_sheet_debt_rollup(text: str) -> bool:
+    return _contains_any(
+        text,
+        [
+            "consolidated indebtedness",
+            "total indebtedness",
+            "aggregate indebtedness",
+            "total consolidated long-term debt",
+        ],
+    ) and _contains_any(
+        text,
+        [
+            "which included",
+            "included finance lease",
+            "finance lease liabilities",
+            "mortgage and loans payable",
+            "loans payable",
+            "senior notes",
+        ],
+    )
+
+
+def _amount_part_is_covenant_basket(text: str) -> bool:
+    return (
+        "greater of" in text
+        and "% of" in text
+        and _contains_any(
+            text,
+            [
+                "consolidated net tangible assets",
+                "total assets",
+                "net worth",
+            ],
+        )
+    )
+
+
 def _amount_part_has_committed_debt_markers(text: str) -> bool:
     return _contains_any(
         text,
         [
             "aggregate principal amount",
+            "committed amount",
+            "total committed amount",
             "existing senior unsecured notes",
             "existing senior secured notes",
             "senior unsecured notes",
