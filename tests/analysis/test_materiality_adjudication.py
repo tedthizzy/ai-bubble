@@ -3001,6 +3001,163 @@ def test_materiality_adjudication_dedupes_same_obligation_with_varied_filing_wor
     assert len({decision.metric_group_id for decision in batch.decisions}) == 3
 
 
+def test_materiality_adjudication_dedupes_strict_cross_filing_note_repeat(
+    tmp_path: Path,
+) -> None:
+    rows = []
+    for rank, accession, counterparty, quote in [
+        (
+            1,
+            "000000000000000101",
+            "underwriters",
+            "Example Notes Corp. entered into an underwriting agreement for "
+            "$1.25 billion aggregate principal amount of its 5.150% senior "
+            "notes due 2034.",
+        ),
+        (
+            2,
+            "000000000000000102",
+            "trustee",
+            "The indenture governs Example Notes Corp.'s $1.25 billion "
+            "aggregate principal amount of 5.150% senior notes due 2034.",
+        ),
+    ]:
+        uri = f"https://www.sec.gov/Archives/edgar/data/1234/{accession}/notes-{rank}.htm"
+        rows.append(
+            {
+                "packet_id": f"packet-strict-cross-filing-{rank}",
+                "rank": rank,
+                "review_id": f"review-strict-cross-filing-{rank}",
+                "review_group_id": f"group-strict-cross-filing-{rank}",
+                "priority": "high",
+                "category": "capital",
+                "subcategory": "contract_tranche_terms",
+                "ecosystem_relevance": "watchlist_entity",
+                "entity": "Example Notes Corp.",
+                "counterparty": counterparty,
+                "exposure_basis_usd": "1250000000",
+                "reason": (
+                    "debt-like deal type: bond; notional $1,250,000,000; "
+                    "notional context: transaction_principal; collateral terms present; "
+                    "guarantee scope present"
+                ),
+                "recommended_action": "Confirm repeated cross-filing note disclosure",
+                "source_uri": uri,
+                "source_uris": json.dumps([uri]),
+                "content_hash": str(rank) * 64,
+                "content_hashes": json.dumps([str(rank) * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": uri,
+                            "content_hash": str(rank) * 64,
+                            "document_id": f"notes-{rank}.htm",
+                            "snippet": quote,
+                        }
+                    ]
+                ),
+            }
+        )
+    _write_csv(tmp_path / "reports" / "materiality_adjudication_packets.csv", rows)
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    assert batch.summary.approved_for_metric_use == 2
+    assert batch.summary.approved_row_supported_amount_usd == 2_500_000_000
+    assert batch.summary.final_metric_supported_amount_usd == 1_250_000_000
+    assert batch.summary.final_metric_group_count == 1
+    assert len({decision.metric_group_id for decision in batch.decisions}) == 2
+
+
+def test_materiality_adjudication_keeps_cross_filing_rows_without_coupon_and_year_match(
+    tmp_path: Path,
+) -> None:
+    rows = []
+    fixtures = [
+        (
+            1,
+            "000000000000000201",
+            "underwriters",
+            "Example Split Corp. priced $1.8 billion aggregate principal amount "
+            "of 7.000% senior notes due 2031.",
+        ),
+        (
+            2,
+            "000000000000000202",
+            "trustee",
+            "Example Split Corp. commenced an offer involving $1.8 billion "
+            "aggregate principal amount of 5.000% senior notes due 2031.",
+        ),
+        (
+            3,
+            "000000000000000301",
+            "administrative agent",
+            "Example Coupon Corp. issued $2.0 billion aggregate principal amount "
+            "of 6.000% senior notes due 2033.",
+        ),
+        (
+            4,
+            "000000000000000302",
+            "noteholders",
+            "Example Coupon Corp. issued another $2.0 billion aggregate principal "
+            "amount of 6.000% senior notes due 2035.",
+        ),
+    ]
+    for rank, accession, counterparty, quote in fixtures:
+        amount = "1800000000" if rank <= 2 else "2000000000"
+        entity = "Example Split Corp." if rank <= 2 else "Example Coupon Corp."
+        uri = f"https://www.sec.gov/Archives/edgar/data/1234/{accession}/negative-{rank}.htm"
+        rows.append(
+            {
+                "packet_id": f"packet-cross-filing-negative-{rank}",
+                "rank": rank,
+                "review_id": f"review-cross-filing-negative-{rank}",
+                "review_group_id": f"group-cross-filing-negative-{rank}",
+                "priority": "high",
+                "category": "capital",
+                "subcategory": "contract_tranche_terms",
+                "ecosystem_relevance": "watchlist_entity",
+                "entity": entity,
+                "counterparty": counterparty,
+                "exposure_basis_usd": amount,
+                "reason": (
+                    f"debt-like deal type: bond; notional ${int(amount):,}; "
+                    "notional context: transaction_principal; collateral terms present; "
+                    "guarantee scope present"
+                ),
+                "recommended_action": "Keep distinct cross-filing notes separate",
+                "source_uri": uri,
+                "source_uris": json.dumps([uri]),
+                "content_hash": str(rank + 4) * 64,
+                "content_hashes": json.dumps([str(rank + 4) * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": uri,
+                            "content_hash": str(rank + 4) * 64,
+                            "document_id": f"negative-{rank}.htm",
+                            "snippet": quote,
+                        }
+                    ]
+                ),
+            }
+        )
+    _write_csv(tmp_path / "reports" / "materiality_adjudication_packets.csv", rows)
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    assert batch.summary.approved_for_metric_use == 4
+    assert batch.summary.approved_row_supported_amount_usd == 7_600_000_000
+    assert batch.summary.final_metric_supported_amount_usd == 7_600_000_000
+    assert batch.summary.final_metric_group_count == 4
+
+
 def test_materiality_adjudication_dedupes_source_instrument_and_snapshot_overlap(
     tmp_path: Path,
 ) -> None:

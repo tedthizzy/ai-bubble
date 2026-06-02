@@ -1910,10 +1910,11 @@ def _final_metric_representative_decisions(
         representatives,
         key_fn=_economic_obligation_metric_dedupe_key,
     )
-    return _collapse_metric_representatives(
+    representatives = _collapse_metric_representatives(
         representatives,
         key_fn=_accession_amount_metric_dedupe_key,
     )
+    return _collapse_cross_filing_instrument_representatives(representatives)
 
 
 def _collapse_metric_representatives(
@@ -2001,6 +2002,71 @@ def _accession_amount_metric_dedupe_key(
     if not entity_key or not amount_key or amount_key == "0" or not accession:
         return None
     return "accession-amount", (entity_key, accession), amount_key
+
+
+_INSTRUMENT_DESCRIPTOR_RE = re.compile(r"(\d{1,2}\.\d{2,3})\s?%|due (\d{4})", re.I)
+_ENTITY_SUFFIX_RE = re.compile(
+    r"\b(holdco|landco|opco|computeco|hpc holdings|eln-?\d+|far-?\d+|spv|borrower|holdings|llc"
+    r"|inc|corp|co|l\.?p\.?|ltd|plc|finance|funding|trust|series \w+)\b",
+    re.I,
+)
+
+
+def _entity_root_key(entity: str) -> str:
+    stripped = _ENTITY_SUFFIX_RE.sub("", entity.lower())
+    return re.sub(r"[^a-z0-9]", "", stripped)[:12]
+
+
+def _instrument_descriptor_tokens(quote: str) -> frozenset[str]:
+    tokens: set[str] = set()
+    for coupon, year in _INSTRUMENT_DESCRIPTOR_RE.findall(quote or ""):
+        if coupon:
+            tokens.add(f"c{coupon}")
+        if year:
+            tokens.add(f"y{year}")
+    return frozenset(tokens)
+
+
+def _has_strict_common_instrument_fingerprint(
+    descriptors: list[frozenset[str]],
+) -> bool:
+    if not descriptors or not all(descriptors):
+        return False
+    common = set.intersection(*(set(descriptor) for descriptor in descriptors))
+    return any(token.startswith("c") for token in common) and any(
+        token.startswith("y") for token in common
+    )
+
+
+def _collapse_cross_filing_instrument_representatives(
+    representatives: list[MaterialityAdjudicationDecision],
+) -> list[MaterialityAdjudicationDecision]:
+    keyed: dict[tuple[str, str], list[MaterialityAdjudicationDecision]] = {}
+    unkeyed: list[MaterialityAdjudicationDecision] = []
+    for decision in representatives:
+        if decision.metric_aggregation_policy != "max_amount_per_source_instrument":
+            unkeyed.append(decision)
+            continue
+        entity_key = _entity_root_key(decision.entity)
+        amount_key = _metric_amount_key(decision.supported_amount_usd)
+        accession = _sec_accession(decision.source_uri)
+        if not entity_key or not amount_key or amount_key == "0" or not accession:
+            unkeyed.append(decision)
+            continue
+        keyed.setdefault((entity_key, amount_key), []).append(decision)
+
+    collapsed: list[MaterialityAdjudicationDecision] = []
+    for decisions in keyed.values():
+        accessions = {_sec_accession(decision.source_uri) for decision in decisions}
+        descriptors = [
+            _instrument_descriptor_tokens(decision.metric_dedupe_quote or decision.evidence_quote)
+            for decision in decisions
+        ]
+        if len(accessions) > 1 and _has_strict_common_instrument_fingerprint(descriptors):
+            collapsed.append(max(decisions, key=_metric_representative_sort_key))
+        else:
+            collapsed.extend(decisions)
+    return [*unkeyed, *collapsed]
 
 
 def _normalized_quote_fingerprint(quote: str) -> str:
