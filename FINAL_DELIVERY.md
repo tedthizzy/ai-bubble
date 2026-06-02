@@ -98,7 +98,9 @@ Latest capital and timing outputs:
   fixture CSVs identify exact PUC/IRP/rate-case/large-load tariff targets for
   Georgia Power, Entergy Louisiana, FPL/NextEra, Xcel Colorado, Xcel Minnesota,
   and NextEra/Google data-center energy development. These are acquisition
-  targets only; they do not yet quantify ratepayer exposure.
+  targets only; they do not yet quantify ratepayer exposure. A deterministic
+  `bubble.ingestion.regulatory.extract_ratepayer_terms` helper now extracts the
+  first comparable term evidence from acquired PUC/IRP text.
 - Broader materiality-adjudicated supported exposure: $3.742T across 1,380
   metric groups; this is a different scope from the curated capital-structure
   deal-graph debt-like metric above, not an additive increment.

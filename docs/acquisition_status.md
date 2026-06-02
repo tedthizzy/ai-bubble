@@ -119,6 +119,16 @@ as a run log, not as a final investment conclusion.
   E022/M-25-289, and NextEra/Google multi-GW data-center campus development.
   These source targets are acquisition scope only; they do not quantify
   ratepayer exposure until docket/tariff/order extraction is run.
+- A first deterministic extraction schema now exists for acquired
+  utility/ratepayer regulatory text:
+  `bubble.ingestion.regulatory.extract_ratepayer_terms`. It extracts MW
+  thresholds and load-growth amounts, minimum contract terms, take-or-pay
+  percentages, exit-fee percentages, load-factor percentages, incremental
+  generation charges, dedicated-infrastructure cost-recovery language,
+  ratepayer-subsidy risk/protection language, separate-customer-class terms,
+  bring-your-own-generation directives, and data-center load-driver flags. This
+  makes the PUC/IRP target pack machine-checkable once acquired, but still does
+  not decide final ratepayer exposure.
 - The broader materiality metric is now split by adjudicated thesis linkage:
   $0.440T has established direct/watchlist AI-data-center linkage, while
   88.9% is source-backed but not yet established as AI/data-center-linked.
