@@ -139,6 +139,12 @@ Latest capital and timing outputs:
   report now exposes blocked comparator counts across GPU depreciation, TAM,
   payback, EPS, and chip supply so the compute layer cannot mistake missing
   inputs for no stress.
+- Debt-service term cards now have a deterministic normalizer:
+  `bubble.ingestion.compute.normalize_debt_service_card_rows` and
+  `scripts/normalize_debt_service_cards.py`. It turns long-form source cards
+  into facility-level rows with maturity, rate/spread/coupon, undrawn fee,
+  collateral, recourse, covenants, and verification status, while keeping
+  press-only facilities out of primary-verified DSCR/timing coverage.
 - A deterministic physical-execution extractor now exists at
   `bubble.ingestion.physical.extract_physical_execution_terms`, turning acquired
   permit/PUC/source text into normalized evidence rows for on-site generation,

@@ -199,6 +199,14 @@ as a run log, not as a final investment conclusion.
   payback conclusions can be made. The report now carries explicit blocked
   compute-economics counts so missing comparators are not silently reported as
   clean.
+- A deterministic debt-service card normalizer now exists at
+  `bubble.ingestion.compute.normalize_debt_service_card_rows`, with CLI
+  `scripts/normalize_debt_service_cards.py`. It converts long-form
+  source-backed cards for direct-tier AI/data-center borrowers into one row per
+  facility with parsed maturity, floating spread/fixed coupon, undrawn fee,
+  collateral, recourse, covenants, source tier, and verification status. This
+  supports DSCR/timing coverage work without changing committed-debt metric
+  totals; press-only facilities remain explicitly unverified.
 - A deterministic physical-execution extractor now exists at
   `bubble.ingestion.physical.extract_physical_execution_terms`. It normalizes
   acquired permit/PUC/source text into machine-checkable physical execution
