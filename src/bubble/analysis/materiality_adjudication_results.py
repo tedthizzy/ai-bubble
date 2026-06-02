@@ -1201,9 +1201,7 @@ def _looks_like_resale_registration_not_committed_debt(
     text = _combined_text(packet, quote)
     if not _has_resale_registration_markers(text):
         return False
-    return not (
-        _has_primary_note_offering_markers(text) or _has_lender_facility_markers(text)
-    )
+    return not (_has_primary_note_offering_markers(text) or _has_lender_facility_markers(text))
 
 
 def _has_resale_registration_markers(text: str) -> bool:
@@ -1782,9 +1780,7 @@ def _replace_decision_quote_disposition(
     decision_status = _decision(packet, quote, gaps, source_support)
     metric_use_status = _metric_use_status(packet, decision_status, gaps)
     exposure_basis = _float(packet.get("exposure_basis_usd"))
-    supported_amount = (
-        exposure_basis if metric_use_status == "approved_for_metric_use" else 0.0
-    )
+    supported_amount = exposure_basis if metric_use_status == "approved_for_metric_use" else 0.0
     metric_group_id = (
         decision.metric_group_id
         if metric_use_status == decision.metric_use_status == "approved_for_metric_use"
@@ -2058,6 +2054,7 @@ def _final_metric_representative_decisions(
         representatives,
         key_fn=_accession_amount_metric_dedupe_key,
     )
+    representatives = _collapse_content_hash_quote_collision_representatives(representatives)
     return _collapse_cross_filing_instrument_representatives(representatives)
 
 
@@ -2146,6 +2143,48 @@ def _accession_amount_metric_dedupe_key(
     if not entity_key or not amount_key or amount_key == "0" or not accession:
         return None
     return "accession-amount", (entity_key, accession), amount_key
+
+
+def _collapse_content_hash_quote_collision_representatives(
+    representatives: list[MaterialityAdjudicationDecision],
+) -> list[MaterialityAdjudicationDecision]:
+    grouped: dict[
+        tuple[str, tuple[str, ...], str],
+        list[MaterialityAdjudicationDecision],
+    ] = {}
+    unkeyed: list[MaterialityAdjudicationDecision] = []
+    for decision in representatives:
+        dedupe_key = _content_hash_metric_quote_collision_key(decision)
+        if not dedupe_key:
+            unkeyed.append(decision)
+            continue
+        grouped.setdefault(dedupe_key, []).append(decision)
+
+    collapsed: list[MaterialityAdjudicationDecision] = []
+    for decisions in grouped.values():
+        evidence_quote_keys = {
+            _normalized_quote_fingerprint(decision.evidence_quote) for decision in decisions
+        }
+        if len(decisions) > 1 and len(evidence_quote_keys) == 1 and "" not in evidence_quote_keys:
+            collapsed.append(max(decisions, key=_metric_representative_sort_key))
+        else:
+            collapsed.extend(decisions)
+    return [*unkeyed, *collapsed]
+
+
+def _content_hash_metric_quote_collision_key(
+    decision: MaterialityAdjudicationDecision,
+) -> tuple[str, tuple[str, ...], str] | None:
+    if decision.metric_aggregation_policy != "max_amount_per_source_instrument":
+        return None
+    entity_key = re.sub(r"[^a-z0-9]+", "-", decision.entity.lower()).strip("-")
+    hashes = tuple(sorted(hash_value for hash_value in decision.content_hashes if hash_value))
+    if not hashes and decision.content_hash:
+        hashes = (decision.content_hash,)
+    metric_quote_key = _normalized_quote_fingerprint(decision.metric_dedupe_quote)
+    if not entity_key or not hashes or not metric_quote_key:
+        return None
+    return "content-hash-quote-collision", (entity_key, *hashes), metric_quote_key
 
 
 _INSTRUMENT_DESCRIPTOR_RE = re.compile(r"(\d{1,2}\.\d{2,3})\s?%|due (\d{4})", re.I)
@@ -2399,9 +2438,7 @@ def _looks_like_rollup_or_unbound_amount_context(
         ["schedule", "senior unsecured notes", "letters of credit"],
     )
     comprised_of_rollup = (
-        "totaled" in text
-        and "comprised of" in text
-        and len(_usd_nominal_amounts(text)) >= 3
+        "totaled" in text and "comprised of" in text and len(_usd_nominal_amounts(text)) >= 3
     )
     amount_unbound_rollup = _amount_absent_from_quote(amount, quote) and _contains_any(
         text,
@@ -2414,12 +2451,7 @@ def _looks_like_rollup_or_unbound_amount_context(
             "governing law the notes and the indentures",
         ],
     )
-    return (
-        direct_rollup
-        or debt_schedule_rollup
-        or comprised_of_rollup
-        or amount_unbound_rollup
-    )
+    return direct_rollup or debt_schedule_rollup or comprised_of_rollup or amount_unbound_rollup
 
 
 def _looks_like_non_committed_semantic_disclosure(
@@ -2461,9 +2493,7 @@ def _looks_like_non_committed_semantic_disclosure(
 
     amount = _float(packet.get("exposure_basis_usd"))
     source_text = (
-        _combined_local_sec_source_text(packet)
-        if _amount_absent_from_quote(amount, quote)
-        else ""
+        _combined_local_sec_source_text(packet) if _amount_absent_from_quote(amount, quote) else ""
     )
     if source_text:
         source_false_positive_pairs = [
@@ -2561,18 +2591,12 @@ def _looks_like_undrawn_capacity_not_debt(packet: dict[str, str], quote: str) ->
         return False
     text = _combined_text(packet, quote).lower()
     amount = _float(packet.get("exposure_basis_usd"))
-    if _amount_absent_from_quote(amount, quote) and _looks_like_weak_amount_binding_quote(
-        quote
-    ):
+    if _amount_absent_from_quote(amount, quote) and _looks_like_weak_amount_binding_quote(quote):
         return True
-    amount_clauses = _amount_bound_capacity_clauses(
-        text, amount
-    )
+    amount_clauses = _amount_bound_capacity_clauses(text, amount)
     if amount_clauses:
         has_capacity = any(_amount_clause_is_undrawn_capacity(clause) for clause in amount_clauses)
-    elif _is_underwriter_commitment_boilerplate(text) or _has_committed_debt_amount_markers(
-        text
-    ):
+    elif _is_underwriter_commitment_boilerplate(text) or _has_committed_debt_amount_markers(text):
         has_capacity = False
     else:
         has_capacity = _has_terminated_commitment_capacity(text)
@@ -2589,9 +2613,7 @@ def _requires_malformed_amount_grouping_reselection(
     texts = [_combined_text(packet, quote)]
     source_uris = _json_list(packet.get("source_uris")) or [_field(packet, "source_uri")]
     texts.extend(
-        text
-        for uri in source_uris
-        if (text := _local_sec_source_text(uri, str(Path.cwd())))
+        text for uri in source_uris if (text := _local_sec_source_text(uri, str(Path.cwd())))
     )
     for text in texts:
         for match in re.finditer(r"\$\s*(?P<head>\d{4,})(?P<tail>(?:,\d{3})+)", text):
@@ -2853,9 +2875,8 @@ def _has_committed_debt_amount_markers(text: str) -> bool:
 
 
 def _has_terminated_commitment_capacity(text: str) -> bool:
-    return (
-        _contains_any(text, ["terminated", "reduced to zero", "reduced to z"])
-        and _contains_any(text, ["commitment", "commitments", "bridge facility"])
+    return _contains_any(text, ["terminated", "reduced to zero", "reduced to z"]) and _contains_any(
+        text, ["commitment", "commitments", "bridge facility"]
     )
 
 

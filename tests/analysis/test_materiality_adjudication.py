@@ -3495,6 +3495,66 @@ def test_materiality_adjudication_dedupes_same_accession_amount_metric_rows(
     assert len({decision.metric_group_id for decision in batch.decisions}) == 2
 
 
+def test_materiality_adjudication_dedupes_same_content_hash_quote_collision(
+    tmp_path: Path,
+) -> None:
+    source_uri = "https://www.sec.gov/Archives/edgar/data/1234/000000000125000001/ex991.htm"
+    quote = (
+        "Example Issuer announced the final results of its exchange offer for senior secured "
+        "notes and described the same indenture, trustee, guarantees, collateral terms, and "
+        "outstanding notes in each extraction from the same filed source document."
+    )
+    rows = []
+    for rank, amount in [(1, 8_000_000_000), (2, 3_000_000_000)]:
+        rows.append(
+            {
+                "packet_id": f"packet-content-collision-{rank}",
+                "rank": rank,
+                "review_id": f"review-content-collision-{rank}",
+                "review_group_id": f"group-content-collision-{rank}",
+                "priority": "high",
+                "category": "capital",
+                "subcategory": "high_notional_debt_like_candidate",
+                "ecosystem_relevance": "not_established",
+                "entity": "Example Issuer",
+                "counterparty": "Example Trustee",
+                "exposure_basis_usd": str(amount),
+                "reason": (
+                    f"debt-like deal type: bond; notional ${amount:,}; "
+                    "notional context: transaction_principal; collateral terms present; "
+                    "guarantee scope present"
+                ),
+                "recommended_action": "Confirm content-hash quote collision",
+                "source_uri": source_uri,
+                "source_uris": json.dumps([source_uri]),
+                "content_hash": "n" * 64,
+                "content_hashes": json.dumps(["n" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": source_uri,
+                            "content_hash": "n" * 64,
+                            "document_id": "ex991.htm",
+                            "snippet": quote,
+                        }
+                    ]
+                ),
+            }
+        )
+    _write_csv(tmp_path / "reports" / "materiality_adjudication_packets.csv", rows)
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    assert batch.summary.approved_for_metric_use == 2
+    assert batch.summary.approved_row_supported_amount_usd == 11_000_000_000
+    assert batch.summary.final_metric_supported_amount_usd == 8_000_000_000
+    assert batch.summary.final_metric_group_count == 1
+    assert len({decision.metric_group_id for decision in batch.decisions}) == 2
+
+
 def test_materiality_adjudication_keeps_same_amount_across_accessions(
     tmp_path: Path,
 ) -> None:
@@ -5894,17 +5954,13 @@ def test_materiality_adjudication_blocks_resale_registration_metric_use(
                 ),
                 "recommended_action": "Confirm final offering terms",
                 "source_uri": "https://www.sec.gov/example-resale-registration.htm",
-                "source_uris": json.dumps(
-                    ["https://www.sec.gov/example-resale-registration.htm"]
-                ),
+                "source_uris": json.dumps(["https://www.sec.gov/example-resale-registration.htm"]),
                 "content_hash": "d" * 64,
                 "content_hashes": json.dumps(["d" * 64]),
                 "evidence_snippets": json.dumps(
                     [
                         {
-                            "source_uri": (
-                                "https://www.sec.gov/example-resale-registration.htm"
-                            ),
+                            "source_uri": ("https://www.sec.gov/example-resale-registration.htm"),
                             "content_hash": "d" * 64,
                             "document_id": "example-resale-registration.htm",
                             "snippet": (
@@ -5925,10 +5981,7 @@ def test_materiality_adjudication_blocks_resale_registration_metric_use(
     )
     decision = batch.decisions[0]
     assert decision.decision == "needs_deeper_extraction"
-    assert (
-        "distinguish resale registration from committed financing"
-        in decision.remaining_gap
-    )
+    assert "distinguish resale registration from committed financing" in decision.remaining_gap
     assert decision.metric_use_status == "blocked_pending_extraction"
 
 
@@ -6040,10 +6093,7 @@ def test_materiality_adjudication_blocks_contract_resale_registration_metric_use
     )
     decision = batch.decisions[0]
     assert decision.decision == "needs_deeper_extraction"
-    assert (
-        "distinguish resale registration from committed financing"
-        in decision.remaining_gap
-    )
+    assert "distinguish resale registration from committed financing" in decision.remaining_gap
     assert decision.metric_use_status == "blocked_pending_extraction"
 
 
@@ -7109,9 +7159,7 @@ def test_materiality_adjudication_infers_counterparty_from_live_role_grammar(
                 ),
                 "recommended_action": "Confirm syndication agents",
                 "source_uri": "https://www.sec.gov/example-syndication-agents.htm",
-                "source_uris": json.dumps(
-                    ["https://www.sec.gov/example-syndication-agents.htm"]
-                ),
+                "source_uris": json.dumps(["https://www.sec.gov/example-syndication-agents.htm"]),
                 "content_hash": "h" * 64,
                 "content_hashes": json.dumps(["h" * 64]),
                 "evidence_snippets": json.dumps(
@@ -7179,7 +7227,9 @@ def test_materiality_adjudication_infers_counterparty_from_live_role_grammar(
     )
 
     decisions = {decision.packet_id: decision for decision in batch.decisions}
-    assert "extract named counterparty and role" not in decisions["packet-bank-is-agent"].remaining_gap
+    assert (
+        "extract named counterparty and role" not in decisions["packet-bank-is-agent"].remaining_gap
+    )
     assert decisions["packet-bank-is-agent"].risk_bearer.startswith("inferred:")
     assert "Bank" in decisions["packet-bank-is-agent"].risk_bearer
     assert (
@@ -7191,9 +7241,10 @@ def test_materiality_adjudication_infers_counterparty_from_live_role_grammar(
         "extract named counterparty and role"
         not in decisions["packet-capacity-trustee"].remaining_gap
     )
-    assert "The Bank of New York Mellon Trust Company" in decisions[
-        "packet-capacity-trustee"
-    ].risk_bearer
+    assert (
+        "The Bank of New York Mellon Trust Company"
+        in decisions["packet-capacity-trustee"].risk_bearer
+    )
 
 
 def test_materiality_adjudication_blocks_malformed_comma_grouped_amount(
@@ -7261,8 +7312,7 @@ def test_materiality_adjudication_blocks_malformed_comma_amount_in_local_source(
     monkeypatch: object,
 ) -> None:
     source_uri = (
-        "https://www.sec.gov/Archives/edgar/data/123456/"
-        "000123456726000001/example-credit.htm"
+        "https://www.sec.gov/Archives/edgar/data/123456/000123456726000001/example-credit.htm"
     )
     source_path = (
         tmp_path

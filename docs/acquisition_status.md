@@ -1,13 +1,13 @@
 # Acquisition Status
 
-Last updated: 2026-06-02 20:12 UTC.
+Last updated: 2026-06-02 20:33 UTC.
 
 This file is the operational snapshot for the current evidence corpus. Treat it
 as a run log, not as a final investment conclusion.
 
 ## Current Corpus
 
-- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-2012.md`
+- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-2033.md`
 - Evidence gate: not high-confidence final.
 - Evidence audit coverage: 473 claim audits now include analyzer-level capital,
   compute, and debt-service audits, explicit row/artifact-backed audits for
@@ -93,15 +93,16 @@ as a run log, not as a final investment conclusion.
   extraction, 0 requiring source retrieval, and 2,707 source-backed rows
   approved for metric use. Those approved rows total $7.417T as row-level
   supported amounts, but source-instrument, same-accession/same-amount,
-  strict cross-filing instrument-fingerprint, and economic-obligation metric
-  dedupe now collapses same-document/same-amount and exact repeated filing
-  disclosures to $3.742T deduped final metric support across 1,380 metric
+  strict cross-filing instrument-fingerprint, economic-obligation, and
+  same-content/same-quote collision metric dedupe now collapses same-document/
+  same-amount, exact repeated filing, and identical source-quote amount
+  collisions to $3.682T deduped final metric support across 1,341 metric
   groups;
   they are not treated as individual contracts unless contract terms are
   separately extracted.
 - Report arithmetic invariants pass with 0 violations. The how-large answer now
   labels the $1.201T curated capital-structure deal-graph debt-like metric
-  separately from the broader $3.742T materiality-adjudicated supported exposure
+  separately from the broader $3.682T materiality-adjudicated supported exposure
   metric so the two scopes are not read as inconsistent or directly additive.
 - The when-cracks answer now carries its own debt-service timing coverage
   caveat: the maturity wall is a floor because 165 of 439 distinct debt-service
@@ -205,10 +206,10 @@ as a run log, not as a final investment conclusion.
   projects, term-level MW sums, and physical execution risk-term counts.
 - The broader materiality metric is now split by adjudicated thesis linkage:
   $0.406T has established direct/watchlist AI-data-center linkage, while
-  89.2% is source-backed but not yet established as AI/data-center-linked.
-  This split now uses the same 1,380-group final metric denominator as the
-  materiality metric after same-accession and strict cross-filing instrument
-  dedupe.
+  89.0% is source-backed but not yet established as AI/data-center-linked.
+  This split now uses the same 1,341-group final metric denominator as the
+  materiality metric after same-accession, strict cross-filing instrument, and
+  same-content/same-quote collision dedupe.
   The unlinked tail is a scope gap, not a final no-link conclusion.
   Clear AI/HPC/bitcoin data-center operators including IREN, CleanSpark,
   American Bitcoin, MARA/Marathon, Hut 8, Applied Digital, CoreWeave,
@@ -716,15 +717,24 @@ Adjudication queue:
   for metric use (6,463 quote-backed decisions plus 200 row-context-backed
   decisions on non-text sources).
 - Automated row-level supported amount approved for metric use: $7.417T.
-- Deduped automated final metric support: $3.742T across 1,380 metric groups
+- Deduped automated final metric support: $3.682T across 1,341 metric groups
   after source-instrument, same-accession/same-amount, strict cross-filing
-  instrument-fingerprint, latest-snapshot, and exact economic-obligation
-  grouping. The same-accession collapse removed
+  instrument-fingerprint, latest-snapshot, exact economic-obligation, and
+  same-content/same-quote collision grouping. The same-accession collapse removed
   $220.077B of same-issuer, same-filing duplicate survivors that had different
   snippets, content hashes, subcategories, or counterparties but represented the
   same filed amount. The conservative cross-filing pass removed another $5.550B
   where same-issuer/same-amount representatives from different SEC accessions
   all shared both a coupon token and a maturity-year token.
+- Same-content/same-quote collision dedupe now collapses only groups where all
+  final-metric representatives share the same entity, content hash, metric
+  dedupe quote, and evidence quote. This removes repeated extractions of the
+  same selected source sentence with inconsistent parsed amounts while leaving
+  mixed-evidence credit agreements, bridge/term/revolver stacks, and
+  multi-tranche documents untouched for a separate acquisition-event treatment.
+  This pass removed 39 metric groups and about $60.81B of deduped final metric
+  support relative to report `2012`; 26 mixed-evidence collision groups remain
+  unresolved and are not collapsed by this guard.
 - A resale-registration guard now blocks explicit selling-securityholder or
   no-proceeds registration snippets in capital and contract-tranche packets
   unless the selected source text also carries primary note-offering or
@@ -775,8 +785,8 @@ Adjudication queue:
   row-level support, 38 metric groups, and $165.14B of deduped final metric
   support relative to the 16:29 report.
 - Relevance split of that deduped final metric: $0.406T established
-  direct/watchlist AI-data-center linkage; 89.2% remains not-established for
-  thesis linkage. The split now ties exactly to the $3.742T / 1,380-group final
+  direct/watchlist AI-data-center linkage; 89.0% remains not-established for
+  thesis linkage. The split now ties exactly to the $3.682T / 1,341-group final
   materiality denominator.
 - Clear AI/HPC/bitcoin data-center operators including IREN, CleanSpark,
   American Bitcoin, MARA/Marathon, Hut 8, Applied Digital, CoreWeave,

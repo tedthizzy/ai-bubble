@@ -118,6 +118,7 @@ def final_metric_representative_rows(rows: list[dict[str, str]]) -> list[dict[st
         representatives,
         key_fn=_accession_amount_metric_dedupe_key,
     )
+    representatives = _collapse_content_hash_quote_collision_representatives(representatives)
     return _collapse_cross_filing_instrument_representatives(representatives)
 
 
@@ -204,6 +205,45 @@ def _accession_amount_metric_dedupe_key(
     if not entity_key or not amount_key or amount_key == "0" or not accession:
         return None
     return "accession-amount", (entity_key, accession), amount_key
+
+
+def _collapse_content_hash_quote_collision_representatives(
+    representatives: list[dict[str, str]],
+) -> list[dict[str, str]]:
+    grouped: dict[tuple[str, tuple[str, ...], str], list[dict[str, str]]] = {}
+    unkeyed: list[dict[str, str]] = []
+    for row in representatives:
+        dedupe_key = _content_hash_metric_quote_collision_key(row)
+        if not dedupe_key:
+            unkeyed.append(row)
+            continue
+        grouped.setdefault(dedupe_key, []).append(row)
+
+    collapsed: list[dict[str, str]] = []
+    for rows in grouped.values():
+        evidence_quote_keys = {
+            _normalized_quote_fingerprint(row.get("evidence_quote", "")) for row in rows
+        }
+        if len(rows) > 1 and len(evidence_quote_keys) == 1 and "" not in evidence_quote_keys:
+            collapsed.append(max(rows, key=_metric_representative_sort_key))
+        else:
+            collapsed.extend(rows)
+    return [*unkeyed, *collapsed]
+
+
+def _content_hash_metric_quote_collision_key(
+    row: dict[str, str],
+) -> tuple[str, tuple[str, ...], str] | None:
+    if row.get("metric_aggregation_policy") != "max_amount_per_source_instrument":
+        return None
+    entity_key = _slug(row.get("entity", ""))
+    hashes = tuple(sorted(hash_value for hash_value in _json_list(row.get("content_hashes"))))
+    if not hashes and row.get("content_hash"):
+        hashes = (row["content_hash"],)
+    metric_quote_key = _normalized_quote_fingerprint(row.get("metric_dedupe_quote", ""))
+    if not entity_key or not hashes or not metric_quote_key:
+        return None
+    return "content-hash-quote-collision", (entity_key, *hashes), metric_quote_key
 
 
 _INSTRUMENT_DESCRIPTOR_RE = re.compile(r"(\d{1,2}\.\d{2,3})\s?%|due (\d{4})", re.I)

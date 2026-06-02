@@ -215,6 +215,87 @@ def test_relevance_summary_collapses_same_accession_same_amount_rows() -> None:
     assert summary["total_usd"] == 40_000_000_000
 
 
+def test_relevance_summary_collapses_same_content_hash_and_quote_collision() -> None:
+    quote = (
+        "Example Issuer announced the final results of its exchange offer for senior secured "
+        "notes and described the same instrument, trustee, indenture, guarantees, and principal "
+        "amount in each extracted packet from the same source document."
+    )
+    rows = [
+        _row(
+            "collision-high",
+            entity="Example Issuer",
+            linkage="not_established",
+            usd=8e9,
+            group="collision-high",
+            content_hash="n" * 64,
+            quote=quote,
+            metric_dedupe_quote=quote,
+        ),
+        _row(
+            "collision-low",
+            entity="Example Issuer",
+            linkage="not_established",
+            usd=3e9,
+            group="collision-low",
+            content_hash="n" * 64,
+            quote=quote,
+            metric_dedupe_quote=quote,
+        ),
+    ]
+
+    representatives = final_metric_representative_rows(rows)
+    summary = summarize_relevance_linkage(rows)
+
+    assert {row["packet_id"] for row in representatives} == {"collision-high"}
+    assert summary["final_metric_group_count"] == 1
+    assert summary["total_usd"] == 8_000_000_000
+
+
+def test_relevance_summary_keeps_same_content_hash_quote_with_distinct_evidence() -> None:
+    metric_quote = (
+        "Example Borrower entered into a credit agreement with lenders, issuing banks, and the "
+        "administrative agent to finance the acquisition and related corporate transactions."
+    )
+    term_loan_quote = (
+        "The borrower requested term loan commitments in an aggregate principal amount of "
+        "$8.0 billion under the credit agreement for the acquisition financing."
+    )
+    revolver_quote = (
+        "The borrower also requested revolving commitments in an aggregate principal amount of "
+        "$3.0 billion under the same credit agreement for working capital and letters of credit."
+    )
+    rows = [
+        _row(
+            "term-loan",
+            entity="Example Borrower",
+            linkage="not_established",
+            usd=8e9,
+            group="term-loan",
+            content_hash="o" * 64,
+            quote=term_loan_quote,
+            metric_dedupe_quote=metric_quote,
+        ),
+        _row(
+            "revolver",
+            entity="Example Borrower",
+            linkage="not_established",
+            usd=3e9,
+            group="revolver",
+            content_hash="o" * 64,
+            quote=revolver_quote,
+            metric_dedupe_quote=metric_quote,
+        ),
+    ]
+
+    representatives = final_metric_representative_rows(rows)
+    summary = summarize_relevance_linkage(rows)
+
+    assert {row["packet_id"] for row in representatives} == {"term-loan", "revolver"}
+    assert summary["final_metric_group_count"] == 2
+    assert summary["total_usd"] == 11_000_000_000
+
+
 def test_relevance_summary_collapses_strict_cross_filing_instrument_fingerprints() -> None:
     quote_a = "The notes bear interest at 9.25% and are due 2030 under the indenture."
     quote_b = "Senior secured notes will bear interest at 9.25% and mature due 2030."
