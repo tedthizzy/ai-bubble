@@ -1369,6 +1369,127 @@ def test_materiality_adjudication_treats_unsecured_notes_as_scope_resolved(
     assert decision.metric_use_status == "approved_for_metric_use"
 
 
+def test_materiality_adjudication_quote_selection_prefers_unsecured_scope(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-unsecured-facility-scope",
+                "rank": 1,
+                "review_id": "review-unsecured-facility-scope",
+                "review_group_id": "group-unsecured-facility-scope",
+                "priority": "high",
+                "category": "capital",
+                "subcategory": "high_notional_debt_like_candidate",
+                "ecosystem_relevance": "watchlist_entity",
+                "entity": "Example Issuer Inc.",
+                "counterparty": "lenders party thereto",
+                "exposure_basis_usd": "4000000000",
+                "reason": (
+                    "pending adjudication status: pending; debt-like deal type: debt_facility; "
+                    "notional $4,000,000,000; notional context: transaction_facility; "
+                    "commitment scope: specific_transaction_commitment"
+                ),
+                "recommended_action": "Confirm collateral and recourse",
+                "source_uri": "https://www.sec.gov/example-unsecured-facility.htm",
+                "source_uris": json.dumps(
+                    ["https://www.sec.gov/example-unsecured-facility.htm"]
+                ),
+                "content_hash": "8" * 64,
+                "content_hashes": json.dumps(["8" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/example-unsecured-facility.htm",
+                            "content_hash": "8" * 64,
+                            "document_id": "example-unsecured-facility.htm",
+                            "snippet": (
+                                "The issuer had a $4.0 billion revolving credit facility "
+                                "available for corporate liquidity. Such borrowings would "
+                                "have been unsecured indebtedness ranking equally with other "
+                                "unsecured obligations."
+                            ),
+                        }
+                    ]
+                ),
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    decision = batch.decisions[0]
+    assert "unsecured indebtedness" in decision.evidence_quote.lower(), decision
+    assert "determine recourse and guarantee scope" not in decision.remaining_gap
+    assert "determine collateral scope" not in decision.remaining_gap
+    assert decision.metric_use_status == "approved_for_metric_use"
+
+
+def test_materiality_adjudication_quote_selection_keeps_asset_backed_scope_window(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-gpu-backed-scope",
+                "rank": 1,
+                "review_id": "review-gpu-backed-scope",
+                "review_group_id": "group-gpu-backed-scope",
+                "priority": "critical",
+                "category": "capital",
+                "subcategory": "high_notional_debt_like_candidate",
+                "ecosystem_relevance": "direct_ai_infra",
+                "entity": "Example Cloud Inc.",
+                "counterparty": "institutional lenders",
+                "exposure_basis_usd": "8500000000",
+                "reason": (
+                    "pending adjudication status: pending; debt-like deal type: debt_facility; "
+                    "notional $8,500,000,000; notional context: transaction_facility; "
+                    "commitment scope: specific_transaction_commitment"
+                ),
+                "recommended_action": "Confirm collateral and recourse",
+                "source_uri": "https://www.sec.gov/example-gpu-backed.htm",
+                "source_uris": json.dumps(["https://www.sec.gov/example-gpu-backed.htm"]),
+                "content_hash": "9" * 64,
+                "content_hashes": json.dumps(["9" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/example-gpu-backed.htm",
+                            "content_hash": "9" * 64,
+                            "document_id": "example-gpu-backed.htm",
+                            "snippet": (
+                                "The company closed an $8.5 billion GPU-backed financing "
+                                "facility for AI infrastructure assets. The facility is "
+                                "non-recourse to the parent borrower and funds contracted "
+                                "cloud services."
+                            ),
+                        }
+                    ]
+                ),
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    decision = batch.decisions[0]
+    assert "gpu-backed financing" in decision.evidence_quote.lower(), decision
+    assert "non-recourse" in decision.evidence_quote.lower(), decision
+    assert "determine recourse and guarantee scope" not in decision.remaining_gap
+    assert "determine collateral scope" not in decision.remaining_gap
+    assert decision.metric_use_status == "approved_for_metric_use"
+
+
 def test_materiality_adjudication_treats_note_offering_counterparty_as_non_bilateral(
     tmp_path: Path,
 ) -> None:

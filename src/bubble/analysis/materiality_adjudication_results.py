@@ -339,7 +339,21 @@ def _category_gaps(packet: dict[str, str], text: str) -> list[str]:
         if not (
             collateral_scope_present
             or unsecured_scope_present
-            or _contains_any(text_lower, ["collateral", "secured", "security interest", "pledge"])
+            or _contains_any(
+                text_lower,
+                [
+                    "collateral",
+                    "secured",
+                    "security interest",
+                    "pledge",
+                    "gpu-backed",
+                    "gpu backed",
+                    "asset-backed",
+                    "asset backed",
+                    "infrastructure-backed",
+                    "infrastructure backed",
+                ],
+            )
         ):
             gaps.append("determine collateral scope")
     if category == "contagion" and not _contains_any(
@@ -923,6 +937,9 @@ def _best_sentence(text: str, terms: list[str]) -> str:
     role_clause = _best_named_counterparty_role_clause(parts, terms)
     if role_clause:
         return role_clause
+    scope_clause = _best_scope_clause(parts, terms)
+    if scope_clause:
+        return scope_clause
     sentence = max(parts, key=lambda part: _quote_score(part.lower(), terms))
     if len(sentence) >= 120:
         return sentence
@@ -942,6 +959,19 @@ def _best_named_counterparty_role_clause(parts: list[str], terms: list[str]) -> 
     if not role_windows:
         return ""
     return max(role_windows, key=lambda window: _quote_score(window.lower(), terms))[:650].strip()
+
+
+def _best_scope_clause(parts: list[str], terms: list[str]) -> str:
+    scope_windows: list[str] = []
+    for index, part in enumerate(parts):
+        if not _contains_any(part.lower(), _scope_quote_terms()):
+            continue
+        window = " ".join(parts[max(0, index - 1) : index + 2]).strip()
+        if _has_financing_scope_evidence(window.lower()):
+            scope_windows.append(window)
+    if not scope_windows:
+        return ""
+    return max(scope_windows, key=lambda window: _quote_score(window.lower(), terms))[:650].strip()
 
 
 def _quote_terms(packet: dict[str, str]) -> list[str]:
@@ -964,6 +994,8 @@ def _quote_terms(packet: dict[str, str]) -> list[str]:
                 "finance lease obligations",
             ]
         )
+    if _field(packet, "category") in {"capital", "contract"}:
+        terms.extend(_scope_quote_terms())
     for value in raw_terms:
         terms.extend(
             term.lower()
@@ -982,6 +1014,35 @@ def _quote_terms(packet: dict[str, str]) -> list[str]:
             }
         )
     return list(dict.fromkeys(terms))
+
+
+def _scope_quote_terms() -> list[str]:
+    return [
+        "senior unsecured",
+        "unsecured",
+        "unsecured indebtedness",
+        "unsecured obligations",
+        "non-recourse",
+        "non recourse",
+        "recourse",
+        "guarantee",
+        "guarantees",
+        "guarantor",
+        "guarantors",
+        "collateral",
+        "secured by",
+        "senior secured",
+        "secured",
+        "security interest",
+        "pledge",
+        "pledged",
+        "gpu-backed",
+        "gpu backed",
+        "asset-backed",
+        "asset backed",
+        "infrastructure-backed",
+        "infrastructure backed",
+    ]
 
 
 def _amount_quote_terms(amount: float) -> list[str]:
@@ -1004,6 +1065,8 @@ def _quote_score(text: str, terms: list[str]) -> int:
     score = sum(1 for term in terms if term in lowered)
     if _has_named_counterparty_role_evidence(lowered):
         score += 10
+    if _has_financing_scope_evidence(lowered):
+        score += 8
     return score
 
 
@@ -1031,6 +1094,29 @@ def _has_named_counterparty_role_evidence(text: str) -> bool:
             "mizuho",
             "lenders named",
             "lenders party",
+        ],
+    )
+
+
+def _has_financing_scope_evidence(text: str) -> bool:
+    if not _contains_any(text, _scope_quote_terms()):
+        return False
+    return _contains_any(
+        text,
+        [
+            "credit agreement",
+            "facility",
+            "financing",
+            "loan",
+            "notes",
+            "debt",
+            "indenture",
+            "indebtedness",
+            "obligation",
+            "obligations",
+            "collateral",
+            "guarantor",
+            "guarantors",
         ],
     )
 
