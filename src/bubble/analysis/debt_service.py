@@ -172,6 +172,7 @@ class DebtServiceMetrics:
     debt_like_deal_count: int
     out_of_scope_debt_like_deal_count: int
     debt_like_notional_usd: float
+    distinct_debt_like_notional_usd: float
     out_of_scope_debt_like_notional_usd: float
     scope_inclusion_reason_counts: dict[str, int]
     obligations_count: int
@@ -342,6 +343,7 @@ class DebtServiceAnalyzer:
             debt_like_deal_count=len(debt_like),
             out_of_scope_debt_like_deal_count=scope_summary.out_of_scope_debt_like_deal_count,
             debt_like_notional_usd=round(debt_like_notional, 2),
+            distinct_debt_like_notional_usd=round(distinct_debt_like_notional, 2),
             out_of_scope_debt_like_notional_usd=scope_summary.out_of_scope_debt_like_notional_usd,
             scope_inclusion_reason_counts=scope_summary.inclusion_reason_counts,
             obligations_count=len(obligations),

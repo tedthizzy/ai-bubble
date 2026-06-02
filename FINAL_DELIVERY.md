@@ -32,10 +32,10 @@ The important change is that ecosystem-scale conclusions are now blocked from be
 
 Latest verified evidence-gated report at this checkpoint:
 
-- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260602-1806.md`
-- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260602-1806.json`
+- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260602-1816.md`
+- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260602-1816.json`
 - `high_confidence_final`: `false`
-- Evidence audit coverage now includes 471 claim audits: analyzer-level capital,
+- Evidence audit coverage now includes 473 claim audits: analyzer-level capital,
   compute, and debt-service audits, explicit row/artifact-backed audits for
   high-impact Burry-answer rollups, and aggregate hooks for pending review
   capital, pending AI-infra capital, pending compute, weak-link AI-infra,
@@ -76,6 +76,11 @@ Latest capital and timing outputs:
   tagged edges after removing unrelated XAI Octagon fund and truncated `Ai`
   false positives.
 - In-scope debt-like notional: $1.201T.
+- Debt-service timing coverage remains materially incomplete: the crack-window
+  maturity wall is now labeled as a floor because 165 of 439 distinct
+  debt-service obligations and $541.811B of distinct debt-like notional still
+  lack maturity-date evidence; distinct measured-rate notional coverage is
+  44.2%.
 - Broader materiality-adjudicated supported exposure: $3.742T across 1,380
   metric groups; this is a different scope from the curated capital-structure
   deal-graph debt-like metric above, not an additive increment.

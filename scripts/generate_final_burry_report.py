@@ -725,8 +725,10 @@ def report_answer_metric_audits(  # noqa: PLR0912, PLR0915
         payload={
             key: debt_service_metrics_dict.get(key)
             for key in (
+                "distinct_debt_like_notional_usd",
                 "measured_rate_notional_usd",
                 "distinct_missing_rate_notional_usd",
+                "distinct_notional_missing_maturity_usd",
                 "top_debt_service_quarters",
                 "top_distinct_debt_service_quarters",
                 "top_entity_debt_service_risks",
@@ -752,9 +754,21 @@ def report_answer_metric_audits(  # noqa: PLR0912, PLR0915
         debt_evidence,
     )
     add(
+        "debt_service.distinct_debt_like_notional",
+        "Distinct debt-like notional in the debt-service analyzer",
+        debt_service_metrics_dict.get("distinct_debt_like_notional_usd"),
+        debt_evidence,
+    )
+    add(
         "debt_service.distinct_missing_rate_notional",
         "Distinct debt-like notional still missing explicit rate evidence",
         debt_service_metrics_dict.get("distinct_missing_rate_notional_usd"),
+        debt_evidence,
+    )
+    add(
+        "debt_service.distinct_missing_maturity_notional",
+        "Distinct debt-like notional still missing maturity-date evidence",
+        debt_service_metrics_dict.get("distinct_notional_missing_maturity_usd"),
         debt_evidence,
     )
     add(
@@ -1273,6 +1287,76 @@ def materiality_relevance_scope_fields(
             "thesis-linked support; not_established rows are source-backed "
             "obligations whose AI/data-center linkage has not yet been proven and "
             "must not be described as direct AI-bubble leverage."
+        ),
+    }
+
+
+def _pct(numerator: float, denominator: float) -> float:
+    if not denominator:
+        return 0.0
+    return round((numerator / denominator) * 100, 2)
+
+
+def debt_service_timing_coverage_fields(
+    debt_service_metrics_dict: dict[str, Any],
+) -> dict[str, Any]:
+    """Summarize maturity/rate coverage limits for the crack-window answer."""
+
+    distinct_obligations = int(
+        _float_value(debt_service_metrics_dict.get("distinct_obligations_count"))
+    )
+    distinct_missing_maturity = int(
+        _float_value(
+            debt_service_metrics_dict.get("distinct_obligations_missing_maturity_count")
+        )
+    )
+    distinct_debt_like_notional = _float_value(
+        debt_service_metrics_dict.get("distinct_debt_like_notional_usd")
+    )
+    distinct_missing_maturity_notional = _float_value(
+        debt_service_metrics_dict.get("distinct_notional_missing_maturity_usd")
+    )
+    distinct_missing_rate_notional = _float_value(
+        debt_service_metrics_dict.get("distinct_missing_rate_notional_usd")
+    )
+    measured_rate_coverage_pct = _float_value(
+        debt_service_metrics_dict.get("distinct_measured_rate_notional_coverage_pct")
+    )
+    maturity_covered_obligations = max(distinct_obligations - distinct_missing_maturity, 0)
+    maturity_covered_notional = max(
+        distinct_debt_like_notional - distinct_missing_maturity_notional,
+        0.0,
+    )
+
+    return {
+        "current_distinct_debt_service_obligations": distinct_obligations,
+        "current_distinct_debt_service_obligations_missing_maturity": (
+            distinct_missing_maturity
+        ),
+        "current_distinct_debt_service_maturity_obligation_coverage_pct": _pct(
+            maturity_covered_obligations,
+            distinct_obligations,
+        ),
+        "current_distinct_debt_service_debt_like_notional_usd": distinct_debt_like_notional,
+        "current_distinct_debt_service_notional_missing_maturity_usd": (
+            distinct_missing_maturity_notional
+        ),
+        "current_distinct_debt_service_maturity_notional_coverage_pct": _pct(
+            maturity_covered_notional,
+            distinct_debt_like_notional,
+        ),
+        "current_distinct_debt_service_missing_rate_notional_usd": (
+            distinct_missing_rate_notional
+        ),
+        "current_distinct_debt_service_measured_rate_notional_coverage_pct": (
+            measured_rate_coverage_pct
+        ),
+        "current_timing_maturity_wall_coverage_note": (
+            "The crack-window maturity wall is a floor, not a complete schedule: "
+            f"{distinct_missing_maturity:,} of {distinct_obligations:,} distinct debt-service "
+            f"obligations and ${distinct_missing_maturity_notional:,.0f} of distinct "
+            "debt-like notional still lack maturity-date evidence; distinct measured-rate "
+            f"notional coverage is {measured_rate_coverage_pct:.2f}%."
         ),
     }
 
@@ -1816,6 +1900,9 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:
             debt_service_metrics.out_of_scope_debt_like_deal_count
         ),
         "debt_service_debt_like_notional_usd": debt_service_metrics.debt_like_notional_usd,
+        "debt_service_distinct_debt_like_notional_usd": (
+            debt_service_metrics.distinct_debt_like_notional_usd
+        ),
         "debt_service_out_of_scope_debt_like_notional_usd": (
             debt_service_metrics.out_of_scope_debt_like_notional_usd
         ),
@@ -2128,6 +2215,9 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:
         min(0.82, evidence_summary["max_permitted_report_confidence"]),
         4,
     )
+    debt_service_timing_coverage = debt_service_timing_coverage_fields(
+        debt_service_metrics_dict
+    )
 
     missing = coverage.missing_corpora
     report = {
@@ -2392,6 +2482,7 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:
                 ),
                 "current_top_timing_quarters": timing_signal_summary.get("top_quarters", [])[:10],
                 "current_top_timing_signals": timing_signal_summary.get("top_signals", [])[:10],
+                **debt_service_timing_coverage,
                 "current_queue_records": coverage.queue_records,
                 "current_queue_capacity_mw": physical_capacity.queue_capacity_mw,
                 "current_data_center_queue_records": physical_capacity.data_center_queue_records,

@@ -1,15 +1,15 @@
 # Acquisition Status
 
-Last updated: 2026-06-02 18:06 UTC.
+Last updated: 2026-06-02 18:16 UTC.
 
 This file is the operational snapshot for the current evidence corpus. Treat it
 as a run log, not as a final investment conclusion.
 
 ## Current Corpus
 
-- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-1806.md`
+- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-1816.md`
 - Evidence gate: not high-confidence final.
-- Evidence audit coverage: 471 claim audits now include analyzer-level capital,
+- Evidence audit coverage: 473 claim audits now include analyzer-level capital,
   compute, and debt-service audits, explicit row/artifact-backed audits for
   high-impact Burry-answer rollups, and aggregate hooks for pending review
   capital, pending AI-infra capital, pending compute, weak-link AI-infra,
@@ -84,6 +84,10 @@ as a run log, not as a final investment conclusion.
   labels the $1.201T curated capital-structure deal-graph debt-like metric
   separately from the broader $3.742T materiality-adjudicated supported exposure
   metric so the two scopes are not read as inconsistent or directly additive.
+- The when-cracks answer now carries its own debt-service timing coverage
+  caveat: the maturity wall is a floor because 165 of 439 distinct debt-service
+  obligations and $541.811B of distinct debt-like notional still lack
+  maturity-date evidence; distinct measured-rate notional coverage is 44.2%.
 - The broader materiality metric is now split by adjudicated thesis linkage:
   $0.440T has established direct/watchlist AI-data-center linkage, while
   88.9% is source-backed but not yet established as AI/data-center-linked.

@@ -43,6 +43,10 @@ materiality_relevance_scope_fields = cast(
     "Callable[[dict[str, Any]], dict[str, Any]]",
     _REPORT_MODULE.materiality_relevance_scope_fields,
 )
+debt_service_timing_coverage_fields = cast(
+    "Callable[[dict[str, Any]], dict[str, Any]]",
+    _REPORT_MODULE.debt_service_timing_coverage_fields,
+)
 
 
 def _audit(
@@ -208,6 +212,9 @@ def test_report_answer_metric_audits_cover_source_backed_rollup_values() -> None
             "top_debt_service_weak_links": [],
         },
         debt_service_metrics_dict={
+            "distinct_debt_like_notional_usd": 1_200_595_124_370.18,
+            "distinct_notional_missing_maturity_usd": 541_811_068_259.58,
+            "distinct_missing_rate_notional_usd": 599_461_137_298.53,
             "maturity_wall_notional_usd_2024_2030": 278_383_365_879.58,
         },
         compute_metrics_dict={
@@ -273,6 +280,9 @@ def test_report_answer_metric_audits_cover_source_backed_rollup_values() -> None
         ),
         "review_queue.pending_compute_claim_amount": 398_240_000_000,
         "weak_link.ai_infra_relevant_notional": 333_003_514_666.67,
+        "debt_service.distinct_debt_like_notional": 1_200_595_124_370.18,
+        "debt_service.distinct_missing_rate_notional": 599_461_137_298.53,
+        "debt_service.distinct_missing_maturity_notional": 541_811_068_259.58,
         "debt_service.maturity_wall_notional_2024_2030": 278_383_365_879.58,
         "capital_exposure.total_edge_notional": 864_183_460_730.37,
         "capital_exposure.ai_infra_relevant_notional": 5_158_000_000,
@@ -333,6 +343,36 @@ def test_report_answer_metric_audits_cover_source_backed_rollup_values() -> None
     }
 
     assert check_metric_audit_coverage(report, threshold=100e9) == []
+
+
+def test_debt_service_timing_coverage_fields_surface_maturity_limits() -> None:
+    fields = debt_service_timing_coverage_fields(
+        {
+            "distinct_obligations_count": 439,
+            "distinct_obligations_missing_maturity_count": 165,
+            "distinct_debt_like_notional_usd": 1_200_595_124_370.18,
+            "distinct_notional_missing_maturity_usd": 541_811_068_259.58,
+            "distinct_missing_rate_notional_usd": 599_461_137_298.53,
+            "distinct_measured_rate_notional_coverage_pct": 44.2,
+        }
+    )
+
+    assert fields["current_distinct_debt_service_obligations"] == 439
+    assert fields["current_distinct_debt_service_obligations_missing_maturity"] == 165
+    assert fields["current_distinct_debt_service_maturity_obligation_coverage_pct"] == 62.41
+    assert fields["current_distinct_debt_service_debt_like_notional_usd"] == (
+        1_200_595_124_370.18
+    )
+    assert fields["current_distinct_debt_service_notional_missing_maturity_usd"] == (
+        541_811_068_259.58
+    )
+    assert fields["current_distinct_debt_service_maturity_notional_coverage_pct"] == 54.87
+    assert fields["current_distinct_debt_service_missing_rate_notional_usd"] == (
+        599_461_137_298.53
+    )
+    assert fields["current_distinct_debt_service_measured_rate_notional_coverage_pct"] == 44.2
+    assert "165 of 439" in fields["current_timing_maturity_wall_coverage_note"]
+    assert "floor, not a complete schedule" in fields["current_timing_maturity_wall_coverage_note"]
 
 
 def test_capital_materiality_scope_fields_label_distinct_size_metrics() -> None:
