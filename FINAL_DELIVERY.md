@@ -35,6 +35,12 @@ Latest verified evidence-gated report at this checkpoint:
 - Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260602-2121.md`
 - JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260602-2121.json`
 - `high_confidence_final`: `false`
+- Current main checkpoint: `c525027`. Claude's isolated worktree has a clean
+  one-commit readiness queue (`f853695`) with repaired branch-side fixtures for
+  downside-bearer role mapping, grid/permit source handles, economic-commitment
+  binding split, and related direct-tier synthesis packs. Those files are ready
+  for review/import or coordinator handoff, but are not included in the report
+  metrics until merged and validated on main.
 - Evidence audit coverage now includes 473 claim audits: analyzer-level capital,
   compute, and debt-service audits, explicit row/artifact-backed audits for
   high-impact Burry-answer rollups, and aggregate hooks for pending review

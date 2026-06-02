@@ -1,6 +1,6 @@
 # Acquisition Status
 
-Last updated: 2026-06-02 21:21 UTC.
+Last updated: 2026-06-02 22:06 UTC.
 
 This file is the operational snapshot for the current evidence corpus. Treat it
 as a run log, not as a final investment conclusion.
@@ -38,6 +38,14 @@ as a run log, not as a final investment conclusion.
   and 9,208,844 rows scanned, 0 violations, 0 warnings.
 - Generated report assets are internal evidence artifacts; the user-facing
   deliverable remains a high-level chat summary once the evidence supports it.
+- Coordination checkpoint: main is at `c525027` with only the known unrelated
+  `scripts/seed_graph 2.py` file untracked. Claude's isolated
+  `claude/report-qa` worktree has a small one-commit readiness queue
+  (`f853695`) that is not yet merged into main. That queue contains repaired
+  branch-side fixture candidates for downside-bearer role mapping, grid/permit
+  source handles, economic-commitment binding split, and related direct-tier
+  synthesis packs. The queue is handoff/import-ready for review, but it is not
+  part of the production corpus or report metrics until explicitly imported.
 - Source catalog artifacts: 586 / 586 attempted in the latest broad public-source run.
 - Latest source-catalog extracted rows: 4,878,655.
 - Covered filings: 197,243.

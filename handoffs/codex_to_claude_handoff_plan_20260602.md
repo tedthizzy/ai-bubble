@@ -53,19 +53,21 @@ section titled `Handoff Readiness` with:
   `adjudication:...` IDs. The review fixture validates 55/55 live packet IDs
   and preserves same-event, distinct-facility, and human-review controls. Do
   not duplicate it unless a concrete source-backed correction is found.
-- `economic_commitment_binding_split_20260602.csv` needs source URLs, dates,
-  publishers/filing accessions where available, and quotes per row before import.
-- `downside_bearer_role_mapping_20260602.csv` needs an exact live-row
-  validation pass before import: every `risk_bearer_value` must match current
-  final metric survivor values exactly, with no truncated long strings, no
-  missing values, no extras, and counts matching the current 1,338 survivor
-  groups.
-- Physical/grid execution fixtures need exact source URLs or authority record
-  identifiers plus quote/context per row before import. Rows that only cite a
-  press summary or broad authority name remain useful leads, not production
-  evidence.
-- Any handoff should happen after the next clean production checkpoint, not in
-  the middle of an import/validation cycle.
+- Claude's `f853695` readiness queue is now the small branch-side import queue
+  for review. It contains 20 files rather than the earlier broad historical
+  corpus. It is not yet merged into main.
+- `downside_bearer_role_mapping_20260602.csv` in that queue now passes the
+  exact live-row check against the current final metric survivor set: 278
+  values, 1,338 counts, 0 missing values, 0 extras, and 0 count mismatches.
+  Production import should still add or run a validator on main.
+- `economic_commitment_binding_split_20260602.csv` and
+  `grid_permit_reality_handles_20260602.csv` in that queue now parse cleanly
+  and include a `source_url` on every row. Remaining caveat: some grid/permit
+  rows still mark exact docket/permit/queue numbers as `NEEDS`, so those rows
+  remain source leads unless tied to a precise public authority record during
+  production import.
+- Any handoff should happen from this clean checkpoint or a later equally clean
+  checkpoint, not in the middle of an import/validation cycle.
 
 ## Human Helper Requests
 
