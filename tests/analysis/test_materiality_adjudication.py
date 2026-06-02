@@ -1421,6 +1421,87 @@ def test_materiality_adjudication_dedupes_same_obligation_across_filings(
     } == {"max_amount_per_source_instrument"}
 
 
+def test_materiality_adjudication_dedupes_same_obligation_with_varied_filing_wording(
+    tmp_path: Path,
+) -> None:
+    rows = []
+    for rank, quote in [
+        (
+            1,
+            "Example Parent Corp. entered into a credit agreement with Example Bank, "
+            "N.A. providing a $5.0 billion senior unsecured revolving credit facility. "
+            "The facility is guaranteed by Example Finance LLC.",
+        ),
+        (
+            2,
+            "Example Parent Corp. reported that it entered into and maintains a "
+            "$5.0 billion senior unsecured revolving credit facility under the "
+            "credit agreement with Example Bank, N.A.; the facility remains "
+            "guaranteed by Example Finance LLC.",
+        ),
+        (
+            3,
+            "Example Parent Corp. entered into a separate $5.0 billion senior "
+            "unsecured credit agreement with Different Bank, N.A. guaranteed by "
+            "Example Finance LLC.",
+        ),
+    ]:
+        counterparty = "Different Bank, N.A." if rank == 3 else "Example Bank, N.A."
+        rows.append(
+            {
+                "packet_id": f"packet-varied-repeat-{rank}",
+                "rank": rank,
+                "review_id": f"review-varied-repeat-{rank}",
+                "review_group_id": f"group-varied-repeat-{rank}",
+                "priority": "high",
+                "category": "capital",
+                "subcategory": "high_notional_debt_like_candidate",
+                "ecosystem_relevance": "watchlist_entity",
+                "entity": "Example Parent Corp.",
+                "counterparty": counterparty,
+                "exposure_basis_usd": "5000000000",
+                "reason": (
+                    "pending adjudication status: pending; debt-like deal type: "
+                    "debt_facility; notional $5,000,000,000; notional context: "
+                    "transaction_principal; commitment scope: "
+                    "specific_transaction_commitment; guarantee scope present"
+                ),
+                "recommended_action": "Confirm repeated filing disclosure",
+                "source_uri": f"https://www.sec.gov/example-varied-repeat-{rank}.htm",
+                "source_uris": json.dumps(
+                    [f"https://www.sec.gov/example-varied-repeat-{rank}.htm"]
+                ),
+                "content_hash": str(rank) * 64,
+                "content_hashes": json.dumps([str(rank) * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": (
+                                "https://www.sec.gov/"
+                                f"example-varied-repeat-{rank}.htm"
+                            ),
+                            "content_hash": str(rank) * 64,
+                            "document_id": f"example-varied-repeat-{rank}.htm",
+                            "snippet": quote,
+                        }
+                    ]
+                ),
+            }
+        )
+    _write_csv(tmp_path / "reports" / "materiality_adjudication_packets.csv", rows)
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    assert batch.summary.approved_for_metric_use == 3
+    assert batch.summary.approved_row_supported_amount_usd == 15_000_000_000
+    assert batch.summary.final_metric_supported_amount_usd == 10_000_000_000
+    assert batch.summary.final_metric_group_count == 2
+    assert len({decision.metric_group_id for decision in batch.decisions}) == 3
+
+
 def test_materiality_adjudication_dedupes_source_instrument_and_snapshot_overlap(
     tmp_path: Path,
 ) -> None:

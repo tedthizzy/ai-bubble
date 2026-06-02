@@ -1,13 +1,13 @@
 # Acquisition Status
 
-Last updated: 2026-06-02 07:07 UTC.
+Last updated: 2026-06-02 07:15 UTC.
 
 This file is the operational snapshot for the current evidence corpus. Treat it
 as a run log, not as a final investment conclusion.
 
 ## Current Corpus
 
-- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0707.md`
+- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0715.md`
 - Evidence gate: not high-confidence final.
 - Evidence audit coverage: report-level audits now include analyzer-level
   capital, compute, and debt-service audits plus explicit row/artifact-backed
@@ -47,7 +47,7 @@ as a run log, not as a final investment conclusion.
   approved for metric use. Those approved rows total $8.891T as row-level
   supported amounts, but source-instrument and economic-obligation metric
   dedupe now collapses same-document/same-amount and exact repeated filing
-  disclosures to $5.307T across 1,826 metric groups; they are not treated as
+  disclosures to $4.802T across 1,648 metric groups; they are not treated as
   individual contracts unless contract terms are separately extracted.
 - Decision coverage over packaged blocker groups: 100.0%; unresolved decision
   share remains 30.90% (still extraction-bound, not source-retrieval-bound).
@@ -520,7 +520,7 @@ Adjudication queue:
   for metric use (6,463 quote-backed decisions plus 200 row-context-backed
   decisions on non-text sources).
 - Automated row-level supported amount approved for metric use: $8.891T.
-- Deduped automated final metric support: $5.307T across 1,826
+- Deduped automated final metric support: $4.802T across 1,648
   source-instrument, latest-snapshot, and exact economic-obligation metric
   groups.
 - Top unresolved gaps are named counterparty roles, collateral scope,

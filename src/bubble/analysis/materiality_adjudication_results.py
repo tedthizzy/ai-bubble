@@ -1573,9 +1573,13 @@ def _final_metric_representative_decisions(
         representatives,
         key_fn=_source_hash_metric_dedupe_key,
     )
-    return _collapse_metric_representatives(
+    representatives = _collapse_metric_representatives(
         representatives,
         key_fn=_economic_quote_metric_dedupe_key,
+    )
+    return _collapse_metric_representatives(
+        representatives,
+        key_fn=_economic_obligation_metric_dedupe_key,
     )
 
 
@@ -1630,6 +1634,28 @@ def _economic_quote_metric_dedupe_key(
     if not entity_key or not amount_key or amount_key == "0" or not quote_key:
         return None
     return "economic-quote", (entity_key, amount_key), quote_key
+
+
+def _economic_obligation_metric_dedupe_key(
+    decision: MaterialityAdjudicationDecision,
+) -> tuple[str, tuple[str, ...], str] | None:
+    if decision.metric_aggregation_policy != "max_amount_per_source_instrument":
+        return None
+    entity_key = re.sub(r"[^a-z0-9]+", "-", decision.entity.lower()).strip("-")
+    amount_key = _metric_amount_key(decision.supported_amount_usd)
+    if not entity_key or not amount_key or amount_key == "0":
+        return None
+    subcategory_key = re.sub(
+        r"[^a-z0-9]+", "-", decision.subcategory.lower()
+    ).strip("-")
+    snapshot_key = decision.metric_snapshot_date[:7]
+    counterparty_key = re.sub(
+        r"[^a-z0-9]+", "-", decision.counterparty.lower()
+    ).strip("-")[:48]
+    discriminators = tuple(
+        value for value in (subcategory_key, snapshot_key, counterparty_key) if value
+    )
+    return "economic-obligation", (entity_key, amount_key, *discriminators), "v1"
 
 
 def _normalized_quote_fingerprint(quote: str) -> str:
