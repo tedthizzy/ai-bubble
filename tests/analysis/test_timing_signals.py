@@ -140,6 +140,70 @@ def test_timing_signals_build_source_backed_crack_window_inputs(tmp_path: Path) 
     assert all(signal.deal_id != "deal-missing-source-hash" for signal in batch.signals)
 
 
+def test_chip_supply_commitments_keep_latest_snapshot_per_purchase_book(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "compute" / "chip_supply_observations.csv",
+        [
+            {
+                "observation_id": "nvidia-fy2026",
+                "entity": "NVIDIA CORP",
+                "project_or_cluster_id": "",
+                "gpu_generation": "UNSPECIFIED",
+                "disclosed_purchase_commitment_usd": "95200000000",
+                "supplier": "NVIDIA CORP",
+                "delivery_window": "fiscal year 2027",
+                "observed_deployment_date": "2026-02-25",
+                "source_uri": "https://www.sec.gov/nvda-20260125.htm",
+                "source_confidence": "0.82",
+                "human_review_status": "pending",
+                "page_or_section": "10-K supply commitments",
+                "content_hash": "hash-nvidia-10k",
+            },
+            {
+                "observation_id": "nvidia-q1-fy2027",
+                "entity": "NVIDIA CORP",
+                "project_or_cluster_id": "",
+                "gpu_generation": "UNSPECIFIED",
+                "disclosed_purchase_commitment_usd": "119000000000",
+                "supplier": "NVIDIA CORP",
+                "delivery_window": "fiscal years 2027 through 2031",
+                "observed_deployment_date": "2026-05-20",
+                "source_uri": "https://www.sec.gov/nvda-20260426.htm",
+                "source_confidence": "0.82",
+                "human_review_status": "pending",
+                "page_or_section": "10-Q supply commitments",
+                "content_hash": "hash-nvidia-10q",
+            },
+            {
+                "observation_id": "distinct-project",
+                "entity": "Distinct AI Buyer",
+                "project_or_cluster_id": "cluster-a",
+                "gpu_generation": "MI300",
+                "disclosed_purchase_commitment_usd": "10000000000",
+                "supplier": "AMD",
+                "delivery_window": "calendar year 2026",
+                "observed_deployment_date": "2026-03-15",
+                "source_uri": "https://www.sec.gov/distinct-project.htm",
+                "source_confidence": "0.82",
+                "human_review_status": "pending",
+                "page_or_section": "8-K supply agreement",
+                "content_hash": "hash-distinct-project",
+            },
+        ],
+    )
+
+    batch = build_timing_signal_batch([tmp_path])
+
+    assert batch.summary.signals == 2
+    assert batch.summary.compute_amount_usd_2024_2030 == 129_000_000_000
+    signal_uris = {signal.source_uri for signal in batch.signals}
+    assert "https://www.sec.gov/nvda-20260125.htm" not in signal_uris
+    assert "https://www.sec.gov/nvda-20260426.htm" in signal_uris
+    assert "https://www.sec.gov/distinct-project.htm" in signal_uris
+
+
 def test_write_timing_signal_outputs_csv_and_summary(tmp_path: Path) -> None:
     _write_csv(
         tmp_path / "physical" / "queues.csv",

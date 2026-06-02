@@ -499,7 +499,10 @@ def _compute_timing_signals(roots: list[Path]) -> list[TimingSignal]:
             )
         )
 
-    for row in _read_rows(roots, [Path("compute") / "chip_supply_observations.csv"]):
+    chip_rows = _latest_chip_supply_commitment_rows(
+        _read_rows(roots, [Path("compute") / "chip_supply_observations.csv"])
+    )
+    for row in chip_rows:
         delivery_date = _delivery_window_date(row)
         if delivery_date is None or not _in_horizon(delivery_date):
             continue
@@ -856,6 +859,62 @@ def _delivery_window_date(row: dict[str, str]) -> date | None:
     elif re.search(r"\b(q3|third quarter)\b", raw, re.I):
         month = 9
     return date(year, month, 30 if month in {6, 9} else 31)
+
+
+def _latest_chip_supply_commitment_rows(rows: list[dict[str, str]]) -> list[dict[str, str]]:
+    """Keep the latest disclosed purchase-commitment snapshot for each chip book."""
+
+    passthrough: list[dict[str, str]] = []
+    latest_by_book: dict[
+        tuple[str, str, str, str],
+        tuple[tuple[date, str, str, str], dict[str, str]],
+    ] = {}
+    for row in rows:
+        if _float(row.get("disclosed_purchase_commitment_usd")) <= 0:
+            passthrough.append(row)
+            continue
+        source_uri = _field(row, "source_uri")
+        content_hash = _field(row, "content_hash")
+        delivery_date = _delivery_window_date(row)
+        if (
+            delivery_date is None
+            or not _in_horizon(delivery_date)
+            or not _has_source_provenance(source_uri, content_hash)
+        ):
+            passthrough.append(row)
+            continue
+        key = _chip_supply_commitment_book_key(row)
+        rank = (
+            _chip_supply_snapshot_date(row),
+            _field(row, "filing_accession"),
+            _field(row, "document_id"),
+            _field(row, "observation_id"),
+        )
+        previous = latest_by_book.get(key)
+        if previous is None or rank > previous[0]:
+            latest_by_book[key] = (rank, row)
+    return [*passthrough, *(row for _, row in latest_by_book.values())]
+
+
+def _chip_supply_commitment_book_key(row: dict[str, str]) -> tuple[str, str, str, str]:
+    return (
+        _normalized_key_part(_field(row, "entity")),
+        _normalized_key_part(_field(row, "supplier")),
+        _normalized_key_part(_field(row, "gpu_generation") or "unspecified"),
+        _normalized_key_part(_field(row, "project_or_cluster_id")),
+    )
+
+
+def _chip_supply_snapshot_date(row: dict[str, str]) -> date:
+    return (
+        _parse_date(_field(row, "observed_deployment_date"))
+        or _delivery_window_date(row)
+        or date.min
+    )
+
+
+def _normalized_key_part(value: str) -> str:
+    return re.sub(r"\s+", " ", value.casefold()).strip()
 
 
 def _parse_date(value: str) -> date | None:
