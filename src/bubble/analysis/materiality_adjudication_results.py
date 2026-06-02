@@ -298,6 +298,8 @@ def _remaining_gaps(packet: dict[str, str], quote: str) -> list[str]:
         gaps.append("local source quote not resolved")
     if _field(packet, "category") == "capital" and _looks_like_boilerplate(packet, quote):
         gaps.append("confirm final prospectus or underlying agreement terms")
+    if _looks_like_resale_registration_not_committed_debt(packet, quote):
+        gaps.append("distinguish resale registration from committed financing")
     gaps.extend(_currency_gaps(packet, quote))
     if _aggregate_lease_context_conflicts_with_quote(packet, quote):
         gaps.append("confirm lease obligation source rather than debt securities prospectus")
@@ -1172,6 +1174,29 @@ def _looks_like_boilerplate(packet: dict[str, str], quote: str) -> bool:
             "preliminary prospectus",
             "not complete and may be changed",
         ],
+    )
+
+
+def _looks_like_resale_registration_not_committed_debt(
+    packet: dict[str, str],
+    quote: str,
+) -> bool:
+    if _field(packet, "category") != "capital":
+        return False
+    text = _combined_text(packet, quote)
+    if not _contains_any(
+        text,
+        [
+            "will not receive any proceeds",
+            "selling securityholder",
+            "selling security holder",
+            "selling stockholder",
+            "for the account of the selling",
+        ],
+    ):
+        return False
+    return not (
+        _has_primary_note_offering_markers(text) or _has_lender_facility_markers(text)
     )
 
 

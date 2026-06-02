@@ -5175,6 +5175,125 @@ def test_materiality_adjudication_adds_gap_for_not_offer_boilerplate(
     assert "confirm final prospectus or underlying agreement terms" in decision.remaining_gap
 
 
+def test_materiality_adjudication_blocks_resale_registration_metric_use(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-resale-registration",
+                "rank": 1,
+                "review_id": "review-resale-registration",
+                "review_group_id": "group-resale-registration",
+                "priority": "high",
+                "category": "capital",
+                "subcategory": "high_notional_debt_like_candidate",
+                "ecosystem_relevance": "watchlist_entity",
+                "entity": "Example Issuer Inc.",
+                "counterparty": "",
+                "exposure_basis_usd": "1000000000",
+                "reason": (
+                    "pending adjudication status: pending; debt-like deal type: bond; "
+                    "notional $1,000,000,000; notional context: transaction_principal"
+                ),
+                "recommended_action": "Confirm final offering terms",
+                "source_uri": "https://www.sec.gov/example-resale-registration.htm",
+                "source_uris": json.dumps(
+                    ["https://www.sec.gov/example-resale-registration.htm"]
+                ),
+                "content_hash": "d" * 64,
+                "content_hashes": json.dumps(["d" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": (
+                                "https://www.sec.gov/example-resale-registration.htm"
+                            ),
+                            "content_hash": "d" * 64,
+                            "document_id": "example-resale-registration.htm",
+                            "snippet": (
+                                "We will not receive any proceeds from the sale of "
+                                "securities by the selling securityholders. The selling "
+                                "securityholders may offer these securities from time to time."
+                            ),
+                        }
+                    ]
+                ),
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+    decision = batch.decisions[0]
+    assert decision.decision == "needs_deeper_extraction"
+    assert (
+        "distinguish resale registration from committed financing"
+        in decision.remaining_gap
+    )
+    assert decision.metric_use_status == "blocked_pending_extraction"
+
+
+def test_materiality_adjudication_does_not_block_primary_note_offering_as_resale(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-primary-note-with-registration-wrapper",
+                "rank": 1,
+                "review_id": "review-primary-note-with-registration-wrapper",
+                "review_group_id": "group-primary-note-with-registration-wrapper",
+                "priority": "high",
+                "category": "capital",
+                "subcategory": "high_notional_debt_like_candidate",
+                "ecosystem_relevance": "watchlist_entity",
+                "entity": "Example Issuer Inc.",
+                "counterparty": "noteholders",
+                "exposure_basis_usd": "1000000000",
+                "reason": (
+                    "pending adjudication status: pending; debt-like deal type: bond; "
+                    "notional $1,000,000,000; notional context: transaction_principal; "
+                    "commitment scope: specific_transaction_commitment"
+                ),
+                "recommended_action": "Confirm maturity and pricing terms",
+                "source_uri": "https://www.sec.gov/example-primary-note.htm",
+                "source_uris": json.dumps(["https://www.sec.gov/example-primary-note.htm"]),
+                "content_hash": "e" * 64,
+                "content_hashes": json.dumps(["e" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/example-primary-note.htm",
+                            "content_hash": "e" * 64,
+                            "document_id": "example-primary-note.htm",
+                            "snippet": (
+                                "Filed pursuant to a registration statement. The company "
+                                "issued $1,000,000,000 aggregate principal amount of "
+                                "4.50% senior notes due 2035 under an indenture. "
+                                "A selling securityholder may sell other registered "
+                                "securities covered by the prospectus."
+                            ),
+                        }
+                    ]
+                ),
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+    decision = batch.decisions[0]
+    assert "distinguish resale registration" not in decision.remaining_gap
+    assert decision.metric_use_status == "approved_for_metric_use"
+
+
 def test_materiality_adjudication_does_not_treat_registration_statement_reference_as_boilerplate(
     tmp_path: Path,
 ) -> None:
