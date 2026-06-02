@@ -713,9 +713,12 @@ def _inferred_counterparty_from_quote(quote: str) -> str:
 def _counterparty_from_named_role_patterns(quote: str) -> str:
     patterns = [
         r"\bwith\s+(?P<name>[^()]{2,260}?)\s*\(\s*(?:the\s+)?[\"'“”]?Commitment Parties[\"'“”]?\s*\)\s*,?\s*pursuant to which\b",
-        r"\bwith\s+(?P<name>[^.;]{2,220}?)\s*,?\s+(?:as|serving as)\s+(?:the\s+)?(?:(?:administrative|collateral|facility|syndication)\s+)?agent\b",
+        r"\bwith\s+(?P<name>[A-Z][A-Za-z0-9 .,&'/-]{2,220}?)\s*,?\s+(?:as|serving as)\s+(?:the\s+)?(?:(?:administrative|collateral|facility|syndication)\s+)?agent\b",
         r"(?P<name>[A-Z][^.;]{2,220}?)\s+(?:served as|as)\s+(?:joint\s+)?(?:lead\s+)?(?:arrangers?|bookrunners?|placement agents?)\b",
-        r"\bwith\s+(?P<name>[^.;]{2,220}?)\s+as\s+representative of the several initial purchasers\b",
+        r"\bwith\s+(?P<name>[A-Z][^;]{2,320}?)\s*,?\s+as\s+representatives?\s+of\s+the\s+several\s+(?:underwriters|initial purchasers)\b",
+        r"(?P<name>[A-Z][^;]{2,320}?)\s*,?\s+acting\s+for\s+themselves\s+and\s+as\s+representatives?\s+of\s+the\s+several\s+underwriters\b",
+        r"(?P<name>[A-Z][^.;]{2,260}?)\s+(?:are|were)\s+acting\s+as\s+joint\s+book-running\s+managers\b",
+        r"\btrustee\s+(?P<name>[A-Z][A-Za-z0-9 .,&'/-]{2,180}(?:National Association|Trust Company|N\.A\.?|LLC|Inc\.?|Bank))\b",
     ]
     for pattern in patterns:
         match = re.search(pattern, quote, flags=re.IGNORECASE)
@@ -768,6 +771,18 @@ def _counterparty_from_agent_or_trustee_clause(quote: str) -> str:
 def _normalize_counterparty_candidate(raw: str) -> str:
     candidate = _normalize(raw)
     candidate = re.sub(r"\s*,\s*as\s+.*$", "", candidate, flags=re.IGNORECASE)
+    candidate = re.sub(
+        r"\s*,?\s*acting\s+for\s+themselves\s+and\s+as\s+.*$",
+        "",
+        candidate,
+        flags=re.IGNORECASE,
+    )
+    candidate = re.sub(
+        r"\s+(?:are|were)\s+acting\s+as\s+.*$",
+        "",
+        candidate,
+        flags=re.IGNORECASE,
+    )
     candidate = re.sub(
         r"^(?:among|with|and|the lenders named therein|the lenders party thereto)\b[:,\s-]*",
         "",
@@ -1094,6 +1109,8 @@ def _has_named_counterparty_role_evidence(text: str) -> bool:
             "mizuho",
             "lenders named",
             "lenders party",
+            "underwriter",
+            "underwriters",
         ],
     )
 
@@ -1133,6 +1150,9 @@ def _named_counterparty_role_markers() -> list[str]:
         "bookrunners",
         "commitment parties",
         "initial purchasers",
+        "underwriters",
+        "book-running managers",
+        "joint book-running managers",
         "placement agent",
         "placement agents",
         "trustee",

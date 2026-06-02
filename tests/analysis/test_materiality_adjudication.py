@@ -2195,6 +2195,147 @@ def test_materiality_adjudication_quote_selection_prefers_named_arranger_evidenc
     assert decision.metric_use_status == "approved_for_metric_use", decision
 
 
+def test_materiality_adjudication_infers_counterparty_from_financing_role_variants(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-na-serving-agent",
+                "rank": 1,
+                "review_id": "review-na-serving-agent",
+                "review_group_id": "group-na-serving-agent",
+                "priority": "high",
+                "category": "contract",
+                "subcategory": "contract_tranche_terms",
+                "ecosystem_relevance": "watchlist_entity",
+                "entity": "Example Borrower, Inc.",
+                "counterparty": "",
+                "exposure_basis_usd": "500000000",
+                "reason": (
+                    "pending contract tranche review; tranche: Revolving Credit Facility; "
+                    "notional $500,000,000; collateral terms present; guarantee scope present"
+                ),
+                "recommended_action": "Confirm parties and financing roles",
+                "source_uri": "https://www.sec.gov/example-na-serving-agent.htm",
+                "source_uris": json.dumps(
+                    ["https://www.sec.gov/example-na-serving-agent.htm"]
+                ),
+                "content_hash": "a" * 64,
+                "content_hashes": json.dumps(["a" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/example-na-serving-agent.htm",
+                            "content_hash": "a" * 64,
+                            "document_id": "example-na-serving-agent.htm",
+                            "snippet": (
+                                "The borrower entered into a senior secured revolving "
+                                "credit facility with Citibank, N.A. serving as "
+                                "administrative agent for a syndicate of lenders."
+                            ),
+                        }
+                    ]
+                ),
+            },
+            {
+                "packet_id": "packet-underwriter-representatives",
+                "rank": 2,
+                "review_id": "review-underwriter-representatives",
+                "review_group_id": "group-underwriter-representatives",
+                "priority": "high",
+                "category": "contract",
+                "subcategory": "contract_tranche_terms",
+                "ecosystem_relevance": "watchlist_entity",
+                "entity": "Example Notes Issuer, Inc.",
+                "counterparty": "",
+                "exposure_basis_usd": "1500000000",
+                "reason": (
+                    "pending contract tranche review; tranche: Senior Notes; "
+                    "notional $1,500,000,000; collateral terms present; guarantee scope present"
+                ),
+                "recommended_action": "Confirm underwriter representatives",
+                "source_uri": "https://www.sec.gov/example-underwriters.htm",
+                "source_uris": json.dumps(["https://www.sec.gov/example-underwriters.htm"]),
+                "content_hash": "b" * 64,
+                "content_hashes": json.dumps(["b" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/example-underwriters.htm",
+                            "content_hash": "b" * 64,
+                            "document_id": "example-underwriters.htm",
+                            "snippet": (
+                                "The issuer entered into an Underwriting Agreement with "
+                                "BofA Securities, Inc., Goldman Sachs & Co. LLC and "
+                                "Morgan Stanley & Co. LLC, as representatives of the "
+                                "several underwriters named therein."
+                            ),
+                        }
+                    ]
+                ),
+            },
+            {
+                "packet_id": "packet-trustee-label",
+                "rank": 3,
+                "review_id": "review-trustee-label",
+                "review_group_id": "group-trustee-label",
+                "priority": "high",
+                "category": "contract",
+                "subcategory": "contract_tranche_terms",
+                "ecosystem_relevance": "direct_ai_infra",
+                "entity": "Example Cloud Notes Issuer, Inc.",
+                "counterparty": "",
+                "exposure_basis_usd": "2500000000",
+                "reason": (
+                    "pending contract tranche review; tranche: Senior Notes; "
+                    "notional $2,500,000,000; collateral terms present; guarantee scope present"
+                ),
+                "recommended_action": "Confirm trustee and noteholder role",
+                "source_uri": "https://www.sec.gov/example-trustee-label.htm",
+                "source_uris": json.dumps(["https://www.sec.gov/example-trustee-label.htm"]),
+                "content_hash": "c" * 64,
+                "content_hashes": json.dumps(["c" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/example-trustee-label.htm",
+                            "content_hash": "c" * 64,
+                            "document_id": "example-trustee-label.htm",
+                            "snippet": (
+                                "The notes were issued under an indenture. Trustee "
+                                "U.S. Bank Trust Company, National Association."
+                            ),
+                        }
+                    ]
+                ),
+            },
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    decisions = {decision.packet_id: decision for decision in batch.decisions}
+    assert "extract named counterparty and role" not in decisions[
+        "packet-na-serving-agent"
+    ].remaining_gap
+    assert "Citibank, N.A" in decisions["packet-na-serving-agent"].risk_bearer
+    assert "extract named counterparty and role" not in decisions[
+        "packet-underwriter-representatives"
+    ].remaining_gap
+    assert "BofA Securities, Inc." in decisions[
+        "packet-underwriter-representatives"
+    ].risk_bearer
+    assert "extract named counterparty and role" not in decisions[
+        "packet-trustee-label"
+    ].remaining_gap
+    assert "U.S. Bank Trust Company" in decisions["packet-trustee-label"].risk_bearer
+
+
 def test_write_materiality_adjudication_decisions(tmp_path: Path) -> None:
     _write_csv(
         tmp_path / "reports" / "materiality_adjudication_packets.csv",
