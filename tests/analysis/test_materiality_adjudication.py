@@ -1041,6 +1041,72 @@ def test_materiality_adjudication_dedupes_aggregate_snapshots_to_latest_metric(
     ]
 
 
+def test_materiality_adjudication_dedupes_same_source_instrument_metric_rows(
+    tmp_path: Path,
+) -> None:
+    rows = []
+    for rank, entity in [(1, "Example Parent Corp."), (2, "Example Finance LLC")]:
+        rows.append(
+            {
+                "packet_id": f"packet-affiliate-{rank}",
+                "rank": rank,
+                "review_id": f"review-affiliate-{rank}",
+                "review_group_id": f"group-affiliate-{rank}",
+                "priority": "high",
+                "category": "capital",
+                "subcategory": "high_notional_debt_like_candidate",
+                "ecosystem_relevance": "watchlist_entity",
+                "entity": entity,
+                "counterparty": "Example Bank, N.A.",
+                "exposure_basis_usd": "3500000000",
+                "reason": (
+                    "pending adjudication status: pending; debt-like deal type: debt_facility; "
+                    "notional $3,500,000,000; notional context: transaction_principal; "
+                    "commitment scope: specific_transaction_commitment; collateral terms present; "
+                    "guarantee scope present"
+                ),
+                "recommended_action": "Confirm duplicate group",
+                "source_uri": "https://www.sec.gov/example-shared-facility.htm",
+                "source_uris": json.dumps(["https://www.sec.gov/example-shared-facility.htm"]),
+                "content_hash": "d" * 64,
+                "content_hashes": json.dumps(["d" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/example-shared-facility.htm",
+                            "content_hash": "d" * 64,
+                            "document_id": "example-shared-facility.htm",
+                            "snippet": (
+                                "Example Parent Corp. entered into a credit agreement "
+                                "with Example Bank, N.A., as administrative agent, "
+                                "providing a $3.5 billion senior unsecured revolving "
+                                "credit facility. The facility is guaranteed by "
+                                "Example Finance LLC."
+                            ),
+                        }
+                    ]
+                ),
+            }
+        )
+    _write_csv(tmp_path / "reports" / "materiality_adjudication_packets.csv", rows)
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    assert batch.summary.approved_for_metric_use == 2
+    assert batch.summary.approved_row_supported_amount_usd == 7_000_000_000
+    assert batch.summary.final_metric_supported_amount_usd == 3_500_000_000
+    assert batch.summary.final_metric_group_count == 1
+    assert {decision.metric_group_id for decision in batch.decisions} == {
+        f"source-instrument:hashes:{'d' * 64}:amount:3500000000"
+    }
+    assert {
+        decision.metric_aggregation_policy for decision in batch.decisions
+    } == {"max_amount_per_source_instrument"}
+
+
 def test_materiality_adjudication_approves_aggregate_commitment_snapshot(
     tmp_path: Path,
 ) -> None:
@@ -1792,6 +1858,127 @@ def test_materiality_adjudication_treats_mistagged_note_offering_as_non_bilatera
     assert "determine collateral scope" not in decision.remaining_gap
     assert "determine recourse and guarantee scope" not in decision.remaining_gap
     assert decision.metric_use_status == "approved_for_metric_use"
+
+
+def test_materiality_adjudication_treats_note_offering_with_credit_facility_reference_as_non_bilateral(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-note-credit-facility-reference",
+                "rank": 1,
+                "review_id": "review-note-credit-facility-reference",
+                "review_group_id": "group-note-credit-facility-reference",
+                "priority": "high",
+                "category": "capital",
+                "subcategory": "high_notional_debt_like_candidate",
+                "ecosystem_relevance": "watchlist_entity",
+                "entity": "Example Issuer Inc.",
+                "counterparty": "",
+                "exposure_basis_usd": "1730000000",
+                "reason": (
+                    "pending adjudication status: pending; debt-like deal type: debt_facility; "
+                    "notional $1,730,000,000; notional context: transaction_principal; "
+                    "commitment scope: specific_transaction_commitment; collateral terms present; "
+                    "guarantee scope present"
+                ),
+                "recommended_action": "Confirm maturity and pricing terms",
+                "source_uri": "https://www.sec.gov/example-note-credit-reference.htm",
+                "source_uris": json.dumps(
+                    ["https://www.sec.gov/example-note-credit-reference.htm"]
+                ),
+                "content_hash": "f" * 64,
+                "content_hashes": json.dumps(["f" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/example-note-credit-reference.htm",
+                            "content_hash": "f" * 64,
+                            "document_id": "example-note-credit-reference.htm",
+                            "snippet": (
+                                "Muvico, LLC commenced an offering of $1,730 million "
+                                "aggregate principal amount of first lien notes due 2031. "
+                                "The Notes will be guaranteed by subsidiaries that guarantee "
+                                "obligations under the Company's new $750 million term loan "
+                                "facility."
+                            ),
+                        }
+                    ]
+                ),
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    decision = batch.decisions[0]
+    assert "extract named counterparty and role" not in decision.remaining_gap
+    assert decision.metric_use_status == "approved_for_metric_use"
+
+
+def test_materiality_adjudication_keeps_term_facility_with_note_reference_bilateral(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-term-facility-note-reference",
+                "rank": 1,
+                "review_id": "review-term-facility-note-reference",
+                "review_group_id": "group-term-facility-note-reference",
+                "priority": "high",
+                "category": "contract",
+                "subcategory": "contract_tranche_terms",
+                "ecosystem_relevance": "watchlist_entity",
+                "entity": "Example Issuer Inc.",
+                "counterparty": "",
+                "exposure_basis_usd": "750000000",
+                "reason": (
+                    "pending contract tranche review; tranche: Term loan facility; "
+                    "notional $750,000,000; notional context: transaction_facility; "
+                    "collateral terms present; guarantee scope present"
+                ),
+                "recommended_action": "Extract lender parties",
+                "source_uri": "https://www.sec.gov/example-term-note-reference.htm",
+                "source_uris": json.dumps(
+                    ["https://www.sec.gov/example-term-note-reference.htm"]
+                ),
+                "content_hash": "a" * 64,
+                "content_hashes": json.dumps(["a" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/example-term-note-reference.htm",
+                            "content_hash": "a" * 64,
+                            "document_id": "example-term-note-reference.htm",
+                            "snippet": (
+                                "Muvico, LLC commenced an offering of $1,730 million "
+                                "aggregate principal amount of first lien notes due 2031. "
+                                "The Notes will be guaranteed by subsidiaries that guarantee "
+                                "obligations under the Company's new $750 million term loan "
+                                "facility."
+                            ),
+                        }
+                    ]
+                ),
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    decision = batch.decisions[0]
+    assert "extract named counterparty and role" in decision.remaining_gap
+    assert decision.metric_use_status == "blocked_pending_extraction"
 
 
 def test_materiality_adjudication_treats_unsecured_term_facility_as_scope_resolved(

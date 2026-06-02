@@ -1,15 +1,15 @@
 # Acquisition Status
 
-Last updated: 2026-06-02 03:04 UTC.
+Last updated: 2026-06-02 03:42 UTC.
 
 This file is the operational snapshot for the current evidence corpus. Treat it
 as a run log, not as a final investment conclusion.
 
 ## Current Corpus
 
-- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0304.md`
+- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0342.md`
 - Evidence gate: not high-confidence final.
-- Source invariant audit: passed at 2026-06-02 03:07 UTC, 63 CSV files
+- Source invariant audit: passed at 2026-06-02 03:33 UTC, 63 CSV files
   and 9,208,844 rows scanned, 0 violations, 0 warnings.
 - Generated report assets are internal evidence artifacts; the user-facing
   deliverable remains a high-level chat summary once the evidence supports it.
@@ -37,16 +37,17 @@ as a run log, not as a final investment conclusion.
   the packet set.
 - Automated materiality adjudication decisions: 6,699 decisions, 6,495 with
   resolved text quotes plus 204 row-context-backed decisions for non-text
-  sources, 4,330 supported as material blockers, 2,369 requiring deeper
-  extraction, 0 requiring source retrieval, and 2,744 source-backed rows
-  approved for metric use. Those approved rows total $11.713T as row-level
-  supported amounts and currently remain $11.712T after latest-snapshot metric
-  dedupe across 2,743 metric groups; they are not treated as individual
-  contracts unless contract terms are separately extracted.
+  sources, 4,372 supported as material blockers, 2,327 requiring deeper
+  extraction, 0 requiring source retrieval, and 2,786 source-backed rows
+  approved for metric use. Those approved rows total $11.791T as row-level
+  supported amounts, but source-instrument metric dedupe now collapses
+  same-document/same-amount duplicates to $9.227T across 1,929 metric groups;
+  they are not treated as individual contracts unless contract terms are
+  separately extracted.
 - Decision coverage over packaged blocker groups: 100.0%; unresolved decision
-  share remains 35.36% (still extraction-bound, not source-retrieval-bound).
+  share remains 34.74% (still extraction-bound, not source-retrieval-bound).
 - Top remaining decision gaps are now named counterparty role extraction
-  (1,366), collateral scope (822), recourse/guarantee scope (585), split
+  (1,296), collateral scope (822), recourse/guarantee scope (585), split
   aggregate disclosure from committed obligations (196), missing underlying
   term-level clauses (68), queue/permit/interconnection linkage (57), and
   shelf-capacity-vs-committed-financing distinction (27). Three rows now carry
@@ -102,6 +103,10 @@ Ready now:
   metric use with latest-snapshot dedupe, while still blocking individual
   contract conclusions until counterparties, recourse, collateral, maturities,
   and payment schedules are extracted
+- non-snapshot approved metric rows now collapse by source instrument and
+  supported amount before final metric support is reported, preventing
+  same-document/same-amount affiliate or repeated-extraction rows from inflating
+  final supported notional
 - role-clause counterparty inference now auto-populates agent/trustee,
   commitment-party, lead-arranger/bookrunner, placement-agent, and initial
   purchaser representative counterparties from source quotes when `counterparty`
@@ -139,10 +144,12 @@ Ready now:
 - note-offering bond rows can now clear counterparty and collateral gaps when
   source quote context is prospectus/indenture note issuance without bilateral
   lender-agent language, reducing false bilateral assumptions
-- debt-facility rows that are clearly note/indenture offerings in source text
-  now reuse the same non-bilateral handling and can clear synthetic counterparty
-  gaps; plain `unsecured` clause language now also resolves collateral-scope
-  gaps where secured-language evidence is absent
+- debt-facility rows that are clearly primary note/indenture offerings in source
+  text, including note offerings that mention related credit facilities in use
+  of proceeds or guarantee context, now reuse the same non-bilateral handling
+  and can clear synthetic counterparty gaps; plain `unsecured` clause language
+  now also resolves collateral-scope gaps where secured-language evidence is
+  absent
 - lender-role recourse detection now accepts bank/trust/financial-institution
   counterparty names (not only explicit `lender`/`agent` labels) when rows are
   already source-backed transaction facilities/principal commitments
@@ -468,13 +475,13 @@ Adjudication queue:
 - Pending compute claim amount: $398.24B.
 - Materiality packets: 6,699 source-backed packets, 742 AI-infra relevant, and
   6,699 with local evidence snippets.
-- Materiality decisions: 4,330 source-supported blockers, 2,369 requiring
-  deeper extraction, 0 requiring source retrieval, and 2,744 rows approved
+- Materiality decisions: 4,372 source-supported blockers, 2,327 requiring
+  deeper extraction, 0 requiring source retrieval, and 2,786 rows approved
   for metric use (6,495 quote-backed decisions plus 204 row-context-backed
   decisions on non-text sources).
-- Automated row-level supported amount approved for metric use: $11.713T.
-- Deduped automated final metric support: $11.712T across 2,743 latest-snapshot
-  metric groups.
+- Automated row-level supported amount approved for metric use: $11.791T.
+- Deduped automated final metric support: $9.227T across 1,929 source-instrument
+  and latest-snapshot metric groups.
 - Top unresolved gaps are named counterparty roles, collateral scope,
   recourse/guarantee scope, aggregate-to-committed splitting, and underlying
   term-level clause acquisition.

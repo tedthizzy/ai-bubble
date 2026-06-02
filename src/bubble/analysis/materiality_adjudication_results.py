@@ -392,10 +392,13 @@ def _is_note_offering_without_named_counterparty(
     has_note_markers = _has_note_offering_markers(text_lower)
     if not has_note_markers:
         return False
-    if _has_lender_facility_markers(text_lower):
+    if _is_facility_tranche_context(reason_text):
         return False
+    has_primary_note_offering = _has_primary_note_offering_markers(text_lower)
     if _contains_any(reason_text, ["debt-like deal type: bond", "tranche: notes"]):
         return True
+    if _has_lender_facility_markers(text_lower):
+        return has_primary_note_offering
     # Upstream deterministic extraction sometimes mis-tags note offerings as
     # debt facilities. Keep this fallback narrow to note/indenture language.
     return _contains_any(
@@ -524,6 +527,56 @@ def _has_lender_facility_markers(text: str) -> bool:
     )
 
 
+def _is_facility_tranche_context(reason_text: str) -> bool:
+    return _contains_any(
+        reason_text,
+        [
+            "tranche: term loan",
+            "tranche: revolving",
+            "tranche: revolver",
+            "tranche: credit facility",
+            "tranche: bridge loan",
+            "tranche: delayed draw",
+        ],
+    )
+
+
+def _has_primary_note_offering_markers(text: str) -> bool:
+    if not _contains_any(text, ["notes", "bonds", "debentures"]):
+        return False
+    if re.search(
+        r"\b(?:senior|secured|unsecured|first lien|mortgage|collateral trust)?\s*"
+        r"(?:notes|bonds|debentures)\s+due\s+\d{4}\b",
+        text,
+    ):
+        return True
+    if re.search(
+        r"\baggregate principal amount of [^.;]{0,80}?(?:notes|bonds|debentures)\b",
+        text,
+    ):
+        return True
+    if re.search(
+        r"\$\s*[\d,.]+(?:\s*(?:million|billion|trillion))?\s+of\s+"
+        r"(?:(?:senior|secured|unsecured|first lien|second lien|subordinated|mortgage|"
+        r"collateral trust)\s+)*(?:notes|bonds|debentures)\b",
+        text,
+    ):
+        return True
+    return _contains_any(
+        text,
+        [
+            "notes were issued",
+            "notes will be issued",
+            "notes were priced",
+            "notes will be guaranteed",
+            "notes were guaranteed",
+            "commenced an offering",
+            "offering of notes",
+            "issued under an indenture",
+        ],
+    )
+
+
 def _has_source_backed_ownership_path(packet: dict[str, str], text: str) -> bool:
     reason = _field(packet, "reason").lower()
     if not _contains_any(reason, ["ownership expanded contagion path", "ownership/control path depth"]):
@@ -618,6 +671,10 @@ def _metric_group_id(
             (_field(packet, "subcategory") or "capital").lower(),
         ).strip("-")
         return f"aggregate-obligation-snapshot:{entity_key}:{subcategory_key}"
+    instrument_key = _metric_source_instrument_key(packet)
+    if instrument_key:
+        amount_key = _metric_amount_key(_float(packet.get("exposure_basis_usd")))
+        return f"source-instrument:{instrument_key}:amount:{amount_key}"
     if _field(packet, "review_group_id"):
         return f"review-group:{_field(packet, 'review_group_id')}"
     if _field(packet, "packet_id"):
@@ -648,7 +705,37 @@ def _metric_aggregation_policy(
         return ""
     if _is_source_backed_aggregate_obligation_snapshot(packet, quote):
         return "latest_snapshot_per_metric_group"
+    if _metric_source_instrument_key(packet):
+        return "max_amount_per_source_instrument"
     return "sum_distinct_metric_rows"
+
+
+def _metric_source_instrument_key(packet: dict[str, str]) -> str:
+    content_hashes = sorted(
+        {
+            value
+            for value in (
+                _json_list(packet.get("content_hashes")) or [_field(packet, "content_hash")]
+            )
+            if value
+        }
+    )
+    if content_hashes:
+        return "hashes:" + ",".join(content_hashes)
+    source_uris = sorted(
+        {
+            value
+            for value in (_json_list(packet.get("source_uris")) or [_field(packet, "source_uri")])
+            if value
+        }
+    )
+    if source_uris:
+        return "uris:" + ",".join(source_uris)
+    return ""
+
+
+def _metric_amount_key(amount: float) -> str:
+    return str(round(amount))
 
 
 def _ai_linkage(packet: dict[str, str]) -> str:
@@ -1313,6 +1400,12 @@ def _deduped_final_metric_supported_amount(
             if current is None or _snapshot_sort_key(decision) > _snapshot_sort_key(current):
                 grouped[key] = decision
             continue
+        if decision.metric_aggregation_policy == "max_amount_per_source_instrument":
+            key = decision.metric_group_id or decision.packet_id
+            current = grouped.get(key)
+            if current is None or decision.supported_amount_usd > current.supported_amount_usd:
+                grouped[key] = decision
+            continue
         direct_sum += decision.supported_amount_usd
     return direct_sum + sum(decision.supported_amount_usd for decision in grouped.values())
 
@@ -1323,7 +1416,10 @@ def _final_metric_group_count(decisions: list[MaterialityAdjudicationDecision]) 
     for decision in decisions:
         if decision.metric_use_status not in FINAL_METRIC_DECISIONS:
             continue
-        if decision.metric_aggregation_policy == "latest_snapshot_per_metric_group":
+        if decision.metric_aggregation_policy in {
+            "latest_snapshot_per_metric_group",
+            "max_amount_per_source_instrument",
+        }:
             grouped.add(decision.metric_group_id or decision.packet_id)
         else:
             direct_count += 1
