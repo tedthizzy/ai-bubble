@@ -441,6 +441,101 @@ def test_capital_exposure_graph_ranks_ai_ppa_offtakers_by_capacity() -> None:
     assert offtakers[1]["ppa_capacity_mw"] == 750
 
 
+def test_capital_exposure_graph_adds_ai_gated_bearer_and_obligor_rankings() -> None:
+    casino_guarantee = Deal(
+        source_deal_id="casino-notes",
+        deal_type=DealType.BOND,
+        title="Casino note guarantee",
+        parties=["Wynn Resorts Ltd", "WML"],
+        counterparty_roles={
+            "issuer": ["Wynn Resorts Ltd"],
+            "guarantor": ["WML"],
+        },
+        notional_amount_usd=44_390_000_000,
+        provenance=_provenance("sec:wynn"),
+        confidence=0.9,
+    )
+    ai_facility = Deal(
+        source_deal_id="ai-facility",
+        deal_type=DealType.DEBT_FACILITY,
+        title="GPU data center financing facility",
+        parties=["CoreWeave SPV", "Apollo Credit"],
+        counterparty_roles={
+            "borrower": ["CoreWeave SPV"],
+            "lender": ["Apollo Credit"],
+        },
+        notional_amount_usd=1_500_000_000,
+        provenance=_provenance("sec:coreweave"),
+        confidence=0.9,
+    )
+
+    graph = build_capital_exposure_graph([casino_guarantee, ai_facility])
+
+    assert graph.summary.top_risk_bearers[0]["name"] == "WML"
+    assert graph.summary.top_ai_infra_risk_bearers[0]["name"] == "Apollo Credit"
+    assert graph.summary.top_ai_infra_risk_bearers[0][
+        "ai_infra_relevant_exposure_usd"
+    ] == 1_500_000_000
+    assert graph.summary.top_ai_infra_obligors[0]["name"] == "CoreWeave SPV"
+    assert graph.summary.top_ai_infra_obligors[0][
+        "ai_infra_relevant_exposure_usd"
+    ] == 1_500_000_000
+    assert {row["name"] for row in graph.summary.top_ai_infra_risk_bearers} == {
+        "Apollo Credit"
+    }
+
+
+def test_capital_exposure_graph_does_not_tag_xai_octagon_fund_as_ai_infra() -> None:
+    fund_facility = Deal(
+        source_deal_id="xai-octagon-facility",
+        deal_type=DealType.DEBT_FACILITY,
+        title="XAI Octagon Floating Rate & Alternative Income Trust - 8-K",
+        parties=["XAI Octagon Floating Rate & Alternative Income Trust", "Trust"],
+        counterparty_roles={
+            "borrower": ["XAI Octagon Floating Rate & Alternative Income Trust"],
+            "lender": ["Trust"],
+        },
+        notional_amount_usd=300_000_000,
+        provenance=_provenance("sec:xai-octagon"),
+        confidence=0.9,
+    )
+
+    graph = build_capital_exposure_graph([fund_facility])
+
+    assert graph.summary.ai_infra_relevant_edges == 0
+    assert graph.summary.top_ai_infra_risk_bearers == []
+    assert graph.summary.top_ai_infra_obligors == []
+
+
+def test_capital_exposure_graph_does_not_tag_airschott_truncation_as_ai_keyword() -> None:
+    logistics_facility = Deal(
+        source_deal_id="airschott-facility",
+        deal_type=DealType.DEBT_FACILITY,
+        title="JANEL CORP - SEC exhibit",
+        parties=[
+            "JANEL CORP",
+            "ELFS BROKERAGE LLC",
+            "AIRSCHOTT, INC.",
+        ],
+        counterparty_roles={
+            "borrower": ["JANEL CORP", "ELFS BROKERAGE LLC", "AIRSCHOTT, INC."],
+        },
+        key_terms={
+            "guarantee_descriptions": [
+                "payoff letter with evidence that the Airschott Prepayment has been paid and that the Ai"
+            ]
+        },
+        notional_amount_usd=27_000_000,
+        provenance=_provenance("sec:airschott"),
+        confidence=0.9,
+    )
+
+    graph = build_capital_exposure_graph([logistics_facility])
+
+    assert graph.summary.ai_infra_relevant_edges == 0
+    assert graph.summary.top_ai_infra_obligors == []
+
+
 def test_capital_exposure_graph_rejects_broken_counterparty_clauses() -> None:
     deal = Deal(
         source_deal_id="deal-3",

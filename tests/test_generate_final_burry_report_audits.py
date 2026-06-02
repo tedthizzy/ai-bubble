@@ -219,6 +219,20 @@ def test_report_answer_metric_audits_cover_source_backed_rollup_values() -> None
             "total_edge_notional_usd": 864_183_460_730.37,
             "ai_infra_relevant_notional_usd": 5_158_000_000,
             "ppa_capacity_mw": 27_430.5,
+            "top_ai_infra_risk_bearers": [
+                {
+                    "node_id": "entity:equinix",
+                    "name": "EQUINIX, INC.",
+                    "ai_infra_relevant_exposure_usd": 4_750_000_000,
+                }
+            ],
+            "top_ai_infra_obligors": [
+                {
+                    "node_id": "entity:equinix-europe-2-financing",
+                    "name": "Equinix Europe 2 Financing Corporation LLC",
+                    "ai_infra_relevant_exposure_usd": 2_050_000_000,
+                }
+            ],
             "top_ai_infra_ppa_offtakers": [
                 {
                     "node_id": "entity:amazon-energy",
@@ -254,6 +268,12 @@ def test_report_answer_metric_audits_cover_source_backed_rollup_values() -> None
         "capital_exposure.total_edge_notional": 864_183_460_730.37,
         "capital_exposure.ai_infra_relevant_notional": 5_158_000_000,
         "capital_exposure.ppa_capacity_mw": 27_430.5,
+        "capital_exposure.top_ai_infra_risk_bearers.entity:equinix.ai_infra_notional": (
+            4_750_000_000
+        ),
+        "capital_exposure.top_ai_infra_obligors.entity:equinix-europe-2-financing.ai_infra_notional": (
+            2_050_000_000
+        ),
         "capital_exposure.top_ai_infra_ppa_offtakers.entity:amazon-energy.ppa_capacity": (
             15_028.15
         ),

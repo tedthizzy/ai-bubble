@@ -867,6 +867,8 @@ def report_answer_metric_audits(  # noqa: PLR0912, PLR0915
         "top_ai_infra_components_by_notional",
         "top_contagion_hubs",
         "top_ai_infra_contagion_hubs",
+        "top_ai_infra_risk_bearers",
+        "top_ai_infra_obligors",
         "top_ai_infra_ppa_offtakers",
     ):
         rows = capital_exposure_graph_summary.get(key, [])
@@ -886,7 +888,8 @@ def report_answer_metric_audits(  # noqa: PLR0912, PLR0915
             add(
                 f"capital_exposure.{key}.{row_id}.ai_infra_notional",
                 f"Capital exposure graph {key} AI-infra notional",
-                row.get("ai_infra_relevant_notional_usd"),
+                row.get("ai_infra_relevant_notional_usd")
+                or row.get("ai_infra_relevant_exposure_usd"),
                 [graph_artifact],
                 requires_corroboration=False,
             )
@@ -2561,6 +2564,10 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:
                     "top_ai_infra_exposure_edges",
                     [],
                 )[:10],
+                "current_top_ai_infra_obligors": capital_exposure_graph_summary.get(
+                    "top_ai_infra_obligors",
+                    [],
+                )[:10],
                 "current_top_capital_exposure_components": capital_exposure_graph_summary.get(
                     "top_components_by_notional",
                     [],
@@ -2629,13 +2636,19 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:
             "who_bears_downside": {
                 "answer": (
                     "Partially measured, still not final. Current extraction can identify some "
-                    "bearer roles from structured deal rows, but counterparty extraction from "
-                    "SEC agreements remains incomplete and pending LLM adjudication."
+                    "bearer roles from structured deal rows, and the capital graph now separates "
+                    "AI/data-center-linked risk bearers from the raw non-thesis bearer ranking. "
+                    "Counterparty extraction from SEC agreements remains incomplete and pending "
+                    "LLM adjudication."
                 ),
                 "current_extracted_deals": coverage.extracted_deals,
                 "current_downside_bearers": [
                     exposure.to_dict() for exposure in capital_metrics.downside_bearers[:15]
                 ],
+                "current_top_ai_infra_risk_bearers": capital_exposure_graph_summary.get(
+                    "top_ai_infra_risk_bearers",
+                    [],
+                )[:10],
                 "current_unmapped_downside_bearer_deal_count": (
                     capital_metrics.unmapped_downside_bearer_deal_count
                 ),

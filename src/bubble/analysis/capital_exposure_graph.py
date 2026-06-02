@@ -87,7 +87,7 @@ ENTITY_SUFFIX_TOKENS = {
 }
 
 DIRECT_AI_INFRA_PATTERNS = {
-    "ai_keyword": re.compile(r"\b(ai|artificial intelligence)\b", re.I),
+    "ai_keyword": re.compile(r"\bAI\b|(?i:\bartificial intelligence\b)"),
     "data_center": re.compile(r"\bdata[- ]?cent(er|re)s?\b|\bdatacent(er|re)s?\b", re.I),
     "compute": re.compile(r"\bcompute\b|\bgpu\b|\bh100\b|\bh200\b|\bblackwell\b|\brubin\b", re.I),
     "cloud": re.compile(r"\bhyperscale\b|\bcloud\b|\bcolocation\b", re.I),
@@ -104,7 +104,12 @@ WATCHLIST_ENTITY_PATTERNS = {
     "meta": re.compile(r"\bmeta platforms?\b|\bfacebook\b", re.I),
     "oracle": re.compile(r"\boracle\b", re.I),
     "openai": re.compile(r"\bopenai\b", re.I),
-    "xai": re.compile(r"\bxai\b|\bx\.ai\b", re.I),
+    "xai": re.compile(
+        r"\bx\.ai\b|"
+        r"\bxai\s+(corp|corporation|group|holdings?|inc|llc|technologies?)\b|"
+        r"\b(xai|x\.ai)\b.{0,80}\b(artificial intelligence|compute|data[- ]?center|gpu)\b",
+        re.I,
+    ),
     "nvidia": re.compile(r"\bnvidia\b", re.I),
     "amd": re.compile(r"\badvanced micro devices\b|\bamd\b", re.I),
     "broadcom": re.compile(r"\bbroadcom\b", re.I),
@@ -294,6 +299,8 @@ class CapitalExposureGraphSummary:
     top_entities_by_exposure: list[dict[str, Any]]
     top_risk_bearers: list[dict[str, Any]]
     top_obligors: list[dict[str, Any]]
+    top_ai_infra_risk_bearers: list[dict[str, Any]]
+    top_ai_infra_obligors: list[dict[str, Any]]
     top_exposure_edges: list[dict[str, Any]]
     top_ai_infra_exposure_edges: list[dict[str, Any]]
     top_components_by_notional: list[dict[str, Any]]
@@ -568,6 +575,16 @@ def _build_capital_exposure_summary(
         ai_relevant_edges,
         nodes,
     )
+    top_ai_infra_risk_bearers = _ai_infra_node_exposure_rows(
+        ai_relevant_edges,
+        nodes,
+        required_roles=RISK_BEARER_ROLES,
+    )
+    top_ai_infra_obligors = _ai_infra_node_exposure_rows(
+        ai_relevant_edges,
+        nodes,
+        required_roles=OBLIGOR_ROLES | PPA_SOURCE_ROLES,
+    )
     tranche_contract_nodes = [node for node in contract_nodes if node.node_type == "tranche"]
     spv_contract_nodes = [
         node
@@ -653,6 +670,8 @@ def _build_capital_exposure_summary(
         top_entities_by_exposure=top_entities,
         top_risk_bearers=top_risk_bearers,
         top_obligors=top_obligors,
+        top_ai_infra_risk_bearers=top_ai_infra_risk_bearers[:25],
+        top_ai_infra_obligors=top_ai_infra_obligors[:25],
         top_exposure_edges=[edge.to_dict() for edge in edges[:25]],
         top_ai_infra_exposure_edges=[edge.to_dict() for edge in ai_relevant_edges[:25]],
         top_components_by_notional=[component.to_dict() for component in component_risks[:15]],
@@ -2034,6 +2053,72 @@ def _counterparty_rollups(
         row["deal_types"].add(edge.deal_type)
         row["source_uris"].update(edge.source_uris)
     return counterparties
+
+
+def _ai_infra_node_exposure_rows(
+    edges: list[CapitalExposureEdge],
+    nodes: list[CapitalExposureNode],
+    *,
+    required_roles: set[str],
+) -> list[dict[str, Any]]:
+    """Rank role-qualified nodes by AI/data-center-linked incident notional."""
+
+    node_by_id = {node.node_id: node for node in nodes}
+    incident_edges: dict[str, list[CapitalExposureEdge]] = defaultdict(list)
+    for edge in edges:
+        if not edge.relevance_tags or edge.notional_usd <= 0:
+            continue
+        incident_edges[edge.source_id].append(edge)
+        incident_edges[edge.target_id].append(edge)
+
+    rows: list[dict[str, Any]] = []
+    for node in nodes:
+        if not set(node.roles).intersection(required_roles):
+            continue
+        node_edges = incident_edges.get(node.node_id, [])
+        if not node_edges:
+            continue
+        counterparties = _counterparty_rollups(node.node_id, node_edges, node_by_id)
+        relevance_tags = sorted({tag for edge in node_edges for tag in edge.relevance_tags})
+        source_uris = {uri for edge in node_edges for uri in edge.source_uris if uri}
+        ai_notional = round(sum(edge.notional_usd for edge in node_edges), 2)
+        if ai_notional <= 0:
+            continue
+        rows.append(
+            {
+                "node_id": node.node_id,
+                "name": node.name,
+                "roles": node.roles,
+                "deal_count": node.deal_count,
+                "incident_edge_count": len(node_edges),
+                "distinct_counterparties": len(counterparties),
+                "ai_infra_relevant_exposure_usd": ai_notional,
+                "source_uri_count": len(source_uris),
+                "relevance_tags": tuple(relevance_tags),
+                "top_counterparties": [
+                    _counterparty_row(neighbor_id, row, node_by_id)
+                    for neighbor_id, row in sorted(
+                        counterparties.items(),
+                        key=lambda item: (
+                            item[1]["ai_infra_relevant_notional_usd"],
+                            item[1]["notional_usd"],
+                            item[1]["edge_count"],
+                        ),
+                        reverse=True,
+                    )[:10]
+                ],
+            }
+        )
+    rows.sort(
+        key=lambda row: (
+            row["ai_infra_relevant_exposure_usd"],
+            row["distinct_counterparties"],
+            row["incident_edge_count"],
+            row["name"],
+        ),
+        reverse=True,
+    )
+    return rows
 
 
 def _ai_infra_ppa_offtaker_concentrations(

@@ -1,23 +1,24 @@
 # Acquisition Status
 
-Last updated: 2026-06-02 17:26 UTC.
+Last updated: 2026-06-02 17:46 UTC.
 
 This file is the operational snapshot for the current evidence corpus. Treat it
 as a run log, not as a final investment conclusion.
 
 ## Current Corpus
 
-- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-1726.md`
+- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-1746.md`
 - Evidence gate: not high-confidence final.
-- Evidence audit coverage: 474 claim audits now include analyzer-level capital,
+- Evidence audit coverage: 461 claim audits now include analyzer-level capital,
   compute, and debt-service audits, explicit row/artifact-backed audits for
   high-impact Burry-answer rollups, and aggregate hooks for pending review
   capital, pending AI-infra capital, pending compute, weak-link AI-infra,
   debt-service maturity-wall, capital-graph total/AI-infra notional, and compute
   GPU-capex rollups. Capital-graph audits now also cover MW-based PPA capacity
-  concentration, so hyperscaler demand-side power offtakers are visible even
-  when the graph edge carries no dollar notional. Substantive high-impact metric
-  audit warnings are cleared;
+  concentration plus AI/data-center-gated risk-bearer and obligor rankings, so
+  demand-side power offtakers and downside-bearer nodes are visible without
+  reading the raw non-thesis graph ranking as the AI-specific answer.
+  Substantive high-impact metric audit warnings are cleared;
   the remaining consistency warnings are doc-pattern checks, not evidence gaps
   or a gate opening.
 - Source invariant audit: passed at 2026-06-02 04:02 UTC, 63 CSV files
@@ -48,6 +49,12 @@ as a run log, not as a final investment conclusion.
   across 42 power suppliers; Google Energy LLC is 9,518 MW across 34 suppliers;
   Microsoft appears across Microsoft Energy LLC and Microsoft Corporation nodes
   with 6,295 MW total before legal-family consolidation.
+- Capital-graph AI/data-center exposure tagging now uses stricter entity and
+  keyword matching to avoid unrelated `XAI Octagon` fund rows and truncated
+  title-case `Ai` snippets. The AI-gated capital graph now has 139 relevant
+  edges and $4.75B of AI-infra-relevant notional; the current AI-gated downside
+  bearer surface is Equinix as guarantor against three Equinix financing issuer
+  nodes totaling $4.75B.
 - Materiality-first LLM adjudication packets: 6,663 blocker groups packaged
   (full deduped queue), all 6,663 source-backed, 6,663 with local evidence
   snippets, 706 AI-infra relevant, and $56.029T of total exposure-basis across
@@ -500,8 +507,8 @@ Capital exposure graph:
 - Nodes: 5,036.
 - Source-backed edges: 7,526.
 - Total edge notional: $864.18B.
-- AI-infra-relevant notional: $5.16B.
-- AI-infra-relevant edges: 156.
+- AI-infra-relevant notional: $4.75B.
+- AI-infra-relevant edges: 139.
 - Generic/artifact counterparty mentions skipped: 11,644.
 - Contract-structure nodes: 93,822.
 - Source-backed contract-structure edges: 189,129.
