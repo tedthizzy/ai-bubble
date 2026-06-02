@@ -205,7 +205,14 @@ as a run log, not as a final investment conclusion.
   facility with parsed maturity, floating spread/fixed coupon, undrawn fee,
   collateral, recourse, covenants, source tier, and verification status. This
   supports DSCR/timing coverage work without changing committed-debt metric
-  totals; press-only facilities remain explicitly unverified.
+  totals; press-only facilities remain explicitly unverified. A direct-tier
+  card pack is now imported for CoreWeave, IREN, TeraWulf, Applied Digital,
+  CleanSpark, Hut 8, Nebius, and MARA, plus contract-durability and negative-
+  carry summaries. Normalizing those cards yields 19 actionable facilities: 3
+  primary-verified facilities totaling $5.75B, and 16 unverified or
+  needs-extraction facilities totaling $34.95B. The residual extraction target
+  is now explicit: 2 primary-verified facility rows still lack collateral, 2
+  lack maturity, 1 lacks rate evidence, and 2 lack recourse evidence.
 - A deterministic physical-execution extractor now exists at
   `bubble.ingestion.physical.extract_physical_execution_terms`. It normalizes
   acquired permit/PUC/source text into machine-checkable physical execution

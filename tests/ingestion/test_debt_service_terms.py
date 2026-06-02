@@ -121,6 +121,74 @@ def test_press_only_facility_stays_unverified_but_parses_fixed_coupon() -> None:
     assert terms[0].verification_status == "unverified_external"
 
 
+def test_primary_edgar_source_tier_alias_is_verified() -> None:
+    terms = normalize_debt_service_card_rows(
+        [
+            {
+                "entity": "TeraWulf",
+                "facility": "WULF Compute Notes 2030",
+                "field": "facility_size_usd",
+                "value": "3200000000",
+                "source_tier": "primary_EDGAR",
+                "source": "EDGAR pricing release",
+            },
+            {
+                "entity": "TeraWulf",
+                "facility": "WULF Compute Notes 2030",
+                "field": "coupon",
+                "value": "7.750% fixed",
+                "source_tier": "primary_EDGAR",
+                "source": "EDGAR pricing release",
+            },
+        ]
+    )
+
+    assert terms[0].verification_status == "primary_verified"
+
+
+def test_normalizer_skips_metadata_rows_but_keeps_extraction_gap_facilities() -> None:
+    terms = normalize_debt_service_card_rows(
+        [
+            {
+                "entity": "IREN",
+                "facility": "TOTAL",
+                "field": "real_debt_usd",
+                "value": "9000000000",
+                "source_tier": "derived",
+                "source": "analyst sum",
+            },
+            {
+                "entity": "MARA Holdings",
+                "facility": "DISAMBIGUATION",
+                "field": "note",
+                "value": "MARA Holdings is not Marathon Petroleum",
+                "source_tier": "primary_EDGAR",
+                "source": "decisions CSV",
+            },
+            {
+                "entity": "Nebius",
+                "facility": "metric_questionable",
+                "field": "note",
+                "value": "packet exceeds largest known facility",
+                "source_tier": "needs_extraction",
+                "source": "decisions CSV",
+            },
+            {
+                "entity": "IREN",
+                "facility": "May2026 DDTL",
+                "field": "facility_size_usd",
+                "value": "needs_extraction",
+                "source_tier": "needs_extraction",
+                "source": "credit agreement",
+            },
+        ]
+    )
+
+    assert [term.term_id for term in terms] == ["iren:may2026-ddtl"]
+    assert terms[0].facility_size_usd == ""
+    assert terms[0].verification_status == "unverified_or_secondary"
+
+
 def test_summary_counts_missing_primary_critical_fields() -> None:
     terms = normalize_debt_service_card_rows(
         [

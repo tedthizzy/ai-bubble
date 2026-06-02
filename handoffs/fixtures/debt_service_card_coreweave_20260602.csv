@@ -1,0 +1,18 @@
+entity,facility,field,value,source_tier,source
+CoreWeave,DDTL 3.0,facility_size_usd,2600000000,primary_8K,EDGAR 0001769628-25-000033 (filed 2025-07-28)
+CoreWeave,DDTL 3.0,borrower,CCAC VII (SPV); Parent guarantee,primary_8K,EDGAR 0001769628-25-000033
+CoreWeave,DDTL 3.0,purpose,finance capex for a customer contract incl GPU servers,primary_8K,EDGAR 0001769628-25-000033
+CoreWeave,DDTL 3.0,draw_availability_until,2026-07,primary_8K,EDGAR 0001769628-25-000033
+CoreWeave,DDTL 3.0,maturity,2030-08-21,primary_8K,EDGAR 0001769628-25-000033
+CoreWeave,DDTL 3.0,rate_floating,daily compounded SOFR + 4.00% (0% floor); base+3.00% alt,primary_8K,EDGAR 0001769628-25-000033
+CoreWeave,DDTL 3.0,undrawn_fee,0.50% per annum on avg daily undrawn,primary_8K,EDGAR 0001769628-25-000033
+CoreWeave,DDTL 3.0,collateral,substantially all assets of CCAC VII + 100% equity pledge (GPU-backed),primary_8K,EDGAR 0001769628-25-000033
+CoreWeave,DDTL 3.0,recourse,Parent (CoreWeave) unconditional guarantee via Parent Guarantee and Pledge Agreement 2025-07-28,primary_8K,EDGAR 0001769628-25-000033
+CoreWeave,DDTL 3.0,covenant_dscr,>= 1.40x beginning April 2027 (NO coverage test during ramp),primary_8K,EDGAR 0001769628-25-000033
+CoreWeave,DDTL 3.0,covenant_contract_realization_ratio,>= 0.85x monthly (actual billed/received vs projected contracted cash flows trailing 3mo),primary_8K,EDGAR 0001769628-25-000033
+CoreWeave,DDTL 4.0,facility_size_usd,8500000000,press_NOT_verified,StockTitan/press (recommend pull 8-K)
+CoreWeave,DDTL 4.0,secured,senior secured,press_NOT_verified,StockTitan/press
+CoreWeave,DDTL 4.0,maturity,2032-03,press_NOT_verified,StockTitan/press
+CoreWeave,2031 Notes,facility_size_usd,2750000000,press_NOT_verified,press (recommend pull notes 8-K/424B)
+CoreWeave,2031 Notes,coupon,9.75% senior unsecured,press_NOT_verified,press
+CoreWeave,2031 Notes,maturity,2031-10,press_NOT_verified,press

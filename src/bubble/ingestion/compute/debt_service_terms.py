@@ -14,8 +14,35 @@ import re
 from dataclasses import asdict, dataclass
 from typing import Any
 
-PRIMARY_SOURCE_TIERS = {"primary_8k", "primary_10k", "primary_10q", "primary_424b", "primary_s1"}
+PRIMARY_SOURCE_TIERS = {
+    "primary_edgar",
+    "primary_8k",
+    "primary_10k",
+    "primary_10q",
+    "primary_424b",
+    "primary_s1",
+}
 UNVERIFIED_SOURCE_MARKERS = ("not_verified", "press", "secondary", "rumor")
+FACILITY_TERM_FIELDS = {
+    "borrower",
+    "collateral",
+    "coupon",
+    "covenant_contract_realization_ratio",
+    "covenant_dscr",
+    "draw_availability_until",
+    "facility_size_usd",
+    "fixed_coupon",
+    "issuer",
+    "maturity",
+    "purpose",
+    "rate",
+    "rate_floating",
+    "recourse",
+    "security",
+    "tranches",
+    "type",
+    "undrawn_fee",
+}
 
 DEBT_SERVICE_TERM_FIELDS = [
     "term_id",
@@ -90,6 +117,7 @@ def normalize_debt_service_card_rows(rows: list[dict[str, Any]]) -> list[DebtSer
     terms = [
         _term_from_rows(entity, facility, card_rows)
         for (entity, facility), card_rows in grouped.items()
+        if _is_facility_card_group(facility, card_rows)
     ]
     return sorted(terms, key=lambda term: (term.entity.lower(), term.facility.lower()))
 
@@ -154,6 +182,15 @@ def _term_from_rows(entity: str, facility: str, rows: list[dict[str, Any]]) -> D
         filing_accession=accession,
         source_quote=quote,
     )
+
+
+def _is_facility_card_group(facility: str, rows: list[dict[str, Any]]) -> bool:
+    facility_key = facility.strip().lower()
+    if facility_key in {"total", "disambiguation"}:
+        return False
+    if any(marker in facility_key for marker in ("not debt", "metric_questionable", "packet")):
+        return False
+    return any(_field_name(row) in FACILITY_TERM_FIELDS for row in rows)
 
 
 def _field_name(row: dict[str, Any]) -> str:

@@ -1,0 +1,6 @@
+entity,backing_contract,contract_value,take_or_pay,durability_hole,counterparty_concentration,source_tier
+CoreWeave,OpenAI compute agreement,22400000000,yes (pay whether used or not),"nonperformance carve-out: customers can cancel if CoreWeave fails to deliver capacity (construction delays)",OpenAI single-name ~$22.4B through Oct-2030,primary_press+riskfactor
+CoreWeave,Microsoft anchor,,yes,same nonperformance carve-out,"Microsoft 62% (2024) / 67% (2025) / 71% (Q2'25) of revenue",primary_filing
+CoreWeave,backlog overall,,96% multi-year locked-in take-or-pay,"pay-to-end except nonperformance; active securities litigation re construction-timeline delays",top-customer-concentrated,primary_filing
+TeraWulf,Flash Compute / Fluidstack lease,12800000000,yes (HPC lease),"Google credit-backing reduces counterparty risk; cancellation terms NEEDS",Fluidstack (Google-credit-supported),primary_filing
+IREN,Microsoft / others,,needs_extraction,NEEDS,NEEDS,needs_extraction

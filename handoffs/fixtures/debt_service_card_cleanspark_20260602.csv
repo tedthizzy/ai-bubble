@@ -1,0 +1,8 @@
+entity,facility,field,value,source_tier,source,filing_accession
+CleanSpark,Nov2025 Conv Notes 2032,facility_size_usd,1150000000,primary_EDGAR,Upsized $1.15B Zero-Coupon Convertible (closed Nov 2025),000119312525280105
+CleanSpark,Nov2025 Conv Notes 2032,coupon,0.00% (zero-coupon),primary_EDGAR,CleanSpark convertible pricing,000119312525280105
+CleanSpark,Nov2025 Conv Notes 2032,maturity,2032,primary_EDGAR,CleanSpark convertible pricing,000119312525280105
+CleanSpark,Nov2025 Conv Notes 2032,net_proceeds_usd,1130000000,primary_EDGAR,after initial purchasers' discounts,000119312525280105
+CleanSpark,Nov2025 Conv Notes 2032,security,senior unsecured convertible,primary_EDGAR,note title,000119312525280105
+CleanSpark,Nov2025 Conv Notes 2032,collateral,none (unsecured),needs_extraction,confirm from indenture,000119312525280105
+CleanSpark,TOTAL,real_metric_captured_debt_usd,1150000000,derived,all 7 metric packets trace to this single $1.15B offering,

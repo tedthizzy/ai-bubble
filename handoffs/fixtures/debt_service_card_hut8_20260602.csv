@@ -1,0 +1,9 @@
+entity,facility,field,value,source_tier,source,filing_accession
+Hut 8,Hut 8 DC Notes 2042,facility_size_usd,3250000000,primary_EDGAR,Hut 8 Announces Pricing of $3.25B (April 2026),tm2612880
+Hut 8,Hut 8 DC Notes 2042,coupon,6.192% fixed,primary_EDGAR,Hut 8 DC LLC indenture,tm2612880
+Hut 8,Hut 8 DC Notes 2042,maturity,2042,primary_EDGAR,note title "SENIOR SECURED NOTES DUE 2042",tm2612880
+Hut 8,Hut 8 DC Notes 2042,security,senior secured,primary_EDGAR,note title,tm2612880
+Hut 8,Hut 8 DC Notes 2042,issuer,Hut 8 DC LLC (indirect wholly-owned subsidiary),primary_EDGAR,indenture dated 2026-04-27,tm2612880
+Hut 8,Hut 8 DC Notes 2042,recourse,needs_extraction (SPV issuer),needs_extraction,pull indenture,tm2612880
+Hut 8,Hut 8 DC Notes 2042,collateral,needs_extraction,needs_extraction,pull indenture,tm2612880
+Hut 8,TOTAL,real_metric_captured_debt_usd,3250000000,derived,all 3 metric packets = this one offering (counted 3x),

@@ -1,0 +1,19 @@
+entity,facility,field,value,source_tier,source,filing_accession
+TeraWulf,WULF Compute Notes 2030,facility_size_usd,3200000000,primary_EDGAR,priced 2025-10-16 closed 2025-10-23,tm2528904
+TeraWulf,WULF Compute Notes 2030,coupon,7.750% fixed,primary_EDGAR,TeraWulf $3.2B Senior Secured Notes pricing,tm2528904
+TeraWulf,WULF Compute Notes 2030,maturity,2030,primary_EDGAR,pricing release,tm2528904
+TeraWulf,WULF Compute Notes 2030,security,senior secured,primary_EDGAR,note title "SENIOR SECURED NOTES",tm2528904
+TeraWulf,WULF Compute Notes 2030,issuer,WULF Compute LLC (subsidiary),primary_EDGAR,pricing release,tm2528904
+TeraWulf,WULF Compute Notes 2030,purpose,Lake Mariner campus data-center expansion,primary_EDGAR,pricing release,tm2528904
+TeraWulf,WULF Compute Notes 2030,collateral,needs_extraction,needs_extraction,pull indenture,tm2528904
+TeraWulf,WULF Compute Notes 2030,recourse,needs_extraction (SPV issuer),needs_extraction,pull indenture,tm2528904
+TeraWulf,Flash Compute JV Notes 2030,facility_size_usd,1300000000,primary_EDGAR,Flash Compute LLC private offering,tm2534384
+TeraWulf,Flash Compute JV Notes 2030,coupon,7.250% fixed,primary_EDGAR,Flash Compute pricing,tm2534384
+TeraWulf,Flash Compute JV Notes 2030,maturity,2030,primary_EDGAR,Flash Compute pricing,tm2534384
+TeraWulf,Flash Compute JV Notes 2030,security,senior secured,primary_EDGAR,note title,tm2534384
+TeraWulf,Flash Compute JV Notes 2030,issuer,Flash Compute LLC (JV TeraWulf+Fluidstack),primary_EDGAR,pricing release,tm2534384
+TeraWulf,Flash Compute JV Notes 2030,purpose,Abernathy TX data-center construction,primary_EDGAR,pricing release,tm2534384
+TeraWulf,Flash Compute JV Notes 2030,recourse,partial (JV/project-financed),needs_extraction,pull JV docs,tm2534384
+TeraWulf,Private Offering,facility_size_usd,850000000,primary_press,"$850 million aggregate principal amount" private offering,
+TeraWulf,HPC Lease (NOT DEBT),contracted_value_usd,12800000000,reclassify,seller-side contracted revenue (lessor) -- exclude from debt metric,
+TeraWulf,TOTAL,real_debt_usd,5350000000,derived,sum of distinct primary-verified debt facilities (excl HPC lease),

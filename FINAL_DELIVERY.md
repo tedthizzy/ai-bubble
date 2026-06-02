@@ -144,7 +144,13 @@ Latest capital and timing outputs:
   `scripts/normalize_debt_service_cards.py`. It turns long-form source cards
   into facility-level rows with maturity, rate/spread/coupon, undrawn fee,
   collateral, recourse, covenants, and verification status, while keeping
-  press-only facilities out of primary-verified DSCR/timing coverage.
+  press-only facilities out of primary-verified DSCR/timing coverage. The
+  direct-tier card pack now covers CoreWeave, IREN, TeraWulf, Applied Digital,
+  CleanSpark, Hut 8, Nebius, and MARA. Current normalization yields 19
+  actionable facilities: 3 primary-verified facilities totaling $5.75B and 16
+  unverified or needs-extraction facilities totaling $34.95B, with the remaining
+  primary-card gaps concentrated in collateral, recourse, maturity, and rate
+  fields.
 - A deterministic physical-execution extractor now exists at
   `bubble.ingestion.physical.extract_physical_execution_terms`, turning acquired
   permit/PUC/source text into normalized evidence rows for on-site generation,

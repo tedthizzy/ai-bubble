@@ -1,0 +1,13 @@
+entity,facility,field,value,source_tier,source,filing_accession
+Applied Digital,APLD ComputeCo 2 Notes 2031,facility_size_usd,2150000000,primary_EDGAR,Pricing of $2.15B Senior Secured Notes (Polaris Forge 2),000149315226008772
+Applied Digital,APLD ComputeCo 2 Notes 2031,coupon,6.750% fixed,primary_EDGAR,APLD ComputeCo 2 pricing,000149315226008772
+Applied Digital,APLD ComputeCo 2 Notes 2031,maturity,2031,primary_EDGAR,note title,000149315226008772
+Applied Digital,APLD ComputeCo 2 Notes 2031,issue_price,98%,primary_EDGAR,APLD ComputeCo 2 pricing,000149315226008772
+Applied Digital,APLD ComputeCo 2 Notes 2031,security,senior secured,primary_EDGAR,note title,000149315226008772
+Applied Digital,APLD ComputeCo 2 Notes 2031,issuer,APLD ComputeCo 2 LLC (subsidiary),primary_EDGAR,pricing release,000149315226008772
+Applied Digital,APLD ComputeCo Notes,facility_size_usd,2350000000,primary_press,Proposed Offering of $2.35B Senior Secured Notes,
+Applied Digital,APLD ComputeCo Notes,security,senior secured,primary_press,proposed-offering release,
+Applied Digital,APLD ComputeCo Notes,status,proposed/may overlap with the $2.15B priced deal,needs_extraction,confirm distinct vs downsized,
+Applied Digital,Existing Debt,total_existing_debt_usd,2610000000,primary_press,"Applied Digital already carries $2.61B total debt",
+Applied Digital,$4.3B packet,disposition,needs_refs_check,needs_extraction,$4.30B pkt -- Codex evidence_quote_refs call,
+Applied Digital,TOTAL,real_debt_estimate_usd,8800000000,derived,ComputeCo $2.35B + ComputeCo2 $2.15B + existing $2.61B (+$4.3B pending),

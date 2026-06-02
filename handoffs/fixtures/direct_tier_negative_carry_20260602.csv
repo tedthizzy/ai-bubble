@@ -1,0 +1,8 @@
+entity,debt_type,carded_cash_interest_usd,annual_revenue_usd,interest_pct_of_rev,profitable,dscr_tier,note
+TeraWulf,secured notes 7.250-7.750%,342000000,130000000,263%,no,cash_service_stressed,interest 2.6x revenue (Q1'26 guide $30-35M/q); worst cash carry in cluster
+CoreWeave,secured DDTL+notes (carded $2.6B only),216000000,8300000000,3%,no,loss_making_at_scale,"rev ~$8.3B annualized ($2.078B/q) BUT -$740M/quarter net loss; TOTAL debt ~$25B+ -> real interest >>$216M carded; DSCR depends on EBITDA vs full service"
+Applied Digital,secured notes 6.750%,145000000,508000000,29%,no,unprofitable_manageable_interest,rev TTM $338M ann ~$508M; interest ~29% of rev; more debt pending
+IREN,parent convertibles 0.25-3.50%,80000000,961000000,8%,partial,low_cash_carry_deferred,cash interest only 8% of ~$961M rev (Q1 $240M); risk is dilution + $1.5B DDTL + execution not cash service
+Hut 8,secured notes 6.192%,201000000,,,,,rev NEEDS
+CleanSpark,parent convertible 0.00%,0,,,,low_cash_carry_deferred,zero cash coupon; entire cost is dilution/refi at 2032; rev NEEDS
+Nebius,parent convertibles ~1-3%,77000000,,,,low_cash_carry_deferred,plus principal accretes to 120-125%; rev NEEDS
