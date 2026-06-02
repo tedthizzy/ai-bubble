@@ -32,8 +32,8 @@ The important change is that ecosystem-scale conclusions are now blocked from be
 
 Latest verified evidence-gated report at this checkpoint:
 
-- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0857.md`
-- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0857.json`
+- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0904.md`
+- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0904.json`
 - `high_confidence_final`: `false`
 - Evidence audit coverage now includes analyzer-level capital, compute, and
   debt-service audits plus explicit row/artifact-backed audits for high-impact
@@ -49,9 +49,9 @@ Latest verified evidence-gated report at this checkpoint:
 - Source-backed compute rows: 149.
 - Source-backed timing signals: 3,263.
 - Pending source-backed adjudication items: 6,773.
-- Automated materiality adjudication decisions: 6,663 decisions, with 4,476
-  supported blockers, 2,187 still requiring deeper extraction, 2,930 approved
-  metric rows, and $4.378T deduped final metric support across 1,581
+- Automated materiality adjudication decisions: 6,663 decisions, with 4,470
+  supported blockers, 2,193 still requiring deeper extraction, 2,924 approved
+  metric rows, and $4.365T deduped final metric support across 1,579
   source-instrument/economic-obligation metric groups. Semantic hard flags are now zero
   in approved metric rows; 157 approved rows remain indeterminate semantic
   review candidates.
@@ -62,14 +62,17 @@ Latest capital and timing outputs:
 - Capital exposure graph total edge notional: $864.18B.
 - AI-infra-relevant graph notional: $5.16B.
 - In-scope debt-like notional: $1.201T.
-- Broader materiality-adjudicated supported exposure: $4.378T across 1,581
+- Broader materiality-adjudicated supported exposure: $4.365T across 1,579
   metric groups; this is a different scope from the curated capital-structure
   deal-graph debt-like metric above, not an additive increment.
 - Established direct/watchlist AI-data-center-linked support inside that broader
-  materiality metric is $0.370T ($0.074T direct and $0.296T watchlist);
-  $4.008T, or 91.6%, remains source-backed but not yet thesis-linked.
+  materiality metric is $0.360T ($0.074T direct and $0.286T watchlist);
+  $4.005T, or 91.8%, remains source-backed but not yet thesis-linked.
 - Unconverted HKD face-value rows are blocked from metric use pending
   source-backed USD conversion; six rows now carry that extraction gap.
+- Mixed-currency selected quotes without an explicit USD amount matching the
+  recorded metric are blocked pending USD-equivalent extraction or source-quote
+  reselection; USD-confirmed mixed-currency rows remain eligible.
 - Ownership graph LEI nodes: 425,765.
 - Ownership graph source-backed relationships: 643,828.
 - Ownership graph active relationships: 469,194.

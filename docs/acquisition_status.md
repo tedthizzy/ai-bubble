@@ -1,13 +1,13 @@
 # Acquisition Status
 
-Last updated: 2026-06-02 08:57 UTC.
+Last updated: 2026-06-02 09:04 UTC.
 
 This file is the operational snapshot for the current evidence corpus. Treat it
 as a run log, not as a final investment conclusion.
 
 ## Current Corpus
 
-- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0857.md`
+- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0904.md`
 - Evidence gate: not high-confidence final.
 - Evidence audit coverage: report-level audits now include analyzer-level
   capital, compute, and debt-service audits plus explicit row/artifact-backed
@@ -42,21 +42,21 @@ as a run log, not as a final investment conclusion.
   the packet set.
 - Automated materiality adjudication decisions: 6,663 decisions, 6,463 with
   resolved text quotes plus 200 row-context-backed decisions for non-text
-  sources, 4,476 supported as material blockers, 2,187 requiring deeper
-  extraction, 0 requiring source retrieval, and 2,930 source-backed rows
-  approved for metric use. Those approved rows total $8.328T as row-level
+  sources, 4,470 supported as material blockers, 2,193 requiring deeper
+  extraction, 0 requiring source retrieval, and 2,924 source-backed rows
+  approved for metric use. Those approved rows total $8.301T as row-level
   supported amounts, but source-instrument and economic-obligation metric
   dedupe now collapses same-document/same-amount and exact repeated filing
-  disclosures to $4.378T deduped final metric support across 1,581 metric groups;
+  disclosures to $4.365T deduped final metric support across 1,579 metric groups;
   they are not treated as individual contracts unless contract terms are
   separately extracted.
 - Report arithmetic invariants pass with 0 violations. The how-large answer now
   labels the $1.201T curated capital-structure deal-graph debt-like metric
-  separately from the broader $4.378T materiality-adjudicated supported exposure
+  separately from the broader $4.365T materiality-adjudicated supported exposure
   metric so the two scopes are not read as inconsistent or directly additive.
 - The broader materiality metric is now split by adjudicated thesis linkage:
-  $0.370T has established direct/watchlist AI-data-center linkage ($0.074T
-  direct and $0.296T watchlist), while $4.008T, or 91.6%, is source-backed
+  $0.360T has established direct/watchlist AI-data-center linkage ($0.074T
+  direct and $0.286T watchlist), while $4.005T, or 91.8%, is source-backed
   but not yet established as AI/data-center-linked. The unlinked tail is a
   scope gap, not a final no-link conclusion.
 - Semantic metric-validity gating now scans approved materiality rows as a
@@ -65,7 +65,7 @@ as a run log, not as a final investment conclusion.
   approved rows are hard-flagged as asset/capacity, equity/production, or
   boilerplate snippets.
 - Decision coverage over packaged blocker groups: 100.0%; unresolved decision
-  share remains 32.82% (still extraction-bound, not source-retrieval-bound).
+  share remains 32.91% (still extraction-bound, not source-retrieval-bound).
 - Top remaining decision gaps are now named counterparty role extraction
   (1,212), collateral scope (645), recourse/guarantee scope (517), split
   aggregate disclosure from committed obligations (165),
@@ -73,8 +73,9 @@ as a run log, not as a final investment conclusion.
   semantic confirmation (72), specific committed-obligation equity/share or
   mortgage-production splitting (58), queue/permit/interconnection linkage (43),
   mega-obligation confirmation (33), missing underlying term-level clauses
-  (28), shelf-capacity-vs-committed-financing distinction (25), and non-USD
-  notional conversion before metric use (6).
+  (28), shelf-capacity-vs-committed-financing distinction (25), mixed-currency
+  quote reselection or USD-equivalent extraction (10), and non-USD notional
+  conversion before metric use (6).
 
 ## Phase Transition Readiness
 
@@ -543,21 +544,26 @@ Adjudication queue:
 - Pending compute claim amount: $398.24B.
 - Materiality packets: 6,663 source-backed packets, 706 AI-infra relevant, and
   6,663 with local evidence snippets.
-- Materiality decisions: 4,476 source-supported blockers, 2,187 requiring
-  deeper extraction, 0 requiring source retrieval, and 2,930 rows approved
+- Materiality decisions: 4,470 source-supported blockers, 2,193 requiring
+  deeper extraction, 0 requiring source retrieval, and 2,924 rows approved
   for metric use (6,463 quote-backed decisions plus 200 row-context-backed
   decisions on non-text sources).
-- Automated row-level supported amount approved for metric use: $8.328T.
-- Deduped automated final metric support: $4.378T across 1,581 metric groups
+- Automated row-level supported amount approved for metric use: $8.301T.
+- Deduped automated final metric support: $4.365T across 1,579 metric groups
   after source-instrument, latest-snapshot, and exact economic-obligation
   grouping.
-- Relevance split of that deduped final metric: $0.370T established
+- Relevance split of that deduped final metric: $0.360T established
   direct/watchlist AI-data-center linkage, including $0.074T direct and
-  $0.296T watchlist; $4.008T remains not-established for thesis linkage.
+  $0.286T watchlist; $4.005T remains not-established for thesis linkage.
 - Six HKD-denominated rows whose source text carries `HK$` face values now
   block on `convert non-USD notional to USD before metric use`; they are not
   carried as USD-supported metric amounts until the currency token and
   conversion basis are extracted.
+- Ten selected quotes with non-USD/mixed-currency tokens now block on
+  `extract USD-equivalent or reselect source quote for non-USD/mixed-currency
+  obligation` unless the selected quote itself contains an explicit USD amount
+  matching the recorded metric. USD-confirmed mixed-currency offerings remain
+  eligible.
 - Semantic hard flags remaining in approved metric rows: 0
   asset/capacity, equity/production, or boilerplate rows; 157 indeterminate
   rows remain queued for review rather than treated as high-confidence debt

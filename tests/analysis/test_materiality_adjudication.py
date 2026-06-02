@@ -1344,6 +1344,185 @@ def test_materiality_adjudication_allows_preconverted_hk_dollar_notional(
     assert decision.supported_amount_usd == 3_000_000_000
 
 
+def test_materiality_adjudication_blocks_cad_face_value_recorded_as_usd(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-cad-face-value",
+                "rank": 1,
+                "review_id": "review-cad-face-value",
+                "review_group_id": "group-cad-face-value",
+                "priority": "high",
+                "category": "capital",
+                "subcategory": "high_notional_debt_like_candidate",
+                "ecosystem_relevance": "watchlist_entity",
+                "entity": "Alphabet Inc.",
+                "counterparty": "noteholders",
+                "exposure_basis_usd": "9500000000",
+                "reason": (
+                    "debt-like deal type: bond; notional $9,500,000,000; "
+                    "notional context: transaction_principal; collateral terms present; "
+                    "guarantee scope present"
+                ),
+                "recommended_action": "Confirm metric currency conversion.",
+                "source_uri": "https://www.sec.gov/alphabet-cad-notes.htm",
+                "source_uris": json.dumps(["https://www.sec.gov/alphabet-cad-notes.htm"]),
+                "content_hash": "e" * 64,
+                "content_hashes": json.dumps(["e" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/alphabet-cad-notes.htm",
+                            "content_hash": "e" * 64,
+                            "document_id": "alphabet-cad-notes.htm",
+                            "snippet": (
+                                "Alphabet completed underwritten public offerings of "
+                                "EUR9 billion aggregate principal amount of "
+                                "euro-denominated senior notes and C$9.5 billion "
+                                "aggregate principal amount of Canadian dollar-denominated "
+                                "senior notes."
+                            ),
+                        }
+                    ]
+                ),
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    decision = batch.decisions[0]
+    assert batch.summary.approved_for_metric_use == 0
+    assert decision.metric_use_status == "blocked_pending_extraction"
+    assert "extract USD-equivalent or reselect source quote" in decision.remaining_gap
+    assert decision.supported_amount_usd == 0
+
+
+def test_materiality_adjudication_blocks_mixed_currency_quote_without_recorded_usd(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-sterling-mixed-currency",
+                "rank": 1,
+                "review_id": "review-sterling-mixed-currency",
+                "review_group_id": "group-sterling-mixed-currency",
+                "priority": "high",
+                "category": "capital",
+                "subcategory": "high_notional_debt_like_candidate",
+                "ecosystem_relevance": "watchlist_entity",
+                "entity": "Alphabet Inc.",
+                "counterparty": "noteholders",
+                "exposure_basis_usd": "20000000000",
+                "reason": (
+                    "debt-like deal type: bond; notional $20,000,000,000; "
+                    "notional context: transaction_principal; collateral terms present; "
+                    "guarantee scope present"
+                ),
+                "recommended_action": "Reselect source quote with USD-equivalent schedule.",
+                "source_uri": "https://www.sec.gov/alphabet-sterling-notes.htm",
+                "source_uris": json.dumps(["https://www.sec.gov/alphabet-sterling-notes.htm"]),
+                "content_hash": "f" * 64,
+                "content_hashes": json.dumps(["f" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/alphabet-sterling-notes.htm",
+                            "content_hash": "f" * 64,
+                            "document_id": "alphabet-sterling-notes.htm",
+                            "snippet": (
+                                "The Sterling Notes consist of GBP750,000,000 "
+                                "aggregate principal amount of 4.125% notes due 2029, "
+                                "GBP1,250,000,000 aggregate principal amount of "
+                                "4.625% notes due 2032, and GBP1,000,000,000 "
+                                "aggregate principal amount of 6.125% notes due 2126."
+                            ),
+                        }
+                    ]
+                ),
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    decision = batch.decisions[0]
+    assert batch.summary.approved_for_metric_use == 0
+    assert decision.metric_use_status == "blocked_pending_extraction"
+    assert "extract USD-equivalent or reselect source quote" in decision.remaining_gap
+    assert decision.supported_amount_usd == 0
+
+
+def test_materiality_adjudication_allows_usd_confirmed_mixed_currency_quote(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-usd-confirmed-mixed-currency",
+                "rank": 1,
+                "review_id": "review-usd-confirmed-mixed-currency",
+                "review_group_id": "group-usd-confirmed-mixed-currency",
+                "priority": "high",
+                "category": "capital",
+                "subcategory": "high_notional_debt_like_candidate",
+                "ecosystem_relevance": "market_contagion",
+                "entity": "Baker Hughes Co",
+                "counterparty": "noteholders",
+                "exposure_basis_usd": "6500000000",
+                "reason": (
+                    "debt-like deal type: bond; notional $6,500,000,000; "
+                    "notional context: transaction_principal; collateral terms present; "
+                    "guarantee scope present"
+                ),
+                "recommended_action": "Approve USD-confirmed mixed-currency note offering.",
+                "source_uri": "https://www.sec.gov/baker-hughes-mixed-notes.htm",
+                "source_uris": json.dumps(["https://www.sec.gov/baker-hughes-mixed-notes.htm"]),
+                "content_hash": "a" * 64,
+                "content_hashes": json.dumps(["a" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/baker-hughes-mixed-notes.htm",
+                            "content_hash": "a" * 64,
+                            "document_id": "baker-hughes-mixed-notes.htm",
+                            "snippet": (
+                                "Baker Hughes successfully issued $6.5 billion in debt "
+                                "consisting of five tranches of senior unsecured notes "
+                                "and EUR3 billion in debt consisting of four tranches "
+                                "of senior unsecured notes."
+                            ),
+                        }
+                    ]
+                ),
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    decision = batch.decisions[0]
+    assert batch.summary.approved_for_metric_use == 1
+    assert decision.metric_use_status == "approved_for_metric_use"
+    assert "extract USD-equivalent or reselect source quote" not in decision.remaining_gap
+    assert decision.supported_amount_usd == 6_500_000_000
+
+
 def test_materiality_adjudication_blocks_bank_financial_metric_snippet(
     tmp_path: Path,
 ) -> None:
@@ -2207,9 +2386,7 @@ def test_materiality_adjudication_blocks_equity_or_mortgage_production_metric_us
                 ),
                 "recommended_action": "Confirm debt terms",
                 "source_uri": "https://www.sec.gov/example-equity-production.htm",
-                "source_uris": json.dumps(
-                    ["https://www.sec.gov/example-equity-production.htm"]
-                ),
+                "source_uris": json.dumps(["https://www.sec.gov/example-equity-production.htm"]),
                 "content_hash": "a" * 64,
                 "content_hashes": json.dumps(["a" * 64]),
                 "evidence_snippets": json.dumps(
@@ -2268,9 +2445,7 @@ def test_materiality_adjudication_preserves_convertible_debt_with_share_language
                 ),
                 "recommended_action": "Confirm debt terms",
                 "source_uri": "https://www.sec.gov/example-convertible-notes.htm",
-                "source_uris": json.dumps(
-                    ["https://www.sec.gov/example-convertible-notes.htm"]
-                ),
+                "source_uris": json.dumps(["https://www.sec.gov/example-convertible-notes.htm"]),
                 "content_hash": "b" * 64,
                 "content_hashes": json.dumps(["b" * 64]),
                 "evidence_snippets": json.dumps(

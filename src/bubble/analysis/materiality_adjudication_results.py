@@ -250,8 +250,7 @@ def _remaining_gaps(packet: dict[str, str], quote: str) -> list[str]:
         gaps.append("local source quote not resolved")
     if _field(packet, "category") == "capital" and _looks_like_boilerplate(packet, quote):
         gaps.append("confirm final prospectus or underlying agreement terms")
-    if _requires_foreign_currency_conversion(packet, quote):
-        gaps.append("convert non-USD notional to USD before metric use")
+    gaps.extend(_currency_gaps(packet, quote))
     if _aggregate_lease_context_conflicts_with_quote(packet, quote):
         gaps.append("confirm lease obligation source rather than debt securities prospectus")
     if _looks_like_asset_or_capacity_not_debt(packet, quote):
@@ -2117,6 +2116,31 @@ def _requires_foreign_currency_conversion(packet: dict[str, str], quote: str) ->
     )
 
 
+def _currency_gaps(packet: dict[str, str], quote: str) -> list[str]:
+    gaps: list[str] = []
+    if _requires_foreign_currency_conversion(packet, quote):
+        gaps.append("convert non-USD notional to USD before metric use")
+    if _requires_mixed_currency_quote_reselection(packet, quote):
+        gaps.append(
+            "extract USD-equivalent or reselect source quote for non-USD/mixed-currency obligation"
+        )
+    return gaps
+
+
+def _requires_mixed_currency_quote_reselection(packet: dict[str, str], quote: str) -> bool:
+    if _field(packet, "category") not in {"capital", "contract"}:
+        return False
+    recorded_amount = _float(packet.get("exposure_basis_usd"))
+    if recorded_amount <= 0 or not quote:
+        return False
+    foreign_amounts = _non_hkd_foreign_nominal_amounts(quote)
+    if not foreign_amounts:
+        return False
+    return not any(
+        _amounts_close(recorded_amount, usd_amount) for usd_amount in _usd_nominal_amounts(quote)
+    )
+
+
 def _hk_dollar_nominal_amounts(text: str) -> list[float]:
     amounts: list[float] = []
     for match in re.finditer(
@@ -2125,6 +2149,56 @@ def _hk_dollar_nominal_amounts(text: str) -> list[float]:
         text,
         flags=re.IGNORECASE,
     ):
+        amount = _float(match.group("amount").replace(",", ""))
+        unit = (match.group("unit") or "").lower()
+        if unit in {"trillion"}:
+            amount *= 1_000_000_000_000
+        elif unit in {"billion", "bn", "b"}:
+            amount *= 1_000_000_000
+        elif unit in {"million", "m"}:
+            amount *= 1_000_000
+        if amount > 0:
+            amounts.append(amount)
+    return amounts
+
+
+def _non_hkd_foreign_nominal_amounts(text: str) -> list[float]:
+    amounts: list[float] = []
+    patterns = [
+        r"\b(?:C\$|CAD\s*\$?)\s*(?P<amount>\d+(?:,\d{3})*(?:\.\d+)?)\s*"
+        r"(?P<unit>trillion|billion|million|bn|b|m)?\b",
+        r"\b(?:A\$|AUD\s*\$?)\s*(?P<amount>\d+(?:,\d{3})*(?:\.\d+)?)\s*"
+        r"(?P<unit>trillion|billion|million|bn|b|m)?\b",
+        r"\b(?:S\$|SGD\s*\$?)\s*(?P<amount>\d+(?:,\d{3})*(?:\.\d+)?)\s*"
+        r"(?P<unit>trillion|billion|million|bn|b|m)?\b",
+        r"\b(?:€|EUR\s*)\s*(?P<amount>\d+(?:,\d{3})*(?:\.\d+)?)\s*"
+        r"(?P<unit>trillion|billion|million|bn|b|m)?\b",
+        r"\b(?:£|GBP\s*)\s*(?P<amount>\d+(?:,\d{3})*(?:\.\d+)?)\s*"
+        r"(?P<unit>trillion|billion|million|bn|b|m)?\b",
+        r"\b(?:¥|JPY\s*)\s*(?P<amount>\d+(?:,\d{3})*(?:\.\d+)?)\s*"
+        r"(?P<unit>trillion|billion|million|bn|b|m)?\b",
+    ]
+    for pattern in patterns:
+        amounts.extend(_nominal_amounts_from_pattern(text, pattern))
+    return amounts
+
+
+def _usd_nominal_amounts(text: str) -> list[float]:
+    patterns = [
+        r"\bUS\$\s*(?P<amount>\d+(?:,\d{3})*(?:\.\d+)?)\s*"
+        r"(?P<unit>trillion|billion|million|bn|b|m)?\b",
+        r"(?<![A-Za-z])\$\s*(?P<amount>\d+(?:,\d{3})*(?:\.\d+)?)\s*"
+        r"(?P<unit>trillion|billion|million|bn|b|m)?\b",
+    ]
+    amounts: list[float] = []
+    for pattern in patterns:
+        amounts.extend(_nominal_amounts_from_pattern(text, pattern))
+    return amounts
+
+
+def _nominal_amounts_from_pattern(text: str, pattern: str) -> list[float]:
+    amounts: list[float] = []
+    for match in re.finditer(pattern, text, flags=re.IGNORECASE):
         amount = _float(match.group("amount").replace(",", ""))
         unit = (match.group("unit") or "").lower()
         if unit in {"trillion"}:
