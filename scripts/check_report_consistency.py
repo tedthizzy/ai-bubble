@@ -53,11 +53,12 @@ def _load_json(path: Path) -> dict[str, Any]:
 
 
 def _artifact_freshness_findings(report_dir: Path, root: Path, latest_stem: str) -> list[Any]:
+    graph_dir = root / "data" / "graph"
     artifact_paths = {
         "latest report": report_dir / f"{latest_stem}.json",
         "decision_summary": report_dir / "materiality_adjudication_decision_summary.json",
         "invariant_audit": report_dir / "source_invariant_audit.json",
-        "capital_exposure_graph_summary": report_dir / "capital_exposure_graph_summary.json",
+        "capital_exposure_graph_summary": graph_dir / "capital_exposure_graph_summary.json",
         "contract_contagion_summary": report_dir / "contract_contagion_summary.json",
         "timing_signal_summary": report_dir / "timing_signal_summary.json",
         "decisions_csv": report_dir / "materiality_adjudication_decisions.csv",

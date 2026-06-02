@@ -32,8 +32,8 @@ The important change is that ecosystem-scale conclusions are now blocked from be
 
 Latest verified evidence-gated report at this checkpoint:
 
-- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0504.md`
-- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0504.json`
+- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0513.md`
+- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0513.json`
 - `high_confidence_final`: `false`
 - Source invariant audit: passed across 63 CSV files and more than 9.2M rows
   with 0 violations and 0 warnings.
