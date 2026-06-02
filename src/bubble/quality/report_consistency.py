@@ -53,28 +53,30 @@ def build_expectations(
     is normalized to trillions (3 dp) because the docs cite ``$N.NNNT``.
     """
 
-    exps: list[CountExpectation] = []
+    exps: list[CountExpectation] = _report_expectations(report)
 
     ia = invariant_audit
     if ia.get("files_scanned") is not None:
         exps.append(
             CountExpectation(
-                "invariant.files_scanned", r"([\d,]+)\s+CSV files", ia["files_scanned"]
+                "invariant.files_scanned", r"([\d][\d,]*)\s+CSV files", ia["files_scanned"]
             )
         )
     if ia.get("rows_scanned") is not None:
         exps.append(
-            CountExpectation("invariant.rows_scanned", r"([\d,]+)\s+rows", ia["rows_scanned"])
+            CountExpectation("invariant.rows_scanned", r"([\d][\d,]*)\s+rows", ia["rows_scanned"])
         )
 
     ds = decision_summary
     if ds.get("decisions") is not None:
-        exps.append(CountExpectation("decisions.total", r"([\d,]+)\s+decisions", ds["decisions"]))
+        exps.append(
+            CountExpectation("decisions.total", r"([\d][\d,]*)\s+decisions", ds["decisions"])
+        )
     if ds.get("supported_as_material_blocker") is not None:
         exps.append(
             CountExpectation(
                 "decisions.supported_as_material_blocker",
-                r"([\d,]+)\s+supported(?:\s+as\s+material)?\s+blockers",
+                r"([\d][\d,]*)\s+supported(?:\s+as\s+material)?\s+blockers",
                 ds["supported_as_material_blocker"],
             )
         )
@@ -82,7 +84,7 @@ def build_expectations(
         exps.append(
             CountExpectation(
                 "decisions.needs_deeper_extraction",
-                r"([\d,]+)\s+(?:still\s+)?requiring deeper\s+extraction",
+                r"([\d][\d,]*)\s+(?:still\s+)?requiring deeper\s+extraction",
                 ds["needs_deeper_extraction"],
             )
         )
@@ -90,7 +92,7 @@ def build_expectations(
         exps.append(
             CountExpectation(
                 "decisions.approved_for_metric_use",
-                r"([\d,]+)\s+(?:source-backed rows\s+approved|approved\s+metric rows)",
+                r"([\d][\d,]*)\s+(?:source-backed rows\s+approved|approved\s+metric rows)",
                 ds["approved_for_metric_use"],
             )
         )
@@ -98,7 +100,7 @@ def build_expectations(
         exps.append(
             CountExpectation(
                 "decisions.final_metric_group_count",
-                r"([\d,]+)\s+(?:latest-snapshot\s+)?metric groups",
+                r"([\d][\d,]*)\s+(?:latest-snapshot\s+)?metric groups",
                 ds["final_metric_group_count"],
             )
         )
@@ -114,8 +116,148 @@ def build_expectations(
     return exps
 
 
+def _report_expectations(report: dict[str, Any]) -> list[CountExpectation]:
+    exps: list[CountExpectation] = []
+    key_metrics = report.get("key_metrics", {})
+    evidence_summary = report.get("evidence_quality", {}).get("summary", {})
+    audited_claims = evidence_summary.get("audited_claims")
+    if audited_claims is not None:
+        exps.append(
+            CountExpectation(
+                "report.audited_claims",
+                r"Evidence audit coverage(?::| now includes)?\s*([\d,]+)\s+claim audits",
+                audited_claims,
+            )
+        )
+    final_metric_usd = key_metrics.get("materiality_adjudication_final_metric_supported_amount_usd")
+    if final_metric_usd is not None:
+        exps.append(
+            CountExpectation(
+                "report.final_metric_supported_usd_trillions",
+                r"\$([\d.]+)T\s+deduped final metric support",
+                _trillions(final_metric_usd),
+            )
+        )
+    final_metric_group_count = key_metrics.get("materiality_adjudication_final_metric_group_count")
+    if final_metric_group_count is not None:
+        exps.append(
+            CountExpectation(
+                "report.final_metric_group_count",
+                (
+                    r"deduped final metric support across\s+([\d,]+)\s+"
+                    r"(?:[A-Za-z0-9_/-]+\s+)*metric"
+                ),
+                final_metric_group_count,
+            )
+        )
+    established_ai_usd = key_metrics.get("materiality_relevance_established_ai_linked_usd")
+    if established_ai_usd is not None:
+        exps.append(
+            CountExpectation(
+                "report.established_ai_linked_usd_trillions",
+                (
+                    r"\$([\d.]+)T(?:\s+established\s+direct/watchlist|"
+                    r"\s+on\s+the\s+same\s+[\d,]+-group)"
+                ),
+                _trillions(established_ai_usd),
+            )
+        )
+    not_established_pct = key_metrics.get("materiality_relevance_not_established_linkage_pct")
+    if not_established_pct is not None:
+        exps.append(
+            CountExpectation(
+                "report.not_established_linkage_pct",
+                (
+                    r"([\d.]+)%\s+remains(?:\s+source-backed\s+but)?\s+"
+                    r"(?:not[- ]established|not yet thesis-linked)"
+                ),
+                _display_pct(float(not_established_pct)),
+            )
+        )
+    _append_key_metric_count(
+        exps,
+        key="report.compute_gpu_depreciation_blocked_generation_count",
+        key_metrics=key_metrics,
+        metric_name="compute_gpu_depreciation_blocked_generation_count",
+        pattern=(
+            r"(?:([\d,]+)\s+GPU\s+generations\s+(?:lack|missing)|"
+            r"GPU\s+generations\s+missing\s+comparable\s+depreciation\s+inputs:\s*([\d,]+))"
+        ),
+    )
+    _append_key_metric_count(
+        exps,
+        key="report.compute_tam_blocked_claim_count",
+        key_metrics=key_metrics,
+        metric_name="compute_tam_blocked_claim_count",
+        pattern=(
+            r"(?:([\d,]+)\s+TAM\s+claims\s+(?:lack|missing)|"
+            r"TAM\s+claims\s+missing\s+realized-revenue\s+comparators:\s*([\d,]+))"
+        ),
+    )
+    _append_key_metric_count(
+        exps,
+        key="report.compute_payback_blocked_case_count",
+        key_metrics=key_metrics,
+        metric_name="compute_payback_blocked_case_count",
+        pattern=(
+            r"(?:([\d,]+)\s+(?:is\s+)?blocked by missing cash-flow|"
+            r"Payback\s+cases\s+blocked\s+by\s+missing\s+cash-flow\s+inputs:\s*([\d,]+))"
+        ),
+    )
+    _append_key_metric_count(
+        exps,
+        key="report.compute_payback_missing_debt_service_count",
+        key_metrics=key_metrics,
+        metric_name="compute_payback_missing_debt_service_count",
+        pattern=(
+            r"(?:([\d,]+)\s+(?:are\s+missing|lack)\s+debt-service|"
+            r"Payback\s+cases\s+missing\s+debt-service\s+coverage\s+inputs:\s*([\d,]+))"
+        ),
+    )
+    _append_key_metric_count(
+        exps,
+        key="report.compute_eps_blocked_impact_count",
+        key_metrics=key_metrics,
+        metric_name="compute_eps_blocked_impact_count",
+        pattern=(
+            r"(?:([\d,]+)\s+EPS\s+impacts\s+(?:lack|missing)|"
+            r"EPS\s+impacts\s+missing\s+modeled\s+economic\s+depreciation:\s*([\d,]+))"
+        ),
+    )
+    _append_key_metric_count(
+        exps,
+        key="report.compute_chip_supply_blocked_observation_count",
+        key_metrics=key_metrics,
+        metric_name="compute_chip_supply_blocked_observation_count",
+        pattern=(
+            r"(?:([\d,]+)\s+[Cc]hip[- ]supply\s+observations\s+(?:lack|missing)|"
+            r"Chip\s+supply\s+observations\s+missing\s+delivered-count\s+comparators:\s*"
+            r"([\d,]+))"
+        ),
+    )
+    return exps
+
+
+def _append_key_metric_count(
+    expectations: list[CountExpectation],
+    *,
+    key: str,
+    key_metrics: dict[str, Any],
+    metric_name: str,
+    pattern: str,
+) -> None:
+    value = key_metrics.get(metric_name)
+    if value is None:
+        return
+    expectations.append(CountExpectation(key, pattern, float(value)))
+
+
 def _trillions(value: float) -> float:
     return round(float(value) / 1e12, 3)
+
+
+def _display_pct(value: float) -> float:
+    return round(value * 100 if value <= 1 else value, 1)
 
 
 def latest_report_stem(report_dir: Path) -> str | None:
@@ -194,7 +336,7 @@ def check_labeled_counts(
                 )
             )
             continue
-        stated_raw = match.group(1)
+        stated_raw = next(group for group in match.groups() if group and group.strip())
         if _parse_number(stated_raw) != float(exp.authoritative):
             findings.append(
                 ConsistencyFinding(

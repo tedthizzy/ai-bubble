@@ -31,9 +31,9 @@ as a run log, not as a final investment conclusion.
   EPS impacts missing modeled economic depreciation, 9 chip-supply observations
   missing delivered-count comparators, plus 2 payback cases where 1 is blocked
   by missing cash-flow inputs and 2 are missing debt-service coverage inputs.
-  Substantive high-impact metric audit warnings are cleared;
-  the remaining consistency warnings are doc-pattern checks, not evidence gaps
-  or a gate opening.
+  The report consistency checker now also gates current report ID, final metric,
+  metric groups, AI-attribution split, audit count, and compute blocked counts;
+  it currently reports 0 errors and 0 warnings.
 - Source invariant audit: passed at 2026-06-02 04:02 UTC, 63 CSV files
   and 9,208,844 rows scanned, 0 violations, 0 warnings.
 - Generated report assets are internal evidence artifacts; the user-facing

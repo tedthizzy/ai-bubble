@@ -54,7 +54,9 @@ Latest verified evidence-gated report at this checkpoint:
   impacts lack modeled economic depreciation, 9 chip-supply observations lack
   delivered-count comparators, and the payback layer has 2 cases where 1 is
   blocked by missing cash-flow inputs and 2 lack debt-service coverage. The
-  remaining consistency warnings are doc-pattern checks and do not open the gate.
+  report consistency checker now also gates current report ID, final metric,
+  metric groups, AI-attribution split, audit count, and compute blocked counts;
+  it currently reports 0 errors and 0 warnings.
 - Source invariant audit: passed across 63 CSV files and 9,208,844 rows scanned
   with 0 violations and 0 warnings.
 - Acquired source artifacts: 66,660 / 66,660 attempted.

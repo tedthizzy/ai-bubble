@@ -76,6 +76,21 @@ def test_latest_report_stem_picks_newest_by_timestamp(tmp_path) -> None:
 
 
 def test_build_expectations_maps_decision_and_invariant_metrics() -> None:
+    report = {
+        "evidence_quality": {"summary": {"audited_claims": 473}},
+        "key_metrics": {
+            "materiality_adjudication_final_metric_supported_amount_usd": (3_742_396_038_508.83),
+            "materiality_adjudication_final_metric_group_count": 1380,
+            "materiality_relevance_established_ai_linked_usd": 405_701_000_000,
+            "materiality_relevance_not_established_linkage_pct": 89.2,
+            "compute_gpu_depreciation_blocked_generation_count": 18,
+            "compute_tam_blocked_claim_count": 10,
+            "compute_payback_blocked_case_count": 1,
+            "compute_payback_missing_debt_service_count": 2,
+            "compute_eps_blocked_impact_count": 2,
+            "compute_chip_supply_blocked_observation_count": 9,
+        },
+    }
     decision_summary = {
         "decisions": 6699,
         "supported_as_material_blocker": 4322,
@@ -92,14 +107,61 @@ def test_build_expectations_maps_decision_and_invariant_metrics() -> None:
     }
 
     exps = build_expectations(
-        report={}, decision_summary=decision_summary, invariant_audit=invariant_audit
+        report=report, decision_summary=decision_summary, invariant_audit=invariant_audit
     )
     by_key = {e.key: e for e in exps}
 
+    assert by_key["report.audited_claims"].authoritative == 473
+    assert by_key["report.final_metric_supported_usd_trillions"].authoritative == 3.742
+    assert by_key["report.final_metric_group_count"].authoritative == 1380
+    assert by_key["report.established_ai_linked_usd_trillions"].authoritative == 0.406
+    assert by_key["report.not_established_linkage_pct"].authoritative == 89.2
+    assert by_key["report.compute_gpu_depreciation_blocked_generation_count"].authoritative == 18
+    assert by_key["report.compute_chip_supply_blocked_observation_count"].authoritative == 9
     assert by_key["decisions.approved_for_metric_use"].authoritative == 2736
     assert by_key["invariant.rows_scanned"].authoritative == 9208844
     # money is normalized to trillions at 3 decimals for prose comparison
     assert by_key["decisions.final_metric_supported_usd_trillions"].authoritative == 11.894
+
+
+def test_report_expectations_flag_stale_current_doc_values() -> None:
+    report = {
+        "evidence_quality": {"summary": {"audited_claims": 473}},
+        "key_metrics": {
+            "materiality_adjudication_final_metric_supported_amount_usd": (3_742_396_038_508.83),
+            "materiality_adjudication_final_metric_group_count": 1380,
+            "materiality_relevance_established_ai_linked_usd": 405_701_000_000,
+            "materiality_relevance_not_established_linkage_pct": 89.2,
+            "compute_gpu_depreciation_blocked_generation_count": 18,
+            "compute_tam_blocked_claim_count": 10,
+            "compute_payback_blocked_case_count": 1,
+            "compute_payback_missing_debt_service_count": 2,
+            "compute_eps_blocked_impact_count": 2,
+            "compute_chip_supply_blocked_observation_count": 9,
+        },
+    }
+    doc = (
+        "Evidence audit coverage: 469 claim audits.\n"
+        "$3.900T deduped final metric support across 1,436 metric groups.\n"
+        "$0.440T established direct/watchlist AI-data-center linkage; "
+        "88.9% remains not-established.\n"
+        "17 GPU generations missing comparable depreciation inputs.\n"
+        "10 TAM claims missing realized-revenue comparators.\n"
+        "1 is blocked by missing cash-flow inputs and 2 are missing debt-service coverage.\n"
+        "2 EPS impacts missing modeled economic depreciation.\n"
+        "9 chip-supply observations missing delivered-count comparators.\n"
+    )
+    expectations = build_expectations(report=report, decision_summary={}, invariant_audit={})
+
+    findings = check_labeled_counts(
+        doc_text=doc,
+        doc_name="docs/acquisition_status.md",
+        expectations=expectations,
+    )
+
+    checks = [finding.check for finding in findings]
+    assert checks.count("stale_count") == 6
+    assert all(finding.severity == "error" for finding in findings)
 
 
 def test_flags_failed_source_invariant_audit() -> None:
