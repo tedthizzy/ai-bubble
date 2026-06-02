@@ -1,13 +1,13 @@
 # Acquisition Status
 
-Last updated: 2026-06-02 07:31 UTC.
+Last updated: 2026-06-02 07:36 UTC.
 
 This file is the operational snapshot for the current evidence corpus. Treat it
 as a run log, not as a final investment conclusion.
 
 ## Current Corpus
 
-- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0731.md`
+- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0736.md`
 - Evidence gate: not high-confidence final.
 - Evidence audit coverage: report-level audits now include analyzer-level
   capital, compute, and debt-service audits plus explicit row/artifact-backed
@@ -29,7 +29,7 @@ as a run log, not as a final investment conclusion.
 - Source-backed deals: 62,952.
 - Source-backed contract tranches: 10,051.
 - Source-backed compute rows: 149.
-- Source-backed timing signals: 3,798.
+- Source-backed timing signals: 3,263.
 - Pending source-backed adjudication items: 6,773.
 - Ownership graph: 425,765 LEI nodes, 425,679 named nodes, and 643,828 source-backed relationships.
 - Contract-structure graph: 93,825 nodes and 189,131 source-backed edges.
@@ -498,13 +498,13 @@ Timing layer:
 
 - Peak stress quarter: 2026-Q2.
 - Candidate stress window: 2025-Q3 to 2027-Q3.
-- Capital refinancing 2024-2030: $3.7459T.
-- AI-infra capital refinancing 2024-2030: $292.29B.
+- Capital refinancing 2024-2030: $3.2533T.
+- AI-infra capital refinancing 2024-2030: $227.22B.
 - Physical capacity 2024-2030: 177,293 MW.
 - Compute amount 2024-2030: $124.21B.
-- Source-backed timing signals: 3,798.
-- Critical/high timing signals: 149.
-- AI-infra-relevant timing signals: 312.
+- Source-backed timing signals: 3,263.
+- Critical/high timing signals: 143.
+- AI-infra-relevant timing signals: 277.
 
 Adjudication queue:
 

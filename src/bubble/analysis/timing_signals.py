@@ -12,7 +12,7 @@ import hashlib
 import json
 import re
 from collections import Counter, defaultdict
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, replace
 from datetime import date
 from pathlib import Path
 from typing import Any
@@ -136,7 +136,7 @@ def build_timing_signal_batch(data_dirs: list[str | Path] | None = None) -> Timi
     signals.extend(_physical_cod_signals(roots))
     signals.extend(_compute_timing_signals(roots))
 
-    deduped = _dedupe_signals(signals)
+    deduped = _dedupe_timing_economic_obligations(_dedupe_signals(signals))
     deduped.sort(key=_signal_sort_key)
     quarters = _quarter_rollups(deduped)
     summary = _summary(deduped, quarters)
@@ -826,6 +826,64 @@ def _dedupe_signals(signals: list[TimingSignal]) -> list[TimingSignal]:
         if current is None or _signal_sort_key(signal) < _signal_sort_key(current):
             best_by_key[key] = signal
     return list(best_by_key.values())
+
+
+def _dedupe_timing_economic_obligations(signals: list[TimingSignal]) -> list[TimingSignal]:
+    """Collapse repeated capital timing disclosures for the same economic obligation."""
+
+    best_by_key: dict[tuple[str, str, int], TimingSignal] = {}
+    duplicates_by_key: dict[tuple[str, str, int], list[TimingSignal]] = defaultdict(list)
+    passthrough: list[TimingSignal] = []
+    for signal in signals:
+        key = _timing_economic_obligation_key(signal)
+        if key is None:
+            passthrough.append(signal)
+            continue
+        duplicates_by_key[key].append(signal)
+        current = best_by_key.get(key)
+        if current is None or _signal_sort_key(signal) < _signal_sort_key(current):
+            best_by_key[key] = signal
+
+    merged = [
+        _merge_signal_provenance(best_by_key[key], duplicates)
+        for key, duplicates in duplicates_by_key.items()
+    ]
+    return [*passthrough, *merged]
+
+
+def _timing_economic_obligation_key(
+    signal: TimingSignal,
+) -> tuple[str, str, int] | None:
+    if signal.category != "capital" or signal.signal_type != "refinancing_maturity":
+        return None
+    entity_key = _normalized_key_part(signal.entity)
+    amount_key = round(signal.amount_usd)
+    if not entity_key or amount_key <= 0:
+        return None
+    return (entity_key, signal.quarter, amount_key)
+
+
+def _merge_signal_provenance(
+    representative: TimingSignal,
+    duplicates: list[TimingSignal],
+) -> TimingSignal:
+    source_uris = _ordered_unique(
+        [representative.source_uri]
+        + [uri for signal in duplicates for uri in signal.source_uris]
+    )
+    content_hashes = _ordered_unique(
+        [representative.content_hash]
+        + [content_hash for signal in duplicates for content_hash in signal.content_hashes]
+    )
+    return replace(
+        representative,
+        source_uris=tuple(source_uris),
+        content_hashes=tuple(content_hashes),
+    )
+
+
+def _ordered_unique(values: list[str]) -> list[str]:
+    return [*dict.fromkeys(value for value in values if value)]
 
 
 def _stress_score(

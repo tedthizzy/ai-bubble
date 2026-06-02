@@ -299,6 +299,74 @@ def test_timing_signals_use_tranche_maturities_when_available(tmp_path: Path) ->
     assert all("tranche Term Loan" in signal.description for signal in batch.signals)
 
 
+def test_timing_signals_dedupe_repeated_capital_obligation_disclosures(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "edgar_acquisition" / "deals.csv",
+        [
+            {
+                "deal_id": "issuer-s1",
+                "deal_type": "debt_facility",
+                "title": "Issuer refinancing facility S-1",
+                "primary_party": "Example Issuer Inc.",
+                "counterparty_roles": json.dumps({"lender": ["Bank Group"]}),
+                "notional_amount_usd": "10000000000",
+                "maturity_date": "2026-03-31",
+                "source_uri": "https://www.sec.gov/issuer-s1.htm",
+                "source_confidence": "0.82",
+                "human_review_status": "pending",
+                "page_or_section": "S-1 facility description",
+                "content_hash": "hash-s1",
+                "key_terms": json.dumps({"notional_context_kind": "transaction_facility"}),
+            },
+            {
+                "deal_id": "issuer-s1a",
+                "deal_type": "lease",
+                "title": "Issuer refinancing facility amended S-1",
+                "primary_party": "Example Issuer Inc.",
+                "counterparty_roles": json.dumps({"lessor": ["Bank Group"]}),
+                "notional_amount_usd": "10000000000",
+                "maturity_date": "2026-03-15",
+                "source_uri": "https://www.sec.gov/issuer-s1a.htm",
+                "source_confidence": "0.84",
+                "human_review_status": "pending",
+                "page_or_section": "S-1/A facility description",
+                "content_hash": "hash-s1a",
+                "key_terms": json.dumps({"notional_context_kind": "transaction_facility"}),
+            },
+            {
+                "deal_id": "issuer-q2",
+                "deal_type": "debt_facility",
+                "title": "Issuer separate later maturity",
+                "primary_party": "Example Issuer Inc.",
+                "counterparty_roles": json.dumps({"lender": ["Bank Group"]}),
+                "notional_amount_usd": "10000000000",
+                "maturity_date": "2026-06-30",
+                "source_uri": "https://www.sec.gov/issuer-q2.htm",
+                "source_confidence": "0.82",
+                "human_review_status": "pending",
+                "page_or_section": "8-K separate facility",
+                "content_hash": "hash-q2",
+                "key_terms": json.dumps({"notional_context_kind": "transaction_facility"}),
+            },
+        ],
+    )
+
+    batch = build_timing_signal_batch([tmp_path])
+
+    assert batch.summary.signals == 2
+    assert batch.summary.capital_refinancing_usd_2024_2030 == 20_000_000_000
+    q1_signal = next(signal for signal in batch.signals if signal.quarter == "2026-Q1")
+    assert q1_signal.amount_usd == 10_000_000_000
+    assert set(q1_signal.source_uris) == {
+        "https://www.sec.gov/issuer-s1.htm",
+        "https://www.sec.gov/issuer-s1a.htm",
+    }
+    assert set(q1_signal.content_hashes) == {"hash-s1", "hash-s1a"}
+    assert {signal.quarter for signal in batch.signals} == {"2026-Q1", "2026-Q2"}
+
+
 def test_timing_signals_block_mega_asset_and_capacity_rows(
     tmp_path: Path,
 ) -> None:

@@ -32,8 +32,8 @@ The important change is that ecosystem-scale conclusions are now blocked from be
 
 Latest verified evidence-gated report at this checkpoint:
 
-- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0731.md`
-- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0731.json`
+- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0736.md`
+- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0736.json`
 - `high_confidence_final`: `false`
 - Evidence audit coverage now includes analyzer-level capital, compute, and
   debt-service audits plus explicit row/artifact-backed audits for high-impact
@@ -47,7 +47,7 @@ Latest verified evidence-gated report at this checkpoint:
 - Projects: 17,227.
 - Source-backed deals: 62,952.
 - Source-backed compute rows: 149.
-- Source-backed timing signals: 3,798.
+- Source-backed timing signals: 3,263.
 - Pending source-backed adjudication items: 6,773.
 - Automated materiality adjudication decisions: 6,663 decisions, with 4,553
   supported blockers, 2,110 still requiring deeper extraction, 2,988 approved
@@ -69,7 +69,8 @@ Latest capital and timing outputs:
 - Ownership graph ultimate consolidation edges: 191,834.
 - Peak stress quarter: 2026-Q2.
 - Candidate stress window: 2025-Q3 to 2027-Q3.
-- AI-infra capital refinancing 2024-2030: $292.29B.
+- Whole-corpus capital refinancing 2024-2030: $3.2533T.
+- AI-infra capital refinancing 2024-2030: $227.22B.
 
 See `docs/acquisition_status.md` for the current run log and acquisition backlog.
 
