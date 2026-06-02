@@ -340,6 +340,62 @@ def test_capital_structure_consolidates_downside_bearer_name_variants() -> None:
     assert metrics.downside_bearers[0].roles == ["financier", "lender"]
 
 
+def test_capital_structure_excludes_agent_only_intermediaries_from_downside_bearers() -> None:
+    deal = Deal(
+        source_deal_id="agent-only-facility",
+        deal_type=DealType.DEBT_FACILITY,
+        title="Credit agreement with administrative and collateral agents",
+        parties=[
+            "Example Borrower Inc.",
+            "lenders party thereto",
+            "JPMorgan Chase Bank, N.A.",
+            "U.S. Bank Trust Company, National Association",
+        ],
+        counterparty_roles={
+            "borrower": ["Example Borrower Inc."],
+            "lender": ["lenders party thereto"],
+            "administrative_agent": ["JPMorgan Chase Bank, N.A."],
+            "collateral_agent": ["U.S. Bank Trust Company, National Association"],
+            "financier": [
+                "JPMorgan Chase Bank, N.A.",
+                "U.S. Bank Trust Company, National Association",
+            ],
+        },
+        notional_amount_usd=500_000_000,
+        provenance=_prov("sec:agent-only-facility"),
+    )
+
+    metrics = CapitalStructureAnalyzer().analyze([deal], as_of=date(2026, 1, 1))
+
+    assert metrics.downside_bearers == []
+    assert metrics.unmapped_downside_bearer_deal_count == 1
+    assert metrics.unmapped_downside_bearer_mention_count == 1
+    assert metrics.unmapped_downside_bearer_usd == 500_000_000
+
+
+def test_capital_structure_preserves_named_lender_when_agent_is_present() -> None:
+    deal = Deal(
+        source_deal_id="lender-with-agent",
+        deal_type=DealType.DEBT_FACILITY,
+        title="Credit agreement with named lender and administrative agent",
+        parties=["Example Borrower Inc.", "Apollo Credit", "JPMorgan Chase Bank, N.A."],
+        counterparty_roles={
+            "borrower": ["Example Borrower Inc."],
+            "lender": ["Apollo Credit"],
+            "administrative_agent": ["JPMorgan Chase Bank, N.A."],
+            "financier": ["Apollo Credit", "JPMorgan Chase Bank, N.A."],
+        },
+        notional_amount_usd=600_000_000,
+        provenance=_prov("sec:lender-with-agent"),
+    )
+
+    metrics = CapitalStructureAnalyzer().analyze([deal], as_of=date(2026, 1, 1))
+
+    assert [bearer.entity_ref for bearer in metrics.downside_bearers] == ["Apollo Credit"]
+    assert metrics.downside_bearers[0].exposure_usd == 600_000_000
+    assert metrics.downside_bearers[0].roles == ["financier", "lender"]
+
+
 def test_capital_structure_with_no_deals_is_evidence_blocked() -> None:
     metrics = CapitalStructureAnalyzer().analyze([], as_of=date(2026, 1, 1))
 

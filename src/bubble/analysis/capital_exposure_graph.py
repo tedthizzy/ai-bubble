@@ -46,19 +46,28 @@ OBLIGOR_ROLES = {
 }
 
 RISK_BEARER_ROLES = {
-    "administrative_agent",
-    "agent",
-    "arranger",
     "bondholder",
-    "collateral_agent",
     "financier",
     "guarantor",
-    "indenture_trustee",
     "insurer",
     "lender",
     "lessor",
     "noteholder",
+}
+
+INTERMEDIARY_ROLES = {
+    "administrative_agent",
+    "agent",
+    "arranger",
+    "bookrunner",
+    "collateral_agent",
+    "documentation_agent",
+    "facility_agent",
+    "indenture_trustee",
+    "issuing_bank",
+    "syndication_agent",
     "trustee",
+    "underwriter",
 }
 
 PPA_SOURCE_ROLES = {"seller", "reporting_entity", "generator", "project_company"}
@@ -818,8 +827,10 @@ def _deal_contract_participants(
             deal.parties[:1],
             _source_role_for_deal(deal),
         )
-        risk_bearers = _role_entities(deal.counterparty_roles, RISK_BEARER_ROLES)
-        if not risk_bearers:
+        risk_bearers = _principal_risk_bearer_entities(deal.counterparty_roles)
+        if not risk_bearers and not _has_role_evidence(
+            deal.counterparty_roles, RISK_BEARER_ROLES | INTERMEDIARY_ROLES
+        ):
             risk_bearers = _party_entities(deal.parties[1:], "counterparty")
     return obligors, risk_bearers, _guarantor_entities(deal)
 
@@ -1405,8 +1416,10 @@ def _edges_for_deal(deal: Deal) -> tuple[list[dict[str, Any]], int]:
             deal.parties[:1],
             _source_role_for_deal(deal),
         )
-        target_entities = _role_entities(deal.counterparty_roles, RISK_BEARER_ROLES)
-        if not target_entities:
+        target_entities = _principal_risk_bearer_entities(deal.counterparty_roles)
+        if not target_entities and not _has_role_evidence(
+            deal.counterparty_roles, RISK_BEARER_ROLES | INTERMEDIARY_ROLES
+        ):
             target_entities = _party_entities(deal.guarantees, "guarantor") or _party_entities(
                 deal.parties[1:],
                 "counterparty",
@@ -1489,6 +1502,30 @@ def _role_entities(
             continue
         results.extend((entity, normalized_role) for entity in entities)
     return _dedupe_role_entities(results)
+
+
+def _principal_risk_bearer_entities(roles: Mapping[str, list[str]]) -> list[tuple[str, str]]:
+    intermediary_keys = {
+        _entity_id(str(entity))
+        for role, entities in roles.items()
+        if _normalize_role(role) in INTERMEDIARY_ROLES
+        for entity in entities
+    }
+    results: list[tuple[str, str]] = []
+    for role, entities in roles.items():
+        normalized_role = _normalize_role(role)
+        if normalized_role not in RISK_BEARER_ROLES:
+            continue
+        for entity in entities:
+            entity_name = str(entity)
+            if normalized_role == "financier" and _entity_id(entity_name) in intermediary_keys:
+                continue
+            results.append((entity_name, normalized_role))
+    return _dedupe_role_entities(results)
+
+
+def _has_role_evidence(roles: Mapping[str, list[str]], wanted_roles: set[str]) -> bool:
+    return any(_normalize_role(role) in wanted_roles for role in roles)
 
 
 def _party_entities(parties: Iterable[str], role: str) -> list[tuple[str, str]]:

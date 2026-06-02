@@ -32,30 +32,99 @@ def test_capital_exposure_graph_builds_named_source_backed_edges() -> None:
     graph = build_capital_exposure_graph([deal])
 
     assert graph.summary.deals_scanned == 1
-    assert graph.summary.nodes == 3
-    assert graph.summary.edges == 2
-    assert graph.summary.source_backed_edges == 2
-    assert graph.summary.debt_like_edges == 2
-    assert graph.summary.ai_infra_relevant_edges == 2
-    assert graph.summary.direct_ai_keyword_edges == 2
-    assert graph.summary.ai_infra_relevant_notional_usd == 3_000_000_000
-    assert graph.summary.total_edge_notional_usd == 3_000_000_000
+    assert graph.summary.nodes == 2
+    assert graph.summary.edges == 1
+    assert graph.summary.source_backed_edges == 1
+    assert graph.summary.debt_like_edges == 1
+    assert graph.summary.ai_infra_relevant_edges == 1
+    assert graph.summary.direct_ai_keyword_edges == 1
+    assert graph.summary.ai_infra_relevant_notional_usd == 1_500_000_000
+    assert graph.summary.total_edge_notional_usd == 1_500_000_000
     assert graph.edges[0].source_name == "CoreWeave SPV"
     assert "direct:compute" in graph.edges[0].relevance_tags
-    assert {edge.target_name for edge in graph.edges} == {"Apollo Credit", "JPMorgan Chase Bank"}
-    assert graph.summary.top_components_by_notional[0]["node_count"] == 3
+    assert {edge.target_name for edge in graph.edges} == {"Apollo Credit"}
+    assert graph.summary.top_components_by_notional[0]["node_count"] == 2
     assert graph.summary.top_components_by_notional[0]["ai_infra_relevant_notional_usd"] == (
-        3_000_000_000
+        1_500_000_000
     )
     assert graph.summary.ai_infra_component_count == 1
-    assert graph.summary.top_ai_infra_component_nodes == 3
-    assert graph.summary.top_ai_infra_component_edges == 2
-    assert graph.summary.top_ai_infra_component_notional_usd == 3_000_000_000
-    assert graph.summary.top_ai_infra_components_by_notional[0]["node_count"] == 3
+    assert graph.summary.top_ai_infra_component_nodes == 2
+    assert graph.summary.top_ai_infra_component_edges == 1
+    assert graph.summary.top_ai_infra_component_notional_usd == 1_500_000_000
+    assert graph.summary.top_ai_infra_components_by_notional[0]["node_count"] == 2
     assert graph.summary.top_contagion_hubs[0]["name"] == "CoreWeave SPV"
-    assert graph.summary.top_contagion_hubs[0]["distinct_counterparties"] == 2
-    assert graph.summary.top_contagion_hubs[0]["risk_bearer_neighbor_count"] == 2
+    assert graph.summary.top_contagion_hubs[0]["distinct_counterparties"] == 1
+    assert graph.summary.top_contagion_hubs[0]["risk_bearer_neighbor_count"] == 1
     assert graph.summary.top_ai_infra_contagion_hubs[0]["name"] == "CoreWeave SPV"
+
+
+def test_capital_exposure_graph_excludes_agent_only_counterparties() -> None:
+    deal = Deal(
+        source_deal_id="agent-only-deal",
+        deal_type=DealType.DEBT_FACILITY,
+        title="GPU data center facility with agent-only counterparties",
+        parties=[
+            "CoreWeave SPV",
+            "lenders party thereto",
+            "JPMorgan Chase Bank",
+            "U.S. Bank Trust Company, National Association",
+        ],
+        counterparty_roles={
+            "borrower": ["CoreWeave SPV"],
+            "lender": ["lenders party thereto"],
+            "administrative_agent": ["JPMorgan Chase Bank"],
+            "collateral_agent": ["U.S. Bank Trust Company, National Association"],
+            "financier": [
+                "JPMorgan Chase Bank",
+                "U.S. Bank Trust Company, National Association",
+            ],
+        },
+        notional_amount_usd=1_500_000_000,
+        provenance=_provenance("sec:agent-only"),
+        confidence=0.9,
+    )
+
+    graph = build_capital_exposure_graph([deal])
+
+    assert graph.edges == []
+    assert graph.summary.edges == 0
+    assert graph.summary.generic_counterparty_mentions_skipped == 1
+    assert graph.summary.high_notional_unmapped_deals == []
+
+
+def test_capital_exposure_graph_filters_guarantor_clause_fragments() -> None:
+    fragment = Deal(
+        source_deal_id="guarantor-fragment",
+        deal_type=DealType.DEBT_FACILITY,
+        title="Credit agreement with guarantor clause fragment",
+        parties=["Example Borrower Inc.", "TotalEnergies Capital USA and the Guarantor"],
+        counterparty_roles={
+            "borrower": ["Example Borrower Inc."],
+            "guarantor": ["TotalEnergies Capital USA and the Guarantor"],
+        },
+        notional_amount_usd=500_000_000,
+        provenance=_provenance("sec:guarantor-fragment"),
+        confidence=0.9,
+    )
+    valid = Deal(
+        source_deal_id="valid-guarantor",
+        deal_type=DealType.DEBT_FACILITY,
+        title="Credit agreement with named guarantor",
+        parties=["Example Borrower Inc.", "Boost Newco Guarantor, LLC"],
+        counterparty_roles={
+            "borrower": ["Example Borrower Inc."],
+            "guarantor": ["Boost Newco Guarantor, LLC"],
+        },
+        notional_amount_usd=600_000_000,
+        provenance=_provenance("sec:valid-guarantor"),
+        confidence=0.9,
+    )
+
+    graph = build_capital_exposure_graph([fragment, valid])
+
+    assert [edge.target_name for edge in graph.edges] == ["Boost Newco Guarantor, LLC"]
+    assert graph.edges[0].notional_usd == 600_000_000
+    assert graph.summary.generic_counterparty_mentions_skipped == 1
 
 
 def test_capital_exposure_graph_dedupes_duplicate_source_instrument_notional() -> None:

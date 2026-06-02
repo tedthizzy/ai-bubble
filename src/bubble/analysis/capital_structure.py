@@ -46,6 +46,21 @@ RISK_BEARER_ROLES = {
     "financier",
 }
 
+INTERMEDIARY_ROLES = {
+    "administrative_agent",
+    "agent",
+    "arranger",
+    "bookrunner",
+    "collateral_agent",
+    "documentation_agent",
+    "facility_agent",
+    "indenture_trustee",
+    "issuing_bank",
+    "syndication_agent",
+    "trustee",
+    "underwriter",
+}
+
 CAPITAL_NOTIONAL_REVIEW_THRESHOLD_USD = 25_000_000_000
 
 
@@ -838,11 +853,33 @@ class CapitalStructureAnalyzer:
     @classmethod
     def _risk_bearer_parties(cls, deal: Deal) -> list[tuple[str, EntityRef]]:
         bearers: list[tuple[str, EntityRef]] = []
+        intermediary_keys = cls._intermediary_entity_keys(deal)
         for role, entities in deal.counterparty_roles.items():
-            if role.lower() in RISK_BEARER_ROLES:
-                bearers.extend((role, entity) for entity in entities)
+            normalized_role = role.lower()
+            if normalized_role not in RISK_BEARER_ROLES:
+                continue
+            for entity in entities:
+                entity_name = str(entity).strip()
+                if (
+                    normalized_role == "financier"
+                    and canonical_entity_key(entity_name) in intermediary_keys
+                ):
+                    continue
+                bearers.append((normalized_role, entity))
         bearers.extend(("guarantor", guarantor) for guarantor in cls._guarantee_entities(deal))
         return bearers
+
+    @staticmethod
+    def _intermediary_entity_keys(deal: Deal) -> set[str]:
+        keys: set[str] = set()
+        for role, entities in deal.counterparty_roles.items():
+            if role.lower() not in INTERMEDIARY_ROLES:
+                continue
+            for entity in entities:
+                entity_name = str(entity).strip()
+                if entity_name:
+                    keys.add(canonical_entity_key(entity_name))
+        return keys
 
     @staticmethod
     def _ranked_exposures(
