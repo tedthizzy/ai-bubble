@@ -88,6 +88,8 @@ def is_artifact_name(name: str) -> bool:
     n = _norm(name)
     if any(marker in n for marker in INSTITUTIONAL_ALLOW_MARKERS):
         return False
+    if re.search(r"^on [a-z]+ \d{1,2}, \d{4},\s+the\b", n):
+        return True
     return any(marker in n for marker in ARTIFACT_NAME_MARKERS)
 
 

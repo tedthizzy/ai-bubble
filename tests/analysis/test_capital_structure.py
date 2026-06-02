@@ -310,6 +310,28 @@ def test_capital_structure_tracks_unmapped_downside_bearer_identity_gaps() -> No
     assert downside_audit["value"]["unmapped_downside_bearer_mention_count"] == 2
 
 
+def test_capital_structure_treats_date_clause_fragments_as_unmapped_bearers() -> None:
+    deal = Deal(
+        source_deal_id="clause-fragment-guarantor",
+        deal_type=DealType.GUARANTEE,
+        title="Guarantee agreement with bad extracted phrase",
+        parties=["Example Borrower Inc.", "On May 29, 2026, the Parent"],
+        counterparty_roles={
+            "borrower": ["Example Borrower Inc."],
+            "guarantor": ["On May 29, 2026, the Parent"],
+        },
+        notional_amount_usd=750_000_000,
+        provenance=_prov("sec:clause-fragment-guarantor"),
+    )
+
+    metrics = CapitalStructureAnalyzer().analyze([deal], as_of=date(2026, 1, 1))
+
+    assert metrics.downside_bearers == []
+    assert metrics.unmapped_downside_bearer_deal_count == 1
+    assert metrics.unmapped_downside_bearer_mention_count == 1
+    assert metrics.unmapped_downside_bearer_usd == 750_000_000
+
+
 def test_capital_structure_consolidates_downside_bearer_name_variants() -> None:
     deals = [
         Deal(

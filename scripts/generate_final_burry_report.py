@@ -34,6 +34,7 @@ from bubble.ingestion.capital import (
 from bubble.ingestion.compute.loader import load_compute_economics, merge_compute_economics_batches
 from bubble.models.base import HumanReviewStatus, Provenance, SourceType
 from bubble.quality.relevance_linkage import summarize_relevance_linkage
+from bubble.quality.risk_bearer_classification import summarize_risk_bearer_quality
 
 TARGET_ENTITIES_LOW = 1_200
 TARGET_DEALS_LOW = 25_000
@@ -1413,6 +1414,9 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:
     physical_capacity_dict = physical_capacity.to_dict()
     physical_risk_dict = physical_risk.to_dict()
     capital_metrics_dict = capital_metrics.to_dict()
+    downside_bearer_quality = summarize_risk_bearer_quality(
+        [exposure.to_dict() for exposure in capital_metrics.downside_bearers]
+    )
     capital_scope_summary_dict = capital_scope_summary.to_dict()
     compute_metrics_dict = compute_metrics.to_dict()
     debt_service_metrics_dict = debt_service_metrics.to_dict()
@@ -2073,6 +2077,7 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:
         "capital_downside_bearers": [
             exposure.to_dict() for exposure in capital_metrics.downside_bearers[:15]
         ],
+        "capital_downside_bearer_quality": downside_bearer_quality,
         "capital_unmapped_downside_bearer_deal_count": (
             capital_metrics.unmapped_downside_bearer_deal_count
         ),
@@ -2654,6 +2659,7 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:
                 "current_downside_bearers": [
                     exposure.to_dict() for exposure in capital_metrics.downside_bearers[:15]
                 ],
+                "current_downside_bearer_quality": downside_bearer_quality,
                 "current_top_ai_infra_risk_bearers": capital_exposure_graph_summary.get(
                     "top_ai_infra_risk_bearers",
                     [],

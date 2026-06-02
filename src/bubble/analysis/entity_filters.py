@@ -79,6 +79,7 @@ GENERIC_ENTITY_PATTERNS = (
     re.compile(r"\bunited states\) and for\b", re.I),
     re.compile(r"\bis engaged\b", re.I),
     re.compile(r"\bmade by a guarantor under a guarantee\b", re.I),
+    re.compile(r"^on [a-z]+ \d{1,2}, \d{4},\s+the\b", re.I),
 )
 
 ENTITY_SUFFIX_TOKENS = {

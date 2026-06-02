@@ -32,6 +32,9 @@ def test_statute_and_fragment_names_are_artifacts() -> None:
     fragment = classify_risk_bearer(["lender"], "the lenders party hereto and JPMorgan")
     assert fragment["bucket"] == "artifact"  # name stop-list wins even with a lender role
     assert fragment["is_risk_principal"] is False
+    dated_clause = classify_risk_bearer(["guarantor"], "On May 29, 2026, the Parent")
+    assert dated_clause["bucket"] == "artifact"
+    assert dated_clause["is_risk_principal"] is False
 
 
 def test_lender_that_is_also_an_agent_stays_principal_but_flags_weighting() -> None:
