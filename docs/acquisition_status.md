@@ -1,13 +1,13 @@
 # Acquisition Status
 
-Last updated: 2026-06-02 08:45 UTC.
+Last updated: 2026-06-02 08:57 UTC.
 
 This file is the operational snapshot for the current evidence corpus. Treat it
 as a run log, not as a final investment conclusion.
 
 ## Current Corpus
 
-- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0845.md`
+- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0857.md`
 - Evidence gate: not high-confidence final.
 - Evidence audit coverage: report-level audits now include analyzer-level
   capital, compute, and debt-service audits plus explicit row/artifact-backed
@@ -54,6 +54,11 @@ as a run log, not as a final investment conclusion.
   labels the $1.201T curated capital-structure deal-graph debt-like metric
   separately from the broader $4.378T materiality-adjudicated supported exposure
   metric so the two scopes are not read as inconsistent or directly additive.
+- The broader materiality metric is now split by adjudicated thesis linkage:
+  $0.370T has established direct/watchlist AI-data-center linkage ($0.074T
+  direct and $0.296T watchlist), while $4.008T, or 91.6%, is source-backed
+  but not yet established as AI/data-center-linked. The unlinked tail is a
+  scope gap, not a final no-link conclusion.
 - Semantic metric-validity gating now scans approved materiality rows as a
   separate source-text dimension: 2,773 approved rows classify as committed
   debt/obligation text, 157 remain indeterminate review candidates, and 0
@@ -546,6 +551,9 @@ Adjudication queue:
 - Deduped automated final metric support: $4.378T across 1,581 metric groups
   after source-instrument, latest-snapshot, and exact economic-obligation
   grouping.
+- Relevance split of that deduped final metric: $0.370T established
+  direct/watchlist AI-data-center linkage, including $0.074T direct and
+  $0.296T watchlist; $4.008T remains not-established for thesis linkage.
 - Six HKD-denominated rows whose source text carries `HK$` face values now
   block on `convert non-USD notional to USD before metric use`; they are not
   carried as USD-supported metric amounts until the currency token and

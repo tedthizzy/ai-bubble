@@ -33,6 +33,7 @@ from bubble.ingestion.capital import (
 )
 from bubble.ingestion.compute.loader import load_compute_economics, merge_compute_economics_batches
 from bubble.models.base import HumanReviewStatus, Provenance, SourceType
+from bubble.quality.relevance_linkage import summarize_relevance_linkage
 
 TARGET_ENTITIES_LOW = 1_200
 TARGET_DEALS_LOW = 25_000
@@ -277,8 +278,7 @@ def summarize_evidence_audit_dicts(audits: list[dict[str, Any]]) -> dict[str, An
             str(audit.get("semantic_bucket") or "") == "asset_or_capacity" for audit in audits
         ),
         "semantic_equity_or_production_claims": sum(
-            str(audit.get("semantic_bucket") or "") == "equity_or_production"
-            for audit in audits
+            str(audit.get("semantic_bucket") or "") == "equity_or_production" for audit in audits
         ),
         "semantic_boilerplate_claims": sum(
             str(audit.get("semantic_bucket") or "") == "boilerplate_only" for audit in audits
@@ -507,6 +507,7 @@ def report_answer_metric_audits(  # noqa: PLR0912, PLR0915
     capital_exposure_graph_summary: dict[str, Any],
     contract_contagion_summary: dict[str, Any],
     materiality_adjudication_decision_summary: dict[str, Any] | None = None,
+    materiality_relevance_summary: dict[str, Any] | None = None,
 ) -> list[dict[str, Any]]:
     """Audit high-impact scalar values surfaced directly in Burry answers."""
 
@@ -631,7 +632,9 @@ def report_answer_metric_audits(  # noqa: PLR0912, PLR0915
                 f"review_queue.distinct_capital_item.{row.get('review_id') or index}.notional",
                 "Top distinct capital review queue notional",
                 row.get("notional_amount_usd"),
-                row_provenance(row, fallback_section="review_queue_summary.top_distinct_capital_items"),
+                row_provenance(
+                    row, fallback_section="review_queue_summary.top_distinct_capital_items"
+                ),
                 requires_corroboration=False,
             )
 
@@ -847,6 +850,50 @@ def report_answer_metric_audits(  # noqa: PLR0912, PLR0915
         [materiality_artifact],
         requires_corroboration=False,
     )
+    relevance_summary = materiality_relevance_summary or {}
+    relevance_artifact = artifact_provenance(
+        source_uri="local:data/reports/materiality_adjudication_decisions.csv",
+        page_or_section="materiality final metric linkage split",
+        payload={
+            key: relevance_summary.get(key)
+            for key in (
+                "total_usd",
+                "direct_usd",
+                "watchlist_usd",
+                "established_usd",
+                "not_established_usd",
+                "final_metric_group_count",
+            )
+        },
+    )
+    add(
+        "materiality_relevance.direct_ai_linked_amount",
+        "Deduped final materiality metric tagged direct AI/data-center linked",
+        relevance_summary.get("direct_usd"),
+        [relevance_artifact],
+        requires_corroboration=False,
+    )
+    add(
+        "materiality_relevance.watchlist_ai_linked_amount",
+        "Deduped final materiality metric tagged AI/data-center watchlist linked",
+        relevance_summary.get("watchlist_usd"),
+        [relevance_artifact],
+        requires_corroboration=False,
+    )
+    add(
+        "materiality_relevance.established_ai_linked_amount",
+        "Deduped final materiality metric with established AI/data-center linkage",
+        relevance_summary.get("established_usd"),
+        [relevance_artifact],
+        requires_corroboration=False,
+    )
+    add(
+        "materiality_relevance.not_established_amount",
+        "Deduped final materiality metric with no established AI/data-center linkage tag",
+        relevance_summary.get("not_established_usd"),
+        [relevance_artifact],
+        requires_corroboration=False,
+    )
     return audits
 
 
@@ -1041,9 +1088,7 @@ def capital_materiality_scope_fields(
     )
     return {
         "capital_metric_scope": "curated_capital_structure_deal_graph",
-        "materiality_metric_scope": (
-            "broader_materiality_adjudication_supported_exposure"
-        ),
+        "materiality_metric_scope": ("broader_materiality_adjudication_supported_exposure"),
         "materiality_final_metric_supported_amount_usd": materiality_final,
         "materiality_final_metric_group_count": materiality_decision_summary.get(
             "final_metric_group_count",
@@ -1056,6 +1101,51 @@ def capital_materiality_scope_fields(
             "is a broader adjudicated source-backed support total after "
             "source-instrument and economic-obligation dedupe; it is not directly "
             "additive to, or a contradiction of, the curated capital-structure metric."
+        ),
+    }
+
+
+def materiality_relevance_scope_fields(
+    materiality_relevance_summary: dict[str, Any],
+) -> dict[str, Any]:
+    """Label the thesis-scope split inside the broader materiality metric."""
+
+    return {
+        "materiality_relevance_scope": ("deduped_final_metric_split_by_ai_data_center_linkage"),
+        "materiality_direct_ai_linked_usd": materiality_relevance_summary.get(
+            "direct_usd",
+            0,
+        ),
+        "materiality_watchlist_ai_linked_usd": materiality_relevance_summary.get(
+            "watchlist_usd",
+            0,
+        ),
+        "materiality_established_ai_linked_usd": materiality_relevance_summary.get(
+            "established_usd",
+            0,
+        ),
+        "materiality_not_established_linkage_usd": materiality_relevance_summary.get(
+            "not_established_usd",
+            0,
+        ),
+        "materiality_direct_ai_linked_pct": materiality_relevance_summary.get(
+            "direct_pct",
+            0,
+        ),
+        "materiality_established_ai_linked_pct": materiality_relevance_summary.get(
+            "established_pct",
+            0,
+        ),
+        "materiality_not_established_linkage_pct": materiality_relevance_summary.get(
+            "not_established_pct",
+            0,
+        ),
+        "metric_relevance_note": (
+            "The broader materiality metric is split by current adjudicated "
+            "AI/data-center linkage. direct and watchlist rows are established "
+            "thesis-linked support; not_established rows are source-backed "
+            "obligations whose AI/data-center linkage has not yet been proven and "
+            "must not be described as direct AI-bubble leverage."
         ),
     }
 
@@ -1180,6 +1270,7 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:
         resolved_data_dirs,
     )
     materiality_semantics = materiality_semantic_summary(materiality_adjudication_decisions)
+    materiality_relevance = summarize_relevance_linkage(materiality_adjudication_decisions)
     timing_signal_summary = load_timing_signal_summary(resolved_data_dirs)
     source_invariant_audit = load_source_invariant_audit(resolved_data_dirs)
     raw_capital_batch = load_report_capital_evidence(resolved_data_dirs)
@@ -1459,6 +1550,34 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:
         ),
         "materiality_adjudication_final_metric_group_count": (
             materiality_adjudication_decision_summary.get("final_metric_group_count", 0)
+        ),
+        "materiality_relevance_direct_ai_linked_usd": materiality_relevance.get(
+            "direct_usd",
+            0,
+        ),
+        "materiality_relevance_watchlist_ai_linked_usd": materiality_relevance.get(
+            "watchlist_usd",
+            0,
+        ),
+        "materiality_relevance_established_ai_linked_usd": materiality_relevance.get(
+            "established_usd",
+            0,
+        ),
+        "materiality_relevance_not_established_linkage_usd": materiality_relevance.get(
+            "not_established_usd",
+            0,
+        ),
+        "materiality_relevance_direct_ai_linked_pct": materiality_relevance.get(
+            "direct_pct",
+            0,
+        ),
+        "materiality_relevance_established_ai_linked_pct": materiality_relevance.get(
+            "established_pct",
+            0,
+        ),
+        "materiality_relevance_not_established_linkage_pct": materiality_relevance.get(
+            "not_established_pct",
+            0,
         ),
         "timing_signal_count": timing_signal_summary.get("signals", 0),
         "timing_signal_source_backed_count": timing_signal_summary.get(
@@ -1868,6 +1987,7 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:
                 materiality_adjudication_decision_summary=(
                     materiality_adjudication_decision_summary
                 ),
+                materiality_relevance_summary=materiality_relevance,
             )
         },
     )
@@ -1903,6 +2023,7 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:
         "review_queue": review_queue_summary,
         "materiality_adjudication": materiality_adjudication_summary,
         "materiality_adjudication_decisions": materiality_adjudication_decision_summary,
+        "materiality_relevance_linkage": materiality_relevance,
         "timing_signals": timing_signal_summary,
         "source_invariant_audit": source_invariant_audit,
         "capital_scope": capital_scope_summary_dict,
@@ -1950,6 +2071,11 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:
                 f"deduped metric groups, with "
                 f"{materiality_adjudication_decision_summary.get('needs_deeper_extraction', 0)} "
                 f"rows still requiring deeper extraction. "
+                f"Within the deduped final materiality metric, "
+                f"${materiality_relevance.get('established_usd', 0) / 1_000_000_000_000:.3f}T "
+                f"has established direct/watchlist AI-data-center linkage while "
+                f"{materiality_relevance.get('not_established_pct', 0) * 100:.1f}% "
+                f"does not yet have established thesis linkage. "
                 f"The timing calendar currently has "
                 f"{timing_signal_summary.get('source_backed_signals', 0)} "
                 f"source-backed crack-window signals. "
@@ -1989,6 +2115,7 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:
                     capital_debt_like_notional_usd=capital_metrics.debt_like_notional_usd,
                     materiality_decision_summary=materiality_adjudication_decision_summary,
                 ),
+                **materiality_relevance_scope_fields(materiality_relevance),
                 "current_duplicate_candidate_notional_usd": (
                     capital_metrics.duplicate_candidate_notional_usd
                 ),
@@ -2113,9 +2240,7 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:
                     timing_signal_summary.get("forward_peak_refinancing_usd", 0)
                 ),
                 "current_timing_forward_peak_ai_infra_refinancing_quarter": (
-                    timing_signal_summary.get(
-                        "forward_peak_ai_infra_refinancing_quarter"
-                    )
+                    timing_signal_summary.get("forward_peak_ai_infra_refinancing_quarter")
                 ),
                 "current_timing_forward_peak_ai_infra_refinancing_usd": (
                     timing_signal_summary.get(
@@ -2509,6 +2634,9 @@ def main() -> None:
 
 ## Materiality Adjudication Decisions
 {json.dumps(report["materiality_adjudication_decisions"], indent=2)}
+
+## Materiality Relevance Linkage
+{json.dumps(report["materiality_relevance_linkage"], indent=2)}
 
 ## Timing Signals
 {json.dumps(report["timing_signals"], indent=2)}

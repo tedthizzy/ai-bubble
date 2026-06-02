@@ -32,8 +32,8 @@ The important change is that ecosystem-scale conclusions are now blocked from be
 
 Latest verified evidence-gated report at this checkpoint:
 
-- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0845.md`
-- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0845.json`
+- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0857.md`
+- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0857.json`
 - `high_confidence_final`: `false`
 - Evidence audit coverage now includes analyzer-level capital, compute, and
   debt-service audits plus explicit row/artifact-backed audits for high-impact
@@ -65,6 +65,9 @@ Latest capital and timing outputs:
 - Broader materiality-adjudicated supported exposure: $4.378T across 1,581
   metric groups; this is a different scope from the curated capital-structure
   deal-graph debt-like metric above, not an additive increment.
+- Established direct/watchlist AI-data-center-linked support inside that broader
+  materiality metric is $0.370T ($0.074T direct and $0.296T watchlist);
+  $4.008T, or 91.6%, remains source-backed but not yet thesis-linked.
 - Unconverted HKD face-value rows are blocked from metric use pending
   source-backed USD conversion; six rows now carry that extraction gap.
 - Ownership graph LEI nodes: 425,765.

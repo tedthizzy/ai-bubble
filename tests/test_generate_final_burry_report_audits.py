@@ -39,6 +39,10 @@ capital_materiality_scope_fields = cast(
     "Callable[..., dict[str, Any]]",
     _REPORT_MODULE.capital_materiality_scope_fields,
 )
+materiality_relevance_scope_fields = cast(
+    "Callable[[dict[str, Any]], dict[str, Any]]",
+    _REPORT_MODULE.materiality_relevance_scope_fields,
+)
 
 
 def _audit(
@@ -84,9 +88,7 @@ def test_merge_evidence_audits_includes_top_level_and_nested_analyzer_audits() -
     capital = {"claim_audits": [_audit("capital.debt_like_notional", 1_200_000_000_000)]}
     debt_service = {
         "evidence_summary": {
-            "claim_audits": [
-                _audit("debt_service.missing_rate_notional", 689_881_283_165.74)
-            ]
+            "claim_audits": [_audit("debt_service.missing_rate_notional", 689_881_283_165.74)]
         }
     }
 
@@ -148,11 +150,7 @@ def test_merged_scalar_audit_clears_high_impact_metric_warning() -> None:
         "evidence_quality": {
             "claim_audits": merge_evidence_audits(
                 [],
-                {
-                    "claim_audits": [
-                        _audit("capital.debt_like_notional", 1_200_000_000_000)
-                    ]
-                },
+                {"claim_audits": [_audit("capital.debt_like_notional", 1_200_000_000_000)]},
             )
         },
         "burry_question_answers": {
@@ -207,20 +205,21 @@ def test_report_answer_metric_audits_cover_source_backed_rollup_values() -> None
             "final_metric_supported_amount_usd": 4_463_000_000_000,
             "final_metric_group_count": 1591,
         },
+        materiality_relevance_summary={
+            "direct_usd": 120_000_000_000,
+            "watchlist_usd": 480_000_000_000,
+            "established_usd": 600_000_000_000,
+            "not_established_usd": 3_863_000_000_000,
+            "final_metric_group_count": 1591,
+        },
     )
     report = {
         "evidence_quality": {"claim_audits": audits},
         "burry_question_answers": {
             "when_cracks": {
-                "current_timing_capital_refinancing_usd_2024_2030": (
-                    5_756_305_034_829.88
-                ),
-                "current_timing_ai_infra_capital_refinancing_usd_2024_2030": (
-                    292_289_419_740.72
-                ),
-                "current_timing_capital_refinancing_forward_from_as_of_usd": (
-                    330_000_000_000
-                ),
+                "current_timing_capital_refinancing_usd_2024_2030": (5_756_305_034_829.88),
+                "current_timing_ai_infra_capital_refinancing_usd_2024_2030": (292_289_419_740.72),
+                "current_timing_capital_refinancing_forward_from_as_of_usd": (330_000_000_000),
                 "current_timing_ai_infra_capital_refinancing_forward_from_as_of_usd": (
                     110_000_000_000
                 ),
@@ -241,9 +240,13 @@ def test_report_answer_metric_audits_cover_source_backed_rollup_values() -> None
             },
             "how_large": {
                 "materiality_final_metric_supported_amount_usd": 4_463_000_000_000,
+                "materiality_direct_ai_linked_usd": 120_000_000_000,
+                "materiality_watchlist_ai_linked_usd": 480_000_000_000,
+                "materiality_established_ai_linked_usd": 600_000_000_000,
+                "materiality_not_established_linkage_usd": 3_863_000_000_000,
                 "top_distinct_capital_review_queue_items": [
                     {"notional_amount_usd": 734_000_000_000}
-                ]
+                ],
             },
         },
     }
@@ -268,3 +271,26 @@ def test_capital_materiality_scope_fields_label_distinct_size_metrics() -> None:
     assert fields["materiality_final_metric_group_count"] == 1591
     assert fields["capital_to_materiality_scope_ratio"] == 3.7192
     assert "not directly additive" in fields["metric_scope_note"]
+
+
+def test_materiality_relevance_scope_fields_label_thesis_scope() -> None:
+    fields = materiality_relevance_scope_fields(
+        {
+            "direct_usd": 120_000_000_000,
+            "watchlist_usd": 480_000_000_000,
+            "established_usd": 600_000_000_000,
+            "not_established_usd": 3_863_000_000_000,
+            "direct_pct": 0.0269,
+            "established_pct": 0.1344,
+            "not_established_pct": 0.8656,
+        }
+    )
+
+    assert fields["materiality_relevance_scope"] == (
+        "deduped_final_metric_split_by_ai_data_center_linkage"
+    )
+    assert fields["materiality_direct_ai_linked_usd"] == 120_000_000_000
+    assert fields["materiality_established_ai_linked_usd"] == 600_000_000_000
+    assert fields["materiality_not_established_linkage_usd"] == 3_863_000_000_000
+    assert fields["materiality_established_ai_linked_pct"] == 0.1344
+    assert "must not be described as direct AI-bubble leverage" in fields["metric_relevance_note"]
