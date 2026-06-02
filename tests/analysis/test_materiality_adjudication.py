@@ -2077,6 +2077,66 @@ def test_materiality_adjudication_treats_first_mortgage_bond_as_scope_resolved(
     assert decision.metric_use_status == "approved_for_metric_use"
 
 
+def test_materiality_adjudication_treats_first_lien_notes_as_collateral_scope(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-first-lien-notes",
+                "rank": 1,
+                "review_id": "review-first-lien-notes",
+                "review_group_id": "group-first-lien-notes",
+                "priority": "high",
+                "category": "capital",
+                "subcategory": "high_notional_debt_like_candidate",
+                "ecosystem_relevance": "watchlist_entity",
+                "entity": "Example Issuer Inc.",
+                "counterparty": "noteholders",
+                "exposure_basis_usd": "1730000000",
+                "reason": (
+                    "pending adjudication status: pending; debt-like deal type: bond; "
+                    "notional $1,730,000,000; notional context: transaction_principal; "
+                    "commitment scope: specific_transaction_commitment"
+                ),
+                "recommended_action": "Confirm lien-rank collateral scope",
+                "source_uri": "https://www.sec.gov/example-first-lien-notes.htm",
+                "source_uris": json.dumps(
+                    ["https://www.sec.gov/example-first-lien-notes.htm"]
+                ),
+                "content_hash": "d" * 64,
+                "content_hashes": json.dumps(["d" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/example-first-lien-notes.htm",
+                            "content_hash": "d" * 64,
+                            "document_id": "example-first-lien-notes.htm",
+                            "snippet": (
+                                "The issuer commenced an offering of $1,730 million "
+                                "aggregate principal amount of first lien notes due 2031. "
+                                "The notes will be guaranteed by each subsidiary guarantor."
+                            ),
+                        }
+                    ]
+                ),
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    decision = batch.decisions[0]
+    assert "first lien notes" in decision.evidence_quote.lower(), decision
+    assert "determine collateral scope" not in decision.remaining_gap
+    assert "determine recourse and guarantee scope" not in decision.remaining_gap
+    assert decision.metric_use_status == "approved_for_metric_use"
+
+
 def test_materiality_adjudication_keeps_mortgage_bond_outstanding_total_blocked(
     tmp_path: Path,
 ) -> None:

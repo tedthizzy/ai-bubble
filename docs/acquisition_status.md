@@ -1,13 +1,13 @@
 # Acquisition Status
 
-Last updated: 2026-06-02 06:12 UTC.
+Last updated: 2026-06-02 06:16 UTC.
 
 This file is the operational snapshot for the current evidence corpus. Treat it
 as a run log, not as a final investment conclusion.
 
 ## Current Corpus
 
-- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0612.md`
+- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0616.md`
 - Evidence gate: not high-confidence final.
 - Evidence audit coverage: report-level audits now include analyzer-level
   capital, compute, and debt-service audits plus explicit row/artifact-backed
@@ -42,8 +42,8 @@ as a run log, not as a final investment conclusion.
   the packet set.
 - Automated materiality adjudication decisions: 6,663 decisions, 6,463 with
   resolved text quotes plus 200 row-context-backed decisions for non-text
-  sources, 4,438 supported as material blockers, 2,225 requiring deeper
-  extraction, 0 requiring source retrieval, and 2,872 source-backed rows
+  sources, 4,440 supported as material blockers, 2,223 requiring deeper
+  extraction, 0 requiring source retrieval, and 2,874 source-backed rows
   approved for metric use. Those approved rows total $11.911T as row-level
   supported amounts, but source-instrument metric dedupe now collapses
   same-document/same-amount duplicates to $8.861T across 1,880 metric groups;
@@ -512,8 +512,8 @@ Adjudication queue:
 - Pending compute claim amount: $398.24B.
 - Materiality packets: 6,663 source-backed packets, 706 AI-infra relevant, and
   6,663 with local evidence snippets.
-- Materiality decisions: 4,438 source-supported blockers, 2,225 requiring
-  deeper extraction, 0 requiring source retrieval, and 2,872 rows approved
+- Materiality decisions: 4,440 source-supported blockers, 2,223 requiring
+  deeper extraction, 0 requiring source retrieval, and 2,874 rows approved
   for metric use (6,463 quote-backed decisions plus 200 row-context-backed
   decisions on non-text sources).
 - Automated row-level supported amount approved for metric use: $11.911T.
