@@ -4192,6 +4192,126 @@ def test_materiality_adjudication_blocks_seller_side_lease_contract_revenue_snap
     assert batch.summary.approved_for_metric_use == 0
 
 
+def test_hilton_aggregate_total_collapses_to_components(tmp_path: Path) -> None:
+    content_hash = "7" * 64
+    source_uri = (
+        "https://www.sec.gov/Archives/edgar/data/1585689/000119312526113998/d40086dex101.htm"
+    )
+    component_context = (
+        "PRELIMINARY STATEMENTS The Borrower has requested that the Lenders "
+        "extend credit to the Borrower in the form of (i) the Initial Term "
+        "Loans on the Closing Date in an initial aggregate principal amount of "
+        "$7,600,000,000 and (ii) a Revolving Credit Facility in an initial "
+        "aggregate principal amount of $1,000,000,000."
+    )
+    common = {
+        "rank": 1,
+        "review_id": "review-hilton",
+        "review_group_id": "group-hilton",
+        "priority": "critical",
+        "category": "capital",
+        "subcategory": "high_notional_debt_like_candidate",
+        "ecosystem_relevance": "not_established",
+        "entity": "Hilton Worldwide Holdings Inc.",
+        "counterparty": "Deutsche Bank AG New York Branch",
+        "source_uri": source_uri,
+        "source_uris": json.dumps([source_uri]),
+        "content_hash": content_hash,
+        "content_hashes": json.dumps([content_hash]),
+        "recommended_action": "Confirm component facilities",
+    }
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                **common,
+                "packet_id": "packet-hilton-title-aggregate",
+                "exposure_basis_usd": "8850000000",
+                "reason": (
+                    "pending adjudication status: pending; debt-like deal type: "
+                    "debt_facility; notional $8,850,000,000; notional context: "
+                    "transaction_tranche_sum. "
+                    f"{component_context}"
+                ),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": source_uri,
+                            "content_hash": content_hash,
+                            "document_id": "d40086dex101.htm",
+                            "snippet": (
+                                "Among HILTON WORLDWIDE HOLDINGS INC., as Parent, "
+                                "HILTON DOMESTIC OPERATING COMPANY INC., as the Borrower, "
+                                "THE OTHER GUARANTORS PARTY HERETO FROM TIME TO TIME, "
+                                "DEUTSCHE BANK AG NEW YORK BRANCH, as Administrative Agent, "
+                                "Collateral Agent, Swing Line Lender and L/C Issuer, and "
+                                "THE OTHER LENDERS PARTY HERETO FROM TIME TO TIME."
+                            ),
+                        }
+                    ]
+                ),
+            },
+            {
+                **common,
+                "packet_id": "packet-hilton-term-loan",
+                "exposure_basis_usd": "7600000000",
+                "reason": (
+                    "pending adjudication status: pending; debt-like deal type: "
+                    "debt_facility; notional $7,600,000,000; "
+                    "collateral terms present; guarantee scope present"
+                ),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": source_uri,
+                            "content_hash": content_hash,
+                            "document_id": "d40086dex101.htm",
+                            "snippet": component_context,
+                        }
+                    ]
+                ),
+            },
+            {
+                **common,
+                "packet_id": "packet-hilton-revolver",
+                "exposure_basis_usd": "1000000000",
+                "reason": (
+                    "pending adjudication status: pending; debt-like deal type: "
+                    "debt_facility; notional $1,000,000,000; "
+                    "collateral terms present; guarantee scope present"
+                ),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": source_uri,
+                            "content_hash": content_hash,
+                            "document_id": "d40086dex101.htm",
+                            "snippet": component_context,
+                        }
+                    ]
+                ),
+            },
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    decisions = {decision.packet_id: decision for decision in batch.decisions}
+    aggregate = decisions["packet-hilton-title-aggregate"]
+    assert aggregate.metric_use_status == "blocked_pending_extraction"
+    assert (
+        "split title-bound aggregate facility total from component facilities"
+        in aggregate.remaining_gap
+    )
+    assert decisions["packet-hilton-term-loan"].metric_use_status == "approved_for_metric_use"
+    assert decisions["packet-hilton-revolver"].metric_use_status == "approved_for_metric_use"
+    assert batch.summary.approved_for_metric_use == 2
+    assert batch.summary.approved_row_supported_amount_usd == 8_600_000_000
+
+
 def test_materiality_adjudication_keeps_portfolio_upb_plus_issued_notes_blocked(
     tmp_path: Path,
 ) -> None:

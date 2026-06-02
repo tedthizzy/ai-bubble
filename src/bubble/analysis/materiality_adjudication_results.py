@@ -182,6 +182,7 @@ def build_materiality_adjudication_decisions(
                 by_index[futures[future]] = future.result()
         decisions = [by_index[index] for index in range(len(packets))]
     decisions = _reselect_semantic_quotes(decisions, packets)
+    decisions = _block_title_bound_facility_aggregate_decisions(decisions)
     summary = _summary(decisions)
     return MaterialityAdjudicationDecisionBatch(decisions=decisions, summary=summary)
 
@@ -1835,6 +1836,110 @@ def _replace_decision_quote_disposition(
     )
 
 
+def _block_title_bound_facility_aggregate_decisions(
+    decisions: list[MaterialityAdjudicationDecision],
+) -> list[MaterialityAdjudicationDecision]:
+    approved = [
+        decision
+        for decision in decisions
+        if decision.metric_use_status == "approved_for_metric_use"
+        and decision.category in {"capital", "contract"}
+    ]
+    by_source_entity: dict[tuple[str, str], list[MaterialityAdjudicationDecision]] = {}
+    for decision in approved:
+        key = (_facility_source_key(decision), _entity_reselection_key(decision.entity))
+        if key[0] and key[1]:
+            by_source_entity.setdefault(key, []).append(decision)
+
+    blocked: set[str] = set()
+    for decision in approved:
+        if not _is_title_bound_facility_aggregate_candidate(decision):
+            continue
+        source_key = _facility_source_key(decision)
+        entity_key = _entity_reselection_key(decision.entity)
+        if not source_key or not entity_key:
+            continue
+        components = [
+            candidate
+            for candidate in by_source_entity.get((source_key, entity_key), [])
+            if candidate.packet_id != decision.packet_id
+            and candidate.supported_amount_usd < decision.supported_amount_usd
+            and _facility_component_amount_is_source_bound(candidate)
+        ]
+        component_amounts = [component.supported_amount_usd for component in components]
+        if _component_amounts_sum_close_to_total(
+            component_amounts,
+            decision.supported_amount_usd,
+        ):
+            blocked.add(decision.packet_id)
+
+    if not blocked:
+        return decisions
+    return [
+        _with_blocked_title_bound_facility_aggregate(decision)
+        if decision.packet_id in blocked
+        else decision
+        for decision in decisions
+    ]
+
+
+def _is_title_bound_facility_aggregate_candidate(
+    decision: MaterialityAdjudicationDecision,
+) -> bool:
+    if decision.metric_use_status != "approved_for_metric_use":
+        return False
+    if "transaction_tranche_sum" not in decision.packet_reason.lower():
+        return False
+    if not _amount_absent_from_quote(decision.supported_amount_usd, decision.evidence_quote):
+        return False
+    return _looks_like_credit_agreement_title_block(decision.evidence_quote.lower())
+
+
+def _facility_component_amount_is_source_bound(decision: MaterialityAdjudicationDecision) -> bool:
+    return (
+        decision.supported_amount_usd > 0
+        and not _amount_absent_from_quote(decision.supported_amount_usd, decision.evidence_quote)
+        and not _looks_like_credit_agreement_title_block(decision.evidence_quote.lower())
+    )
+
+
+def _facility_source_key(decision: MaterialityAdjudicationDecision) -> str:
+    accession = _sec_accession(decision.source_uri)
+    if accession:
+        return f"accession:{accession}"
+    hashes = tuple(sorted(hash_value for hash_value in decision.content_hashes if hash_value))
+    if not hashes and decision.content_hash:
+        hashes = (decision.content_hash,)
+    return "hash:" + "|".join(hashes) if hashes else ""
+
+
+def _with_blocked_title_bound_facility_aggregate(
+    decision: MaterialityAdjudicationDecision,
+) -> MaterialityAdjudicationDecision:
+    gap = "split title-bound aggregate facility total from component facilities"
+    gaps = [value for value in decision.remaining_gap.split(" | ") if value]
+    if gap not in gaps:
+        gaps.append(gap)
+    rationale = (
+        f"{decision.rationale} Blocked because the selected title/party quote does not bind "
+        f"the transaction-tranche-sum amount, while same-filing component rows bind the "
+        f"facility amounts."
+    )
+    return replace(
+        decision,
+        decision="needs_deeper_extraction",
+        metric_use_status="blocked_pending_extraction",
+        confidence=min(decision.confidence, 0.5),
+        supported_amount_usd=0.0,
+        metric_group_id="",
+        metric_snapshot_date="",
+        metric_aggregation_policy="triage_only",
+        remaining_gap=" | ".join(gaps),
+        required_next_extraction="; ".join(gaps),
+        rationale=rationale,
+    )
+
+
 def _semantic_reselection_quote(
     quote: str,
     terms: list[str],
@@ -2655,6 +2760,39 @@ def _looks_like_undrawn_capacity_not_debt(packet: dict[str, str], quote: str) ->
     else:
         has_capacity = _has_terminated_commitment_capacity(text)
     return has_capacity
+
+
+def _looks_like_credit_agreement_title_block(text: str) -> bool:
+    if _usd_nominal_amounts(text):
+        return False
+    return _contains_any(
+        text,
+        [
+            "as parent",
+            "as borrower",
+            "as intermediate parent",
+            "the other guarantors party hereto",
+            "the other lenders party hereto",
+            "administrative agent",
+            "collateral agent",
+            "swing line lender",
+            "l/c issuer",
+        ],
+    ) and _contains_any(text, ["borrower", "guarantor", "lender", "agent"])
+
+
+def _component_amounts_sum_close_to_total(amounts: list[float], total: float) -> bool:
+    unique_amounts = sorted({round(amount, 2) for amount in amounts}, reverse=True)
+    for first_index, first_amount in enumerate(unique_amounts):
+        for second_amount in unique_amounts[first_index + 1 :]:
+            if _amounts_close(first_amount + second_amount, total, tolerance=0.05):
+                return True
+            for third_amount in unique_amounts[first_index + 2 :]:
+                if _amounts_close(
+                    first_amount + second_amount + third_amount, total, tolerance=0.05
+                ):
+                    return True
+    return False
 
 
 def _requires_malformed_amount_grouping_reselection(

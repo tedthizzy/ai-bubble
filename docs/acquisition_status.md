@@ -1,13 +1,13 @@
 # Acquisition Status
 
-Last updated: 2026-06-02 21:08 UTC.
+Last updated: 2026-06-02 21:21 UTC.
 
 This file is the operational snapshot for the current evidence corpus. Treat it
 as a run log, not as a final investment conclusion.
 
 ## Current Corpus
 
-- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-2108.md`
+- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-2121.md`
 - Evidence gate: not high-confidence final.
 - Evidence audit coverage: 473 claim audits now include analyzer-level capital,
   compute, and debt-service audits, explicit row/artifact-backed audits for
@@ -89,15 +89,15 @@ as a run log, not as a final investment conclusion.
   the packet set.
 - Automated materiality adjudication decisions: 6,663 decisions, 6,463 with
   resolved text quotes plus 200 row-context-backed decisions for non-text
-  sources, 4,251 supported as material blockers, 2,412 requiring deeper
-  extraction, 0 requiring source retrieval, and 2,706 source-backed rows
-  approved for metric use. Those approved rows total $7.404T as row-level
+  sources, 4,250 supported as material blockers, 2,413 requiring deeper
+  extraction, 0 requiring source retrieval, and 2,705 source-backed rows
+  approved for metric use. Those approved rows total $7.395T as row-level
   supported amounts, but source-instrument, same-accession/same-amount,
   strict cross-filing instrument-fingerprint, exact cross-filing quote,
   economic-obligation, and same-content/same-quote collision metric dedupe now
   collapses same-document/same-amount, exact repeated filing, exact selected
   quote repeats across filings, and identical source-quote amount collisions to
-  $3.661T deduped final metric support across 1,339 metric
+  $3.652T deduped final metric support across 1,338 metric
   groups;
   they are not treated as individual contracts unless contract terms are
   separately extracted.
@@ -105,17 +105,16 @@ as a run log, not as a final investment conclusion.
   relevance partition: direct plus watchlist equals established AI-linked
   support, and established plus not-established equals the final metric. The
   how-large answer now labels the $1.201T curated capital-structure deal-graph
-  debt-like metric separately from the broader $3.661T materiality-adjudicated
+  debt-like metric separately from the broader $3.652T materiality-adjudicated
   supported exposure metric so the two scopes are not read as inconsistent or
   directly additive.
 - A read-only mixed-evidence collision checker now reviews same-entity,
   same-document, same-metric-quote groups that survived final metric dedupe
   because their evidence quotes differ. On the current decisions CSV it finds
-  26 candidate groups: 25 distinct-facility candidates to keep separate and 1
-  non-AI aggregate/component review candidate (Hilton, $8.600B potential excess
-  if confirmed). The 2 AI-linked candidates are both distinct-facility cases,
-  so this review surface does not currently reduce the $392.901B established
-  direct/watchlist AI-linked support.
+  26 candidate groups: all 26 are distinct-facility candidates to keep
+  separate, with 0 aggregate/component candidates. The 2 AI-linked candidates
+  are both distinct-facility cases, so this review surface does not currently
+  reduce the $392.901B established direct/watchlist AI-linked support.
 - The when-cracks answer now carries its own debt-service timing coverage
   caveat: the maturity wall is a floor because 165 of 439 distinct debt-service
   obligations and $541.811B of distinct debt-like notional still lack
@@ -226,8 +225,8 @@ as a run log, not as a final investment conclusion.
   projects, term-level MW sums, and physical execution risk-term counts.
 - The broader materiality metric is now split by adjudicated thesis linkage:
   $0.393T has established direct/watchlist AI-data-center linkage, while
-  89.3% is source-backed but not yet established as AI/data-center-linked.
-  This split now uses the same 1,339-group final metric denominator as the
+  89.2% is source-backed but not yet established as AI/data-center-linked.
+  This split now uses the same 1,338-group final metric denominator as the
   materiality metric after same-accession, strict cross-filing instrument, and
   same-content/same-quote collision dedupe.
   The unlinked tail is a scope gap, not a final no-link conclusion.
@@ -732,12 +731,12 @@ Adjudication queue:
 - Pending compute claim amount: $398.24B.
 - Materiality packets: 6,663 source-backed packets, 706 AI-infra relevant, and
   6,663 with local evidence snippets.
-- Materiality decisions: 4,251 source-supported blockers, 2,412 requiring
-  deeper extraction, 0 requiring source retrieval, and 2,706 rows approved
+- Materiality decisions: 4,250 source-supported blockers, 2,413 requiring
+  deeper extraction, 0 requiring source retrieval, and 2,705 rows approved
   for metric use (6,463 quote-backed decisions plus 200 row-context-backed
   decisions on non-text sources).
-- Automated row-level supported amount approved for metric use: $7.404T.
-- Deduped automated final metric support: $3.661T across 1,339 metric groups
+- Automated row-level supported amount approved for metric use: $7.395T.
+- Deduped automated final metric support: $3.652T across 1,338 metric groups
   after source-instrument, same-accession/same-amount, strict cross-filing
   instrument-fingerprint, exact cross-filing selected-quote, latest-snapshot,
   exact economic-obligation, and same-content/same-quote collision grouping. The
@@ -770,6 +769,14 @@ Adjudication queue:
   issuer debt obligation` extraction gap instead of being counted as TeraWulf
   debt. This pass removed one approved row, one metric group, and $12.80B of
   deduped final metric support relative to report `2043`.
+- Title-bound credit-agreement aggregate rows are now re-evaluated after
+  same-filing quote reselection. When a transaction-tranche-sum row is supported
+  only by a title/party block, but same-filing component rows bind the actual
+  term-loan/revolver amounts, the aggregate row is blocked pending component
+  splitting. This resolved the Hilton $8.85B aggregate candidate while keeping
+  the source-bound $7.60B initial term loan and $1.00B revolver rows eligible,
+  removing one approved row, one metric group, and $8.85B of deduped final
+  metric support relative to report `2108`.
 - A resale-registration guard now blocks explicit selling-securityholder or
   no-proceeds registration snippets in capital and contract-tranche packets
   unless the selected source text also carries primary note-offering or
@@ -820,8 +827,8 @@ Adjudication queue:
   row-level support, 38 metric groups, and $165.14B of deduped final metric
   support relative to the 16:29 report.
 - Relevance split of that deduped final metric: $0.393T established
-  direct/watchlist AI-data-center linkage; 89.3% remains not-established for
-  thesis linkage. The split now ties exactly to the $3.661T / 1,339-group final
+  direct/watchlist AI-data-center linkage; 89.2% remains not-established for
+  thesis linkage. The split now ties exactly to the $3.652T / 1,338-group final
   materiality denominator.
 - Clear AI/HPC/bitcoin data-center operators including IREN, CleanSpark,
   American Bitcoin, MARA/Marathon, Hut 8, Applied Digital, CoreWeave,
