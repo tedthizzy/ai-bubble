@@ -110,6 +110,12 @@ Latest capital and timing outputs:
   targets only; they do not yet quantify ratepayer exposure. A deterministic
   `bubble.ingestion.regulatory.extract_ratepayer_terms` helper now extracts the
   first comparable term evidence from acquired PUC/IRP text.
+- Physical execution research now has a first source-target pack for
+  behind-the-meter and utility-backed AI/data-center projects:
+  `handoffs/claude_physical_execution_cards_20260602.md` and
+  `handoffs/claude_onsite_gas_stranded_risk_20260602.md`. These are acquisition
+  and architecture inputs for permit/PUC/power-contract diligence, not metric
+  changes.
 - Broader materiality-adjudicated supported exposure: $3.742T across 1,380
   metric groups; this is a different scope from the curated capital-structure
   deal-graph debt-like metric above, not an additive increment.

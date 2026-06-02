@@ -151,6 +151,15 @@ as a run log, not as a final investment conclusion.
   accounting includes the new file as a compute-economics corpus member, so the
   off-balance-sheet commitment tier can be counted and audited alongside chip
   supply, depreciation, TAM, payback, and EPS-impact rows.
+- Two physical-execution research packs were imported for the remaining
+  physical/grid gate:
+  `handoffs/claude_physical_execution_cards_20260602.md` and
+  `handoffs/claude_onsite_gas_stranded_risk_20260602.md`, with fixture CSVs.
+  They reframe top AI/data-center project diligence around permit and PUC
+  handles where flagship projects are behind-the-meter rather than ISO-queue
+  based, and define a separate on-site gas/stranded-asset risk surface. These
+  are acquisition and architecture inputs only; they do not change the
+  committed-debt metric or open the evidence gate.
 - The broader materiality metric is now split by adjudicated thesis linkage:
   $0.440T has established direct/watchlist AI-data-center linkage, while
   88.9% is source-backed but not yet established as AI/data-center-linked.
