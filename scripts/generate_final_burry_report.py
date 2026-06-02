@@ -1083,6 +1083,9 @@ def report_answer_metric_audits(  # noqa: PLR0912, PLR0915
                 "total_gpu_capex_usd",
                 "compute_asset_count",
                 "gpu_price_observation_count",
+                "payback_case_count",
+                "payback_blocked_case_count",
+                "payback_missing_debt_service_count",
             )
         },
     )
@@ -1091,6 +1094,22 @@ def report_answer_metric_audits(  # noqa: PLR0912, PLR0915
         "Compute-economics total GPU capex estimate",
         compute_metrics_dict.get("total_gpu_capex_usd"),
         [compute_artifact],
+        requires_corroboration=False,
+    )
+    add(
+        "compute.payback_blocked_cases",
+        "Compute-economics payback cases missing required cash-flow inputs",
+        compute_metrics_dict.get("payback_blocked_case_count"),
+        [compute_artifact],
+        unit="cases",
+        requires_corroboration=False,
+    )
+    add(
+        "compute.payback_missing_debt_service_cases",
+        "Compute-economics payback cases missing debt-service coverage inputs",
+        compute_metrics_dict.get("payback_missing_debt_service_count"),
+        [compute_artifact],
+        unit="cases",
         requires_corroboration=False,
     )
     capital_metrics = capital_metrics_dict or {}
@@ -2461,6 +2480,10 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:
         "compute_depreciation_policy_count": compute_metrics.depreciation_policy_count,
         "compute_tam_claim_count": compute_metrics.tam_claim_count,
         "compute_payback_case_count": compute_metrics.payback_case_count,
+        "compute_payback_blocked_case_count": compute_metrics.payback_blocked_case_count,
+        "compute_payback_missing_debt_service_count": (
+            compute_metrics.payback_missing_debt_service_count
+        ),
         "compute_eps_impact_count": compute_metrics.eps_impact_count,
         "compute_chip_supply_observation_count": compute_metrics.chip_supply_observation_count,
         "compute_total_gpu_capex_usd": compute_metrics.total_gpu_capex_usd,
@@ -3085,6 +3108,10 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:
                 "current_gpu_price_observations": compute_metrics.gpu_price_observation_count,
                 "current_tam_claims": compute_metrics.tam_claim_count,
                 "current_payback_cases": compute_metrics.payback_case_count,
+                "current_payback_blocked_cases": compute_metrics.payback_blocked_case_count,
+                "current_payback_missing_debt_service_cases": (
+                    compute_metrics.payback_missing_debt_service_count
+                ),
                 "current_eps_impacts": compute_metrics.eps_impact_count,
                 "current_chip_supply_observations": (compute_metrics.chip_supply_observation_count),
                 "top_gpu_depreciation_risks": [

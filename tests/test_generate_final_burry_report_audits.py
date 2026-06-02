@@ -233,6 +233,9 @@ def test_report_answer_metric_audits_cover_source_backed_rollup_values() -> None
             "total_gpu_capex_usd": 270_000_000,
             "compute_asset_count": 49,
             "gpu_price_observation_count": 3,
+            "payback_case_count": 2,
+            "payback_blocked_case_count": 1,
+            "payback_missing_debt_service_count": 2,
         },
         capital_metrics_dict={
             "distinct_total_notional_usd": 872_828_485_956.18,
@@ -343,6 +346,8 @@ def test_report_answer_metric_audits_cover_source_backed_rollup_values() -> None
         "contract_contagion.ai_infra_relevant_notional": 1_918_982_952_450.0,
         "contract_contagion.total_path_summed_notional": 44_591_146_002_769.22,
         "compute.total_gpu_capex": 270_000_000,
+        "compute.payback_blocked_cases": 1,
+        "compute.payback_missing_debt_service_cases": 2,
         "materiality_adjudication.total_exposure_basis_gross": 56_029_144_923_052.73,
         "materiality_adjudication.approved_row_supported_amount_gross": (7_416_635_302_611.83),
         "materiality_adjudication.final_metric_supported_amount": 4_463_000_000_000,

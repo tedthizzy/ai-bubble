@@ -127,6 +127,8 @@ def test_compute_economics_flags_depreciation_tam_payback_eps_and_supply_risk() 
     assert metrics.tam_red_flag_count == 1
     assert metrics.top_tam_reality_checks[0].tam_to_revenue_multiple == 24
     assert metrics.payback_red_flag_count == 1
+    assert metrics.payback_blocked_case_count == 0
+    assert metrics.payback_missing_debt_service_count == 0
     assert metrics.top_payback_stress_cases[0].annual_gross_cash_flow_usd == 400_000_000
     assert metrics.top_payback_stress_cases[0].payback_years == 25
     assert metrics.top_payback_stress_cases[0].debt_service_coverage_ratio == 0.8
@@ -154,6 +156,47 @@ def test_empty_compute_economics_batch_blocks_compute_conclusions() -> None:
     assert metrics.status == "blocked_missing_compute_economics_evidence"
     assert metrics.gpu_price_observation_count == 0
     assert metrics.evidence_summary["summary"]["unsupported_claims"] == 6
+
+
+def test_compute_payback_missing_inputs_are_counted_as_blocked_not_clean() -> None:
+    batch = ComputeEconomicsBatch(
+        assets=[],
+        gpu_price_observations=[],
+        depreciation_policies=[],
+        tam_claims=[],
+        payback_cases=[
+            CapexPaybackCase(
+                source_case_id="missing-margin",
+                entity="WhiteFiber, Inc.",
+                capex_usd=30_000_000,
+                annual_revenue_run_rate_usd=12_000_000,
+                gross_margin_pct=None,
+                annual_debt_service_usd=None,
+                provenance=_prov("https://www.sec.gov/whitefiber-10q"),
+            ),
+            CapexPaybackCase(
+                source_case_id="missing-debt-service",
+                entity="WhiteFiber, Inc.",
+                capex_usd=42_000,
+                annual_revenue_run_rate_usd=30_000,
+                gross_margin_pct=50,
+                annual_debt_service_usd=None,
+                provenance=_prov("https://www.sec.gov/whitefiber-s1"),
+            ),
+        ],
+        eps_impacts=[],
+        chip_supply_observations=[],
+    )
+
+    metrics = analyze_compute_economics(batch)
+
+    assert metrics.payback_case_count == 2
+    assert metrics.payback_red_flag_count == 0
+    assert metrics.payback_blocked_case_count == 1
+    assert metrics.payback_missing_debt_service_count == 2
+    blocked = metrics.top_payback_stress_cases[1]
+    assert blocked.payback_years is None
+    assert blocked.blocking_issues == ["Missing gross margin."]
 
 
 def test_gpu_rental_decline_requires_comparable_time_series() -> None:

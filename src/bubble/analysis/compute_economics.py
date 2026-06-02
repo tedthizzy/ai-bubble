@@ -134,6 +134,8 @@ class ComputeEconomicsMetrics:
     depreciation_policy_count: int
     tam_claim_count: int
     payback_case_count: int
+    payback_blocked_case_count: int
+    payback_missing_debt_service_count: int
     eps_impact_count: int
     chip_supply_observation_count: int
     total_gpu_capex_usd: float
@@ -209,6 +211,12 @@ class ComputeEconomicsAnalyzer:
             depreciation_policy_count=len(batch.depreciation_policies),
             tam_claim_count=len(batch.tam_claims),
             payback_case_count=len(batch.payback_cases),
+            payback_blocked_case_count=sum(
+                bool(item.blocking_issues) or item.payback_years is None for item in payback_results
+            ),
+            payback_missing_debt_service_count=sum(
+                item.debt_service_coverage_ratio is None for item in payback_results
+            ),
             eps_impact_count=len(batch.eps_impacts),
             chip_supply_observation_count=len(batch.chip_supply_observations),
             total_gpu_capex_usd=round(
