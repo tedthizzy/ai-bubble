@@ -32,10 +32,10 @@ The important change is that ecosystem-scale conclusions are now blocked from be
 
 Latest verified evidence-gated report at this checkpoint:
 
-- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260602-1928.md`
-- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260602-1928.json`
+- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260602-1941.md`
+- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260602-1941.json`
 - `high_confidence_final`: `false`
-- Evidence audit coverage now includes 474 claim audits: analyzer-level capital,
+- Evidence audit coverage now includes 480 claim audits: analyzer-level capital,
   compute, and debt-service audits, explicit row/artifact-backed audits for
   high-impact Burry-answer rollups, and aggregate hooks for pending review
   capital, pending AI-infra capital, pending compute, weak-link AI-infra,
@@ -44,7 +44,8 @@ Latest verified evidence-gated report at this checkpoint:
   legal-family PPA concentration, and AI/data-center-gated capital-graph
   risk-bearer/obligor rankings. The who-bears-downside answer also reports a
   downside-bearer taxonomy quality summary, and date/clause fragments are
-  treated as unmapped rather than named risk bearers. The
+  treated as unmapped rather than named risk bearers. Physical execution audits
+  now cover the term-level rollup fields added in this checkpoint. The
   remaining consistency warnings are doc-pattern checks and do not open the gate.
 - Source invariant audit: passed across 63 CSV files and 9,208,844 rows scanned
   with 0 violations and 0 warnings.
@@ -53,7 +54,8 @@ Latest verified evidence-gated report at this checkpoint:
 - Source-backed normalized entities: 789,787.
 - Projects: 17,227.
 - Source-backed deals: 62,952.
-- Source-backed physical execution terms: 821.
+- Source-backed physical execution terms: 821 distinct extracted terms across
+  662 projects.
 - Compute economics rows: 272 total, including 180 source-backed rows after
   provenance dedupe.
 - Source-backed timing signals: 3,263.
@@ -130,6 +132,13 @@ Latest capital and timing outputs:
 - `scripts/extract_physical_execution_terms.py` materializes those rows to
   `data/physical/physical_execution_terms.csv`; the latest run wrote 821 terms
   from tracker, queue, and permit source rows.
+- `scripts/summarize_physical_execution_terms.py` writes
+  `data/reports/physical_execution_summary.json`; the latest report now carries
+  a term-level physical execution rollup with 16,778.4 MW of on-site generation
+  evidence, 443 behind-the-meter/off-grid flags, 30 permit litigation or
+  enforcement-risk flags, 5 queue-bypass/no-queue flags, and 1 ratepayer
+  stranded-asset transfer flag. These are source-term sums, not project-deduped
+  capacity forecasts.
 - Broader materiality-adjudicated supported exposure: $3.742T across 1,380
   metric groups; this is a different scope from the curated capital-structure
   deal-graph debt-like metric above, not an additive increment.

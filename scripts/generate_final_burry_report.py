@@ -24,6 +24,7 @@ from bubble.analysis.debt_service import analyze_debt_service
 from bubble.analysis.ecosystem_scope import scope_deals
 from bubble.analysis.evidence import EvidenceGate, SemanticEvidenceBucket, classify_claim_semantics
 from bubble.analysis.physical_capacity import build_physical_capacity_summary
+from bubble.analysis.physical_execution_summary import build_physical_execution_summary
 from bubble.analysis.physical_risk_summary import build_physical_risk_summary
 from bubble.analysis.source_coverage import build_source_coverage_report
 from bubble.ingestion.capital import (
@@ -134,6 +135,51 @@ def audit_report_evidence(
             "Source-backed generator/equipment capacity linked to tracker project records",
             metrics["physical_record_equipment_loader_capacity_mw"],
             "MW",
+        ),
+        (
+            "physical_execution.distinct_terms",
+            "Distinct source-backed physical execution terms extracted from tracker, queue, and permit rows",
+            metrics["physical_execution_distinct_terms"],
+            "terms",
+        ),
+        (
+            "physical_execution.projects",
+            "Projects with source-backed physical execution terms",
+            metrics["physical_execution_projects"],
+            "projects",
+        ),
+        (
+            "physical_execution.onsite_generation_mw_term_sum",
+            "Term-level source-backed on-site generation MW evidence; not project-deduped capacity",
+            metrics["physical_execution_onsite_generation_mw_term_sum"],
+            "MW",
+        ),
+        (
+            "physical_execution.behind_the_meter_or_off_grid_terms",
+            "Source-backed behind-the-meter or off-grid physical execution terms",
+            metrics["physical_execution_risk_term_counts"].get(
+                "behind_the_meter_or_off_grid",
+                0,
+            ),
+            "terms",
+        ),
+        (
+            "physical_execution.permit_litigation_or_enforcement_terms",
+            "Source-backed permit litigation or enforcement-risk physical execution terms",
+            metrics["physical_execution_risk_term_counts"].get(
+                "permit_litigation_or_enforcement_risk",
+                0,
+            ),
+            "terms",
+        ),
+        (
+            "physical_execution.queue_bypass_or_no_queue_terms",
+            "Source-backed queue-bypass or no-queue physical execution terms",
+            metrics["physical_execution_risk_term_counts"].get(
+                "queue_bypass_or_no_queue",
+                0,
+            ),
+            "terms",
         ),
         (
             "physical.tracker_capacity_high_mw",
@@ -667,9 +713,7 @@ def report_answer_metric_audits(  # noqa: PLR0912, PLR0915
     add(
         "review_queue.pending_ai_infra_relevant_capital_distinct_notional",
         "AI-infra-relevant distinct pending capital review-queue notional",
-        review_queue_summary.get(
-            "pending_ai_infra_relevant_capital_distinct_notional_amount_usd"
-        ),
+        review_queue_summary.get("pending_ai_infra_relevant_capital_distinct_notional_amount_usd"),
         review_evidence,
         requires_corroboration=False,
     )
@@ -1312,9 +1356,7 @@ def debt_service_timing_coverage_fields(
         _float_value(debt_service_metrics_dict.get("distinct_obligations_count"))
     )
     distinct_missing_maturity = int(
-        _float_value(
-            debt_service_metrics_dict.get("distinct_obligations_missing_maturity_count")
-        )
+        _float_value(debt_service_metrics_dict.get("distinct_obligations_missing_maturity_count"))
     )
     distinct_debt_like_notional = _float_value(
         debt_service_metrics_dict.get("distinct_debt_like_notional_usd")
@@ -1336,9 +1378,7 @@ def debt_service_timing_coverage_fields(
 
     return {
         "current_distinct_debt_service_obligations": distinct_obligations,
-        "current_distinct_debt_service_obligations_missing_maturity": (
-            distinct_missing_maturity
-        ),
+        "current_distinct_debt_service_obligations_missing_maturity": (distinct_missing_maturity),
         "current_distinct_debt_service_maturity_obligation_coverage_pct": _pct(
             maturity_covered_obligations,
             distinct_obligations,
@@ -1351,9 +1391,7 @@ def debt_service_timing_coverage_fields(
             maturity_covered_notional,
             distinct_debt_like_notional,
         ),
-        "current_distinct_debt_service_missing_rate_notional_usd": (
-            distinct_missing_rate_notional
-        ),
+        "current_distinct_debt_service_missing_rate_notional_usd": (distinct_missing_rate_notional),
         "current_distinct_debt_service_measured_rate_notional_coverage_pct": (
             measured_rate_coverage_pct
         ),
@@ -1392,9 +1430,7 @@ def graph_parity_basis_fields(
     )
 
     return {
-        "current_capital_exposure_notional_basis": (
-            "deduped_edge_level_financing_notional"
-        ),
+        "current_capital_exposure_notional_basis": ("deduped_edge_level_financing_notional"),
         "current_capital_exposure_total_edge_notional_usd": capital_total_notional,
         "current_capital_exposure_ai_infra_relevant_notional_usd": capital_ai_notional,
         "current_contract_contagion_notional_basis": (
@@ -1536,6 +1572,7 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:
     resolved_data_dirs = data_dirs or ["data"]
     coverage = build_source_coverage_report(resolved_data_dirs)
     physical_capacity = build_physical_capacity_summary(resolved_data_dirs)
+    physical_execution = build_physical_execution_summary(resolved_data_dirs)
     physical_risk = build_physical_risk_summary(resolved_data_dirs)
     queue_match_summary = load_queue_project_match_summary(resolved_data_dirs)
     physical_record_match_summary = load_physical_record_match_summary(resolved_data_dirs)
@@ -1686,9 +1723,7 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:
             "total_notional_usd",
             0,
         ),
-        "contract_contagion_notional_basis": (
-            "path_summed_multiplicity_inflated_not_exposure"
-        ),
+        "contract_contagion_notional_basis": ("path_summed_multiplicity_inflated_not_exposure"),
         "contract_contagion_ai_infra_relevant_notional_usd": contract_contagion_summary.get(
             "ai_infra_relevant_notional_usd",
             0,
@@ -2166,6 +2201,25 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:
         "physical_risk_high_confidence_assessments": (physical_risk.high_confidence_assessments),
         "top_physical_risk_projects": physical_risk.top_risk_projects[:10],
         "top_physical_risk_blockers": physical_risk.top_blockers[:10],
+        "physical_execution_term_rows": physical_execution.term_rows,
+        "physical_execution_distinct_terms": physical_execution.distinct_terms,
+        "physical_execution_duplicate_term_rows_collapsed": (
+            physical_execution.duplicate_term_rows_collapsed
+        ),
+        "physical_execution_projects": physical_execution.projects,
+        "physical_execution_by_term_type": physical_execution.distinct_by_term_type,
+        "physical_execution_onsite_generation_mw_term_sum": (
+            physical_execution.onsite_generation_mw_term_sum
+        ),
+        "physical_execution_physical_generation_capacity_mw_term_sum": (
+            physical_execution.physical_generation_capacity_mw_term_sum
+        ),
+        "physical_execution_utility_generation_capacity_mw_term_sum": (
+            physical_execution.utility_generation_capacity_mw_term_sum
+        ),
+        "physical_execution_risk_term_counts": physical_execution.risk_term_counts,
+        "top_physical_execution_mw_terms": physical_execution.top_mw_terms[:10],
+        "top_physical_execution_risk_terms": physical_execution.top_risk_terms[:10],
         "target_entities_low": TARGET_ENTITIES_LOW,
         "target_deals_low": TARGET_DEALS_LOW,
         "entity_coverage_pct_of_low_target": round(
@@ -2299,9 +2353,7 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:
         min(0.82, evidence_summary["max_permitted_report_confidence"]),
         4,
     )
-    debt_service_timing_coverage = debt_service_timing_coverage_fields(
-        debt_service_metrics_dict
-    )
+    debt_service_timing_coverage = debt_service_timing_coverage_fields(debt_service_metrics_dict)
     graph_parity_basis = graph_parity_basis_fields(
         capital_exposure_graph_summary=capital_exposure_graph_summary,
         contract_contagion_summary=contract_contagion_summary,
@@ -2339,6 +2391,7 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:
         "source_invariant_audit": source_invariant_audit,
         "capital_scope": capital_scope_summary_dict,
         "physical_capacity_summary": physical_capacity_dict,
+        "physical_execution_summary": physical_execution.to_dict(),
         "physical_risk_summary": physical_risk_dict,
         "queue_project_match_summary": queue_match_summary,
         "physical_record_match_summary": physical_record_match_summary,
@@ -2360,6 +2413,9 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:
                 f"{coverage.projects} projects, and {coverage.source_backed_deals} "
                 f"source-backed deals. Compute economics coverage has "
                 f"{coverage.source_backed_compute_rows} source-backed rows. "
+                f"Physical execution extraction has "
+                f"{physical_execution.distinct_terms} distinct source-backed terms "
+                f"across {physical_execution.projects} projects. "
                 f"Entity expansion found "
                 f"{entity_universe_expanded_ciks} SEC CIK matches from "
                 f"{entity_universe_mentions_extracted} source-backed mentions. "
@@ -2602,6 +2658,16 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:
                 ),
                 "top_physical_risk_projects": physical_risk.top_risk_projects[:10],
                 "top_physical_risk_blockers": physical_risk.top_blockers[:10],
+                "current_physical_execution_distinct_terms": physical_execution.distinct_terms,
+                "current_physical_execution_projects": physical_execution.projects,
+                "current_physical_execution_onsite_generation_mw_term_sum": (
+                    physical_execution.onsite_generation_mw_term_sum
+                ),
+                "current_physical_execution_risk_term_counts": (
+                    physical_execution.risk_term_counts
+                ),
+                "top_physical_execution_mw_terms": physical_execution.top_mw_terms[:10],
+                "top_physical_execution_risk_terms": physical_execution.top_risk_terms[:10],
                 "current_eia_planned_capacity_mw": physical_capacity.eia_planned_capacity_mw,
                 "current_permit_records": coverage.permit_records,
                 "current_refinancing_wall_by_quarter": (
@@ -2979,6 +3045,9 @@ def main() -> None:
 
 ## Physical Capacity Summary
 {json.dumps(report["physical_capacity_summary"], indent=2)}
+
+## Physical Execution Summary
+{json.dumps(report["physical_execution_summary"], indent=2)}
 
 ## Physical Risk Summary
 {json.dumps(report["physical_risk_summary"], indent=2)}

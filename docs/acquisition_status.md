@@ -1,15 +1,15 @@
 # Acquisition Status
 
-Last updated: 2026-06-02 19:28 UTC.
+Last updated: 2026-06-02 19:41 UTC.
 
 This file is the operational snapshot for the current evidence corpus. Treat it
 as a run log, not as a final investment conclusion.
 
 ## Current Corpus
 
-- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-1928.md`
+- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-1941.md`
 - Evidence gate: not high-confidence final.
-- Evidence audit coverage: 474 claim audits now include analyzer-level capital,
+- Evidence audit coverage: 480 claim audits now include analyzer-level capital,
   compute, and debt-service audits, explicit row/artifact-backed audits for
   high-impact Burry-answer rollups, and aggregate hooks for pending review
   capital, pending AI-infra capital, pending compute, weak-link AI-infra,
@@ -18,7 +18,10 @@ as a run log, not as a final investment conclusion.
   concentration, legal-family PPA concentration, and AI/data-center-gated
   risk-bearer and obligor rankings, so demand-side power offtakers and
   downside-bearer nodes are visible without reading the raw non-thesis graph
-  ranking as the AI-specific answer.
+  ranking as the AI-specific answer. Physical execution audits now also cover
+  distinct extracted terms, projects, on-site generation MW term-sum,
+  behind-the-meter/off-grid flags, permit litigation/enforcement-risk flags,
+  and queue-bypass/no-queue flags.
   Substantive high-impact metric audit warnings are cleared;
   the remaining consistency warnings are doc-pattern checks, not evidence gaps
   or a gate opening.
@@ -36,7 +39,12 @@ as a run log, not as a final investment conclusion.
 - Projects: 17,227.
 - Source-backed deals: 62,952.
 - Source-backed contract tranches: 10,051.
-- Source-backed physical execution terms: 821.
+- Source-backed physical execution terms: 821 distinct extracted terms across
+  662 projects. The term-level rollup includes 16,778.4 MW of on-site
+  generation evidence, 443 behind-the-meter/off-grid flags, 30 permit
+  litigation/enforcement-risk flags, 5 queue-bypass/no-queue flags, and 1
+  ratepayer stranded-asset transfer flag. These MW values are source-term sums,
+  not project-deduped capacity forecasts.
 - Compute economics rows: 272 total, including 180 source-backed rows after
   provenance dedupe.
 - Source-backed timing signals: 3,263.
@@ -180,6 +188,10 @@ as a run log, not as a final investment conclusion.
   tracker/queue/permit source rows and wrote 821 terms after explicit false-
   positive guards for PJM unit-number abbreviations and negated no-litigation
   language.
+- `scripts/summarize_physical_execution_terms.py` now writes
+  `data/reports/physical_execution_summary.json` and the evidence-gated report
+  now includes `physical_execution_summary` plus key metrics for distinct terms,
+  projects, term-level MW sums, and physical execution risk-term counts.
 - The broader materiality metric is now split by adjudicated thesis linkage:
   $0.440T has established direct/watchlist AI-data-center linkage, while
   88.9% is source-backed but not yet established as AI/data-center-linked.
