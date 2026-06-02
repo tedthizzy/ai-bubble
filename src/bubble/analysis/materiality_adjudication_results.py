@@ -303,7 +303,9 @@ def _remaining_gaps(packet: dict[str, str], quote: str) -> list[str]:
     gaps.extend(_currency_gaps(packet, quote))
     if _aggregate_lease_context_conflicts_with_quote(packet, quote):
         gaps.append("confirm lease obligation source rather than debt securities prospectus")
-    if _looks_like_asset_or_capacity_not_debt(packet, quote):
+    if _looks_like_asset_or_capacity_not_debt(
+        packet, quote
+    ) or _looks_like_undrawn_capacity_not_debt(packet, quote):
         gaps.append("split asset, UPB, or financing-capacity disclosure from committed debt")
     semantic_gap_by_bucket = {
         SemanticEvidenceBucket.ASSET_OR_CAPACITY: (
@@ -1622,6 +1624,7 @@ def _reselect_semantic_quotes(
 ) -> list[MaterialityAdjudicationDecision]:
     """Replace weak approved quotes with stronger same-filing committed-debt clauses."""
 
+    packet_by_id = {_field(packet, "packet_id"): packet for packet in packets or []}
     by_hash_and_entity: dict[tuple[str, str], list[_SemanticQuoteCandidate]] = {}
     for decision in decisions:
         entity_key = _entity_reselection_key(decision.entity)
@@ -1664,7 +1667,11 @@ def _reselect_semantic_quotes(
 
     reselected: list[MaterialityAdjudicationDecision] = []
     for decision in decisions:
-        replacement = _semantic_quote_reselection_candidate(decision, by_hash_and_entity)
+        replacement = _semantic_quote_reselection_candidate(
+            decision,
+            by_hash_and_entity,
+            packet_by_id.get(decision.packet_id),
+        )
         reselected.append(replacement or decision)
     return reselected
 
@@ -1672,6 +1679,7 @@ def _reselect_semantic_quotes(
 def _semantic_quote_reselection_candidate(
     decision: MaterialityAdjudicationDecision,
     by_hash_and_entity: dict[tuple[str, str], list[_SemanticQuoteCandidate]],
+    packet: dict[str, str] | None,
 ) -> MaterialityAdjudicationDecision | None:
     if decision.metric_use_status != "approved_for_metric_use":
         return None
@@ -1727,14 +1735,79 @@ def _semantic_quote_reselection_candidate(
         if semantic_bucket == SemanticEvidenceBucket.INDETERMINATE
         else "because the original quote lacked exact amount committed-instrument text"
     )
-    rationale = (
-        f"{decision.rationale} Evidence quote reselected from same source filing "
+    reselect_note = (
+        f"Evidence quote reselected from same source filing "
         f"packet {best.packet_id} {reselect_reason}."
     )
+    rationale = f"{decision.rationale} {reselect_note}"
+    if packet is not None:
+        return _replace_decision_quote_disposition(
+            decision,
+            packet,
+            best_quote,
+            best.evidence_quote_refs,
+            reselect_note,
+        )
     return replace(
         decision,
         evidence_quote=best_quote,
         evidence_quote_refs=best.evidence_quote_refs,
+        rationale=rationale,
+    )
+
+
+def _replace_decision_quote_disposition(
+    decision: MaterialityAdjudicationDecision,
+    packet: dict[str, str],
+    quote: str,
+    quote_refs: tuple[str, ...],
+    reselect_note: str,
+) -> MaterialityAdjudicationDecision:
+    evidence_snippets = _json_dicts(packet.get("evidence_snippets"))
+    source_support = _source_support(packet, quote, evidence_snippets)
+    gaps = _remaining_gaps(packet, quote)
+    decision_status = _decision(packet, quote, gaps, source_support)
+    metric_use_status = _metric_use_status(packet, decision_status, gaps)
+    exposure_basis = _float(packet.get("exposure_basis_usd"))
+    supported_amount = (
+        exposure_basis if metric_use_status == "approved_for_metric_use" else 0.0
+    )
+    metric_group_id = (
+        decision.metric_group_id
+        if metric_use_status == decision.metric_use_status == "approved_for_metric_use"
+        else _metric_group_id(packet, quote, metric_use_status)
+    )
+    metric_snapshot_date = (
+        decision.metric_snapshot_date
+        if metric_use_status == decision.metric_use_status == "approved_for_metric_use"
+        else _metric_snapshot_date(packet, quote, metric_use_status)
+    )
+    metric_aggregation_policy = (
+        decision.metric_aggregation_policy
+        if metric_use_status == decision.metric_use_status == "approved_for_metric_use"
+        else _metric_aggregation_policy(packet, quote, metric_use_status)
+    )
+    rationale = (
+        f"{_rationale(packet, quote, decision_status, metric_use_status, source_support, gaps)} "
+        f"{reselect_note}"
+    )
+    return replace(
+        decision,
+        decision=decision_status,
+        metric_use_status=metric_use_status,
+        source_support=source_support,
+        confidence=_confidence(decision_status, source_support, gaps),
+        supported_amount_usd=round(supported_amount, 2),
+        metric_group_id=metric_group_id,
+        metric_snapshot_date=metric_snapshot_date,
+        metric_aggregation_policy=metric_aggregation_policy,
+        duplicate_or_aggregate=_duplicate_or_aggregate(packet, quote),
+        ai_data_center_linkage=_ai_linkage(packet, quote),
+        risk_bearer=_risk_bearer(packet, quote, gaps),
+        remaining_gap=" | ".join(gaps),
+        required_next_extraction=_required_next_extraction(packet, quote, gaps),
+        evidence_quote=quote,
+        evidence_quote_refs=quote_refs,
         rationale=rationale,
     )
 
@@ -2343,6 +2416,169 @@ def _looks_like_asset_or_capacity_not_debt(packet: dict[str, str], quote: str) -
     ]
     return _contains_any(text, asset_or_capacity_markers) or _contains_any(
         text, boilerplate_markers
+    )
+
+
+def _looks_like_undrawn_capacity_not_debt(packet: dict[str, str], quote: str) -> bool:
+    if _field(packet, "category") not in {"capital", "contract"}:
+        return False
+    if _is_source_backed_aggregate_obligation_snapshot(packet, quote):
+        return False
+    text = _combined_text(packet, quote).lower()
+    amount_clauses = _amount_bound_capacity_clauses(
+        text, _float(packet.get("exposure_basis_usd"))
+    )
+    if amount_clauses:
+        return any(_amount_clause_is_undrawn_capacity(clause) for clause in amount_clauses)
+    if _is_underwriter_commitment_boilerplate(text):
+        return False
+    if _has_committed_debt_amount_markers(text):
+        return False
+    return _has_terminated_commitment_capacity(text)
+
+
+def _amount_bound_capacity_clauses(text: str, amount: float) -> list[str]:
+    if amount <= 0 or not text:
+        return []
+    raw_parts = [part.strip() for part in re.split(r"(?<=[.;:])\s+|,\s+", text) if part.strip()]
+    if not raw_parts:
+        return []
+    terms = _specific_amount_terms(amount)
+    clauses: list[str] = []
+    seen: set[str] = set()
+    for index, part in enumerate(raw_parts):
+        part_lower = part.lower()
+        if not any(term in part_lower for term in terms):
+            continue
+        window = " || ".join(raw_parts[index : index + 3]).strip()
+        key = window[:240]
+        if key in seen:
+            continue
+        seen.add(key)
+        clauses.append(window)
+    return clauses
+
+
+def _specific_amount_terms(amount: float) -> list[str]:
+    terms: list[str] = []
+    for term in _amount_quote_terms(amount):
+        normalized = term.lower().strip()
+        if not normalized:
+            continue
+        if (
+            "$" in normalized
+            or "." in normalized
+            or "million" in normalized
+            or "billion" in normalized
+            or "trillion" in normalized
+            or len(normalized) >= 7
+        ):
+            terms.append(normalized)
+    return list(dict.fromkeys(terms))
+
+
+def _amount_clause_is_undrawn_capacity(clause: str) -> bool:
+    lowered = clause.lower()
+    amount_part = lowered.split(" || ", maxsplit=1)[0]
+    bridge_capacity = _contains_any(
+        amount_part, ["bridge loan facility", "bridge facility"]
+    ) and _contains_any(lowered, ["terminated", "reduced to zero", "reduced to z"])
+    if bridge_capacity:
+        return True
+    if _amount_part_has_committed_debt_markers(amount_part):
+        return False
+    if _is_underwriter_commitment_boilerplate(lowered):
+        return False
+    direct_capacity = _contains_any(
+        amount_part,
+        [
+            "commitments available",
+            "availability under",
+            "available under",
+        ],
+    )
+    revolver_capacity = _contains_any(
+        amount_part,
+        ["revolving credit agreement", "revolving credit facility", "revolver"],
+    ) and _contains_any(
+        lowered,
+        [
+            "no borrowings",
+            "available and undrawn",
+            "fully undrawn",
+            "commitments available",
+            "availability under",
+            "available under",
+            "borrowing availability",
+        ],
+    )
+    free_capacity = _contains_any(
+        lowered,
+        [
+            "available and undrawn",
+            "fully undrawn",
+            "borrowing availability under",
+            "availability under",
+        ],
+    )
+    return (
+        direct_capacity
+        or revolver_capacity
+        or _has_terminated_commitment_capacity(lowered)
+        or free_capacity
+    )
+
+
+def _amount_part_has_committed_debt_markers(text: str) -> bool:
+    return _contains_any(
+        text,
+        [
+            "aggregate principal amount",
+            "existing senior unsecured notes",
+            "existing senior secured notes",
+            "senior unsecured notes",
+            "senior secured notes",
+            "issued",
+            "issuance and sale",
+            "notes due",
+            "term loans borrowed",
+            "repay all existing indebtedness",
+        ],
+    )
+
+
+def _has_committed_debt_amount_markers(text: str) -> bool:
+    return _contains_any(
+        text,
+        [
+            "aggregate principal amount",
+            "existing senior unsecured notes",
+            "existing senior secured notes",
+            "issued $",
+            "issuance and sale",
+            "notes due",
+            "term loans borrowed",
+            "repay all existing indebtedness",
+        ],
+    )
+
+
+def _has_terminated_commitment_capacity(text: str) -> bool:
+    return (
+        _contains_any(text, ["terminated", "reduced to zero", "reduced to z"])
+        and _contains_any(text, ["commitment", "commitments", "bridge facility"])
+    )
+
+
+def _is_underwriter_commitment_boilerplate(text: str) -> bool:
+    return _contains_any(
+        text,
+        [
+            "underwriting agreement",
+            "non-defaulting underwriters",
+            "purchase commitments of",
+            "purchase commitments of the non-defaulting underwriters",
+        ],
     )
 
 

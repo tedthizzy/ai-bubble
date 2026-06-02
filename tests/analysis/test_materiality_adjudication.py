@@ -2600,6 +2600,254 @@ def test_materiality_adjudication_blocks_enterprise_value_acquisition_snippet(
     assert decision.supported_amount_usd == 0
 
 
+def test_materiality_adjudication_does_not_block_existing_notes_with_incidental_undrawn_clause(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-existing-notes-with-undrawn-facility",
+                "rank": 1,
+                "review_id": "review-existing-notes-with-undrawn-facility",
+                "review_group_id": "group-existing-notes-with-undrawn-facility",
+                "priority": "high",
+                "category": "capital",
+                "subcategory": "high_notional_debt_like_candidate",
+                "ecosystem_relevance": "watchlist_entity",
+                "entity": "Keurig Dr Pepper Inc.",
+                "counterparty": "noteholders",
+                "exposure_basis_usd": "14100000000",
+                "reason": (
+                    "pending adjudication status: pending; debt-like deal type: bond; "
+                    "notional $14,100,000,000; notional context: transaction_principal"
+                ),
+                "recommended_action": "Confirm amount binding",
+                "source_uri": "https://www.sec.gov/kdp-guarantees.htm",
+                "source_uris": json.dumps(["https://www.sec.gov/kdp-guarantees.htm"]),
+                "content_hash": "k" * 64,
+                "content_hashes": json.dumps(["k" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/kdp-guarantees.htm",
+                            "content_hash": "k" * 64,
+                            "document_id": "kdp-guarantees.htm",
+                            "snippet": (
+                                "As of March 6, 2026, the full amount of the "
+                                "Delayed Draw Term Loan Agreement remains available "
+                                "and undrawn. Maple Parent Holdings became a "
+                                "guarantor of KDP's $14.1 billion of existing "
+                                "senior unsecured notes, KDP's $4.3 billion "
+                                "revolving credit agreement, and KDP's bridge "
+                                "credit facility."
+                            ),
+                        }
+                    ]
+                ),
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    decision = batch.decisions[0]
+    assert (
+        "split asset, UPB, or financing-capacity disclosure from committed debt"
+        not in decision.remaining_gap
+    )
+    assert decision.metric_use_status == "approved_for_metric_use"
+
+
+def test_materiality_adjudication_blocks_amount_bound_undrawn_revolver_capacity(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-undrawn-revolver-capacity",
+                "rank": 1,
+                "review_id": "review-undrawn-revolver-capacity",
+                "review_group_id": "group-undrawn-revolver-capacity",
+                "priority": "high",
+                "category": "capital",
+                "subcategory": "high_notional_debt_like_candidate",
+                "ecosystem_relevance": "watchlist_entity",
+                "entity": "Keurig Dr Pepper Inc.",
+                "counterparty": "revolving lenders",
+                "exposure_basis_usd": "4300000000",
+                "reason": (
+                    "pending adjudication status: pending; debt-like deal type: "
+                    "debt_facility; notional $4,300,000,000; notional context: "
+                    "transaction_facility"
+                ),
+                "recommended_action": "Confirm amount binding",
+                "source_uri": "https://www.sec.gov/kdp-guarantees.htm",
+                "source_uris": json.dumps(["https://www.sec.gov/kdp-guarantees.htm"]),
+                "content_hash": "l" * 64,
+                "content_hashes": json.dumps(["l" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/kdp-guarantees.htm",
+                            "content_hash": "l" * 64,
+                            "document_id": "kdp-guarantees.htm",
+                            "snippet": (
+                                "Maple Parent Holdings became a guarantor of "
+                                "KDP's $14.1 billion of existing senior unsecured "
+                                "notes, KDP's $4.3 billion revolving credit "
+                                "agreement, and KDP's bridge credit facility. "
+                                "There were no borrowings as of March 6, 2026, "
+                                "under the revolving credit facility."
+                            ),
+                        }
+                    ]
+                ),
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    decision = batch.decisions[0]
+    assert (
+        "split asset, UPB, or financing-capacity disclosure from committed debt"
+        in decision.remaining_gap
+    )
+    assert decision.metric_use_status == "blocked_pending_extraction"
+
+
+def test_materiality_adjudication_does_not_block_underwriter_commitment_boilerplate(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-underwriter-commitment-boilerplate",
+                "rank": 1,
+                "review_id": "review-underwriter-commitment-boilerplate",
+                "review_group_id": "group-underwriter-commitment-boilerplate",
+                "priority": "high",
+                "category": "capital",
+                "subcategory": "high_notional_debt_like_candidate",
+                "ecosystem_relevance": "watchlist_entity",
+                "entity": "BHP Group Ltd",
+                "counterparty": "underwriters",
+                "exposure_basis_usd": "2953000000",
+                "reason": (
+                    "pending adjudication status: pending; debt-like deal type: bond; "
+                    "notional $2,953,000,000; notional context: transaction_principal"
+                ),
+                "recommended_action": "Confirm amount binding",
+                "source_uri": "https://www.sec.gov/bhp-notes.htm",
+                "source_uris": json.dumps(["https://www.sec.gov/bhp-notes.htm"]),
+                "content_hash": "m" * 64,
+                "content_hashes": json.dumps(["m" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/bhp-notes.htm",
+                            "content_hash": "m" * 64,
+                            "document_id": "bhp-notes.htm",
+                            "snippet": (
+                                "BHP Billiton Finance (USA) Limited is offering "
+                                "and selling US$2.953 billion senior notes due "
+                                "2035. The underwriting agreement provides that "
+                                "the purchase commitments of the non-defaulting "
+                                "underwriters may be increased or the underwriting "
+                                "agreement may be terminated."
+                            ),
+                        }
+                    ]
+                ),
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    decision = batch.decisions[0]
+    assert (
+        "split asset, UPB, or financing-capacity disclosure from committed debt"
+        not in decision.remaining_gap
+    )
+    assert decision.metric_use_status == "approved_for_metric_use"
+
+
+def test_materiality_adjudication_blocks_amount_bound_terminated_bridge_capacity(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-terminated-bridge-capacity",
+                "rank": 1,
+                "review_id": "review-terminated-bridge-capacity",
+                "review_group_id": "group-terminated-bridge-capacity",
+                "priority": "high",
+                "category": "capital",
+                "subcategory": "high_notional_debt_like_candidate",
+                "ecosystem_relevance": "watchlist_entity",
+                "entity": "Global Payments Inc.",
+                "counterparty": "commitment parties",
+                "exposure_basis_usd": "7700000000",
+                "reason": (
+                    "pending adjudication status: pending; debt-like deal type: "
+                    "debt_facility; notional $7,700,000,000; notional context: "
+                    "transaction_facility"
+                ),
+                "recommended_action": "Confirm amount binding",
+                "source_uri": "https://www.sec.gov/global-payments-bridge.htm",
+                "source_uris": json.dumps(["https://www.sec.gov/global-payments-bridge.htm"]),
+                "content_hash": "p" * 64,
+                "content_hashes": json.dumps(["p" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/global-payments-bridge.htm",
+                            "content_hash": "p" * 64,
+                            "document_id": "global-payments-bridge.htm",
+                            "snippet": (
+                                "The Commitment Parties committed to provide a "
+                                "364-day senior unsecured bridge loan facility "
+                                "in an initial aggregate principal amount of up "
+                                "to $7.7 billion. Upon closing of the offering, "
+                                "the company reduced the remaining commitments "
+                                "related to the Bridge Facility to zero and "
+                                "terminated the Bridge Facility in full."
+                            ),
+                        }
+                    ]
+                ),
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    decision = batch.decisions[0]
+    assert (
+        "split asset, UPB, or financing-capacity disclosure from committed debt"
+        in decision.remaining_gap
+    )
+    assert decision.metric_use_status == "blocked_pending_extraction"
+
+
 def test_materiality_adjudication_dedupes_aggregate_snapshots_to_latest_metric(
     tmp_path: Path,
 ) -> None:

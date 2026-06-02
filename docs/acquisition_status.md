@@ -1,13 +1,13 @@
 # Acquisition Status
 
-Last updated: 2026-06-02 15:12 UTC.
+Last updated: 2026-06-02 15:31 UTC.
 
 This file is the operational snapshot for the current evidence corpus. Treat it
 as a run log, not as a final investment conclusion.
 
 ## Current Corpus
 
-- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-1512.md`
+- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-1531.md`
 - Evidence gate: not high-confidence final.
 - Evidence audit coverage: report-level audits now include analyzer-level
   capital, compute, and debt-service audits plus explicit row/artifact-backed
@@ -42,23 +42,23 @@ as a run log, not as a final investment conclusion.
   the packet set.
 - Automated materiality adjudication decisions: 6,663 decisions, 6,463 with
   resolved text quotes plus 200 row-context-backed decisions for non-text
-  sources, 4,463 supported as material blockers, 2,200 requiring deeper
-  extraction, 0 requiring source retrieval, and 2,917 source-backed rows
-  approved for metric use. Those approved rows total $8.246T as row-level
+  sources, 4,369 supported as material blockers, 2,294 requiring deeper
+  extraction, 0 requiring source retrieval, and 2,823 source-backed rows
+  approved for metric use. Those approved rows total $7.955T as row-level
   supported amounts, but source-instrument, same-accession/same-amount,
   strict cross-filing instrument-fingerprint, and economic-obligation metric
   dedupe now collapses same-document/same-amount and exact repeated filing
-  disclosures to $4.123T deduped final metric support across 1,455 metric
+  disclosures to $4.076T deduped final metric support across 1,445 metric
   groups;
   they are not treated as individual contracts unless contract terms are
   separately extracted.
 - Report arithmetic invariants pass with 0 violations. The how-large answer now
   labels the $1.201T curated capital-structure deal-graph debt-like metric
-  separately from the broader $4.123T materiality-adjudicated supported exposure
+  separately from the broader $4.076T materiality-adjudicated supported exposure
   metric so the two scopes are not read as inconsistent or directly additive.
 - The broader materiality metric is now split by adjudicated thesis linkage:
-  $0.463T has established direct/watchlist AI-data-center linkage, while
-  89.4% is source-backed but not yet established as AI/data-center-linked.
+  $0.456T has established direct/watchlist AI-data-center linkage, while
+  89.37% is source-backed but not yet established as AI/data-center-linked.
   The unlinked tail is a scope gap, not a final no-link conclusion.
   Clear AI/HPC/bitcoin data-center operators including IREN, CleanSpark,
   American Bitcoin, MARA/Marathon, Hut 8, Applied Digital, CoreWeave,
@@ -74,21 +74,22 @@ as a run log, not as a final investment conclusion.
   approved rows are hard-flagged as asset/capacity, equity/production, or
   boilerplate snippets.
   A same-filing quote-quality pass now reselects stronger committed-debt clauses
-  for approved rows whose original selected snippet was semantically peripheral
-  or lacked exact amount committed-instrument text when a same-entity/same-
-  content-hash sibling clause is available. Quote reselection preserves a stable
-  metric-dedupe quote, so it changes evidence text quality without changing
-  supported metric totals.
+  for rows whose original selected snippet was semantically peripheral or lacked
+  exact amount committed-instrument text when a same-entity/same-content-hash
+  sibling clause is available. Quote reselection preserves stable approved-row
+  metric grouping, but re-evaluates metric eligibility when the stronger quote
+  itself proves undrawn capacity, terminated backstop capacity, or another
+  non-committed financing-capacity disclosure.
 - Decision coverage over packaged blocker groups: 100.0%; unresolved decision
-  share remains 33.02% (still extraction-bound, not source-retrieval-bound).
+  share is 34.43% (still extraction-bound, not source-retrieval-bound).
 - Top remaining decision gaps are now named counterparty role extraction
-  (1,212), collateral scope (644), recourse/guarantee scope (517), split
-  aggregate disclosure from committed obligations (165),
-  asset/UPB/financing-capacity splitting (150), source-quote committed-obligation
+  (1,237), collateral scope (671), recourse/guarantee scope (524),
+  asset/UPB/financing-capacity splitting (236), split aggregate disclosure from
+  committed obligations (174), source-quote committed-obligation
   semantic confirmation (72), specific committed-obligation equity/share or
   mortgage-production splitting (58), queue/permit/interconnection linkage (43),
   mega-obligation confirmation (33), missing underlying term-level clauses
-  (28), shelf-capacity-vs-committed-financing distinction (25),
+  (29), shelf-capacity-vs-committed-financing distinction (26),
   resale-registration-vs-committed-financing distinction (12), mixed-currency
   quote reselection or USD-equivalent extraction (10), and non-USD notional
   conversion before metric use (6).
@@ -560,12 +561,12 @@ Adjudication queue:
 - Pending compute claim amount: $398.24B.
 - Materiality packets: 6,663 source-backed packets, 706 AI-infra relevant, and
   6,663 with local evidence snippets.
-- Materiality decisions: 4,463 source-supported blockers, 2,200 requiring
-  deeper extraction, 0 requiring source retrieval, and 2,917 rows approved
+- Materiality decisions: 4,369 source-supported blockers, 2,294 requiring
+  deeper extraction, 0 requiring source retrieval, and 2,823 rows approved
   for metric use (6,463 quote-backed decisions plus 200 row-context-backed
   decisions on non-text sources).
-- Automated row-level supported amount approved for metric use: $8.246T.
-- Deduped automated final metric support: $4.123T across 1,455 metric groups
+- Automated row-level supported amount approved for metric use: $7.955T.
+- Deduped automated final metric support: $4.076T across 1,445 metric groups
   after source-instrument, same-accession/same-amount, strict cross-filing
   instrument-fingerprint, latest-snapshot, and exact economic-obligation
   grouping. The same-accession collapse removed
@@ -583,8 +584,17 @@ Adjudication queue:
   resale registration from committed financing` gap; the live final metric has
   dropped by four groups and about $17.50B across the capital and contract
   passes.
-- Relevance split of that deduped final metric: $0.463T established
-  direct/watchlist AI-data-center linkage; 89.4% remains not-established for
+- Amount-bound undrawn or terminated capacity is now re-evaluated after same-
+  filing quote reselection, so concrete non-committed capacity clauses such as
+  undrawn revolvers and terminated bridge backstops no longer survive merely
+  because the first selected quote was weaker. Real issued notes, existing
+  senior note guarantees, and underwriter purchase-commitment boilerplate remain
+  eligible when their amount is bound to committed financing. This pass removed
+  another 94 approved rows, $291.37B of row-level support, six metric groups,
+  and about $46.37B of deduped final metric support relative to the 15:12
+  report.
+- Relevance split of that deduped final metric: $0.456T established
+  direct/watchlist AI-data-center linkage; 89.37% remains not-established for
   thesis linkage.
 - Clear AI/HPC/bitcoin data-center operators including IREN, CleanSpark,
   American Bitcoin, MARA/Marathon, Hut 8, Applied Digital, CoreWeave,
