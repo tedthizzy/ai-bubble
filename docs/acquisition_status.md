@@ -144,6 +144,12 @@ as a run log, not as a final investment conclusion.
   revenue projections, and capacity-only/no-dollar disclosures. This prepares
   the hidden-leverage tier for source-backed extraction while preserving the
   double-count caveat between buyer obligations and seller backlog.
+- The EDGAR compute-economics extraction pass now materializes those terms to
+  `economic_commitments.csv` with source URI, content hash, document id,
+  accession, quote, binding tier, and double-count caveat. Source-coverage
+  accounting includes the new file as a compute-economics corpus member, so the
+  off-balance-sheet commitment tier can be counted and audited alongside chip
+  supply, depreciation, TAM, payback, and EPS-impact rows.
 - The broader materiality metric is now split by adjudicated thesis linkage:
   $0.440T has established direct/watchlist AI-data-center linkage, while
   88.9% is source-backed but not yet established as AI/data-center-linked.

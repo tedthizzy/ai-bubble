@@ -98,7 +98,9 @@ Latest capital and timing outputs:
   seller-side backlog mirrors and non-binding lessor-revenue or framework
   claims. A deterministic `bubble.ingestion.compute.extract_economic_commitments`
   helper now classifies this source text into the corresponding economic-
-  commitment tiers. This tier remains separate from the committed-debt metric.
+  commitment tiers, and the EDGAR compute extraction pass now writes those rows
+  to `economic_commitments.csv` with provenance and double-count caveats. This
+  tier remains separate from the committed-debt metric.
 - Utility/ratepayer downside is now ready for its first source-acquisition pass:
   `handoffs/codex_utility_ratepayer_acquisition_cards_20260602.md` and its
   fixture CSVs identify exact PUC/IRP/rate-case/large-load tariff targets for

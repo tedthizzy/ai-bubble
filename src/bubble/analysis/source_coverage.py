@@ -47,6 +47,7 @@ CORPUS_BY_EXACT_FILENAME = {
     "capex_payback_cases.csv": "capex_payback_cases",
     "eps_depreciation_impacts.csv": "eps_depreciation_impacts",
     "chip_supply_observations.csv": "chip_supply_observations",
+    "economic_commitments.csv": "economic_commitments",
 }
 
 COMPUTE_CORPORA = {
@@ -57,6 +58,7 @@ COMPUTE_CORPORA = {
     "capex_payback_cases",
     "eps_depreciation_impacts",
     "chip_supply_observations",
+    "economic_commitments",
 }
 
 
@@ -86,6 +88,7 @@ class SourceCoverageReport:
     capex_payback_cases: int
     eps_depreciation_impacts: int
     chip_supply_observations: int
+    economic_commitments: int
     compute_economics_rows: int
     source_backed_compute_rows: int
     extracted_deals: int
@@ -135,6 +138,7 @@ def build_source_coverage_report(  # noqa: PLR0912, PLR0915
         "capex_payback_cases": [],
         "eps_depreciation_impacts": [],
         "chip_supply_observations": [],
+        "economic_commitments": [],
         "extracted_deals": [],
         "contract_tranches": [],
     }
@@ -321,6 +325,7 @@ def build_source_coverage_report(  # noqa: PLR0912, PLR0915
         capex_payback_cases=counts["capex_payback_cases"],
         eps_depreciation_impacts=counts["eps_depreciation_impacts"],
         chip_supply_observations=counts["chip_supply_observations"],
+        economic_commitments=counts["economic_commitments"],
         compute_economics_rows=compute_economics_rows,
         source_backed_compute_rows=len(source_backed_compute_row_keys),
         extracted_deals=counts["extracted_deals"],

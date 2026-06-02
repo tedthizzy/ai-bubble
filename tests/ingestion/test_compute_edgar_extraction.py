@@ -91,6 +91,7 @@ def test_extract_compute_economics_from_edgar_writes_source_backed_rows(tmp_path
     assert summary.tam_claims == 1
     assert summary.eps_depreciation_impacts == 0
     assert summary.chip_supply_observations == 1
+    assert summary.economic_commitments == 0
 
     policies = _read_csv(tmp_path / "compute" / "depreciation_policies.csv")
     assert policies[0]["entity"] == "NVIDIA CORP"
@@ -164,6 +165,59 @@ def test_extract_compute_economics_from_edgar_extracts_mw_capacity_commitments(
     ]
     assert {row["supplier"] for row in supply} == {"Cerebras Systems Inc."}
     assert all(row["source_uri"].startswith("https://www.sec.gov/") for row in supply)
+
+
+def test_extract_compute_economics_from_edgar_writes_economic_commitments(
+    tmp_path: Path,
+) -> None:
+    doc = tmp_path / "msft.htm"
+    doc.write_text(
+        """
+        <html><body>
+        <p>Microsoft operates cloud infrastructure and datacenter services.</p>
+        <p>As of June 30, 2025, purchase commitments primarily relate to
+        datacenters and include open purchase orders and take-or-pay contracts.
+        These commitments were $109.953 billion.</p>
+        <p>We have entered into datacenter leases that have not yet commenced.
+        Future lease payments for these leases are $92.7 billion.</p>
+        </body></html>
+        """
+    )
+    inventory = tmp_path / "inventory.csv"
+    _write_csv(
+        inventory,
+        [
+            {
+                "cik": "0000789019",
+                "company_name": "Microsoft Corporation",
+                "form": "10-K",
+                "accession_number": "0000950170-25-100235",
+                "filing_date": "2025-07-30",
+                "primary_document": "msft-20250630.htm",
+                "filing_url": "https://www.sec.gov/Archives/edgar/data/789019/msft-20250630.htm",
+                "local_path": str(doc),
+                "content_hash": HASH,
+                "downloaded_at": "2026-06-01T00:00:00+00:00",
+            }
+        ],
+    )
+
+    summary = extract_compute_economics_from_edgar(
+        inventory_csv=inventory,
+        output_dir=tmp_path / "compute",
+    )
+
+    assert summary.documents_scanned == 1
+    assert summary.economic_commitments == 2
+
+    commitments = _read_csv(tmp_path / "compute" / "economic_commitments.csv")
+    values = {(row["term_type"], row["value"], row["binding_tier"]) for row in commitments}
+    assert values == {
+        ("datacenter_purchase_commitment", "109953000000", "BINDING_BLENDED_BUYER"),
+        ("not_commenced_datacenter_lease", "92700000000", "BINDING_LEASE"),
+    }
+    assert all(row["source_uri"].startswith("https://www.sec.gov/") for row in commitments)
+    assert all(row["content_hash"] == HASH for row in commitments)
 
 
 def test_extract_compute_economics_from_edgar_extracts_disclosed_eps_impacts(

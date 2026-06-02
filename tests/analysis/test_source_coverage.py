@@ -124,6 +124,19 @@ def test_source_coverage_counts_real_corpora_and_missing_gaps(tmp_path: Path):
         ],
     )
     _write_csv(
+        tmp_path / "compute" / "economic_commitments.csv",
+        [
+            {
+                "commitment_id": "commitment-1",
+                "entity": "GPU Buyer Inc",
+                "term_type": "datacenter_purchase_commitment",
+                "source_uri": "https://www.sec.gov/Archives/edgar/data/3/commitments.htm",
+                "source_type": "sec_edgar",
+                "content_hash": "ghi789",
+            }
+        ],
+    )
+    _write_csv(
         tmp_path / "source_catalog.csv",
         [
             {
@@ -164,10 +177,11 @@ def test_source_coverage_counts_real_corpora_and_missing_gaps(tmp_path: Path):
     assert report.ppas == 1
     assert report.ownership_records == 1
     assert report.tracker_records == 1
-    assert report.compute_economics_rows == 2
-    assert report.source_backed_compute_rows == 2
+    assert report.compute_economics_rows == 3
+    assert report.source_backed_compute_rows == 3
     assert report.depreciation_policies == 1
     assert report.chip_supply_observations == 1
+    assert report.economic_commitments == 1
     assert report.extracted_deals == 2
     assert report.source_backed_deals == 2
     assert report.contract_tranches == 1

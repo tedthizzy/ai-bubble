@@ -13,6 +13,7 @@ from typing import Any
 
 from bs4 import BeautifulSoup, XMLParsedAsHTMLWarning
 
+from bubble.ingestion.compute.economic_commitments import extract_economic_commitments
 from bubble.models.base import HumanReviewStatus, SourceType
 
 warnings.filterwarnings("ignore", category=XMLParsedAsHTMLWarning)
@@ -283,6 +284,18 @@ CSV_FIELDS: dict[str, list[str]] = {
         "source_quote",
         *SOURCE_FIELDS,
     ],
+    "economic_commitments.csv": [
+        "commitment_id",
+        "entity",
+        "counterparty",
+        "term_type",
+        "value",
+        "unit",
+        "binding_tier",
+        "double_count_caveat",
+        "source_quote",
+        *SOURCE_FIELDS,
+    ],
 }
 
 
@@ -299,6 +312,7 @@ class ComputeEdgarExtractionSummary:
     capex_payback_cases: int
     eps_depreciation_impacts: int
     chip_supply_observations: int
+    economic_commitments: int
 
     def to_dict(self) -> dict[str, int]:
         return {
@@ -311,6 +325,7 @@ class ComputeEdgarExtractionSummary:
             "capex_payback_cases": self.capex_payback_cases,
             "eps_depreciation_impacts": self.eps_depreciation_impacts,
             "chip_supply_observations": self.chip_supply_observations,
+            "economic_commitments": self.economic_commitments,
         }
 
 
@@ -323,6 +338,7 @@ class _DocumentExtraction:
     capex_payback_cases: list[dict[str, Any]]
     eps_depreciation_impacts: list[dict[str, Any]]
     chip_supply_observations: list[dict[str, Any]]
+    economic_commitments: list[dict[str, Any]]
 
 
 @dataclass
@@ -334,6 +350,7 @@ class _ExtractionRows:
     capex_payback_cases: list[dict[str, Any]] = field(default_factory=list)
     eps_depreciation_impacts: list[dict[str, Any]] = field(default_factory=list)
     chip_supply_observations: list[dict[str, Any]] = field(default_factory=list)
+    economic_commitments: list[dict[str, Any]] = field(default_factory=list)
 
 
 def extract_compute_economics_from_edgar(
@@ -374,6 +391,7 @@ def extract_compute_economics_from_edgar(
     _write_csv(output / "capex_payback_cases.csv", payback_rows_to_write)
     _write_csv(output / "eps_depreciation_impacts.csv", extracted.eps_depreciation_impacts)
     _write_csv(output / "chip_supply_observations.csv", extracted.chip_supply_observations)
+    _write_csv(output / "economic_commitments.csv", extracted.economic_commitments)
     return ComputeEdgarExtractionSummary(
         inventory_documents=len(rows),
         candidate_documents=len(candidate_rows),
@@ -384,6 +402,7 @@ def extract_compute_economics_from_edgar(
         capex_payback_cases=len(payback_rows_to_write),
         eps_depreciation_impacts=len(extracted.eps_depreciation_impacts),
         chip_supply_observations=len(extracted.chip_supply_observations),
+        economic_commitments=len(extracted.economic_commitments),
     )
 
 
@@ -426,6 +445,12 @@ def _collect_extraction_rows(
             result.chip_supply_observations,
             seen_keys,
             _chip_supply_dedupe_key,
+        )
+        _append_unique(
+            extracted.economic_commitments,
+            result.economic_commitments,
+            seen_keys,
+            _economic_commitment_dedupe_key,
         )
     return extracted
 
@@ -512,6 +537,18 @@ def _chip_supply_dedupe_key(observation: dict[str, Any]) -> tuple[str, ...]:
     )
 
 
+def _economic_commitment_dedupe_key(commitment: dict[str, Any]) -> tuple[str, ...]:
+    return (
+        "economic_commitment",
+        str(commitment["entity"]),
+        str(commitment["term_type"]),
+        str(commitment["value"]),
+        str(commitment["unit"]),
+        str(commitment["binding_tier"]),
+        str(commitment["source_quote"])[:180],
+    )
+
+
 def _extract_document(row: dict[str, str]) -> _DocumentExtraction:
     local_path = Path(row.get("local_path", ""))
     if not local_path.is_file():
@@ -528,6 +565,7 @@ def _extract_document(row: dict[str, str]) -> _DocumentExtraction:
         capex_payback_cases=_extract_capex_payback_cases(row, text, source),
         eps_depreciation_impacts=_extract_eps_depreciation_impacts(row, text, source),
         chip_supply_observations=_extract_chip_supply_observations(row, text, source),
+        economic_commitments=_extract_economic_commitment_terms(row, text, source),
     )
 
 
@@ -540,6 +578,7 @@ def _empty_document_extraction() -> _DocumentExtraction:
         capex_payback_cases=[],
         eps_depreciation_impacts=[],
         chip_supply_observations=[],
+        economic_commitments=[],
     )
 
 
@@ -581,10 +620,56 @@ def _is_compute_relevant_text(text: str) -> bool:
             "artificial intelligence",
             "accelerated computing",
             "cloud infrastructure",
+            "datacenter",
             "compute capacity",
             "server and network equipment",
         )
     )
+
+
+def _extract_economic_commitment_terms(
+    row: dict[str, str],
+    text: str,
+    source: dict[str, str],
+) -> list[dict[str, Any]]:
+    terms = extract_economic_commitments(
+        {
+            "source_id": row.get("accession_number", ""),
+            "source_uri": source["source_uri"],
+            "document_id": source["document_id"],
+            "entity": row.get("company_name", ""),
+            "text": text,
+        }
+    )
+    rows: list[dict[str, Any]] = []
+    for term in terms:
+        commitment_id = _stable_id(
+            "edgar-economic-commitment",
+            row,
+            term.term_type,
+            term.value,
+            term.binding_tier,
+            term.quote,
+        )
+        rows.append(
+            {
+                "commitment_id": commitment_id,
+                "entity": term.entity or row.get("company_name", ""),
+                "counterparty": term.counterparty,
+                "term_type": term.term_type,
+                "value": term.value,
+                "unit": term.unit,
+                "binding_tier": term.binding_tier,
+                "double_count_caveat": term.double_count_caveat,
+                "source_quote": term.quote,
+                "page_or_section": (
+                    f"{row.get('form', '')} {row.get('accession_number', '')} "
+                    "economic commitment"
+                ),
+                **source,
+            }
+        )
+    return rows
 
 
 def _html_text(path: Path) -> str:
