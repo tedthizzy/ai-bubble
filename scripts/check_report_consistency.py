@@ -26,6 +26,7 @@ from typing import Any
 
 from bubble.quality.report_consistency import (
     build_expectations,
+    check_artifact_freshness,
     check_confidence_flags,
     check_invariant_audit_status,
     check_labeled_counts,
@@ -87,6 +88,33 @@ def main() -> int:
     findings.extend(check_invariant_audit_status(invariant_audit))
     findings.extend(check_metric_total_agreement(report=report, decision_summary=decision_summary))
     findings.extend(check_metric_audit_coverage(report))
+
+    # artifact freshness: a generated artifact should be newer than its inputs
+    artifact_paths = {
+        "latest report": report_dir / f"{latest_stem}.json",
+        "decision_summary": report_dir / "materiality_adjudication_decision_summary.json",
+        "invariant_audit": report_dir / "source_invariant_audit.json",
+        "capital_exposure_graph_summary": report_dir / "capital_exposure_graph_summary.json",
+        "contract_contagion_summary": report_dir / "contract_contagion_summary.json",
+        "timing_signal_summary": report_dir / "timing_signal_summary.json",
+        "decisions_csv": report_dir / "materiality_adjudication_decisions.csv",
+        "deals_csv": root / "data" / "edgar_acquisition" / "deals.csv",
+    }
+    mtimes = {name: p.stat().st_mtime for name, p in artifact_paths.items() if p.exists()}
+    findings.extend(
+        check_artifact_freshness(
+            mtimes,
+            dependencies=[
+                ("latest report", "decision_summary"),
+                ("latest report", "invariant_audit"),
+                ("latest report", "capital_exposure_graph_summary"),
+                ("latest report", "contract_contagion_summary"),
+                ("latest report", "timing_signal_summary"),
+                ("decision_summary", "decisions_csv"),
+                ("capital_exposure_graph_summary", "deals_csv"),
+            ],
+        )
+    )
     for rel in DOC_RELATIVE_PATHS:
         doc_path = root / rel
         if not doc_path.exists():

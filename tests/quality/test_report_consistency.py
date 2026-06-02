@@ -10,6 +10,7 @@ from __future__ import annotations
 from bubble.quality.report_consistency import (
     CountExpectation,
     build_expectations,
+    check_artifact_freshness,
     check_confidence_flags,
     check_invariant_audit_status,
     check_labeled_counts,
@@ -195,6 +196,29 @@ def test_audited_high_impact_metric_has_no_finding() -> None:
     }
 
     assert check_metric_audit_coverage(report, threshold=100e9) == []
+
+
+def test_flags_artifact_older_than_its_dependency() -> None:
+    # report.json (100) is older than the graph summary (200) it is built from
+    mtimes = {"report.json": 100.0, "graph_summary.json": 200.0}
+
+    findings = check_artifact_freshness(
+        mtimes, dependencies=[("report.json", "graph_summary.json")]
+    )
+
+    assert len(findings) == 1
+    assert findings[0].check == "stale_artifact"
+    assert findings[0].severity == "warning"
+    assert "report.json" in findings[0].message
+    assert "graph_summary.json" in findings[0].message
+
+
+def test_current_artifacts_have_no_freshness_finding() -> None:
+    mtimes = {"report.json": 300.0, "graph_summary.json": 200.0}
+
+    assert (
+        check_artifact_freshness(mtimes, dependencies=[("report.json", "graph_summary.json")]) == []
+    )
 
 
 def test_warns_on_stale_doc_timestamp() -> None:

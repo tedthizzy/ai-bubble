@@ -268,6 +268,39 @@ def check_confidence_flags(
 _TIMESTAMP_RE = re.compile(r"(\d{4}-\d{2}-\d{2})[ T](\d{2}:\d{2})")
 
 
+def check_artifact_freshness(
+    mtimes: dict[str, float],
+    *,
+    dependencies: list[tuple[str, str]],
+) -> list[ConsistencyFinding]:
+    """Flag a generated artifact older than an artifact it is built from.
+
+    ``dependencies`` is a list of ``(dependent, dependency)`` pairs; the dependent
+    should be at least as new as its dependency (built after it). Warning-level —
+    artifact mtimes are noisy across rebuilds. Addresses "generated artifacts older
+    than their dependencies / stale graph-report mismatches"."""
+
+    findings: list[ConsistencyFinding] = []
+    for dependent, dependency in dependencies:
+        if dependent not in mtimes or dependency not in mtimes:
+            continue
+        if mtimes[dependent] < mtimes[dependency]:
+            findings.append(
+                ConsistencyFinding(
+                    check="stale_artifact",
+                    severity="warning",
+                    doc=dependent,
+                    message=(
+                        f"{dependent} is older than its dependency {dependency} — it was "
+                        "built from a stale input; regenerate it."
+                    ),
+                    expected=f"newer than {dependency}",
+                    actual=f"older than {dependency}",
+                )
+            )
+    return findings
+
+
 def check_metric_audit_coverage(
     report: dict[str, Any],
     *,
