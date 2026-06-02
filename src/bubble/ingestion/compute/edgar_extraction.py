@@ -74,6 +74,29 @@ LIFE_SINGLE_RE = re.compile(
     r"\s+years\b",
     re.IGNORECASE,
 )
+PERCENT_RE = re.compile(r"\b\d+(?:\.\d+)?\s*%")
+DEPRECIATION_ASSET_TERMS: tuple[tuple[str, tuple[str, ...]], ...] = (
+    (
+        "servers and network equipment",
+        (
+            "servers and networking equipment",
+            "servers and network equipment",
+            "servers and network assets",
+            "server and network assets",
+        ),
+    ),
+    (
+        "data center equipment",
+        (
+            "cloud service equipment",
+            "colocation service equipment",
+            "data center equipment",
+            "computing equipment utilized in data centers",
+        ),
+    ),
+    ("computer equipment", ("computer equipment", "computing equipment")),
+    ("gpu equipment", ("gpu servers", "gpu server", "gpus", "gpu")),
+)
 MONEY_RE = re.compile(
     r"\$\s*(?P<amount>\d+(?:,\d{3})*(?:\.\d+)?)\s*(?P<unit>billion|million|trillion)?",
     re.IGNORECASE,
@@ -784,12 +807,10 @@ def _extract_depreciation_policies(
             )
         ):
             continue
-        life = _extract_life_years(quote)
-        if life is None:
+        policy = _depreciation_policy_observation(quote)
+        if policy is None:
             continue
-        if life >= 25 and "building" in quote_lower and "server" not in quote_lower:
-            continue
-        asset_class = _asset_class_from_quote(quote)
+        asset_class, life = policy
         policy_id = _stable_id("edgar-policy", row, asset_class, str(life), quote)
         policies.append(
             {
@@ -1103,6 +1124,58 @@ def _extract_life_years(quote: str) -> float | None:
     if single_match:
         return _number_token(single_match.group("life"))
     return None
+
+
+def _depreciation_policy_observation(quote: str) -> tuple[str, float] | None:
+    bound_policy = _bound_depreciation_life_to_asset_class(quote)
+    if bound_policy is not None:
+        return bound_policy
+    life = _extract_life_years(quote)
+    if life is None:
+        return None
+    quote_lower = quote.lower()
+    if life >= 25 and "building" in quote_lower and "server" not in quote_lower:
+        return None
+    return _asset_class_from_quote(quote), life
+
+
+def _bound_depreciation_life_to_asset_class(quote: str) -> tuple[str, float] | None:
+    lowered = quote.lower()
+    for asset_class, terms in DEPRECIATION_ASSET_TERMS:
+        for term in terms:
+            for match in re.finditer(re.escape(term), lowered):
+                segment = _asset_life_segment(quote, match.start())
+                life = _extract_nearest_life_years(segment)
+                if life is not None:
+                    return asset_class, life
+    return None
+
+
+def _asset_life_segment(quote: str, start: int) -> str:
+    max_end = min(len(quote), start + 220)
+    sentence_end = quote.find(". ", start, max_end)
+    if sentence_end >= 0:
+        max_end = sentence_end
+    return quote[start:max_end].strip()
+
+
+def _extract_nearest_life_years(segment: str) -> float | None:
+    candidates: list[tuple[int, float]] = []
+    for match in LIFE_RANGE_RE.finditer(segment):
+        life = _number_token(match.group("high"))
+        if life is not None:
+            candidates.append((match.start(), life))
+    for match in LIFE_SINGLE_RE.finditer(segment):
+        life = _number_token(match.group("life"))
+        if life is not None:
+            candidates.append((match.start(), life))
+    if not candidates:
+        return None
+    first_life = min(candidates, key=lambda item: item[0])
+    percent_match = PERCENT_RE.search(segment)
+    if percent_match is not None and percent_match.start() < first_life[0]:
+        return None
+    return first_life[1]
 
 
 def _asset_class_from_quote(quote: str) -> str:

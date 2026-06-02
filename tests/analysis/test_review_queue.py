@@ -194,6 +194,48 @@ def test_write_review_queue_outputs_csv_and_summary(tmp_path: Path) -> None:
     assert summary["high_items"] == 1
 
 
+def test_review_queue_does_not_treat_generic_equipment_life_as_gpu_policy(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "compute" / "depreciation_policies.csv",
+        [
+            {
+                "policy_id": "policy-generic",
+                "entity": "Advanced Micro Devices",
+                "asset_class": "property and equipment",
+                "accounting_useful_life_years": "15",
+                "source_uri": "https://www.sec.gov/amd-10k.htm",
+                "source_type": "sec_edgar",
+                "retrieved_at": "2026-06-01T00:00:00+00:00",
+                "source_confidence": "0.82",
+                "human_review_status": "pending",
+                "page_or_section": "10-K depreciation policy",
+                "content_hash": "hash-policy",
+            },
+            {
+                "policy_id": "policy-server",
+                "entity": "Alphabet",
+                "asset_class": "servers and network equipment",
+                "accounting_useful_life_years": "6",
+                "source_uri": "https://www.sec.gov/goog-10k.htm",
+                "source_type": "sec_edgar",
+                "retrieved_at": "2026-06-01T00:00:00+00:00",
+                "source_confidence": "0.82",
+                "human_review_status": "pending",
+                "page_or_section": "10-K depreciation policy",
+                "content_hash": "hash-server-policy",
+            },
+        ],
+    )
+
+    batch = build_review_queue([tmp_path])
+
+    assert batch.summary.items == 1
+    assert batch.items[0].source_row_id == "policy-server"
+    assert "servers and network equipment" in batch.items[0].reason
+
+
 def test_review_queue_surfaces_high_impact_contract_tranches(tmp_path: Path) -> None:
     _write_csv(
         tmp_path / "edgar_acquisition" / "tranches.csv",

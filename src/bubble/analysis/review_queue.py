@@ -730,9 +730,7 @@ def _depreciation_policy_review_items(roots: list[Path]) -> list[ReviewQueueItem
             continue
         useful_life = _float(row.get("accounting_useful_life_years"))
         asset_class = _field(row, "asset_class").lower()
-        if useful_life < 5 or not any(
-            term in asset_class for term in ("gpu", "server", "equipment")
-        ):
+        if useful_life < 5 or not _is_compute_hardware_depreciation_class(asset_class):
             continue
         items.append(
             _compute_item(
@@ -755,6 +753,22 @@ def _depreciation_policy_review_items(roots: list[Path]) -> list[ReviewQueueItem
             )
         )
     return items
+
+
+def _is_compute_hardware_depreciation_class(asset_class: str) -> bool:
+    return any(
+        term in asset_class
+        for term in (
+            "gpu",
+            "server",
+            "network",
+            "data center",
+            "cloud service",
+            "colocation service",
+            "computer equipment",
+            "computing equipment",
+        )
+    )
 
 
 def _gpu_price_review_items(roots: list[Path]) -> list[ReviewQueueItem]:
