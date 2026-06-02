@@ -32,8 +32,8 @@ The important change is that ecosystem-scale conclusions are now blocked from be
 
 Latest verified evidence-gated report at this checkpoint:
 
-- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0828.md`
-- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0828.json`
+- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0833.md`
+- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0833.json`
 - `high_confidence_final`: `false`
 - Evidence audit coverage now includes analyzer-level capital, compute, and
   debt-service audits plus explicit row/artifact-backed audits for high-impact
@@ -53,7 +53,7 @@ Latest verified evidence-gated report at this checkpoint:
   supported blockers, 2,177 still requiring deeper extraction, 2,940 approved
   metric rows, and $4.463T source-instrument/economic-obligation-deduped final
   metric support across 1,591 metric groups. Semantic hard flags are now zero
-  in approved metric rows; 213 approved rows remain indeterminate semantic
+  in approved metric rows; 162 approved rows remain indeterminate semantic
   review candidates.
 
 Latest capital and timing outputs:

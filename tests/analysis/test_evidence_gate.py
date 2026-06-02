@@ -143,6 +143,49 @@ def test_semantic_gate_preserves_terse_note_issuance_claim():
     assert audit.eligible_for_high_confidence is True
 
 
+def test_semantic_gate_preserves_new_note_global_note_claim():
+    gate = EvidenceGate()
+    audit = gate.audit_claim(
+        claim_id="capital.new_notes",
+        claim="Claimed note amount from exchange document",
+        value=7_800_000_000,
+        unit="USD",
+        evidence=[_provenance(SourceType.SEC_EDGAR, confidence=0.9)],
+        high_impact=True,
+        semantic_text=(
+            "The New Notes will be evidenced by a global note deposited "
+            "with the trustee for the New Notes, as custodian for DTC."
+        ),
+    )
+
+    assert audit.semantic_bucket == SemanticEvidenceBucket.COMMITTED_DEBT
+    assert audit.effective_confidence == 0.9
+    assert audit.eligible_for_high_confidence is True
+
+
+def test_semantic_gate_preserves_bond_and_guarantee_terms_claim():
+    gate = EvidenceGate()
+    audit = gate.audit_claim(
+        claim_id="capital.bond_guarantee",
+        claim="Claimed bond amount from prospectus supplement",
+        value=7_000_000_000,
+        unit="USD",
+        evidence=[_provenance(SourceType.SEC_EDGAR, confidence=0.9)],
+        high_impact=True,
+        semantic_text=(
+            "All bonds issued or to be issued under the Mortgage, including "
+            "the New Bonds offered by this prospectus, are referred to herein "
+            "as Collateral Trust Mortgage Bonds. Full and unconditional "
+            "guarantees of the principal, interest, premium, if any, are "
+            "given by the parent guarantors."
+        ),
+    )
+
+    assert audit.semantic_bucket == SemanticEvidenceBucket.COMMITTED_DEBT
+    assert audit.effective_confidence == 0.9
+    assert audit.eligible_for_high_confidence is True
+
+
 def test_semantic_gate_preserves_credit_and_guaranty_facility_claim():
     gate = EvidenceGate()
     audit = gate.audit_claim(

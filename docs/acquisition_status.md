@@ -1,13 +1,13 @@
 # Acquisition Status
 
-Last updated: 2026-06-02 08:28 UTC.
+Last updated: 2026-06-02 08:33 UTC.
 
 This file is the operational snapshot for the current evidence corpus. Treat it
 as a run log, not as a final investment conclusion.
 
 ## Current Corpus
 
-- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0828.md`
+- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-0833.md`
 - Evidence gate: not high-confidence final.
 - Evidence audit coverage: report-level audits now include analyzer-level
   capital, compute, and debt-service audits plus explicit row/artifact-backed
@@ -54,8 +54,8 @@ as a run log, not as a final investment conclusion.
   separately from the broader $4.463T materiality-adjudicated supported exposure
   metric so the two scopes are not read as inconsistent or directly additive.
 - Semantic metric-validity gating now scans approved materiality rows as a
-  separate source-text dimension: 2,727 approved rows classify as committed
-  debt/obligation text, 213 remain indeterminate review candidates, and 0
+  separate source-text dimension: 2,778 approved rows classify as committed
+  debt/obligation text, 162 remain indeterminate review candidates, and 0
   approved rows are hard-flagged as asset/capacity, equity/production, or
   boilerplate snippets.
 - Decision coverage over packaged blocker groups: 100.0%; unresolved decision
@@ -545,7 +545,7 @@ Adjudication queue:
   source-instrument, latest-snapshot, and exact economic-obligation metric
   groups.
 - Semantic hard flags remaining in approved metric rows: 0
-  asset/capacity, equity/production, or boilerplate rows; 213 indeterminate
+  asset/capacity, equity/production, or boilerplate rows; 162 indeterminate
   rows remain queued for review rather than treated as high-confidence debt
   semantics.
 - Top unresolved gaps are named counterparty roles, collateral scope,
