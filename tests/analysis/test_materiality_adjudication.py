@@ -2500,6 +2500,184 @@ def test_materiality_adjudication_infers_commitment_parties_from_financing_lette
     assert decision.metric_use_status == "approved_for_metric_use", decision
 
 
+def test_materiality_adjudication_infers_named_borrower_from_defined_party_label(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-defined-borrower",
+                "rank": 1,
+                "review_id": "review-defined-borrower",
+                "review_group_id": "group-defined-borrower",
+                "priority": "high",
+                "category": "contract",
+                "subcategory": "contract_tranche_terms",
+                "ecosystem_relevance": "direct_ai_infra",
+                "entity": "Example LNG Parent, Inc.",
+                "counterparty": "",
+                "exposure_basis_usd": "2250000000",
+                "reason": (
+                    "pending contract tranche review; tranche: Senior secured term loan B; "
+                    "notional $2,250,000,000; collateral terms present; guarantee scope present"
+                ),
+                "recommended_action": "Confirm parties and financing roles",
+                "source_uri": "https://www.sec.gov/example-defined-borrower.htm",
+                "source_uris": json.dumps(
+                    ["https://www.sec.gov/example-defined-borrower.htm"]
+                ),
+                "content_hash": "6" * 64,
+                "content_hashes": json.dumps(["6" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/example-defined-borrower.htm",
+                            "content_hash": "6" * 64,
+                            "document_id": "example-defined-borrower.htm",
+                            "snippet": (
+                                'Calcasieu Pass Funding, LLC ("Borrower"), an indirect '
+                                "subsidiary of the Company, entered into a senior secured "
+                                "term loan B facility. The obligations are guaranteed and "
+                                "secured by collateral."
+                            ),
+                        }
+                    ]
+                ),
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    decision = batch.decisions[0]
+    assert "extract named counterparty and role" not in decision.remaining_gap, decision
+    assert "Calcasieu Pass Funding, LLC" in decision.risk_bearer, decision
+    assert decision.metric_use_status == "approved_for_metric_use", decision
+
+
+def test_materiality_adjudication_infers_together_commitment_parties(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-together-commitment-parties",
+                "rank": 1,
+                "review_id": "review-together-commitment-parties",
+                "review_group_id": "group-together-commitment-parties",
+                "priority": "high",
+                "category": "contract",
+                "subcategory": "contract_tranche_terms",
+                "ecosystem_relevance": "watchlist_entity",
+                "entity": "Example Electronics Borrower, Inc.",
+                "counterparty": "",
+                "exposure_basis_usd": "3750000000",
+                "reason": (
+                    "pending contract tranche review; tranche: Bridge Facility; "
+                    "notional $3,750,000,000; collateral terms present; guarantee scope present"
+                ),
+                "recommended_action": "Confirm parties and financing roles",
+                "source_uri": "https://www.sec.gov/example-together-commitment.htm",
+                "source_uris": json.dumps(
+                    ["https://www.sec.gov/example-together-commitment.htm"]
+                ),
+                "content_hash": "7" * 64,
+                "content_hashes": json.dumps(["7" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": "https://www.sec.gov/example-together-commitment.htm",
+                            "content_hash": "7" * 64,
+                            "document_id": "example-together-commitment.htm",
+                            "snippet": (
+                                "Example Borrower entered into a commitment letter "
+                                "with Bank of America, N.A. and BofA Securities, Inc. "
+                                '(together, the "Commitment Parties"), pursuant to '
+                                "which the Commitment Parties committed to provide "
+                                "a senior secured bridge facility."
+                            ),
+                        }
+                    ]
+                ),
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    decision = batch.decisions[0]
+    assert "extract named counterparty and role" not in decision.remaining_gap, decision
+    assert "Bank of America, N.A." in decision.risk_bearer, decision
+    assert decision.metric_use_status == "approved_for_metric_use", decision
+
+
+def test_materiality_adjudication_does_not_infer_generic_bridge_lenders(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "reports" / "materiality_adjudication_packets.csv",
+        [
+            {
+                "packet_id": "packet-generic-bridge-lenders",
+                "rank": 1,
+                "review_id": "review-generic-bridge-lenders",
+                "review_group_id": "group-generic-bridge-lenders",
+                "priority": "high",
+                "category": "contract",
+                "subcategory": "contract_tranche_terms",
+                "ecosystem_relevance": "watchlist_entity",
+                "entity": "Example Acquisition Borrower, Inc.",
+                "counterparty": "",
+                "exposure_basis_usd": "9400000000",
+                "reason": (
+                    "pending contract tranche review; tranche: Bridge Facility; "
+                    "notional $9,400,000,000; collateral terms present; guarantee scope present"
+                ),
+                "recommended_action": "Confirm parties and financing roles",
+                "source_uri": "https://www.sec.gov/example-generic-bridge-lenders.htm",
+                "source_uris": json.dumps(
+                    ["https://www.sec.gov/example-generic-bridge-lenders.htm"]
+                ),
+                "content_hash": "8" * 64,
+                "content_hashes": json.dumps(["8" * 64]),
+                "evidence_snippets": json.dumps(
+                    [
+                        {
+                            "source_uri": (
+                                "https://www.sec.gov/example-generic-bridge-lenders.htm"
+                            ),
+                            "content_hash": "8" * 64,
+                            "document_id": "example-generic-bridge-lenders.htm",
+                            "snippet": (
+                                "The commitment letter provides for certain Bridge "
+                                "Lenders to provide up to $9.4 billion of bridge "
+                                "financing in connection with the acquisition."
+                            ),
+                        }
+                    ]
+                ),
+            }
+        ],
+    )
+
+    batch = build_materiality_adjudication_decisions(
+        [tmp_path],
+        adjudicated_at="2026-06-01T00:00:00+00:00",
+    )
+
+    decision = batch.decisions[0]
+    assert "extract named counterparty and role" in decision.remaining_gap, decision
+    assert decision.metric_use_status == "blocked_pending_extraction", decision
+
+
 def test_materiality_adjudication_quote_selection_prefers_named_arranger_evidence(
     tmp_path: Path,
 ) -> None:

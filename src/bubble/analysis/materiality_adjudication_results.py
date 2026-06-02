@@ -255,11 +255,11 @@ def _remaining_gaps(packet: dict[str, str], quote: str) -> list[str]:
         gaps.append("extract explicit interest/rent rate evidence")
     if "missing-maturity" in text or "missing maturity" in text:
         gaps.append("extract explicit maturity or payment schedule evidence")
-    gaps.extend(_category_gaps(packet, text))
+    gaps.extend(_category_gaps(packet, text, quote))
     return list(dict.fromkeys(gaps))
 
 
-def _category_gaps(packet: dict[str, str], text: str) -> list[str]:
+def _category_gaps(packet: dict[str, str], text: str, quote: str = "") -> list[str]:
     text_lower = text.lower()
     category = _field(packet, "category")
     reason_text = _field(packet, "reason").lower()
@@ -271,7 +271,7 @@ def _category_gaps(packet: dict[str, str], text: str) -> list[str]:
     if category in {"capital", "contract"}:
         if (
             not _field(packet, "counterparty")
-            and not _inferred_counterparty_from_quote(text)
+            and not _inferred_counterparty_from_quote(quote or text)
             and not _is_note_offering_without_named_counterparty(packet, text_lower, reason_text)
         ):
             gaps.append("extract named counterparty and role")
@@ -782,7 +782,10 @@ def _inferred_counterparty_from_quote(quote: str) -> str:
     candidate = _counterparty_from_lenders_clause(quote)
     if candidate:
         return candidate
-    return _counterparty_from_agent_or_trustee_clause(quote)
+    quote_lower = quote.lower()
+    if ", as" in quote_lower and ("agent" in quote_lower or "trustee" in quote_lower):
+        return _counterparty_from_agent_or_trustee_clause(quote)
+    return ""
 
 
 def _counterparty_from_named_role_patterns(quote: str) -> str:
@@ -797,18 +800,45 @@ def _counterparty_from_named_role_patterns(quote: str) -> str:
         r"AG(?:,\s+[A-Za-z ]+ Branch)?|PLC|LLC|Inc\.?|Corp(?:oration)?)"
     )
     underwriter_names = rf"{financial_name}(?:\s*(?:,|and)\s*{financial_name})*"
-    patterns = [
-        r"\b(?:commitment letter|debt commitment letter|financing commitment)\s+with\s+(?P<name>[^()]{2,260}?)\s*\(\s*(?:the\s+)?[\"'“”]?Commitment Parties[\"'“”]?\s*\)\s*,?\s*pursuant to which\b",
-        rf"\bamong\b[\s\S]{{2,360}}?\bas\s+borrower\s*,\s*(?P<name>{financial_name})\s*,\s*as\s+(?:the\s+)?{agent_role}\b",
-        rf"(?P<name>{financial_name})\s*,\s*as\s+(?:the\s+)?{agent_role}\b",
-        rf"\bwith\s+(?P<name>[A-Z][A-Za-z0-9 .,&'/-]{{2,220}}?)\s*,?\s+(?:as|serving as)\s+(?:the\s+)?{agent_role}\b",
-        r"(?P<name>[A-Z][^.;]{2,220}?)\s+(?:served as|as)\s+(?:joint\s+)?(?:lead\s+)?(?:arrangers?|bookrunners?|placement agents?)\b",
-        r"\bwith\s+(?P<name>[A-Z][^;]{2,320}?)\s*,?\s+as\s+representatives?\s+of\s+the\s+several\s+(?:underwriters|initial purchasers)\b",
-        rf"(?P<name>{underwriter_names})\s*,?\s+as\s+representatives?\s+of\s+the\s+several\s+(?:underwriters|initial purchasers)\b",
-        r"(?P<name>[A-Z][^;]{2,320}?)\s*,?\s+acting\s+for\s+themselves\s+and\s+as\s+representatives?\s+of\s+the\s+several\s+underwriters\b",
-        r"(?P<name>[A-Z][^.;]{2,260}?)\s+(?:are|were)\s+acting\s+as\s+joint\s+book-running\s+managers\b",
-        r"\btrustee\s+(?P<name>[A-Z][A-Za-z0-9 .,&'/-]{2,180}(?:National Association|Trust Company|N\.A\.?|LLC|Inc\.?|Bank))\b",
-    ]
+    candidate = _counterparty_from_defined_borrower_label(quote, financial_name)
+    if candidate:
+        return candidate
+    quote_lower = quote.lower()
+    patterns: list[str] = []
+    if "commitment parties" in quote_lower and (
+        "commitment letter" in quote_lower or "financing commitment" in quote_lower
+    ):
+        patterns.append(
+            r"\b(?:debt commitment letter|commitment letter|financing commitment)\b[\s\S]{0,180}?\bwith\s+(?P<name>[^()]{2,320}?)\s*\(\s*(?:(?:together|collectively)\s*,?\s*)?(?:the\s+)?[\"'“”]?Commitment Parties[\"'“”]?\s*\)\s*,?\s*pursuant to which\b"
+        )
+    if "agent" in quote_lower:
+        patterns.extend(
+            [
+                rf"\bamong\b[\s\S]{{2,360}}?\bas\s+borrower\s*,\s*(?P<name>{financial_name})\s*,\s*as\s+(?:the\s+)?{agent_role}\b",
+                rf"(?P<name>{financial_name})\s*,\s*as\s+(?:the\s+)?{agent_role}\b",
+                rf"\bwith\s+(?P<name>[A-Z][A-Za-z0-9 .,&'/-]{{2,220}}?)\s*,?\s+(?:as|serving as)\s+(?:the\s+)?{agent_role}\b",
+            ]
+        )
+    if _contains_any(quote_lower, ["arranger", "bookrunner", "placement agent"]):
+        patterns.append(
+            r"(?P<name>[A-Z][^.;]{2,220}?)\s+(?:served as|as)\s+(?:joint\s+)?(?:lead\s+)?(?:arrangers?|bookrunners?|placement agents?)\b"
+        )
+    if "representatives of the several" in quote_lower:
+        patterns.extend(
+            [
+                r"\bwith\s+(?P<name>[A-Z][^;]{2,320}?)\s*,?\s+as\s+representatives?\s+of\s+the\s+several\s+(?:underwriters|initial purchasers)\b",
+                rf"(?P<name>{underwriter_names})\s*,?\s+as\s+representatives?\s+of\s+the\s+several\s+(?:underwriters|initial purchasers)\b",
+                r"(?P<name>[A-Z][^;]{2,320}?)\s*,?\s+acting\s+for\s+themselves\s+and\s+as\s+representatives?\s+of\s+the\s+several\s+underwriters\b",
+            ]
+        )
+    if "joint book-running managers" in quote_lower:
+        patterns.append(
+            r"(?P<name>[A-Z][^.;]{2,260}?)\s+(?:are|were)\s+acting\s+as\s+joint\s+book-running\s+managers\b"
+        )
+    if "trustee" in quote_lower:
+        patterns.append(
+            r"\btrustee\s+(?P<name>[A-Z][A-Za-z0-9 .,&'/-]{2,180}(?:National Association|Trust Company|N\.A\.?|LLC|Inc\.?|Bank))\b"
+        )
     for pattern in patterns:
         match = re.search(pattern, quote, flags=re.IGNORECASE)
         if not match:
@@ -817,6 +847,28 @@ def _counterparty_from_named_role_patterns(quote: str) -> str:
         if candidate and _looks_like_counterparty_name(candidate):
             return candidate
     return ""
+
+
+def _counterparty_from_defined_borrower_label(quote: str, financial_name: str) -> str:
+    label = re.search(
+        r"\(\s*(?:the\s+)?[\"'“”]?(?:Initial\s+)?Borrower[\"'“”]?\s*\)",
+        quote,
+        flags=re.IGNORECASE,
+    )
+    if not label:
+        return ""
+    prefix = quote[max(0, label.start() - 220) : label.start()]
+    prefix = re.split(r"[.;]\s+", prefix)[-1]
+    tail = re.split(
+        r"\)\s*,|\bparent\s+company\s+to\s+|\b(?:to|by|among|with)\s+",
+        prefix.strip(" ,"),
+        flags=re.IGNORECASE,
+    )[-1].strip(" ,")
+    match = re.search(rf"(?P<name>{financial_name})\s*$", tail, flags=re.IGNORECASE)
+    if not match:
+        return ""
+    candidate = _normalize_counterparty_candidate(match.group("name"))
+    return candidate if candidate and _looks_like_counterparty_name(candidate) else ""
 
 
 def _counterparty_from_lenders_clause(quote: str) -> str:
@@ -834,14 +886,14 @@ def _counterparty_from_lenders_clause(quote: str) -> str:
 
 def _counterparty_from_agent_or_trustee_clause(quote: str) -> str:
     role_clause = re.search(
-        r"(?P<prefix>[^;]{2,320}?)\s*,\s*as\s+(?:the\s+)?(?:(?:administrative|collateral|facility|syndication)(?:\s+and\s+(?:administrative|collateral|facility|syndication))?\s+)?agent\b|(?P<prefix_trustee>[^;]{2,320}?)\s*,\s*as\s+(?:the\s+)?trustee\b",
+        r",\s*as\s+(?:the\s+)?(?:(?:(?:administrative|collateral|facility|syndication)(?:\s+and\s+(?:administrative|collateral|facility|syndication))?\s+)?agent|trustee)\b",
         quote,
         flags=re.IGNORECASE,
     )
     if not role_clause:
         return ""
 
-    prefix = role_clause.group("prefix") or role_clause.group("prefix_trustee") or ""
+    prefix = quote[max(0, role_clause.start() - 320) : role_clause.start()]
     fragments = [
         part.strip(" ,")
         for part in re.split(r"\bwith\b|\band\b", prefix, flags=re.IGNORECASE)
@@ -861,6 +913,12 @@ def _normalize_counterparty_candidate(raw: str) -> str:
     candidate = _normalize(raw)
     candidate = re.sub(
         r"^.*\bamong\s+the\s+(?:company|issuer)\s+and\s+",
+        "",
+        candidate,
+        flags=re.IGNORECASE,
+    )
+    candidate = re.sub(
+        r"^.*\bamong\s+the\s+(?:company|issuer)\s*,\s*(?:the\s+)?(?:lenders\s+named\s+therein|lenders\s+party\s+thereto)\s*,\s*",
         "",
         candidate,
         flags=re.IGNORECASE,
