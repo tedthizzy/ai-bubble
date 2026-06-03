@@ -22,6 +22,10 @@ from bubble.analysis.cluster_boundary import (
 )
 from bubble.analysis.cluster_discovery import discover_structure
 from bubble.analysis.cluster_dscr import IssuerFinancials, compute_cluster_interest_coverage
+from bubble.analysis.cluster_extension import (
+    aggregate_cluster_extension,
+    load_cluster_extension,
+)
 from bubble.analysis.compute_economics import (
     ComputeEconomicsBatch,
     analyze_compute_economics,
@@ -48,6 +52,10 @@ from bubble.analysis.equipment_bottlenecks import (
     load_equipment_bottlenecks,
 )
 from bubble.analysis.evidence import EvidenceGate, SemanticEvidenceBucket, classify_claim_semantics
+from bubble.analysis.gpu_earnings_quality import (
+    aggregate_gpu_earnings_quality,
+    load_gpu_earnings_quality,
+)
 from bubble.analysis.gpu_economics import load_gpu_price_evidence, summarize_gpu_depreciation_gap
 from bubble.analysis.physical_capacity import build_physical_capacity_summary
 from bubble.analysis.physical_execution_summary import build_physical_execution_summary
@@ -1514,6 +1522,34 @@ def report_answer_metric_audits(  # noqa: PLR0912, PLR0915
                 unit="count",
             )
 
+        # Verified cluster extension (new members, recourse disentangled from JV).
+        cx = m.get("cluster_extension", {})
+        if cx.get("status") == "source_backed":
+            add(
+                "mismatch.cluster_extension.new_recourse_debt_usd",
+                "RECOURSE debt added by the verified new financed-cluster members (Crusoe, EdgeConneX, "
+                "Bitfarms, Bit Digital), with non-recourse JV/project-SPV debt disentangled out (e.g. "
+                "Crusoe's ~$9.6B Oracle-lease JV debt excluded). The honest increment to the cluster's "
+                "recourse leverage -- the headline associated debt is far larger.",
+                cx.get("new_recourse_debt_usd"),
+                [mismatch_artifact],
+                unit="USD",
+            )
+
+        # GPU depreciation earnings-quality (restate D&A at economic life).
+        geq = m.get("gpu_earnings_quality", {})
+        if geq.get("status") == "source_backed" and geq.get("issuers_with_restatement"):
+            add(
+                "mismatch.gpu_earnings.cluster_da_understatement_usd",
+                "Annual depreciation the cluster UNDERSTATES by booking GPUs over 5-6+yr vs their ~3yr "
+                "economic life (restated on the source-backed compute PP&E). This much pre-tax earnings "
+                "is overstated each year -- honest depreciation makes the cash-flow-negative cluster "
+                "look worse. Economic life is a labeled assumption; PP&E + useful life are primary.",
+                geq.get("cluster_annual_da_understatement_usd"),
+                [mismatch_artifact],
+                unit="USD",
+            )
+
         # Empirical entity-universe composition (deep-modeled count + structural split).
         eum = m.get("entity_universe_map", {})
         if eum.get("status") == "source_backed":
@@ -2803,6 +2839,16 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:  #
     )
     if entity_universe_map.get("status") == "source_backed":
         mismatch_ratios["entity_universe_map"] = entity_universe_map
+    gpu_earnings_quality = aggregate_gpu_earnings_quality(
+        load_gpu_earnings_quality(Path("handoffs/ai_gpu_earnings_quality_20260603.json"))
+    )
+    if gpu_earnings_quality.get("status") == "source_backed":
+        mismatch_ratios["gpu_earnings_quality"] = gpu_earnings_quality
+    cluster_extension = aggregate_cluster_extension(
+        load_cluster_extension(Path("handoffs/ai_new_cluster_members_20260603.json"))
+    )
+    if cluster_extension.get("status") == "source_backed":
+        mismatch_ratios["cluster_extension"] = cluster_extension
     refi_wall_aggregate = aggregate_refi_wall(
         load_debt_census_raw(Path("handoffs/ai_direct_debt_census_20260603.json"))
     )

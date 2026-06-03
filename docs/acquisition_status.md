@@ -9,7 +9,7 @@ the scoped conclusion.
 
 ## Current Corpus
 
-- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260603-1808.md`
+- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260603-1826.md`
 - Evidence gate: ecosystem `high_confidence_final=false` / `bubble_confidence 0.25` (by design).
 - **Tiered verdict (`ai_direct_core_verdict`):** AI-direct core `bubble_dynamics_present` @ 0.67;
   ecosystem-wide `not_established_as_ecosystem_wide_bubble` (broad metric is mostly non-AI debt, so
@@ -86,6 +86,21 @@ the scoped conclusion.
   Crusoe (~$10-17B debt, private), EdgeConneX (~$10B ABS), Edged (~$2B). 153 public filers. This is
   the deep-modeled entity universe (each entity carries a sourced bucket + filer + AI-debt flag).
   Fixture: handoffs/ai_entity_universe_classified_20260603.json.
+- CORE HARDENING (#4, GPU depreciation earnings-quality, `gpu_earnings_quality.py`): restating the
+  cluster's GPU depreciation at a ~3yr economic life (vs the disclosed 4-6yr) adds ~$2.95B/yr of
+  D&A across 6 issuers — CoreWeave's net loss roughly TRIPLES (-$1.17B -> -$3.62B), and Nebius (the
+  only "profitable" name) flips NEGATIVE (its profit was an artifact of slow depreciation + non-core
+  gains). Several issuers EXTENDED useful lives (CoreWeave 5->6yr, Nebius 4->5yr) — earnings-flattering,
+  opposite the economic reality. Inputs (D&A, useful life) primary-sourced; economic life a labeled
+  assumption; method = D&A x life-ratio (net compute-PP&E rarely disclosed). Fixture:
+  handoffs/ai_gpu_earnings_quality_20260603.json.
+- VERIFIED CLUSTER EXTENSION (`cluster_extension.py`): deep-modeled the new material members surfaced
+  by the universe map — Crusoe, EdgeConneX, Bitfarms, Bit Digital confirmed in-cluster. Adds ~$7.4B
+  RECOURSE debt (EdgeConneX ~$5.5B EMEA corporate facilities; Crusoe ~$1.15B). CRITICAL disentanglement:
+  Crusoe's ~$10.75B associated debt is mostly NON-RECOURSE — the ~$9.6B Abilene JPMorgan loans sit at a
+  Blue Owl / Oracle-lease JV/SPV that does NOT reach Crusoe's equity (and Abilene's expansion was
+  scrapped Mar 2026). Edged excluded ($2B was a cumulative-financing headline, not debt). Fixture:
+  handoffs/ai_new_cluster_members_20260603.json.
 - Continuous-update harness (`bubble.ingestion.update_detector` + `scripts/check_for_updates.py`):
   diffs a fresh EDGAR submissions snapshot vs ingested accessions (189,737 found), prioritizes
   by form relevance, flags rerun. The report now also carries a Methodology/Assumptions/Limitations
@@ -122,7 +137,7 @@ the scoped conclusion.
   source-backed layers, each anchored to a computed/sourced number + backing layer +
   source-status tag. Top 2 are severity-5 (cash-flow fragility flipping negative by the
   adverse case; refinancing treadmill on negative carry); all 10 currently source_backed.
-- Evidence audit coverage: 549 claim audits now include analyzer-level capital,
+- Evidence audit coverage: 551 claim audits now include analyzer-level capital,
   compute, and debt-service audits, explicit row/artifact-backed audits for
   high-impact Burry-answer rollups, and aggregate hooks for pending review
   capital, pending AI-infra capital, pending compute, weak-link AI-infra,
