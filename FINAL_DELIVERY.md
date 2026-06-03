@@ -32,8 +32,8 @@ The important change is that ecosystem-scale conclusions are now blocked from be
 
 Latest verified evidence-gated report at this checkpoint:
 
-- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260603-0546.md`
-- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260603-0546.json`
+- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260603-0551.md`
+- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260603-0551.json`
 - `high_confidence_final`: `false` (ecosystem-wide, BY DESIGN — see verdict below).
 - Current `master` checkpoint: `e72d74e` (single-agent; the prior two-agent
   Claude/Codex handoff queue was consolidated into `master` at `7638aa9` and the

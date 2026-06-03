@@ -61,6 +61,30 @@ def _sentence_clip(text: str, limit: int) -> str:
     return (window[:cut] if cut > 0 else window).rstrip() + " ..."
 
 
+def _corroborating_layers(**layers: dict[str, Any] | None) -> list[str]:
+    """Enumerate the source-backed layers that corroborate the core verdict (honest depth)."""
+
+    labels = {
+        "red_flag_scorecard": "forensic red-flag scorecard (filing-verified serious accounting flags)",
+        "contract_structure": "contract-level recourse (who bears the loss, from credit agreements)",
+        "scenario_stress": "forward cash-flow stress (majority breach by the adverse case)",
+        "refi_wall": "named refinancing wall (specific near-term maturities)",
+        "contagion_hubs": "contagion hubs (shared counterparties; NVIDIA circular)",
+        "demand_side": "demand-side funding (off-BS leverage / bear-case test)",
+        "power_exposure": "power/ratepayer exposure",
+        "end_holders": "ultimate equity end-holders (SEC ownership filings)",
+        "private_credit_funding": "debt-side routing to insurance/pension (households)",
+        "equipment_bottlenecks": "supply-side equipment chokepoints (CoWoS single-source)",
+        "cluster_boundary": "cluster-boundary test (the financed cluster is bounded)",
+    }
+    out: list[str] = []
+    for key, label in labels.items():
+        layer = layers.get(key) or {}
+        if layer.get("status") == "source_backed":
+            out.append(label)
+    return out
+
+
 def _named_refi_wall_block(rw: dict[str, Any]) -> dict[str, Any]:
     """Shape the named refinancing wall for crack_timing."""
 
@@ -403,6 +427,19 @@ def synthesize_core_verdict(
                 )
                 + ". The realistic-utilization-DSCR leg remains illustrative pending per-deal "
                 "debt-service/utilization inputs; it is NOT yet counted as proof."
+            ),
+            "corroborating_source_backed_layers": _corroborating_layers(
+                contagion_hubs=contagion_hubs,
+                demand_side=demand_side,
+                power_exposure=power_exposure,
+                scenario_stress=scenario_stress,
+                end_holders=end_holders,
+                equipment_bottlenecks=equipment_bottlenecks,
+                private_credit_funding=private_credit_funding,
+                red_flag_scorecard=red_flag_scorecard,
+                contract_structure=contract_structure,
+                refi_wall=refi_wall or {},
+                cluster_boundary=cluster_boundary or {},
             ),
         },
         "ecosystem_verdict": "not_established_as_ecosystem_wide_bubble",
