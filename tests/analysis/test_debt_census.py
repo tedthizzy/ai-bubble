@@ -47,3 +47,30 @@ def test_partially_source_backed_issuers_are_included() -> None:
     )
     assert out["issuer_count"] == 1
     assert out["cluster_total_debt_usd"] == 4_000_000_000
+
+
+def test_who_bears_downside_recourse_split() -> None:
+    census = [
+        {
+            "stack": {
+                "entity": "CoreWeave",
+                "total_debt_usd": 10_000_000_000,
+                "maturity_schedule_usd": {"y2030": 5_000_000_000},
+                "facilities": [
+                    {"name": "DDTL", "principal_usd": 4_000_000_000, "secured": True,
+                     "guarantee": "Unconditionally guaranteed by the Company (parent)"},
+                    {"name": "DDTL4", "principal_usd": 1_000_000_000, "secured": True,
+                     "guarantee": "Non-recourse except customary carve-outs"},
+                    {"name": "Senior Notes", "principal_usd": 2_000_000_000, "secured": False,
+                     "guarantee": "unsecured obligations"},
+                ],
+            },
+            "verdict": {"overall": "source_backed", "maturity_schedule_confirmed": True},
+        }
+    ]
+    out = aggregate_debt_census(census)
+    wbd = out["who_bears_downside"]["by_recourse_class_usd"]
+    assert wbd["full_recourse_secured"] == 4_000_000_000
+    assert wbd["non_recourse_secured"] == 1_000_000_000
+    assert wbd["unsecured"] == 2_000_000_000
+    assert "basis_caveat" in out["who_bears_downside"]

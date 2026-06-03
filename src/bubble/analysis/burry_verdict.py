@@ -303,6 +303,11 @@ def synthesize_core_verdict(
             if census_backed
             else {"status": "pending_source_backed_debt_census"}
         ),
+        "who_bears_downside_quantified": (
+            debt_census.get("who_bears_downside")
+            if census_backed
+            else {"status": "qualitative_pending_census"}
+        ),
         "crack_timing": crack_timing,
         "weakest_links": weakest_links,
         "top_risks": top_risks,
@@ -321,8 +326,11 @@ def synthesize_core_verdict(
             "2 of the 3 separation-test mismatch legs (realistic-utilization DSCR, GPU "
             "depreciation gap) are blocked/illustrative; the verdict rests mainly on the "
             "source-backed cluster interest-coverage leg.",
-            "Contagion / who-bears-downside is qualitative: the AI-direct GPU-SPV debt is not yet "
-            "in the capital-exposure graph (whose AI-infra mass is ~$5B of $408B).",
+            "Who-bears-downside is now QUANTIFIED by disclosed facility recourse from the census "
+            "(see who_bears_downside_quantified): the loss concentrates on parent equity "
+            "(full-recourse-secured + unsecured-at-parent), with GPU collateral the backstop for the "
+            "secured slice. Multi-hop CONTAGION is still qualitative -- the AI-direct GPU-SPV debt is "
+            "not yet edges in the capital-exposure graph (whose AI-infra mass is ~$5B of $408B).",
             "Physical deliverability is read from the tracker construction-status proxy: the ISO "
             "interconnection queues are fully ingested but are GENERATION-side, so they are a weak "
             "lens for data-center LOAD deliverability (a true firm-vs-queue rate needs "

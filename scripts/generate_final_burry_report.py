@@ -3772,6 +3772,10 @@ Leading indicators:
 **Weakest links in the capital structure:**
 {_bullets(verdict.get("weakest_links"))}
 
+**Who bears the downside (by disclosed facility recourse):**
+{_bullets(f"{k}: ${round(v / 1e9, 1)}B" for k, v in sorted(((verdict.get("who_bears_downside_quantified", {}) or {}).get("by_recourse_class_usd", {}) or {}).items(), key=lambda kv: -kv[1]))}
+{(verdict.get("who_bears_downside_quantified", {}) or {}).get("note", "")}
+
 **Top risks (affirmatively-held premises):**
 {_bullets(f"{r.get('premise')} [{r.get('tier')}/{r.get('verdict')}]: {r.get('finding')}" for r in verdict.get("top_risks", []))}
 

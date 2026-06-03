@@ -33,6 +33,30 @@ def _num(value: Any) -> float:
     return float(value) if isinstance(value, (int, float)) and not isinstance(value, bool) else 0.0
 
 
+def classify_facility_recourse(facility: dict[str, Any]) -> str:
+    """Who bears the loss on a facility, from its disclosed flags (Q5).
+
+    non_recourse_secured -> secured creditors only (collateral = GPUs/SPV assets);
+    full_recourse_secured -> secured AND parent/unconditionally guaranteed (parent
+    equity bears it, GPU collateral is the creditor backstop);
+    secured_other -> secured, no parent guarantee; unsecured -> general creditors.
+    """
+
+    guarantee = str(facility.get("guarantee") or "").lower()
+    secured = bool(facility.get("secured"))
+    non_recourse = "non-recourse" in guarantee or "nonrecourse" in guarantee
+    parent_guaranteed = any(
+        token in guarantee for token in ("parent", "unconditional", "the company", "company)")
+    )
+    if non_recourse:
+        return "non_recourse_secured" if secured else "non_recourse"
+    if secured and parent_guaranteed:
+        return "full_recourse_secured"
+    if secured:
+        return "secured_other"
+    return "unsecured"
+
+
 def aggregate_debt_census(census: list[dict[str, Any]]) -> dict[str, Any]:
     """Cluster total debt + aggregate maturity schedule from source-backed stacks."""
 
@@ -41,6 +65,7 @@ def aggregate_debt_census(census: list[dict[str, Any]]) -> dict[str, Any]:
     schedule_total = 0.0
     issuers: list[dict[str, Any]] = []
     source_backed_issuers = 0
+    recourse_usd: dict[str, float] = {}
 
     for row in census:
         stack = row.get("stack") or {}
@@ -54,6 +79,9 @@ def aggregate_debt_census(census: list[dict[str, Any]]) -> dict[str, Any]:
         for year in [*_YEARS, _TAIL]:
             by_year[year] += _num(schedule.get(year))
             schedule_total += _num(schedule.get(year))
+        for facility in stack.get("facilities") or []:
+            cls = classify_facility_recourse(facility)
+            recourse_usd[cls] = recourse_usd.get(cls, 0.0) + _num(facility.get("principal_usd"))
         issuers.append(
             {
                 "entity": stack.get("entity"),
@@ -86,6 +114,24 @@ def aggregate_debt_census(census: list[dict[str, Any]]) -> dict[str, Any]:
         "peak_maturity_year": peak_year,
         "peak_maturity_usd": round(peak_usd, 2),
         "per_issuer": issuers,
+        "who_bears_downside": {
+            "by_recourse_class_usd": {k: round(v, 2) for k, v in sorted(recourse_usd.items())},
+            "facilities_classified_usd": round(sum(recourse_usd.values()), 2),
+            "basis_caveat": (
+                "Split is on disclosed FACILITY PRINCIPAL, whose sum can exceed net drawn debt "
+                "because some facilities report committed size, not drawn balance -- read the "
+                "PROPORTIONS, not the absolute, as the loss-bearer mix."
+            ),
+            "note": (
+                "Front-line loss-bearer by disclosed facility recourse. full_recourse_secured = "
+                "secured on GPU/SPV collateral AND parent/unconditionally guaranteed (downside flows "
+                "to PARENT equity; GPU collateral is the creditor backstop) -- this corrects the "
+                "'bankruptcy-remote ring-fencing' read: most AI-direct debt is parent-recourse or "
+                "unsecured-at-parent (the parent, i.e. equity, absorbs the bulk). non_recourse_secured "
+                "= secured creditors bear it on GPU collateral only. unsecured = general creditors. "
+                "Ratepayers/insurers/pensions are downstream and not in this split."
+            ),
+        },
         "note": (
             "Primary-sourced 11-issuer debt census (adversarially verified). Replaces the curated "
             "~$41B floor. The maturities are SPREAD 2026-2034 with a single-year peak, not an 88% "
