@@ -63,6 +63,7 @@ from bubble.analysis.equipment_bottlenecks import (
 )
 from bubble.analysis.evidence import EvidenceGate, SemanticEvidenceBucket, classify_claim_semantics
 from bubble.analysis.forensic_fragility_scorecard import score_fragility
+from bubble.analysis.gds_graph_analytics import aggregate_gds_analytics
 from bubble.analysis.gpu_earnings_quality import (
     aggregate_gpu_earnings_quality,
     load_gpu_earnings_quality,
@@ -2044,6 +2045,16 @@ def load_neo4j_analytics(data_dirs: list[str]) -> dict[str, Any]:
     return {}
 
 
+def load_gds_graph_analytics(path: Path) -> dict[str, Any]:
+    """Load optional GDS (betweenness/PageRank/Louvain) analytics fixture."""
+
+    if path.exists():
+        loaded = json.loads(path.read_text())
+        if isinstance(loaded, dict):
+            return loaded
+    return {}
+
+
 def load_ownership_graph_summary(data_dirs: list[str]) -> dict[str, Any]:
     """Load optional source-backed ownership/consolidation graph summary."""
 
@@ -2880,6 +2891,11 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:  #
         mismatch_ratios["graph_systemic_centrality"] = graph_centrality
     if (neo4j_analytics.get("load") or {}).get("status") == "loaded":
         mismatch_ratios["neo4j_production_graph"] = neo4j_analytics
+    gds_graph_analytics = aggregate_gds_analytics(
+        load_gds_graph_analytics(Path("handoffs/ai_gds_graph_analytics_20260603.json"))
+    )
+    if gds_graph_analytics.get("status") == "source_backed":
+        mismatch_ratios["gds_graph_analytics"] = gds_graph_analytics
     satellite_aggregate = aggregate_satellite_observations(
         load_satellite_observations(Path("data/physical/satellite_observations.json"))
     )
@@ -3071,6 +3087,7 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:  #
         refi_wall=refi_wall_aggregate,
         circular_financing=circular_financing_aggregate,
         demand_funding_durability=demand_funding_durability,
+        gds_graph_analytics=gds_graph_analytics,
     )
     coverage_dict = coverage.to_dict()
     physical_capacity_dict = physical_capacity.to_dict()

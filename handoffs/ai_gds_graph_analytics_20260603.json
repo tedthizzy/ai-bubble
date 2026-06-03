@@ -1,0 +1,291 @@
+{
+  "status": "source_backed",
+  "gds_version": "2026.05.0",
+  "full_exposure_graph": {
+    "graph": "expo",
+    "node_count": 5102,
+    "relationship_count": 7617,
+    "top_betweenness_chokepoints": [
+      {
+        "name": "Shell Energy North America (US), L.P.",
+        "roles": "[\"buyer\", \"offtaker\", \"reporting_entity\", \"seller\"]",
+        "betweenness": 593947.7
+      },
+      {
+        "name": "Morgan Stanley Capital Group Inc.",
+        "roles": "[\"buyer\", \"offtaker\", \"reporting_entity\", \"seller\"]",
+        "betweenness": 550515.5
+      },
+      {
+        "name": "PACIFIC GAS AND ELECTRIC COMPANY",
+        "roles": "[\"borrower\", \"buyer\", \"offtaker\", \"reporting_entity\", \"seller\"]",
+        "betweenness": 416940.7
+      },
+      {
+        "name": "Constellation Energy Generation, LLC",
+        "roles": "[\"buyer\", \"offtaker\", \"reporting_entity\", \"seller\"]",
+        "betweenness": 325634.1
+      },
+      {
+        "name": "NRG Business Marketing LLC",
+        "roles": "[\"buyer\", \"offtaker\", \"reporting_entity\", \"seller\"]",
+        "betweenness": 254883.4
+      },
+      {
+        "name": "Tri-State Generation and Transmission As",
+        "roles": "[\"buyer\", \"offtaker\", \"seller\"]",
+        "betweenness": 248854.3
+      },
+      {
+        "name": "AEP Energy Partners, Inc.",
+        "roles": "[\"buyer\", \"offtaker\", \"reporting_entity\", \"seller\"]",
+        "betweenness": 210369.8
+      },
+      {
+        "name": "Western Area Power Administration",
+        "roles": "[\"buyer\", \"offtaker\", \"seller\"]",
+        "betweenness": 203353.3
+      },
+      {
+        "name": "Southern California Edison Company",
+        "roles": "[\"buyer\", \"offtaker\", \"seller\"]",
+        "betweenness": 190741.6
+      },
+      {
+        "name": "J. ARON & COMPANY LLC",
+        "roles": "[\"buyer\", \"offtaker\", \"reporting_entity\", \"seller\"]",
+        "betweenness": 135229.3
+      },
+      {
+        "name": "Ohio Valley Electric Corporation",
+        "roles": "[\"buyer\", \"offtaker\", \"reporting_entity\", \"seller\"]",
+        "betweenness": 131303.6
+      },
+      {
+        "name": "BP Energy Company",
+        "roles": "[\"buyer\", \"offtaker\", \"reporting_entity\", \"seller\"]",
+        "betweenness": 126022.8
+      },
+      {
+        "name": "Northern States Power Company, a Minneso",
+        "roles": "[\"buyer\", \"offtaker\", \"seller\"]",
+        "betweenness": 123638.9
+      },
+      {
+        "name": "PacifiCorp",
+        "roles": "[\"buyer\", \"offtaker\", \"reporting_entity\", \"seller\"]",
+        "betweenness": 116005.4
+      },
+      {
+        "name": "Basin Electric Power Cooperative",
+        "roles": "[\"buyer\", \"offtaker\", \"seller\"]",
+        "betweenness": 107823.5
+      }
+    ],
+    "top_pagerank_systemic": [
+      {
+        "name": "JPMORGAN CHASE BANK, N.A.",
+        "roles": "[\"financier\", \"lender\"]",
+        "pagerank": 2.9544
+      },
+      {
+        "name": "BANK OF AMERICA, N.A.",
+        "roles": "[\"financier\", \"lender\"]",
+        "pagerank": 2.0556
+      },
+      {
+        "name": "SMFH",
+        "roles": "[\"borrower\", \"counterparty\"]",
+        "pagerank": 1.2231
+      },
+      {
+        "name": "Sea-Cat Crewzer III LLC",
+        "roles": "[\"borrower\", \"counterparty\"]",
+        "pagerank": 1.2231
+      },
+      {
+        "name": "AIRSCHOTT, INC. , a Virginia corporation",
+        "roles": "[\"borrower\", \"counterparty\"]",
+        "pagerank": 1.1155
+      },
+      {
+        "name": "ELFS BROKERAGE LLC , a Texas limited liability company",
+        "roles": "[\"borrower\", \"counterparty\"]",
+        "pagerank": 1.1155
+      },
+      {
+        "name": "SERVICES LLC, a Texas limited liability company",
+        "roles": "[\"borrower\", \"counterparty\"]",
+        "pagerank": 1.1155
+      },
+      {
+        "name": "Restriction on Stock Repurchases . So long",
+        "roles": "[\"borrower\", \"counterparty\"]",
+        "pagerank": 0.9612
+      },
+      {
+        "name": "Capital Stock . So long",
+        "roles": "[\"borrower\", \"counterparty\"]",
+        "pagerank": 0.9612
+      },
+      {
+        "name": "Stock Repurchases . So long",
+        "roles": "[\"borrower\", \"counterparty\"]",
+        "pagerank": 0.9612
+      },
+      {
+        "name": "Distributions on Capital Stock",
+        "roles": "[\"borrower\", \"counterparty\"]",
+        "pagerank": 0.9612
+      },
+      {
+        "name": "Restriction on Stock Repurchases and Debt Repayments",
+        "roles": "[\"borrower\", \"counterparty\"]",
+        "pagerank": 0.9612
+      },
+      {
+        "name": "Distributions on Capital Stock . So long",
+        "roles": "[\"borrower\", \"counterparty\"]",
+        "pagerank": 0.9612
+      },
+      {
+        "name": "JPMCB",
+        "roles": "[\"financier\", \"lender\"]",
+        "pagerank": 0.915
+      },
+      {
+        "name": "ENTERGY TEXAS, INC.",
+        "roles": "[\"borrower\", \"buyer\", \"counterparty\", \"lessee\", \"offtaker\"]",
+        "pagerank": 0.8473
+      }
+    ],
+    "louvain": {
+      "community_count": 771,
+      "modularity": 0.65
+    },
+    "coreweave_betweenness": null
+  },
+  "ai_infra_subgraph": {
+    "graph": "ai",
+    "node_count": 216,
+    "relationship_count": 232,
+    "top_betweenness_chokepoints": [
+      {
+        "name": "AMAZON ENERGY LLC",
+        "roles": "[\"buyer\", \"offtaker\", \"reporting_entity\", \"seller\"]",
+        "betweenness": 161.0
+      },
+      {
+        "name": "Microsoft Energy LLC",
+        "roles": "[\"buyer\", \"offtaker\", \"reporting_entity\", \"seller\"]",
+        "betweenness": 112.0
+      },
+      {
+        "name": "Shell Energy North America (US), L.P.",
+        "roles": "[\"buyer\", \"offtaker\", \"reporting_entity\", \"seller\"]",
+        "betweenness": 36.0
+      },
+      {
+        "name": "Glacier Sands Wind Power, LLC",
+        "roles": "[\"buyer\", \"offtaker\", \"reporting_entity\", \"seller\"]",
+        "betweenness": 24.0
+      },
+      {
+        "name": "CoreWeave",
+        "roles": "[\"borrower\", \"company\", \"counterparty\", \"financier\", \"obligor\"]",
+        "betweenness": 13.0
+      },
+      {
+        "name": "City of St. Cloud",
+        "roles": "[\"buyer\", \"offtaker\", \"seller\"]",
+        "betweenness": 1.0
+      }
+    ],
+    "top_pagerank_systemic": [
+      {
+        "name": "EQUINIX, INC.",
+        "roles": "[\"guarantor\"]",
+        "pagerank": 0.5325
+      },
+      {
+        "name": "Goldman Sachs",
+        "roles": "[\"lender\"]",
+        "pagerank": 0.4814
+      },
+      {
+        "name": "Wilmington Trust",
+        "roles": "[\"lender\"]",
+        "pagerank": 0.2775
+      },
+      {
+        "name": "Coinbase",
+        "roles": "[\"lender\"]",
+        "pagerank": 0.2775
+      },
+      {
+        "name": "Morgan Stanley",
+        "roles": "[\"lender\"]",
+        "pagerank": 0.2775
+      },
+      {
+        "name": "Auradine",
+        "roles": "[\"counterparty\", \"financier\"]",
+        "pagerank": 0.2775
+      },
+      {
+        "name": "Barclays",
+        "roles": "[\"lender\"]",
+        "pagerank": 0.2775
+      },
+      {
+        "name": "Sumitomo Mitsui Banking Smbc",
+        "roles": "[\"lender\"]",
+        "pagerank": 0.2709
+      },
+      {
+        "name": "TWO PRIME LENDING LIMITED",
+        "roles": "[\"lender\"]",
+        "pagerank": 0.2522
+      },
+      {
+        "name": "NVIDIA",
+        "roles": "[\"counterparty\", \"financier\"]",
+        "pagerank": 0.2077
+      },
+      {
+        "name": "Coatue",
+        "roles": "[\"financier\", \"lender\"]",
+        "pagerank": 0.1753
+      },
+      {
+        "name": "Bofa",
+        "roles": "[\"lender\"]",
+        "pagerank": 0.15
+      },
+      {
+        "name": "OpenAI",
+        "roles": "[\"counterparty\"]",
+        "pagerank": 0.15
+      },
+      {
+        "name": "TeraWulf Inc.",
+        "roles": "[\"borrower\", \"company\", \"obligor\"]",
+        "pagerank": 0.15
+      },
+      {
+        "name": "Citigroup Global Markets",
+        "roles": "[\"lender\"]",
+        "pagerank": 0.15
+      }
+    ],
+    "louvain": {
+      "community_count": 28,
+      "modularity": 0.7574
+    },
+    "coreweave_betweenness": {
+      "name": "CoreWeave",
+      "rank": 5,
+      "betweenness": 13.0
+    }
+  }
+}

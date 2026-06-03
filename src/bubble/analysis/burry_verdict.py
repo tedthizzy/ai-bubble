@@ -78,6 +78,7 @@ def _corroborating_layers(**layers: dict[str, Any] | None) -> list[str]:
         "private_credit_funding": "debt-side routing to insurance/pension (households)",
         "equipment_bottlenecks": "supply-side equipment chokepoints (CoWoS single-source)",
         "cluster_boundary": "cluster-boundary test (the financed cluster is bounded)",
+        "gds_graph_analytics": "GDS graph topology (energy chokepoints; high modularity confirms bounded cluster)",
     }
     out: list[str] = []
     for key, label in labels.items():
@@ -214,15 +215,17 @@ def synthesize_core_verdict(
     refi_wall: dict[str, Any] | None = None,
     circular_financing: dict[str, Any] | None = None,
     demand_funding_durability: dict[str, Any] | None = None,
+    gds_graph_analytics: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Synthesize the scoped, tiered Burry verdict from verified evidence."""
 
     timing_summary = timing_summary or {}
     debt_census = debt_census or {}
-    contagion_hubs, circular_financing, demand_funding_durability = (
+    contagion_hubs, circular_financing, demand_funding_durability, gds_graph_analytics = (
         contagion_hubs or {},
         circular_financing or {},
         demand_funding_durability or {},
+        gds_graph_analytics or {},
     )
     demand_side = demand_side or {}
     power_exposure = power_exposure or {}
@@ -469,6 +472,7 @@ def synthesize_core_verdict(
                 cluster_boundary=cluster_boundary or {},
                 circular_financing=circular_financing,
                 demand_funding_durability=demand_funding_durability,
+                gds_graph_analytics=gds_graph_analytics,
             ),
         },
         "ecosystem_verdict": "not_established_as_ecosystem_wide_bubble",
