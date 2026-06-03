@@ -93,22 +93,27 @@ def stress_cluster(issuers: list[dict[str, Any]]) -> dict[str, Any]:
             }
         )
 
-    # First-distress read: the mildest scenario where a majority breach.
+    # First-distress read: the mildest scenario where a majority breach -- INCLUDING base
+    # (base applies zero shock, so a majority breach there means the core is already fragile).
     majority = next(
-        (s for s in scenarios if s["issuers_breaching"] >= len(usable) / 2 and s["scenario"] != "base"),
+        (s for s in scenarios if s["issuers_breaching"] >= len(usable) / 2),
         None,
     )
+    at_base = bool(majority and majority["scenario"] == "base")
     return {
         "status": "source_backed",
         "issuer_count": len(usable),
         "scenarios": scenarios,
         "first_majority_breach_scenario": majority["scenario"] if majority else None,
+        "majority_breach_at_base_zero_shock": at_base,
         "note": (
             "Cluster cash-flow stress: base financials are primary-sourced (11-issuer fixture); the "
             "stress PARAMETERS (utilization miss, rate shock, GPU-life compression) are labeled "
             "assumptions. EBITDA falls ~1:1 with the revenue lost to a utilization miss (high fixed "
             "cost), interest reprices at refinancing by shock/avg-rate (~8%). 'Breaching' = stressed "
-            "interest coverage < 1 or negative EBITDA. The cluster is already near 1x at base and the "
-            "majority breach by the adverse case -- a thin buffer, consistent with the verdict."
+            "interest coverage < 1 or negative EBITDA. A MAJORITY of issuers already breach at the BASE "
+            "scenario (which applies ZERO shock), so the financed core is already fragile before any "
+            "shock -- the aggregate ~1.35x coverage is a CoreWeave/CleanSpark concentration artifact "
+            "masking the loss-makers; the adverse/severe scenarios only deepen the breach."
         ),
     }

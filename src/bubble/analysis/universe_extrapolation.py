@@ -130,7 +130,9 @@ def estimate_universe(
         "observed_entities": observed,
         "source_counts": sources,
         "estimated_true_universe_mid": mid,
-        "estimated_true_universe_range": [lo, hi],
+        "estimated_true_universe_point_estimate_spread": [lo, hi],
+        "range_is_sampling_confidence_interval": False,
+        "reliable_pair_count": len(reliable_pairs),
         "implied_observability_fraction": observability,
         "pair_estimates": pair_estimates,
         "distress_robustness": distress_block,
@@ -140,9 +142,14 @@ def estimate_universe(
             "Capture-recapture (Chapman) estimate of the true AI-infra entity universe from overlapping "
             "acquisition sources -- a principled population estimate, NOT an assumed observability "
             "fraction. CAPPED at INFERRED tier (<=0.45); near-disjoint source pairs are flagged + "
-            "excluded (independence violated). The forward band is a labeled SENSITIVITY (no clean "
-            "growth series), not a forecast. Load-bearing use is the distress-robustness check, not the "
-            "point estimate. Never drives the verdict or the evidence gate."
+            "excluded (independence violated). IMPORTANT: the [lo, hi] spread is the MIN/MAX of the "
+            "surviving reliable POINT estimates, NOT a Chapman sampling confidence interval (no sampling "
+            "variance is computed); and the reliable pairs lean on the thin boundary-sweep source (small "
+            "overlaps just clearing the reliability floor), so the point estimate is fragile -- treat "
+            "~1,303 as an order-of-magnitude 'true universe is roughly 2x observed', not a precise count. "
+            "The forward band is a labeled SENSITIVITY, not a forecast. Load-bearing use is the "
+            "distress-robustness check (distress stays ~4% at any plausible true size), not the point "
+            "estimate. Never drives the verdict or the evidence gate."
         ),
     }
 
@@ -156,10 +163,11 @@ def _read(
     distress: dict[str, Any] | None,
 ) -> str:
     base = (
-        f"estimated_true_universe ~{mid} (range {lo}-{hi}) vs {observed} observed -> ~"
-        f"{int((observability or 0) * 100)}% observability. The estimate brackets the goal's own "
-        "1,200-2,000 entity target -- i.e. that target is approximately the real universe size, of "
-        "which we have deeply observed about half."
+        f"estimated_true_universe ~{mid} (point-estimate spread {lo}-{hi}, NOT a confidence interval and "
+        f"fragile -- it leans on thin source overlaps) vs {observed} observed -> ~"
+        f"{int((observability or 0) * 100)}% observability. As an order-of-magnitude read the true "
+        "universe is roughly twice what we have deeply observed, bracketing the goal's own 1,200-2,000 "
+        "target; do not treat the digits as precise."
     )
     if distress:
         base += " " + distress["robustness_note"]

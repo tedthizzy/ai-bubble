@@ -45,13 +45,15 @@ def test_first_principles_conditions_met() -> None:
     assert cond["asset_liability_duration_mismatch"] is True
     # Concentration: 67% > 50% -> existential, met.
     assert cond["customer_concentration"] is True
-    # Execution: 53.4% > 50% -> met.
-    assert cond["execution_mismatch_physical"] is True
+    # Execution: satellite no-change is a CONFOUNDED proxy (un-built vs already-built) ->
+    # reported as magnitude, NOT a met tipping condition.
+    assert cond["execution_mismatch_physical"] is None
     # Recourse + tail-size have NO principled binary -> condition is None (not a borrowed zone).
     assert cond["loss_incidence_recourse"] is None
     assert cond["leveraged_tail_size"] is None
-    assert out["first_principles_conditions_met"] == 3
-    assert out["first_principles_conditions_evaluated"] == 3
+    # Only the two cleanly-measured first-principles conditions count as met.
+    assert out["first_principles_conditions_met"] == 2
+    assert out["first_principles_conditions_evaluated"] == 2
     assert "first_principles_tipping_conditions_met" in out["composite_read"]
 
 

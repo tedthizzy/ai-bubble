@@ -78,7 +78,7 @@ def _corroborating_layers(**layers: dict[str, Any] | None) -> list[str]:
         "private_credit_funding": "debt-side routing to insurance/pension (households)",
         "equipment_bottlenecks": "supply-side equipment chokepoints (CoWoS single-source)",
         "cluster_boundary": "cluster-boundary test (the financed cluster is bounded)",
-        "gds_graph_analytics": "GDS graph topology (energy chokepoints; high modularity confirms bounded cluster)",
+        "gds_graph_analytics": "GDS graph topology (energy/power intermediaries are the structural chokepoints; modularity weakly corroborates boundedness)",
     }
     out: list[str] = []
     for key, label in labels.items():
@@ -176,11 +176,21 @@ def _build_forward_scenarios(scenario_stress: dict[str, Any]) -> dict[str, Any] 
         ],
         "first_majority_breach_scenario": first_break,
         "severity_read": (
-            f"The source-backed cluster already runs near 1x coverage at base; a majority of "
-            f"issuers breach (coverage<1 or negative EBITDA) by the {first_break} scenario "
-            f"(utilization miss + rate shock + GPU-life compression). A thin buffer -> a moderate "
-            f"demand/financing shock, not a tail event, is enough to push the financed core into "
-            f"distress."
+            (
+                f"A MAJORITY of cluster issuers breach (coverage<1 or negative EBITDA) at the "
+                f"{first_break} scenario. "
+                + (
+                    "The 'base' scenario applies ZERO shock (utilization miss, rate shock and "
+                    "GPU-life compression all nil), so the financed core is ALREADY fragile before "
+                    "any shock: ~7 of 11 issuers do not cover interest standalone at as-reported "
+                    "conditions, and the adverse/severe scenarios only deepen it. The cluster "
+                    "AGGREGATE still covers interest (~1.35x) ONLY because CoreWeave/CleanSpark mask "
+                    "the loss-makers -- ex-CoreWeave the aggregate is negative (~-0.48x)."
+                    if first_break == "base"
+                    else "The aggregate buffer is thin; a moderate (not tail) demand/financing shock "
+                    "deepens the breach across the cluster."
+                )
+            )
             if first_break
             else "Cluster survives the modeled stress band without a majority breach."
         ),

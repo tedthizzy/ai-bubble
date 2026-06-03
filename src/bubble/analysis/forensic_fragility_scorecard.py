@@ -14,8 +14,9 @@ The defensible first-principles conditions:
   life -- not a borrowed month-count.
 - Concentration: losing a single customer that is >50% of revenue removes the
   MAJORITY of revenue -- existential for a fixed-cost, debt-laden entity.
-- Execution: if the MAJORITY of announced sites show no construction, "announced"
-  != "real" for most of the pipeline.
+- Execution: the satellite "no-change" share is reported as MAGNITUDE only, NOT a
+  met tipping condition -- "no change" conflates never-started sites with
+  already-built/operational ones, so it cannot by itself establish "un-built".
 - Recourse and tail-size have no principled binary line -- report the structural
   fact (who bears the loss) and the magnitude (how much of the universe), and let
   those speak. The data here CONTRADICTS the framework's pessimistic guesses
@@ -121,26 +122,29 @@ def score_fragility(m: dict[str, Any], *, debt_census: dict[str, Any] | None = N
             }
         )
 
-    # 4. Execution: is the MAJORITY of announced capacity un-built? (first-principles line)
+    # 4. Execution: is the MAJORITY of announced capacity un-built? (CONFOUNDED proxy -- magnitude only)
     sat = m.get("satellite_construction", {}) or {}
     site_n = _num(sat.get("site_count"))
     if sat.get("status") == "source_backed" and site_n:
         no_change_pct = round(100 * float(sat.get("no_change_sites") or 0) / site_n, 1)
-        met = no_change_pct > 50.0
         dims.append(
             {
                 "question": "Does the MAJORITY of announced capacity show no physical construction?",
                 "dimension": "execution_mismatch_physical",
-                "measured": f"{no_change_pct}% of {int(site_n)} satellite-observed sites show NO construction",
-                "first_principles_condition": "share_of_sites_with_no_construction > 50%",
-                "condition_met": met,
+                "measured": f"{no_change_pct}% of {int(site_n)} satellite-observed sites show NO change",
+                # NOT a clean first-principles tipping condition: no_change_sites conflates
+                # never-started sites with ALREADY-BUILT/operational ones (both show small
+                # NDVI/NDBI/BSI deltas), so a high no-change share does NOT establish "un-built".
+                "first_principles_condition": None,
+                "condition_met": None,
                 "source_status": "source_backed",
                 "interpretation": (
-                    "Met: most announced sites have no visible ground footprint on Sentinel-2 -- "
-                    "'announced' != 'real' for the majority; debt service can begin before energized "
-                    "capacity exists. Cloud/seasonal noise caveat; read with the construction-status proxy."
-                    if met
-                    else "Most observed sites show some construction signal."
+                    f"{no_change_pct}% of observed sites show no inter-period change on Sentinel-2. This is "
+                    "a CONFOUNDED proxy, NOT proof of un-built capacity: 'no change' includes sites that "
+                    "are already built/operational (nothing left to change) as well as never-started ones, "
+                    "and carries cloud/seasonal noise. Read as a flag to pair with the construction-status "
+                    "proxy and permit/queue evidence -- it does not by itself meet a >50%-un-built tipping "
+                    "line, so it is reported as magnitude, not a satisfied condition."
                 ),
             }
         )
@@ -184,8 +188,10 @@ def score_fragility(m: dict[str, Any], *, debt_census: dict[str, Any] | None = N
         "note": (
             "Forensic fragility: the dimensions (questions) are inspired by an external framework, but "
             "its numeric thresholds are NOT adopted -- they are unvalidated guesses. A tipping line is "
-            "applied ONLY where a first-principles economic condition is defensible (duration: debt > "
-            "asset life; concentration: single customer > 50% of revenue; execution: majority un-built). "
+            "applied ONLY where a first-principles economic condition is defensible AND cleanly measured "
+            "(duration: debt > asset life; concentration: single customer > 50% of revenue). The "
+            "execution/satellite leg is reported as MAGNITUDE only -- its 'no-change' signal conflates "
+            "un-built with already-built sites, so it is not a clean tipping condition. "
             "Recourse and tail-size have no principled binary, so the structural fact and magnitude are "
             "reported instead -- and on both, the data CONTRADICTS the framework's pessimistic guesses "
             "(mostly parent-recourse; small leveraged tail), which is the honest finding."
@@ -197,11 +203,12 @@ def _composite(met: list[dict[str, Any]], dims: list[dict[str, Any]]) -> str:
     met_dims = ", ".join(d["dimension"] for d in met)
     return (
         f"first_principles_tipping_conditions_met: {len(met)} of the defensible economic tipping "
-        f"conditions are SATISFIED by the data ({met_dims}) -- the cluster-internal distress conditions "
-        "(collateral dies before the debt; a single customer is existential; most capacity is un-built) "
-        "are objectively met. The two dimensions WITHOUT a principled binary (recourse, leveraged-tail "
-        "size) show, from the data, that the loss is borne by parent EQUITY and confined to a SMALL "
-        "share of the universe -- so the failure mode is severe distress WITHIN a bounded cluster, not "
-        "an ecosystem-wide cascade. No borrowed threshold was trusted; each line is first-principles or "
-        "the raw magnitude."
+        f"conditions are SATISFIED by the data ({met_dims}) -- collateral dies before the debt matures, "
+        "and a single customer sits at an existential (>50%) share of revenue. The execution/satellite "
+        "leg is a CONFOUNDED proxy (satellite 'no-change' conflates un-built with already-built), so it "
+        "is reported as magnitude and NOT counted as a met condition. The two dimensions without a "
+        "principled binary (recourse, leveraged-tail size) show the loss is borne by parent EQUITY and "
+        "confined to a SMALL share of the universe -- so the failure mode is severe distress WITHIN a "
+        "bounded cluster, not an ecosystem-wide cascade. No borrowed threshold was trusted; each line is "
+        "first-principles or the raw magnitude."
     )

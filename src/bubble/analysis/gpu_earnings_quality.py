@@ -159,8 +159,14 @@ def _read(
             "aspirational TAM, not realized revenue."
         )
     return (
-        f"earnings_overstated_by_understated_depreciation: restating compute depreciation at a ~{int(life)}yr "
-        f"economic life adds ~${round(understatement / 1e9, 2)}B/yr of depreciation across {n} issuers that "
-        "disclose the inputs -- pre-tax earnings are overstated by that much, making the already cash-flow-"
-        "negative cluster look worse on an honest-depreciation basis." + tam_txt
+        f"earnings_overstated_by_understated_depreciation (UPPER BOUND): restating depreciation at a "
+        f"~{int(life)}yr economic life adds ~${round(understatement / 1e9, 2)}B/yr across {n} issuers that "
+        "disclose the inputs. This is an UPPER BOUND, not a point estimate: the method scales each issuer's "
+        "ENTIRE D&A by the life ratio, but D&A also covers genuinely long-lived assets (data-center shells, "
+        "electrical, leasehold up to ~12yr) that should NOT be re-lived at 3yr -- a compute-gross-weighted "
+        "restatement is materially lower (e.g. CoreWeave ~$1.6B vs ~$2.45B here). The DIRECTION is robust "
+        "(every restated issuer worsens; CoreWeave's loss roughly triples), but read the figure as a ceiling. "
+        "Caveat Nebius: it is already operationally loss-making (continuing-ops NI ~+$10M; its positive "
+        "headline NI is discontinued-ops + equity-revaluation gains), so the restatement deepens, not "
+        "creates, its loss." + tam_txt
     )

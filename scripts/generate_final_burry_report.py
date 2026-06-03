@@ -1395,9 +1395,11 @@ def report_answer_metric_audits(  # noqa: PLR0912, PLR0915
             add(
                 "mismatch.cash_flow.cluster_ebitda_interest_coverage",
                 "AI-direct cluster aggregate EBITDA / annual interest expense, from per-issuer "
-                "primary 10-K/10-Q financials (adversarially verified). Below ~1 means operations "
-                "do not cover interest before any principal; this figure is propped by a single "
-                "issuer (negative ex-CoreWeave).",
+                "primary 10-K/10-Q financials (adversarially verified). The aggregate (~1.35x) covers "
+                "interest with a thin buffer, but that buffer is a CONCENTRATION ARTIFACT: 7 of 11 "
+                "issuers are loss-making and ex-CoreWeave the aggregate is NEGATIVE (~-0.48x). EBITDA/"
+                "interest is also not DSCR -- adding principal/maturities pushes the financed core below "
+                "1x. The verdict rests on the 7/11 issuer-count fragility, not on this aggregate ratio.",
                 cdscr.get("cluster_ebitda_interest_coverage"),
                 [mismatch_artifact],
                 unit="ratio",
@@ -2960,8 +2962,13 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:  #
             demand_funding_durability["fragile_demand_failure_cascade"] = {
                 "trigger_basis": (
                     "Seeded from the capital-markets-dependent offtaker(s) the durability layer flags as "
-                    "most likely to fail -- NOT a probability, an upper-bound directly-exposed leverage if "
-                    "that demand withdraws."
+                    "most likely to fail. The 'debt_at_risk_usd' is the directly-hit issuer's ENTIRE total "
+                    "debt (e.g. CoreWeave's full ~$25B), NOT apportioned to this offtaker's revenue share "
+                    "-- it is a gross UPPER BOUND on directly-exposed leverage, not a probability-weighted "
+                    "or offtaker-attributable loss. The fragile offtaker is one of several customers "
+                    "(Microsoft is CoreWeave's largest at ~67%), so its withdrawal alone would impair, not "
+                    "necessarily zero, the issuer; read this as 'the leverage sitting on the issuer the "
+                    "fragile demand touches', a contagion-surface measure."
                 ),
                 "cascades": [propagate_shock(_cgraph, str(name)) for name in fragile_offtakers],
             }
@@ -3043,14 +3050,16 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:  #
     # Max disclosed single-customer concentration (CoreWeave ~67% Microsoft, filing-verified)
     # feeds the existential-concentration first-principles test in the fragility scorecard.
     mismatch_ratios["_max_single_customer_pct"] = 67
-    fragility_scorecard = score_fragility(mismatch_ratios, debt_census=debt_census_aggregate)
-    if fragility_scorecard.get("status") == "source_backed":
-        mismatch_ratios["fragility_scorecard"] = fragility_scorecard
+    # refi_wall must be wired BEFORE score_fragility so the duration tipping condition
+    # (debt maturing after the GPU collateral's economic life) can actually be evaluated.
     refi_wall_aggregate = aggregate_refi_wall(
         load_debt_census_raw(Path("handoffs/ai_direct_debt_census_20260603.json"))
     )
     if refi_wall_aggregate.get("status") == "source_backed":
         mismatch_ratios["refi_wall"] = refi_wall_aggregate
+    fragility_scorecard = score_fragility(mismatch_ratios, debt_census=debt_census_aggregate)
+    if fragility_scorecard.get("status") == "source_backed":
+        mismatch_ratios["fragility_scorecard"] = fragility_scorecard
     leading_indicator_monitor = build_leading_indicator_monitor(mismatch_ratios)
     if leading_indicator_monitor.get("status") == "source_backed":
         mismatch_ratios["leading_indicator_monitor"] = leading_indicator_monitor

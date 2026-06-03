@@ -100,10 +100,12 @@ def aggregate_gds_analytics(payload: dict[str, Any]) -> dict[str, Any]:
         ),
         "boundedness_read": (
             f"Louvain modularity is {ai['modularity']} on the AI subgraph ({ai['community_count']} "
-            f"communities) and {full['modularity']} on the full graph -- high modularity means the network "
-            "is genuinely community-structured, not a hairball. This CROSS-VALIDATES the 'financed cluster "
-            "is bounded' conclusion from a pure graph-topology angle, independent of the entity map and the "
-            "capture-recapture estimate."
+            f"communities) and {full['modularity']} on the full graph. CAVEAT: the ai_infra subgraph is "
+            "SPARSE (216 nodes / 232 edges, avg degree ~2.2), and high modularity on a near-tree graph is "
+            "partly a sparsity artifact, not strong evidence of cohesive community structure -- so this is "
+            "at most a WEAK, corroborating hint toward the 'bounded cluster' conclusion, not an independent "
+            "confirmation. The load-bearing boundedness evidence remains the entity-classification map "
+            "(~4% distress) and the capture-recapture robustness check, not this modularity number."
         ),
         "coreweave_nuance": (
             f"CoreWeave is the FINANCING/demand chokepoint (the demand-failure cascade routes ~$25B "
