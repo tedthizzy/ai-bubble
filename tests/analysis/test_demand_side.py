@@ -45,7 +45,7 @@ def test_self_funding_demand_side_supports_tiered_verdict() -> None:
     assert out["aggregate_ai_capex_usd"] == 170e9
     assert out["cash_coverage_of_capex"] == round(330e9 / 170e9, 2)
     assert out["cash_funded_players"] == 3
-    assert out["aggregate_compute_commitments_to_core_usd"] == 110e9
+    assert out["aggregate_datacenter_purchase_commitments_usd"] == 110e9
     assert "self_funding" in out["bear_case_read"]
 
 

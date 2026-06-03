@@ -326,8 +326,8 @@ def synthesize_core_verdict(
             {
                 "aggregate_ai_capex_usd": demand_side.get("aggregate_ai_capex_usd"),
                 "cash_coverage_of_capex": demand_side.get("cash_coverage_of_capex"),
-                "aggregate_compute_commitments_to_core_usd": demand_side.get(
-                    "aggregate_compute_commitments_to_core_usd"
+                "aggregate_datacenter_purchase_commitments_usd": demand_side.get(
+                    "aggregate_datacenter_purchase_commitments_usd"
                 ),
                 "cash_funded_players": demand_side.get("cash_funded_players"),
                 "player_count": demand_side.get("player_count"),

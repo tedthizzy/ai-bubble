@@ -1341,6 +1341,27 @@ def report_answer_metric_audits(  # noqa: PLR0912, PLR0915
                 unit="ratio",
             )
 
+        # Demand-side (hyperscaler/offtaker) source-backed aggregates.
+        dsf = m.get("demand_side_funding", {})
+        if dsf.get("status") == "source_backed":
+            add(
+                "mismatch.demand_side.aggregate_ai_capex_usd",
+                "Aggregate AI/data-center capex of the demand-side players (hyperscalers + NVIDIA + "
+                "Oracle), from primary 10-K/10-Q. Cash-coverage by operating cash flow is the "
+                "bear-vs-bubble test for the demand side.",
+                dsf.get("aggregate_ai_capex_usd"),
+                [mismatch_artifact],
+                unit="USD",
+            )
+            add(
+                "mismatch.demand_side.aggregate_datacenter_purchase_commitments_usd",
+                "Aggregate datacenter purchase/take-or-pay commitments of the demand-side players "
+                "(upper bound on the contracted revenue that could flow to the financed core).",
+                dsf.get("aggregate_datacenter_purchase_commitments_usd"),
+                [mismatch_artifact],
+                unit="USD",
+            )
+
         # Physical deliverability mismatch. We audit the honest tracker
         # construction-status proxy, NOT the strong-queue-match figure (which is
         # a coverage-limited join artifact until the ISO queues are ingested).
@@ -2293,6 +2314,8 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:  #
     demand_side_aggregate = aggregate_demand_side(
         load_demand_side(Path("handoffs/ai_demand_side_funding_20260603.json"))
     )
+    if demand_side_aggregate.get("status") == "source_backed":
+        mismatch_ratios["demand_side_funding"] = demand_side_aggregate
     ai_direct_core_verdict = synthesize_core_verdict(
         cluster_dscr=mismatch_ratios.get("cluster_interest_coverage", {}),
         thesis_findings=thesis_findings,
@@ -3758,7 +3781,7 @@ def main() -> None:
             f"aggregate AI capex ${round((_ds.get('aggregate_ai_capex_usd') or 0) / 1e9, 1)}B, "
             f"cash-coverage of capex {_ds.get('cash_coverage_of_capex')}x, "
             f"{_ds.get('cash_funded_players')}/{_ds.get('player_count')} players self-funding; "
-            f"commitments to the core ${round((_ds.get('aggregate_compute_commitments_to_core_usd') or 0) / 1e9, 1)}B. "
+            f"commitments to the core ${round((_ds.get('aggregate_datacenter_purchase_commitments_usd') or 0) / 1e9, 1)}B. "
             f"{_ds.get('bear_case_read', '')}"
         )
     else:

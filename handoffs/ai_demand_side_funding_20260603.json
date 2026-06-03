@@ -1,0 +1,752 @@
+[
+ {
+  "data": {
+   "entity": "Microsoft Corporation (MSFT)",
+   "period": "FY2025 (ended 2025-06-30) 10-K; updated through Q3 FY2026 (ended 2026-03-31) 10-Q",
+   "total_capex_usd": 64551000000,
+   "ai_datacenter_capex_usd": null,
+   "capex_guidance_next_period_usd": null,
+   "operating_cash_flow_usd": 136162000000,
+   "cash_and_investments_usd": 110000000000,
+   "total_debt_usd": 43151000000,
+   "ai_related_debt_or_financing_usd": 46172000000,
+   "compute_purchase_commitments_usd": 109953000000,
+   "funding_source": "predominantly_operating_cash_flow",
+   "funding_note": "FY2025 (10-K): AI/datacenter capex is overwhelmingly self-funded from operating cash flow. OCF was $136.2B vs. $64.55B \"additions to property and equipment\" (capex) \u2014 MSFT does NOT break out a separate \"AI capex\" line, but states capex is \"to support growth in our cloud offerings and our investments in AI infrastructure and training.\" Total bond debt actually DECLINED to $43.15B (FY25) from $44.94B (FY24), and net financing was a cash OUTFLOW (repayments exceeded issuance). So the on-balance-sheet bond stack is not funding AI \u2014 OCF is.\n\nHOWEVER, the bear-relevant nuance is OFF-the-cash-flow-statement datacenter financing via FINANCE LEASES and build-to-suit / not-yet-commenced leases, which is exploding:\n- Total finance lease liabilities (primarily datacenters): $46.17B at FY25-end, up from $27.15B a year earlier; finance-lease ROU assets obtained in FY25 = $20.5B (on top of $64.55B cash capex). By Q3 FY26 (2026-03-31) total finance lease liabilities reached $62.93B; finance-lease P&E at cost reached $77.6B.\n- Leases that had NOT YET COMMENCED, \"primarily for datacenters\": $92.7B at FY25-end, then $196.6B at 2026-03-31 \u2014 i.e. roughly doubling in nine months, commencing FY2026\u2013FY2031. This is the build-to-suit/SPV-style datacenter financing pipeline and is the fastest-growing AI-infrastructure obligation; it is contractual but not yet on the balance sheet.\n- FY25 contractual obligations: construction commitments $32.1B (primarily datacenters); operating+finance leases incl. imputed interest $178.7B; purchase commitments $109.95B that \"primarily relate to datacenters and include open purchase orders and take-or-pay contracts.\"\n\nUpdated demand-strength signal (Q3 FY26 10-Q): commercial remaining performance obligation (RPO) jumped 99% YoY to $627B (total RPO $633B), and 9-month FY26 OCF rose to $127.5B while 9-month capex rose to $80.1B (Q3 alone $30.9B) \u2014 capex acceleration is being matched by OCF and a record contracted-revenue backlog, supporting the self-funding (rational-growth) read rather than the leverage (bubble) read. Caveat: cash+short-term investments fell to $78.3B (from $94.6B) as capex outran even rising OCF, and the $196.6B not-yet-commenced datacenter-lease pipeline is the principal vector by which MSFT's AI buildout is being financed off the income/cash-flow statement.\n\nNEOCLOUD/COREWEAVE/OPENAI: MSFT's 10-K and 10-Qs contain NO named take-or-pay or RPO commitment to CoreWeave, Nebius, or other neoclouds (no such names appear in the filings). MSFT's only related AI-investee disclosure is OpenAI as an equity-method investment (net recognized losses on equity method investments \"including OpenAI\"); no dollar commitment figure is disclosed. Any MSFT\u2192neocloud compute purchases would be inside the undifferentiated $109.95B \"purchase commitments (primarily datacenters, incl. take-or-pay)\" line and are not separately quantified. classify: funding_source = predominantly_operating_cash_flow, with a rising and material finance-lease / not-yet-commenced-lease financing overlay that is the key item to watch.",
+   "sources": [
+    {
+     "figure": "Total capex FY2025 (additions to property and equipment)",
+     "value": "$64,551M",
+     "source_uri": "data/edgar_acquisition/documents/0000789019/000095017025100235/msft-20250630.htm (FY2025 Form 10-K, SEC accession 0000950170-25-100235)",
+     "quote": "Investing / Additions to property and equipment ( 64,551 ) ( 44,477 ) ( 28,107 )"
+    },
+    {
+     "figure": "Capex purpose (no separate AI line broken out)",
+     "value": "qualitative",
+     "source_uri": "data/edgar_acquisition/documents/0000789019/000095017025100235/msft-20250630.htm",
+     "quote": "We will continue to invest in capital expenditures to support growth in our cloud offerings and our investments in AI infrastructure and training."
+    },
+    {
+     "figure": "Operating cash flow FY2025",
+     "value": "$136,162M",
+     "source_uri": "data/edgar_acquisition/documents/0000789019/000095017025100235/msft-20250630.htm",
+     "quote": "Net cash from operations 136,162 118,548 87,582 ... Cash from operations increased $17.6 billion to $136.2 billion for fiscal year 2025"
+    },
+    {
+     "figure": "Cash, cash equivalents & short-term investments + equity/other investments FY2025",
+     "value": "$94.6B + $15.4B (~$110B)",
+     "source_uri": "data/edgar_acquisition/documents/0000789019/000095017025100235/msft-20250630.htm",
+     "quote": "Cash, cash equivalents, and short-term investments totaled $94.6 billion and $75.5 billion as of June 30, 2025 and 2024 ... Equity and other investments were $15.4 billion and $14.6 billion"
+    },
+    {
+     "figure": "Total debt (bonds) FY2025 and FY2024",
+     "value": "$43,151M (FY25), $44,937M (FY24)",
+     "source_uri": "data/edgar_acquisition/documents/0000789019/000095017025100235/msft-20250630.htm",
+     "quote": "Total debt 43,151 44,937 ... Current portion of long-term debt ( 2,999 )"
+    },
+    {
+     "figure": "Financing was a net cash outflow (debt repaid, not raised, for AI)",
+     "value": "qualitative",
+     "source_uri": "data/edgar_acquisition/documents/0000789019/000095017025100235/msft-20250630.htm",
+     "quote": "Cash used in financing increased $13.9 billion to $51.7 billion for fiscal year 2025, primarily due to a $9.5 billion increase in cash used for repayments of debt, net of proceeds."
+    },
+    {
+     "figure": "Total finance lease liabilities (primarily datacenters) FY2025 vs FY2024",
+     "value": "$46,172M (FY25) vs $27,145M (FY24)",
+     "source_uri": "data/edgar_acquisition/documents/0000789019/000095017025100235/msft-20250630.htm",
+     "quote": "Total finance lease liabilities $ 46,172 $ 27,145 ... Property and equipment, at cost $ 53,876 $ 32,248 (Finance Leases)"
+    },
+    {
+     "figure": "Finance-lease ROU assets obtained in exchange for lease obligations FY2025",
+     "value": "$20,511M",
+     "source_uri": "data/edgar_acquisition/documents/0000789019/000095017025100235/msft-20250630.htm",
+     "quote": "Right-of-use assets obtained in exchange for lease obligations: ... Finance leases 20,511 11,633 3,128"
+    },
+    {
+     "figure": "Datacenter leases not yet commenced FY2025",
+     "value": "$92.7B",
+     "source_uri": "data/edgar_acquisition/documents/0000789019/000095017025100235/msft-20250630.htm",
+     "quote": "As of June 30, 2025, we had additional leases, primarily for datacenters, that had not yet commenced of $ 92.7 billion. These leases will commence between fiscal year 2026 and fiscal year 2031"
+    },
+    {
+     "figure": "Construction commitments (datacenters) FY2025",
+     "value": "$32,149M",
+     "source_uri": "data/edgar_acquisition/documents/0000789019/000095017025100235/msft-20250630.htm",
+     "quote": "Construction commitments (b) 26,859 5,290 32,149 ... As of June 30, 2025, we have committed $ 32.1 billion for the construction of new buildings, building improvements, and leasehold improvements, primarily related to datacenters."
+    },
+    {
+     "figure": "Purchase commitments (primarily datacenters, incl. take-or-pay) FY2025",
+     "value": "$109,953M",
+     "source_uri": "data/edgar_acquisition/documents/0000789019/000095017025100235/msft-20250630.htm",
+     "quote": "Purchase commitments (d) 103,940 6,013 109,953 ... (d) Purchase commitments primarily relate to datacenters and include open purchase orders and take-or-pay contracts that are not presented as construction commitments above."
+    },
+    {
+     "figure": "OpenAI is only named AI investee; equity-method, no dollar commitment disclosed; no CoreWeave/neocloud named",
+     "value": "qualitative",
+     "source_uri": "data/edgar_acquisition/documents/0000789019/000095017025100235/msft-20250630.htm",
+     "quote": "Other, net primarily reflects net recognized losses on equity method investments, including OpenAI."
+    },
+    {
+     "figure": "Q3 FY2026 capex (additions to P&E): Q3 alone and 9-month",
+     "value": "$30,876M (Q3); $80,146M (9-mo FY26) vs $47,472M (9-mo FY25)",
+     "source_uri": "data/edgar_acquisition/documents/0000789019/000119312526191507/msft-20260331.htm (Q3 FY2026 Form 10-Q, SEC accession 0001193125-26-191507)",
+     "quote": "Additions to property and equipment ( 30,876 ) ( 16,745 ) ( 80,146 ) ( 47,472 )"
+    },
+    {
+     "figure": "Q3 FY2026 9-month operating cash flow",
+     "value": "$127,494M (9-mo FY26) vs $93,515M (9-mo FY25)",
+     "source_uri": "data/edgar_acquisition/documents/0000789019/000119312526191507/msft-20260331.htm",
+     "quote": "Net cash from operations 46,679 37,044 127,494 93,515 ... Cash from operations increased $34.0 billion to $127.5 billion for the nine months ended March 31, 2026"
+    },
+    {
+     "figure": "Q3 FY2026 total finance lease liabilities (primarily datacenters)",
+     "value": "$62,932M (3/31/26) vs $46,172M (6/30/25); finance-lease P&E at cost $77,633M",
+     "source_uri": "data/edgar_acquisition/documents/0000789019/000119312526191507/msft-20260331.htm",
+     "quote": "Total finance lease liabilities $ 62,932 $ 46,172 ... Property and equipment, at cost $ 77,633 $ 53,876"
+    },
+    {
+     "figure": "Q3 FY2026 datacenter leases not yet commenced (doubled vs FY25)",
+     "value": "$196.6B",
+     "source_uri": "data/edgar_acquisition/documents/0000789019/000119312526191507/msft-20260331.htm",
+     "quote": "As of March 31, 2026, we had additional leases, primarily for datacenters, that had not yet commenced of $ 196.6 billion. These leases will commence between fiscal year 2026 and fiscal year 2031"
+    },
+    {
+     "figure": "Q3 FY2026 total bond debt and cash position",
+     "value": "Total debt $40,262M; cash+STI $78.3B; equity/other investments $33.7B",
+     "source_uri": "data/edgar_acquisition/documents/0000789019/000119312526191507/msft-20260331.htm",
+     "quote": "Total debt 40,262 43,151 ... Cash, cash equivalents, and short-term investments totaled $78.3 billion and $94.6 billion as of March 31, 2026 and June 30, 2025 ... Equity and other investments were $33.7 billion"
+    },
+    {
+     "figure": "Q3 FY2026 commercial RPO (contracted demand backlog) +99% YoY",
+     "value": "$627B commercial / $633B total",
+     "source_uri": "data/edgar_acquisition/documents/0000789019/000119312526191507/msft-20260331.htm",
+     "quote": "Commercial remaining performance obligation increased 99% to $627 billion ... Revenue allocated to remaining performance obligations ... was $ 633 billion as of March 31, 2026"
+    }
+   ],
+   "unfound": [
+    "AI/data-center-specific capex line item (MSFT does not break out 'AI capex' separately; only total 'additions to property and equipment' is disclosed, described qualitatively as supporting cloud + AI infrastructure and training)",
+    "Quantitative next-period capex guidance (not in the 10-K/10-Q filings; MSFT provides forward capex guidance only on earnings calls, which are not SEC-filed primary financial statements)",
+    "Named compute purchase/lease commitments to neoclouds (CoreWeave, Nebius, etc.) \u2014 not disclosed in MSFT filings; any such amounts are embedded in the undifferentiated $109.95B datacenter 'purchase commitments incl. take-or-pay' line",
+    "OpenAI commitment dollar amount \u2014 OpenAI appears only as an unquantified equity-method investee in MSFT filings; specific MSFT-to-OpenAI compute/funding commitment figures are not disclosed in these primary sources",
+    "AI-specific debt as distinct bond issuance \u2014 none; bond debt declined YoY, so 'ai_related_debt_or_financing' is reported as the datacenter-dominated FINANCE LEASE liability balance ($46.17B FY25 / $62.93B Q3FY26) rather than a labeled AI bond"
+   ],
+   "confidence": 0.25
+  },
+  "verdict": {
+   "entity": "Microsoft Corporation (MSFT)",
+   "overall": "source_backed",
+   "funding_source_confirmed": true,
+   "corrections": [
+    "Minor labeling caveat (not an error): ai_related_debt_or_financing_usd = $46,172M is the TOTAL FINANCE LEASE LIABILITY balance (primarily datacenters), not AI-labeled bond debt. The note correctly states this. Actual bond debt DECLINED YoY ($44,937M FY24 -> $43,151M FY25 -> $40,262M Q3FY26) and net financing was a cash outflow, so no incremental bond debt funds the AI buildout. The figure is a financing-overlay proxy, not literal 'AI debt'."
+   ],
+   "note": "All cited figures verified verbatim against the two SEC filings on disk (FY2025 10-K accession 0000950170-25-100235, msft-20250630.htm; and Q3 FY2026 10-Q accession 0001193125-26-191507, msft-20260331.htm). Capex vs OCF: FY2025 OCF $136,162M covers capex $64,551M by ~2.1x; 9-mo FY26 OCF $127,494M covers 9-mo capex $80,146M by ~1.6x. Financing was a NET CASH OUTFLOW in FY25 ('repayments of debt, net of proceeds'), confirming on-balance-sheet bond debt is not funding the AI buildout (bond debt declined $43,151M->$40,262M). funding_source='predominantly_operating_cash_flow' is independently supported: cash flow covers capex without incremental debt issuance. No unit/period errors found - all values are USD, periods correctly attributed (FY2025 full-year vs Q3-alone vs 9-month FY26 figures all match their labels). Key adversarial confirmations: (1) MSFT does NOT break out a separate 'AI capex' line - correctly disclosed as qualitative ('cloud offerings and investments in AI infrastructure and training'); (2) ai_related_debt_or_financing_usd $46,172M is the finance-lease liability balance, not bond debt - correctly characterized as the off-cash-flow-statement financing overlay; (3) CoreWeave/Nebius/neocloud names confirmed ABSENT from both filings via full-text search - the note's claim that any such commitments sit inside the undifferentiated $109,953M purchase-commitments line is the correct read; OpenAI appears only as an unquantified equity-method investee. The principal forensic flag - $196.6B not-yet-commenced datacenter leases (doubled from $92.7B in nine months) plus finance-lease liabilities rising $27.1B->$46.2B->$62.9B - is verified and correctly elevated as the off-balance-sheet vector to watch. Conclusion: cash flow covers capex; debt is NOT needed for current capex; the leverage is migrating to finance/build-to-suit leases rather than bonds."
+  }
+ },
+ {
+  "data": {
+   "entity": "Alphabet Inc. / Google (GOOGL)",
+   "period": "FY2025 (year ended December 31, 2025); 10-K filed 2026-02-05",
+   "total_capex_usd": 91447000000,
+   "ai_datacenter_capex_usd": null,
+   "capex_guidance_next_period_usd": null,
+   "operating_cash_flow_usd": 164713000000,
+   "cash_and_investments_usd": 95657000000,
+   "total_debt_usd": 48500000000,
+   "ai_related_debt_or_financing_usd": 61000000000,
+   "compute_purchase_commitments_usd": null,
+   "funding_source": "mixed_cash_and_debt",
+   "funding_note": "Demand-side verdict: Alphabet's AI/data-center capex is predominantly self-funded by operating cash flow, but 2025 saw a material, deliberate layering of leverage and off-balance-sheet data-center financing on top. Capex of $91.4B (FY2025, +74% from $52.5B FY2024) is covered ~1.8x by $164.7B operating cash flow; even adding $45.4B buybacks + $10.0B dividends, OCF nearly covers all uses. The 10-K explicitly ties the capex surge to AI ('we continue to invest in capital expenditures as we scale our technical infrastructure, in particular for AI') and guides that in 2026 it will 'significantly increase, relative to 2025' its technical-infrastructure investment (no dollar figure given in 10-K). LEVERAGE SIGNAL (the bubble-watch flag): long-term debt grew 4.3x from $10.9B to $46.5B; total senior unsecured notes carrying value $48.5B (vs $11.9B in 2024); Alphabet issued $22.5B USD + EUR13.25B notes in 2025 ($37.3B net proceeds) 'for general corporate purposes' (NOT earmarked to AI). Beyond on-balance-sheet debt, the financed-infrastructure exposure is larger: $58.5B of data-center leases NOT YET COMMENCED ($5.8B short-term + $52.7B long-term, off-balance-sheet, commencing 2026-2031), finance lease liabilities of $2.5B (up from $1.7B, 'primarily for data centers'), data-center leasing VIEs accounted for as finance leases, plus 2025 credit support/backstops/guarantees to infrastructure counterparties accounted for as credit derivatives. The ai_related_debt_or_financing figure (~$61B) is an analyst aggregation of finance-lease liabilities ($2.5B) + uncommenced data-center leases ($58.5B); the $48.5B of senior notes is general-corporate and is reported separately as total_debt. Purchase commitments & other contractual obligations total $149.1B, of which $113.0B short-term 'mostly related to technical infrastructure and inventory orders' (i.e., servers/compute + energy take-or-pay) \u2014 this is the demand commitment that is the financed core's revenue. NO neocloud/CoreWeave/Nebius/Crusoe/Lambda compute-purchase or take-or-pay commitments appear in Alphabet's 10-K: Google is a hyperscaler (supply side), not a neocloud customer; compute_purchase_commitments to neoclouds = unfound for Alphabet. Net: rational self-funding core, but 2025 marks a clear pivot to debt + off-balance-sheet lease financing around the AI build-out, hence mixed rather than predominantly operating-cash-flow.",
+   "confidence": 0.25,
+   "sources": [
+    {
+     "figure": "total_capex_usd",
+     "value": "$91,447M (FY2025); $52,535M (FY2024); $32,251M (FY2023)",
+     "quote": "Purchases of property and equipment (32,251) (52,535) (91,447)",
+     "source_uri": "data/edgar_acquisition/documents/0001652044/000165204426000018/goog-20251231.htm"
+    },
+    {
+     "figure": "capex_guidance_next_period",
+     "value": "No dollar figure; qualitative 'significantly increase'",
+     "quote": "During the years ended December 31, 2024 and 2025, we spent $52.5 billion and $91.4 billion on capital expenditures, respectively. In 2026, we expect to significantly increase, relative to 2025, our investment in our technical infrastructure, including servers and network equipment, and data centers.",
+     "source_uri": "data/edgar_acquisition/documents/0001652044/000165204426000018/goog-20251231.htm"
+    },
+    {
+     "figure": "ai_capex_linkage",
+     "value": "qualitative",
+     "quote": "Increased Investment in Technical Infrastructure: We continue to invest in capital expenditures as we scale our technical infrastructure, in particular for AI, to meet the demand of our users and enterprise customers.",
+     "source_uri": "data/edgar_acquisition/documents/0001652044/000165204426000018/goog-20251231.htm"
+    },
+    {
+     "figure": "operating_cash_flow_usd",
+     "value": "$164,713M (FY2025); $125,299M (FY2024); $101,746M (FY2023)",
+     "quote": "Net cash provided by operating activities 101,746 125,299 164,713",
+     "source_uri": "data/edgar_acquisition/documents/0001652044/000165204426000018/goog-20251231.htm"
+    },
+    {
+     "figure": "cash_and_investments_usd",
+     "value": "$95,657M total cash, equivalents & marketable securities (cash & equiv $23,466M + marketable securities $72,191M)",
+     "quote": "Cash and cash equivalents $ 23,466 ... Marketable securities 72,191 ... Total cash, cash equivalents, and marketable securities 95,657",
+     "source_uri": "data/edgar_acquisition/documents/0001652044/000165204426000018/goog-20251231.htm"
+    },
+    {
+     "figure": "total_debt_usd",
+     "value": "$48.5B senior unsecured notes carrying value (FY2025), of which $2.0B short-term; vs $11.9B in 2024",
+     "quote": "As of December 31, 2025, we had senior unsecured notes outstanding with a total carrying value of $48.5 billion, of which $2.0 billion was short-term... total carrying value of $11.9 billion and $48.5 billion as of December 31, 2024 and 2025, respectively.",
+     "source_uri": "data/edgar_acquisition/documents/0001652044/000165204426000018/goog-20251231.htm"
+    },
+    {
+     "figure": "long_term_debt_balance_sheet",
+     "value": "$46,547M LT debt (2025) vs $10,883M (2024)",
+     "quote": "Long-term debt 10,883 46,547",
+     "source_uri": "data/edgar_acquisition/documents/0001652044/000165204426000018/goog-20251231.htm"
+    },
+    {
+     "figure": "debt_issuance_2025",
+     "value": "$22.5B USD + EUR13.25B notes; net proceeds $37.3B; general corporate purposes",
+     "quote": "In 2025, we issued senior unsecured notes for net proceeds of $37.3 billion, to be used for general corporate purposes... During 2025, we issued $22.5 billion of US dollar-denominated senior unsecured notes and EUR13.25 billion of euro-denominated senior unsecured notes for general corporate purposes.",
+     "source_uri": "data/edgar_acquisition/documents/0001652044/000165204426000018/goog-20251231.htm"
+    },
+    {
+     "figure": "ai_related_financing_finance_leases",
+     "value": "Total finance lease liabilities $2,500M (2025) vs $1,677M (2024), primarily data centers",
+     "quote": "Total finance lease liabilities $ 1,677 $ 2,500 ... We have entered into operating and finance lease agreements primarily for data centers... We expect to continue to enter into finance leases, primarily for data centers.",
+     "source_uri": "data/edgar_acquisition/documents/0001652044/000165204426000018/goog-20251231.htm"
+    },
+    {
+     "figure": "ai_related_financing_uncommenced_leases",
+     "value": "$58.5B data-center leases not yet commenced ($5.8B short-term + $52.7B long-term), off-balance-sheet, commencing 2026-2031",
+     "quote": "As of December 31, 2025, we have entered into leases primarily related to data centers that have not yet commenced with short-term and long-term future lease payments of $5.8 billion and $52.7 billion, respectively, that are not yet recorded. These leases will commence between 2026 and 2031 with non-cancelable lease terms primarily between one and 25 years.",
+     "source_uri": "data/edgar_acquisition/documents/0001652044/000165204426000018/goog-20251231.htm"
+    },
+    {
+     "figure": "datacenter_VIE_and_credit_support",
+     "value": "Data center leasing VIEs as finance leases; 2025 credit backstops/guarantees to infrastructure counterparties as credit derivatives",
+     "quote": "data center leasing VIEs are accounted for as finance leases and are included within total lease obligations... Credit backstops we have provided to data center VIEs are accounted for as credit derivatives... in 2025, we provided credit support, such as through backstops and guarantees, to certain infrastructure related counterparties and may continue to provide additional credit support in the future.",
+     "source_uri": "data/edgar_acquisition/documents/0001652044/000165204426000018/goog-20251231.htm"
+    },
+    {
+     "figure": "purchase_commitments",
+     "value": "$149.1B total, $113.0B short-term mostly technical infrastructure & inventory orders",
+     "quote": "the total for these commitments was $149.1 billion, of which $113.0 billion was short-term, mostly related to technical infrastructure and inventory orders... primarily related to energy take-or-pay contracts, licenses (including content licenses), and technical infrastructure and inventory orders.",
+     "source_uri": "data/edgar_acquisition/documents/0001652044/000165204426000018/goog-20251231.htm"
+    },
+    {
+     "figure": "shareholder_returns_FY2025",
+     "value": "buybacks ~$45.4B (Class A $6.5B + Class C $38.9B), dividends $10,049M",
+     "quote": "Repurchases of Class A and Class C shares were $6.5 billion and $38.9 billion, respectively... Dividend payments 0 (7,363) (10,049)",
+     "source_uri": "data/edgar_acquisition/documents/0001652044/000165204426000018/goog-20251231.htm"
+    },
+    {
+     "figure": "commercial_paper",
+     "value": "$25.0B program; $0 outstanding at 2025-12-31 (vs $2.3B at 2024)",
+     "quote": "We have a commercial paper program of up to $25.0 billion, which is used for general corporate purposes. We had $2.3 billion of commercial paper... and no commercial paper outstanding as of December 31, 2025.",
+     "source_uri": "data/edgar_acquisition/documents/0001652044/000165204426000018/goog-20251231.htm"
+    }
+   ],
+   "unfound": [
+    "ai_datacenter_capex_usd: Alphabet does not break out AI- or data-center-specific capex; total capex ($91.4B) is reported as one line, qualitatively attributed to technical infrastructure 'in particular for AI'",
+    "capex_guidance_next_period_usd: 2026 guidance is qualitative ('significantly increase relative to 2025') in the 10-K; no dollar figure disclosed in this filing",
+    "compute_purchase_commitments_usd (neocloud take-or-pay/RPO): NONE found in Alphabet's 10-K \u2014 Google is a hyperscaler/supply side, not a CoreWeave/Nebius/Crusoe/Lambda customer; no neocloud names appear in the filing",
+    "OpenAI commitments: not applicable to Alphabet's filing; would require CoreWeave/Microsoft 10-Ks"
+   ]
+  },
+  "verdict": {
+   "entity": "Alphabet Inc. / Google (GOOGL)",
+   "overall": "source_backed",
+   "funding_source_confirmed": true,
+   "note": "All cited figures and quotes verified against the FY2025 10-K (goog-20251231.htm, accession 000165204426000018). Numeric anchors confirmed: total_capex $91,447M, OCF $164,713M, total cash+marketable $95,657M ($23,466M cash + $72,191M securities), senior unsecured notes carrying value $48.5B (of which $2.0B short-term; vs $11.9B 2024), LT debt $46,547M (vs $10,883M), $37.3B net note proceeds for general corporate purposes ($22.5B USD + EUR13.25B), finance lease liabilities $2,500M (vs $1,677M), uncommenced data-center leases $5.8B short-term + $52.7B long-term (not yet recorded, commencing 2026-2031), purchase commitments $149.1B / $113.0B short-term 'mostly related to technical infrastructure and inventory orders', dividends $10,049M, buybacks $45.4B, $25.0B CP program ($0 outstanding). Qualitative quotes verified in-context: AI capex linkage ('in particular for AI'), 2026 guidance ('significantly increase, relative to 2025' \u2014 no dollar figure), VIE/credit-support/backstops, energy take-or-pay. Derived math is exact: OCF/capex = 1.80x; capex YoY +74%; LT debt 4.3x; ai_related_financing $2.5B + $58.5B = $61.0B. No unit/period errors (USD millions on statements, billions in MD&A; FY ended 2025-12-31). funding_source 'mixed_cash_and_debt' CONFIRMED and well-supported: capex is predominantly self-funded (OCF covers capex 1.8x, and even after buybacks+dividends OCF leaves ~$17.8B surplus), but 2025 shows a deliberate 4.3x debt layering plus large off-balance-sheet lease financing around the AI build-out \u2014 neither a pure-cash nor pure-debt story. IMPORTANT CAVEATS (transparently disclosed in the note, not errors): (1) the $61B ai_related_debt_or_financing is an ANALYST AGGREGATION of finance-lease liabilities + off-balance-sheet not-yet-recorded uncommenced leases \u2014 it is NOT on-balance-sheet debt; (2) the $48.5B senior notes are general-corporate, explicitly NOT earmarked to AI, correctly reported separately as total_debt; (3) the AI/data-center capex split (ai_datacenter_capex_usd) and 2026 capex dollar guidance are genuinely unfound \u2014 Alphabet reports total capex as one line and gives only qualitative 2026 guidance; (4) no neocloud (CoreWeave/Nebius/Crusoe/Lambda) compute-purchase/take-or-pay commitments appear \u2014 confirmed absent; Google is a hyperscaler/supply side, so compute_purchase_commitments to neoclouds correctly = unfound. Confidence appropriately capped at 0.25 per project policy."
+  }
+ },
+ {
+  "data": {
+   "entity": "Amazon.com, Inc. / AWS (AMZN)",
+   "period": "FY2025 (10-K, year ended Dec 31, 2025); with latest update Q1 2026 / TTM ended Mar 31, 2026 (10-Q)",
+   "total_capex_usd": 128320000000,
+   "ai_datacenter_capex_usd": null,
+   "capex_guidance_next_period_usd": 147299000000,
+   "operating_cash_flow_usd": 139514000000,
+   "cash_and_investments_usd": 123029000000,
+   "total_debt_usd": 68836000000,
+   "ai_related_debt_or_financing_usd": 53796000000,
+   "compute_purchase_commitments_usd": null,
+   "funding_source": "mixed_cash_and_debt",
+   "funding_note": "DIRECTIONAL NOTE: Amazon is NOT a demand-side neocloud customer -- it IS a hyperscaler/AI compute SUPPLIER. The relevant neocloud-style commitment runs the OTHER way: AWS holds a $38.0B multi-year commercial commitment with OpenAI, EXPANDED by $100.0B over 8 years in Q1 2026 (incl. AWS chips) -- this is revenue TO Amazon from the financed AI core (OpenAI), not Amazon's spend. Amazon also holds equity in Anthropic ($45.8B convertible notes + ~$14.8B preferred at Dec-2025) and OpenAI ($15.0B invested Q1 2026 + $35.0B equity commitment through Dec-2028). FUNDING THESIS: Through FY2025 the AI/datacenter capex was self-funding from operating cash flow -- OCF $139.5B vs net capex $128.3B left positive free cash flow of $11.2B; financing was a net +$9.7B but Amazon ended 2025 with only $68.8B face-value debt against $123.0B cash+investments (net cash positive). This was the RATIONAL/self-funding profile. However the inflection is decisive in the most recent data: TTM ended Mar-31-2026 OCF $148.5B vs net capex $147.3B drove free cash flow to just $1.2B (down from $25.9B a year earlier) -- capex now consumes essentially ALL operating cash flow. Concurrently, in March 2026 alone Amazon issued ~$53.8B of new unsecured senior notes (face-value debt jumped from $68.8B at Dec-2025 to $122.6B at Mar-2026; long-term debt on balance sheet $65.6B -> $119.1B), and Q1 2026 cash capex was $43.2B (vs $24.3B Q1 2025), guided to increase further in 2026. So the marginal funding of the AI build-out has shifted from pure operating cash flow toward debt/financing -- hence MIXED. Total debt figure reported is FY2025 face value ($68.8B); ai_related_debt_or_financing captures the ~$53.8B March-2026 senior-note raise that funded the accelerating datacenter capex. Finance leases ($12.3B PV) and build-to-suit/SPV financing obligations (~$8.1B, data-center & fulfillment) are additional off-revolver datacenter financing. No CoreWeave/neocloud purchase commitments by Amazon (none disclosed; not applicable to a supplier).",
+   "confidence": 0.25,
+   "sources": [
+    {
+     "figure": "total_capex_usd (FY2025 cash capex, net)",
+     "value": "$128,320M (net); gross purchases $131,819M",
+     "source_uri": "data/edgar_acquisition/documents/0001018724/000101872426000004/amzn-20251231.htm",
+     "quote": "Cash capital expenditures were $77.7 billion, and $128.3 billion in 2024 and 2025, which primarily reflect investments in technology infrastructure (the majority of which is to support AWS business growth) and in additional capacity to support our fulfillment network, both of which we expect to increase in 2026."
+    },
+    {
+     "figure": "operating_cash_flow_usd (FY2025)",
+     "value": "$139,514M",
+     "source_uri": "data/edgar_acquisition/documents/0001018724/000101872426000004/amzn-20251231.htm",
+     "quote": "Net cash provided by (used in) operating activities $115,877 $139,514 ... Purchases of property and equipment, net of proceeds from sales and incentives (77,658) (128,320) ... Free cash flow $38,219 $11,194"
+    },
+    {
+     "figure": "cash_and_investments_usd (Dec 31, 2025)",
+     "value": "$123,029M (cash & equiv $86,810M + marketable securities $36,219M)",
+     "source_uri": "data/edgar_acquisition/documents/0001018724/000101872426000004/amzn-20251231.htm",
+     "quote": "Cash and cash equivalents $78,779 $86,810 Marketable securities 22,423 36,219"
+    },
+    {
+     "figure": "total_debt_usd (face value, Dec 31, 2025, incl. current portion)",
+     "value": "$68,836M face value; long-term debt on B/S $65,648M; current portion $2,748M",
+     "source_uri": "data/edgar_acquisition/documents/0001018724/000101872426000004/amzn-20251231.htm",
+     "quote": "Total face value of long-term debt 58,000 68,836 ... Less: current portion of long-term debt (5,017) (2,748) Long-term debt $52,623 $65,648 ... As of December 31, 2025, we had $68.0 billion of unsecured senior notes outstanding (the \u201cNotes\u201d), including $15.0 billion issued in November 2025"
+    },
+    {
+     "figure": "ai_related_debt_or_financing_usd (~$53.8B new senior notes, March 2026)",
+     "value": "face value debt $68,836M (Dec-2025) -> $122,632M (Mar-2026); +$53,796M",
+     "source_uri": "data/edgar_acquisition/documents/0001018724/000101872426000014/amzn-20260331.htm",
+     "quote": "As of March 31, 2026, we had $121.8 billion of unsecured senior notes outstanding (the \u201cNotes\u201d), including \u20ac14.5 billion ($16.8 billion) and $37.0 billion issued in March 2026 for general corporate purposes. ... Total face value of long-term debt 68,836 122,632"
+    },
+    {
+     "figure": "finance leases & build-to-suit/SPV financing obligations (datacenter)",
+     "value": "Finance lease PV ~$12,286M (2025); financing obligations ~$8.1B (data center & fulfillment); P&E acquired under finance leases $2.9B in 2025",
+     "source_uri": "data/edgar_acquisition/documents/0001018724/000101872426000004/amzn-20251231.htm",
+     "quote": "Property and equipment acquired under finance leases was $854 million and $2.9 billion in 2024 and 2025. ... Includes non-cancellable financing obligations for fulfillment network and data center facilities ... current financing obligations of $312 million and $358 million ... and $7.1 billion and $7.8 billion are recorded within \u201cOther long-term liabilities\u201d"
+    },
+    {
+     "figure": "capex_guidance_next_period_usd (TTM net capex ended Mar 31, 2026; FCF collapse)",
+     "value": "net capex $147,299M; OCF $148,531M; FCF $1,232M (vs $25,925M prior yr); Q1 2026 cash capex $43.2B",
+     "source_uri": "data/edgar_acquisition/documents/0001018724/000101872426000014/amzn-20260331.htm",
+     "quote": "Twelve Months Ended March 31, 2025 2026 Net cash provided by (used in) operating activities $113,903 $148,531 Purchases of property and equipment, net of proceeds from sales and incentives (87,978) (147,299) Free cash flow $25,925 $1,232 ... Cash capital expenditures were $24.3 billion and $43.2 billion during Q1 2025 and Q1 2026 ... both of which we expect to increase in 2026."
+    },
+    {
+     "figure": "AWS-OpenAI commercial commitment (revenue TO Amazon, not Amazon's neocloud spend)",
+     "value": "$38.0B existing + $100.0B expansion over 8 years",
+     "source_uri": "data/edgar_acquisition/documents/0001018724/000101872426000014/amzn-20260331.htm",
+     "quote": "In Q1 2026, AWS and OpenAI Group PBC (\u201cOpenAI\u201d) announced an expansion of the existing $38.0 billion multi-year commitment and commercial arrangement with OpenAI by $100.0 billion over 8.0 years, which includes contractual obligations related to the performance of AWS chips."
+    },
+    {
+     "figure": "OpenAI equity investment + commitment (Q1 2026)",
+     "value": "$15.0B invested + $35.0B equity commitment through Dec 31, 2028; funded with cash on hand",
+     "source_uri": "data/edgar_acquisition/documents/0001018724/000101872426000014/amzn-20260331.htm",
+     "quote": "In Q1 2026, we invested $15.0 billion in OpenAI\u2019s Series C Preferred Stock and entered into an equity commitment letter agreement to purchase an additional $35.0 billion of OpenAI\u2019s Series C Preferred Stock, subject to certain conditions. We expect to fund this investment with cash on hand."
+    },
+    {
+     "figure": "Anthropic investment (AI partner)",
+     "value": "convertible notes fair value ~$45.8B + nonvoting preferred ~$14.8B (Dec 31, 2025)",
+     "source_uri": "data/edgar_acquisition/documents/0001018724/000101872426000004/amzn-20251231.htm",
+     "quote": "As of December 31, 2025, the amount recorded on our consolidated balance sheet for nonvoting preferred stock was approximately $14.8 billion. As of December 31, 2025, the estimated fair value of our convertible notes recorded on our consolidated balance sheet was approximately $45.8 billion ... We also have a commercial arrangement primarily for the provision of AWS cloud services, which includes the use of AWS chips."
+    },
+    {
+     "figure": "cash & investments (Mar 31, 2026)",
+     "value": "$143,089M (cash & equiv $101,816M + marketable securities $41,273M)",
+     "source_uri": "data/edgar_acquisition/documents/0001018724/000101872426000014/amzn-20260331.htm",
+     "quote": "Cash and cash equivalents $86,810 $101,816 Marketable securities 36,219 41,273 ... Long-term debt 65,648 119,074"
+    },
+    {
+     "figure": "useful-life change signaling AI hardware intensity",
+     "value": "servers/networking life cut 6->5 years effective Jan 1 2025; +$1.4B D&A, -$1.0B net income, primarily AWS",
+     "source_uri": "data/edgar_acquisition/documents/0001018724/000101872426000004/amzn-20251231.htm",
+     "quote": "Effective January 1, 2025 we changed our estimate of the useful lives of a subset of our servers and networking equipment from six years to five years. The shorter useful lives are due to the increased pace of technology development, particularly in the area of artificial intelligence and machine learning."
+    }
+   ],
+   "unfound": [
+    "Discrete AI/data-center-only capex dollar figure (Amazon does not break out AI/datacenter capex separately; it discloses only aggregate 'technology infrastructure' capex, 'the majority of which is to support AWS business growth' -- ai_datacenter_capex_usd left null)",
+    "Explicit full-year FY2026 capex guidance number (Amazon gives only qualitative 'expect to increase in 2026' plus Q1 2026 cash capex of $43.2B; no point FY2026 dollar guidance disclosed in filings)",
+    "Amazon-as-customer compute purchase/lease commitments to neoclouds (CoreWeave, Nebius, Crusoe, Lambda, etc.) -- NONE disclosed; Amazon is a hyperscaler/supplier, not a neocloud customer; compute_purchase_commitments_usd left null (the $38B+$100B OpenAI arrangement is revenue TO AWS, captured in sources, not Amazon's spend)",
+    "Standalone AWS-segment capex and AWS-segment OCF (segment note discloses operating income and net P&E additions allocated to AWS but not a clean AWS-only capex/OCF split)"
+   ]
+  },
+  "verdict": {
+   "entity": "Amazon.com, Inc. / AWS (AMZN)",
+   "overall": "source_backed",
+   "funding_source_confirmed": true,
+   "note": "All cited figures independently verified against both filings in-repo (10-K amzn-20251231.htm; 10-Q amzn-20260331.htm). FY2025 self-funding confirmed: OCF $139,514M minus net capex $128,320M = FCF +$11,194M (matches filing reconciliation exactly), and cash+investments $123,029M ($86,810M cash + $36,219M securities) vs face-value debt $68,836M = net cash positive (+$54.2B). So FY2025 cash flow DOES cover capex; no debt needed. The 'mixed' classification rests on the disclosed post-period inflection: TTM ended Mar-31-2026 OCF $148,531M minus net capex $147,299M = FCF +$1,232M (down from $25,925M a year prior) -- capex now consumes ~99% of OCF -- concurrent with a ~$53.8B March-2026 senior-note raise (EUR 14.5B/$16.8B + $37.0B), which reconciles exactly to the total-face-value debt jump $68,836M -> $122,632M (+$53,796M). funding_source 'mixed_cash_and_debt' is source-backed and the funding_note transparently flags the period mismatch (total_debt is FY2025; ai_related_debt is the Mar-2026 raise). Arithmetic, units, and periods all clean. CAVEAT (not disqualifying): the filing labels the $53.8B notes 'for general corporate purposes,' NOT explicitly AI/datacenter -- so the 'ai_related_debt_or_financing' label is a defensible inference (debt raise coinciding with capex acceleration), not a direct filing attribution; the note appropriately hedges this as 'marginal funding...has shifted toward debt.' Direction also correctly noted: Amazon is a SUPPLIER, not a neocloud demand-side customer -- the $38.0B + $100.0B/8yr OpenAI commitment is revenue TO AWS, correctly excluded from Amazon's spend and not double-counted as demand. ai_datacenter_capex_usd and compute_purchase_commitments_usd correctly left null (not separately disclosed / not applicable). Confidence 0.25 cap respected.",
+   "corrections": [
+    "Minor: the $53.8B March-2026 senior notes are disclosed in the 10-Q as 'for general corporate purposes,' not explicitly earmarked for AI/datacenter capex; the 'ai_related_debt_or_financing_usd' label is an analyst inference from timing, not a direct filing attribution. The funding_note hedges this appropriately but the field name overstates the filing's specificity.",
+    "Minor presentation: total_debt_usd ($68,836M) is FY2025 face value while ai_related_debt_or_financing_usd is a Q1-2026 figure -- a period mismatch within one record; transparently disclosed in funding_note but worth flagging as a mixed-period composite."
+   ]
+  }
+ },
+ {
+  "data": {
+   "entity": "Meta Platforms, Inc. (META)",
+   "period": "FY2025 (year ended Dec 31, 2025) 10-K; updated with Q1 2026 (three months ended Mar 31, 2026) 10-Q",
+   "total_capex_usd": 72220000000,
+   "ai_datacenter_capex_usd": null,
+   "capex_guidance_next_period_usd": 135000000000,
+   "operating_cash_flow_usd": 115800000000,
+   "cash_and_investments_usd": 81590000000,
+   "total_debt_usd": 58744000000,
+   "ai_related_debt_or_financing_usd": 45990000000,
+   "compute_purchase_commitments_usd": 131050000000,
+   "funding_source": "predominantly_operating_cash_flow",
+   "funding_note": "Meta's AI/data-center capex is overwhelmingly self-funded from operating cash flow, NOT leverage. FY2025: $115.80B operating cash flow vs $72.22B total capex (incl. $69.69B PP&E + $2.52B finance-lease principal) \u2014 OCF covers capex 1.6x and still leaves $43.6B free cash flow after a record capex year. Cash/investments $81.59B vs only $58.74B long-term debt ($59.0B principal senior unsecured notes), net cash positive. HOWEVER, the funding mix is shifting toward financing at the margin and increasingly off-balance-sheet: (1) Meta issued $30B ($29.91B net) of fixed-rate senior unsecured notes in Nov 2025 \u2014 its first major debt raise \u2014 explicitly to fund the AI/infrastructure buildout, roughly doubling long-term debt from $28.83B (2024) to $58.74B (2025). (2) The Louisiana 'Hyperion' co-development JV (entered Oct 2025, 20% equity stake, ~$27B total development cost) is an UNCONSOLIDATED VIE \u2014 off-balance-sheet build-to-suit/SPV data-center financing. Meta's maximum exposure to loss is $45.99B as of Q1 2026 (equity + ~$12.31B lease commitments + future funding + ~$28B residual value guarantee), with leases commencing 2029. This is the structure that keeps the financed buildout off Meta's balance sheet. (3) 2026 capex guidance was raised from $115-135B (10-K) to $125-145B (Q1 2026 10-Q) 'to support our AI efforts'; non-cancelable contractual commitments (mostly third-party cloud capacity + servers/data centers) rose from $131.05B (FY2025) to $237.67B (Q1 2026), plus undisclosed multi-year deals adding ~$24B in April 2026 and an additional $14.72B contingent cloud-capacity obligation. Lease obligations not yet commenced jumped from $103.77B to $182.88B. Verdict for the demand-side bear/bubble case: Meta is the rational/self-funding end of the spectrum \u2014 OCF more than covers cash capex and it remains net-cash \u2014 but it is layering on debt and off-balance-sheet JV/VIE financing and escalating multi-hundred-billion compute/cloud commitments, so the leverage and contingent-obligation profile is rising even though the base case is operating-cash-funded.",
+   "sources": [
+    {
+     "figure": "total_capex_usd",
+     "value": "$72.22B (FY2025)",
+     "source_uri": "/Users/ted/Documents/dev-archive/bubble/data/edgar_acquisition/documents/0001326801/000162828026003942/meta-20251231.htm",
+     "quote": "$72.22 billion of capital expenditures, which includes purchases of property and equipment and principal payments on finance leases"
+    },
+    {
+     "figure": "capex components",
+     "value": "PP&E $69,691M + finance-lease principal $2,524M (FY2025)",
+     "source_uri": "/Users/ted/Documents/dev-archive/bubble/data/edgar_acquisition/documents/0001326801/000162828026003942/meta-20251231.htm",
+     "quote": "Purchases of property and equipment (69,691) (37,256) (27,045) Principal payments on finance leases (2,524) (1,969) (1,058) Free cash flow $ 43,585"
+    },
+    {
+     "figure": "capex_guidance_next_period_usd",
+     "value": "$115B-$135B (10-K) raised to $125B-$145B (Q1 2026 10-Q) for 2026",
+     "source_uri": "/Users/ted/Documents/dev-archive/bubble/data/edgar_acquisition/documents/0001326801/000162828026028526/meta-20260331.htm",
+     "quote": "We anticipate making capital expenditures of approximately $125 billion to $145 billion in 2026 to support our AI efforts and core business."
+    },
+    {
+     "figure": "operating_cash_flow_usd",
+     "value": "$115.80B (FY2025); $32.23B (Q1 2026)",
+     "source_uri": "/Users/ted/Documents/dev-archive/bubble/data/edgar_acquisition/documents/0001326801/000162828026003942/meta-20251231.htm",
+     "quote": "Net cash provided by operating activities $ 115,800 $ 91,328 $ 71,113"
+    },
+    {
+     "figure": "cash_and_investments_usd",
+     "value": "$81.59B (Dec 31, 2025); $81.18B (Mar 31, 2026)",
+     "source_uri": "/Users/ted/Documents/dev-archive/bubble/data/edgar_acquisition/documents/0001326801/000162828026003942/meta-20251231.htm",
+     "quote": "Cash, cash equivalents, and marketable securities were $81.59 billion as of December 31, 2025"
+    },
+    {
+     "figure": "total_debt_usd",
+     "value": "$58.74B carrying / $59.0B principal senior unsecured notes (Dec 31, 2025), up from $28.83B (2024)",
+     "source_uri": "/Users/ted/Documents/dev-archive/bubble/data/edgar_acquisition/documents/0001326801/000162828026003942/meta-20251231.htm",
+     "quote": "we had outstanding long-term debt in the form of senior unsecured notes for an aggregate principal amount of $59.0 billion, which mature from 2027 through 2064 ... Long-term debt 58,744 28,826"
+    },
+    {
+     "figure": "ai_related_debt_or_financing_usd",
+     "value": "$29.91B net Nov 2025 note issuance for AI/infra; plus off-balance-sheet Hyperion JV/VIE max loss $45.99B",
+     "source_uri": "/Users/ted/Documents/dev-archive/bubble/data/edgar_acquisition/documents/0001326801/000162828026003942/meta-20251231.htm",
+     "quote": "$29.91 billion of net proceeds from the issuance of fixed-rate senior unsecured notes (the Notes) in November 2025"
+    },
+    {
+     "figure": "Hyperion JV / off-balance-sheet VIE financing",
+     "value": "Louisiana data-center JV, 20% interest, ~$27B dev cost, max exposure $45.99B (Q1 2026)",
+     "source_uri": "/Users/ted/Documents/dev-archive/bubble/data/edgar_acquisition/documents/0001326801/000162828026028526/meta-20260331.htm",
+     "quote": "an arrangement, entered into in October 2025, to co-develop a data center campus in Louisiana (the Venture), in which we hold a 20% membership interest ... committed to fund their respective pro rata share of approximately $27 billion ... we have provided residual value guarantees (RVG) with an aggregate threshold of approximately $28 billion ... we are not the primary beneficiary and, therefore, do not consolidate the variable interest entity (VIE) ... our maximum exposure to loss related to the Venture was $45.99 billion"
+    },
+    {
+     "figure": "compute_purchase_commitments_usd",
+     "value": "$131.05B non-cancelable commitments (FY2025) rising to $237.67B (Q1 2026), mostly third-party cloud capacity + servers/data centers; +~$24B April 2026; +$14.72B contingent cloud capacity",
+     "source_uri": "/Users/ted/Documents/dev-archive/bubble/data/edgar_acquisition/documents/0001326801/000162828026028526/meta-20260331.htm",
+     "quote": "we had $237.67 billion of non-cancelable contractual commitments ... mostly related to third-party cloud capacity arrangements and continued investments in servers and network infrastructure, data centers ... In April 2026, we entered into additional multi-year infrastructure contracts, related to which our non-cancelable contractual commitments increased by approximately $24 billion ... contingent obligations to purchase up to $14.72 billion of cloud capacity over a five-year period"
+    },
+    {
+     "figure": "leases not yet commenced",
+     "value": "$103.77B (FY2025) -> $182.88B (Q1 2026), mostly data centers/colocations",
+     "source_uri": "/Users/ted/Documents/dev-archive/bubble/data/edgar_acquisition/documents/0001326801/000162828026028526/meta-20260331.htm",
+     "quote": "These lease obligations were approximately $182.88 billion, consisting of data centers, colocations, and certain network infrastructure"
+    },
+    {
+     "figure": "finance lease ROU assets / construction in progress",
+     "value": "Finance lease ROU $8.19B; CIP $50.52B (Dec 31, 2025) -> $61.02B (Mar 31, 2026)",
+     "source_uri": "/Users/ted/Documents/dev-archive/bubble/data/edgar_acquisition/documents/0001326801/000162828026003942/meta-20251231.htm",
+     "quote": "Finance lease right-of-use assets 8,187 5,384 ... Construction in progress 50,521 26,802 ... Property and equipment, net $ 176,400"
+    }
+   ],
+   "unfound": [
+    "AI/data-center-specific capex broken out separately from total capex (Meta does not disaggregate; capex is reported as a single consolidated line covering AI, core business, and Reality Labs)",
+    "CoreWeave / neocloud-specific compute commitments by name (Meta's 10-K and Q1 2026 10-Q do NOT name CoreWeave or any neocloud; commitments are disclosed only as aggregate 'third-party cloud capacity arrangements' of $237.67B and a $14.72B contingent cloud-capacity obligation, with no counterparty named)",
+    "Exact AI-attributable portion of the $131B/$237.67B contractual commitments (not disaggregated by AI vs core)"
+   ],
+   "confidence": 0.25
+  },
+  "verdict": {
+   "entity": "Meta Platforms, Inc. (META)",
+   "overall": "source_backed",
+   "funding_source_confirmed": true,
+   "corrections": [
+    "funding_note overstates the use-of-proceeds for the Nov 2025 $30B senior notes by saying they were issued 'explicitly to fund the AI/infrastructure buildout.' The FY2025 10-K does not state an AI-specific use of proceeds for the Notes; it only states generally that operating cash flow plus financing-activity proceeds will be sufficient to 'fund our cash commitments... including investments in infrastructure and AI initiatives.' The AI-purpose attribution is a reasonable directional inference but is not an explicit filing statement and should be softened from 'explicitly' to 'to support the infrastructure/AI buildout (per the liquidity discussion).'"
+   ],
+   "note": "Adversarial verification against both cited filings (FY2025 10-K meta-20251231.htm and Q1 2026 10-Q meta-20260331.htm). Every quantitative figure reconciles exactly with the filings and no unit/period errors found. Capex vs cash flow: FY2025 OCF $115,800M covers total capex $72,220M (PP&E $69,691M + finance-lease principal $2,524M) at 1.6x, leaving $43,585M FCF (exact: 115,800-69,691-2,524=43,585). Meta is net-cash positive: cash/investments $81.59B vs long-term debt $58.74B carrying ($59.0B face; reconciles as 59,000 - 256 discount/issuance = 58,744). Debt roughly doubled from $28,826M (2024) via the Nov 2025 $30.0B six-series senior unsecured note issuance ($29.91B net proceeds) \u2014 confirmed. Cash flow CLEARLY covers cash capex; debt was NOT needed to fund FY2025 capex, supporting funding_source 'predominantly_operating_cash_flow.' Confirmed funding_source_confirmed=true: classification is independently supported by the cited 10-K (OCF>capex, net-cash). The bear-case nuance is also filing-backed: (1) first major debt raise doubling leverage; (2) Louisiana Hyperion JV is an UNCONSOLIDATED VIE (Meta not primary beneficiary), 20% interest, ~$27B pro rata dev cost, ~$28B RVG threshold, max exposure-to-loss $45.99B at Q1 2026 (=equity carrying value + $12.31B lease commitments + future funding + max RVG) \u2014 genuine off-balance-sheet/contingent financing; (3) 2026 guidance raised $115-135B to $125-145B 'to support our AI efforts'; non-cancelable commitments $131.05B->$237.67B (mostly third-party cloud + servers/data centers), +$24B (Apr 2026), +$14.72B contingent cloud; leases not yet commenced $103.77B->$182.88B; CIP $50.52B->$61.02B. Correctly flagged as unfound: no AI/data-center-specific capex breakout (single consolidated capex line), no named neocloud/CoreWeave counterparty, no AI-vs-core disaggregation of commitments. One overstatement: the Nov 2025 notes' AI-specific use of proceeds is inferred, not explicitly stated in the 10-K (see corrections). confidence 0.25 cap is appropriate."
+  }
+ },
+ {
+  "data": {
+   "entity": "Oracle Corporation (ORCL)",
+   "period": "Q3 FY2026 10-Q (nine months ended Feb 28, 2026); FY2025 10-K (year ended May 31, 2025)",
+   "funding_source": "predominantly_debt_or_financing",
+   "total_capex_usd": 21215000000,
+   "ai_datacenter_capex_usd": null,
+   "capex_guidance_next_period_usd": null,
+   "operating_cash_flow_usd": 17357000000,
+   "cash_and_investments_usd": 39132000000,
+   "total_debt_usd": 134605000000,
+   "ai_related_debt_or_financing_usd": 42700000000,
+   "compute_purchase_commitments_usd": null,
+   "funding_note": "Funding source is unambiguously debt/financing-led, NOT self-funding operating cash flow. In FY2025 capex ($21.2B) was roughly covered by OCF ($20.8B), but the AI-driven buildout inverted this in FY2026: nine-month FY26 capex of $39.2B (up from $12.1B PY, +$27.0B) is more than 2x the $17.4B of nine-month operating cash flow. The capex gap was filled with $43.0B par senior notes issued in 9mo FY26 (~$42.7B net proceeds), $5.0B Mandatory Convertible Preferred Stock, ~$4.5B net commercial paper/short-term financing, and $4.3B Ampere divestiture proceeds. Total debt rose from $92.6B (May 2025) to $134.6B (Feb 2026). Oracle does NOT disclose AI/data-center-specific capex (reports total capex only, attributing the increase to 'expansion of our data centers'); the $42.7B net senior-notes figure is a proxy for AI/datacenter financing since proceeds are 'general corporate purposes... may include capital expenditures' and capex is the dominant use. The most striking demand-side disclosure is OFF-balance-sheet: $261B of additional lease commitments (vs only $43.4B at FYE 2025), 'substantially all related to data center arrangements,' commencing Q4 FY26-FY28 for 15-19 year terms, including a $2.2B guarantee of a lessor's borrowing (build-to-suit / SPV-style datacenter financing); plus $11B unconditional purchase obligations 'primarily related to data center power.' Finance-lease liabilities (data centers) more than doubled to $6.25B. RPO exploded to $552.6B (from $130.2B YoY), driven by 'certain significant cloud contracts' -- this contracted backlog is the demand that underwrites the leveraged buildout. Oracle is itself the financed compute PROVIDER (e.g., OpenAI/Stargate per public reporting), not a buyer from neoclouds; it names no neocloud (CoreWeave/OpenAI/Stargate) counterparties in these SEC filings, so compute_purchase_commitments to neoclouds is unfound. Crux of bear case: a >2x capex/OCF gap funded by ~$43B of new senior notes + preferred + $261B of long-dated off-balance-sheet datacenter leases = a highly leveraged, customer-concentration-exposed buildout, not rational self-funding growth.",
+   "confidence": 0.25,
+   "sources": [
+    {
+     "figure": "total_capex_usd (FY2025 full year)",
+     "value": "$21,215 million",
+     "source_uri": "data/edgar_acquisition/documents/0001341439/000095017025087926/orcl-20250531.htm",
+     "quote": "Capital expenditures (21,215) 209% (6,866)"
+    },
+    {
+     "figure": "capex_9mo_FY2026",
+     "value": "$39,170 million",
+     "source_uri": "data/edgar_acquisition/documents/0001341439/000119312526101045/orcl-20260228.htm",
+     "quote": "Capital expenditures ( 39,170 ) ( 12,135 ) ... Cash used for capital expenditures increased from $12.1 billion in the first nine months of fiscal 2025 to $39.2 billion in the first nine months of fiscal 2026 primarily due to the expansion of our data centers. We expect this upward trend to continue throughout the remainder of fiscal 2026 and in the next few fiscal years"
+    },
+    {
+     "figure": "operating_cash_flow_usd (9mo FY2026)",
+     "value": "$17,357 million",
+     "source_uri": "data/edgar_acquisition/documents/0001341439/000119312526101045/orcl-20260228.htm",
+     "quote": "Net cash provided by operating activities 17,357"
+    },
+    {
+     "figure": "operating_cash_flow (FY2025 full year, context)",
+     "value": "$20,821 million",
+     "source_uri": "data/edgar_acquisition/documents/0001341439/000095017025087926/orcl-20250531.htm",
+     "quote": "Net cash provided by operating activities $ 20,821"
+    },
+    {
+     "figure": "cash_and_investments_usd (Feb 28, 2026)",
+     "value": "$39,132 million ($38,455M cash + $677M marketable securities)",
+     "source_uri": "data/edgar_acquisition/documents/0001341439/000119312526101045/orcl-20260228.htm",
+     "quote": "Cash and cash equivalents $ 38,455 ... Marketable securities 677"
+    },
+    {
+     "figure": "total_debt_usd (Feb 28, 2026)",
+     "value": "$134,605 million ($9,887M current + $124,718M non-current notes payable)",
+     "source_uri": "data/edgar_acquisition/documents/0001341439/000119312526101045/orcl-20260228.htm",
+     "quote": "Notes payable and other borrowings, current $ 9,887 ... Notes payable and other borrowings, non-current 124,718"
+    },
+    {
+     "figure": "ai_related_debt_or_financing_usd (senior notes net proceeds 9mo FY26)",
+     "value": "$42.7 billion net ($43.0B par)",
+     "source_uri": "data/edgar_acquisition/documents/0001341439/000119312526101045/orcl-20260228.htm",
+     "quote": "proceeds from the issuance of senior notes in September 2025 and February 2026, net of issuance costs, of $42.7 billion ... In the first nine months of fiscal 2026, we issued a total of $ 43.0 billion par value of senior notes ... We issued the Mandatory Convertible Preferred Stock and the senior notes for general corporate purposes, which may include capital expenditures"
+    },
+    {
+     "figure": "Mandatory Convertible Preferred Stock",
+     "value": "$5.0 billion net",
+     "source_uri": "data/edgar_acquisition/documents/0001341439/000119312526101045/orcl-20260228.htm",
+     "quote": "On February 5, 2026, we issued 100,000,000 depositary shares, representing 50,000 shares of our 6.50 % Series D Mandatory Convertible Preferred Stock ... $5.0 billion of cash proceeds from the issuance of Mandatory Convertible Preferred Stock, net of issuance costs"
+    },
+    {
+     "figure": "off-balance-sheet datacenter lease commitments",
+     "value": "$261 billion",
+     "source_uri": "data/edgar_acquisition/documents/0001341439/000119312526101045/orcl-20260228.htm",
+     "quote": "As of February 28, 2026 , we had $ 261 billion of additional lease commitments, substantially all related to data center arrangements, that are generally expected to commence between the fourth quarter of fiscal 2026 and fiscal 2028 and for terms of fifteen to nineteen years that were not reflected on our condensed consolidated balance sheets ... These additional lease commitments include a lease for which we have guaranteed up to $ 2.2 billion of the lessor's borrowing"
+    },
+    {
+     "figure": "off-balance-sheet datacenter lease commitments (FY2025 baseline)",
+     "value": "$43.4 billion",
+     "source_uri": "data/edgar_acquisition/documents/0001341439/000095017025087926/orcl-20250531.htm",
+     "quote": "As of May 31, 2025, we have $ 43.4 billion of additional lease commitments, primarily for data centers, that are generally expected to commence between fiscal 2026 and fiscal 2028 and for terms of ten to sixteen years"
+    },
+    {
+     "figure": "finance lease liabilities (data centers)",
+     "value": "$6,250 million (Feb 2026) vs $2,934M (May 2025)",
+     "source_uri": "data/edgar_acquisition/documents/0001341439/000119312526101045/orcl-20260228.htm",
+     "quote": "We have operating and finance leases that primarily relate to our data centers and real estate facilities ... Total finance lease liabilities $ 6,250 ... Finance lease liabilities, current $ 539 ... Finance lease liabilities, non-current 5,711"
+    },
+    {
+     "figure": "unconditional purchase obligations (data center power)",
+     "value": "$11 billion",
+     "source_uri": "data/edgar_acquisition/documents/0001341439/000119312526101045/orcl-20260228.htm",
+     "quote": "As of February 28, 2026 , our unconditional purchase and certain other obligations, which were primarily related to data center power arrangements, were $ 11 billion."
+    },
+    {
+     "figure": "remaining performance obligations (RPO, demand backlog)",
+     "value": "$552.6 billion (Feb 2026) vs $130.2 billion (Feb 2025)",
+     "source_uri": "data/edgar_acquisition/documents/0001341439/000119312526101045/orcl-20260228.htm",
+     "quote": "Remaining performance obligations were $ 552.6 billion as of February 28, 2026 ... Remaining performance obligations were $552.6 billion and $130.2 billion as of February 28, 2026 and 2025, respectively. The increase ... was primarily attributable to certain significant cloud contracts that were entered into during the period."
+    }
+   ],
+   "unfound": [
+    "AI/data-center-specific capex breakout -- Oracle reports total capital expenditures only, attributing the FY26 increase to 'expansion of our data centers' but providing no AI-vs-non-AI split",
+    "Explicit numeric next-period (Q4 FY2026 / FY2027) capex guidance -- Oracle states only qualitatively that 'we expect this upward trend to continue throughout the remainder of fiscal 2026 and in the next few fiscal years'",
+    "Compute purchase/lease commitments TO neoclouds (CoreWeave et al.) -- not applicable/not disclosed: Oracle is the compute PROVIDER, not a neocloud customer; no take-or-pay to neoclouds in its filings",
+    "OpenAI / Stargate / CoreWeave named counterparties -- not named anywhere in Oracle's 10-K or Q3 FY2026 10-Q (the large RPO/lease counterparties are referenced only as 'certain significant cloud contracts'); for OpenAI as a private entity, any commitments would need to be sourced from OpenAI counterparties' own filings, not Oracle's",
+    "Discrete SPV/build-to-suit datacenter financing amounts -- only partially disclosed: a single $2.2 billion lessor-borrowing guarantee is named within the $261B lease-commitment block; no standalone SPV financing schedule"
+   ]
+  },
+  "verdict": {
+   "entity": "Oracle Corporation (ORCL)",
+   "overall": "source_backed",
+   "funding_source_confirmed": true,
+   "note": "Adversarially verified every figure against the two cited filings; all material structured numbers tie out exactly. Q3 FY2026 10-Q (orcl-20260228.htm): 9mo capex $39,170M; OCF $17,357M; cash+investments $38,455M+$677M=$39,132M; total debt $9,887M current + $124,718M non-current = $134,605M; senior notes $42,749M net / $43.0B par par-value $43,000M; MCP $5.0B; off-balance-sheet leases $261B incl. $2.2B lessor-borrowing guarantee; finance lease liabilities $6,250M (vs $2,934M); $11B unconditional purchase obligations (data center power); RPO $552.6B vs $130.2B. FY2025 10-K (orcl-20250531.htm): capex $21,215M; OCF $20,821M; lease baseline $43.4B; total notes payable $92,568M (7,271+85,297). funding_source classification 'predominantly_debt_or_financing' is INDEPENDENTLY SUPPORTED: 9mo FY26 capex ($39.2B) is ~2.25x OCF ($17.4B), and the filing's own liquidity discussion attributes the cash build to $42.7B net senior notes + $5.0B preferred + commercial paper + Ampere proceeds \u2014 debt/financing-led, not self-funding. CAPEX/OCF check: cash flow does NOT cover capex (capex > 2x OCF); debt/financing required \u2014 confirmed. No unit/period errors found; all amounts USD millions/billions as labeled, periods (9mo Feb 28 2026 vs FY May 31 2025) correctly distinguished. CAVEAT on the senior-notes-as-AI-capex proxy: the $42.7B is labeled by Oracle as 'general corporate purposes, which may include capital expenditures, repayment of indebtedness...' \u2014 it is NOT an explicit AI/datacenter financing earmark, so ai_related_debt_or_financing_usd=$42.7B is a reasonable but inferential proxy, not a directly-stated AI figure; the note correctly flags this. Oracle is the financed compute PROVIDER (no neocloud counterparties named; compute_purchase_commitments correctly unfound). The unfound items (AI-vs-non-AI capex split, numeric next-period guidance, named OpenAI/Stargate/CoreWeave counterparties) are accurately characterized as not disclosed in these filings.",
+   "corrections": [
+    "Minor narrative discrepancy (not in structured figures): funding_note says '~$4.5B net commercial paper/short-term financing' but the 10-Q states '$4.1 billion of cash inflows from commercial paper and other short-term financing, net.' Use $4.1B."
+   ]
+  }
+ },
+ {
+  "data": {
+   "entity": "NVIDIA Corporation (NVDA)",
+   "period": "FY2026 (fiscal year ended January 25, 2026), per 10-K filed ~Feb 2026",
+   "funding_source": "predominantly_operating_cash_flow",
+   "total_capex_usd": 6042000000,
+   "ai_datacenter_capex_usd": null,
+   "capex_guidance_next_period_usd": null,
+   "operating_cash_flow_usd": 102718000000,
+   "cash_and_investments_usd": 62556000000,
+   "total_debt_usd": 8468000000,
+   "ai_related_debt_or_financing_usd": 0,
+   "compute_purchase_commitments_usd": 27000000000,
+   "funding_note": "NVIDIA is the SUPPLY side of the AI/data-center trade, not a demand-side buildout entity, so classic \"demand-side capex funded by debt\" framing largely does not apply. Its own capex is tiny relative to scale: FY2026 cash purchases of property, equipment and intangible assets were just $6.0B against $102.7B of operating cash flow (capex is ~6% of OCF). NVDA is fabless; it has no large self-built data-center PP&E program. Funding is overwhelmingly operating cash flow: it ended FY2026 with $62.6B cash+marketable securities and only $8.5B of fixed-rate senior Notes (net carrying $8,468M, of which $999M short-term); commercial paper program was expanded in Jan 2026 from $575M to $25.0B but ZERO was outstanding. Finance leases are immaterial (combined leasehold-improvement + finance-lease accumulated amortization only $519M). There is NO AI/data-center-specific debt, no build-to-suit/SPV data-center financing, and no finance-lease-funded compute. Critically for the bubble thesis, NVDA discloses it has 'been asked to offer financing arrangements to support our customers' and partners' buildout of datacenter infrastructure' but states flatly: 'We have not entered into any financing arrangements' (i.e., it is NOT, as of this 10-K, vendor-financing the neoclouds on-balance-sheet). On the commitment side, the figures that matter are: (a) $95.2B of manufacturing/supply/capacity purchase commitments (to TSMC etc., demand-side supply chain, substantially all payable through FY2027); (b) $27B of multi-year cloud service agreement commitments \u2014 this is NVDA itself buying back compute capacity from CSPs/neoclouds (e.g. CoreWeave-type capacity, for R&D), payable $7B/$6B/$5B/$5B/$2B/$2B across FY2027-FY2032+; this is the take-or-pay leg where NVDA's own cash flow underwrites a financed neocloud's revenue; (c) $11.4B investment commitments and $3.4B other. CoreWeave is not named in NVDA's own 10-K (counterparties not disclosed by name). Bottom line: on its own books NVDA's AI capex is rational, trivially self-funded from operating cash flow with negligible leverage; the leverage/bubble risk sits with its customers/neoclouds, to whom NVDA is exposed via $27B+ of multi-year cloud commitments and supply-chain take-or-pay, not via its own financing.",
+   "sources": [
+    {
+     "figure": "operating_cash_flow_usd",
+     "value": "$102,718M",
+     "source_uri": "file:///Users/ted/Documents/dev-archive/bubble/data/edgar_acquisition/documents/0001045810/000104581026000021/nvda-20260125.htm",
+     "quote": "Year Ended Jan 25, 2026 ... Net cash provided by operating activities $ 102,718 $ 64,089"
+    },
+    {
+     "figure": "total_capex_usd",
+     "value": "$6,042M",
+     "source_uri": "file:///Users/ted/Documents/dev-archive/bubble/data/edgar_acquisition/documents/0001045810/000104581026000021/nvda-20260125.htm",
+     "quote": "Purchases related to property and equipment and intangible assets ( 6,042 ) ( 3,236 ) ( 1,069 )"
+    },
+    {
+     "figure": "cash_and_investments_usd",
+     "value": "$62,556M",
+     "source_uri": "file:///Users/ted/Documents/dev-archive/bubble/data/edgar_acquisition/documents/0001045810/000104581026000021/nvda-20260125.htm",
+     "quote": "Cash and cash equivalents $ 10,605 $ 8,589 Marketable securities 51,951 34,621 Cash, cash equivalents, and marketable securities $ 62,556 $ 43,210"
+    },
+    {
+     "figure": "total_debt_usd",
+     "value": "$8.5B senior Notes (net carrying $8,468M)",
+     "source_uri": "file:///Users/ted/Documents/dev-archive/bubble/data/edgar_acquisition/documents/0001045810/000104581026000021/nvda-20260125.htm",
+     "quote": "Net carrying amount 8,468 8,463 Less short-term portion ( 999 ) - Total long-term portion $ 7,469 $ 8,463 ... As of the end of fiscal year 2026, we had $8.5 billion of senior Notes outstanding."
+    },
+    {
+     "figure": "commercial_paper",
+     "value": "$25.0B program, $0 outstanding",
+     "source_uri": "file:///Users/ted/Documents/dev-archive/bubble/data/edgar_acquisition/documents/0001045810/000104581026000021/nvda-20260125.htm",
+     "quote": "In January 2026, we increased the size of our commercial paper program from $ 575 million to $ 25.0 billion. As of January 25, 2026, no commercial paper was outstanding."
+    },
+    {
+     "figure": "ai_related_debt_or_financing_usd",
+     "value": "$0 (no customer/datacenter financing)",
+     "source_uri": "file:///Users/ted/Documents/dev-archive/bubble/data/edgar_acquisition/documents/0001045810/000104581026000021/nvda-20260125.htm",
+     "quote": "...have been asked to offer financing arrangements to support our customers' and partners' buildout of datacenter infrastructure. We have not entered into any financing arrangements."
+    },
+    {
+     "figure": "compute_purchase_commitments_usd",
+     "value": "$27B multi-year cloud service agreements",
+     "source_uri": "file:///Users/ted/Documents/dev-archive/bubble/data/edgar_acquisition/documents/0001045810/000104581026000021/nvda-20260125.htm",
+     "quote": "Multi-year cloud service agreement commitments as of January 25, 2026, were $ 27 billion, for which $ 7 billion, $ 6 billion, $ 5 billion, $ 5 billion, $ 2 billion, and $ 2 billion will be paid in fiscal years 2027, 2028, 2029, 2030, 2031, and 2032 and thereafter, respectively. Some cloud service capacity may be reduced, terminated or sold to others by the CSPs..."
+    },
+    {
+     "figure": "supply_capacity_commitments",
+     "value": "$95.2B",
+     "source_uri": "file:///Users/ted/Documents/dev-archive/bubble/data/edgar_acquisition/documents/0001045810/000104581026000021/nvda-20260125.htm",
+     "quote": "Manufacturing, supply, and capacity commitments reflect datacenter-scale production... As of January 25, 2026, these commitments were $ 95.2 billion, of which substantially all will be paid through fiscal year 2027."
+    },
+    {
+     "figure": "finance_leases_immaterial",
+     "value": "$519M combined accum. amortization",
+     "source_uri": "file:///Users/ted/Documents/dev-archive/bubble/data/edgar_acquisition/documents/0001045810/000104581026000021/nvda-20260125.htm",
+     "quote": "amortization of leasehold improvements and finance leases was $ 519 million and $ 410 million as of January 25, 2026 and January 26, 2025, respectively."
+    }
+   ],
+   "unfound": [
+    "ai_datacenter_capex_usd: NVDA does not break out AI/data-center capex separately; it is fabless with modest combined PP&E+intangibles capex of $6,042M and no disclosed AI-specific capex line",
+    "capex_guidance_next_period_usd: no forward capital-expenditure guidance figure is given in the FY2026 10-K",
+    "CoreWeave / named neoclouds: NVDA's own 10-K does not name CoreWeave or any specific neocloud counterparty; the $27B multi-year cloud commitment is disclosed only as 'CSPs' in aggregate",
+    "AI/data-center-specific debt, build-to-suit, SPV financing: none disclosed (and NVDA states it has not entered into any financing arrangements for customer/partner datacenter buildout)"
+   ],
+   "confidence": 0.25
+  },
+  "verdict": {
+   "entity": "NVIDIA Corporation (NVDA)",
+   "overall": "source_backed",
+   "funding_source_confirmed": true,
+   "note": "All nine cited figures verified verbatim against the cited 10-K (nvda-20260125.htm, FY ended Jan 25, 2026). OCF $102,718M, capex (PP&E+intangibles) $6,042M, cash+marketable $62,556M, net carrying debt $8,468M / $8.5B senior Notes, commercial paper program raised $575M->$25.0B with $0 outstanding, 'We have not entered into any financing arrangements' for customer/partner datacenter buildout, $27B multi-year cloud commitments, $95.2B supply/capacity commitments, and $519M finance-lease/leasehold accumulated amortization all match the filing exactly. funding_source 'predominantly_operating_cash_flow' is independently supported: capex is only 5.9% of OCF; total debt is just $8.5B fixed-rate Notes with $0 CP outstanding; and PP&E net is only $10.4B, confirming there is no large self-built data-center PP&E program (NVDA is fabless / supply-side, not a debt-funded demand-side buildout). No unit or period errors: all figures are in $ millions on the FY2026 column with correct period labeling. The $27B payment schedule ($7/$6/$5/$5/$2/$2B across FY2027-FY2032+) sums exactly to $27B. Adversarial note: the capex cash-flow line sits adjacent to large investing outflows (Groq $13.0B, non-marketable equity $17.5B) that are correctly excluded from capex. ai_datacenter_capex_usd and capex_guidance_next_period_usd are legitimately unfound (not separately disclosed). Cash flow fully covers capex many times over; no debt is needed. The framing that bubble/leverage risk sits with NVDA's customers/neoclouds (via $27B take-or-pay cloud commitments and $95.2B supply take-or-pay), not NVDA's own balance sheet, is accurate and well-evidenced."
+  }
+ },
+ {
+  "data": {
+   "entity": "OpenAI (OpenAI OpCo, LLC / OpenAI Global, LLC) \u2014 private; figures sourced from counterparties' SEC filings (CoreWeave, Microsoft)",
+   "period": "Counterparty FY2025 (CoreWeave 10-K, year ended Dec 31, 2025) and Q1 2026 (CoreWeave & Microsoft 10-Qs, period ended Mar 31, 2026)",
+   "funding_source": "predominantly_debt_or_financing",
+   "compute_purchase_commitments_usd": 18400000000,
+   "ai_related_debt_or_financing_usd": 20000000000,
+   "funding_note": "OpenAI is private and files no SEC reports, so its own total capex, AI/data-center capex, capex guidance, operating cash flow, cash & investments, and total debt are UNFOUND from primary SEC sources and must not be fabricated. What IS disclosed in counterparties' filings is the demand-side core: OpenAI's take-or-pay compute purchase commitments to neocloud CoreWeave. CoreWeave's FY2025 10-K and Q1 2026 10-Q disclose OpenAI commitments of (a) ~$11.9B through October 2030 (March 2025 MSA) and (b) up to ~$6.5B through May 31, 2031 (May 2025 MSA / September 2025 order form) \u2014 at least ~$18.4B of disclosed contracted compute spend (the widely-reported aggregate including a May 2025 ~$4B expansion is ~$22.4B, but only the $11.9B and $6.5B tranches are explicitly quantified in these filings; the $4B expansion is not separately quantified here so is excluded from the cited sum). This take-or-pay revenue IS the financed core's revenue: CoreWeave's total RPO grew from $15.1B (Dec 2024) to $60.7B (Dec 2025) to $98.8B (Mar 2026), and CoreWeave explicitly funds the data-center capex required to perform these customer contracts with debt \u2014 e.g. the $3.1B DDTL 5.0 and $8.5B DDTL 4.0 GPU/HPC-backed term loan facilities, with CoreWeave securing 'more than $20 billion of debt and equity capital year-to-date' as of May 2026, and the DDTL 5.0 entered into 'primarily to finance capital expenditures required to perform certain customer contracts.' CLASSIFICATION (predominantly_debt_or_financing): the demand OpenAI represents is being met through debt-financed, off-OpenAI-balance-sheet infrastructure (neocloud leverage), not visibly from OpenAI operating cash flow; OpenAI is loss-making and its compute obligations are take-or-pay liabilities backstopping >$20B of CoreWeave borrowing. Separately, Microsoft's Q1 2026 10-Q discloses a ~27% as-converted equity-method stake in OpenAI (post-October-2025 recapitalization) and net equity-method losses/gains from OpenAI ($5.9B net gain for the nine months ended Mar 31, 2026, primarily a recapitalization dilution gain) \u2014 confirming OpenAI's reliance on external equity/strategic financing rather than self-funding. OpenAI's reported ~$250B Azure purchase commitment to Microsoft is referenced in press but is NOT quantified in Microsoft's 10-Q, so it is left unfound. The $20B 'ai_related_debt_or_financing' figure is CoreWeave's customer-contract-driven financing (a proxy for the debt funding OpenAI's demand), NOT OpenAI's own debt, which is unfound.",
+   "total_capex_usd": null,
+   "ai_datacenter_capex_usd": null,
+   "capex_guidance_next_period_usd": null,
+   "operating_cash_flow_usd": null,
+   "cash_and_investments_usd": null,
+   "total_debt_usd": null,
+   "confidence": 0.25,
+   "unfound": [
+    "OpenAI total capex (private; no SEC filing)",
+    "OpenAI AI/data-center capex breakout (private)",
+    "OpenAI next-period capex guidance (private)",
+    "OpenAI operating cash flow (private)",
+    "OpenAI cash & investments (private)",
+    "OpenAI total debt / own debt (private)",
+    "OpenAI ~$250B Azure/Microsoft compute commitment \u2014 referenced publicly but NOT quantified in Microsoft's SEC filings",
+    "Full aggregate OpenAI-CoreWeave commitment (~$22.4B incl. reported May 2025 ~$4B expansion) \u2014 the $4B expansion tranche is not separately quantified in the reviewed CoreWeave filings",
+    "OpenAI commitments to other neoclouds (Oracle/OCI, Nvidia, Crusoe, etc.) \u2014 not in the local SEC corpus reviewed"
+   ],
+   "sources": [
+    {
+     "figure": "OpenAI compute purchase commitment to CoreWeave (March 2025 MSA)",
+     "value": "~$11.9 billion through October 2030",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000104/crwv-20251231.htm",
+     "quote": "in March 2025, we entered into a master services agreement with OpenAI, a private company, pursuant to which OpenAI has committed to pay us up to approximately $11.9 billion through October 2030."
+    },
+    {
+     "figure": "OpenAI compute purchase commitment to CoreWeave (May 2025 MSA / Sept 2025 order form)",
+     "value": "up to ~$6.5 billion through May 31, 2031",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000104/crwv-20251231.htm",
+     "quote": "In May 2025, we entered into a master services agreement with OpenAI OpCo, LLC (\"OpenAI\") and in September 2025, we entered into an order form under this master services agreement pursuant to which OpenAI has committed to pay us up to approximately $6.5 billion through May 31, 2031 and, as a result, we expect OpenAI to be a significant customer in future periods."
+    },
+    {
+     "figure": "CoreWeave total remaining performance obligations (take-or-pay backlog including OpenAI) \u2014 FY2025",
+     "value": "$60.7B (Dec 31, 2025) vs $15.1B (Dec 31, 2024)",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000104/crwv-20251231.htm",
+     "quote": "As of December 31, 2025, we had $60.7 billion of remaining performance obligations (\"RPO\"), compared to $15.1 billion of RPO as of December 31, 2024. As of December 31, 2025, our committed contracts had a weighted-average contract duration of approximately five years."
+    },
+    {
+     "figure": "CoreWeave total RPO \u2014 Q1 2026",
+     "value": "$98.8B (Mar 31, 2026)",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000222/crwv-20260331.htm",
+     "quote": "As of March 31, 2026, the Company had $98.8 billion of unsatisfied RPO, of which 36% is expected to be recognized over the initial 24 months ending March 31, 2028, 39% between months 25 and 48, and the remaining balance recognized between months 49 and 84."
+    },
+    {
+     "figure": "Debt financing of customer-contract capex (the financed-core mechanism funding OpenAI demand)",
+     "value": "$3.1B DDTL 5.0 + $8.5B DDTL 4.0; >$20B debt+equity YTD",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000236/ex9912.htm",
+     "quote": "CoreWeave ... today announced it has closed its $3.1 billion delayed draw term loan facility (\"DDTL 5.0 Facility\") ... follows the company's previously announced $8.5 billion investment-grade rated DDTL 4.0 facility ... CoreWeave has secured more than $20 billion of debt and equity capital year-to-date to support continued expansion of its AI cloud platform."
+    },
+    {
+     "figure": "Purpose of DDTL 5.0 facility \u2014 finances capex to perform customer (incl. OpenAI) contracts",
+     "value": "primarily to finance capex for customer contracts",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000236/crwv-20260515.htm",
+     "quote": "providing for a $3.1 billion delayed draw term loan facility (the \"DDTL 5.0 Facility\"). The DDTL 5.0 Facility was entered into primarily to finance capital expenditures required to perform certain customer contracts"
+    },
+    {
+     "figure": "Microsoft equity-method stake in OpenAI (post-recapitalization)",
+     "value": "~27% as-converted",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/789019/000119312526191507/msft-20260331.htm",
+     "quote": "We have a long-term strategic partnership with OpenAI. In October 2025, we signed a new definitive agreement with OpenAI that extends this partnership. Additionally, OpenAI formed a public benefit corporation and completed a recapitalization (\"OpenAI Recapitalization\"). We have an investment of approximately 27 percent of OpenAI on an as-converted basis accounted for under the equity method of accounting."
+    },
+    {
+     "figure": "Microsoft equity-method results from OpenAI (OpenAI is loss-making / externally funded)",
+     "value": "$5.9B net gain (9mo to Mar 31 2026, mainly recap dilution gain); net losses in prior-year periods",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/789019/000119312526191507/msft-20260331.htm",
+     "quote": "$5.9 billion of net gains for the three and nine months ended March 31, 2026, respectively, and $768 million and $2.7 billion of net losses for the three and nine months ended March 31, 2025, respectively, from investments in OpenAI ... The net gains recorded for the nine months ended March 31, 2026 primarily relate to the dilution gain from the OpenAI Recapitalization."
+    }
+   ]
+  },
+  "verdict": {
+   "entity": "OpenAI (OpenAI OpCo, LLC / OpenAI Global, LLC) \u2014 private; figures from counterparty SEC filings",
+   "overall": "source_backed",
+   "funding_source_confirmed": false,
+   "note": "Demand-side figures are source-backed and the unfound flags are honest. Arithmetic verified: $11.9B (Mar 2025 MSA, through Oct 2030) + $6.5B (May 2025 MSA/Sept 2025 order form, through May 31 2031) = exactly $18.4B; both tranches are explicitly quantified in the cited CoreWeave 10-K quote. The ~$4B expansion to reach the reported ~$22.4B aggregate is correctly excluded as unquantified in these filings. RPO progression ($15.1B Dec-2024 -> $60.7B Dec-2025 -> $98.8B Mar-2026) is internally consistent across the two CoreWeave filings; no unit/period errors found (all USD billions; FY2025 10-K = YE Dec-31-2025, Q1 2026 10-Qs = period ended Mar-31-2026). CAPEX vs OPERATING CASH FLOW: cannot be assessed for OpenAI directly \u2014 OpenAI is private and files no SEC reports, so its own capex, operating cash flow, cash, and debt are all correctly null/unfound and not fabricated. The data does not claim OpenAI cash flow covers capex; it argues (with support) that demand is met via debt-financed, off-OpenAI-balance-sheet neocloud infrastructure. The CoreWeave DDTL 5.0 quote ('entered into primarily to finance capital expenditures required to perform certain customer contracts') and the '>$20 billion of debt and equity capital year-to-date' line directly tie the customer-contract (incl. OpenAI take-or-pay) capex to debt \u2014 so cash flow does NOT cover this capex; debt is needed. FUNDING_SOURCE CLASSIFICATION (predominantly_debt_or_financing): supported only for the COUNTERPARTY/PROXY funding (CoreWeave's debt financing the OpenAI-contracted compute), which IS independently supported by the cited DDTL filings. It is NOT confirmed for OpenAI's own funding, which is unfound \u2014 hence funding_source_confirmed=false. Minor caveat: the $20B ai_related_debt_or_financing figure is '>$20B of debt AND equity'; the actually-quantified DEBT portion is $8.5B DDTL 4.0 + $3.1B DDTL 5.0 = $11.6B. The note transparently labels the $20B a proxy and 'NOT OpenAI's own debt,' so it is not misleading, but the field name 'debt_or_financing' is doing the work of folding equity in. Microsoft's ~27% as-converted equity-method stake and the $5.9B nine-month net gain ('primarily the dilution gain from the OpenAI Recapitalization,' vs prior-year net losses) corroborate OpenAI being loss-making/externally funded. Verdict: source_backed for the demand-side core and the financed-core proxy; funding_source_confirmed=false because OpenAI's own capex/cash-flow/debt mix is genuinely unfound from primary SEC sources and the classification rests on counterparty inference, not direct OpenAI disclosure.",
+   "corrections": [
+    "ai_related_debt_or_financing_usd ($20B) cites '>$20 billion of debt AND equity capital' \u2014 it is not purely debt; the SEC-quantified pure-debt portion is $8.5B DDTL 4.0 + $3.1B DDTL 5.0 = $11.6B. Consider relabeling the $20B as 'debt+equity capital raised' to avoid implying it is all debt.",
+    "funding_source classification is supported for CoreWeave (the proxy/financed core) but not for OpenAI's own balance sheet; the classification should be explicitly scoped as a counterparty-inferred proxy, since OpenAI's own funding source is unfound."
+   ]
+  }
+ }
+]

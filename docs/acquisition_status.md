@@ -9,7 +9,7 @@ the scoped conclusion.
 
 ## Current Corpus
 
-- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260603-0154.md`
+- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260603-0209.md`
 - Evidence gate: ecosystem `high_confidence_final=false` / `bubble_confidence 0.25` (by design).
 - **Tiered verdict (`ai_direct_core_verdict`):** AI-direct core `bubble_dynamics_present` @ 0.67;
   ecosystem-wide `not_established_as_ecosystem_wide_bubble` (broad metric is mostly non-AI debt, so
@@ -17,7 +17,7 @@ the scoped conclusion.
   (7/11 issuers loss-making; CoreWeave DSCR incl. principal ~0.30x) PLUS the source-backed GPU
   depreciation gap (rental yields −60-75% + Amazon SEC 6→5yr); cluster total debt $54.8B (census).
   Only the realistic-utilization DSCR leg remains illustrative.
-- Evidence audit coverage: 476 claim audits now include analyzer-level capital,
+- Evidence audit coverage: 478 claim audits now include analyzer-level capital,
   compute, and debt-service audits, explicit row/artifact-backed audits for
   high-impact Burry-answer rollups, and aggregate hooks for pending review
   capital, pending AI-infra capital, pending compute, weak-link AI-infra,
