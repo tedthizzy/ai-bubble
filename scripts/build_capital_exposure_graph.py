@@ -6,12 +6,37 @@ from __future__ import annotations
 import argparse
 import json
 from pathlib import Path
+from typing import TYPE_CHECKING
 
+from bubble.analysis.ai_direct_graph_edges import build_ai_direct_deals
 from bubble.analysis.capital_exposure_graph import (
     build_capital_exposure_graph,
     write_capital_exposure_graph,
 )
 from bubble.ingestion.capital import CapitalEvidenceBatch, load_capital_evidence
+
+if TYPE_CHECKING:
+    from bubble.models.deal import Deal
+
+
+def load_ai_direct_cluster_deals() -> list[Deal]:
+    """Source-backed AI-direct cluster deals from the verified census + contagion fixtures.
+
+    Injects the financed neocloud cluster (its debt, lenders, GPU supplier, and
+    anchor customers) into the production graph, whose bulk-feed AI-infra mass
+    would otherwise be only ~$5B (Equinix). Missing fixtures are non-fatal.
+    """
+
+    census_path = Path("handoffs/ai_direct_debt_census_20260603.json")
+    contagion_path = Path("handoffs/ai_direct_contagion_edges_20260603.json")
+    if not (census_path.exists() and contagion_path.exists()):
+        return []
+    try:
+        census = json.loads(census_path.read_text())
+        contagion = json.loads(contagion_path.read_text())
+    except (json.JSONDecodeError, OSError):
+        return []
+    return build_ai_direct_deals(census, contagion)
 
 
 def load_deals_from_data_dirs(data_dirs: list[Path]) -> CapitalEvidenceBatch:
@@ -47,7 +72,8 @@ def main() -> None:
 
     data_dirs = args.data_dir or [Path("data")]
     batch = load_deals_from_data_dirs(data_dirs)
-    graph = build_capital_exposure_graph(batch.deals)
+    cluster_deals = load_ai_direct_cluster_deals()
+    graph = build_capital_exposure_graph([*batch.deals, *cluster_deals])
     outputs = write_capital_exposure_graph(graph, args.output_dir)
     print(
         json.dumps(

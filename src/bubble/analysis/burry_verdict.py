@@ -448,8 +448,13 @@ def synthesize_core_verdict(
             "(full-recourse-secured + unsecured-at-parent), GPU collateral the backstop for the "
             "secured slice. Contagion is mapped via SHARED-COUNTERPARTY hubs (see contagion_hubs -- "
             "the common GPU supplier / anchor customers / lenders that propagate a shock across the "
-            "cluster simultaneously); full multi-hop propagation through the capital-exposure graph "
-            "is still pending (its AI-infra mass is ~$5B of $408B).",
+            "cluster simultaneously). The financed cluster is now INJECTED into the production "
+            "capital-exposure graph as source-backed deals (issuer debt -> lead arranger, plus GPU "
+            "supplier / strategic investor / anchor-customer topology edges), lifting the graph's "
+            "AI-infra-relevant notional from ~$5B (Equinix only) to ~$56B and surfacing the shared "
+            "lenders (Goldman, Morgan Stanley) and NVIDIA/Microsoft as cross-cluster hubs in the same "
+            "graph as the rest of the ecosystem; per-lender syndicate allocations remain undisclosed "
+            "so each issuer's debt is attributed once to its lead arranger.",
             "Physical deliverability is read from the tracker construction-status proxy: the ISO "
             "interconnection queues are fully ingested but are GENERATION-side, so they are a weak "
             "lens for data-center LOAD deliverability (a true firm-vs-queue rate needs "

@@ -32,8 +32,8 @@ The important change is that ecosystem-scale conclusions are now blocked from be
 
 Latest verified evidence-gated report at this checkpoint:
 
-- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260603-0256.md`
-- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260603-0256.json`
+- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260603-0315.md`
+- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260603-0315.json`
 - `high_confidence_final`: `false` (ecosystem-wide, BY DESIGN — see verdict below).
 - Current `master` checkpoint: `e72d74e` (single-agent; the prior two-agent
   Claude/Codex handoff queue was consolidated into `master` at `7638aa9` and the
@@ -62,7 +62,16 @@ Latest verified evidence-gated report at this checkpoint:
   funds the main household channel. Coverage is PARTIAL by construction: private-
   placement DDTL/SPV debt holders (likely insurance/annuity-funded private credit)
   are not 13-F-visible, so this is the disclosed-holder distribution, not a full cap table.
-- Evidence audit coverage now includes 483 claim audits: analyzer-level capital,
+- Capital-exposure graph integration: the financed AI-direct cluster is now injected
+  into the production graph as source-backed deals (issuer debt -> lead arranger, plus
+  GPU-supplier / strategic-investor / anchor-customer topology edges) from the verified
+  census + contagion fixtures. This lifts the graph's AI-infra-relevant notional from
+  ~$5B (Equinix only) to **~$56.5B** and places the cluster's shared lenders (Goldman,
+  Morgan Stanley) and NVIDIA/Microsoft as cross-cluster contagion hubs in the SAME
+  5,102-node / 7,617-edge graph as the rest of the ecosystem. Per-lender syndicate
+  allocations are undisclosed, so each issuer's debt is attributed once to its lead
+  arranger (no double-count); names are canonicalized so variants don't fragment hubs.
+- Evidence audit coverage now includes 526 claim audits: analyzer-level capital,
   compute, and debt-service audits, explicit row/artifact-backed audits for
   high-impact Burry-answer rollups, and aggregate hooks for pending review
   capital, pending AI-infra capital, pending compute, weak-link AI-infra,
