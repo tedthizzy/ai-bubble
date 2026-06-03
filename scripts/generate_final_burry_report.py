@@ -34,7 +34,11 @@ from bubble.analysis.compute_economics import (
     empty_compute_economics_batch,
 )
 from bubble.analysis.contagion_hubs import compute_contagion_hubs, load_contagion_edges
-from bubble.analysis.contagion_propagation import top_contagion_cascades
+from bubble.analysis.contagion_propagation import (
+    build_contagion_graph,
+    propagate_shock,
+    top_contagion_cascades,
+)
 from bubble.analysis.contract_structure import (
     aggregate_contract_structure,
     load_contract_structure,
@@ -2919,6 +2923,24 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:  #
         ),
     )
     if demand_funding_durability.get("status") == "source_backed":
+        # Capstone synthesis: seed the contagion cascade from the most-likely-to-fail node
+        # (the fragile, capital-markets-dependent offtaker) -- connecting "which node fails"
+        # (demand durability) to "who bears the downside" (propagation), all on filing-verified edges.
+        fragile_offtakers = [
+            o.get("offtaker")
+            for o in (demand_funding_durability.get("per_offtaker") or [])
+            if o.get("funding_class") == "capital_markets_dependent"
+        ]
+        if fragile_offtakers and contagion_edges:
+            _cgraph = build_contagion_graph(contagion_edges, debt_census_aggregate)
+            demand_funding_durability["fragile_demand_failure_cascade"] = {
+                "trigger_basis": (
+                    "Seeded from the capital-markets-dependent offtaker(s) the durability layer flags as "
+                    "most likely to fail -- NOT a probability, an upper-bound directly-exposed leverage if "
+                    "that demand withdraws."
+                ),
+                "cascades": [propagate_shock(_cgraph, str(name)) for name in fragile_offtakers],
+            }
         mismatch_ratios["demand_funding_durability"] = demand_funding_durability
     demand_side_aggregate = aggregate_demand_side(
         load_demand_side(Path("handoffs/ai_demand_side_funding_20260603.json"))

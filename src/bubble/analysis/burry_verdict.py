@@ -538,6 +538,9 @@ def synthesize_core_verdict(
                     "majority_of_named_backlog_capital_markets_dependent"
                 ),
                 "per_offtaker": demand_funding_durability.get("per_offtaker"),
+                "fragile_demand_failure_cascade": demand_funding_durability.get(
+                    "fragile_demand_failure_cascade"
+                ),
                 "durability_read": demand_funding_durability.get("durability_read"),
                 "caveat": demand_funding_durability.get("caveat"),
             }
