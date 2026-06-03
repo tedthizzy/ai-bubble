@@ -4523,12 +4523,25 @@ def _executive_conclusion(verdict: dict[str, Any]) -> str:
         f"({r.get('rank')}) {r.get('title')}" for r in risks[:3]
     )
     sev = str(fwd.get("severity_read") or "").split(".")[0]
+    dfd = verdict.get("demand_funding_durability", {}) or {}
+    circ = verdict.get("circular_financing", {}) or {}
+    demand_clause = ""
+    if dfd.get("majority_of_named_backlog_capital_markets_dependent"):
+        rt = (circ.get("reciprocal_hub") or {}).get("filing_verified_round_trip_count")
+        demand_clause = (
+            f" The demand side is itself suspect: ~{dfd.get('capital_markets_dependent_pct')}% of the "
+            "cluster's named take-or-pay backlog rests on a capital-markets-funded, circular offtaker "
+            f"(OpenAI), and the dominant GPU supplier is a filing-verified equity investor in {rt} of its "
+            "own customers (vendor round-trips) — so the bull case's contracted-demand 'proof' is not "
+            "arm's-length end-demand."
+        )
     return (
         "## Scoped Burry Conclusion\n\n"
         f"**Financed AI-direct core — `{verdict.get('core_verdict')}` at confidence "
         f"{verdict.get('core_verdict_confidence')}.** "
         "Bubble dynamics ARE present in the financed neocloud/data-center cluster: source-backed "
-        "cash-flow fragility, an accounting-integrity overlay, and concentrated contagion. "
+        "cash-flow fragility, an accounting-integrity overlay, and concentrated contagion."
+        f"{demand_clause} "
         f"**Ecosystem-wide — `{verdict.get('ecosystem_verdict')}`** (the broad debt metric is mostly "
         "non-AI, so no defensible total-AI denominator exists; this is a scope statement, not a clean "
         "bill of health).\n\n"
