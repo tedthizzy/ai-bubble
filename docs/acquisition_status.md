@@ -9,7 +9,7 @@ the scoped conclusion.
 
 ## Current Corpus
 
-- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260603-0455.md`
+- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260603-0507.md`
 - Evidence gate: ecosystem `high_confidence_final=false` / `bubble_confidence 0.25` (by design).
 - **Tiered verdict (`ai_direct_core_verdict`):** AI-direct core `bubble_dynamics_present` @ 0.67;
   ecosystem-wide `not_established_as_ecosystem_wide_bubble` (broad metric is mostly non-AI debt, so
@@ -44,6 +44,12 @@ the scoped conclusion.
   figure, 1 disclosed full debt service). Where disclosed, Cipher Mining's REVENUE is below
   its full debt service (coverage < 1x). The verify pass nulled CoreWeave's "debt service"
   (it was principal-only, not P+I) — opacity is itself a transparency red flag.
+- Per-entity weakest-links ranking (the goal's "clear identification of the weakest links"
+  + "top high-risk entities with exact concerns"): composite = filing-verified red-flag
+  score + financial fragility (negative EBITDA / net loss / leverage). Ranked: #1 Core
+  Scientific (19.0: restatement + material weakness + concentration + negative EBITDA),
+  #2 Hut 8, #3 TeraWulf, #4 IREN (partial going-concern), #5 CoreWeave ($21.4B debt). Each
+  concern traces to its source layer; fragility is broad (8/8 serious flag, most EBITDA-negative).
 - Report now opens with a "Scoped Burry Conclusion": binary call (core
   `bubble_dynamics_present` @ 0.67; ecosystem not-established), crack timeline, and the
   top-3 register risks — the Final Report's "clear binary conclusion + confidence" up front.
@@ -52,7 +58,7 @@ the scoped conclusion.
   source-backed layers, each anchored to a computed/sourced number + backing layer +
   source-status tag. Top 2 are severity-5 (cash-flow fragility flipping negative by the
   adverse case; refinancing treadmill on negative carry); all 10 currently source_backed.
-- Evidence audit coverage: 536 claim audits now include analyzer-level capital,
+- Evidence audit coverage: 537 claim audits now include analyzer-level capital,
   compute, and debt-service audits, explicit row/artifact-backed audits for
   high-impact Burry-answer rollups, and aggregate hooks for pending review
   capital, pending AI-infra capital, pending compute, weak-link AI-infra,

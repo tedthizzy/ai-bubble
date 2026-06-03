@@ -29,6 +29,7 @@ from bubble.analysis.debt_service import analyze_debt_service
 from bubble.analysis.demand_side import aggregate_demand_side, load_demand_side
 from bubble.analysis.ecosystem_scope import scope_deals
 from bubble.analysis.end_holders import aggregate_end_holders, load_end_holders
+from bubble.analysis.entity_risk_ranking import build_entity_risk_ranking
 from bubble.analysis.equipment_bottlenecks import (
     aggregate_equipment_bottlenecks,
     load_equipment_bottlenecks,
@@ -1440,6 +1441,20 @@ def report_answer_metric_audits(  # noqa: PLR0912, PLR0915
                 unit="count",
             )
 
+        # Per-entity weakest-links ranking (who cracks first).
+        err = m.get("entity_risk_ranking", {})
+        if err.get("status") == "source_backed":
+            add(
+                "mismatch.entity_ranking.entities_ranked",
+                "Number of cluster entities ranked by a composite of filing-verified forensic red-flag "
+                "score + financial fragility (negative EBITDA / net loss / leverage). The per-entity "
+                "weakest-links view: the top names are where a distress event is most likely to surface "
+                "first; each entity's concerns trace to the red-flag and financials layers.",
+                err.get("entity_count"),
+                [mismatch_artifact],
+                unit="count",
+            )
+
         # Utilization vs debt-service mismatch (deal/entity-level).
         uds = m.get("utilization_debt_service", {})
         if uds.get("status") == "source_backed":
@@ -2461,7 +2476,7 @@ def compute_burry_mismatch_ratios(  # noqa: PLR0912, PLR0915
     return ratios
 
 
-def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:  # noqa: PLR0915
+def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:  # noqa: PLR0912, PLR0915
     resolved_data_dirs = data_dirs or ["data"]
     coverage = build_source_coverage_report(resolved_data_dirs)
     physical_capacity = build_physical_capacity_summary(resolved_data_dirs)
@@ -2558,6 +2573,12 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:  #
     )
     if red_flag_scorecard_aggregate.get("status") == "source_backed":
         mismatch_ratios["red_flag_scorecard"] = red_flag_scorecard_aggregate
+    entity_risk_ranking = build_entity_risk_ranking(
+        red_flag_scorecard_aggregate,
+        _load_csv_rows(Path("handoffs/fixtures/ai_direct_issuer_financials.csv")),
+    )
+    if entity_risk_ranking.get("status") == "source_backed":
+        mismatch_ratios["entity_risk_ranking"] = entity_risk_ranking
     utilization_debt_service_aggregate = aggregate_utilization_debt_service(
         load_utilization_debt_service(Path("handoffs/ai_utilization_debt_service_20260603.json"))
     )
@@ -2593,6 +2614,7 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:  #
         red_flag_scorecard=red_flag_scorecard_aggregate,
         risk_register=risk_register,
         utilization_debt_service=utilization_debt_service_aggregate,
+        entity_risk_ranking=entity_risk_ranking,
     )
     coverage_dict = coverage.to_dict()
     physical_capacity_dict = physical_capacity.to_dict()
@@ -4236,6 +4258,9 @@ Leading indicators:
 
 **Weakest links in the capital structure:**
 {_bullets(verdict.get("weakest_links"))}
+
+**Weakest links ranked by entity (composite of forensic flags + financial fragility — who cracks first, and why):**
+{_bullets(f"#{e.get('rank')} {e.get('entity')} (risk {e.get('composite_risk_score')}): {'; '.join(e.get('key_concerns', []))}" for e in (verdict.get("weakest_links_ranked", {}) or {}).get("weakest_links_top", []) or [])}
 
 **Who bears the downside (by disclosed facility recourse):**
 {_bullets(f"{k}: ${round(v / 1e9, 1)}B" for k, v in sorted(((verdict.get("who_bears_downside_quantified", {}) or {}).get("by_recourse_class_usd", {}) or {}).items(), key=lambda kv: -kv[1]))}
