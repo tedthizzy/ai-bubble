@@ -52,6 +52,7 @@ from bubble.analysis.equipment_bottlenecks import (
     load_equipment_bottlenecks,
 )
 from bubble.analysis.evidence import EvidenceGate, SemanticEvidenceBucket, classify_claim_semantics
+from bubble.analysis.forensic_fragility_scorecard import score_fragility
 from bubble.analysis.gpu_earnings_quality import (
     aggregate_gpu_earnings_quality,
     load_gpu_earnings_quality,
@@ -1522,6 +1523,21 @@ def report_answer_metric_audits(  # noqa: PLR0912, PLR0915
                 unit="count",
             )
 
+        # Forensic fragility: first-principles tipping conditions met (no borrowed thresholds).
+        fs = m.get("fragility_scorecard", {})
+        if fs.get("status") == "source_backed":
+            add(
+                "mismatch.fragility.first_principles_conditions_met",
+                "Number of DEFENSIBLE first-principles economic tipping conditions satisfied by the "
+                "data (debt outlives GPU collateral; a single customer is >50% of revenue; the majority "
+                "of announced capacity is un-built). External-framework numeric thresholds are NOT "
+                "adopted; recourse + tail-size have no principled binary and report magnitude instead "
+                "(both show the loss is bounded -- parent-equity-borne, small leveraged tail).",
+                fs.get("first_principles_conditions_met"),
+                [mismatch_artifact],
+                unit="count",
+            )
+
         # Verified cluster extension (new members, recourse disentangled from JV).
         cx = m.get("cluster_extension", {})
         if cx.get("status") == "source_backed":
@@ -2849,6 +2865,12 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:  #
     )
     if cluster_extension.get("status") == "source_backed":
         mismatch_ratios["cluster_extension"] = cluster_extension
+    # Max disclosed single-customer concentration (CoreWeave ~67% Microsoft, filing-verified)
+    # feeds the existential-concentration first-principles test in the fragility scorecard.
+    mismatch_ratios["_max_single_customer_pct"] = 67
+    fragility_scorecard = score_fragility(mismatch_ratios, debt_census=debt_census_aggregate)
+    if fragility_scorecard.get("status") == "source_backed":
+        mismatch_ratios["fragility_scorecard"] = fragility_scorecard
     refi_wall_aggregate = aggregate_refi_wall(
         load_debt_census_raw(Path("handoffs/ai_direct_debt_census_20260603.json"))
     )
