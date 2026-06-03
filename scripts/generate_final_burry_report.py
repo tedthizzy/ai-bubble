@@ -26,6 +26,7 @@ from bubble.analysis.contagion_hubs import compute_contagion_hubs, load_contagio
 from bubble.analysis.contagion_propagation import top_contagion_cascades
 from bubble.analysis.debt_census import aggregate_debt_census, load_debt_census
 from bubble.analysis.debt_service import analyze_debt_service
+from bubble.analysis.demand_side import aggregate_demand_side, load_demand_side
 from bubble.analysis.ecosystem_scope import scope_deals
 from bubble.analysis.evidence import EvidenceGate, SemanticEvidenceBucket, classify_claim_semantics
 from bubble.analysis.gpu_economics import load_gpu_price_evidence, summarize_gpu_depreciation_gap
@@ -2289,6 +2290,9 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:  #
         contagion_hubs["top_loss_cascades"] = top_contagion_cascades(
             contagion_edges, debt_census_aggregate
         ).get("cascades")
+    demand_side_aggregate = aggregate_demand_side(
+        load_demand_side(Path("handoffs/ai_demand_side_funding_20260603.json"))
+    )
     ai_direct_core_verdict = synthesize_core_verdict(
         cluster_dscr=mismatch_ratios.get("cluster_interest_coverage", {}),
         thesis_findings=thesis_findings,
@@ -2298,6 +2302,7 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:  #
         metric_total_usd=float(materiality_relevance.get("total_usd") or 0.0),
         timing_summary=timing_signal_summary,
         debt_census=debt_census_aggregate,
+        demand_side=demand_side_aggregate,
         gpu_gap_source_backed=(
             mismatch_ratios.get("gpu_economics_mismatch", {})
             .get("source_backed_gap", {})
@@ -3747,6 +3752,18 @@ def main() -> None:
     def _bullets(items: Any) -> str:
         return "\n".join(f"- {item}" for item in (items or [])) or "- (none)"
 
+    _ds = verdict.get("demand_side_funding", {}) or {}
+    if _ds.get("aggregate_ai_capex_usd") is not None:
+        demand_line = (
+            f"aggregate AI capex ${round((_ds.get('aggregate_ai_capex_usd') or 0) / 1e9, 1)}B, "
+            f"cash-coverage of capex {_ds.get('cash_coverage_of_capex')}x, "
+            f"{_ds.get('cash_funded_players')}/{_ds.get('player_count')} players self-funding; "
+            f"commitments to the core ${round((_ds.get('aggregate_compute_commitments_to_core_usd') or 0) / 1e9, 1)}B. "
+            f"{_ds.get('bear_case_read', '')}"
+        )
+    else:
+        demand_line = "pending source-backed demand-side extraction."
+
     md_verdict = f"""## The Verdict (Tiered)
 
 **AI-direct core:** `{verdict.get("core_verdict")}` at confidence **{verdict.get("core_verdict_confidence")}**.
@@ -3755,6 +3772,8 @@ def main() -> None:
 The split is deliberate: the financed AI-direct cluster shows source-backed fragility, but it is a
 specific named cluster, not a fixed % of the broad metric (which is dominated by non-AI debt), so an
 ecosystem-wide bubble call is not supported.
+
+**Demand side (hyperscaler/offtaker funding — the bear-case test):** {demand_line}
 
 **Source-backed fragility facts (primary 10-K/10-Q, adversarially verified):**
 {_bullets(verdict.get("source_backed_fragility_facts"))}

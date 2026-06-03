@@ -73,12 +73,14 @@ def synthesize_core_verdict(
     debt_census: dict[str, Any] | None = None,
     gpu_gap_source_backed: bool = False,
     contagion_hubs: dict[str, Any] | None = None,
+    demand_side: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Synthesize the scoped, tiered Burry verdict from verified evidence."""
 
     timing_summary = timing_summary or {}
     debt_census = debt_census or {}
     contagion_hubs = contagion_hubs or {}
+    demand_side = demand_side or {}
     bear = _finding(thesis_findings, "bear_case_against_bubble")
     bear_confidence = float(bear.get("confidence") or 0.0)
 
@@ -319,6 +321,20 @@ def synthesize_core_verdict(
             }
             if contagion_hubs.get("status") == "source_backed"
             else {"status": "pending_source_backed_counterparty_edges"}
+        ),
+        "demand_side_funding": (
+            {
+                "aggregate_ai_capex_usd": demand_side.get("aggregate_ai_capex_usd"),
+                "cash_coverage_of_capex": demand_side.get("cash_coverage_of_capex"),
+                "aggregate_compute_commitments_to_core_usd": demand_side.get(
+                    "aggregate_compute_commitments_to_core_usd"
+                ),
+                "cash_funded_players": demand_side.get("cash_funded_players"),
+                "player_count": demand_side.get("player_count"),
+                "bear_case_read": demand_side.get("bear_case_read"),
+            }
+            if demand_side.get("status") == "source_backed"
+            else {"status": "pending_source_backed_demand_side"}
         ),
         "crack_timing": crack_timing,
         "weakest_links": weakest_links,
