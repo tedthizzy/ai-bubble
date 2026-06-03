@@ -1473,6 +1473,47 @@ def report_answer_metric_audits(  # noqa: PLR0912, PLR0915
                 unit="USD",
             )
 
+        # Adjudicated AI-direct committed debt (over-count guard, primary-filing provenance).
+        adj = m.get("adjudicated_committed_debt", {})
+        if adj.get("status") == "source_backed" and adj.get("verified_distinct_committed_incl_infra_usd"):
+            adj_evidence = [
+                mismatch_artifact,
+                *row_list_provenance(
+                    [{"source_uri": u} for u in (adj.get("source_uris") or [])],
+                    fallback_section="adjudicated_committed_debt.instruments",
+                ),
+            ]
+            add(
+                "mismatch.adjudicated.verified_distinct_committed_ai_debt_usd",
+                "Distinct, de-duplicated, primary-source-verified committed AI-direct debt (incl. "
+                "data-center-infra issuers) from adjudicating the 76 highest-impact blocked rows; 0 of 39 "
+                "committed instruments refuted on adversarial re-check. The financed-cluster committed "
+                "debt is small and specific (~$30B), not the trillion-dollar headline aggregate.",
+                adj.get("verified_distinct_committed_incl_infra_usd"),
+                adj_evidence,
+                unit="USD",
+            )
+            add(
+                "mismatch.adjudicated.original_inflated_basis_usd",
+                "Pre-adjudication inflated 'exposure' basis summed across the 76 AI-direct blocked rows -- "
+                "the over-counted figure a naive metric would carry before adjudication strips the "
+                "aggregate/capacity/resale-registration/uncommenced-lease noise. Documented to be "
+                "DISCOUNTED, not asserted.",
+                adj.get("original_inflated_basis_usd"),
+                adj_evidence,
+                unit="USD",
+                requires_corroboration=False,
+            )
+            add(
+                "mismatch.adjudicated.over_count_removed_usd",
+                "Over-count stripped from the 76 AI-direct blocked rows: the gap between their ~$1.45T of "
+                "inflated 'exposure' bases and the verified distinct committed debt -- aggregate / capacity "
+                "/ resale-registration / uncommenced-lease noise that is NOT committed debt (~98%).",
+                adj.get("over_count_removed_usd"),
+                adj_evidence,
+                unit="USD",
+            )
+
         # Demand-side (hyperscaler/offtaker) source-backed aggregates.
         dsf = m.get("demand_side_funding", {})
         if dsf.get("status") == "source_backed":

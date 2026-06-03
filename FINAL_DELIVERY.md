@@ -32,8 +32,8 @@ The important change is that ecosystem-scale conclusions are now blocked from be
 
 Latest verified evidence-gated report at this checkpoint:
 
-- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260603-2305 .md`
-- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260603-2305 .json`
+- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260603-2312 .md`
+- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260603-2312 .json`
 - `high_confidence_final`: `false` (ecosystem-wide, BY DESIGN — see verdict below).
 - Current `master` checkpoint: `e72d74e` (single-agent; the prior two-agent
   Claude/Codex handoff queue was consolidated into `master` at `7638aa9` and the
@@ -130,7 +130,7 @@ Latest verified evidence-gated report at this checkpoint:
   (8, S3) demand-side off-BS leverage; (9, S3) downside socialized to insurance/pension
   (households); (10, S2) ratepayer exposure (largely protected). A risk enters only if its
   backing layer is source-backed; nothing asserted above its evidence tier.
-- Evidence audit coverage now includes 556 claim audits: analyzer-level capital,
+- Evidence audit coverage now includes 559 claim audits: analyzer-level capital,
   compute, and debt-service audits, explicit row/artifact-backed audits for
   high-impact Burry-answer rollups, and aggregate hooks for pending review
   capital, pending AI-infra capital, pending compute, weak-link AI-infra,

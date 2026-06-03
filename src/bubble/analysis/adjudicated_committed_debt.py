@@ -38,6 +38,14 @@ def aggregate_adjudicated_committed_debt(payload: dict[str, Any]) -> dict[str, A
     summ = payload.get("summary") or {}
     adv = payload.get("adversarial_verification") or {}
     dd = payload.get("deduped_distinct_instruments") or {}
+    # Distinct primary-filing sources behind the committed instruments (for claim-audit provenance).
+    source_uris = sorted(
+        {
+            f"local:{d.get('path')}"
+            for d in (payload.get("decisions") or [])
+            if d.get("path") and (d.get("verified_committed_usd") or 0) > 0
+        }
+    )
     basis = _num(payload.get("original_inflated_basis_usd"))
     core = _num(dd.get("core_cluster_committed_usd"))
     infra = _num(dd.get("datacenter_infra_committed_usd"))
@@ -63,6 +71,7 @@ def aggregate_adjudicated_committed_debt(payload: dict[str, Any]) -> dict[str, A
         "distinct_instrument_count": dd.get("instrument_count"),
         "over_count_removed_usd": int(over) if over is not None else None,
         "over_count_removed_pct": over_pct,
+        "source_uris": source_uris,
         "top_instruments": instruments[:12],
         "size_read": _read(summ, adv, basis, core, ex_q, over_pct),
         "caveat": dd.get("caveat"),
