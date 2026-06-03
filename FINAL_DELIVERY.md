@@ -32,8 +32,8 @@ The important change is that ecosystem-scale conclusions are now blocked from be
 
 Latest verified evidence-gated report at this checkpoint:
 
-- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260603-0436.md`
-- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260603-0436.json`
+- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260603-0455.md`
+- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260603-0455.json`
 - `high_confidence_final`: `false` (ecosystem-wide, BY DESIGN — see verdict below).
 - Current `master` checkpoint: `e72d74e` (single-agent; the prior two-agent
   Claude/Codex handoff queue was consolidated into `master` at `7638aa9` and the
@@ -102,6 +102,21 @@ Latest verified evidence-gated report at this checkpoint:
   by the verifier; absence is not a clean bill, only non-disclosure in the window read.
   Complements the inferred-heuristic RedFlagEngine. Fixture:
   handoffs/ai_cluster_red_flags_20260603.json.
+- Utilization vs debt-service mismatch (the goal's "Utilization vs. debt service mismatch
+  analysis at the deal and entity level" capability): per-issuer from filings. Result is
+  honest and thin BY CONSTRUCTION — per-deal utilization and full debt service are rarely
+  cleanly disclosed (1/8 disclosed a utilization figure; 1/8 disclosed full debt service).
+  Where it IS disclosed: Cipher Mining's REVENUE is below its full debt service (coverage
+  < 1x). The adversarial verify pass nulled CoreWeave's "debt service" because the figure
+  was 2026 principal maturity, not P+I service — refusing to let a principal-only number
+  masquerade as DSCR. The leg quantifies the disclosure opacity itself as a transparency
+  red flag rather than fabricating a coverage number. Fixture:
+  handoffs/ai_utilization_debt_service_20260603.json.
+- Report now leads with a "Scoped Burry Conclusion" block: the binary call (core
+  `bubble_dynamics_present` @ 0.67 confidence; ecosystem `not_established`), the crack
+  timeline (near-term 2025-Q3..2027-Q3, majority breach by the adverse scenario), and the
+  top-3 register risks — fulfilling the Final Report's "clear binary conclusion with
+  confidence score" + "specific timeline for cracks" up front.
 - Top actionable-risk register (fulfills the Final Burry Report's "Top 10-15 actionable
   risks with supporting data" requirement): 10 ranked, severity-weighted (1-5) risks
   synthesized deterministically across the seven verified layers + red-flag scorecard,
@@ -115,7 +130,7 @@ Latest verified evidence-gated report at this checkpoint:
   (8, S3) demand-side off-BS leverage; (9, S3) downside socialized to insurance/pension
   (households); (10, S2) ratepayer exposure (largely protected). A risk enters only if its
   backing layer is source-backed; nothing asserted above its evidence tier.
-- Evidence audit coverage now includes 534 claim audits: analyzer-level capital,
+- Evidence audit coverage now includes 536 claim audits: analyzer-level capital,
   compute, and debt-service audits, explicit row/artifact-backed audits for
   high-impact Burry-answer rollups, and aggregate hooks for pending review
   capital, pending AI-infra capital, pending compute, weak-link AI-infra,

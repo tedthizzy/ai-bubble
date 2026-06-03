@@ -60,6 +60,8 @@ def aggregate_utilization_debt_service(records: list[dict[str, Any]]) -> dict[st
     per_issuer: list[dict[str, Any]] = []
     contracted_coverage_ratios: list[float] = []
     issuers_contracted_below_1 = 0
+    issuers_revenue_below_debt_service = 0
+    revenue_below_debt_service_names: list[str] = []
     issuers_with_debt_service = 0
     issuers_with_utilization = 0
 
@@ -88,6 +90,10 @@ def aggregate_utilization_debt_service(records: list[dict[str, Any]]) -> dict[st
             coverage = round(numer / denom, 2)
             if debt_service and debt_service > 0:
                 issuers_with_debt_service += 1
+                # Hard mismatch: revenue (contracted OR total) below FULL debt service.
+                if coverage < 1.0:
+                    issuers_revenue_below_debt_service += 1
+                    revenue_below_debt_service_names.append(issuer)
             # Only count contracted-revenue coverage in the break-stat (not total-rev proxy).
             if numer_kind == "contracted_revenue":
                 contracted_coverage_ratios.append(coverage)
@@ -126,10 +132,17 @@ def aggregate_utilization_debt_service(records: list[dict[str, Any]]) -> dict[st
         "issuers_with_disclosed_utilization": issuers_with_utilization,
         "issuers_with_contracted_coverage": len(contracted_coverage_ratios),
         "issuers_contracted_coverage_below_1": issuers_contracted_below_1,
+        "issuers_revenue_below_debt_service": issuers_revenue_below_debt_service,
+        "revenue_below_debt_service_issuers": sorted(set(revenue_below_debt_service_names)),
         "median_contracted_coverage_ratio": median_contracted,
         "per_issuer": per_issuer,
         "mismatch_read": _read(
-            len(contracted_coverage_ratios), issuers_contracted_below_1, median_contracted
+            len(contracted_coverage_ratios),
+            issuers_contracted_below_1,
+            median_contracted,
+            issuers_revenue_below_debt_service,
+            issuers_with_debt_service,
+            sorted(set(revenue_below_debt_service_names)),
         ),
         "note": (
             "Entity-level utilization vs debt-service mismatch from filings. coverage_ratio = "
@@ -154,12 +167,30 @@ def _median(values: list[float]) -> float | None:
     return round((ordered[mid - 1] + ordered[mid]) / 2, 2)
 
 
-def _read(n_contracted: int, below_1: int, median: float | None) -> str:
+def _read(
+    n_contracted: int,
+    below_1: int,
+    median: float | None,
+    rev_below_ds: int = 0,
+    n_with_ds: int = 0,
+    rev_below_names: list[str] | None = None,
+) -> str:
+    # A revenue-below-FULL-debt-service hit is the hardest signal; surface it first.
+    if rev_below_ds > 0:
+        who = ", ".join(rev_below_names or [])
+        return (
+            f"revenue_below_debt_service: {rev_below_ds} of {n_with_ds} issuers that filed full debt "
+            f"service have REVENUE below it (coverage < 1x): {who}. Even total revenue does not cover "
+            "principal+interest -- a hard, disclosed mismatch, not a utilization-miss tail. Note: "
+            "per-deal utilization and full debt service are rarely cleanly filed, so the computable "
+            "sample is thin; the absence of a ratio for an issuer is non-disclosure, not safety."
+        )
     if n_contracted == 0:
         return (
             "indeterminate_contracted_coverage: no issuer filed both a contracted-revenue run-rate "
             "and debt service cleanly enough to compute a contracted-coverage ratio; the leg remains "
-            "interest-coverage / revenue-proxy based until per-deal contract economics are disclosed."
+            "interest-coverage / revenue-proxy based until per-deal contract economics are disclosed. "
+            "Per-deal utilization/debt-service disclosure is thin -- itself a transparency red flag."
         )
     if below_1 >= n_contracted / 2:
         return (

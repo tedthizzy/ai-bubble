@@ -4018,6 +4018,36 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:  #
     return report
 
 
+def _executive_conclusion(verdict: dict[str, Any]) -> str:
+    """A crisp scoped binary conclusion + confidence + timeline + top risks for the top of the report."""
+
+    if not verdict or not verdict.get("core_verdict"):
+        return ""
+    ct = verdict.get("crack_timing", {}) or {}
+    fwd = (ct.get("forward_scenarios") or {}) if isinstance(ct, dict) else {}
+    risks = (verdict.get("top_actionable_risks", {}) or {}).get("risks") or []
+    top3 = "; ".join(
+        f"({r.get('rank')}) {r.get('title')}" for r in risks[:3]
+    )
+    sev = str(fwd.get("severity_read") or "").split(".")[0]
+    return (
+        "## Scoped Burry Conclusion\n\n"
+        f"**Financed AI-direct core — `{verdict.get('core_verdict')}` at confidence "
+        f"{verdict.get('core_verdict_confidence')}.** "
+        "Bubble dynamics ARE present in the financed neocloud/data-center cluster: source-backed "
+        "cash-flow fragility, an accounting-integrity overlay, and concentrated contagion. "
+        f"**Ecosystem-wide — `{verdict.get('ecosystem_verdict')}`** (the broad debt metric is mostly "
+        "non-AI, so no defensible total-AI denominator exists; this is a scope statement, not a clean "
+        "bill of health).\n\n"
+        f"**When it cracks:** near-term refinancing pressure {ct.get('near_term_pressure_window', 'n/a')}; "
+        f"forward stress — {sev or 'see scenario table'}.\n\n"
+        f"**Top risks:** {top3 or 'see register below'}.\n\n"
+        "_Confidence is deliberately not a near-certainty: the credible non-bubble case and "
+        "forward-assumption dependence discount it. Every figure below is tagged source-backed vs "
+        "illustrative; the ecosystem evidence gate remains held at 0.25 by design._\n"
+    )
+
+
 def _verdict_layer_lines(verdict: dict[str, Any]) -> dict[str, str]:  # noqa: PLR0912
     """Build the one-line per-layer summaries for the verdict markdown section."""
 
@@ -4245,6 +4275,7 @@ Leading indicators:
 
 {report["executive_summary"]["coverage_sentence"]}
 
+{_executive_conclusion(verdict)}
 {md_verdict}
 
 ## Burry's Separation Test (Mismatch Ratios)

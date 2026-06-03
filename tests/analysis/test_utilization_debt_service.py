@@ -40,7 +40,10 @@ def test_contracted_coverage_below_1_read() -> None:
     assert out["issuers_with_contracted_coverage"] == 2
     assert out["issuers_contracted_coverage_below_1"] == 2
     assert out["median_contracted_coverage_ratio"] == 0.65
-    assert "contracted_revenue_under_covers_debt_service" in out["mismatch_read"]
+    # Both have full debt service and revenue below it -> the hard mismatch surfaces first.
+    assert out["issuers_revenue_below_debt_service"] == 2
+    assert "revenue_below_debt_service" in out["mismatch_read"]
+    assert set(out["revenue_below_debt_service_issuers"]) == {"Thinco", "Weakco"}
     # break-even utilization = 90 / 0.8 = 112.5 (i.e. already underwater at full util)
     thinco = next(p for p in out["per_issuer"] if p["issuer"] == "Thinco")
     assert thinco["breakeven_utilization_pct"] == 112.5
