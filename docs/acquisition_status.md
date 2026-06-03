@@ -9,7 +9,7 @@ the scoped conclusion.
 
 ## Current Corpus
 
-- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260603-0328.md`
+- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260603-0341.md`
 - Evidence gate: ecosystem `high_confidence_final=false` / `bubble_confidence 0.25` (by design).
 - **Tiered verdict (`ai_direct_core_verdict`):** AI-direct core `bubble_dynamics_present` @ 0.67;
   ecosystem-wide `not_established_as_ecosystem_wide_bubble` (broad metric is mostly non-AI debt, so
@@ -26,7 +26,13 @@ the scoped conclusion.
   from supplier filings (TSMC CoWoS, HBM, NVIDIA GPUs, gas turbines, transformers,
   gensets, cooling, electrical labor); all 8 gate the buildout, 6 are single-source/
   duopoly, lead times up to ~42 months (median ~24), 12 suppliers filing-verified.
-- Evidence audit coverage: 528 claim audits now include analyzer-level capital,
+- Debt-side end-holder routing (resolves the equity-only gap): the 8 cluster
+  private-credit lenders (Apollo/Athene 51%, Blackstone 53%, KKR/Global Atlantic 44%,
+  Carlyle, Brookfield, Blue Owl, Ares, Sixth Street) all draw material insurance/annuity
+  + pension funding (median ~41% insurance-funded, 18 sources filing-verified), so the
+  cluster's private-placement DEBT loss routes to policyholders/retirees — the channel
+  13-F equity data cannot show. Aggregate funding mix, not per-facility attribution.
+- Evidence audit coverage: 530 claim audits now include analyzer-level capital,
   compute, and debt-service audits, explicit row/artifact-backed audits for
   high-impact Burry-answer rollups, and aggregate hooks for pending review
   capital, pending AI-infra capital, pending compute, weak-link AI-infra,

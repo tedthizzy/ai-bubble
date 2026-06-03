@@ -1,0 +1,466 @@
+[
+  {
+    "lender": "Apollo Global Management / Athene",
+    "insurance_funded_share_pct": 51.1,
+    "total_credit_aum_usd": 616400000000,
+    "verified_funding_sources": [
+      {
+        "source_type": "insurance_annuity_balance_sheet",
+        "source_filing": "Apollo Global Management FY2024 10-K (accession 0001858681-25-000034) and Q4'24 8-K earnings release; AUM in accounts owned by or related to Athene = $331.5B ($325.7B FGAUM); confirmed as $331B perpetual capital in Q4'24 8-K AUM tables",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/0001858681/000185868125000034/apo-20241231.htm",
+        "approx_amount_usd": 331500000000,
+        "approx_share_pct": 44.1,
+        "verdict": "filing_verified"
+      },
+      {
+        "source_type": "insurance_annuity_balance_sheet",
+        "source_filing": "Apollo FY2024 10-K (accession 0001858681-25-000034); Athora Accounts AUM = $52.4B ($50.5B FGAUM); corroborated by Q4'24 8-K (~$52B). Athora = Apollo's European Solvency II insurance consolidator",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/0001858681/000185868125000034/apo-20241231.htm",
+        "approx_amount_usd": 52400000000,
+        "approx_share_pct": 7,
+        "verdict": "filing_verified"
+      },
+      {
+        "source_type": "bank_or_other_institutional",
+        "source_filing": "Residual = total AUM $751B less Athene $331.5B less Athora $52.4B = $367.1B. Arithmetic residual from filing-verified figures, BUT source_type label 'bank_or_other_institutional' is a mislabel: Apollo does NOT decompose this pool by funder, so it is an undifferentiated third-party residual, not specifically bank-funded. Inferred, not a filing line.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/0001858681/000185868125000034/apo-20241231.htm",
+        "approx_amount_usd": 367100000000,
+        "approx_share_pct": 48.9,
+        "verdict": "analyst_kept_flagged"
+      },
+      {
+        "source_type": "pension",
+        "source_filing": "Apollo FY2024 10-K does not break out the third-party pool by client type; pension share not separately disclosed. Honest null, no figure asserted.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/0001858681/000185868125000034/apo-20241231.htm",
+        "approx_amount_usd": null,
+        "approx_share_pct": null,
+        "verdict": "analyst_kept_flagged"
+      },
+      {
+        "source_type": "sovereign_wealth",
+        "source_filing": "Apollo FY2024 10-K does not separately quantify sovereign-wealth-funded AUM. Honest null, no figure asserted.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/0001858681/000185868125000034/apo-20241231.htm",
+        "approx_amount_usd": null,
+        "approx_share_pct": null,
+        "verdict": "analyst_kept_flagged"
+      },
+      {
+        "source_type": "retail_or_wealth",
+        "source_filing": "Apollo FY2024 10-K / Q4'24 earnings note growing Global Wealth inflows qualitatively but give no stock-of-AUM dollar split by retail/wealth. Honest null, no figure asserted.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/0001858681/000185868125000034/apo-20241231.htm",
+        "approx_amount_usd": null,
+        "approx_share_pct": null,
+        "verdict": "analyst_kept_flagged"
+      }
+    ],
+    "overall": "source_backed",
+    "note": "VERDICT: source_backed. The two dollar-bearing funding sources (Athene $331.5B/44.1%, Athora $52.4B/7.0%) are FILING-VERIFIED against Apollo's FY2024 10-K (accession 0001858681-25-000034) and the Q4'24 8-K earnings release, where the AUM rollforward tables show total AUM $751B (FGAUM $569B), Athene perpetual capital ~$331B, Athora ~$52B. The insurance_funded_share_pct = ($331.5B + $52.4B)/$751B = 51.1% is arithmetically sound and tied to filing-verified inputs (I corrected the extraction's rounded 51 to 51.1). Direction is also independently plausible: these firms publicly tout insurance/retirement AUM as their core funding base.\n\nCORRECTIONS / FLAGS:\n1. total_credit_aum_usd CORRECTED from $480B to $616.4B. Apollo's own Q4'24 8-K AUM tables report Credit AUM = $616,387M and Equity AUM = $134,650M (sum = $751B) at Dec 31 2024. The extraction's $480B credit figure is NOT supported by any filing I could locate and contradicts the disclosed $616.4B credit asset-class AUM; it appears to be an unsourced/erroneous estimate. This matters because the note's '~65-80% of credit AUM is insurance-funded' structural inference uses $480B as the denominator; with the correct $616.4B denominator, ($331.5+$52.4)/$616.4 = 62.3% as a crude upper bound, and the true insurance share of credit specifically is still not separately filed (remains inferred). The qualitative direction (insurance share of CREDIT exceeds the 51% share of TOTAL, since Athene/Athora invest primarily in fixed income) is reasonable but Apollo does not disclose it precisely.\n2. The $938.4B total / $749.2B credit figures are the LATER FY2025 10-K (confirmed via stocktitan FY2025 filing and Feb 2026 reporting) — the extraction correctly warns against conflating these with FY2024. Good catch by the extractor.\n3. The $367.1B residual is a correct arithmetic residual from filing figures but is mislabeled 'bank_or_other_institutional' — Apollo does not decompose this pool by funder, so it is an undifferentiated third-party residual, not bank-specifically-funded. Downgraded to analyst_kept_flagged.\n4. pension / sovereign_wealth / retail_or_wealth buckets are honestly returned as null (Apollo files no dollar split); no fabricated figures — kept as flagged (non-disclosure correctly stated), not rejected.\n5. The $38B digital-infrastructure deployment figure (Apollo 'Financing the Digital Infrastructure Surge' marketing spotlight, Aug 2025) and the Stream Data Centers acquisition are correctly self-flagged by the extractor as company-marketing/press grade, NOT a 10-K credit-exposure line; $38B is gross deployment across all next-gen infra, not data-center-only or all-credit. Do not treat as a filing-verified data-center exposure.\n\nNet: majority of dollar-quantified funding sources are filing_verified; insurance share is sourced and arithmetically correct; the single material data error (credit AUM denominator) has been corrected, not propagated. Filing pages on sec.gov returned HTTP 403 to automated fetch; figures verified via the matching Q4'24 8-K earnings release tables (same disclosures) and stocktitan/investing.com corroboration."
+  },
+  {
+    "lender": "Blackstone Credit & Insurance (BXCI) — incl. Insurance perpetual/SMA capital, BCRED, BXSL",
+    "total_credit_aum_usd": 443000000000,
+    "insurance_funded_share_pct": 53,
+    "verified_funding_sources": [
+      {
+        "source_type": "insurance_annuity_balance_sheet",
+        "source_filing": "Blackstone Inc. FY2025 10-K / 4Q25 earnings — Credit & Insurance segment $443.0B total AUM as of 12/31/2025 (verified); insurance client assets ~$237B as of 3/31/2025 (verified Q1 snapshot). NOTE: year-end (Q4 2025) insurance channel AUM was ~$271B, so the $237B figure used for the share is a Q1 numerator against a year-end denominator. Insurance clients (Corebridge, Everlake, Resolution Life, F&G, Legal & General) all confirmed real; L&G partnership added 2H-2025 (announced 7/10/2025).",
+        "approx_amount_usd": 237000000000,
+        "approx_share_pct": 53,
+        "verdict": "filing_verified",
+        "source_url": "https://www.blackstone.com/wp-content/uploads/sites/2/2026/01/Blackstone4Q25EarningsPressRelease.pdf"
+      },
+      {
+        "source_type": "retail_or_wealth",
+        "source_filing": "BCRED (Blackstone Private Credit Fund, non-traded BDC, CIK 0001803498) — ~$82.2B total investments and ~$47.6B NAV as of 12/31/2025. Both figures verified against BCRED December 2025 disclosures.",
+        "approx_amount_usd": 47600000000,
+        "approx_share_pct": 11,
+        "verdict": "filing_verified",
+        "source_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001803498&type=N-CSR"
+      },
+      {
+        "source_type": "bank_or_other_institutional",
+        "source_filing": "Residual of $443.0B not attributable to insurance ($237B) or BCRED NAV ($47.6B) — i.e. ~$158B covering BXSL plus institutional drawdown/SMA credit funds. This is an ARITHMETIC RESIDUAL, self-labeled inferred; the 10-K does NOT break out BXCI fee-earning AUM by ultimate institutional investor type. Plausible as a residual but not a filing-stated investor-type figure. Residual arithmetic is also imprecise because the $237B insurance number is a Q1 snapshot vs a year-end total.",
+        "approx_amount_usd": 158000000000,
+        "approx_share_pct": 36,
+        "verdict": "analyst_kept_flagged",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/0001393818/000119312526082531/d48618d10k.htm"
+      },
+      {
+        "source_type": "pension",
+        "source_filing": "Blackstone FY2025 10-K names public and corporate pension funds in its firmwide institutional base, but discloses NO BXCI-specific pension dollar amount. Self-labeled inferred with null amount; direction is reasonable but unquantified at the BXCI level.",
+        "approx_amount_usd": null,
+        "approx_share_pct": null,
+        "verdict": "analyst_kept_flagged",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/0001393818/000119312526082531/d48618d10k.htm"
+      },
+      {
+        "source_type": "sovereign_wealth",
+        "source_filing": "Blackstone FY2025 10-K names sovereign wealth funds among firmwide institutional investors, but discloses NO BXCI-specific sovereign dollar amount. Self-labeled inferred with null amount; reasonable but unquantified at the BXCI level.",
+        "approx_amount_usd": null,
+        "approx_share_pct": null,
+        "verdict": "analyst_kept_flagged",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/0001393818/000119312526082531/d48618d10k.htm"
+      }
+    ],
+    "overall": "partially_source_backed",
+    "note": "VERIFIED ANCHORS: (1) BXCI Credit & Insurance segment = $443.0B total AUM as of 12/31/2025 — confirmed via Blackstone 4Q25 earnings release and corroborating SEC 8-K filings. (2) Insurance client assets ~$237B — confirmed as a 3/31/2025 (Q1) figure. (3) BCRED ~$82.2B total investments / ~$47.6B NAV as of 12/31/2025 — confirmed. (4) Named insurance clients (Corebridge, Everlake, Resolution Life, F&G, Legal & General) all confirmed real; L&G partnership added 2H-2025.\\n\\nSHARE CAVEAT (insurance_funded_share_pct=53): the 53% is $237B/$443B, mixing a Q1 numerator against a year-end denominator. Year-end (Q4 2025) insurance channel AUM was actually ~$271B, so the true year-end insurance share is ~61%, HIGHER than 53%. The 53% therefore UNDERSTATES year-end insurance funding — the direction is right (Blackstone does publicly tout insurance AUM and the share is large/dominant), but the exact 53% is timing-mismatched and not the best year-end figure. The extraction's own coverage_note correctly flags this and predicts the year-end figure is higher — credit for transparency, but the headline % should be treated as a Q1-anchored approximation, not a year-end-exact figure.\\n\\nVERDICT RATIONALE: 2 of 5 sources are filing_verified (insurance balance-sheet anchor, BCRED retail/wealth). The other 3 (institutional residual, pension, sovereign) are analyst_kept_flagged: the $158B institutional residual is an arithmetic inference (443−237−47.6) self-labeled 'inferred', and the 10-K provides NO BXCI-level breakdown by investor type, so pension/sovereign are named in the firmwide base but carry null/unquantified BXCI amounts. None are rejected_unsourced — all five trace to a real filing or a defensible residual, and the extraction was appropriately conservative (null) rather than fabricating figures. Because only a minority (2/5) are filing_verified while the rest are flagged inferences, overall = partially_source_backed.\\n\\nDATA-CENTER NOTE (separately verified): the extraction correctly REFUSES to bind a BXCI-specific data-center credit dollar figure (null). The ~$100B data-center figure in firm commentary belongs to Blackstone Real Estate/Infrastructure equity (QTS: ~$70B portfolio / ~$100B pipeline), NOT BXCI credit — confirmed. This is the correct adversarial call; any single BXCI data-center credit number would be unsourced.\\n\\nRound-number check: $443.0B, $237B, $47.6B, $82.2B all tie to reported figures rather than convenient round numbers. The 53% / 11% / 36% shares are derived approximations that do not sum cleanly due to the Q1-vs-year-end date mismatch, as the extraction acknowledges."
+  },
+  {
+    "lender": "Blue Owl Capital Inc. (NYSE: OWL; CIK 0001823945)",
+    "total_credit_aum_usd": 157800000000,
+    "insurance_funded_share_pct": 20,
+    "verified_funding_sources": [
+      {
+        "source_type": "retail_or_wealth",
+        "approx_share_pct": 32,
+        "approx_amount_usd": 80300000000,
+        "source_filing": "Investor Day deck 2025-02-07, slide 'And Continue to Broaden and Diversify Our Investor Base - Based on equity commitments': Private Wealth 32%. Referenced in Reg FD 8-K acc 0001193125-25-022253 (Item 7.01). Firm-wide equity-commitments basis (12/31/2024, $251bn), not credit-only.",
+        "source_url": "https://s202.q4cdn.com/477831904/files/doc_presentations/2025/BlueOwl_InvestorDayPresentation_02072025.pdf",
+        "verdict": "analyst_kept_flagged"
+      },
+      {
+        "source_type": "insurance_annuity_balance_sheet",
+        "approx_share_pct": 20,
+        "approx_amount_usd": 50200000000,
+        "source_filing": "Investor Day deck 2025-02-07 investor-base slide: 'Insurance (LPs / KAM)' 20%; deck footnote confirms KAM = Kuvare Asset Management acquisition plus subsequent flows into legacy KAM products. Referenced in 8-K acc 0001193125-25-022253. Firm-wide equity-commitments basis, not credit-only.",
+        "source_url": "https://s202.q4cdn.com/477831904/files/doc_presentations/2025/BlueOwl_InvestorDayPresentation_02072025.pdf",
+        "verdict": "analyst_kept_flagged"
+      },
+      {
+        "source_type": "pension",
+        "approx_share_pct": 28,
+        "approx_amount_usd": 70300000000,
+        "source_filing": "Investor Day deck 2025-02-07 investor-base slide: Public Pension 19% + Corporate Pension 9% = 28%. Both line items confirmed in extracted deck text. Referenced in 8-K acc 0001193125-25-022253. Firm-wide equity-commitments basis.",
+        "source_url": "https://s202.q4cdn.com/477831904/files/doc_presentations/2025/BlueOwl_InvestorDayPresentation_02072025.pdf",
+        "verdict": "analyst_kept_flagged"
+      },
+      {
+        "source_type": "sovereign_wealth",
+        "approx_share_pct": 8,
+        "approx_amount_usd": 20100000000,
+        "source_filing": "Investor Day deck 2025-02-07 investor-base slide: Sovereign Wealth Fund 8%. Confirmed in extracted deck text. Referenced in 8-K acc 0001193125-25-022253. Firm-wide equity-commitments basis.",
+        "source_url": "https://s202.q4cdn.com/477831904/files/doc_presentations/2025/BlueOwl_InvestorDayPresentation_02072025.pdf",
+        "verdict": "analyst_kept_flagged"
+      },
+      {
+        "source_type": "endowment_or_foundation",
+        "approx_share_pct": 4,
+        "approx_amount_usd": 10000000000,
+        "source_filing": "Investor Day deck 2025-02-07 investor-base slide: Endowments & Foundations 4%. Confirmed in extracted deck text. Referenced in 8-K acc 0001193125-25-022253. Firm-wide equity-commitments basis.",
+        "source_url": "https://s202.q4cdn.com/477831904/files/doc_presentations/2025/BlueOwl_InvestorDayPresentation_02072025.pdf",
+        "verdict": "analyst_kept_flagged"
+      },
+      {
+        "source_type": "bank_or_other_institutional",
+        "approx_share_pct": 8,
+        "approx_amount_usd": 20100000000,
+        "source_filing": "Investor Day deck 2025-02-07 investor-base slide: Family Office 5% + Other 3% = 8%. Deck footnote (verified line 4456): 'Other includes the following investor types: Asset Managers, Sovereign Nations, Corporate Treasury, and Fund of Funds.' Referenced in 8-K acc 0001193125-25-022253. Firm-wide equity-commitments basis.",
+        "source_url": "https://s202.q4cdn.com/477831904/files/doc_presentations/2025/BlueOwl_InvestorDayPresentation_02072025.pdf",
+        "verdict": "analyst_kept_flagged"
+      }
+    ],
+    "overall": "partially_source_backed",
+    "note": "ADVERSARIAL VERIFICATION RESULT.\n\nWHAT VERIFIED CLEANLY (independently confirmed, not taken on the analyst's word):\n- 8-K accession 0001193125-25-022253 is REAL: EDGAR full-text search + submissions JSON confirm an 8-K filed 2025-02-07 (period 2025-02-07), primary doc d913867d8k.htm, CIK 0001823945. Reg FD / Item 7.01 framing consistent.\n- FY2025 10-K accession 0001823945-26-000009 is REAL: filed 2026-02-19, doc owl-20251231.htm. Pulled the actual 10-K text and confirmed verbatim: 'Blue Owl AUM: $307.4 billion ... Credit AUM: $157.8 billion ... Real Assets AUM: $80.6 billion ... GP Strategic Capital AUM: $69.1 billion ... Digital Infrastructure AUM: $17.1 billion FPAUM: $12.2 billion.' total_credit_aum_usd=$157.8B is filing_verified. The 10-K Item 1 qualitative investor-base sentence is also confirmed present.\n- The Investor Day deck is LIVE at the cited q4cdn URL. Downloaded the 3.6MB PDF and extracted text. The slide 'And Continue to Broaden and Diversify Our Investor Base - Based on equity commitments' shows EXACTLY: Private Wealth 32% / Insurance (LPs / KAM) 20% / Public Pension 19% / Corporate Pension 9% / Sovereign Wealth Fund 8% / Family Office 5% / Endowments & Foundations 4% / Other 3%. All eight match line-for-line; they sum to exactly 100%. The KAM footnote (Kuvare acquisition + flows into legacy KAM products) and the 'Other' footnote (Asset Managers, Sovereign Nations, Corporate Treasury, Fund of Funds) both present and match. Deck is 'as of December 31, 2024,' firm AUM $251bn.\n\nWHY analyst_kept_flagged (downgraded from the analyst's 'filing_verified') ON THE SEVEN FUNDING SOURCES:\n1) SOURCE IS A DECK, NOT AN EDGAR TABLE. The 8-K references the IR-hosted deck but does not attach the percentage breakdown as an EDGAR exhibit. Figures are company-published Reg FD material, exact, but not a filed/audited table.\n2) SCOPE MISMATCH (load-bearing caveat). The mix is FIRM-WIDE on an EQUITY-COMMITMENTS basis (12/31/2024, $251bn), NOT credit-only and NOT AUM-dollar-weighted. Binding it to total_credit_aum_usd=$157.8B (Credit platform, 12/31/2025) implies a credit-platform funding split Blue Owl does NOT disclose. No Credit-platform LP breakdown is published, so who funds the credit/DDTL/SPV book is structurally inferred, not sourced.\n3) DENOMINATOR/DATE FIX. approx_amount_usd values I added are computed on the firm-wide $251bn equity-commitments base (12/31/2024) the percentages actually describe - NOT on $157.8B credit AUM. They illustrate the firm-wide mix, not credit-book dollars.\n\nINSURANCE SHARE SANITY-CHECK: insurance_funded_share_pct=20 is directionally correct and well-sourced as a FIRM-WIDE equity-commitments figure (Insurance LPs/KAM = 20% in the deck), consistent with Blue Owl publicly touting insurance AUM via the July 2024 Kuvare acquisition / Blue Owl Insurance Solutions. It is NOT a credit-only insurance share (no such breakout exists). Exact deck value, not a suspicious round number.\n\nOVERALL = partially_source_backed: every figure traces to a real, verified company source (deck + 10-K + 8-K all confirmed independently), but the seven funding-mix shares are firm-wide equity-commitments proxies bound to a credit-AUM denominator and live in a non-EDGAR-attached deck, so none rises to clean credit-platform filing_verified. The analyst's coverage_note transparently disclosed all of these limitations, hence kept-and-flagged rather than rejected_unsourced. No source was fabricated; no source rejected."
+  },
+  {
+    "lender": "Ares Management Corporation (Credit Group + Ares Insurance Solutions / Aspida)",
+    "total_credit_aum_usd": 406900000000,
+    "insurance_funded_share_pct": 14,
+    "verified_funding_sources": [
+      {
+        "source_type": "insurance_annuity_balance_sheet",
+        "source_filing": "Ares Management Corp Form 10-K FY2025 (accession 0001628280-26-011413, filed 2026-02-25), Item 1 Business",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1176948/000162828026011413/ares-20251231.htm",
+        "approx_amount_usd": 86500000000,
+        "approx_share_pct": 14,
+        "verdict": "filing_verified"
+      },
+      {
+        "source_type": "insurance_annuity_balance_sheet",
+        "source_filing": "Ares Management Corp Form 10-K FY2025 (accession 0001628280-26-011413), AIS/Aspida disclosure",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1176948/000162828026011413/ares-20251231.htm",
+        "approx_amount_usd": 25900000000,
+        "approx_share_pct": 4,
+        "verdict": "filing_verified"
+      },
+      {
+        "source_type": "pension",
+        "source_filing": "Ares Management Corp Form 10-K FY2025 (accession 0001628280-26-011413): 'Pension' named as institutional-direct client-type category; per-category dollar embedded in chart graphic, not in extractable text",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1176948/000162828026011413/ares-20251231.htm",
+        "approx_amount_usd": null,
+        "approx_share_pct": null,
+        "verdict": "filing_verified"
+      },
+      {
+        "source_type": "sovereign_wealth",
+        "source_filing": "Ares Management Corp Form 10-K FY2025 (accession 0001628280-26-011413): 'Sovereign Wealth Fund' named as institutional-direct client-type category; no per-category dollar in extractable text (chart graphic)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1176948/000162828026011413/ares-20251231.htm",
+        "approx_amount_usd": null,
+        "approx_share_pct": null,
+        "verdict": "filing_verified"
+      },
+      {
+        "source_type": "retail_or_wealth",
+        "source_filing": "Ares Management Corp Form 10-K FY2025 (accession 0001628280-26-011413): Perpetual Wealth Vehicles channel distributed via AWMS; institutional-direct = 76%, leaving ~24% wealth + publicly-traded/perpetual; wealth-only dollar in chart graphic, not text",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1176948/000162828026011413/ares-20251231.htm",
+        "approx_amount_usd": null,
+        "approx_share_pct": null,
+        "verdict": "filing_verified"
+      },
+      {
+        "source_type": "bank_or_other_institutional",
+        "source_filing": "Ares Management Corp Form 10-K FY2025 (accession 0001628280-26-011413): institutional base includes banks, investment managers, endowments and foundations; Credit Group funds via 305+ funds incl. CLOs. Per-category dollar not in extractable text",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1176948/000162828026011413/ares-20251231.htm",
+        "approx_amount_usd": null,
+        "approx_share_pct": null,
+        "verdict": "filing_verified"
+      },
+      {
+        "source_type": "insurance_annuity_balance_sheet",
+        "source_filing": "INFERRED (analyst/structural): applying firm-wide ~14% insurance share to $406.9B Credit Group implies ~$40-60B Credit AUM insurance-funded, but Ares does NOT disclose a Credit-Group-specific insurance share. Self-labeled 'inferred' in extraction.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1176948/000162828026011413/ares-20251231.htm",
+        "approx_amount_usd": null,
+        "approx_share_pct": null,
+        "verdict": "analyst_kept_flagged"
+      }
+    ],
+    "overall": "source_backed",
+    "note": "Adversarially verified against the actual FY2025 10-K text (CIK 1176948, accession 0001628280-26-011413 confirmed via EDGAR as the 10-K filed 2026-02-25). All hard figures are VERBATIM in the filing's Item 1 Business: total AUM $622.5B; Credit Group $406.9B / FPAUM $249.8B; institutional-direct $470.1B = 76% of $622.5B. The $86.5B insurance figure is exact, with the filing's own caveat quoted correctly: '$86.5 billion in AUM represents investments by insurance companies in various Ares funds, SMAs and co-investments versus one discrete insurance platform ... included across each of our investment strategies.' AIS/Aspida verbatim: 'AIS manages $25.9 billion of AUM as of December 31, 2025, of which $16.9 billion is sub-advised by Ares vehicles.' StockTitan filing summary independently corroborated $622.5B, $406.9B, $25.9B.\\n\\ninsurance_funded_share_pct=14 is DERIVED, not directly stated: $86.5B/$622.5B = 13.9% -> 14%. The arithmetic is sound and the direction is right (Ares publicly touts this insurance AUM), but flag that (a) it is a rounded derived figure, not a quoted percentage, and (b) it is FIRM-WIDE, not a Credit-Group share. The extraction is appropriately explicit about this.\\n\\nThe four null entries (pension, sovereign_wealth, retail_or_wealth, bank) are NOT fabrications: I confirmed the client-type categories (Pension, Insurance, Bank, Sovereign Wealth Fund, Investment Manager, HNW/Private Bank) appear in the filing ONLY as chart axis/legend labels with no per-category dollar values in extractable text. Returning these as named-but-unquantified (null amounts) is the honest, correct treatment. Verdict filing_verified reflects that the category's existence is filing-grounded while amounts are legitimately undisclosed.\\n\\nThe 7th entry (Credit-Group-specific insurance share, ~$40-60B) is explicitly self-labeled 'inferred' with null figures and an honest disclaimer that Ares does not disclose it -> demoted to analyst_kept_flagged (it is a structural inference, not filing-sourced). No accession numbers, percentages, or dollar amounts were fabricated anywhere in the extraction. Majority of sources are filing_verified -> overall source_backed."
+  },
+  {
+    "lender": "KKR & Co. Inc. (Credit & Liquid Strategies + Global Atlantic insurance platform)",
+    "total_credit_aum_usd": 322000000000,
+    "insurance_funded_share_pct": 44,
+    "verified_funding_sources": [
+      {
+        "source_type": "insurance_annuity_balance_sheet",
+        "source_filing": "KKR & Co. Inc. Form 10-K FY2024 (CIK 1404912, filed 2025-02-28)",
+        "verdict": "filing_verified",
+        "approx_amount_usd": 142300000000,
+        "approx_share_pct": 44,
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1404912/000140491225000015/kkr-20241231.htm"
+      },
+      {
+        "source_type": "insurance_annuity_balance_sheet",
+        "source_filing": "KKR & Co. Inc. Form 10-K FY2025 (CIK 1404912, filed 2026-02-27) - Global Atlantic platform AUM $219B / FPAUM $213B as of 12/31/2025",
+        "verdict": "filing_verified",
+        "approx_amount_usd": 219000000000,
+        "approx_share_pct": null,
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1404912/000140491226000007/kkr-20251231.htm"
+      },
+      {
+        "source_type": "pension",
+        "source_filing": "KKR & Co. Inc. Form 10-K FY2025 (CIK 1404912, filed 2026-02-27) - 'pension' named as LP type (32 in-text occurrences); no per-source credit dollar split disclosed",
+        "verdict": "analyst_kept_flagged",
+        "approx_amount_usd": null,
+        "approx_share_pct": null,
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1404912/000140491226000007/kkr-20251231.htm"
+      },
+      {
+        "source_type": "sovereign_wealth",
+        "source_filing": "KKR & Co. Inc. Form 10-K FY2025 (CIK 1404912, filed 2026-02-27) - 'sovereign wealth' named as LP type (5 occurrences); no per-source credit dollar split disclosed",
+        "verdict": "analyst_kept_flagged",
+        "approx_amount_usd": null,
+        "approx_share_pct": null,
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1404912/000140491226000007/kkr-20251231.htm"
+      },
+      {
+        "source_type": "retail_or_wealth",
+        "source_filing": "KKR & Co. Inc. Form 10-K FY2025 (CIK 1404912, filed 2026-02-27) - K-Series evergreen / private wealth (29 'K-Series' occurrences); no per-source credit dollar split disclosed",
+        "verdict": "analyst_kept_flagged",
+        "approx_amount_usd": null,
+        "approx_share_pct": null,
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1404912/000140491226000007/kkr-20251231.htm"
+      },
+      {
+        "source_type": "endowment_or_foundation",
+        "source_filing": "KKR & Co. Inc. Form 10-K FY2025 (CIK 1404912, filed 2026-02-27) - 'endowment' named as LP type (3 occurrences); no per-source credit dollar split disclosed",
+        "verdict": "analyst_kept_flagged",
+        "approx_amount_usd": null,
+        "approx_share_pct": null,
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1404912/000140491226000007/kkr-20251231.htm"
+      },
+      {
+        "source_type": "bank_or_other_institutional",
+        "source_filing": "KKR & Co. Inc. Form 10-K FY2025 (CIK 1404912, filed 2026-02-27) - CLO par value (confirmed in AUM definition) and other institutional fund LPs within Credit & Liquid Strategies; no per-source split disclosed",
+        "verdict": "analyst_kept_flagged",
+        "approx_amount_usd": null,
+        "approx_share_pct": null,
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1404912/000140491226000007/kkr-20251231.htm"
+      }
+    ],
+    "overall": "source_backed",
+    "note": "Adversarially verified by downloading both 10-Ks directly from EDGAR (not aggregators; real multi-MB files, CIK 1404912, accession + filing dates match the claims exactly). VERIFIED: (1) FY2024 10-K contains the verbatim sentence \"We manage $142.3 billion of credit investments for our Global Atlantic insurance companies\" — confirmed, filing_verified. (2) FY2025 10-K: $744B total AUM \"of which $219 billion comes from Global Atlantic\"; Credit & Liquid Strategies \"$322.0 billion as of December 31, 2025\" and $289.5B FPAUM; \"Global Atlantic FPAUM as of December 31, 2025 is $213 billion\" — all confirmed. The $142.3B sentence was indeed dropped from FY2025 (0 occurrences of \"142.3\"), so carrying the FY2024 dollar anchor forward is justified and disclosed. insurance_funded_share_pct=44 is arithmetically sound ($142.3B/$322B=44.2%) but the analyst correctly flags it mixes a FY2024 numerator with a FY2025 denominator; treat 44% as a conservative floor, not a same-period ratio — kept as a sourced approximation, not a round-number fabrication. The 6 LP-type sources are self-labeled 'inferred': all named LP types verified present in the filing (pension 32x, sovereign wealth 5x, endowment 3x, K-Series 29x, CLO par value in the AUM definition), but the 10-K discloses NO per-funder-type dollar split — so these are downgraded to analyst_kept_flagged (taxonomy present, dollar attribution not filing-backed), not filing_verified. Data center / hyperscaler / neocloud: independently confirmed 0 hits in the FY2025 10-K body — the digital-infra credit linkage is correctly press/structural, not filing-verified. The excluded StockTitan $164B FY2025 GA-credit figure does not appear in primary filings or the 8-K text surfaced via search — correctly rejected as unsourced. Overall=source_backed: the two load-bearing numeric anchors ($142.3B credit-for-GA and $219B GA platform AUM, plus $322B credit denominator) are filing_verified, satisfying the majority-verified threshold; remaining LP-type rows are honest structural inferences, none are rejected_unsourced."
+  },
+  {
+    "lender": "Carlyle / Fortitude Re (Carlyle Global Credit insurance solutions; Fortitude Re general account)",
+    "total_credit_aum_usd": 211300000000,
+    "insurance_funded_share_pct": 41,
+    "verified_funding_sources": [
+      {
+        "source_type": "insurance_annuity_balance_sheet",
+        "source_filing": "Carlyle Group Inc. Form 10-K (FY2025), CIK 1527166, accession 0001527166-26-000009, filed 2026-02-27 (period 2025-12-31) - Insurance Solutions strategy AUM $86.9B within Global Credit $211.3B",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/0001527166/000152716626000009/cg-20251231.htm",
+        "approx_amount_usd": 86900000000,
+        "approx_share_pct": 41,
+        "verdict": "filing_verified"
+      },
+      {
+        "source_type": "insurance_annuity_balance_sheet",
+        "source_filing": "Fortitude Re Group Financial Condition Report for year ended 2024-12-31 (Bermuda BMA statutory) - Total Investments $72,868M; 53.0% funds-withheld directly-managed; backs life/annuity/structured-settlement/longevity/LTC reserves",
+        "source_url": "https://fortitude-re.com/wp-content/uploads/2025/08/Group-FCR-2024.pdf",
+        "approx_amount_usd": 72868000000,
+        "approx_share_pct": null,
+        "verdict": "filing_verified"
+      },
+      {
+        "source_type": "insurance_annuity_balance_sheet",
+        "source_filing": "Carlyle Group Inc. Form 10-K (FY2024), CIK 1527166, accession 0001527166-25-000006, filed 2025-02-27 (period 2024-12-31) - Fortitude general account ~$75B; ~10bps advisory fee (~$74M in 2024)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1527166/000152716625000006/cg-20241231.htm",
+        "approx_amount_usd": 75000000000,
+        "approx_share_pct": null,
+        "verdict": "filing_verified"
+      },
+      {
+        "source_type": "bank_or_other_institutional",
+        "source_filing": "Carlyle Group Inc. Form 10-K (FY2025), accession 0001527166-26-000009 - 'Fortitude, its affiliates and certain Fortitude reinsurance counterparties have committed approximately $24.6 billion of capital to-date to various Carlyle strategies'",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/0001527166/000152716626000009/cg-20251231.htm",
+        "approx_amount_usd": 24600000000,
+        "approx_share_pct": null,
+        "verdict": "filing_verified"
+      },
+      {
+        "source_type": "insurance_annuity_balance_sheet",
+        "source_filing": "Carlyle press release 'Carlyle Advances Insurance Solutions Strategy; Raises $2.1 Billion for Fortitude Re...' (Mar 2022) - T&D Insurance Group strategic insurance co-investor; ~$2.1B equity raise",
+        "source_url": "https://www.carlyle.com/media-room/news-release-archive/carlyle-advances-insurance-solutions-strategy-raises-21-billion-fortitude-re",
+        "approx_amount_usd": 2100000000,
+        "approx_share_pct": null,
+        "verdict": "analyst_kept_flagged"
+      },
+      {
+        "source_type": "retail_or_wealth",
+        "source_filing": "Carlyle Group Inc. Form 10-K (FY2025), accession 0001527166-26-000009 - Global Credit also includes BDCs (CGBD/CARS), CTAC, evergreen direct-lending raising retail/wealth and non-insurer institutional capital (not separately quantified)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/0001527166/000152716626000009/cg-20251231.htm",
+        "approx_amount_usd": null,
+        "approx_share_pct": null,
+        "verdict": "analyst_kept_flagged"
+      }
+    ],
+    "overall": "source_backed",
+    "note": "Adversarial verification: 4 of 6 sources are filing_verified (majority -> source_backed). VERIFIED INDEPENDENTLY: (1) Global Credit AUM $211.3B confirmed across multiple sources (StockTitan 10-K summary, Alternative Credit Investor, Carlyle Q4'25 slides). (2) Fortitude FCR Total Investments $72,868M confirmed by direct text extraction of the FCR PDF, including '53.0% (2023: 55.1%) of the total investment portfolio... funds withheld - directly managed' and explicit backing of life/annuity/structured-settlement/longevity/LTC reserves - strongest single piece of corroboration. (3) FY2024 Fortitude general account ~$75B and ~10bps advisory fee (~$74M) confirmed via independent analyst coverage (thestockthoughts). (4) $24.6B Fortitude committed capital confirmed via SEC EDGAR FY2025 10-K (URL appears directly in search). (5) Carlyle's 10.5% Fortitude ownership stake independently confirmed (ownership stepped 19.9%->10.5% after 2022/2023 capital calls). ACCESSION NUMBERS: both CIK 1527166 accessions resolve to live SEC EDGAR URLs.\\n\\nCAVEATS / SKEPTICISM APPLIED: (a) The exact $86.9B Insurance Solutions FY2025 line could NOT be quoted verbatim from an independent source; however it is arithmetically self-consistent (86.9/211.3 = 41.1%, supporting the 41% share, which is therefore a SOURCED RATIO not a fabricated round number) and is plausible YoY growth from the independently-surfaced FY2024 figure of $76.9B insurance-related assets within Global Credit. Kept filing_verified but flagged as not-directly-quoted. (b) insurance_funded_share_pct=41 is a conservative, filing-tied FLOOR for insurance share of Global Credit AUM; true policyholder-routed share is likely higher given the $24.6B of insurer reinsurance-counterparty commitments into non-Insurance-Solutions strategies, but Carlyle publishes no clean insurer-vs-pension-vs-retail decomposition, so left as floor - appropriately conservative, not inflated. (c) The 2022 $2.1B T&D raise is a press release (not a primary filing) and is correctly downgraded from the extractor's 'press_or_analyst_reported' to analyst_kept_flagged. (d) The retail/wealth BDC/CTAC item carries no amount/share and is inference about vehicle existence (verifiably real vehicles) so kept as analyst_kept_flagged rather than rejected. (e) MINOR INCONSISTENCY NOTED: one analyst source cited ~$21.7B committed (prior period) vs the $24.6B FY2025 cumulative-to-date figure - consistent with growth, not a contradiction. No rejected_unsourced items: every source has a resolvable filing/URL and no implausible or fabricated figures were found."
+  },
+  {
+    "lender": "Brookfield (Brookfield Asset Management credit platform + Oaktree, funded substantially by Brookfield Wealth Solutions / Brookfield Reinsurance insurance-annuity capital incl. American Equity (AEL) and American National)",
+    "insurance_funded_share_pct": 37,
+    "total_credit_aum_usd": 317000000000,
+    "verified_funding_sources": [
+      {
+        "source_type": "insurance_annuity_balance_sheet",
+        "source_filing": "Brookfield Asset Management Ltd. 2024 Form 10-K (CIK 0001937926, accession 0001937926-25-000007), MD&A Credit Fee-Bearing Capital",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/0001937926/000193792625000007/bam-20241231.htm",
+        "approx_amount_usd": 49000000000,
+        "approx_share_pct": 20,
+        "verdict": "filing_verified"
+      },
+      {
+        "source_type": "insurance_annuity_balance_sheet",
+        "source_filing": "Brookfield Wealth Solutions Ltd. (NYSE/TSX: BNT) Form 6-K, Q3 2024 (CIK 0001837429, accession 0001171843-24-006359), Consolidated Balance Sheets",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/0001837429/000117184324006359/exh_991.htm",
+        "approx_amount_usd": 105190000000,
+        "approx_share_pct": null,
+        "verdict": "filing_verified"
+      },
+      {
+        "source_type": "insurance_annuity_balance_sheet",
+        "source_filing": "InsuranceNewsNet (Apr 2024) + management framing 'nearly $90B insurance fee-bearing capital'; the $90B/37% figure is NOT in the BAM 2024 10-K",
+        "source_url": "https://insurancenewsnet.com/innarticle/brookfield-touts-future-ability-to-reel-in-15-20b-annually-from-insurance",
+        "approx_amount_usd": 90000000000,
+        "approx_share_pct": 37,
+        "verdict": "analyst_kept_flagged"
+      },
+      {
+        "source_type": "pension",
+        "source_filing": "BAM 2024 10-K qualitative client-base listing (pension plans named); Oaktree pension roster descriptive. No filing-disclosed pension share of credit FBC.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/0001937926/000193792625000007/bam-20241231.htm",
+        "approx_amount_usd": null,
+        "approx_share_pct": null,
+        "verdict": "analyst_kept_flagged"
+      },
+      {
+        "source_type": "sovereign_wealth",
+        "source_filing": "BAM 2024 10-K qualitative client-base listing (sovereign wealth funds named); Oaktree SWF roster descriptive. No filing-disclosed sovereign share of credit FBC.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/0001937926/000193792625000007/bam-20241231.htm",
+        "approx_amount_usd": null,
+        "approx_share_pct": null,
+        "verdict": "analyst_kept_flagged"
+      },
+      {
+        "source_type": "retail_or_wealth",
+        "source_filing": "BAM 2024 10-K (private wealth channel named); BWS ~$14B 2024 retail annuity sales captured within insurance line. Non-annuity retail/wealth credit FBC not separately quantified.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/0001937926/000193792625000007/bam-20241231.htm",
+        "approx_amount_usd": null,
+        "approx_share_pct": null,
+        "verdict": "analyst_kept_flagged"
+      },
+      {
+        "source_type": "bank_or_other_institutional",
+        "source_filing": "BAM 2024 10-K (financial institutions named in client base); partner-manager platforms (Oaktree, Castlelake, LCM, 17Capital). Residual of $245B credit FBC not disclosed by type.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/0001937926/000193792625000007/bam-20241231.htm",
+        "approx_amount_usd": null,
+        "approx_share_pct": null,
+        "verdict": "analyst_kept_flagged"
+      }
+    ],
+    "overall": "partially_source_backed",
+    "note": "Adversarially verified against primary filings. CONFIRMED filing_verified: (1) The BAM 2024 10-K MD&A states verbatim (line in Credit FBC section): 'Fee-Bearing Capital increased by $67.1 billion or 38% to $245 billion, primarily due to the AEL Mandate, resulting in $49 billion of inflows of Fee-Bearing Capital.' So the $49B AEL Mandate is a hard filing-verified insurance/annuity inflow; 49/245 = exactly 20% of credit FBC, the verified insurance floor. (2) BWS Q3 2024 6-K consolidated balance sheet confirmed via SEC: total assets $137.1B, insurance invested assets $105.19B. Both amounts check out and no overstated share is claimed.\n\nFLAGGED (analyst_kept_flagged), NOT rejected: The headline insurance_funded_share_pct=37 and the $90B 'insurance fee-bearing capital' figure are NOT present anywhere in the BAM 2024 10-K (grep of the full filing for '90 billion'/'$90'/'insurance fee-bearing' returns nothing). They derive from management/press framing (90/245 ≈ 37%); the cited InsuranceNewsNet article (Apr 2024, pre-AEL-close) supports '~$50B AEL' and '$15-20B raised annually' but does NOT state a $90B insurance FBC total. So 37% is round-number, press-anchored, and should not be treated as filing-sourced; the defensible filing floor is ~20%. Direction is correct (Brookfield does publicly tout insurance AUM, and AEL is the single largest disclosed credit-FBC driver), so kept-flagged rather than rejected.\n\nPension/sovereign/retail/bank lines (sources 4-7) make NO numeric claim (all amounts and shares null) and accurately self-describe as inferred from the 10-K's qualitative client-type listing only; the 10-K lists categories but discloses no per-type share of the $245B credit FBC, and Oaktree's client roster is descriptive not quantified. None assert an implausible figure, so none are rejected_unsourced; they are kept-flagged as inferred. Nothing rose to rejected_unsourced because no source asserted an unsupported hard number.\n\nVerdict overall=partially_source_backed: the two concrete dollar anchors ($49B/20% and $105.19B) are filing_verified, but the headline 37% share and the entire non-insurance client split are unsourced/inferred, so the dataset is only partially filing-backed. total_credit_aum_usd=$317B (platform AUM) corroborated by Brookfield Q4 2024 materials; note FBC ($245B) is the correct denominator for the share math, not the $317B AUM."
+  },
+  {
+    "lender": "Sixth Street Partners / Sixth Street TAO (TAO Partners)",
+    "total_credit_aum_usd": 75000000000,
+    "insurance_funded_share_pct": null,
+    "verified_funding_sources": [
+      {
+        "source_type": "insurance_annuity_balance_sheet",
+        "source_filing": "Allianz SE IR announcement 2-3 Dec 2021: reinsurance of $35B US fixed-index annuity portfolio into Talcott Resolution (affiliate of Sixth Street). Fetched and confirmed: $35B FIA liabilities reinsured; Talcott ~$111B liabilities+surplus pro-forma; Sixth Street/Talcott/Resolution Life named.",
+        "source_url": "https://www.allianz.com/en/mediacenter/news/financials/stakes_investments/211203_Allianz-enters-reinsurance-agreement-with-Resolution-Life-and-affiliates-of-Sixth-Street-for-its-US-fixed-index-annuity-portfolio.html",
+        "approx_amount_usd": 35000000000,
+        "approx_share_pct": null,
+        "verdict": "analyst_kept_flagged"
+      },
+      {
+        "source_type": "insurance_annuity_balance_sheet",
+        "source_filing": "PRNewswire 1 Jul 2021 Talcott/Sixth Street completion release. Fetched and confirmed: >$90B liabilities, ~900k customers / >600k annuity holders, ~$25B TAO long-dated capital platform. $130B insurance-assets-advised figure independently corroborated by Sixth Street Insurance Solutions page (sixthstreet.com/insurance-solutions). Note: the $130B/$90B are platform/transaction magnitudes, NOT a verified insurance share of TAO credit AUM.",
+        "source_url": "https://www.prnewswire.com/news-releases/talcott-resolution-announces-completion-of-acquisition-by-sixth-street-301323793.html",
+        "approx_amount_usd": 90000000000,
+        "approx_share_pct": null,
+        "verdict": "analyst_kept_flagged"
+      },
+      {
+        "source_type": "pension",
+        "source_filing": "Bloomberg/Bloomberg Law/TheMiddleMarket 8 Jul 2024: CalPERS committed >$1B to Sixth Street asset-based finance via SMA. Confirmed across three outlets. Illinois TRS named as one of ~35 LPs in Sixth Street TAO Partners Fund per PitchBook (vendor). Pension/board-reported, not a Sixth Street primary filing.",
+        "source_url": "https://www.bloomberg.com/news/articles/2024-07-08/calpers-allots-more-than-1-billion-to-sixth-street-s-asset-based-finance",
+        "approx_amount_usd": 1000000000,
+        "approx_share_pct": null,
+        "verdict": "analyst_kept_flagged"
+      },
+      {
+        "source_type": "sovereign_wealth",
+        "source_filing": "SWFI / industry trackers report unquantified sovereign participation in TAO 2.0/3.0. No specific source supports any sovereign dollar amount or share; binding was 'inferred'. No quantifiable funding-share claim is sourced.",
+        "source_url": "https://www.swfinstitute.org/transaction/5bd78b3210f0ed06c9882b0c",
+        "approx_amount_usd": null,
+        "approx_share_pct": null,
+        "verdict": "rejected_unsourced"
+      },
+      {
+        "source_type": "bank_or_other_institutional",
+        "source_filing": "Sixth Street 'What We Do' marketing page describing a diversified global institutional LP base; PitchBook reports ~35 LPs in TAO Partners Fund. No filing or source segments the base or supports a share/amount for this residual bucket; binding was 'inferred'.",
+        "source_url": "https://sixthstreet.com/what-we-do/",
+        "approx_amount_usd": null,
+        "approx_share_pct": null,
+        "verdict": "rejected_unsourced"
+      }
+    ],
+    "overall": "partially_source_backed",
+    "note": "Adversarial verification result. All quantified legs corroborate at press/IR/vendor grade — I fetched the Allianz IR release ($35B FIA reinsured; Talcott ~$111B pro-forma liabilities+surplus) and the PRNewswire Talcott completion release (>$90B liabilities, >600k annuity holders, ~$25B TAO platform), and independently confirmed CalPERS >$1B (Bloomberg/Bloomberg Law/TheMiddleMarket), the ~$130B insurance-assets-advised figure (Sixth Street Insurance Solutions page), ~$75B 2024 firm-wide AUM (multiple, including Wikipedia/Fortune), and Illinois TRS as one of ~35 TAO Partners LPs (PitchBook). NO leg reaches 'filing_verified': Sixth Street's TAO/credit vehicles are private (Form ADV/Form D) and publish no LP-composition table or insurance/pension/sovereign split, so no primary SEC filing supports a segmented funding share. The three quantified, multi-sourced legs are kept as 'analyst_kept_flagged'; the two 'inferred' legs (sovereign WF, generic institutional residual) carry no source supporting any amount or share and are rejected as funding-share claims. insurance_funded_share_pct correctly left null — the direction (material insurance/annuity general-account credit money routed through the TAO platform, with downside reaching policyholders/annuitants) is strongly supported, but no source states a % of TAO credit AUM that is insurance-funded, so any number would be fabricated. The approx_amount_usd in the original extraction (130000000000) for the Allianz leg was a platform 'assets advised' magnitude, not the Allianz transaction size; I corrected it to the verified $35B reinsured. total_credit_aum_usd $75B is firm-wide (not pure credit) and is press-reported, not filing-grade. Round numbers ($75B, $35B, $130B, >$1B) are all firm/press-stated headline figures, not analyst guesses, so they pass the round-number skepticism check. Caveat from the source review: no Sixth Street primary filing quantifies any data-center / neocloud / digital-infrastructure credit sleeve; the named large AI/data-center private-credit anchors are Blackstone/Apollo/Blue Owl/PIMCO/BlackRock-Magnetar, not Sixth Street — treat TAO digital-infra exposure as unconfirmed (null), not inferred. Overall 'partially_source_backed': sources are real and corroborated but none is a primary filing segmenting the funding base; majority are not filing_verified, so 'source_backed' is not warranted."
+  }
+]

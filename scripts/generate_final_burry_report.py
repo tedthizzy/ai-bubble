@@ -39,6 +39,10 @@ from bubble.analysis.physical_capacity import build_physical_capacity_summary
 from bubble.analysis.physical_execution_summary import build_physical_execution_summary
 from bubble.analysis.physical_risk_summary import build_physical_risk_summary
 from bubble.analysis.power_exposure import aggregate_power_exposure, load_power_exposure
+from bubble.analysis.private_credit_funding import (
+    aggregate_private_credit_funding,
+    load_private_credit_funding,
+)
 from bubble.analysis.scenario_stress import stress_cluster
 from bubble.analysis.source_coverage import build_source_coverage_report
 from bubble.ingestion.capital import (
@@ -1405,6 +1409,30 @@ def report_answer_metric_audits(  # noqa: PLR0912, PLR0915
                 unit="count",
             )
 
+        # Debt-side funding routing (who funds the lenders that hold cluster debt).
+        pcf = m.get("private_credit_funding", {})
+        if pcf.get("status") == "source_backed":
+            if pcf.get("median_insurance_funded_share_pct") is not None:
+                add(
+                    "mismatch.private_credit.median_insurance_funded_share_pct",
+                    "Median insurance/annuity-funded share of the cluster private-credit lenders' "
+                    "credit capital (from the lenders' own 10-Ks/earnings; e.g. Apollo/Athene, "
+                    "Blackstone, KKR/Global Atlantic). High = the cluster's private-placement DEBT "
+                    "loss routes to policyholders/retirees -- the debt-side leg of who-bears-downside "
+                    "that 13-F equity data cannot show. Aggregate funding mix, not per-facility.",
+                    pcf.get("median_insurance_funded_share_pct"),
+                    [mismatch_artifact],
+                    unit="percent",
+                )
+            add(
+                "mismatch.private_credit.lenders_with_household_routed_funding",
+                "Count of cluster private-credit lenders drawing a material share of credit capital "
+                "from insurance/annuity or pension balance sheets (loss routes to households).",
+                pcf.get("lenders_with_household_routed_funding"),
+                [mismatch_artifact],
+                unit="count",
+            )
+
         # Supply-side equipment bottlenecks (can they physically build it). Audit
         # the count of verified chokepoints that gate the buildout + max lead time.
         equip = m.get("equipment_bottlenecks", {})
@@ -2444,6 +2472,11 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:  #
     )
     if equipment_bottlenecks_aggregate.get("status") == "source_backed":
         mismatch_ratios["equipment_bottlenecks"] = equipment_bottlenecks_aggregate
+    private_credit_funding_aggregate = aggregate_private_credit_funding(
+        load_private_credit_funding(Path("handoffs/ai_private_credit_funding_20260603.json"))
+    )
+    if private_credit_funding_aggregate.get("status") == "source_backed":
+        mismatch_ratios["private_credit_funding"] = private_credit_funding_aggregate
     ai_direct_core_verdict = synthesize_core_verdict(
         cluster_dscr=mismatch_ratios.get("cluster_interest_coverage", {}),
         thesis_findings=thesis_findings,
@@ -2465,6 +2498,7 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:  #
         scenario_stress=mismatch_ratios.get("scenario_stress", {}),
         end_holders=end_holders_aggregate,
         equipment_bottlenecks=equipment_bottlenecks_aggregate,
+        private_credit_funding=private_credit_funding_aggregate,
     )
     coverage_dict = coverage.to_dict()
     physical_capacity_dict = physical_capacity.to_dict()
@@ -3943,6 +3977,17 @@ def main() -> None:
         )
     else:
         holder_line = "pending source-backed end-holder extraction."
+
+    _dr = (_eh.get("debt_side_funding_routing") or {}) if isinstance(_eh, dict) else {}
+    if _dr.get("lender_count") is not None:
+        holder_line += (
+            f" Debt side: {_dr.get('lenders_with_household_routed_funding')}/{_dr.get('lender_count')} "
+            f"private-credit lenders draw material insurance/pension funding (median "
+            f"~{_dr.get('median_insurance_funded_share_pct')}% insurance-funded; "
+            f"{_dr.get('filing_verified_sources')} sources filing-verified) — the cluster's "
+            f"private-placement debt loss routes to policyholders/retirees, the channel 13-F equity "
+            f"data cannot show."
+        )
 
     _eq = verdict.get("supply_side_equipment_constraints", {}) or {}
     if _eq.get("chokepoint_count") is not None:

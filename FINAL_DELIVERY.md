@@ -32,8 +32,8 @@ The important change is that ecosystem-scale conclusions are now blocked from be
 
 Latest verified evidence-gated report at this checkpoint:
 
-- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260603-0328.md`
-- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260603-0328.json`
+- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260603-0341.md`
+- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260603-0341.json`
 - `high_confidence_final`: `false` (ecosystem-wide, BY DESIGN — see verdict below).
 - Current `master` checkpoint: `e72d74e` (single-agent; the prior two-agent
   Claude/Codex handoff queue was consolidated into `master` at `7638aa9` and the
@@ -80,7 +80,17 @@ Latest verified evidence-gated report at this checkpoint:
   earnings calls, SK Hynix IR, etc.). Burry read: TSMC CoWoS is the near-single-source gate
   whose shock propagates to every downstream issuer at once (supply-side analogue of the
   NVIDIA hub); unsourceable lead times left null, analyst-only figures flagged.
-- Evidence audit coverage now includes 528 claim audits: analyzer-level capital,
+- Debt-side end-holder routing (the goal's "insurance and pension exposure" leg,
+  resolving the equity-only gap the end_holders layer flagged): traced how the 8 cluster
+  private-credit lenders are FUNDED, from their own 10-Ks/earnings. All 8 draw material
+  insurance/annuity + pension capital (Apollo/Athene 51.1% via $331.5B Athene + $52.4B
+  Athora, Blackstone 53%, KKR/Global Atlantic 44%, Carlyle 41%, Brookfield 37%, Blue Owl
+  20%, Ares 14%); median ~41% insurance-funded, 18 of 47 kept sources filing-verified.
+  Burry read: the cluster's private-placement DEBT loss routes to policyholders and
+  retirees (households) — the quiet 2008-style channel, invisible in 13-F equity data.
+  Coverage is partial and explicit: aggregate lender funding mix, NOT a per-DDTL-facility
+  attribution (undisclosed); analyst/residual figures flagged, nulls not fabricated.
+- Evidence audit coverage now includes 530 claim audits: analyzer-level capital,
   compute, and debt-service audits, explicit row/artifact-backed audits for
   high-impact Burry-answer rollups, and aggregate hooks for pending review
   capital, pending AI-infra capital, pending compute, weak-link AI-infra,

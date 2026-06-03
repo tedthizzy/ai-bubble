@@ -121,6 +121,7 @@ def synthesize_core_verdict(
     scenario_stress: dict[str, Any] | None = None,
     end_holders: dict[str, Any] | None = None,
     equipment_bottlenecks: dict[str, Any] | None = None,
+    private_credit_funding: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Synthesize the scoped, tiered Burry verdict from verified evidence."""
 
@@ -132,6 +133,7 @@ def synthesize_core_verdict(
     scenario_stress = scenario_stress or {}
     end_holders = end_holders or {}
     equipment_bottlenecks = equipment_bottlenecks or {}
+    private_credit_funding = private_credit_funding or {}
     bear = _finding(thesis_findings, "bear_case_against_bubble")
     bear_confidence = float(bear.get("confidence") or 0.0)
 
@@ -432,9 +434,35 @@ def synthesize_core_verdict(
                 "coverage_caveat": (
                     "Disclosed-holder distribution from SEC ownership filings (13F-HR, SC 13G/13D, "
                     "S-1/10-K beneficial ownership); equity-heavy. Most DDTL/SPV debt is a private "
-                    "placement with NO 13-F, so undisclosed debt holders -- likely insurance/"
-                    "annuity-funded private credit -- are NOT counted. This is the final, partial leg "
-                    "of who-bears-downside, not a full cap table."
+                    "placement with NO 13-F, so undisclosed debt holders are not in this equity mix; "
+                    "the debt-side routing is resolved separately in debt_side_funding_routing."
+                ),
+                "debt_side_funding_routing": (
+                    {
+                        "lender_count": private_credit_funding.get("lender_count"),
+                        "lenders_with_household_routed_funding": private_credit_funding.get(
+                            "lenders_with_household_routed_funding"
+                        ),
+                        "median_insurance_funded_share_pct": private_credit_funding.get(
+                            "median_insurance_funded_share_pct"
+                        ),
+                        "insurance_funded_lenders": private_credit_funding.get(
+                            "insurance_funded_lenders"
+                        ),
+                        "filing_verified_sources": private_credit_funding.get(
+                            "filing_verified_sources"
+                        ),
+                        "debt_side_downside_read": private_credit_funding.get(
+                            "debt_side_downside_read"
+                        ),
+                        "caveat": (
+                            "Lenders' AGGREGATE funding mix (insurance/annuity + pension share of "
+                            "credit capital) from their own filings -- NOT a per-DDTL-facility "
+                            "attribution to the cluster's specific debt, which is undisclosed."
+                        ),
+                    }
+                    if private_credit_funding.get("status") == "source_backed"
+                    else {"status": "pending_source_backed_private_credit_funding"}
                 ),
             }
             if end_holders.get("status") == "source_backed"
