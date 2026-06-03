@@ -50,6 +50,10 @@ from bubble.analysis.red_flag_scorecard import (
 from bubble.analysis.risk_register import build_risk_register
 from bubble.analysis.scenario_stress import stress_cluster
 from bubble.analysis.source_coverage import build_source_coverage_report
+from bubble.analysis.utilization_debt_service import (
+    aggregate_utilization_debt_service,
+    load_utilization_debt_service,
+)
 from bubble.ingestion.capital import (
     CapitalEvidenceBatch,
     analyze_capital_evidence,
@@ -1436,6 +1440,29 @@ def report_answer_metric_audits(  # noqa: PLR0912, PLR0915
                 unit="count",
             )
 
+        # Utilization vs debt-service mismatch (deal/entity-level).
+        uds = m.get("utilization_debt_service", {})
+        if uds.get("status") == "source_backed":
+            if uds.get("median_contracted_coverage_ratio") is not None:
+                add(
+                    "mismatch.utilization.median_contracted_coverage_ratio",
+                    "Median ratio of contracted revenue run-rate to annual debt service across the "
+                    "issuers that filed both (deal/entity-level). <1x means even fully-utilized "
+                    "contracted backlog does not cover the obligations. Only filing-verified inputs "
+                    "contribute; numerator/denominator kind labeled, nothing invented.",
+                    uds.get("median_contracted_coverage_ratio"),
+                    [mismatch_artifact],
+                    unit="ratio",
+                )
+            add(
+                "mismatch.utilization.issuers_contracted_coverage_below_1",
+                "Count of issuers whose CONTRACTED revenue is below their debt service (coverage < 1x) "
+                "-- a structural mismatch independent of a utilization-miss tail.",
+                uds.get("issuers_contracted_coverage_below_1"),
+                [mismatch_artifact],
+                unit="count",
+            )
+
         # Top actionable-risk register (cross-layer synthesis).
         rr = m.get("risk_register", {})
         if rr.get("status") == "source_backed":
@@ -2531,6 +2558,11 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:  #
     )
     if red_flag_scorecard_aggregate.get("status") == "source_backed":
         mismatch_ratios["red_flag_scorecard"] = red_flag_scorecard_aggregate
+    utilization_debt_service_aggregate = aggregate_utilization_debt_service(
+        load_utilization_debt_service(Path("handoffs/ai_utilization_debt_service_20260603.json"))
+    )
+    if utilization_debt_service_aggregate.get("status") == "source_backed":
+        mismatch_ratios["utilization_debt_service"] = utilization_debt_service_aggregate
     risk_register = build_risk_register(
         mismatch_ratios, debt_census=debt_census_aggregate, contagion_hubs=contagion_hubs
     )
@@ -2560,6 +2592,7 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:  #
         private_credit_funding=private_credit_funding_aggregate,
         red_flag_scorecard=red_flag_scorecard_aggregate,
         risk_register=risk_register,
+        utilization_debt_service=utilization_debt_service_aggregate,
     )
     coverage_dict = coverage.to_dict()
     physical_capacity_dict = physical_capacity.to_dict()
@@ -3985,22 +4018,8 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:  #
     return report
 
 
-def main() -> None:
-    report = build_burry_report()
-
-    out_dir = Path("data/reports")
-    out_dir.mkdir(parents=True, exist_ok=True)
-    ts = datetime.now(UTC).strftime("%Y%m%d-%H%M")
-
-    json_path = out_dir / f"BURRY_REPORT_EvidenceGated_{ts}.json"
-    json_path.write_text(json.dumps(report, indent=2))
-
-    md_path = out_dir / f"BURRY_REPORT_EvidenceGated_{ts}.md"
-    verdict = report.get("ai_direct_core_verdict", {})
-    _ct = verdict.get("crack_timing", {}) if isinstance(verdict, dict) else {}
-
-    def _bullets(items: Any) -> str:
-        return "\n".join(f"- {item}" for item in (items or [])) or "- (none)"
+def _verdict_layer_lines(verdict: dict[str, Any]) -> dict[str, str]:  # noqa: PLR0912
+    """Build the one-line per-layer summaries for the verdict markdown section."""
 
     _ds = verdict.get("demand_side_funding", {}) or {}
     if _ds.get("aggregate_ai_capex_usd") is not None:
@@ -4080,6 +4099,54 @@ def main() -> None:
     else:
         red_flag_line = "pending source-backed red-flag extraction."
 
+    _ud = verdict.get("utilization_debt_service_mismatch", {}) or {}
+    if _ud.get("issuer_count") is not None:
+        util_line = (
+            f"{_ud.get('issuers_with_contracted_coverage')}/{_ud.get('issuer_count')} issuers filed "
+            f"enough to compute a contracted-revenue coverage ratio (median "
+            f"~{_ud.get('median_contracted_coverage_ratio')}x; "
+            f"{_ud.get('issuers_contracted_coverage_below_1')} below 1x); "
+            f"{_ud.get('issuers_with_disclosed_utilization')} disclosed a utilization/contracted-capacity "
+            f"figure. {str(_ud.get('mismatch_read', '')).split(':')[0]}."
+        )
+    else:
+        util_line = "pending source-backed utilization/debt-service extraction."
+
+    return {
+        "demand_line": demand_line,
+        "power_line": power_line,
+        "holder_line": holder_line,
+        "equip_line": equip_line,
+        "red_flag_line": red_flag_line,
+        "util_line": util_line,
+    }
+
+
+def main() -> None:
+    report = build_burry_report()
+
+    out_dir = Path("data/reports")
+    out_dir.mkdir(parents=True, exist_ok=True)
+    ts = datetime.now(UTC).strftime("%Y%m%d-%H%M")
+
+    json_path = out_dir / f"BURRY_REPORT_EvidenceGated_{ts}.json"
+    json_path.write_text(json.dumps(report, indent=2))
+
+    md_path = out_dir / f"BURRY_REPORT_EvidenceGated_{ts}.md"
+    verdict = report.get("ai_direct_core_verdict", {})
+    _ct = verdict.get("crack_timing", {}) if isinstance(verdict, dict) else {}
+
+    def _bullets(items: Any) -> str:
+        return "\n".join(f"- {item}" for item in (items or [])) or "- (none)"
+
+    _lines = _verdict_layer_lines(verdict)
+    demand_line = _lines["demand_line"]
+    power_line = _lines["power_line"]
+    holder_line = _lines["holder_line"]
+    equip_line = _lines["equip_line"]
+    red_flag_line = _lines["red_flag_line"]
+    util_line = _lines["util_line"]
+
     md_verdict = f"""## The Verdict (Tiered)
 
 **AI-direct core:** `{verdict.get("core_verdict")}` at confidence **{verdict.get("core_verdict_confidence")}**.
@@ -4098,6 +4165,8 @@ ecosystem-wide bubble call is not supported.
 **Supply-side equipment bottlenecks (can they physically build it — supplier filings):** {equip_line}
 
 **Forensic red flags (per-issuer Burry checklist — SEC filings):** {red_flag_line}
+
+**Utilization vs debt service (deal/entity-level — does contracted revenue cover the obligations?):** {util_line}
 
 **Source-backed fragility facts (primary 10-K/10-Q, adversarially verified):**
 {_bullets(verdict.get("source_backed_fragility_facts"))}

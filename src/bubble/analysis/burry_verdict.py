@@ -146,6 +146,7 @@ def synthesize_core_verdict(
     private_credit_funding: dict[str, Any] | None = None,
     red_flag_scorecard: dict[str, Any] | None = None,
     risk_register: dict[str, Any] | None = None,
+    utilization_debt_service: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Synthesize the scoped, tiered Burry verdict from verified evidence."""
 
@@ -512,6 +513,26 @@ def synthesize_core_verdict(
             else {"status": "pending_source_backed_equipment_bottlenecks"}
         ),
         "forensic_red_flags": _forensic_red_flags_block(red_flag_scorecard),
+        "utilization_debt_service_mismatch": (
+            {
+                "issuer_count": (utilization_debt_service or {}).get("issuer_count"),
+                "issuers_with_contracted_coverage": (utilization_debt_service or {}).get(
+                    "issuers_with_contracted_coverage"
+                ),
+                "issuers_contracted_coverage_below_1": (utilization_debt_service or {}).get(
+                    "issuers_contracted_coverage_below_1"
+                ),
+                "median_contracted_coverage_ratio": (utilization_debt_service or {}).get(
+                    "median_contracted_coverage_ratio"
+                ),
+                "issuers_with_disclosed_utilization": (utilization_debt_service or {}).get(
+                    "issuers_with_disclosed_utilization"
+                ),
+                "mismatch_read": (utilization_debt_service or {}).get("mismatch_read"),
+            }
+            if (utilization_debt_service or {}).get("status") == "source_backed"
+            else {"status": "pending_source_backed_utilization_debt_service"}
+        ),
         "top_actionable_risks": (
             {
                 "risk_count": (risk_register or {}).get("risk_count"),
