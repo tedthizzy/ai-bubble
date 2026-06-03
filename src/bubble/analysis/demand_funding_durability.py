@@ -112,8 +112,12 @@ def assess_demand_funding_durability(
             "Dollar commitments are filing-verified; the funding-class is a FIRST-PRINCIPLES judgment "
             "(payable-from-operations vs requires-external-capital) backed by the cited filing where one "
             "exists. The hyperscaler slices (Microsoft, Meta) are genuinely durable -- the finding is the "
-            "BIFURCATION of demand, not blanket fragility. Capped as a corroborating decomposition; never "
-            "drives the evidence gate."
+            "BIFURCATION of demand, not blanket fragility. SCOPE: the percentage is of the NAMED, "
+            "classified backlog only (OpenAI + Meta dollar commitments); Microsoft's commitment is sized "
+            "only as ~67% of CoreWeave revenue (no multi-year dollar figure disclosed) and is durable, so "
+            "the fragile share of TOTAL contracted demand is LOWER than the named-slice figure -- the "
+            "precise claim is 'a majority of the NAMED take-or-pay backlog', not of all demand. Capped as "
+            "a corroborating decomposition; never drives the evidence gate."
         ),
     }
 
