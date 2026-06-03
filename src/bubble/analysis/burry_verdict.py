@@ -314,6 +314,7 @@ def synthesize_core_verdict(
             {
                 "top_contagion_hubs": contagion_hubs.get("top_contagion_hubs"),
                 "shared_hub_count": contagion_hubs.get("shared_hub_count"),
+                "top_loss_cascades": contagion_hubs.get("top_loss_cascades"),
                 "note": contagion_hubs.get("note"),
             }
             if contagion_hubs.get("status") == "source_backed"

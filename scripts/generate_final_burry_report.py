@@ -23,6 +23,7 @@ from bubble.analysis.compute_economics import (
     empty_compute_economics_batch,
 )
 from bubble.analysis.contagion_hubs import compute_contagion_hubs, load_contagion_edges
+from bubble.analysis.contagion_propagation import top_contagion_cascades
 from bubble.analysis.debt_census import aggregate_debt_census, load_debt_census
 from bubble.analysis.debt_service import analyze_debt_service
 from bubble.analysis.ecosystem_scope import scope_deals
@@ -2282,9 +2283,12 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:  #
     debt_census_aggregate = aggregate_debt_census(
         load_debt_census(Path("handoffs/ai_direct_debt_census_20260603.json"))
     )
-    contagion_hubs = compute_contagion_hubs(
-        load_contagion_edges(Path("handoffs/ai_direct_contagion_edges_20260603.json"))
-    )
+    contagion_edges = load_contagion_edges(Path("handoffs/ai_direct_contagion_edges_20260603.json"))
+    contagion_hubs = compute_contagion_hubs(contagion_edges)
+    if contagion_hubs.get("status") == "source_backed":
+        contagion_hubs["top_loss_cascades"] = top_contagion_cascades(
+            contagion_edges, debt_census_aggregate
+        ).get("cascades")
     ai_direct_core_verdict = synthesize_core_verdict(
         cluster_dscr=mismatch_ratios.get("cluster_interest_coverage", {}),
         thesis_findings=thesis_findings,
@@ -3783,6 +3787,9 @@ Leading indicators:
 
 **Contagion hubs (counterparties shared across the cluster — where a shock propagates):**
 {_bullets(f"{h.get('counterparty')} ({h.get('category')}) — touches {h.get('issuer_count')} issuers: {', '.join(h.get('issuers', []))}" for h in (verdict.get("contagion_hubs", {}) or {}).get("top_contagion_hubs", []) or [])}
+
+**Loss cascades (multi-hop: a shock to the hub → directly-hit issuers + census debt at risk → 2nd-order):**
+{_bullets(f"{c.get('origin')} ({'/'.join(c.get('origin_categories', []))}){' [demand/supply]' if c.get('is_demand_or_supply_hub') else ' [infrastructure]'} → {c.get('directly_hit_count')} issuers, ${round((c.get('debt_at_risk_usd') or 0) / 1e9, 1)}B at risk → 2nd-order: {', '.join(s.get('counterparty') for s in (c.get('second_order_counterparties') or [])[:3])}" for c in (verdict.get("contagion_hubs", {}) or {}).get("top_loss_cascades", []) or [])}
 
 **Top risks (affirmatively-held premises):**
 {_bullets(f"{r.get('premise')} [{r.get('tier')}/{r.get('verdict')}]: {r.get('finding')}" for r in verdict.get("top_risks", []))}
