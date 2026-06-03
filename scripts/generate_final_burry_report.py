@@ -33,6 +33,7 @@ from bubble.analysis.gpu_economics import load_gpu_price_evidence, summarize_gpu
 from bubble.analysis.physical_capacity import build_physical_capacity_summary
 from bubble.analysis.physical_execution_summary import build_physical_execution_summary
 from bubble.analysis.physical_risk_summary import build_physical_risk_summary
+from bubble.analysis.power_exposure import aggregate_power_exposure, load_power_exposure
 from bubble.analysis.source_coverage import build_source_coverage_report
 from bubble.ingestion.capital import (
     CapitalEvidenceBatch,
@@ -1362,6 +1363,19 @@ def report_answer_metric_audits(  # noqa: PLR0912, PLR0915
                 unit="USD",
             )
 
+        # Power / ratepayer exposure (the ratepayer leg of who-bears-downside).
+        pwr = m.get("power_ratepayer_exposure", {})
+        if pwr.get("status") == "source_backed" and pwr.get("ratepayer_socialized_usd"):
+            add(
+                "mismatch.power.ratepayer_socialized_usd",
+                "AI-datacenter generation/grid build socialized to RATEPAYERS (general rate base "
+                "incl. half of mixed), from utility 10-Ks + PUC dockets. The hidden downside leg: "
+                "ordinary ratepayers, not the AI buildout, bear the stranded-asset risk.",
+                pwr.get("ratepayer_socialized_usd"),
+                [mismatch_artifact],
+                unit="USD",
+            )
+
         # Physical deliverability mismatch. We audit the honest tracker
         # construction-status proxy, NOT the strong-queue-match figure (which is
         # a coverage-limited join artifact until the ISO queues are ingested).
@@ -2316,6 +2330,11 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:  #
     )
     if demand_side_aggregate.get("status") == "source_backed":
         mismatch_ratios["demand_side_funding"] = demand_side_aggregate
+    power_exposure_aggregate = aggregate_power_exposure(
+        load_power_exposure(Path("handoffs/ai_power_ratepayer_exposure_20260603.json"))
+    )
+    if power_exposure_aggregate.get("status") == "source_backed":
+        mismatch_ratios["power_ratepayer_exposure"] = power_exposure_aggregate
     ai_direct_core_verdict = synthesize_core_verdict(
         cluster_dscr=mismatch_ratios.get("cluster_interest_coverage", {}),
         thesis_findings=thesis_findings,
@@ -2333,6 +2352,7 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:  #
             == "source_backed"
         ),
         contagion_hubs=contagion_hubs,
+        power_exposure=power_exposure_aggregate,
     )
     coverage_dict = coverage.to_dict()
     physical_capacity_dict = physical_capacity.to_dict()
@@ -3787,6 +3807,17 @@ def main() -> None:
     else:
         demand_line = "pending source-backed demand-side extraction."
 
+    _pw = verdict.get("power_ratepayer_exposure", {}) or {}
+    if _pw.get("ratepayer_socialized_pct") is not None:
+        power_line = (
+            f"AI-datacenter load {round((_pw.get('total_ai_datacenter_load_mw') or 0) / 1000, 1)} GW; "
+            f"~{_pw.get('ratepayer_socialized_pct')}% of generation/grid build "
+            f"(${round((_pw.get('ratepayer_socialized_usd') or 0) / 1e9, 1)}B) socialized to ratepayers. "
+            f"{_pw.get('ratepayer_downside_read', '')}"
+        )
+    else:
+        power_line = "pending source-backed utility/ratepayer extraction."
+
     md_verdict = f"""## The Verdict (Tiered)
 
 **AI-direct core:** `{verdict.get("core_verdict")}` at confidence **{verdict.get("core_verdict_confidence")}**.
@@ -3797,6 +3828,8 @@ specific named cluster, not a fixed % of the broad metric (which is dominated by
 ecosystem-wide bubble call is not supported.
 
 **Demand side (hyperscaler/offtaker funding — the bear-case test):** {demand_line}
+
+**Power / ratepayer exposure (the hidden downside leg):** {power_line}
 
 **Source-backed fragility facts (primary 10-K/10-Q, adversarially verified):**
 {_bullets(verdict.get("source_backed_fragility_facts"))}

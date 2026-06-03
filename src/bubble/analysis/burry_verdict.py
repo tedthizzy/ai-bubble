@@ -74,6 +74,7 @@ def synthesize_core_verdict(
     gpu_gap_source_backed: bool = False,
     contagion_hubs: dict[str, Any] | None = None,
     demand_side: dict[str, Any] | None = None,
+    power_exposure: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Synthesize the scoped, tiered Burry verdict from verified evidence."""
 
@@ -81,6 +82,7 @@ def synthesize_core_verdict(
     debt_census = debt_census or {}
     contagion_hubs = contagion_hubs or {}
     demand_side = demand_side or {}
+    power_exposure = power_exposure or {}
     bear = _finding(thesis_findings, "bear_case_against_bubble")
     bear_confidence = float(bear.get("confidence") or 0.0)
 
@@ -335,6 +337,19 @@ def synthesize_core_verdict(
             }
             if demand_side.get("status") == "source_backed"
             else {"status": "pending_source_backed_demand_side"}
+        ),
+        "power_ratepayer_exposure": (
+            {
+                "total_ai_datacenter_load_mw": power_exposure.get("total_ai_datacenter_load_mw"),
+                "ratepayer_socialized_usd": power_exposure.get("ratepayer_socialized_usd"),
+                "ratepayer_socialized_pct": power_exposure.get("ratepayer_socialized_pct"),
+                "utilities_socializing_to_ratepayers": power_exposure.get(
+                    "utilities_socializing_to_ratepayers"
+                ),
+                "ratepayer_downside_read": power_exposure.get("ratepayer_downside_read"),
+            }
+            if power_exposure.get("status") == "source_backed"
+            else {"status": "pending_source_backed_power_exposure"}
         ),
         "crack_timing": crack_timing,
         "weakest_links": weakest_links,
