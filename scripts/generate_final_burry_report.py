@@ -41,6 +41,10 @@ from bubble.analysis.contract_structure import (
 )
 from bubble.analysis.debt_census import aggregate_debt_census, load_debt_census
 from bubble.analysis.debt_service import analyze_debt_service
+from bubble.analysis.demand_funding_durability import (
+    assess_demand_funding_durability,
+    load_offtaker_funding_profile,
+)
 from bubble.analysis.demand_side import aggregate_demand_side, load_demand_side
 from bubble.analysis.ecosystem_scope import scope_deals
 from bubble.analysis.end_holders import aggregate_end_holders, load_end_holders
@@ -1431,6 +1435,35 @@ def report_answer_metric_audits(  # noqa: PLR0912, PLR0915
                     circ_evidence,
                     unit="count",
                 )
+
+        # Demand-funding durability: share of named backlog on capital-markets-dependent offtakers.
+        dfd = m.get("demand_funding_durability", {})
+        if dfd.get("status") == "source_backed" and dfd.get("capital_markets_dependent_usd"):
+            dfd_rows = [
+                {
+                    "source_uri": o.get("evidence_source_uri"),
+                    "page_or_section": f"offtaker:{o.get('offtaker')}",
+                }
+                for o in (dfd.get("per_offtaker") or [])
+                if o.get("evidence_source_uri")
+            ]
+            dfd_evidence = [
+                mismatch_artifact,
+                *row_list_provenance(
+                    dfd_rows, fallback_section="demand_funding_durability.per_offtaker"
+                ),
+            ]
+            add(
+                "mismatch.demand_funding_durability.capital_markets_dependent_usd",
+                "Named contracted take-or-pay backlog of the financed cluster resting on a "
+                "capital-markets-dependent offtaker (OpenAI): demand NOT payable from the offtaker's "
+                "operations, dependent on continued external fundraising, and circular (its largest "
+                "backer Microsoft and its vendor's supplier NVIDIA are inside the loop). The hyperscaler "
+                "slices (Meta, Microsoft) remain durable -- the finding is the bifurcation of demand.",
+                dfd.get("capital_markets_dependent_usd"),
+                dfd_evidence,
+                unit="USD",
+            )
 
         # Demand-side (hyperscaler/offtaker) source-backed aggregates.
         dsf = m.get("demand_side_funding", {})
@@ -2869,11 +2902,24 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:  #
         contagion_hubs["top_loss_cascades"] = top_contagion_cascades(
             contagion_edges, debt_census_aggregate
         ).get("cascades")
-    circular_financing_aggregate = analyze_circular_financing(
-        load_circular_financing_edges(Path("handoffs/ai_circular_financing_edges_20260603.json"))
+    circular_financing_edges = load_circular_financing_edges(
+        Path("handoffs/ai_circular_financing_edges_20260603.json")
     )
+    circular_financing_aggregate = analyze_circular_financing(circular_financing_edges)
     if circular_financing_aggregate.get("status") == "source_backed":
         mismatch_ratios["circular_financing"] = circular_financing_aggregate
+    demand_funding_durability = assess_demand_funding_durability(
+        [
+            {"offtaker": e.get("from"), "counterparty": e.get("to"), "amount_usd": e.get("amount_usd")}
+            for e in circular_financing_edges
+            if e.get("flow_type") == "purchase_commitment"
+        ],
+        load_offtaker_funding_profile(
+            Path("handoffs/ai_offtaker_funding_profile_20260603.json")
+        ),
+    )
+    if demand_funding_durability.get("status") == "source_backed":
+        mismatch_ratios["demand_funding_durability"] = demand_funding_durability
     demand_side_aggregate = aggregate_demand_side(
         load_demand_side(Path("handoffs/ai_demand_side_funding_20260603.json"))
     )
@@ -3002,6 +3048,7 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:  #
         cluster_boundary=cluster_boundary_aggregate,
         refi_wall=refi_wall_aggregate,
         circular_financing=circular_financing_aggregate,
+        demand_funding_durability=demand_funding_durability,
     )
     coverage_dict = coverage.to_dict()
     physical_capacity_dict = physical_capacity.to_dict()

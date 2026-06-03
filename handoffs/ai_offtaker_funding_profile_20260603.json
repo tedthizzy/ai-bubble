@@ -1,0 +1,21 @@
+{
+  "_doc": "Funding self-sufficiency of the offtakers behind the financed AI-cloud cluster's contracted take-or-pay backlog. funding_class is a FIRST-PRINCIPLES judgment: self_funding = the commitment is small vs the offtaker's operating cash flow (payable from operations); capital_markets_dependent = the commitment exceeds operating cash flow and depends on continued external fundraising. Dollar commitments themselves are filing-verified (see ai_circular_financing_edges). Consumed by bubble.analysis.demand_funding_durability.",
+  "as_of": "2026-06-03",
+  "offtakers": {
+    "Microsoft": {
+      "funding_class": "self_funding",
+      "basis": "Hyperscaler generating tens of $B/yr of operating cash flow; its CoreWeave spend (~67% of CoreWeave revenue, low-single-digit $B/yr) is a small fraction of that cash flow and is payable from operations. Durable demand. Note: Microsoft is ALSO OpenAI's largest equity funder ($13B funding commitment, $11.8B funded), so it indirectly backstops the fragile OpenAI slice as well.",
+      "evidence_source_uri": "https://www.sec.gov/Archives/edgar/data/789019/000119312526191507/msft-20260331.htm"
+    },
+    "Meta": {
+      "funding_class": "self_funding",
+      "basis": "Hyperscaler with large positive operating cash flow; the ~$14.2B commitment is spread through December 2031 (~$2.4B/yr), small vs annual operating cash flow and payable from operations. Durable demand. (Funding-class is a first-principles judgment; no single offtaker-cash-flow figure is cited here.)",
+      "evidence_source_uri": null
+    },
+    "OpenAI": {
+      "funding_class": "capital_markets_dependent",
+      "basis": "Pre-profitability. Microsoft carries OpenAI under the equity method (HLBV) as a 'funding commitment' with revenue-sharing and recognized large OpenAI-related equity-method swings; OpenAI is capitalized by Microsoft ($13B), an NVIDIA letter of intent (up to $100B, NON-BINDING, $0 funded), and SoftBank. Its ~$18.4B multi-year CoreWeave take-or-pay far exceeds its operating cash flow and depends on continued external fundraising -- it cannot be honored from operations. Fragile demand, and circular (its compute vendor's supplier and its largest backer are inside the same loop).",
+      "evidence_source_uri": "https://www.sec.gov/Archives/edgar/data/789019/000119312526191507/msft-20260331.htm"
+    }
+  }
+}
