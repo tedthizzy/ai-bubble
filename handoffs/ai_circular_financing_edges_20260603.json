@@ -1,0 +1,138 @@
+{
+  "_doc": "Money-flow edges among AI-infra principals, encoded PAYER -> PAYEE (cash-flow direction). source_tier: filing_verified = primary SEC filing with the quote+URI below; inferred = structurally certain but no isolated single-figure quote; press_reported = announcement/press only, NOT yet tied to a binding filing. Used by bubble.analysis.circular_financing to detect reciprocal/round-trip loops. The equity-investment and GPU-purchase legs are LEGALLY SEPARATE transactions; their co-existence is a vendor-financing structure, not proof identical dollars circulate. See module docstring for the honesty caveats.",
+  "as_of": "2026-06-03",
+  "edges": [
+    {
+      "from": "NVIDIA",
+      "to": "CoreWeave",
+      "flow_type": "equity_investment",
+      "amount_usd": 2000000000,
+      "date": "2026-01",
+      "binding": true,
+      "source_tier": "filing_verified",
+      "quote": "In January 2026, NVIDIA Corporation invested $2 billion in the Company's Class A common stock at a purchase price of $87.20 per share.",
+      "source_uri": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000104/crwv-20251231.htm"
+    },
+    {
+      "from": "CoreWeave",
+      "to": "NVIDIA",
+      "flow_type": "gpu_purchase",
+      "amount_usd": null,
+      "date": "ongoing",
+      "binding": true,
+      "source_tier": "filing_verified",
+      "quote": "as a result of our obligations in our current customer contracts, all of the GPUs used in our infrastructure today are NVIDIA GPUs... our current customers have contractually specified our use of NVIDIA GPUs.",
+      "source_uri": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000104/crwv-20251231.htm"
+    },
+    {
+      "from": "NVIDIA",
+      "to": "Nebius",
+      "flow_type": "equity_investment",
+      "amount_usd": 2000000000,
+      "date": "2026-03",
+      "binding": true,
+      "source_tier": "filing_verified",
+      "quote": "On March 11, 2026, we entered into a securities purchase agreement with NVIDIA Corporation, pursuant to which we sold, in a private placement for aggregate gross proceeds of approximately $2 billion, a pre-funded Class A shares purchase warrant... to support the expansion of the Group's AI cloud infrastructure... NVIDIA Vera Rubin platform, with delivery expected to commence in early 2027.",
+      "source_uri": "https://www.sec.gov/Archives/edgar/data/1513845/000110465926052948/nbis-20251231x20f.htm"
+    },
+    {
+      "from": "Nebius",
+      "to": "NVIDIA",
+      "flow_type": "gpu_purchase",
+      "amount_usd": null,
+      "date": "2027",
+      "binding": true,
+      "source_tier": "filing_verified",
+      "quote": "...to support the expansion of the Group's AI cloud infrastructure, including procurement of the NVIDIA Vera Rubin platform, with delivery expected to commence in early 2027. (The investee's same 20-F ties the NVIDIA proceeds directly to purchasing NVIDIA hardware -- the return leg is filing-explicit.)",
+      "source_uri": "https://www.sec.gov/Archives/edgar/data/1513845/000110465926052948/nbis-20251231x20f.htm"
+    },
+    {
+      "from": "NVIDIA",
+      "to": "Applied Digital",
+      "flow_type": "equity_investment",
+      "amount_usd": null,
+      "date": "2024-09",
+      "binding": true,
+      "source_tier": "filing_verified",
+      "quote": "On September 5, 2024, we entered into a securities purchase agreement with a group of institutional and accredited investors, NVIDIA and Related Companies (collectively, the 'PIPE Purchasers'), for the private placement of 49,382,720 shares of our common stock at a purchase price of $3.24 per share. (NVIDIA's portion within the PIPE group is not separately disclosed; total PIPE ~$160M.)",
+      "source_uri": "https://www.sec.gov/Archives/edgar/data/1144879/000114487925000021/apld-20250531.htm"
+    },
+    {
+      "from": "Applied Digital",
+      "to": "NVIDIA",
+      "flow_type": "gpu_purchase",
+      "amount_usd": null,
+      "date": "ongoing",
+      "binding": true,
+      "source_tier": "inferred",
+      "quote": "Applied Digital's HPC/AI-cloud and the CoreWeave-leased campuses run NVIDIA GPUs; no isolated APLD-direct NVIDIA purchase figure is disclosed, so the return leg is inferred (structurally certain, amount unknown).",
+      "source_uri": "https://www.sec.gov/Archives/edgar/data/1144879/000114487925000021/apld-20250531.htm"
+    },
+    {
+      "from": "OpenAI",
+      "to": "CoreWeave",
+      "flow_type": "purchase_commitment",
+      "amount_usd": 18400000000,
+      "date": "2025",
+      "binding": true,
+      "source_tier": "filing_verified",
+      "quote": "OpenAI has committed to pay us up to approximately $6.5 billion through May 31, 2031... pursuant to which OpenAI has committed to pay us up to approximately $11.9 billion through October 2030.",
+      "source_uri": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000104/crwv-20251231.htm"
+    },
+    {
+      "from": "Meta",
+      "to": "CoreWeave",
+      "flow_type": "purchase_commitment",
+      "amount_usd": 14200000000,
+      "date": "2025-09",
+      "binding": true,
+      "source_tier": "filing_verified",
+      "quote": "in September 2025, we entered into an order form under an existing master services agreement pursuant to which Meta Platforms, Inc. initially committed to pay us up to approximately $14.2 billion through December 2031.",
+      "source_uri": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000104/crwv-20251231.htm"
+    },
+    {
+      "from": "Microsoft",
+      "to": "CoreWeave",
+      "flow_type": "customer_revenue",
+      "amount_usd": null,
+      "date": "2025",
+      "binding": true,
+      "source_tier": "filing_verified",
+      "quote": "We recognized an aggregate of approximately 67% of our revenue from our top customer, Microsoft, for the year ended December 31, 2025.",
+      "source_uri": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000104/crwv-20251231.htm"
+    },
+    {
+      "from": "CoreWeave",
+      "to": "Applied Digital",
+      "flow_type": "lease_payment",
+      "amount_usd": null,
+      "date": "2025",
+      "binding": true,
+      "source_tier": "filing_verified",
+      "quote": "In connection with the Data Center Leases, we issued to CoreWeave a warrant (the 'CoreWeave Warrant') to acquire up to 13,062,521 shares of our common stock. (CoreWeave is the anchor tenant; lease cash flows CoreWeave -> Applied Digital.)",
+      "source_uri": "https://www.sec.gov/Archives/edgar/data/1144879/000114487925000021/apld-20250531.htm"
+    },
+    {
+      "from": "NVIDIA",
+      "to": "OpenAI",
+      "flow_type": "framework_commitment",
+      "amount_usd": 100000000000,
+      "date": "2025",
+      "binding": false,
+      "source_tier": "press_reported",
+      "quote": "NVIDIA announced an intent to invest up to ~$100B in OpenAI tied to staged compute deployment. PRESS/ANNOUNCEMENT only -- framework, not a binding filing; amount and structure NOT yet tied to a primary SEC disclosure. Flagged, capped, never drives the verdict.",
+      "source_uri": "PRESS_REPORTED_PENDING_FILING_VERIFICATION"
+    },
+    {
+      "from": "Microsoft",
+      "to": "OpenAI",
+      "flow_type": "equity_investment",
+      "amount_usd": 13000000000,
+      "date": "2023-2025",
+      "binding": true,
+      "source_tier": "press_reported",
+      "quote": "Microsoft's cumulative OpenAI investment is widely reported at ~$13B and is referenced in Microsoft filings as an equity-method investment, but the $13B figure itself is press-sourced here, not extracted from a primary filing. Flagged, capped.",
+      "source_uri": "PRESS_REPORTED_PENDING_FILING_VERIFICATION"
+    }
+  ]
+}

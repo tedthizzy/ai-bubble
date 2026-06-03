@@ -16,6 +16,8 @@ from pathlib import Path
 from typing import Any
 
 from bubble.analysis.burry_verdict import synthesize_core_verdict
+from bubble.analysis.circular_financing import analyze_circular_financing
+from bubble.analysis.circular_financing import load_edges as load_circular_financing_edges
 from bubble.analysis.cluster_boundary import (
     aggregate_cluster_boundary,
     load_cluster_boundary,
@@ -1389,6 +1391,45 @@ def report_answer_metric_audits(  # noqa: PLR0912, PLR0915
                 [mismatch_artifact],
                 unit="ratio",
             )
+
+        # Circular / reciprocal vendor financing (NVIDIA supplier-AND-investor round-trips).
+        circ = m.get("circular_financing", {})
+        if circ.get("status") == "source_backed":
+            circ_hub = circ.get("reciprocal_hub") or {}
+            verified_loops = circ.get("filing_verified_reciprocal_loops") or []
+            loop_edge_rows = [
+                edge
+                for loop in verified_loops
+                for edge in (loop.get("edges") or [])
+                if edge.get("source_uri")
+            ]
+            circ_evidence = [
+                mismatch_artifact,
+                *row_list_provenance(
+                    loop_edge_rows,
+                    fallback_section="circular_financing.filing_verified_reciprocal_loops",
+                ),
+            ]
+            if circ_hub.get("filing_verified_reciprocal_capital_usd"):
+                add(
+                    "mismatch.circular_financing.filing_verified_reciprocal_capital_usd",
+                    "NVIDIA equity injected into GPU-cloud customers that ALSO carry a filing-verified "
+                    "GPU-purchase return leg (reciprocal / round-trip capital, CoreWeave + Nebius). The "
+                    "dominant supplier funds the buyers, so this much take-or-pay demand is not "
+                    "arm's-length -- the Lucent/Nortel vendor-financing tell, here partly filing-verified.",
+                    circ_hub.get("filing_verified_reciprocal_capital_usd"),
+                    circ_evidence,
+                    unit="USD",
+                )
+            if circ_hub.get("filing_verified_round_trip_count"):
+                add(
+                    "mismatch.circular_financing.filing_verified_round_trip_count",
+                    "Count of filing-verified reciprocal loops where NVIDIA is BOTH the dominant GPU "
+                    "supplier and an equity investor in the same customer (both legs from primary filings).",
+                    circ_hub.get("filing_verified_round_trip_count"),
+                    circ_evidence,
+                    unit="count",
+                )
 
         # Demand-side (hyperscaler/offtaker) source-backed aggregates.
         dsf = m.get("demand_side_funding", {})
@@ -2827,6 +2868,11 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:  #
         contagion_hubs["top_loss_cascades"] = top_contagion_cascades(
             contagion_edges, debt_census_aggregate
         ).get("cascades")
+    circular_financing_aggregate = analyze_circular_financing(
+        load_circular_financing_edges(Path("handoffs/ai_circular_financing_edges_20260603.json"))
+    )
+    if circular_financing_aggregate.get("status") == "source_backed":
+        mismatch_ratios["circular_financing"] = circular_financing_aggregate
     demand_side_aggregate = aggregate_demand_side(
         load_demand_side(Path("handoffs/ai_demand_side_funding_20260603.json"))
     )
@@ -2951,6 +2997,7 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:  #
         contract_structure=contract_structure_aggregate,
         cluster_boundary=cluster_boundary_aggregate,
         refi_wall=refi_wall_aggregate,
+        circular_financing=circular_financing_aggregate,
     )
     coverage_dict = coverage.to_dict()
     physical_capacity_dict = physical_capacity.to_dict()
@@ -3842,7 +3889,9 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:  #
                     "firm-vs-queue rate (generation ISO queues are already ingested but are the "
                     "wrong lens for load)",
                     "AI-direct GPU-SPV debt into the capital-exposure graph",
-                    "Filing-verified circular-financing loop edges",
+                    "NVIDIA->OpenAI ($100B framework) filing verification to close the macro "
+                    "round-trip loop (the NVIDIA<->CoreWeave and NVIDIA<->Nebius reciprocal loops "
+                    "are now filing-verified; see 'circular_financing')",
                 ],
             },
             "how_large": {

@@ -235,14 +235,27 @@ def build_risk_register(
     if hubs.get("status") == "source_backed" and hubs.get("top_contagion_hubs"):
         top = hubs.get("top_contagion_hubs") or []
         names = ", ".join(str(h.get("counterparty")) for h in top[:3])
+        circ = m.get("circular_financing", {}) or {}
+        circ_hub = circ.get("reciprocal_hub") or {}
+        circ_clause = ""
+        if circ.get("status") == "source_backed" and circ_hub.get("filing_verified_round_trip_count"):
+            cap_b = round(float(circ_hub.get("filing_verified_reciprocal_capital_usd") or 0) / 1e9, 1)
+            circ_clause = (
+                f" Round-trip quantified: NVIDIA is a filing-verified equity investor in "
+                f"{circ_hub.get('filing_verified_investee_count')} of its own GPU-cloud customers "
+                f"({', '.join(circ_hub.get('filing_verified_investees') or [])}), "
+                f"{circ_hub.get('filing_verified_round_trip_count')} with a filing-verified "
+                f"return-purchase leg (~${cap_b}B reciprocal). Vendor-financed demand is not "
+                "arm's-length -- the Lucent/Nortel late-cycle tell."
+            )
         emit(
             "R5",
-            "Single-counterparty contagion: NVIDIA is supplier + investor (circular) and lenders are shared",
+            "Single-counterparty contagion + vendor round-trip: NVIDIA is supplier AND equity investor",
             "contagion",
             4,
             f"Shared hubs touch multiple issuers simultaneously: {names}. NVIDIA is both GPU supplier and "
-            f"equity investor (filing-verified circular relationship).",
-            "contagion_hubs",
+            f"equity investor (filing-verified circular relationship).{circ_clause}",
+            "circular_financing",
             True,
         )
 

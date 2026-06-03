@@ -70,6 +70,7 @@ def _corroborating_layers(**layers: dict[str, Any] | None) -> list[str]:
         "scenario_stress": "forward cash-flow stress (majority breach by the adverse case)",
         "refi_wall": "named refinancing wall (specific near-term maturities)",
         "contagion_hubs": "contagion hubs (shared counterparties; NVIDIA circular)",
+        "circular_financing": "circular/reciprocal financing (NVIDIA supplier-AND-investor round-trip loops)",
         "demand_side": "demand-side funding (off-BS leverage / bear-case test)",
         "power_exposure": "power/ratepayer exposure",
         "end_holders": "ultimate equity end-holders (SEC ownership filings)",
@@ -192,12 +193,13 @@ def synthesize_core_verdict(
     contract_structure: dict[str, Any] | None = None,
     cluster_boundary: dict[str, Any] | None = None,
     refi_wall: dict[str, Any] | None = None,
+    circular_financing: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Synthesize the scoped, tiered Burry verdict from verified evidence."""
 
     timing_summary = timing_summary or {}
     debt_census = debt_census or {}
-    contagion_hubs = contagion_hubs or {}
+    contagion_hubs, circular_financing = contagion_hubs or {}, circular_financing or {}
     demand_side = demand_side or {}
     power_exposure = power_exposure or {}
     scenario_stress = scenario_stress or {}
@@ -440,6 +442,7 @@ def synthesize_core_verdict(
                 contract_structure=contract_structure,
                 refi_wall=refi_wall or {},
                 cluster_boundary=cluster_boundary or {},
+                circular_financing=circular_financing,
             ),
         },
         "ecosystem_verdict": "not_established_as_ecosystem_wide_bubble",
@@ -478,6 +481,20 @@ def synthesize_core_verdict(
             }
             if contagion_hubs.get("status") == "source_backed"
             else {"status": "pending_source_backed_counterparty_edges"}
+        ),
+        "circular_financing": (
+            {
+                "reciprocal_hub": circular_financing.get("reciprocal_hub"),
+                "filing_verified_reciprocal_loops": circular_financing.get(
+                    "filing_verified_reciprocal_loops"
+                ),
+                "press_or_inferred_loops": circular_financing.get("press_or_inferred_loops"),
+                "demand_durability_read": circular_financing.get("demand_durability_read"),
+                "interpretation_caveat": circular_financing.get("interpretation_caveat"),
+                "note": circular_financing.get("note"),
+            }
+            if circular_financing.get("status") == "source_backed"
+            else {"status": "pending_source_backed_circular_financing_edges"}
         ),
         "demand_side_funding": (
             {
