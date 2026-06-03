@@ -1,0 +1,455 @@
+[
+  {
+    "issuer": "Bitdeer Technologies Group (BTDR) — Nasdaq; CIK 0001899123; Cayman Islands foreign private issuer (Form 20-F / 6-K, IFRS, USD)",
+    "in_scope": "crypto_only_marginal_ai",
+    "verified_financials": {
+      "period": "FY2025 (year ended December 31, 2025), IFRS, USD",
+      "revenue_usd": 620253000,
+      "revenue_verdict": "filing_verified — line item 'Revenue 620,253' (in thousands) in consolidated statement of profit or loss",
+      "net_income_usd": 65597000,
+      "net_income_verdict": "filing_verified — 'Profit / (Loss) for the years 65,597'",
+      "ebitda_usd": null,
+      "ebitda_verdict": "rejected_unsourced / nulled — the $327,839,000 figure is NOT in the filing. It is a third-party (stockanalysis.com) mechanical EBITDA (~NI 65,597 + D&A 168,119 + tax 5,233 + net interest 91,725 = 330,674K). The filing's ONLY labeled EBITDA is 'adjusted EBITDA was US$93.5M, US$37.4M and US$35.2M' for 2023/2024/2025 — i.e. FY2025 adjusted EBITDA is US$35.2M, which strips the $444.9M non-cash gain on derivative-liability fair-value changes. The extracted $327.84M directly conflicts with the filing's stated EBITDA, so it is nulled.",
+      "total_debt_usd": 1001091000,
+      "total_debt_verdict": "filing_verified — reconciles exactly to sum of four balance-sheet borrowings line items: current Borrowings 478,792 + current Borrowings from related party 275,000 + non-current Borrowings 468 + non-current Borrowings from related party 246,831 = 1,001,091 (in thousands). Note: ~$521.8M of this is BIT Group related-party debt.",
+      "annual_interest_expense_usd": 68797000,
+      "interest_expense_verdict": "filing_verified — 'Interest expense on borrowings 68,797' (excludes a further $26,750K interest on related-party borrowings; net interest expense in EBITDA recon was 91,725)",
+      "cash_usd": 149400000,
+      "cash_verdict": "filing_verified — cash and cash equivalents fell to US$149.4M (Dec 31 2025) from US$476.3M (Dec 31 2024)",
+      "operating_cash_flow_usd": -1738700000,
+      "operating_cash_flow_verdict": "filing_verified — negative operating cash flows of US$1,738.7M for 2025",
+      "ai_infra_and_cloud_revenue_usd": 6800000,
+      "ai_revenue_verdict": "filing_verified — 'AI infrastructure and AI cloud business, generating revenue of US$6.8 million' (= ~1.1% of total revenue; <$0.1M in 2023, $3.5M in 2024, $6.8M in 2025)",
+      "source_filing": "Form 20-F (FY2025), accession 0001213900-26-049770, audit report signed by MaloneBailey LLP April 30, 2026",
+      "source_url": "https://www.sec.gov/Archives/edgar/data/1899123/000121390026049770/ea0282628-20f_bitdeer.htm",
+      "verification_method": "Downloaded the 5.2MB primary 20-F HTML directly from SEC EDGAR (curl with UA; WebFetch was 403-blocked), stripped tags, and grepped the source text for every figure and flag."
+    },
+    "verified_serious_flags": [
+      {
+        "flag_type": "going_concern_doubt",
+        "present": "absent",
+        "verdict": "filing_verified",
+        "detail": "Confirmed in primary filing: 0 occurrences of 'substantial doubt'. Exactly 1 occurrence of 'going concern', and it is the boilerplate capital-management note ('safeguard the Group's ability to continue as a going concern'), as the analyst stated. MaloneBailey issued an unqualified opinion with no going-concern emphasis paragraph. Despite cash falling $476.3M->$149.4M and -$1,738.7M operating cash burn, no going-concern doubt was raised (liquidity met via $751.0M convertible notes + $351.3M equity + $521.8M related-party loans).",
+        "source_filing": "Form 20-F FY2025, accession 0001213900-26-049770 (audit report / capital-management note)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1899123/000121390026049770/ea0282628-20f_bitdeer.htm"
+      },
+      {
+        "flag_type": "material_weakness_icfr",
+        "present": "partial",
+        "verdict": "filing_verified",
+        "detail": "Confirmed: a material weakness was identified for FY2024 (inventory bill-of-materials review; convertible-note draft valuation-model assumptions; reliability of external mining-pool/custodial/ESOP platform information). Filing states verbatim 'During 2025, we implemented changes and remediated the material weakness identified for the year ended December 31, 2024.' Management concluded 'our internal control over financial reporting was effective as of December 31, 2025.' Risk factor retains forward-looking 'could identify further material weaknesses' language. PARTIAL is correct: present in the FY2024 comparative period, remediated with ICFR effective for FY2025.",
+        "source_filing": "Form 20-F FY2025, Item 15 Controls and Procedures + risk factors",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1899123/000121390026049770/ea0282628-20f_bitdeer.htm"
+      },
+      {
+        "flag_type": "auditor_change_or_resignation",
+        "present": "absent",
+        "verdict": "filing_verified",
+        "detail": "Confirmed: '/s/ MaloneBailey, LLP ... We have served as the Company's auditor since 2021.' PCAOB ID 206 confirmed in the audit report header ('PCAOB ID: 206'). Houston, TX. Continuous tenure FY2023-FY2025; no dismissal, resignation, or change-of-accountant disclosure.",
+        "source_filing": "Form 20-F FY2025, Report of Independent Registered Public Accounting Firm (MaloneBailey LLP)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1899123/000121390026049770/ea0282628-20f_bitdeer.htm"
+      },
+      {
+        "flag_type": "restatement",
+        "present": "absent",
+        "verdict": "filing_verified",
+        "detail": "Confirmed in cover page raw HTML: the error-correction checkbox renders as the empty-box glyph (&#9744; = unchecked) preceding 'reflect the correction of an error to previously issued financial statements', and the same unchecked glyph precedes the clawback/recovery-analysis restatement checkbox. No 'as previously reported' / prior-period-error / restatement language in the financial statement notes. No restatement.",
+        "source_filing": "Form 20-F FY2025 cover page (Item 10D-1 / error-correction checkboxes)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1899123/000121390026049770/ea0282628-20f_bitdeer.htm"
+      },
+      {
+        "flag_type": "customer_concentration_over_35pct",
+        "present": "absent",
+        "verdict": "filing_verified",
+        "detail": "Confirmed concentration table: FY2025 Customer B 16.65%, Customer C 15.81%, Customer D 12.20%, Customer E 10.28%; Customer A's 19.05% sits in the 2023 column. Largest single FY2025 customer is 16.65% — below the 35% threshold. Customers anonymized (IFRS FPI). Primary concentration is to Bitcoin price and to affiliated custodian/counterparty BIT Group, not a single AI/HPC offtaker.",
+        "source_filing": "Form 20-F FY2025, Notes to Consolidated Financial Statements — revenue concentration",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1899123/000121390026049770/ea0282628-20f_bitdeer.htm"
+      },
+      {
+        "flag_type": "related_party_or_circular_financing",
+        "present": "present",
+        "verdict": "filing_verified",
+        "detail": "Confirmed: 'the loans from BIT Group, a related party, of US$521.8 million'; balance-sheet related-party borrowings of $275,000K current + $246,831K non-current = $521,831K; FY2025 cash-flow 'Borrowings from a related party 668,000' with 'Repayments of borrowings to a related party (95,417)'; interest expense on related-party borrowings $26,750K. 'BIT Group' appears 99 times and 'related part*' 72 times. BIT Group is also an affiliated custodian/counterparty, supporting the circular/related-party financing characterization. This is the dominant red flag for this issuer.",
+        "source_filing": "Form 20-F FY2025, Note 24 Borrowings from a related party + related-party transactions + liquidity discussion",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1899123/000121390026049770/ea0282628-20f_bitdeer.htm"
+      }
+    ],
+    "overall": "partially_source_backed",
+    "note": "Verified against the primary 20-F (downloaded the 5.2MB source HTML directly from SEC EDGAR; SEC blocks WebFetch with 403). TWO corrections to the extraction. (1) IN_SCOPE was wrong: the extraction labeled BTDR 'financed_ai_infra', but the filing shows AI infrastructure + AI cloud revenue is only US$6.8M = ~1.1% of US$620.3M total revenue (vs <$0.1M in 2023, $3.5M in 2024). BTDR is fundamentally a Bitcoin miner (self-mining + cloud-hash + hosting) with nascent/aspirational AI/HPC buildout. Correct class = crypto_only_marginal_ai. (2) EBITDA $327,839,000 is NOT filing-supported and is NULLED — the filing's only labeled EBITDA is 'adjusted EBITDA US$35.2M' for FY2025; the $327.84M is a third-party mechanical computation (~NI+D&A+tax+net interest ≈ $330.7M) that conflicts with the filing's own number (the filing strips out a $444.9M non-cash derivative fair-value gain). All other financials reconcile to the filing: revenue $620,253K, net income $65,597K, interest expense $68,797K (line items), and total debt $1,001,091K reconciles EXACTLY to the four balance-sheet borrowings lines (478,792 + 275,000 + 468 + 246,831). All six serious flags are filing_verified as stated (going_concern absent, material_weakness partial/remediated, auditor_change absent, restatement absent, customer_concentration_over_35pct absent, related_party_or_circular_financing present via BIT Group $521.8M). Note the company is accounting-profitable yet ran -$1.74B operating cash burn, plugged by $751M converts + $351M equity + $522M related-party debt — a genuine liquidity/related-party stress story even without a going-concern flag."
+  },
+  {
+    "issuer": "Bit Digital, Inc. (Nasdaq: BTBT)",
+    "in_scope": "financed_ai_infra",
+    "verified_financials": {
+      "period": "FY2025 (year ended December 31, 2025)",
+      "revenue_usd": 113560320,
+      "ebitda_usd": -24889122,
+      "ebitda_label_note": "Value -24,889,122 is the filing's ADJUSTED EBITDA, not plain EBITDA. Plain EBITDA per the 10-K reconciliation is -47,025,804. The extracted figure is filing-sourced but mislabeled as 'ebitda'.",
+      "net_income_usd": -80316584,
+      "net_income_note": "Verified as 'Net (loss) income attributable to Bit Digital shareholders' = -80,316,584. Total consolidated net loss including noncontrolling interest = -84,929,658.",
+      "total_debt_usd": 134166597,
+      "total_debt_note": "Not stated verbatim; reconciles exactly to convertible note payable net (110,290,945) + lease liabilities current 18,460,194 + non-current 5,415,458 = 134,166,597. Filing-derived aggregation, accepted.",
+      "annual_interest_expense_usd": 3093461,
+      "source_filing": "Form 10-K FY2025 (acc. 0001213900-26-035544), consolidated statements of operations, balance sheet, and Adjusted EBITDA reconciliation",
+      "source_url": "https://www.sec.gov/Archives/edgar/data/1710350/000121390026035544/ea0279621-10k_bitdigit.htm",
+      "edgar_confirmation": "Confirmed via data.sec.gov submissions: 10-K filed 2026-03-27, period 2025-12-31, accession 0001213900-26-035544, primary doc ea0279621-10k_bitdigit.htm. All values cross-checked against the downloaded filing text."
+    },
+    "verified_serious_flags": [
+      {
+        "flag_type": "going_concern_doubt",
+        "present": "absent",
+        "verdict": "filing_verified",
+        "detail": "Confirmed. No substantial-doubt language found. The 'sufficient to fund our anticipated operating cash requirements for at least 12 months' statement is verbatim in the filing. Only generic risk-factor 'going concern' language present. Audit Alliance LLP report contains no going-concern emphasis paragraph. Cash and cash equivalents $118.4M (not the ~$179M asserted in the extraction's color text; 179M actually refers to prior-year share count, an extraction error in supporting color only), working capital $500.8M including digital assets $415.7M (extraction said ~$424M; minor), ~70.5% WhiteFiber stake all confirmed.",
+        "source_filing": "Form 10-K FY2025, MD&A liquidity + Report of Independent Registered Public Accounting Firm",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1710350/000121390026035544/ea0279621-10k_bitdigit.htm"
+      },
+      {
+        "flag_type": "material_weakness_icfr",
+        "present": "absent",
+        "verdict": "filing_verified",
+        "detail": "Confirmed verbatim: 'As of December 31, 2025, we concluded that our internal control over financial reporting contained no material weaknesses.' Disclosure controls and procedures 'were effective at the reasonable assurance level.' Audit Alliance LLP issued an ICFR audit report. The 'Auditor transitions and internal control remediation may result in...material weaknesses' item is confirmed to be a hypothetical forward-looking risk factor, not a reported weakness.",
+        "source_filing": "Form 10-K FY2025, Item 9A Controls and Procedures",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1710350/000121390026035544/ea0279621-10k_bitdigit.htm"
+      },
+      {
+        "flag_type": "auditor_change_or_resignation",
+        "present": "absent",
+        "verdict": "filing_verified",
+        "detail": "Confirmed. Audit report signed '/s/ Audit Alliance LLP, We have served as the Company's auditor since 2020. Singapore, March 27, 2026, PCAOB ID No. 3487.' Item 9 'Changes in and Disagreements with Accountants on Accounting and Financial Disclosure' = 'None.' No auditor change or resignation.",
+        "source_filing": "Form 10-K FY2025, Item 9 + Report of Independent Registered Public Accounting Firm",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1710350/000121390026035544/ea0279621-10k_bitdigit.htm"
+      },
+      {
+        "flag_type": "restatement",
+        "present": "absent",
+        "verdict": "filing_verified",
+        "detail": "Confirmed. Cover-page error-correction / Rule 10D-1 checkboxes are present but unmarked (empty boxes). All 'restate' occurrences in the body are generic risk-factor language about possible future restatements. No prior-period restatement disclosed.",
+        "source_filing": "Form 10-K FY2025, cover page + risk factors",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1710350/000121390026035544/ea0279621-10k_bitdigit.htm"
+      },
+      {
+        "flag_type": "customer_concentration_over_35pct",
+        "present": "present",
+        "verdict": "filing_verified",
+        "detail": "Confirmed verbatim. WhiteFiber's Initial Customer accounted for ~70.7% of cloud services revenue for the 12 months ended Dec 31, 2025 (96.6% through Dec 31, 2024). Services to the Initial Customer were PAUSED; parties 'engaged in ongoing discussions regarding a potential resolution of the existing service agreements following the agreed pause of services'; no definitive termination/settlement executed; WhiteFiber has redeployed the GPUs to three other customers. DNA Fund relationship was terminated in Nov 2025 (~$7.3M receivable). Severe single-customer concentration in the AI/HPC segment confirmed, well above the 35% threshold, with that customer now in dispute.",
+        "source_filing": "Form 10-K FY2025, customer concentration / WhiteFiber Cloud Services disclosures",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1710350/000121390026035544/ea0279621-10k_bitdigit.htm"
+      },
+      {
+        "flag_type": "related_party_or_circular_financing",
+        "present": "partial",
+        "verdict": "filing_verified",
+        "detail": "Confirmed. Note 20 Related Parties discloses (1) $1.6M (2x $0.8M) 8% dividends on preference shares to Geney Development Ltd.; CFO Erke Huang is President and ~30% beneficial owner of Geney; (2) Financiere/Square administrative-services arrangement following the FLD (Financiere Louis David) acquisition completed Nov 28, 2025. No circular financing of the AI buildout: the RBC credit facility (CAD 60M / ~$43.8M) and the $150M 4.00% 2030 convertible notes are arm's-length third-party financings. 'Partial' is the correct characterization: related-party transactions exist but none circularly finance the AI capacity or its revenue.",
+        "source_filing": "Form 10-K FY2025, Note 20 Related Parties",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1710350/000121390026035544/ea0279621-10k_bitdigit.htm"
+      }
+    ],
+    "overall": "source_backed",
+    "note": "Adversarial verification against the actual 10-K (downloaded from EDGAR via data.sec.gov; filing existence and metadata independently confirmed: accession 0001213900-26-035544, filed 2026-03-27, period 2025-12-31). All six serious flags are filing-verified with real cites; none rejected as unsourced. Financials: revenue (113,560,320) and interest expense (3,093,461) match verbatim; net income (-80,316,584) verified as the shareholder-attributable figure (total NCI-inclusive net loss is -84,929,658); total debt (134,166,597) is a defensible filing-derived aggregation of convertible notes net + lease liabilities; EBITDA (-24,889,122) is filing-sourced but is the filing's ADJUSTED EBITDA line, not plain EBITDA (plain EBITDA = -47,025,804) -- a labeling issue, not a fabrication. in_scope='financed_ai_infra' is HONEST and correct: BTBT is NOT a pure bitcoin miner with only aspirational AI -- it operates real, debt-financed AI/HPC infrastructure (2,048+ GPUs deployed, H200 cloud services, WhiteFiber HPC data centers MTL-2/MTL-3, Nscale MSA) funded by the RBC facility, $150M convertible notes, and sale-leaseback. Two minor color-text inaccuracies in the going-concern flag's supporting prose (cash is $118.4M not ~$179M; digital assets $415.7M not ~$424M) do not change any flag verdict or the financial line items. Overall source_backed: every financial line and every flag is tied to the cited filing, with the EBITDA mislabel and the going-concern color figures noted as caveats rather than disqualifiers."
+  },
+  {
+    "issuer": "Galaxy Digital Inc. (Nasdaq: GLXY; SEC CIK 0001859392)",
+    "in_scope": "crypto_only_marginal_ai",
+    "verified_financials": {
+      "period": "FY ended December 31, 2025 (audited)",
+      "revenue_usd": 60406728000,
+      "revenue_note": "Total revenues $60,406,728K per consolidated statements of operations and segment Note 24; verified to the dollar. CAUTION: this is overwhelmingly gross digital-asset (crypto) SALES turnover on a principal basis ($60,385,358K = 99.965% Digital Assets segment), not net services revenue. The AI/HPC Data Centers segment was only $8,433K (0.014%).",
+      "ebitda_usd": 33671000,
+      "ebitda_note": "This is the company's non-GAAP Adjusted EBITDA ($33,671K) from the Net income/(loss)-to-Adjusted-EBITDA reconciliation, not a GAAP EBITDA. Figure matches to the dollar.",
+      "net_income_usd": -241349000,
+      "net_income_note": "Net income/(loss) $(241,349)K verified; segment split Digital Assets $193,886K, Data Centers $(1,098)K, Treasury/Corporate $(434,137)K.",
+      "total_debt_usd": 2861055000,
+      "total_debt_note": "Notes payable carrying value $2,861,055K (Exchangeable Senior Notes due 2026/2029/2031); verified on balance sheet.",
+      "annual_interest_expense_usd": 59247000,
+      "annual_interest_expense_note": "'Notes interest and other expense' $59,247K from the Adjusted EBITDA add-back; verified.",
+      "total_equity_usd": 3034777000,
+      "total_equity_note": "Total equity $3,034,777K at 12/31/2025 (up 38% from $2,194,352K); supports going-concern absence. Includes $1,079,042K noncontrolling interest; controlling stockholders' equity $1,955,735K.",
+      "data_centers_segment_revenue_usd": 8433000,
+      "source_filing": "Galaxy Digital Inc. Form 10-K for FY2025 (filed 2026-02-26, accession 0001859392-26-000016, doc glxy-20251231.htm)",
+      "source_url": "https://www.sec.gov/Archives/edgar/data/1859392/000185939226000016/glxy-20251231.htm",
+      "all_figures_filing_verified": true
+    },
+    "verified_serious_flags": [
+      {
+        "flag_type": "going_concern_doubt",
+        "present": "absent",
+        "detail": "Confirmed: zero occurrences of 'going concern' anywhere in the FY2025 10-K. KPMG issued an unqualified opinion with no going-concern emphasis. Total equity $3,034,777K ($3.0B, up 38% YoY) at 12/31/2025; working capital $3.2B. Filing-verified.",
+        "verdict": "filing_verified",
+        "source_filing": "FY2025 10-K (acc 0001859392-26-000016); Q1 2026 10-Q (acc 0001859392-26-000054, confirmed to exist on EDGAR)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1859392/000185939226000016/glxy-20251231.htm"
+      },
+      {
+        "flag_type": "material_weakness_icfr",
+        "present": "absent",
+        "detail": "Confirmed: only one 'material weakness' hit, and it is forward-looking risk-factor language ('we may identify material weaknesses'). Management concluded disclosure controls and procedures were EFFECTIVE as of 12/31/2025. Section 404 ICFR management assessment / auditor attestation is OMITTED under the SEC newly-public-company transition period: 'This Annual Report does not include a report of management's assessment regarding internal control over financial reporting or an attestation report ... due to a transition period established by the rules of SEC for newly public companies.' This is a deferral, not a disclosed deficiency. Filing-verified.",
+        "verdict": "filing_verified",
+        "source_filing": "FY2025 10-K, Item 9A (acc 0001859392-26-000016)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1859392/000185939226000016/glxy-20251231.htm"
+      },
+      {
+        "flag_type": "auditor_change_or_resignation",
+        "present": "absent",
+        "detail": "Confirmed: auditor is KPMG LLP (New York; Auditor Firm ID 185), which states 'We have served as the Company's auditor since 2021.' No auditor change, dismissal, or resignation disclosed. Consent of KPMG (Ex. 23.1) listed in exhibit index. Filing-verified.",
+        "verdict": "filing_verified",
+        "source_filing": "FY2025 10-K, Report of Independent Registered Public Accounting Firm and exhibit index (acc 0001859392-26-000016)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1859392/000185939226000016/glxy-20251231.htm"
+      },
+      {
+        "flag_type": "restatement",
+        "present": "absent",
+        "detail": "Confirmed: no restatement of previously issued financials. The cover-page error-correction and recovery-analysis checkboxes are UNCHECKED ('o'). All 23 'restat' hits are 'amended and restated' CONTRACT TITLES (amended-and-restated tax receivables agreement, 7th amended-and-restated LP agreement, amended-and-restated certificate/bylaws, LTIP, promissory note) from the May 2025 reorganization, not accounting restatements. Filing-verified.",
+        "verdict": "filing_verified",
+        "source_filing": "FY2025 10-K cover page and financial statements (acc 0001859392-26-000016)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1859392/000185939226000016/glxy-20251231.htm"
+      },
+      {
+        "flag_type": "customer_concentration_over_35pct",
+        "present": "partial",
+        "detail": "Confirmed verbatim: 'two digital asset trading platforms accounted for 38% of revenue' in FY2025 (40% in FY2024) -- COMBINED, not a single customer; and 'three counterparties and their related parties accounted for 45%' of Loans receivable / Digital assets loan receivable balance. Separately, risk factor confirmed verbatim: 'we expect that our AI/HPC data center business will initially be highly dependent on a single customer, CoreWeave.' That CoreWeave single-customer dependence is real but sits on a near-zero base: Data Centers segment revenue was only $8,433K of $60,406,728K total FY2025 revenue (0.014%), so segment-level CoreWeave dependence does NOT yet exceed 35% of consolidated revenue. No SINGLE customer exceeds 35% of consolidated revenue. Filing-verified; 'partial' is the correct characterization.",
+        "verdict": "filing_verified",
+        "source_filing": "FY2025 10-K -- revenue concentration disclosure, Note 24 segment table (Data Centers revenue $8,433K), and CoreWeave single-customer risk factor (acc 0001859392-26-000016)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1859392/000185939226000016/glxy-20251231.htm"
+      },
+      {
+        "flag_type": "related_party_or_circular_financing",
+        "present": "partial",
+        "detail": "Confirmed: ordinary related-party balances disclosed -- $3.4M (prior $4.6M) receivable due from related parties; $72.3M (prior $0.0M) in other non-current liabilities due to related parties; $0.0M (prior $96.9M) in accounts payable due to related parties; plus funds-management/advisory and tax payments made on behalf of related parties (Note 23 Related Party Transactions). These are routine, NOT vendor-circular/round-trip financing of the data-center buildout. No CoreWeave-style circular financing found (Galaxy is CoreWeave's landlord/lessor; CoreWeave is the tenant/customer). CAVEAT: the extraction's parenthetical that Galaxy is 'also a CoreWeave convertible-note holder per separate disclosures' is NOT corroborated in THIS 10-K (the only 'convertible notes' hits are generic future-financing-option language and the investments accounting policy); it is hedged ('per separate disclosures') and does not change the flag's core verdict, but should not be treated as 10-K-sourced. Core flag filing-verified.",
+        "verdict": "filing_verified",
+        "source_filing": "FY2025 10-K, Note 23 Related Party Transactions and balance sheet parentheticals (acc 0001859392-26-000016)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1859392/000185939226000016/glxy-20251231.htm"
+      }
+    ],
+    "overall": "partially_source_backed",
+    "note": "Verified directly against the actual SEC 10-K (accession 0001859392-26-000016, period 2025-12-31, filed 2026-02-26), confirmed present on EDGAR with the exact doc glxy-20251231.htm at the cited URL; Q1 2026 10-Q (acc 0001859392-26-000054) also confirmed to exist. ALL FIVE financials match to the dollar (revenue $60,406,728K, Adjusted EBITDA $33,671K, net loss $(241,349)K, notes payable $2,861,055K, notes interest $59,247K), and ALL SIX serious flags are filing-tied with real cites -- there are NO unsourced 'present' flags to reject. Reasons it is partially_source_backed rather than source_backed: (1) IN_SCOPE WAS WRONG and I corrected it from 'financed_ai_infra' to 'crypto_only_marginal_ai' -- the AI/HPC Data Centers segment generated only $8,433K of $60.4B total revenue (0.014%); 99.965% is gross digital-asset (crypto) trading SALES turnover on a principal basis. Galaxy is a crypto/digital-asset trading and asset-management firm whose AI data-center business (Helios/CoreWeave, 526 MW contracted by 2028) is real and contracted but pre-revenue/aspirational at the consolidated level, exactly the case the task says is NOT financed AI infra. (2) Two labeling cautions on otherwise-exact figures: 'ebitda_usd' is the company's non-GAAP Adjusted EBITDA (not GAAP EBITDA), and 'revenue_usd' is gross crypto sales turnover, not net services revenue -- both numerically correct but easy to misread as operating quality. (3) One unsourced parenthetical in the related-party flag detail (Galaxy as 'CoreWeave convertible-note holder') is not found in this 10-K; it is hedged and does not flip the flag. No rejected_unsourced flags."
+  },
+  {
+    "issuer": "Soluna Holdings, Inc. (Nasdaq: SLNH; CIK 0000064463)",
+    "in_scope": "crypto_only_marginal_ai",
+    "verified_financials": {
+      "period": "FY2025 (fiscal year ended December 31, 2025)",
+      "revenue_usd": 29717000,
+      "revenue_verdict": "filing_verified_exact (us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax = $29,717,000; FY2025 10-K acc 0001628280-26-021847; ties to MD&A disaggregation: crypto mining $11,406K + data hosting $16,998K + HPC service $28K + demand response $1,285K)",
+      "ebitda_usd": -13229000,
+      "ebitda_verdict": "number_filing_verified_but_MISLABELED: -$13,229K is the company's non-GAAP ADJUSTED EBITDA, not plain EBITDA. The 10-K reconciliation table states EBITDA = -$38,127K and Adjusted EBITDA = -$13,229K. The extracted field labeled 'ebitda' actually carries Adjusted EBITDA (adjusted for $10.6M SBC, -$10.7M debt-extinguishment gain, $23.7M fair-value loss, etc.). Figure is filing-tied; the label is wrong/misleading.",
+      "net_income_usd": -56991000,
+      "net_income_verdict": "filing_verified_exact (us-gaap:ProfitLoss = $(56,991)K = 10-K headline 'Net loss from continuing operations'; this is TOTAL consolidated loss including noncontrolling interest. Note: parent-attributable us-gaap:NetIncomeLoss = -$53,411K after stripping -$3,580K NCI; net loss available to common after preferred dividends = -$69,059K. The -$56,991K is a legitimate filing figure but is the consolidated/total, not parent-attributable.)",
+      "total_debt_usd": 26757000,
+      "total_debt_verdict": "filing_verified_exact (LongTermDebtCurrent $8,858K + LongTermDebtNoncurrent $17,899K = $26,757K; FY2025 10-K. Note: bare us-gaap:LongTermDebt tag = $17,899K is only the noncurrent slice.)",
+      "annual_interest_expense_usd": 4835000,
+      "interest_verdict": "filing_verified_exact (us-gaap:InterestExpenseNonoperating = $4,835K, FY2025 10-K; matches EBITDA reconciliation line)",
+      "source_filing": "Form 10-K for fiscal year ended December 31, 2025 (filed 2026-03-30, accession 0001628280-26-021847)",
+      "source_url": "https://www.sec.gov/Archives/edgar/data/64463/000162828026021847/slnh-20251231.htm",
+      "in_scope_evidence": "HPC/AI service revenue is only $28K of $29,717K total (0.09%). Business is overwhelmingly Bitcoin mining ($11,406K) + Bitcoin hosting ($16,998K) = ~95% of revenue. AI/HPC is aspirational growth (Project Dorothy 2, Project Kati). crypto_only_marginal_ai is the honest classification; this is NOT financed AI infrastructure."
+    },
+    "verified_serious_flags": [
+      {
+        "flag_type": "going_concern_doubt",
+        "present": "partial",
+        "detail": "VERIFIED. 10-K auditor 'Going Concern Assessment' Critical Audit Matter states verbatim: 'the Company incurred recurring operating losses, had negative cash flows from operations, and has significant outstanding debt and commitments for capital expenditures. These conditions raised substantial doubt about the Company's ability to continue as a going concern within one year after the issuance of the consolidated financial statements.' Management mitigation also verified verbatim: 'has sufficient capital to fund its on-going operations for a period of at least 12 months.' Mitigating financing figures confirmed in 10-K: '$119.4 million' net cash from financing in 2025 and '$76.4 million of cash available' at 12/31/2025. SEPA and Generate facilities present as tagged XBRL members. 'partial' is correct: doubt was raised (and is a Critical Audit Matter) but management concluded it was alleviated.",
+        "source_filing": "Form 10-K FY2025 (Note 1 Going Concern; Report of Independent Registered Public Accounting Firm - Critical Audit Matter)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/64463/000162828026021847/slnh-20251231.htm",
+        "verdict": "filing_verified"
+      },
+      {
+        "flag_type": "material_weakness_icfr",
+        "present": "present",
+        "detail": "VERIFIED verbatim. 10-K Item 9A: 'Management has concluded that our internal control over financial reporting was not effective as of December 31, 2025' and 'disclosure controls and procedures were not effective at the reasonable assurance level due to the following material weakness: ...certain control activities over balance sheet classification and presentation were not performed with sufficient precision... Specifically, errors were identified related to (i) the classification of current and long-term debt, (ii) a lease classification and valuation, and (iii) an overstatement in [deposits on equipment].' INDEPENDENTLY CONFIRMED in Q1 2026 10-Q (acc 0001628280-26-035538, filed 2026-05-15): the material weakness 'remained open as of March 31, 2026 related to control activities over balance sheet classification and presentation' with identical (i)/(ii)/(iii) detail.",
+        "source_filing": "Form 10-K FY2025 Item 9A; reaffirmed in Form 10-Q Q1 2026 (acc 0001628280-26-035538)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/64463/000162828026021847/slnh-20251231.htm",
+        "verdict": "filing_verified"
+      },
+      {
+        "flag_type": "auditor_change_or_resignation",
+        "present": "absent",
+        "detail": "VERIFIED. 10-K auditor report signed '/s/ UHY LLP We have served as the Company's auditor since 2021.' (Albany, NY, March 27, 2026). Exhibit 23.1 'Consent of UHY LLP' present in filing index. UHY LLP named as 'our independent registered public accounting firm' in the fees disclosure. No auditor change, dismissal, or resignation disclosed. 'absent' is correct.",
+        "source_filing": "Form 10-K FY2025 (Report of Independent Registered Public Accounting Firm; Exhibit 23.1 Consent of UHY LLP)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/64463/000162828026021847/slnh-20251231.htm",
+        "verdict": "filing_verified"
+      },
+      {
+        "flag_type": "restatement",
+        "present": "partial",
+        "detail": "VERIFIED. 10-K Note 1 'Correction of an Error': 'While preparing the Company's Form 10-Q for the three and nine months ended September 30, 2025, the Company identified the following error related to the presentation of basic and diluted Earnings Per Share (EPS) in its historical filing for the year ended December 31, 2024, and for the quarters ended June 30, 2024, September 30, 2024...' Materiality conclusion verified verbatim under SAB 99/108: 'the Company evaluated the errors and has determined that the related impacts were not material to any prior annual or quarterly report... Accordingly, the Company has corrected such immaterial errors by adjusting its December 31, 2024 consolidated statement[s].' Also note the cover-page Inline-XBRL error-correction checkbox is marked 'o' (not checked) for restatement-clawback, consistent with an immaterial-error revision (little-r), not a Big-R restatement. 'partial' is correct.",
+        "source_filing": "Form 10-K FY2025 (Note 1, Correction of an Error)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/64463/000162828026021847/slnh-20251231.htm",
+        "verdict": "analyst_kept_flagged"
+      },
+      {
+        "flag_type": "customer_concentration_over_35pct",
+        "present": "partial",
+        "detail": "VERIFIED verbatim. 10-K Business: 'In 2025, two customers accounted for 59% of hosting revenue and 34% of total revenue. In 2024, one customer accounted for 56% of hosting revenue and 28% of total revenue. That customer terminated its agreement during the fourth quarter of 2024.' Note 1 Concentrations also confirms 'two customers contributed more than 10% of the Company's total consolidated revenue constituting approximately 34% for the year ended December 31, 2025.' 'partial' is correct: 59% of hosting revenue exceeds 35% but 34% of TOTAL revenue is just below the 35% total-revenue threshold.",
+        "source_filing": "Form 10-K FY2025 (Business/Bitcoin Hosting; Note 1 Concentrations)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/64463/000162828026021847/slnh-20251231.htm",
+        "verdict": "filing_verified"
+      },
+      {
+        "flag_type": "related_party_or_circular_financing",
+        "present": "present",
+        "detail": "VERIFIED. 10-K Note 14 'Related Party Transactions - HEL Transactions': 'on October 29, 2021, the Company completed the Soluna Callisto acquisition pursuant to the merger agreement... The purpose of the transaction was for SCI to acquire substantially all of the assets... formerly held by Harmattan Energy, Ltd. (HEL), which assets consisted of SCI's existing pipeline of certain cryptocurrency mining projects that HEL previously transferred to SCI...' Filing further discloses 'The Company owned approximately 1.79% of HEL, calculated on a converted fully diluted basis, as of December 31, 2025. The Company may enter into additional transactions with HEL in the future.' HEL (slnh:HarmattanEnergyLimitedMember) and MEOH Power Inc. are tagged related-party XBRL members. A bona-fide related-party relationship IS disclosed and ongoing, so 'present' stands. CAVEAT for the analyst: the word 'circular financing' is NOT supported by the filing language - this is a legacy related-party/affiliate relationship (1.79% stake, legacy asset/pipeline transfer), not a documented round-trip/circular financing arrangement. The 'present' verdict is kept for the related-party limb only.",
+        "source_filing": "Form 10-K FY2025 (Note 14 Related Party Transactions - HEL; XBRL slnh:HarmattanEnergyLimitedMember)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/64463/000162828026021847/slnh-20251231.htm",
+        "verdict": "analyst_kept_flagged"
+      }
+    ],
+    "overall": "source_backed",
+    "note": "Adversarially verified every financial and serious-flag against primary SEC filings (10-K acc 0001628280-26-021847 and Q1-2026 10-Q acc 0001628280-26-035538) via EDGAR XBRL companyconcept API plus full-text extraction of the 10-K and 10-Q. FILING EXISTENCE: both accession numbers confirmed in the EDGAR submissions index with the exact filing/report dates claimed. FINANCIALS: revenue ($29,717K), interest expense ($4,835K), and total debt ($26,757K = $8,858K current + $17,899K noncurrent) match XBRL exactly. Net income -$56,991K matches us-gaap:ProfitLoss (the 10-K headline 'Net loss from continuing operations,' total consolidated incl. NCI) - legitimate but note parent-attributable is -$53,411K and loss-to-common is -$69,059K. ONE LABELING DEFECT (kept, not nulled, because the number is filing-tied): the field labeled ebitda_usd = -$13,229K is actually the company's non-GAAP ADJUSTED EBITDA; plain EBITDA per the 10-K reconciliation is -$38,127K. No financial was null-able as unsupported. FLAGS: all six serious flags carry real, verbatim filing cites - none rejected as unsourced. Going-concern (partial), material-weakness (present, independently reconfirmed open in Q1-2026 10-Q), auditor-change (absent, UHY since 2021), restatement (partial, immaterial little-r EPS correction), customer-concentration (partial, 59% hosting vs 34% total), and related-party HEL (present) all check out. Two analyst caveats embedded: 'circular financing' wording is not filing-supported (kept on the related-party limb only), and the EBITDA mislabel. IN_SCOPE: confirmed crypto_only_marginal_ai - HPC/AI revenue is a negligible $28K (0.09% of revenue) vs ~95% Bitcoin mining+hosting; AI is aspirational (Project Dorothy 2/Kati). Not financed AI infrastructure. overall=source_backed: all financials and flags are filing-tied; the only blemishes are a non-GAAP label mismatch and an over-characterized flag word, neither of which is an unsourced fabrication."
+  },
+  {
+    "issuer": "Stronghold Digital Mining, Inc. (Nasdaq: SDIG) — acquired by Bitfarms Ltd. (all-stock merger completed March 14, 2025; SDIG became a wholly owned indirect subsidiary of Bitfarms)",
+    "in_scope": "crypto_only_marginal_ai",
+    "verified_financials": {
+      "period": "FY2023 (twelve months ended December 31, 2023)",
+      "revenue_usd": 74966300,
+      "revenue_claimed_usd": 74970000,
+      "revenue_verdict": "filing_verified (XBRL RevenueFromContractWithCustomerExcludingAssessedTax = $74,966,300; matches claimed $74.97M rounded; corroborated by 3/6/2024 full-year press release)",
+      "ebitda_usd": -6510000,
+      "ebitda_verdict": "filing_verified (non-GAAP Adjusted EBITDA $(6,510,000) per company FY2023 press release; exact match to claim)",
+      "net_loss_total_usd": -101825493,
+      "net_loss_claimed_usd": -101830000,
+      "net_loss_verdict": "filing_verified (XBRL ProfitLoss = -$101,825,493, i.e. total net loss INCLUDING noncontrolling interest from SDIG Up-C/OpCo-LLC structure; matches claimed -$101.83M. NOTE: net loss ATTRIBUTABLE to Stronghold/common stockholders (XBRL NetIncomeLoss) was -$50,904,176 — the analyst used the bottom-line consolidated total, which is a legitimate filing figure but is roughly 2x the attributable-to-parent loss; flag for downstream readers)",
+      "total_debt_usd": 56500000,
+      "total_debt_verdict": "partially_verified (XBRL LongTermDebt at 12/31/2023 = $56,139,909; claimed $56.5M overstates by ~$360K / ~0.6%, within reasonable 'total debt' rounding if other obligations included, but not exact)",
+      "annual_interest_expense_usd": 9850000,
+      "interest_verdict": "filing_verified (XBRL InterestExpense FY2023 = $9,846,359; matches claimed $9.85M rounded)",
+      "net_cash_from_operations_usd": -7147113,
+      "ocf_verdict": "filing_verified (XBRL NetCashProvidedByUsedInOperatingActivities FY2023 = -$7,147,113; matches claimed -$7.15M; corroborated by press release)",
+      "cash_at_year_end_usd": 4214613,
+      "cash_note": "XBRL cash & equivalents at 12/31/2023 = $4,214,613 (the analyst's ~$7.4M figure for the going-concern flag appears to be cash+BTC combined; cash alone was ~$4.2M)",
+      "source_filing": "Form 10-K for FY ended Dec 31, 2023 (filed 2024-03-08); FY2023 results press release (8-K/GlobeNewswire, 2024-03-06)",
+      "source_urls": [
+        "https://www.sec.gov/Archives/edgar/data/0001856028/000162828024010049/sdig-20231231.htm",
+        "https://data.sec.gov/api/xbrl/companyconcept/CIK0001856028/us-gaap/ProfitLoss.json",
+        "https://www.globenewswire.com/news-release/2024/03/06/2841436/0/en/Stronghold-Announces-Fourth-Quarter-2023-Operating-and-Financial-Results.html"
+      ]
+    },
+    "verified_serious_flags": [
+      {
+        "flag_type": "restatement",
+        "present": "present",
+        "verdict": "filing_verified",
+        "detail": "CONFIRMED via independent sources. SDIG restated unaudited financials for the three and nine months ended September 30, 2024 (Form 10-Q/A filed 2024-12-13) to correct a revenue-recognition error on Bitcoin-miner hosting contracts with two customers. Cumulative correction: cryptocurrency hosting revenue decreased $3,145,003 with offsetting increase to realized gain on sale of digital currencies ($3,257,827); no impact on net loss for any 2024 quarter. SEC communicated disagreement with the Company's initial materiality assessment, prompting reassessment and a non-reliance (Item 4.02) determination. IMPORTANT SCOPE NOTE: the restatement is a Q1-Q3 2024 matter; the company explicitly concluded the same error in the FY2023 10-K and prior periods was immaterial, so FY2023 was NOT restated — flag does not impair the FY2023 financials verified above.",
+        "source_filing": "Form 10-Q/A for quarter ended Sep 30, 2024 (filed 2024-12-13); related 8-K Item 4.02 (2024-12-13)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/0001856028/000162828024051214/sdig-20240930.htm"
+      },
+      {
+        "flag_type": "material_weakness_icfr",
+        "present": "present",
+        "verdict": "filing_verified",
+        "detail": "CONFIRMED. As a result of the Q3-2024 restatement, the Company identified a material weakness in ICFR and concluded disclosure controls and procedures were not effective as of September 30, 2024.",
+        "source_filing": "Form 10-Q/A for quarter ended Sep 30, 2024 (filed 2024-12-13), Item 4 Controls and Procedures",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/0001856028/000162828024051214/sdig-20240930.htm"
+      },
+      {
+        "flag_type": "negative_operating_cash_flow",
+        "present": "present",
+        "verdict": "filing_verified",
+        "detail": "CONFIRMED and upgraded from 'press_or_analyst_reported' to filing_verified. XBRL NetCashProvidedByUsedInOperatingActivities for FY2023 = -$7,147,113 (negative). Company stated it had not achieved positive net earnings and relied on equity/debt financing plus operating cash flow to fund operations.",
+        "source_filing": "Form 10-K FY2023 (filed 2024-03-08)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/0001856028/000162828024010049/sdig-20231231.htm"
+      },
+      {
+        "flag_type": "going_concern_doubt",
+        "present": "partial",
+        "verdict": "analyst_kept_flagged",
+        "detail": "Appropriately conservative. FY2023 10-K contains only conditional going-concern RISK-FACTOR language ('if we are unable to raise additional equity and debt financing in the future, our ability to continue to operate as a going concern could be adversely affected'). No explicit 'substantial doubt' audit opinion or going-concern footnote was located. The analyst correctly marked this 'partial' rather than overstating it as a confirmed substantial-doubt conclusion. Severe capital constraint (~$4.2M cash / ~$7.4M cash+BTC at 12/31/2023) is consistent with the characterization of the Bitfarms acquisition as opportunistic.",
+        "source_filing": "Form 10-K FY2023 (filed 2024-03-08), Risk Factors",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/0001856028/000162828024010049/sdig-20231231.htm"
+      },
+      {
+        "flag_type": "customer_concentration_over_35pct",
+        "present": "unknown",
+        "verdict": "analyst_kept_flagged",
+        "detail": "Correctly marked 'unknown' — not asserted as present without a cite. Hosting revenue was concentrated among a few customers (Cantaloupe Digital/Canaan, Foundry Digital) and the Q3-2024 restatement concerned contracts 'with two customers,' but no confirmed single-customer >35%-of-total-revenue figure was located. FY2023 total revenue was dominated by self-mining (~$52.9M of ~$75M), making a single third-party customer exceeding 35% of TOTAL revenue unlikely. Threshold neither confirmed nor refuted; honestly left unknown.",
+        "source_filing": "Form 10-K FY2023 (filed 2024-03-08); Form 10-Q/A (2024-12-13)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/0001856028/000162828024010049/sdig-20231231.htm"
+      },
+      {
+        "flag_type": "auditor_change_or_resignation",
+        "present": "absent",
+        "verdict": "filing_verified",
+        "detail": "CONFIRMED absent. Urish Popeck & Co., LLC (Pittsburgh, PA) served as independent registered public accounting firm since 2021 and signed the FY2023 10-K on 2024-03-08. No auditor change, dismissal, or resignation identified through the merger close.",
+        "source_filing": "Form 10-K FY2023 (filed 2024-03-08), Report of Independent Registered Public Accounting Firm",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/0001856028/000162828024010049/sdig-20231231.htm"
+      }
+    ],
+    "overall": "source_backed",
+    "note": "VERDICT: source_backed. All six FY2023 financial line items are filing-tied to SEC XBRL data and the company's own 2024-03-06 full-year press release: revenue $74,966,300 (claim $74.97M ✓), Adjusted EBITDA $(6,510,000) (exact ✓), OCF -$7,147,113 (claim -$7.15M ✓), interest $9,846,359 (claim $9.85M ✓), and net loss -$101,825,493 (claim -$101.83M ✓). The one item needing a caveat is net income: the -$101.83M claim is the TOTAL consolidated net loss INCLUDING noncontrolling interest (XBRL ProfitLoss), whereas net loss attributable to Stronghold common stockholders (XBRL NetIncomeLoss) was -$50,904,176 — roughly half. Both are real filing figures from SDIG's Up-C/OpCo-LLC structure; the analyst used the bottom-line total, which is defensible but should be disclosed as the all-in (incl. NCI) figure to avoid double-impact perception. Total debt $56.5M slightly overstates XBRL LongTermDebt of $56,139,909 (~0.6% high) but is within reasonable rounding. SERIOUS FLAGS: all 'present'/'partial' flags are backed by real filings — the Q3-2024 restatement, material weakness, and negative OCF are independently corroborated (the restatement's SEC materiality disagreement and $3,145,003 correction confirmed). No flag is unsourced; none rejected. The going-concern flag is honestly downgraded to 'partial' (risk-factor language only, no substantial-doubt audit opinion), and customer-concentration is honestly left 'unknown' rather than fabricated. IN_SCOPE: correctly 'crypto_only_marginal_ai' — SDIG was a pure bitcoin miner (self-mining ~$52.9M + hosting) with only aspirational/non-material AI ambitions and no financed AI infrastructure; tagging it as NOT financed_ai_infra is the honest call. The one structural caveat downstream consumers should carry: the restatement and going-concern items pertain to 2024 / forward-looking risk respectively and do NOT impair the verified FY2023 financials (FY2023 was explicitly deemed immaterial and not restated)."
+  },
+  {
+    "issuer": "Cango Inc. (CANG; NYSE; CIK 0001725123)",
+    "in_scope": "crypto_only_marginal_ai",
+    "verified_financials": {
+      "period": "FY ended December 31, 2025 (audited; Form 20-F filed 2026-04-10)",
+      "currency": "USD (filing's reporting currency; not an RMB convenience translation)",
+      "revenue_usd": 688079223,
+      "revenue_note": "Filing income statement reports $688,079,223 (continuing ops). Extracted $688,100,000 is a rounded restatement and is acceptable.",
+      "ebitda_usd": 24518161,
+      "ebitda_note": "EXACT match to the company's own disclosed Non-GAAP Adjusted EBITDA reconciliation in the 20-F. It is a company-disclosed non-GAAP figure, NOT an analyst fabrication. Note: it is positive only because it adds back a $338,280,027 mining-machine impairment plus $116,660,327 depreciation, $19,965,534 interest, $842,023 tax, $743,405 other expenses, $4,881,377 SBC, less $4,065,198 other income. GAAP operating loss from continuing ops was $(437,095,753).",
+      "net_income_usd": -452789334,
+      "net_income_note": "EXACT match to 'Net income (loss) from continuing operations, net of tax' = $(452,789,334). NOTE: total net loss INCLUDING discontinued operations is $(621,952,043); the extracted figure is the continuing-ops-only loss.",
+      "total_debt_usd": 557567671,
+      "total_debt_note": "Long-term debts - related party (Antalpha) = $557,567,671 (extracted $557.6M rounds correctly). This captures only the related-party long-term balance; short-term debts of $17,067,978 are excluded, so all-in interest-bearing debt is ~$574.6M. Antalpha balance = ~49% of total assets ($1,132,985,333), matching the filing's '~50% of total assets'.",
+      "annual_interest_expense_usd": 19965534,
+      "interest_note": "EXACT match to the interest line in the company's Adjusted EBITDA reconciliation ($5,910,431 third-party + $14,055,103 related-party = $19,965,534). Related-party interest of $14,055,103 (~$14.1M) independently confirmed.",
+      "cash_used_in_continuing_operations_usd": -95421756,
+      "cash_note": "Confirms the going-concern flag's '$95.4M of cash used in operations' (continuing ops). Total operating cash used incl. discontinued = $(109,829,414).",
+      "total_assets_usd": 1132985333,
+      "total_shareholders_equity_usd": 397041286,
+      "equity_note": "Shareholders' equity is positive ($397M); no negative-equity condition.",
+      "source_filing": "Form 20-F for fiscal year ended December 31, 2025 (accession 0001104659-26-041972)",
+      "source_url": "https://www.sec.gov/Archives/edgar/data/1725123/000110465926041972/cang-20251231x20f.htm"
+    },
+    "verified_serious_flags": [
+      {
+        "flag_type": "going_concern_doubt",
+        "present": "absent",
+        "detail": "VERIFIED. Zero occurrences of 'going concern' or 'substantial doubt' in the FY2025 20-F. Filing states cash + operating cash flow + additional financing 'will be sufficient to cover the liquidity needs that become due within one year' - exact language confirmed. Heavy Antalpha liquidity reliance is flagged as a risk factor but not framed as going-concern doubt. Despite a $452.8M continuing-ops net loss (or $622.0M total) and $95.4M cash used in continuing operations, no substantial-doubt language was raised.",
+        "source_filing": "Form 20-F FY2025 (Item 5 Liquidity / Risk Factors)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1725123/000110465926041972/cang-20251231x20f.htm",
+        "verdict": "filing_verified"
+      },
+      {
+        "flag_type": "material_weakness_icfr",
+        "present": "absent",
+        "detail": "VERIFIED. Management concluded ICFR 'was effective as of December 31, 2025'; MaloneBailey issued an attestation report on ICFR effectiveness. The single 'material weakness' string in the document is boilerplate audit-methodology language ('assessing the risk that a material weakness exists'), not a disclosed weakness. No material weakness disclosed for FY2025.",
+        "source_filing": "Form 20-F FY2025 (Item 15 Controls and Procedures)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1725123/000110465926041972/cang-20251231x20f.htm",
+        "verdict": "filing_verified"
+      },
+      {
+        "flag_type": "auditor_change_or_resignation",
+        "present": "present",
+        "detail": "VERIFIED. MaloneBailey, LLP succeeds Ernst & Young Hua Ming LLP ('EY'); MaloneBailey appointed effective November 18, 2024 (audit committee/board approved) and audited FY2024, FY2025 financials and FY2025 ICFR. Filing states the change was NOT the result of any disagreement on accounting principles/practices, financial statement disclosure, or audit scope/procedures, and EY's reports were not adverse, disclaimed, qualified, or modified. Exhibit 15.2 is correctly identified as the 'Letter from Ernst & Young Hua Ming LLP to the SEC' (dated March 27, 2025, incorporated by reference); Exhibit 15.1 is MaloneBailey's consent. A same-year auditor switch amid a high-risk crypto pivot, with no flagged dispute.",
+        "source_filing": "Form 20-F FY2025 (Item 16F; Exhibit 15.2)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1725123/000110465926041972/cang-20251231x20f.htm",
+        "verdict": "filing_verified"
+      },
+      {
+        "flag_type": "restatement",
+        "present": "absent",
+        "detail": "VERIFIED. Cover-page check boxes for 'correction of an error to previously issued financial statements' and for error-correction restatements requiring incentive-compensation recovery analysis are both UNCHECKED (empty checkbox glyphs). No restatement of prior financials disclosed.",
+        "source_filing": "Form 20-F FY2025 (cover page)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1725123/000110465926041972/cang-20251231x20f.htm",
+        "verdict": "filing_verified"
+      },
+      {
+        "flag_type": "customer_concentration_over_35pct",
+        "present": "present",
+        "detail": "VERIFIED. Revenue attributable to Antpool (Antpool Technologies (BVI) Limited) = 100% (2024) and 98.57% (2025) of total revenue - exact figures confirmed in Risk Factors and notes. Supplier side: hosting costs with Bitmain = 100% (2024) and 94% (2025) of total energy and hosting costs - confirmed. Extreme single-counterparty dependence on both revenue and cost sides.",
+        "source_filing": "Form 20-F FY2025 (Risk Factors; Notes - concentration of credit risk / supplier concentration)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1725123/000110465926041972/cang-20251231x20f.htm",
+        "verdict": "filing_verified"
+      },
+      {
+        "flag_type": "related_party_or_circular_financing",
+        "present": "present",
+        "detail": "VERIFIED. Sole material lender is related party Antalpha Digital Pte. Ltd. (subsidiary of Antalpha Platform Holding, NASDAQ: ANTA): aggregate outstanding principal ~$557.6M at 12/31/2025 (~50% of total assets) across hashrate financing, product loans, and mining-site loans, collateralized by Bitcoin (gross carrying value $644.0M posted as collateral against the $557.6M balance) and subject to LTV/equity-adjustment requirements. Filing states Antalpha is partially funded by / significantly influenced by Northstar Digital Holding Limited, owned by an irrevocable trust whose settlor and beneficiary is Mr. Ketuan Zhan (founder of Bitmain). Bitmain owns Antpool (Cango's ~98.57% customer; 'Antpool was originally launched by Bitmain') and is Cango's ~94% hosting supplier. Thus dominant lender, customer, and supplier all trace to Zhan/Bitmain - circular structure confirmed. Related-party interest expense $14,055,103 (~$14.1M) and related parties Mining Ninjas US Inc. and Aurora Energy LLC all confirmed present in the filing.",
+        "source_filing": "Form 20-F FY2025 (Risk Factors; Note 9 Debts-Related Party; Item 7 Related Party Transactions; Liquidity)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1725123/000110465926041972/cang-20251231x20f.htm",
+        "verdict": "filing_verified"
+      }
+    ],
+    "overall": "source_backed",
+    "note": "All financials and serious flags are filing-tied to the FY2025 Form 20-F (accession 0001104659-26-041972, filed 2026-04-10), independently verified against SEC EDGAR (filing identity via data.sec.gov submissions API; content via the primary document and XBRL R-files R2/R4/R6/R15). Nothing required nulling or rejection as unsourced - every flag marked 'present' carries a real filing cite, and every financial maps to a filing line item. Notable verification points: (1) The Adjusted EBITDA of $24,518,161 is the company's OWN disclosed Non-GAAP figure (exact reconciliation match), positive only because it adds back a $338.3M mining-machine impairment - it is genuine but should be read with that caveat, not as underlying profitability. (2) net_income_usd of -$452,789,334 is continuing-ops-only; total net loss including discontinued operations is -$621,952,043. (3) total_debt_usd of $557.6M is the Antalpha related-party long-term balance only; adding $17.1M short-term debt gives ~$574.6M. (4) Revenue $688.1M is a clean rounding of the filing's $688,079,223. in_scope = crypto_only_marginal_ai is HONEST and correct: Cango is a pure Bitcoin miner whose AI/computing references are uniformly aspirational ('potential investments', 'early stage', 'exploration of these opportunities') with zero operating AI/data-center revenue, no GPU fleet, and no financed AI infrastructure - it does NOT qualify as financed_ai_infra."
+  }
+]

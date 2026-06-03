@@ -149,6 +149,7 @@ def synthesize_core_verdict(
     utilization_debt_service: dict[str, Any] | None = None,
     entity_risk_ranking: dict[str, Any] | None = None,
     contract_structure: dict[str, Any] | None = None,
+    cluster_boundary: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Synthesize the scoped, tiered Burry verdict from verified evidence."""
 
@@ -515,6 +516,19 @@ def synthesize_core_verdict(
             else {"status": "pending_source_backed_equipment_bottlenecks"}
         ),
         "forensic_red_flags": _forensic_red_flags_block(red_flag_scorecard),
+        "cluster_boundary_test": (
+            {
+                "candidate_count": (cluster_boundary or {}).get("candidate_count"),
+                "qualified_financed_ai_infra": (cluster_boundary or {}).get(
+                    "qualified_financed_ai_infra"
+                ),
+                "qualify_rate_pct": (cluster_boundary or {}).get("qualify_rate_pct"),
+                "scope_counts": (cluster_boundary or {}).get("scope_counts"),
+                "boundary_read": (cluster_boundary or {}).get("boundary_read"),
+            }
+            if (cluster_boundary or {}).get("status") == "source_backed"
+            else {"status": "pending_source_backed_cluster_boundary"}
+        ),
         "contract_level_recourse": (
             {
                 "facility_count": (contract_structure or {}).get("facility_count"),

@@ -16,6 +16,10 @@ from pathlib import Path
 from typing import Any
 
 from bubble.analysis.burry_verdict import synthesize_core_verdict
+from bubble.analysis.cluster_boundary import (
+    aggregate_cluster_boundary,
+    load_cluster_boundary,
+)
 from bubble.analysis.cluster_dscr import IssuerFinancials, compute_cluster_interest_coverage
 from bubble.analysis.compute_economics import (
     ComputeEconomicsBatch,
@@ -1445,6 +1449,20 @@ def report_answer_metric_audits(  # noqa: PLR0912, PLR0915
                 unit="count",
             )
 
+        # Cluster-boundary test (is the financed-AI cluster bounded?).
+        cb = m.get("cluster_boundary", {})
+        if cb.get("status") == "source_backed":
+            add(
+                "mismatch.cluster_boundary.qualify_rate_pct",
+                "Share of adjacent candidate names (crypto-miners / HPC pivots probed near the cluster) "
+                "that qualify as GENUINE financed AI-infra under the adversarial in-scope gate. A low "
+                "rate is a scoping finding: the financed-AI cluster is bounded and specific, reinforcing "
+                "the scoped (not ecosystem-wide) verdict rather than enlarging the cluster.",
+                cb.get("qualify_rate_pct"),
+                [mismatch_artifact],
+                unit="percent",
+            )
+
         # Contract-level recourse structure (who bears the loss, from the agreements).
         cs = m.get("contract_structure", {})
         if cs.get("status") == "source_backed":
@@ -2611,6 +2629,11 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:  #
     )
     if contract_structure_aggregate.get("status") == "source_backed":
         mismatch_ratios["contract_structure"] = contract_structure_aggregate
+    cluster_boundary_aggregate = aggregate_cluster_boundary(
+        load_cluster_boundary(Path("handoffs/ai_cluster_breadth_candidates_20260603.json"))
+    )
+    if cluster_boundary_aggregate.get("status") == "source_backed":
+        mismatch_ratios["cluster_boundary"] = cluster_boundary_aggregate
     utilization_debt_service_aggregate = aggregate_utilization_debt_service(
         load_utilization_debt_service(Path("handoffs/ai_utilization_debt_service_20260603.json"))
     )
@@ -2648,6 +2671,7 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:  #
         utilization_debt_service=utilization_debt_service_aggregate,
         entity_risk_ranking=entity_risk_ranking,
         contract_structure=contract_structure_aggregate,
+        cluster_boundary=cluster_boundary_aggregate,
     )
     coverage_dict = coverage.to_dict()
     physical_capacity_dict = physical_capacity.to_dict()
@@ -4240,6 +4264,14 @@ def main() -> None:
 The split is deliberate: the financed AI-direct cluster shows source-backed fragility, but it is a
 specific named cluster, not a fixed % of the broad metric (which is dominated by non-AI debt), so an
 ecosystem-wide bubble call is not supported.
+
+**Cluster-boundary test (is the financed cluster bounded?):** {(
+    f"only {len((_cbt := verdict.get('cluster_boundary_test', {}) or {}).get('qualified_financed_ai_infra') or [])}"
+    f" of {_cbt.get('candidate_count')} adjacent candidate names qualify as genuine financed AI-infra "
+    f"({', '.join(_cbt.get('qualified_financed_ai_infra') or []) or 'none'}); "
+    f"{str(_cbt.get('boundary_read', '')).split(':')[0]} — reinforces the scoped (not ecosystem-wide) call."
+) if (verdict.get('cluster_boundary_test', {}) or {}).get('candidate_count') is not None
+    else 'pending source-backed boundary sweep.'}
 
 **Demand side (hyperscaler/offtaker funding — the bear-case test):** {demand_line}
 
