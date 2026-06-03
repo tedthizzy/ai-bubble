@@ -23,9 +23,13 @@ Consolidated implementation knowledge for the Burry forensic engine. Durable tec
   principal wall ~`0.30x` (interest covered, principal only by refinancing); 67% Microsoft concentration.
 - **Burry separation-test mismatch ratios** (`burry_separation_test`): debt-refi missing-rate 64.2% /
   $689.88B; physical deliverability is the honest tracker proxy (8.1% in-service, 23.6% under-construction,
-  63.4% announced-only, 60.7% permit not_confirmed) — the 0.5% strong-queue-match is a
-  `coverage_limited_not_a_deliverability_rate` JOIN ARTIFACT (only 26 ISO rows parsed; PJM 9,263 +
-  CAISO/ISO-NE/SPP un-ingested).
+  63.4% announced-only, 60.7% permit not_confirmed) — the 0.5% strong-queue-match is NOT a
+  deliverability rate (`weak_lens_generation_queue_not_data_center_load`). **CORRECTION (verified):** the ISO
+  queues ARE fully ingested — `queue_records.csv` has 16,253 records incl. all 9,263 PJM (+ NYISO 2,195,
+  ERCOT 1,845, ISO-NE 1,751, SPP 960, CAISO 170, MISO 69). The gap is that these are GENERATION-side queues:
+  only 26 of 16,253 records are data-center-load related (9 strong-matched). A firm-vs-queue rate needs
+  utility large-load / load-interconnection data, not generation queues. (An earlier note + the workflow-2
+  finding wrongly said "PJM un-ingested" — that was a subagent reading the 26-row matched subset; corrected.)
 - Crack timing reconciled: structural AI-direct principal wall `2030-2033` vs near-term timing-engine
   refi pressure peak `~2026-Q2` (different universes; both real).
 - Report consistency + strict invariants pass (0 errors / 0 violations); full gate green (ruff/mypy/pytest).
@@ -169,11 +173,12 @@ tiered verdict synthesis (`e72d74e`) + adversarial-audit corrections (data-drive
 separation, honest ecosystem framing, reconciled crack timing, no truncation). The report now answers all
 five Burry questions with a scoped, tiered, evidence-tiered verdict.
 
-**Remaining (rigor, not blockers — task #11):** the adversarial audit (`handoffs/ai_direct_thesis_stress_findings_20260602.json`)
-verified three data-completeness gaps: (1) **ISO queues** — PJM 9,263 projects + CAISO/ISO-NE/SPP raw files
-sit un-ingested (`data/source_acquisition/raw/queue_records/`), so physical deliverability is a tracker proxy
-not a firm-vs-queue ratio; (2) **capital-exposure graph drops AI-direct GPU-SPV debt** (shows ~$4.75B Equinix
-of $408B; CoreWeave's $21B+ DDTL/SPV debt absent) → who-bears-downside is qualitative; (3) **refi wall is a
-curated ~$41B floor**, not an exhaustive AI-direct maturity census. Each is a clean subagent fan-out. Also:
-the GPU-depreciation and realistic-utilization-DSCR mismatch legs are still blocked/illustrative (need
-secondary GPU prices + per-deal debt-service inputs).
+**Remaining (rigor, not blockers — task #11):** (1) **Physical deliverability lens** — the ISO generation
+queues are fully ingested (16,253 records) but are the wrong lens for data-center LOAD; a real firm-vs-queue
+rate needs utility large-load / load-interconnection studies (NOT a parsing task — the earlier "un-ingested
+PJM" framing was a subagent error, now corrected). (2) **capital-exposure graph drops AI-direct GPU-SPV debt**
+(shows ~$4.75B Equinix of $408B; CoreWeave's $21B+ DDTL/SPV debt absent) → who-bears-downside is qualitative.
+(3) **refi wall is a curated ~$41B floor**, not an exhaustive census → `ai-direct-debt-census` workflow run
+2026-06-03 to replace it. Mismatch legs: GPU-depreciation now has source-backed evidence
+(`handoffs/gpu_price_evidence_20260603.json`: H100 rental −64-83%, Amazon's SEC 6→5yr server-life revision);
+realistic-utilization DSCR still needs per-deal utilization inputs.

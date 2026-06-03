@@ -1345,7 +1345,8 @@ def report_answer_metric_audits(  # noqa: PLR0912, PLR0915
                 "mismatch.physical.announced_only_mw_pct",
                 "% of tracker-announced AI/data-center MW still only announced (not built/under "
                 "construction); high = stranding/timeline-slippage risk. Non-primary tracker status; "
-                "precise firm-vs-queue fraction blocked pending ISO-queue ingestion.",
+                "a firm-vs-queue rate needs load-interconnection data (the ingested ISO queues are "
+                "generation-side, a weak lens for data-center load).",
                 phys.get("announced_only_mw_pct"),
                 [mismatch_artifact],
                 unit="percent",
@@ -2068,12 +2069,14 @@ def compute_burry_mismatch_ratios(  # noqa: PLR0912, PLR0915
         pass
 
     # 4. Physical mismatch: deliverable vs announced.
-    # The strong-queue-match % is a COVERAGE-LIMITED join metric, NOT a
-    # deliverability rate: only a small subset of ISO interconnection-queue
-    # records have been parsed into the matchable table (PJM/CAISO/ISO-NE/SPP
-    # raw files remain un-ingested), so the ratio is near-zero by construction.
-    # Surface it honestly, and use the tracker's own construction-status fields
-    # as the (non-primary) deliverability proxy.
+    # The strong-queue-match % is NOT a deliverability rate. The ISO
+    # interconnection queues ARE fully ingested (queue_records.csv carries all
+    # PJM / CAISO / ISO-NE / SPP / NYISO / ERCOT / MISO records), but those are
+    # GENERATION-side supply queues: only a tiny fraction of records are
+    # data-center LOADS, which largely interconnect through a separate process
+    # not captured here. So matching tracker data-center projects against
+    # generation queues under-counts deliverability by construction. Read
+    # deliverability from the tracker's construction-status fields instead.
     try:
         projs: list[dict[str, str]] = []
         matches: list[dict[str, str]] = []
@@ -2111,21 +2114,21 @@ def compute_burry_mismatch_ratios(  # noqa: PLR0912, PLR0915
             }
             strong_matched_mw = sum(_proj_mw(p) for p in projs if p.get("project_id") in strong_ids)
 
-            queue_rows: list[dict[str, str]] = []
+            # The matcher's ACTUAL input: the fully-ingested ISO queue records.
+            ingested_records = 0
+            ingested_by_source: dict[str, int] = {}
             for root in resolved_data_dirs:
-                queue_rows = _load_csv_rows(Path(root) / "physical" / "queues.csv")
-                if queue_rows:
+                qr = _load_csv_rows(
+                    Path(root) / "source_acquisition" / "source_rows" / "queue_records.csv"
+                )
+                if qr:
+                    ingested_records = len(qr)
+                    for r in qr:
+                        src = (r.get("source_id") or "").split("-")[0].lower() or "unknown"
+                        ingested_by_source[src] = ingested_by_source.get(src, 0) + 1
                     break
-            queue_regions: dict[str, int] = {}
-            for q in queue_rows:
-                reg = (q.get("region") or q.get("iso") or "").lower() or "unknown"
-                queue_regions[reg] = queue_regions.get(reg, 0) + 1
-            unparsed: list[str] = []
-            for root in resolved_data_dirs:
-                raw_dir = Path(root) / "source_acquisition" / "raw" / "queue_records"
-                if raw_dir.exists():
-                    unparsed = sorted(f.name for f in raw_dir.iterdir() if f.is_file())
-                    break
+            dc_related = int(queue_match_summary.get("data_center_queue_rows") or 0)
+            strong_matched_projects = int(queue_match_summary.get("matched_rows") or 0)
 
             def _pct(mw: float) -> float:
                 return round(100 * mw / total_announced_mw, 1)
@@ -2143,24 +2146,28 @@ def compute_burry_mismatch_ratios(  # noqa: PLR0912, PLR0915
             pm["deliverability_proxy_source"] = (
                 "third_party_project_tracker_construction_status_non_primary"
             )
-            # (b) the queue-match figure, explicitly flagged as coverage-limited
+            # (b) the queue-match figure, correctly explained (NOT a deliverability rate)
             pm["strong_queue_matched_mw"] = round(strong_matched_mw, 1)
             pm["strong_queue_match_coverage_pct"] = _pct(strong_matched_mw)
-            pm["queue_match_status"] = "coverage_limited_not_a_deliverability_rate"
-            pm["ingested_iso_queue_rows"] = len(queue_rows)
-            pm["ingested_iso_queue_regions"] = queue_regions
-            pm["unparsed_raw_queue_files"] = unparsed
+            pm["queue_match_status"] = "weak_lens_generation_queue_not_data_center_load"
+            pm["iso_queue_records_ingested"] = ingested_records
+            pm["iso_queue_records_by_source"] = ingested_by_source
+            pm["data_center_related_queue_records"] = dc_related
+            pm["strong_matched_to_tracker_projects"] = strong_matched_projects
             pm["note"] = (
                 f"strong_queue_match_coverage_pct ({_pct(strong_matched_mw)}%) is NOT a "
-                "deliverability rate -- it is a join-coverage artifact: only "
-                f"{len(queue_rows)} ISO queue rows ({queue_regions}) are parsed into the "
-                "matchable table while large raw files (PJM ~9,263 projects, CAISO, ISO-NE, "
-                f"SPP) remain un-ingested ({len(unparsed)} files on disk). Until those are "
-                "parsed, deliverability is read from the tracker's construction-status fields "
-                "(non-primary): most announced AI/data-center MW is not yet built or permitted "
-                "(high announced_only + permit_not_confirmed) -- a directional stranding / "
-                "timeline-slippage signal -- but the precise firm-vs-queue fraction is UNKNOWN "
-                "pending ISO-queue ingestion."
+                f"deliverability rate. The ISO interconnection queues ARE fully ingested "
+                f"({ingested_records} records {ingested_by_source}), but they are GENERATION-side "
+                f"supply queues: only {dc_related} of {ingested_records} records are "
+                f"data-center-load related ({strong_matched_projects} strong-matched to tracker "
+                "projects). Data-center LOADS largely interconnect through a separate "
+                "load-study process not in these generation queues, so queue-matching "
+                "under-counts data-center deliverability by construction. Deliverability is "
+                "therefore read from the tracker's construction-status (non-primary): most "
+                "announced AI/data-center MW is not yet built or permitted (high announced_only + "
+                "permit_not_confirmed) -- a directional stranding/timeline signal. A true "
+                "firm-vs-queue rate needs utility large-load / load-interconnection data, not "
+                "generation queues."
             )
     except Exception:
         pass
@@ -3153,7 +3160,9 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:  #
                 "burry_separation_test_reference": "See top-level 'burry_separation_test' for the actual mismatch ratios (cluster DSCR, deliverable capacity %, GPU life gap, missing-rate %). These are the assumption-fragility signals that turn raw notional into a bubble diagnosis.",
                 "required_next_evidence": [
                     "Exhaustive (not curated-floor) AI-direct maturity census",
-                    "ISO-queue ingestion (PJM/CAISO/ISO-NE/SPP) for real firm-vs-queue deliverability",
+                    "Load-interconnection / utility large-load-study data for a real data-center "
+                    "firm-vs-queue rate (generation ISO queues are already ingested but are the "
+                    "wrong lens for load)",
                     "AI-direct GPU-SPV debt into the capital-exposure graph",
                     "Filing-verified circular-financing loop edges",
                 ],
@@ -3677,7 +3686,8 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:  #
         "next_required_acquisition": [
             "Run EDGAR manifest acquisition across all public watchlist CIKs.",
             "Download prioritized EDGAR source documents and exhibit attachments.",
-            "Ingest ISO queue records for ERCOT, PJM, MISO, CAISO, NYISO, and SPP.",
+            "Acquire utility large-load / load-interconnection studies (the generation ISO queues "
+            "for ERCOT/PJM/MISO/CAISO/NYISO/SPP are already ingested but do not capture data-center load).",
             "Ingest state PUC/EPA/local permit records for top project geographies.",
             "Ingest ownership registry records and project tracker rows.",
             "Load extracted deal candidates through the capital evidence pipeline after review.",

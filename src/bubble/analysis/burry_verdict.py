@@ -273,7 +273,10 @@ def synthesize_core_verdict(
             "source-backed cluster interest-coverage leg.",
             "Contagion / who-bears-downside is qualitative: the AI-direct GPU-SPV debt is not yet "
             "in the capital-exposure graph (whose AI-infra mass is ~$5B of $408B).",
-            "Physical deliverability and circular-financing edges remain data-gap-limited "
-            "(un-ingested ISO queues; loop edges press-reported, not filing-verified).",
+            "Physical deliverability is read from the tracker construction-status proxy: the ISO "
+            "interconnection queues are fully ingested but are GENERATION-side, so they are a weak "
+            "lens for data-center LOAD deliverability (a true firm-vs-queue rate needs "
+            "load-interconnection data). Circular-financing loop edges remain press-reported, not "
+            "filing-verified.",
         ],
     }

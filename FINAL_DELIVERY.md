@@ -32,8 +32,8 @@ The important change is that ecosystem-scale conclusions are now blocked from be
 
 Latest verified evidence-gated report at this checkpoint:
 
-- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260603-0026.md`
-- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260603-0026.json`
+- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260603-0112.md`
+- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260603-0112.json`
 - `high_confidence_final`: `false` (ecosystem-wide, BY DESIGN — see verdict below).
 - Current `master` checkpoint: `e72d74e` (single-agent; the prior two-agent
   Claude/Codex handoff queue was consolidated into `master` at `7638aa9` and the
@@ -282,8 +282,10 @@ The system does not yet satisfy the full vision:
 - It has measured multi-trillion-dollar graph exposure, but it has not yet
   proven full visible plus hidden ecosystem leverage with enough corroboration
   to support a final bubble conclusion.
-- It has not built complete project-level power, permitting, construction, and asset coverage
-  (the ISO interconnection queues — PJM/CAISO/ISO-NE/SPP — remain un-ingested).
+- It has not built complete project-level power/permitting deliverability. The ISO interconnection
+  queues ARE fully ingested (16,253 records incl. all 9,263 PJM), but they are generation-side and a
+  weak lens for data-center LOAD; a real firm-vs-queue rate needs utility large-load / load-interconnection
+  studies. Deliverability is read from the tracker construction-status proxy.
 - It has not proven an ECOSYSTEM-WIDE bubble conclusion (there is no defensible total-AI-leverage
   denominator yet). It DOES now state a scoped, source-backed AI-direct-core verdict
   (`bubble_dynamics_present` @ 0.67) — see the tiered verdict above.

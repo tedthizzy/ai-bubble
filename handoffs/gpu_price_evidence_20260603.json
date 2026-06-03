@@ -1,0 +1,599 @@
+[
+ {
+  "gpu": "NVIDIA H100 (SXM5 and PCIe, 80GB)",
+  "launch_year": 2023,
+  "approx_launch_price_usd": 30000,
+  "latest_secondary_price_usd": 21500,
+  "on_demand_rental_usd_per_hour": 2.99,
+  "rental_rate_decline_pct": 75,
+  "secondary_price_depreciation_pct": 35,
+  "economic_vs_book_life_note": "Hyperscalers/neoclouds book H100-class servers on 5-7yr straight-line lives (Amazon revised 6->5yr eff. Jan 1 2025; CoreWeave uses 6yr; Microsoft/Google ~6yr historically). Observed economics show much faster value compression: on-demand rental fell ~64-83% (peak >$8-12/hr in 2023 to ~$2-4/hr by late 2025/2026) within ~18-24 months, and secondary unit prices are off ~30-40% from new with a documented inflection after ~24 months as Blackwell ramps. The rental cash-flow curve (the true economic-life signal) compresses far faster than a 5-7yr book schedule implies, implying the straight-line book life materially overstates the economic monetization window for the first ~2-3yr revenue-generating period. Caveat: 2026 saw a counter-trend rental rebound (HBM/DRAM shortage) of ~40%, and used-unit prices have held 75-85% of acquisition value through 24 months in a supply-tight market, so the gap is clearest on the rental-yield axis, more nuanced on resale-price axis.",
+  "observations": [
+   {
+    "metric": "launch_price",
+    "value": "~$25,000-$30,000 (SXM, est.); cards sold up to $40,000 on secondary in late 2023",
+    "date_or_period": "March 2023 launch / late 2023",
+    "quote": "Industry analysts estimated a single H100 SXM might ideally sell for ~$25-30K... H100 SXM5 cards that sold for $40,000 in late 2023 on secondary markets",
+    "source_uri": "https://jarvislabs.ai/blog/h100-price",
+    "source_tier": "press"
+   },
+   {
+    "metric": "launch_price",
+    "value": "New H100 80GB $25,000-$40,000 (2026 street, NVIDIA publishes no fixed MSRP)",
+    "date_or_period": "late 2025 / early 2026",
+    "quote": "New H100 80GB: $25,000-$40,000",
+    "source_uri": "https://compute.exchange/blogs/h100-gpu-price-2026",
+    "source_tier": "reputable_market_tracker"
+   },
+   {
+    "metric": "secondary_price",
+    "value": "Refurbished $21,000-$34,000 (~80-85% of new); Used $15,000-$28,000 (~60-70% of new)",
+    "date_or_period": "late 2025 / early 2026",
+    "quote": "Refurbished H100 80GB: $21,000-$34,000 (approximately 80-85% of new pricing); Used H100 80GB: $15,000-$28,000 (approximately 60-70% of new pricing)... through the first 24 months, H100s hold approximately 75-85% of acquisition value. After 24 months, Blackwell availability is expected to pressure H100 secondary pricing downward by 10-20%.",
+    "source_uri": "https://compute.exchange/blogs/h100-gpu-price-2026",
+    "source_tier": "reputable_market_tracker"
+   },
+   {
+    "metric": "secondary_price",
+    "value": "Age-tiered: <1yr $18,000-$25,000; 1-2yr $12,000-$18,000; 2+yr $7,000-$12,000",
+    "date_or_period": "2025-2026",
+    "quote": "Second-hand pricing is highly influenced by device age: <1 year: $18,000-$25,000; 1-2 years: $12,000-$18,000; 2+ years: $7,000-$12,000",
+    "source_uri": "https://intuitionlabs.ai/articles/nvidia-ai-gpu-pricing-guide",
+    "source_tier": "reputable_market_tracker"
+   },
+   {
+    "metric": "on_demand_rental_hourly",
+    "value": "~$4.70/hr starting, peaked over $8/hr; major clouds often exceeded $12/hr",
+    "date_or_period": "2023 (peak)",
+    "quote": "the original rental rates of H100 started at approximately $4.70 an hour but were going for over $8",
+    "source_uri": "https://www.latent.space/p/gpu-bubble",
+    "source_tier": "press"
+   },
+   {
+    "metric": "on_demand_rental_hourly",
+    "value": "On-demand from major clouds often exceeded $12.00/GPU-hr at peak",
+    "date_or_period": "2023",
+    "quote": "on-demand pricing from major clouds often exceeded $12.00 per GPU-hour",
+    "source_uri": "https://www.silicondata.com/blog/h100-rental-price-over-time",
+    "source_tier": "reputable_market_tracker"
+   },
+   {
+    "metric": "on_demand_rental_hourly",
+    "value": "$2-$4/hr widely available across non-hyperscale/marketplace providers (late 2025); ~$2.99/hr SXM Lambda; ~$1.40-$1.49/hr low end",
+    "date_or_period": "late 2025 / 2026",
+    "quote": "the same H100 GPUs across non-hyperscale and marketplace providers are widely available for $2-$4 per hour",
+    "source_uri": "https://www.silicondata.com/blog/h100-rental-price-over-time",
+    "source_tier": "reputable_market_tracker"
+   },
+   {
+    "metric": "on_demand_rental_hourly",
+    "value": "AWS cut H100 pricing ~30% in June 2025; AWS on-demand ~$6.88/hr, Azure ND H100 v5 ~$12.29/hr (hyperscaler premium 3-6x neoclouds)",
+    "date_or_period": "June 2025 / 2026",
+    "quote": "AWS reduced H100 pricing by roughly 30%, accelerating the broader market reset",
+    "source_uri": "https://intuitionlabs.ai/articles/h100-rental-prices-cloud-comparison",
+    "source_tier": "reputable_market_tracker"
+   },
+   {
+    "metric": "on_demand_rental_hourly",
+    "value": "1-yr contract rebounded ~40%: $1.70/hr (Oct 2025) -> $2.35/hr (Mar 2026) amid HBM/DRAM shortage",
+    "date_or_period": "Oct 2025 - Mar 2026",
+    "quote": "H100 1-year GPU rental contract pricing shot up almost 40% from a low of $1.70/hr/GPU in October 2025 to $2.35/hr/GPU by March 2026",
+    "source_uri": "https://newsletter.semianalysis.com/p/the-great-gpu-shortage-rental-capacity",
+    "source_tier": "reputable_market_tracker"
+   },
+   {
+    "metric": "depreciation_policy_book_life",
+    "value": "Amazon revised server+networking useful life 6yr -> 5yr eff. Jan 1 2025; ~$0.7B reduction to 2025 operating income (+$0.6B early-retirement)",
+    "date_or_period": "effective Jan 1, 2025 (disclosed Q1 2025 10-Q / FY2024 10-K)",
+    "quote": "changing the useful lives of a subset of our servers and networking equipment, effective January 1, 2025, from six years to five years. ... reduction of net income of $298 million and $677 million for the three and nine months ending September 30, 2025",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1018724/000101872425000036/amzn-20250331.htm",
+    "source_tier": "sec_filing"
+   },
+   {
+    "metric": "depreciation_policy_book_life",
+    "value": "CoreWeave depreciates GPU/technology equipment straight-line over 6 years (raised from 5yr to 6yr at start of 2023)",
+    "date_or_period": "2023-2025",
+    "quote": "CoreWeave depreciates 'technology equipment' (including NVIDIA GPUs) on a straight-line basis over six years... increased the useful lifetime... from five years to six years at the start of 2023",
+    "source_uri": "https://electroneconomics.substack.com/p/the-depreciation-clock-coreweaves",
+    "source_tier": "press"
+   }
+  ],
+  "sources": [
+   {
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1018724/000101872425000036/amzn-20250331.htm",
+    "what": "Amazon Q1 2025 10-Q (SEC) \u2014 server/networking useful life revised 6yr->5yr eff. Jan 1 2025, net income impact $298M (Q3) / $677M (9mo)"
+   },
+   {
+    "source_uri": "https://www.silicondata.com/blog/h100-rental-price-over-time",
+    "what": "Silicon Data market tracker \u2014 H100 rental peak (>$12/hr major clouds, 2023) to $2-$4/hr (late 2025); AWS -30% June 2025"
+   },
+   {
+    "source_uri": "https://newsletter.semianalysis.com/p/the-great-gpu-shortage-rental-capacity",
+    "what": "SemiAnalysis GPU rental index \u2014 1yr contract $1.70/hr (Oct 2025) -> $2.35/hr (Mar 2026), +40%"
+   },
+   {
+    "source_uri": "https://www.latent.space/p/gpu-bubble",
+    "what": "Latent Space 'GPU bubble burst' \u2014 H100 launch rental ~$4.70/hr, peaked >$8/hr, fell to $1-$2/hr by Aug 2024"
+   },
+   {
+    "source_uri": "https://compute.exchange/blogs/h100-gpu-price-2026",
+    "what": "Compute Exchange tracker \u2014 2026 new $25-40K, refurb $21-34K, used $15-28K; 75-85% value held through 24mo"
+   },
+   {
+    "source_uri": "https://intuitionlabs.ai/articles/nvidia-ai-gpu-pricing-guide",
+    "what": "IntuitionLabs \u2014 age-tiered H100 secondary pricing and provider on-demand rates"
+   },
+   {
+    "source_uri": "https://intuitionlabs.ai/articles/h100-rental-prices-cloud-comparison",
+    "what": "IntuitionLabs \u2014 H100 rental $1.49-$6.98/hr across 15+ providers (2026), avg $3.20/hr; cloud prices down 64-75% from peak"
+   },
+   {
+    "source_uri": "https://jarvislabs.ai/blog/h100-price",
+    "what": "Jarvislabs \u2014 H100 SXM ~$25-30K launch est., $40K late-2023 secondary"
+   },
+   {
+    "source_uri": "https://electroneconomics.substack.com/p/the-depreciation-clock-coreweaves",
+    "what": "CoreWeave 6yr straight-line GPU depreciation policy (raised from 5yr in 2023)"
+   }
+  ],
+  "confidence": 0.7,
+  "unfound": [
+   "Verbatim Amazon 10-K/10-Q text could not be fetched directly from sec.gov (HTTP 403); the 6->5yr language and $298M/$677M net-income figures are corroborated via deepquarry/calcbench secondary reporting citing the filing \u2014 recommend confirming against the primary EDGAR document before publication.",
+   "An exact single official NVIDIA H100 MSRP \u2014 NVIDIA publishes no fixed retail price; only channel/street-price ranges are sourceable.",
+   "A clean apples-to-apples same-provider H100 on-demand price at launch vs now from one SEC-filing-grade source; rental figures come from market trackers/press, not primary filings.",
+   "Microsoft/Google/Meta exact GPU-specific book useful-life disclosures (general server lives ~6yr cited but not pinned to a primary filing in this pass)."
+  ]
+ },
+ {
+  "gpu": "NVIDIA H200 (Hopper, 141GB HBM3e)",
+  "approx_launch_price_usd": 32000,
+  "latest_secondary_price_usd": null,
+  "launch_year": 2024,
+  "on_demand_rental_usd_per_hour": 4.26,
+  "rental_rate_decline_pct": 60,
+  "secondary_price_depreciation_pct": null,
+  "economic_vs_book_life_note": "Hyperscalers/neoclouds depreciate AI servers straight-line over 5-7 years (Amazon explicitly 5yr effective Jan 1 2025, down from 6yr; the 10-K cites 'increased pace of technology development, particularly in AI/ML' as the reason). Observed H200 economics imply a far shorter ECONOMIC life: on-demand rental revenue per GPU-hour has fallen roughly 55-60% from launch-era hyperscaler rates (~$10.60/hr Azure/GCP late-2024) to a ~$4.26/hr market median by June 2026 \u2014 within ~18 months \u2014 and market trackers project the asset retains only ~25% of purchase value after 3 years (an H100-pattern proxy, since H200 secondary volume barely exists yet). A 5-7yr straight-line book life assumes ~14-20% annual value/earning-power decay; the observed rental-yield compression (~40%/yr) and projected ~75% value loss over 3yr (~25-35%/yr) materially outrun book depreciation, supporting a book-vs-economic-life gap. Caveat: rental rates conflate supply-glut/Blackwell-rotation effects with true obsolescence, and resale figures are projections, not realized H200 trades \u2014 so the gap is directional/defensible rather than precisely measured.",
+  "observations": [
+   {
+    "metric": "launch_price",
+    "value": "~$30,000-$32,000 per single H200 (141GB NVL); ~$308,000-$315,000 for an 8-GPU HGX board; no official NVIDIA MSRP (sold via OEMs/integrators)",
+    "date_or_period": "2024-2026 OEM/street pricing; H200 volume shipments began Q2-Q4 2024",
+    "quote": "a single NVL GPU card with 141GB of memory costs between $31,000 to $32,000 ... an 8-GPU board costs anywhere from $308,000 to $315,000 ... Nvidia does not release suggested retail pricing on its GPU accelerators in the datacenter",
+    "source_uri": "https://intuitionlabs.ai/articles/nvidia-ai-gpu-pricing-guide",
+    "source_tier": "press"
+   },
+   {
+    "metric": "launch_price",
+    "value": "OEM $32,000-$40,000/GPU SXM5; $28,000-$34,000 PCIe; ~25-30% premium over H100",
+    "date_or_period": "2026 (OEM pricing reference)",
+    "quote": "OEM pricing ranges from $32,000-$40,000 per GPU in SXM5 form factor and $28,000-$34,000 for PCIe. By 2026, H200 is priced at a 25-30% premium over H100",
+    "source_uri": "https://www.mercatus-ai.com/blog/h200-price",
+    "source_tier": "press"
+   },
+   {
+    "metric": "secondary_price",
+    "value": "Secondary market essentially nonexistent in 2026 (cards too new, <18 months old); projected ~25% of original retained after 3 years (~$9,000 on a $36,000 buy)",
+    "date_or_period": "Q1 2026 (resale projection)",
+    "quote": "H200 secondary market is barely existent in 2026 (cards too new) ... ~$9,000 estimated 3-year resale value (~25% retained)",
+    "source_uri": "https://www.mercatus-ai.com/blog/h200-price",
+    "source_tier": "reputable_market_tracker"
+   },
+   {
+    "metric": "on_demand_rental_hourly",
+    "value": "Market median $4.26/GPU-hr (up 7% from $3.97 in June 2025); range $2.30 lowest to ~$13.78 highest; 91% spread across providers",
+    "date_or_period": "Last updated 2026-06-03",
+    "quote": "On-demand pricing has increased by about 7% since June 2025, from $3.97 to $4.26/hr per GPU ... a 91% difference between the highest and lowest listings",
+    "source_uri": "https://getdeploying.com/gpus/nvidia-h200",
+    "source_tier": "reputable_market_tracker"
+   },
+   {
+    "metric": "on_demand_rental_hourly",
+    "value": "Launch-era hyperscaler on-demand ~$10.60-$10.87/GPU-hr (Azure ND H200 v5, GCP a3-ultragpu); AWS p5e ~$4.98 after Jan 2026 +15%; CoreWeave ~$6.31; specialist clouds $3.79-$4.39",
+    "date_or_period": "Late 2024 launch (Azure ND H200 v5 GA Nov 2024; AWS p5e late 2024) vs 2026",
+    "quote": "AWS p5e (H200) runs ~$4.98/hr per GPU after the January 2026 15% increase, CoreWeave is ~$6.31/hr, and Azure ND H200 v5 and GCP a3-ultragpu on-demand land around $10.60 to $10.87/hr per GPU",
+    "source_uri": "https://www.gmicloud.ai/en/blog/h200-gpu-cloud-rental-guide",
+    "source_tier": "press"
+   },
+   {
+    "metric": "on_demand_rental_hourly",
+    "value": "Acute volatility: H200 rental collapsed from ~$7/hr to ~$4/hr in three weeks (-40%), attributed to Blackwell rotation/oversupply",
+    "date_or_period": "Early 2026",
+    "quote": "The price to rent an Nvidia H200 just collapsed from $7/hr to $4/hr in three weeks. A -40% drop",
+    "source_uri": "https://x.com/ThierryBorgeat/status/2060084646101012618",
+    "source_tier": "press"
+   },
+   {
+    "metric": "launch_price",
+    "value": "Amazon SEC 10-K: servers/networking useful life changed 6yr->5yr effective Jan 1 2025 (was raised 5yr->6yr effective Jan 1 2024); cites AI/ML pace; ~$0.7B + ~$0.6B (early-retire) 2025 operating-income hit",
+    "date_or_period": "FY2024 10-K, filed 2025-02-07",
+    "quote": "We completed our most recent servers and networking equipment useful life study in Q4 2024, and are changing the useful lives of a subset of our servers and networking equipment, effective January 1, 2025, from six years to five years ... we anticipate a decrease in 2025 operating income of approximately $0.7 billion ... These two changes above are due to an increased pace of technology development, particularly in the area of artificial intelligence and machine learning. We had previously increased the useful life of our servers from five years to six years effective January 1, 2024.",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1018724/000101872425000004/amzn-20241231.htm",
+    "source_tier": "sec_filing"
+   }
+  ],
+  "sources": [
+   {
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1018724/000101872425000004/amzn-20241231.htm",
+    "what": "Amazon FY2024 Form 10-K (filed 2025-02-07) \u2014 primary SEC source for the 6->5 year server/networking useful-life revision effective Jan 1 2025, citing AI/ML technology pace; quantifies ~$0.7B 2025 operating-income reduction plus ~$0.6B early-retirement impact"
+   },
+   {
+    "source_uri": "https://getdeploying.com/gpus/nvidia-h200",
+    "what": "Multi-provider H200 on-demand price tracker (updated 2026-06-03): median $4.26/GPU-hr, up 7% YoY from $3.97, with 91% high-low spread across 31+ providers"
+   },
+   {
+    "source_uri": "https://www.gmicloud.ai/en/blog/h200-gpu-cloud-rental-guide",
+    "what": "Provider-by-provider H200 rental rates and launch timing (Azure ND H200 v5 GA Nov 2024, AWS p5e late 2024); hyperscaler on-demand ~$10.60-$10.87/hr vs specialist ~$3.79-$4.39/hr"
+   },
+   {
+    "source_uri": "https://www.mercatus-ai.com/blog/h200-price",
+    "what": "H200 OEM pricing ($32k-$40k SXM5) and secondary-market status: 'barely existent in 2026,' with ~25% value retention projected after 3 years (H100-pattern proxy)"
+   },
+   {
+    "source_uri": "https://intuitionlabs.ai/articles/nvidia-ai-gpu-pricing-guide",
+    "what": "H200 unit/board street pricing (~$31k-$32k/GPU; ~$308k-$315k per 8-GPU board) and note that NVIDIA publishes no official datacenter MSRP"
+   },
+   {
+    "source_uri": "https://x.com/ThierryBorgeat/status/2060084646101012618",
+    "what": "Anecdotal early-2026 volatility data point: H200 rental -40% (~$7->~$4/hr) in three weeks, illustrating rapid rental-yield compression (press/social, low tier)"
+   }
+  ],
+  "confidence": 0.62,
+  "unfound": [
+   "Official NVIDIA MSRP for H200 (NVIDIA does not publish suggested retail pricing for datacenter GPUs; only OEM/street prices exist)",
+   "A realized latest secondary-market resale price for H200 in USD (secondary volume is near-zero in 2026 because cards are <18 months old; only projections exist, so latest_secondary_price_usd and secondary_price_depreciation_pct are null)",
+   "A documented, dated peak rental rate from a reputable tracker to compute an exact peak->latest decline %; the ~60% figure is derived from launch-era hyperscaler ~$10.60/hr vs $4.26/hr median and is approximate, not a single-source tracked series",
+   "SemiAnalysis GPU Pricing Index primary H200 time series (paywalled/not fetched) which would give a more authoritative dated rental-decline curve"
+  ]
+ },
+ {
+  "gpu": "NVIDIA B200 / GB200 (Blackwell)",
+  "launch_year": 2024,
+  "approx_launch_price_usd": 35000,
+  "latest_secondary_price_usd": 45000,
+  "on_demand_rental_usd_per_hour": 5.09,
+  "rental_rate_decline_pct": -15.6,
+  "secondary_price_depreciation_pct": null,
+  "economic_vs_book_life_note": "The market evidence does NOT show the rapid economic depreciation a naive book-vs-economic thesis would predict for a 2024-launched chip. As of mid-2026 (~2 years post-launch), B200 secondary/OEM unit prices (~$40-50k) sit AT OR ABOVE the ~$30-40k launch range, and on-demand rental rates have been RISING, not falling: Silicon Data's index ran from ~$4.40/hr (Jan 1, 2026) to a $6.11/hr peak (Mar 25, 2026), and the Ornn spot index rose 114% in six weeks to ~$4.95/hr (late Apr 2026), driven by GPT-5.x-class demand outstripping constrained Blackwell supply. So the headline 'decline %' for B200 is currently negative-decline (appreciation) over the periods I could source; the only sustained DECLINE observed is the short intra-month pullback (March 25 peak $6.11 -> March 30 $5.48, -10.3%). The defensible book-vs-economic-life gap therefore does NOT come from B200 prices collapsing under a 5-7yr straight-line book life; it comes from the OPPOSITE direction confirmed in an SEC filing: Amazon (10-Q, effective Jan 1 2025) SHORTENED server/networking useful life from 6yr to 5yr 'due to the increased pace of technology development, particularly in the area of artificial intelligence and machine learning,' adding $889M depreciation / -$677M net income over 9M-2025 (primarily AWS). That hyperscaler accounting shortening (toward, not away from, faster economic obsolescence) is the credible signal that 5-7yr book life understates the speed of generational AI-hardware turnover, even while current-generation Blackwell resale/rental remains strong on supply scarcity. Net: book life 5-7yr; observed B200 economic value over its first ~2yrs has NOT compressed (supply-constrained), but the marginal SEC-disclosed policy move is to shorten lives, implying economic life < legacy 6yr book life for the broader server fleet.",
+  "confidence": 0.25,
+  "observations": [
+   {
+    "metric": "launch_price",
+    "value": "$30,000-$40,000 per Blackwell GPU (approx)",
+    "quote": "Nvidia's next-generation Blackwell graphics processor for AI will cost between $30,000 and $40,000 per unit, CEO Jensen Huang told CNBC. He later clarified pricing will vary as Nvidia sells the whole datacenter stack, not just the chip.",
+    "date_or_period": "2024-03-19 (announced GTC 2024-03-18)",
+    "source_tier": "press",
+    "source_uri": "https://www.cnbc.com/2024/03/19/nvidias-blackwell-ai-chip-will-cost-more-than-30000-ceo-says.html"
+   },
+   {
+    "metric": "launch_price",
+    "value": "GB200 Superchip ~$60,000-$70,000; full GB200 NVL72 rack ~$3,000,000",
+    "quote": "Reported B200-class system pricing: the GB200 Superchip costs up to ~$70,000 and a full B200/GB200 NVL72 AI server runs ~$3 million per rack (press synthesis of Morgan Stanley / supply-chain estimates).",
+    "date_or_period": "2024 (Tom's Hardware / TweakTown reporting; both URLs returned 403 on direct fetch, figure corroborated by search-result excerpts)",
+    "source_tier": "press",
+    "source_uri": "https://www.tomshardware.com/tech-industry/artificial-intelligence/price-of-nvidias-vera-rubin-nvl72-racks-skyrockets-to-as-much-as-usd8-8-million-apiece-but-server-makers-margins-will-be-tight-nvidia-is-moving-closer-to-shipping-entire-full-scale-systems"
+   },
+   {
+    "metric": "secondary_price",
+    "value": "~$40,000-$50,000 per B200 192GB SXM unit (OEM/market, MSRP cited ~$40k)",
+    "quote": "OEM quotes suggest prices around $45,000-$50,000 for the B200 192GB SXM model; market price approximately $45k against an MSRP of ~$40k. MSRP for the B200 was around $30,000-40,000 in clusters of 8+ GPUs.",
+    "date_or_period": "2026-06-01",
+    "source_tier": "press",
+    "source_uri": "https://www.thundercompute.com/blog/nvidia-b200-pricing"
+   },
+   {
+    "metric": "on_demand_rental_hourly",
+    "value": "Index mean $5.09/hr, median $4.96/hr (Mar 2026); monthly means Jan $4.41, Feb $4.52, Mar $5.09",
+    "quote": "March 30, 2026 index 5.48; mean $5.09/hr, median $4.96/hr. January mean $4.41/hr, February $4.52/hr, March $5.09/hr. The series ended March 24.4% above its January 1 level.",
+    "date_or_period": "2026-03 (Silicon Data B200 rental index)",
+    "source_tier": "reputable_market_tracker",
+    "source_uri": "https://www.silicondata.com/blog/b200-rental-price-march-2026-update"
+   },
+   {
+    "metric": "on_demand_rental_hourly",
+    "value": "Peak $6.11/hr (Mar 25 2026) -> $5.48 (Mar 30 2026) = -10.3% intra-month pullback; index opened $4.40 on Jan 1 2026",
+    "quote": "Reached $6.11/hr on March 25, 2026. March 25 peak ($6.11) to March 30 close ($5.48) = 10.3% decline. Index opened at 4.40 on January 1, 2026.",
+    "date_or_period": "2026-01 to 2026-03",
+    "source_tier": "reputable_market_tracker",
+    "source_uri": "https://www.silicondata.com/blog/b200-rental-price-march-2026-update"
+   },
+   {
+    "metric": "on_demand_rental_hourly",
+    "value": "Range $2.80-$27.04/hr across 24 providers; average ~$5.21/hr; up ~11% YoY from $5.84 to $6.50",
+    "quote": "On-demand pricing has increased by about 11% since June 2025, from $5.84 to $6.50/hr per GPU. Current average ~$5.21/hour across all tracked providers. Lowest $3.75 (Packet.ai) to highest $16.11 (Google Cloud); Vultr $2.80, RunPod $5.89, Lambda $6.69, CoreWeave $8.60, AWS $14.13, Azure $27.04.",
+    "date_or_period": "2026-06 (24-provider tracker)",
+    "source_tier": "reputable_market_tracker",
+    "source_uri": "https://getdeploying.com/gpus/nvidia-b200"
+   },
+   {
+    "metric": "on_demand_rental_hourly",
+    "value": "B200 spot rose 114% in six weeks to $4.95/hr (week of Apr 27 2026) from $2.31/hr (early Mar 2026)",
+    "quote": "Early March 2026: $2.31/hour. Week of April 27, 2026: $4.95/hour. Change: 114% increase over six weeks. (Ornn Compute Price Index spot data.)",
+    "date_or_period": "2026-03 to 2026-04",
+    "source_tier": "reputable_market_tracker",
+    "source_uri": "https://tomtunguz.com/b200-gpu-pricing-spot-market-model-releases/"
+   },
+   {
+    "metric": "depreciation_policy",
+    "value": "Amazon shortened server/networking useful life 6yr -> 5yr, effective Jan 1 2025; +$889M depreciation, -$677M net income over 9M-2025 (primarily AWS)",
+    "quote": "Effective January 1, 2025 we changed our estimate of the useful lives of a subset of our servers and networking equipment from six years to five years. The shorter useful lives are due to the increased pace of technology development, particularly in the area of artificial intelligence and machine learning. ... increased depreciation expense by $392 million in Q3 [and $889M over nine months], reducing net income ... primarily impacted our AWS segment.",
+    "date_or_period": "Effective 2025-01-01; impact disclosed in 2025 10-Q filings",
+    "source_tier": "sec_filing",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1018724/000101872425000086/amzn-20250630.htm"
+   }
+  ],
+  "sources": [
+   {
+    "source_uri": "https://www.cnbc.com/2024/03/19/nvidias-blackwell-ai-chip-will-cost-more-than-30000-ceo-says.html",
+    "what": "Press: Jensen Huang's $30k-$40k per-Blackwell-GPU launch price statement (CNBC, Mar 2024)"
+   },
+   {
+    "source_uri": "https://www.tomshardware.com/pc-components/gpus/nvidias-jensen-huang-says-blackwell-gpu-to-cost-dollar30000-dollar40000-later-clarifies-that-pricing-will-vary-as-they-wont-sell-just-the-chip",
+    "what": "Press: corroboration of $30k-$40k figure and Huang's 'won't sell just the chip' caveat (Tom's Hardware)"
+   },
+   {
+    "source_uri": "https://www.thundercompute.com/blog/nvidia-b200-pricing",
+    "what": "Press/vendor blog: B200 OEM/secondary unit price ~$40k-$50k and per-provider on-demand rates (Jun 1 2026)"
+   },
+   {
+    "source_uri": "https://www.silicondata.com/blog/b200-rental-price-march-2026-update",
+    "what": "Reputable market tracker: Silicon Data B200 rental index, daily/monthly means, Jan-Mar 2026 with peak $6.11/hr"
+   },
+   {
+    "source_uri": "https://getdeploying.com/gpus/nvidia-b200",
+    "what": "Reputable market tracker: 24-provider B200 on-demand price aggregation, range and YoY trend"
+   },
+   {
+    "source_uri": "https://tomtunguz.com/b200-gpu-pricing-spot-market-model-releases/",
+    "what": "Market tracker analysis (Ornn Compute Price Index): B200 spot +114% in 6 weeks, demand-driven"
+   },
+   {
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1018724/000101872425000086/amzn-20250630.htm",
+    "what": "SEC filing (Amazon 10-Q): server useful-life change 6yr->5yr effective Jan 1 2025, AI-driven, dollar impact"
+   },
+   {
+    "source_uri": "https://www.tweaktown.com/news/98292/nvidias-new-gb200-superchip-costs-up-to-70-000-full-b200-nvl72-ai-server-3-million/index.html",
+    "what": "Press: GB200 Superchip ~$60k-$70k and NVL72 rack ~$3M (403 on direct fetch; figures from search excerpt only)"
+   }
+  ],
+  "unfound": [
+   "An audited/SEC-filing-tier official NVIDIA list price or MSRP for the B200 or GB200 (NVIDIA does not publish per-unit pricing; only Jensen Huang's verbal $30-40k press estimate exists).",
+   "A clean near-launch (2024/early-2025) on-demand B200 $/GPU-hour baseline from a reputable tracker to compute a true launch->latest rental change (CoreWeave HGX B200 reached GA Oct 2024 but no sourced hourly rate from that period was obtained; earliest tracked index point is Jan 1 2026 at $4.40/hr).",
+   "A reputable secondary-market resale price *time series* showing peak->latest used-B200 depreciation (only point-in-time OEM/market estimates ~$40-50k were sourced; no peak-to-latest % computable).",
+   "Direct verbatim fetch of Tom's Hardware / TweakTown GB200 system-price articles (both returned HTTP 403; GB200/NVL72 figures rest on search-result excerpts, not primary fetch)."
+  ]
+ },
+ {
+  "gpu": "NVIDIA A100 (40GB / 80GB, PCIe & SXM)",
+  "launch_year": 2020,
+  "approx_launch_price_usd": 12000,
+  "latest_secondary_price_usd": 18900,
+  "on_demand_rental_usd_per_hour": 1.6,
+  "secondary_price_depreciation_pct": null,
+  "rental_rate_decline_pct": 61,
+  "economic_vs_book_life_note": "Observed A100 RENTAL economics compress faster than a flat 5-7yr straight-line book line: AWS p4d list was $32.77/hr for 8x A100 (~$4.10/GPU-hr) at Nov-2020 launch vs open-market on-demand A100-80GB now ~$1.6/hr median (floor <$0.80/hr), a ~55-80% per-GPU-hour decline in ~5.5yrs \u2014 i.e., unit cash yield is eroding meaningfully before the asset is fully book-depreciated. Hyperscaler book policy is moving the OTHER way to recognize this: Amazon CUT server life 6yr->5yr effective Jan-1-2025 (SEC 10-Q) explicitly citing AI/ML pace, while CoreWeave/neoclouds still depreciate over ~6yr. Crucially, secondary HARDWARE value is sticky (A100-80GB PCIe still ~$18.9k early-2026, ~60-80% retention), so the book-vs-economic gap is driven by collapsing rental/utilization margins, not scrap value \u2014 the card stays physically useful (supporting longer book lives) even as its revenue-generating economic life shortens. This is a margin/cash-yield gap rather than an impairment-to-zero gap.",
+  "observations": [
+   {
+    "metric": "launch_price",
+    "value": "A100 80GB announced Nov 16, 2020 (40GB announced May 2020); no official NVIDIA MSRP",
+    "date_or_period": "2020-11-16",
+    "quote": "The NVIDIA A100 80GB GPU is available in NVIDIA DGX A100 and NVIDIA DGX Station A100 systems, also announced today and expected to ship this quarter.",
+    "source_tier": "manufacturer",
+    "source_uri": "https://nvidianews.nvidia.com/news/nvidia-doubles-down-announces-a100-80gb-gpu-supercharging-worlds-most-powerful-gpu-for-ai-supercomputing"
+   },
+   {
+    "metric": "launch_price",
+    "value": "~$10,000-$15,000 street price (40GB ~$10-12k, 80GB PCIe ~$15-20k); estimate only, no official MSRP",
+    "date_or_period": "2020-2021",
+    "quote": "sources from around the 2020-2021 launch period cite A100 40GB PCIe at approximately $10,000-$12,000 and 80GB PCIe at approximately $15,000-$20,000",
+    "source_tier": "press",
+    "source_uri": "https://modal.com/blog/nvidia-a100-price-article"
+   },
+   {
+    "metric": "on_demand_rental_hourly",
+    "value": "AWS p4d.24xlarge (8x A100 40GB) launched at $32.77/hr = ~$4.10 per GPU-hour (list, on-demand)",
+    "date_or_period": "2020-11-02 (launch)",
+    "quote": "Launch Date: November 2, 2020. On-Demand Price: $32.77 per hour [for p4d.24xlarge with 8 NVIDIA A100 GPUs]",
+    "source_tier": "press",
+    "source_uri": "https://techcrunch.com/2020/11/02/aws-launches-its-next-gen-gpu-instances/"
+   },
+   {
+    "metric": "on_demand_rental_hourly",
+    "value": "AWS p4d.24xlarge list on-demand still $32.77/hr (=$4.10/GPU-hr) \u2014 AWS list price largely unchanged since launch",
+    "date_or_period": "2026 (current AWS list)",
+    "quote": "The p4d.24xlarge instance costs $32.77 per hour, and it comes with 8 x NVIDIA A100 40 GiB GPUs.",
+    "source_tier": "manufacturer",
+    "source_uri": "https://instances.vantage.sh/aws/ec2/p4d.24xlarge"
+   },
+   {
+    "metric": "on_demand_rental_hourly",
+    "value": "Open-market on-demand A100-80GB ~$1.60-$2.02/hr median, floor ~$0.78/hr (spot floor ~$0.35/hr); avg ~$1.90/hr",
+    "date_or_period": "2026-06 (June 2026 update)",
+    "quote": "On-demand pricing has decreased by about 11% since June 2025, dropping from $2.27 to $2.02/hr per GPU... market floor is currently $0.35/hr per GPU (spot instance)... average on-demand rate at approximately $1.90/hr",
+    "source_tier": "reputable_market_tracker",
+    "source_uri": "https://getdeploying.com/gpus/nvidia-a100"
+   },
+   {
+    "metric": "secondary_price",
+    "value": "A100 40GB refurb ~$7,800; A100 80GB PCIe ~$18,900; used 8x A100 HGX baseboard ~$14,500",
+    "date_or_period": "early 2026",
+    "quote": "A100 40GB refurbished: $7,800; A100 80GB PCIe: $18,900; Used Gigabyte 8x A100 HGX baseboard: ~$14,500",
+    "source_tier": "reputable_market_tracker",
+    "source_uri": "https://hashrateindex.com/blog/used-gpu-market-pricing-deprecation-secondary-ai/"
+   },
+   {
+    "metric": "secondary_price",
+    "value": "Used A100s retain ~60-80% of original purchase price (40GB $8-12k, 80GB $12-18k)",
+    "date_or_period": "2025",
+    "quote": "Current A100 secondary pricing shows 40GB variants at $8,000-12,000 (from $15,000+ new) and 80GB variants at $12,000-18,000 (from $25,000+ new). Market data shows used A100s keep 60% to 80% of their original purchase price.",
+    "source_tier": "reputable_market_tracker",
+    "source_uri": "https://introl.com/blog/secondary-gpu-markets-buying-selling-used-hardware-guide-2025"
+   },
+   {
+    "metric": "book_life_depreciation_policy",
+    "value": "Amazon changed server/networking-equipment useful life from 6yr to 5yr effective Jan 1, 2025, citing AI/ML pace; Q1-2025 impact +$217M D&A, -$162M net income",
+    "date_or_period": "Effective 2025-01-01 (disclosed Q1 2025 10-Q)",
+    "quote": "Effective January 1, 2025 we changed our estimate of the useful lives of a subset of our servers and networking equipment from six years to five years. The shorter useful lives are due to the increased pace of technology development, particularly in the area of artificial intelligence and machine learning. The effect of this change in estimate for Q1 2025 ... was an increase in depreciation and amortization expense of $217 million and a reduction in net income of $162 million",
+    "source_tier": "sec_filing",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1018724/000101872425000036/amzn-20250331.htm"
+   }
+  ],
+  "sources": [
+   {
+    "what": "NVIDIA newsroom A100 80GB announcement (launch date)",
+    "source_uri": "https://nvidianews.nvidia.com/news/nvidia-doubles-down-announces-a100-80gb-gpu-supercharging-worlds-most-powerful-gpu-for-ai-supercomputing"
+   },
+   {
+    "what": "TechCrunch AWS p4d (8x A100) launch at $32.77/hr, Nov 2 2020",
+    "source_uri": "https://techcrunch.com/2020/11/02/aws-launches-its-next-gen-gpu-instances/"
+   },
+   {
+    "what": "Vantage current AWS p4d.24xlarge list on-demand price",
+    "source_uri": "https://instances.vantage.sh/aws/ec2/p4d.24xlarge"
+   },
+   {
+    "what": "getdeploying A100 on-demand tracker (39+ providers), current floor/median + 11% YoY decline",
+    "source_uri": "https://getdeploying.com/gpus/nvidia-a100"
+   },
+   {
+    "what": "Hashrate Index used-GPU secondary market resale prices (early 2026)",
+    "source_uri": "https://hashrateindex.com/blog/used-gpu-market-pricing-deprecation-secondary-ai/"
+   },
+   {
+    "what": "Introl secondary GPU market guide (retention % and resale ranges)",
+    "source_uri": "https://introl.com/blog/secondary-gpu-markets-buying-selling-used-hardware-guide-2025"
+   },
+   {
+    "what": "Amazon Q1 2025 10-Q (SEC EDGAR) - 6yr->5yr server useful life change",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1018724/000101872425000036/amzn-20250331.htm"
+   },
+   {
+    "what": "Modal blog - A100 street/launch price estimates",
+    "source_uri": "https://modal.com/blog/nvidia-a100-price-article"
+   },
+   {
+    "what": "CNBC - GPU depreciation / Burry / CoreWeave context",
+    "source_uri": "https://www.cnbc.com/2025/11/14/ai-gpu-depreciation-coreweave-nvidia-michael-burry.html"
+   }
+  ],
+  "confidence": 0.72,
+  "unfound": [
+   "Official NVIDIA A100 MSRP (never published by NVIDIA for data-center parts; only third-party street-price estimates exist)",
+   "A clean dated peak->latest secondary-price series for a single A100 SKU from a single tracker (resale figures come from differing SKUs/sources, so secondary_price_depreciation_pct left null rather than fabricated)",
+   "A100-specific (vs blended server fleet) line item in any hyperscaler SEC depreciation disclosure",
+   "Primary AWS-published historical evidence that p4d list on-demand price changed over time (list appears static at $32.77/hr; real-world decline is on the open/neocloud market, not AWS list)"
+  ]
+ },
+ {
+  "gpu": "NVIDIA H800 (China-market export-compliant Hopper variant)",
+  "approx_launch_price_usd": 30603,
+  "launch_year": 2023,
+  "latest_secondary_price_usd": 12000,
+  "on_demand_rental_usd_per_hour": 2,
+  "rental_rate_decline_pct": 70,
+  "secondary_price_depreciation_pct": 83,
+  "economic_vs_book_life_note": "Book life: hyperscalers depreciate servers/GPUs straight-line over 5-6 years; Amazon's SEC 10-Q (effective Jan 1, 2025) cut a subset of servers and networking gear from SIX to FIVE years citing \"the increased pace of technology development, particularly in the area of artificial intelligence and machine learning\" (Q1 2025 effect: +$217M D&A, -$162M net income). Observed compression points to a much shorter ECONOMIC life: the H800 was discontinued by NVIDIA in 2024 (~1-2 years after launch), removing it from primary supply and leaving little/no liquid secondary or cloud market. China street price fell from a 2023 supply-panic peak of ~$70,000 (and a ~$30,603 US list) to roughly $10,000-15,000/card in 2024 (~60-83% off peak). H800 lacks a continuously tracked $/hr feed; the best live-tracked Hopper analog (H100) shows on-demand rental collapsing ~70% from >$8/hr peak to ~$2.10/hr (Silicon Data index, Dec 17 2025), with renters effectively paying only OpEx-plus-thin-margin per the Princeton CITP analysis. A 60-83% asset price drop and ~70% rental collapse within ~2-3 years are inconsistent with a 5-6yr straight-line book life that retains ~50-67% of cost at year 3, implying hyperscaler/neocloud GPU depreciation schedules materially overstate residual economic value.",
+  "observations": [
+   {
+    "metric": "launch_price",
+    "value": "$30,603 (US, add-in-board form factor)",
+    "date_or_period": "2023-07-29",
+    "quote": "an Nvidia H800 compute GPU in an add-in-board form-factor costs $30,603 in the U.S.",
+    "source_tier": "press",
+    "source_uri": "https://www.tomshardware.com/news/price-of-nvidia-compute-gpu-can-hit-70000-in-china"
+   },
+   {
+    "metric": "secondary_price",
+    "value": "up to \u00a5500,000 / ~$70,000 per unit (China supply-panic peak)",
+    "date_or_period": "2023-07-29",
+    "quote": "as high as \u00a5500,000, or about $70,000 per unit",
+    "source_tier": "press",
+    "source_uri": "https://www.tomshardware.com/news/price-of-nvidia-compute-gpu-can-hit-70000-in-china"
+   },
+   {
+    "metric": "secondary_price",
+    "value": "~$10,000-15,000 per card (China street price)",
+    "date_or_period": "2024",
+    "quote": "H800s sold for $12k to 15k per card in February 2024; TechPowerUp reported ~$12k in July 2024; H800s were no longer sold in 2024 (discontinued).",
+    "source_tier": "press",
+    "source_uri": "https://ifp.org/should-the-us-sell-hopper-chips-to-china/"
+   },
+   {
+    "metric": "secondary_price",
+    "value": "purchased at 1.5x-2x Nvidia official list (China secondary market, peak demand)",
+    "date_or_period": "2023-08",
+    "quote": "in 2023, had purchased A100/A800 and H100/H800 chips on the market at prices 1.5 to 2 times higher than Nvidia's official pricing",
+    "source_tier": "press",
+    "source_uri": "https://www.chinatalk.media/p/chinas-weird-chip-surplus-explained"
+   },
+   {
+    "metric": "on_demand_rental_hourly",
+    "value": "$2.00 per H800 GPU-hour (assumption used to compute DeepSeek-V3 training cost)",
+    "date_or_period": "2024-12 (DeepSeek-V3 Technical Report)",
+    "quote": "assuming the rental price of H800 is $2 per GPU hour ... total training costs amount to only $5.576M (2.788M H800 GPU hours).",
+    "source_tier": "press",
+    "source_uri": "https://arxiv.org/html/2412.19437v1"
+   },
+   {
+    "metric": "on_demand_rental_hourly",
+    "value": "No live H800 cloud listings available; H800 listed only as 'available in the Chinese market where H100 is restricted' with zero provider rates",
+    "date_or_period": "page updated 2026-03-25",
+    "quote": "We couldn't find any available H800 GPUs. Search for alternative GPUs.",
+    "source_tier": "reputable_market_tracker",
+    "source_uri": "https://getdeploying.com/gpus/nvidia-h800"
+   },
+   {
+    "metric": "on_demand_rental_hourly",
+    "value": "H100 (closest tracked Hopper analog): >$8/hr peak -> $2.10/hr; ~70% decline",
+    "date_or_period": "2025-12-17 (Silicon Data index)",
+    "quote": "H100 rental: peak 'over $8/hour'; current $2.10/hour; '70% from peak\u2014from over $8/hour to around $2.50.' A100 current $1.35/hour. 'The hardware is effectively being given away as renters are just paying to keep the lights on.'",
+    "source_tier": "reputable_market_tracker",
+    "source_uri": "https://blog.citp.princeton.edu/2025/12/18/ai-chip-lifespans-a-note-on-the-secondary-market/"
+   },
+   {
+    "metric": "launch_price",
+    "value": "Book-life policy: Amazon cut server/networking useful life from 6 to 5 years effective Jan 1 2025 (AI/ML-driven obsolescence)",
+    "date_or_period": "Q1 2025 10-Q (filed 2025-05-02)",
+    "quote": "Effective January 1, 2025 we changed our estimate of the useful lives of a subset of our servers and networking equipment from six years to five years. The shorter useful lives are due to the increased pace of technology development, particularly in the area of artificial intelligence and machine learning. The effect of this change in estimate for Q1 2025 ... was an increase in depreciation and amortization expense of $217 million and a reduction in net income of $162 million.",
+    "source_tier": "sec_filing",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1018724/000101872425000036/amzn-20250331.htm"
+   }
+  ],
+  "sources": [
+   {
+    "source_uri": "https://www.tomshardware.com/news/price-of-nvidia-compute-gpu-can-hit-70000-in-china",
+    "what": "Tom's Hardware (2023-07-29): H800 US list ~$30,603; China supply-panic peak \u00a5500,000/~$70,000"
+   },
+   {
+    "source_uri": "https://ifp.org/should-the-us-sell-hopper-chips-to-china/",
+    "what": "IFP analysis: H800 discontinued / 'no longer sold in 2024'; 2024 China street ~$12-15k/card"
+   },
+   {
+    "source_uri": "https://www.chinatalk.media/p/chinas-weird-chip-surplus-explained",
+    "what": "ChinaTalk: 2023 China secondary purchases at 1.5x-2x Nvidia list during panic buying"
+   },
+   {
+    "source_uri": "https://arxiv.org/html/2412.19437v1",
+    "what": "DeepSeek-V3 Technical Report (primary): explicit $2/H800 GPU-hour rental assumption, 2.788M GPU hours"
+   },
+   {
+    "source_uri": "https://getdeploying.com/gpus/nvidia-h800",
+    "what": "getdeploying tracker (updated 2026-03-25): no live H800 cloud rental listings; H100 from $0.70/hr"
+   },
+   {
+    "source_uri": "https://blog.citp.princeton.edu/2025/12/18/ai-chip-lifespans-a-note-on-the-secondary-market/",
+    "what": "Princeton CITP (2025-12-18) citing Silicon Data: H100 rental ~70% peak-to-latest decline; economic-vs-book-life argument"
+   },
+   {
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1018724/000101872425000036/amzn-20250331.htm",
+    "what": "Amazon 10-Q Q1 2025 (SEC EDGAR, primary): server/networking useful life cut 6->5 years, AI-driven"
+   }
+  ],
+  "confidence": 0.55,
+  "unfound": [
+   "No continuously-tracked, dated $/GPU-hour on-demand market feed specifically for the H800 (only the DeepSeek $2/hr modeling assumption and an absence of live listings on getdeploying); H100 used as the closest tracked Hopper analog for the rental-decline figure.",
+   "No reputable-market-tracker or SEC-tier dated secondary-resale quote isolating the H800 in 2025-2026 (it exited primary supply in 2024); 2024 $10-15k/card figures are press-tier, partly gray-market.",
+   "No manufacturer-tier (NVIDIA) price disclosure for the H800 at any point \u2014 NVIDIA does not publish data-center GPU MSRP.",
+   "Peak->latest decline percentages for the H800 itself are approximate (derived from press peak ~$70k China / $30.6k US list vs ~$12k 2024 street); the 70% rental decline is the H100 analog, not H800-specific."
+  ]
+ }
+]

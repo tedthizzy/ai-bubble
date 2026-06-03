@@ -1,0 +1,1594 @@
+[
+ {
+  "stack": {
+   "entity": "CoreWeave, Inc.",
+   "ticker": "CRWV",
+   "period": "Q1 2026 (three months ended March 31, 2026; Form 10-Q, filed under accession 0001769628-26-000222)",
+   "total_debt_usd": 25149000000,
+   "facilities": [
+    {
+     "name": "DDTL 1.0 Facility",
+     "instrument_type": "DDTL",
+     "principal_usd": 1438000000,
+     "rate": "Effective rate 15% (SOFR or ABR plus spread; quarterly installments)",
+     "maturity_year": 2028,
+     "secured": true,
+     "collateral": "Perfected first-priority pledges of the equity interests of the respective borrower subsidiary and substantially all of that subsidiary's assets; borrower is CoreWeave Compute Acquisition Co. II, LLC (direct wholly owned subsidiary)",
+     "guarantee": "Unconditionally guaranteed by CoreWeave, Inc. (parent)",
+     "spv_or_bankruptcy_remote": true,
+     "accession": "0001769628-26-000222",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000222/crwv-20260331.htm",
+     "quote": "DDTL 1.0 Facility March 2028 15 % $ 1,438 ... In July 2023, CoreWeave Compute Acquisition Co. II, LLC, our direct, wholly owned subsidiary, entered into the DDTL 1.0 Facility providing for up to $2.3 billion in delayed draw term loans. ... Obligations outstanding under the DDTL Facilities are secured by perfected first priority pledges of and security interests in (i) the equity interests of the respective subsidiaries held by its direct parent and (ii) substantially all of the assets of the respective subsidiaries. ... all obligations under the DDTL Facilities are unconditionally guaranteed by the Company."
+    },
+    {
+     "name": "DDTL 2.0 Facility",
+     "instrument_type": "DDTL",
+     "principal_usd": 4425000000,
+     "rate": "Effective rate 11% (SOFR or ABR plus spread; quarterly installments)",
+     "maturity_year": 2030,
+     "secured": true,
+     "collateral": "Perfected first-priority pledges of borrower subsidiary equity interests and substantially all subsidiary assets; borrower is CoreWeave Compute Acquisition Co. IV, LLC (direct wholly owned subsidiary)",
+     "guarantee": "Unconditionally guaranteed by CoreWeave, Inc. (parent)",
+     "spv_or_bankruptcy_remote": true,
+     "accession": "0001769628-26-000222",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000222/crwv-20260331.htm",
+     "quote": "DDTL 2.0 Facility August 2030 11 % 4,425 ... In May 2024, CoreWeave Compute Acquisition Co. IV, LLC, our direct, wholly owned subsidiary, entered into the DDTL 2.0 Facility providing for up to $7.6 billion in delayed draw terms loans."
+    },
+    {
+     "name": "DDTL 2.1 Facility",
+     "instrument_type": "DDTL",
+     "principal_usd": 3000000000,
+     "rate": "Effective rate 9% (stated SOFR + 4.25%; quarterly installments beginning July 2026)",
+     "maturity_year": 2031,
+     "secured": true,
+     "collateral": "Same DDTL collateral package: first-priority pledges of borrower subsidiary equity and substantially all subsidiary assets; created as a new tranche under the amended DDTL 2.0 Facility",
+     "guarantee": "Unconditionally guaranteed by CoreWeave, Inc. (parent)",
+     "spv_or_bankruptcy_remote": true,
+     "accession": "0001769628-26-000222",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000222/crwv-20260331.htm",
+     "quote": "DDTL 2.1 Facility March 2031 9 % 3,000 ... DDTL 2.1 Facility September 2025 SOFR + 4.25 % $ 3,000 ... In September 2025, we further amended the DDTL 2.0 Facility by entering into the DDTL 2.1 Facility to create a new tranche of delayed draw term loan facility up to $3.0 billion."
+    },
+    {
+     "name": "DDTL 3.0 Facility",
+     "instrument_type": "DDTL",
+     "principal_usd": 1700000000,
+     "rate": "Effective rate 9% (stated SOFR + 4.00%; monthly installments beginning April 2026)",
+     "maturity_year": 2030,
+     "secured": true,
+     "collateral": "First-priority pledges of borrower subsidiary equity and substantially all subsidiary assets; borrowers are CoreWeave Compute Acquisition Co. V, LLC (direct wholly owned subsidiary) and CoreWeave Compute Acquisition Co. VII, LLC (indirect subsidiary)",
+     "guarantee": "Unconditionally guaranteed by CoreWeave, Inc. (parent)",
+     "spv_or_bankruptcy_remote": true,
+     "accession": "0001769628-26-000222",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000222/crwv-20260331.htm",
+     "quote": "DDTL 3.0 Facility August 2030 9 % 1,700 ... DDTL 3.0 Facility July 2025 SOFR + 4.00 % 2,600 ... In July 2025, CoreWeave Compute Acquisition Co. V, LLC, our direct, wholly owned subsidiary, and CoreWeave Compute Acquisition Co. VII, LLC, our indirect subsidiary, entered into the DDTL 3.0 Facility providing for up to $2.6 billion in delayed draw term loans."
+    },
+    {
+     "name": "DDTL 4.0 Facility",
+     "instrument_type": "DDTL",
+     "principal_usd": 1260000000,
+     "rate": "Effective rate 7%; floating-rate commitments at daily compounded SOFR + 2.25% (or ABR + 1.25%); fixed-rate commitments at 2.00% plus a blended Treasury-based rate",
+     "maturity_year": 2032,
+     "secured": true,
+     "collateral": "Perfected first-priority pledges of and security interests in (i) the equity interests of CCAC VIII held by its direct parent and (ii) substantially all of the assets of CCAC VIII; $8.5B total facility ($4.5B floating + $4.0B fixed) drawable through June 30, 2027; outstanding balance $1.3B",
+     "guarantee": "Non-recourse, except for limited guarantees related to customary non-recourse carve-out obligations",
+     "spv_or_bankruptcy_remote": true,
+     "accession": "0001769628-26-000222",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000222/crwv-20260331.htm",
+     "quote": "DDTL 4.0 Facility (1) March 2032 7 % 1,260 ... (1) DDTL 4.0 Facility is a non-recourse delayed draw term loan facility with an outstanding balance of $ 1.3 billion as of March 31, 2026. ... In March 2026, one of the Company's subsidiaries, CoreWeave Compute Acquisition Co. VIII, LLC ('CCAC VIII'), entered into a delayed draw term loan facility agreement ... provides an $ 8.5 billion delayed draw term loan facility ... approximately $ 4.5 billion of floating-rate commitments and approximately $ 4.0 billion of fixed-rate commitments. Amounts borrowed under the floating-rate commitments bear interest, at the Company's option, at daily compounded SOFR plus 2.25 % per annum or the alternative base rate plus 1.25 % per annum. Amounts borrowed under the fixed-rate commitments bear interest at 2.00 % per annum plus a blended rate ... Obligations outstanding under the DDTL 4.0 Facility are secured by perfected first priority pledges of and security interests in (i) the equity interests of CCAC VIII held by its direct parent and (ii) substantially all of the assets of CCAC VIII. The DDTL 4.0 Facility is non-recourse, except for limited guarantees related to customary non-recourse carve-out obligations."
+    },
+    {
+     "name": "2030 Senior Notes",
+     "instrument_type": "senior_secured_notes",
+     "principal_usd": 2000000000,
+     "rate": "9.25% (stated coupon); effective rate 10%; interest payable semi-annually",
+     "maturity_year": 2030,
+     "secured": false,
+     "collateral": "None \u2014 unsecured obligations (Rule 144A private placement, due June 1, 2030)",
+     "guarantee": "Not described as guaranteed; unsecured obligations of the Company",
+     "spv_or_bankruptcy_remote": false,
+     "accession": "0001769628-26-000222",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000222/crwv-20260331.htm",
+     "quote": "2030 Senior Notes June 2030 10 % 2,000 ... 2030 Senior Notes May 2025 9.25 % 2,000 ... In May 2025, the Company issued $ 2.0 billion in aggregate principal amount of senior notes due on June 1, 2030 ('2030 Senior Notes') in a private placement offering ... The Senior Notes are unsecured obligations and bear interest payable semi-annually in arrears."
+    },
+    {
+     "name": "2031 Senior Notes",
+     "instrument_type": "senior_secured_notes",
+     "principal_usd": 1750000000,
+     "rate": "9.00% (stated coupon); effective rate 10%; interest payable semi-annually",
+     "maturity_year": 2031,
+     "secured": false,
+     "collateral": "None \u2014 unsecured obligations (Rule 144A / Reg S private placement, due February 1, 2031)",
+     "guarantee": "Not described as guaranteed; unsecured obligations of the Company",
+     "spv_or_bankruptcy_remote": false,
+     "accession": "0001769628-26-000222",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000222/crwv-20260331.htm",
+     "quote": "2031 Senior Notes February 2031 10 % 1,750 ... 2031 Senior Notes July 2025 9.00 % 1,750 ... In July 2025, the Company issued $ 1.8 billion in aggregate principal amount of senior notes due on February 1, 2031 ('2031 Senior Notes') ... The Senior Notes are unsecured obligations."
+    },
+    {
+     "name": "2031 Convertible Senior Notes",
+     "instrument_type": "convertible_notes",
+     "principal_usd": 2588000000,
+     "rate": "1.75% (stated coupon); effective rate 2%; interest payable semi-annually; conversion price ~$107.80/share",
+     "maturity_year": 2031,
+     "secured": false,
+     "collateral": "None \u2014 unsecured obligations (Rule 144A private placement, due December 1, 2031); capped calls entered separately",
+     "guarantee": "Not described as guaranteed; unsecured obligations of the Company",
+     "spv_or_bankruptcy_remote": false,
+     "accession": "0001769628-26-000222",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000222/crwv-20260331.htm",
+     "quote": "2031 Convertible Senior Notes December 2031 2 % 2,588 ... 2031 Convertible Senior Notes December 2025 1.75 % 2,588 ... In December 2025, the Company issued $ 2.6 billion in aggregate principal amount of convertible senior notes due on December 1, 2031 ... The 2031 Convertible Senior Notes are unsecured obligations and bear interest payable semi-annually in arrears."
+    },
+    {
+     "name": "Convertible Promissory Notes",
+     "instrument_type": "convertible_notes",
+     "principal_usd": 171000000,
+     "rate": "Non-interest-bearing notes; effective rate 7% (issued in an acquisition); aggregate face $172M",
+     "maturity_year": 2026,
+     "secured": false,
+     "collateral": "None disclosed; issued to former shareholders of an acquiree; settled in full in April 2026 in Class A common stock at $106.61/share conversion price",
+     "guarantee": "None disclosed",
+     "spv_or_bankruptcy_remote": false,
+     "accession": "0001769628-26-000222",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000222/crwv-20260331.htm",
+     "quote": "Convertible Promissory Notes April 2026 7 % 171 ... the Company issued non-interest-bearing convertible promissory notes with an aggregate principal amount of $ 172 million to certain former shareholders of the acquiree. In April 2026, the Company settled in full the convertible promissory notes at a conversion price of $ 106.61 per share."
+    },
+    {
+     "name": "Revolving Credit Facility",
+     "instrument_type": "revolver",
+     "principal_usd": 1500000000,
+     "rate": "Effective rate 6%; 0.25% per annum undrawn commitment fee",
+     "maturity_year": 2029,
+     "secured": true,
+     "collateral": "Senior secured revolving credit facility; obligations secured by pledges of certain assets as collateral; $2.5B capacity with a $600M letter-of-credit sub-facility ($314M LCs outstanding); $686M remaining capacity",
+     "guarantee": "Senior secured facility of the Company (no separate SPV guarantee described)",
+     "spv_or_bankruptcy_remote": false,
+     "accession": "0001769628-26-000222",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000222/crwv-20260331.htm",
+     "quote": "Revolving Credit Facility November 2029 6 % 1,500 ... As of March 31, 2026, the Company had drawn $ 1.5 billion and had $ 686 million of remaining capacity under the Revolving Credit Facility. Obligations outstanding under the Revolving Credit Facility are secured by pledges of certain assets as collateral. The Company is required to pay a fee of 0.25 % per annum on the undrawn commitment."
+    },
+    {
+     "name": "OEM and Software License Financing Arrangements",
+     "instrument_type": "other",
+     "principal_usd": 5036000000,
+     "rate": "Effective rate 10%; present value of obligations accreted to interest expense via effective-interest method",
+     "maturity_year": 2030,
+     "secured": true,
+     "collateral": "OEM arrangements: security interest granted in the financed equipment (terms 1-3 years), $4.7B outstanding. Software License arrangements: financing for software licenses, $358M outstanding (terms under 5 years). Combined $5,036M; maturities July 2026 - July 2030",
+     "guarantee": "None disclosed beyond equipment security interest",
+     "spv_or_bankruptcy_remote": false,
+     "accession": "0001769628-26-000222",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000222/crwv-20260331.htm",
+     "quote": "OEM and Software License Financing Arrangements July 2026 - July 2030 10 % 5,036 ... The Company had an outstanding balance of $ 4.7 billion and $ 3.8 billion as of March 31, 2026 ... [Software License] outstanding balance of $ 358 million ... The Company granted a security interest for the financed equipment related to these financing arrangements."
+    },
+    {
+     "name": "Magnetar Loan",
+     "instrument_type": "other",
+     "principal_usd": 281000000,
+     "rate": "Effective rate 12%; in-substance debt under ASC 470 (refundable $230M deposit plus accreting redemption premium equating to a 12% annual return)",
+     "maturity_year": 2029,
+     "secured": false,
+     "collateral": "None disclosed; reclassified from a refundable MagAI Ventures capacity deposit to in-substance debt under ASC 470 (Sale of Future Revenue) after Feb 2025 amendment",
+     "guarantee": "None disclosed",
+     "spv_or_bankruptcy_remote": false,
+     "accession": "0001769628-26-000222",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000222/crwv-20260331.htm",
+     "quote": "Magnetar Loan January 2029 12 % 281 ... the Company now considers the refundable deposit received from Magnetar to be in-substance debt (the 'Magnetar Loan') under ASC 470, Sale of Future Revenue ... the unused portion of the $ 230 million deposit will be refunded along with a specified multiplier that increases over the term of the arrangement that equates to a 12 % annual rate of return."
+    }
+   ],
+   "maturity_schedule_usd": {
+    "y2025": null,
+    "y2026": 6066000000,
+    "y2027": 5652000000,
+    "y2028": 3802000000,
+    "y2029": 2894000000,
+    "y2030": 2348000000,
+    "y2031": null,
+    "y2032": null,
+    "y2033": null,
+    "y2034_plus": null
+   },
+   "maturity_schedule_source": {
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000222/crwv-20260331.htm",
+    "quote": "As of March 31, 2026, the future principal payments for the Company's total debt were as follows (in millions): Years Ending December 31, Amount  Remaining portion of 2026 $ 6,066  2027 5,652  2028 3,802  2029 2,894  2030 2,348  Thereafter 4,387  Total $ 25,149. NOTE: The filing aggregates all post-2030 maturities into a single 'Thereafter' line of $4,387M and does not split it by year, so y2031-y2034_plus cannot be separately sourced. This 'total debt' future-maturities table excludes the separate DCSP financing-obligation ($114M net) and DCSP finance-lease ($121M net) schedules, which are disclosed in their own tables."
+   },
+   "unfound_fields": [
+    "maturity_schedule_usd.y2031 through y2034_plus (filing groups all post-2030 principal into a single 'Thereafter' = $4,387M; not split by year)",
+    "explicit 'bankruptcy-remote' designation (filing uses subsidiary-borrower / non-recourse structure language for DDTLs but does not use the exact term 'bankruptcy-remote'; SPV flag inferred from dedicated CoreWeave Compute Acquisition Co. subsidiary borrowers with first-priority asset/equity pledges, and explicit non-recourse status for DDTL 4.0)"
+   ],
+   "extraction_confidence": 0.95
+  },
+  "verdict": {
+   "entity": "CoreWeave, Inc. (CRWV)",
+   "overall": "source_backed",
+   "total_debt_confirmed": true,
+   "maturity_schedule_confirmed": true,
+   "corrections": [
+    "Several quote fields are NOT verbatim from the cited 10-Q (accession 0001769628-26-000222). The detailed prose for note maturity dates ('June 1, 2030', 'February 1, 2031', 'December 1, 2031'), the Magnetar Loan narrative ('$230 million deposit', 'in-substance debt under ASC 470, Sale of Future Revenue', '12% annual return'), and the DDTL collateral prose do not appear in this filing; they appear carried over from a prior CRWV filing. In this 10-Q, 'Magnetar Loan' appears only in the summary debt table.",
+    "2031 Senior Notes: stack quote says '$1.8 billion ... senior notes due on February 1, 2031' but this filing's MD&A says '$1.75 billion in aggregate principal amount of 2031 Senior Notes'. The table principal of $1,750M is correct; the $1.8B quote is a rounding/prior-source artifact.",
+    "2030 and 2031 Senior Notes carry instrument_type 'senior_secured_notes' yet are flagged secured:false and described as unsecured obligations in their quotes; the label is internally contradictory (filing supports unsecured). Metadata-only, no effect on totals.",
+    "Magnetar $230M deposit figure is corroborated in this filing only indirectly via the cash-flow line 'Reclassification of customer deposit to debt \u2014 230' (a 2025 figure), not via the quoted narrative prose."
+   ],
+   "note": "VERIFIED against the real Note 10 (Debt) of CRWV Q1 2026 10-Q, accession 0001769628-26-000222 (filed 2026-05-08), retrieved directly from SEC EDGAR. RECONCILIATION (all exact, no unit errors, no double-counted facilities): (1) total_debt_usd $25,149M == filing 'Total principal of debt 25,149'. (2) Sum of all 12 facility principals == $25,149M exactly; each principal_usd matches the table's March 31, 2026 column to the dollar (DDTL1.0 1,438; DDTL2.0 4,425; DDTL2.1 3,000; DDTL3.0 1,700; DDTL4.0 1,260; 2030SN 2,000; 2031SN 1,750; 2031Conv 2,588; ConvPromissory 171; Revolver 1,500; OEM/SW 5,036; Magnetar 281). (3) All 12 maturity_year values match the table's Maturities column. (4) Maturity schedule matches the filing verbatim: 2026 $6,066 / 2027 $5,652 / 2028 $3,802 / 2029 $2,894 / 2030 $2,348 / Thereafter $4,387 / Total $25,149 \u2014 and sums to exactly $25,149M == total debt. Null y2031-y2034_plus correctly reflects the filing's single 'Thereafter' line. Table is stated 'dollars in millions'; _usd scaling is correct, no millions-vs-dollars error. Defects (above) are confined to provenance of some prose quotes (apparently from a prior filing) and two metadata labels; the load-bearing numbers are all independently confirmed against the cited filing."
+  }
+ },
+ {
+  "stack": {
+   "entity": "IREN Limited",
+   "ticker": "IREN",
+   "period": "Q3 FY2026 (quarter ended March 31, 2026); 10-Q filed 2026-05-08",
+   "total_debt_usd": 3962088000,
+   "facilities": [
+    {
+     "name": "3.25% Convertible Senior Notes due 2030 (\"2030 Convertible Notes\")",
+     "instrument_type": "convertible_notes",
+     "principal_usd": 212310000,
+     "rate": "3.25% (effective interest rate 3.87%)",
+     "maturity_year": 2030,
+     "secured": false,
+     "collateral": "Unsecured senior obligations; no collateral pledged",
+     "guarantee": "Not disclosed as separately guaranteed; obligations of IREN Limited / the Group",
+     "spv_or_bankruptcy_remote": false,
+     "quote": "Maturity date June 15, 2030 ... Remaining principal (in thousands) $212,310 ... Stated interest rate 3.25% ... Effective interest rate 3.87%. (Note 16. Convertible notes payable). Carrying balance at March 31, 2026: $207,345 thousand.",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1878848/000187884826000026/iren-20260331.htm",
+     "accession": "0001878848-26-000026"
+    },
+    {
+     "name": "3.50% Convertible Senior Notes due 2029 (\"2029 Convertible Notes\")",
+     "instrument_type": "convertible_notes",
+     "principal_usd": 233389000,
+     "rate": "3.50% (effective interest rate 4.22%)",
+     "maturity_year": 2029,
+     "secured": false,
+     "collateral": "Unsecured senior obligations; no collateral pledged",
+     "guarantee": "Not disclosed as separately guaranteed; obligations of IREN Limited / the Group",
+     "spv_or_bankruptcy_remote": false,
+     "quote": "Maturity date December 15, 2029 ... Remaining principal (in thousands) $233,389 ... Stated interest rate 3.50% ... Effective interest rate 4.22%. (Note 16). Carrying balance at March 31, 2026: $228,005 thousand.",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1878848/000187884826000026/iren-20260331.htm",
+     "accession": "0001878848-26-000026"
+    },
+    {
+     "name": "0.00% Convertible Senior Notes due 2031 (\"2031 Convertible Notes\")",
+     "instrument_type": "convertible_notes",
+     "principal_usd": 1000000000,
+     "rate": "0% (effective interest rate 0.37%)",
+     "maturity_year": 2031,
+     "secured": false,
+     "collateral": "Unsecured senior obligations; no collateral pledged",
+     "guarantee": "Not disclosed as separately guaranteed; obligations of IREN Limited / the Group",
+     "spv_or_bankruptcy_remote": false,
+     "quote": "On October 14, 2025, we issued $1 billion aggregate principal amount of the 2031 Convertible Notes. The 2031 Convertible Notes will mature on July 1, 2031 ... As of March 31, 2026, there was $1 billion aggregate principal amount of 2031 Convertible Notes outstanding. Stated interest rate 0% ... Effective interest rate 0.37%. Carrying balance at March 31, 2026: $980,905 thousand.",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1878848/000187884826000026/iren-20260331.htm",
+     "accession": "0001878848-26-000026"
+    },
+    {
+     "name": "0.25% Convertible Senior Notes due 2032 (\"2032 Convertible Notes\")",
+     "instrument_type": "convertible_notes",
+     "principal_usd": 1150000000,
+     "rate": "0.25% (effective interest rate 0.45%)",
+     "maturity_year": 2032,
+     "secured": false,
+     "collateral": "Unsecured senior obligations; no collateral pledged",
+     "guarantee": "Not disclosed as separately guaranteed; obligations of IREN Limited / the Group",
+     "spv_or_bankruptcy_remote": false,
+     "quote": "On December 8, 2025, we issued $1.15 billion aggregate principal amount of the 2032 Convertible Notes ... The 2032 Convertible Notes will mature on June 1, 2032 ... As of March 31, 2026, there was $1.15 billion aggregate principal amount of 2032 Convertible Notes outstanding. Stated interest rate 0.25% ... Effective interest rate 0.45%. Carrying balance at March 31, 2026: $1,135,846 thousand.",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1878848/000187884826000026/iren-20260331.htm",
+     "accession": "0001878848-26-000026"
+    },
+    {
+     "name": "1.00% Convertible Senior Notes due 2033 (\"2033 Convertible Notes\")",
+     "instrument_type": "convertible_notes",
+     "principal_usd": 1150000000,
+     "rate": "1.00% (effective interest rate 1.18%)",
+     "maturity_year": 2033,
+     "secured": false,
+     "collateral": "Unsecured senior obligations; no collateral pledged",
+     "guarantee": "Not disclosed as separately guaranteed; obligations of IREN Limited / the Group",
+     "spv_or_bankruptcy_remote": false,
+     "quote": "On December 8, 2025, we issued ... $1.15 billion aggregate principal amount of the 2033 Convertible Notes ... the 2033 Convertible Notes will mature on June 1, 2033 ... As of March 31, 2026, there was $1.15 billion aggregate principal amount of the 2033 Convertible Notes outstanding. Stated interest rate 1.00% ... Effective interest rate 1.18%. Carrying balance at March 31, 2026: $1,135,731 thousand.",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1878848/000187884826000026/iren-20260331.htm",
+     "accession": "0001878848-26-000026"
+    },
+    {
+     "name": "Finance lease liabilities - GPU hardware financing (incl. Dell Financial Services $199.8M facility)",
+     "instrument_type": "lease",
+     "principal_usd": 274256000,
+     "rate": "Weighted-average discount rate 9.7%",
+     "maturity_year": 2029,
+     "secured": true,
+     "collateral": "GPU hardware (finance lease right-of-use assets, $290,459K); purchase option to acquire GPUs at lease maturity for $1",
+     "guarantee": "Parent (IREN Limited) guarantee with respect to all payment obligations under the Dell Financial Services facility",
+     "spv_or_bankruptcy_remote": false,
+     "quote": "Lease liabilities: Finance leases $274,256 (current portion $122,168 + non-current $152,088). Total undiscounted lease payments $307,849; Less present value discount ($33,592); Present value of lease liabilities $274,256. Weighted-average discount rate Finance leases 9.7%. On November 5, 2025, the Group entered into financing arrangements with Dell Financial Services ... The facility provides $199.8 million of financing, structured as a 24-month lease ... acquisition of the GPUs upon maturity of the lease for $1. The Company has agreed to provide a parent guarantee with respect to all payment obligations under this facility.",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1878848/000187884826000026/iren-20260331.htm",
+     "accession": "0001878848-26-000026"
+    }
+   ],
+   "maturity_schedule_usd": {
+    "y2025": null,
+    "y2026": 35999000,
+    "y2027": 143997000,
+    "y2028": 98668000,
+    "y2029": 262573000,
+    "y2030": 212310000,
+    "y2031": 1000000000,
+    "y2032": 1150000000,
+    "y2033": 1150000000,
+    "y2034_plus": null
+   },
+   "maturity_schedule_source": {
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1878848/000187884826000026/iren-20260331.htm",
+    "quote": "BASIS NOTE: The filing does NOT present a single combined 'future maturities of debt' table. This schedule is built from two disclosed tables. (1) Finance-lease undiscounted future minimum lease payments (by fiscal year ending June 30): Financial Year 2026 $35,999; Financial Year 2027 $143,997; Financial Year 2028 $98,668; Financial Year 2029 $29,184; Financial Year 2030 $0; Thereafter $0; Total undiscounted lease payments $307,849. (2) Convertible-notes principal maturities (bullet, by calendar maturity year, from Note 16 'Remaining principal' / key-terms table): 2029 Convertible Notes $233,389 (mature Dec 15, 2029); 2030 Convertible Notes $212,310 (mature Jun 15, 2030); 2031 Convertible Notes $1,000,000 (mature Jul 1, 2031); 2032 Convertible Notes $1,150,000 (mature Jun 1, 2032); 2033 Convertible Notes $1,150,000 (mature Jun 1, 2033). y2026-y2028 above are finance-lease payments only; y2029 = $29,184 finance lease + $233,389 2029 Notes = $262,573; y2030-y2033 are convertible-note principal at maturity. Finance-lease rows are fiscal-year (FYE Jun 30) undiscounted; note rows are calendar-year principal."
+   },
+   "unfound_fields": [
+    "combined_future_maturities_of_long_term_debt_table (not presented in filing; reconstructed from finance-lease minimum-payments table + convertible-notes principal maturities)",
+    "explicit_secured/unsecured_label_for_convertible_notes (notes are described as senior convertible notes with no collateral disclosed; classified unsecured by standard structure, not by an explicit 'unsecured' statement in this 10-Q)",
+    "Goldman Sachs/JPMorgan ~$3.6B delayed-draw term loan facility principal_outstanding (commitment letter only as of Feb 4, 2026; not drawn, no definitive agreement, excluded from total_debt)"
+   ],
+   "extraction_confidence": 0.9
+  },
+  "verdict": {
+   "entity": "IREN Limited",
+   "overall": "source_backed",
+   "total_debt_confirmed": true,
+   "maturity_schedule_confirmed": true,
+   "corrections": [
+    "BASIS INCONSISTENCY (not a fabrication): total_debt_usd 3,962,088,000 is a CARRYING-value total = convertible notes carrying 3,687,832,000 (filing R76 / balance sheet R2) + finance lease present value 274,256,000. It ties to the balance sheet exactly. However, the facilities[].principal_usd fields report FACE principal for the convertibles (212,310,000 / 233,389,000 / 1,000,000,000 / 1,150,000,000 / 1,150,000,000) while the lease facility uses PV (274,256,000). Summing the facilities AS LISTED = 4,019,955,000, which does NOT equal total_debt (delta 57,867,000). So 'sum of facilities' reconciles to total_debt ONLY if you substitute each note's carrying balance (207,345 / 228,005 / 980,905 / 1,135,846 / 1,135,731) for its principal. The stack should either (a) add carrying_balance fields used for the rollup, or (b) note that principal_usd is face value and is intentionally not the reconciling basis.",
+    "MATURITY SCHEDULE does NOT sum to total_debt and should not be expected to. Sum of schedule = 4,053,547,000 vs total_debt 3,962,088,000 (delta 91,459,000). Reason (correctly disclosed in maturity_schedule_source BASIS NOTE): y2026-y2029 lease rows are UNDISCOUNTED fiscal-year minimum lease payments (total 307,849,000, which includes 33,592,000 of future interest), while y2030-y2033 (and the 2029 note component) are FACE principal of the convertible notes; total_debt is on a carrying basis. Each individual schedule line is independently verified, but the schedule intentionally mixes undiscounted-lease + face-note-principal and will exceed carrying total_debt by ~the lease discount.",
+    "Trivial rounding: lease components in the schedule sum to 307,848,000 vs the filing's printed total 307,849,000 (1,000 rounding artifact in the FY2029 = 29,184 row). Immaterial."
+   ],
+   "note": "Verified against the actual SEC filing (accession 0001878848-26-000026, IREN 10-Q for quarter ended 2026-03-31, filed 2026-05-08), confirmed genuine on EDGAR; data pulled from XBRL R-file tables R40/R74 (leases), R76 (notes rollup/carrying), R77 (notes key terms/principal), R2 (balance sheet), plus narrative. EVERY cited figure is source-backed: all 5 convertible note principals (R77: 2030 $212,310K, 2029 $233,389K, 2031 $1.0B, 2032 $1.15B, 2033 $1.15B), carrying balances (R76: $207,345 / $228,005 / $980,905 / $1,135,846 / $1,135,731; total $3,687,832K), all rates/effective rates, and all maturity dates (Jun 15 2030, Dec 15 2029, Jul 1 2031, Jun 1 2032, Jun 1 2033) match verbatim. Finance lease PV $274,256K (current $122,168 + non-current $152,088 per balance sheet R2), undiscounted $307,849K, discount $(33,592)K, WAD 9.7%, and FY maturity rows (FY26 $35,999; FY27 $143,997; FY28 $98,668; FY29 $29,184; FY30 $0; thereafter $0) all confirmed. y2029 schedule row $262,573K = $29,184 lease + $233,389 notes (arithmetic verified). NO unit errors. NO double-counting: the Dell Financial Services $199.8M facility is a 24-month finance lease and is captured WITHIN the $274,256K finance lease liability (correctly placed inside the lease facility, not added as a separate line); confirmed Dell narrative ($199.8M, $1 purchase option, parent guarantee). The Goldman Sachs / JPMorgan ~$3.6B delayed-draw facility is a binding commitment letter dated Feb 4, 2026, subject to conditions, undrawn, secured by GPUs/Microsoft Agreement cash flows with phased drawdowns through 2026 - correctly EXCLUDED from total_debt. total_debt_confirmed=true and maturity_schedule_confirmed=true because every line is independently verified against the filing; the two reconciliation 'mismatches' (facilities-sum and schedule-sum vs total_debt) are basis differences (face principal / undiscounted lease vs carrying value), not errors, and the schedule basis is explicitly disclosed. Recommend the stack expose note carrying balances for the total_debt rollup and flag principal_usd as face value to avoid a misleading 'sum of facilities = total_debt' read."
+  }
+ },
+ {
+  "stack": {
+   "entity": "TeraWulf Inc.",
+   "ticker": "WULF",
+   "period": "FY2025 (fiscal year ended December 31, 2025)",
+   "total_debt_usd": 5725000000,
+   "facilities": [
+    {
+     "name": "7.75% Senior Secured Notes due 2030 (the \"2030 Secured Notes\")",
+     "instrument_type": "senior_secured_notes",
+     "principal_usd": 3200000000,
+     "rate": "7.750% (stated); 8.7% effective interest rate",
+     "maturity_year": 2030,
+     "secured": true,
+     "accession": "0001083301-26-000031",
+     "collateral": "First-priority liens on (i) substantially all assets of issuer Wulf Compute LLC and the Guarantors (other than certain excluded property), (ii) all equity interests of Wulf Compute held by Brookings (its direct parent), and (iii) a designated lockbox account of Fluidstack; plus a pledge of Google Warrants by Google (terminating upon Fluidstack HPC Lease commencement or discharge of the notes). Carrying value: gross $3,098,556K (net of $101,444K issuance costs/discount); current portion $46,316K, long-term net $3,052,240K. Fair value approx $3,300.7M at 12/31/2025.",
+     "guarantee": "Fully and unconditionally guaranteed by Wulf Compute's subsidiaries La Lupa Data LLC, Akela Data Holdings LLC and Akela Data LLC (the \"Guarantors\"). Parent TeraWulf provided customary completion guarantees for the Lake Mariner HPC buildout; an affiliate of Google agreed to pay the Termination Fee per the Google Recognition Agreements.",
+     "spv_or_bankruptcy_remote": true,
+     "quote": "On October 22, 2025, the Company, through its wholly owned subsidiary Wulf Compute LLC (\"Wulf Compute\"), completed a private offering of $3,200.0 million aggregate principal amount of 7.75% Senior Secured Notes due 2030 (the \"2030 Secured Notes\"). The 2030 Secured Notes have a maturity date of October 15, 2030. ... The 2030 Notes are fully and unconditionally guaranteed by Wulf Compute's subsidiaries, La Lupa Data LLC, Akela Data Holdings LLC and Akela Data LLC (collectively, the \"Guarantors\"). The 2030 Secured Notes and related guarantees are secured by first-priority liens on (i) substantially all the assets of Wulf Compute and the Guarantors, other than certain excluded property, (ii) all equity interests of Wulf Compute held by Brookings, the direct parent company of Wulf Compute, and (iii) a designated lockbox account of Fluidstack. ... The 2030 Secured Notes have an effective interest rate of 8.7% which includes the stated interest of 7.75%.",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1083301/000108330126000031/wulf-20251231.htm"
+    },
+    {
+     "name": "2.75% Convertible Senior Notes due 2030 (the \"2030 Convertible Notes\")",
+     "instrument_type": "convertible_notes",
+     "principal_usd": 500000000,
+     "rate": "2.75% (stated, semi-annual May 1/Nov 1); 3.3% effective interest rate",
+     "maturity_year": 2030,
+     "secured": false,
+     "accession": "0001083301-26-000031",
+     "collateral": "None (unsecured). Principal $500,000K; classified as short-term convertible notes at 12/31/2025 (became convertible at holder option Oct 2025 upon 2030 Sale Price Conversion Event). Net carrying amount $489,767K (unamortized discount/issuance costs $10,233K). Matures February 1, 2030. Initial conversion price approx $8.48/share (117.9245 shares per $1,000). Fair value approx $814.5M at 12/31/2025.",
+     "guarantee": "Senior unsecured obligation of TeraWulf Inc. (parent); no subsidiary guarantees disclosed.",
+     "spv_or_bankruptcy_remote": false,
+     "quote": "In October 2024, the Company completed a private offering of 2.75% convertible senior notes due 2030 (the \"2030 Convertible Notes\"). The 2030 Convertible Notes, which are unsecured ... The aggregate principal amount of notes sold in the offering was $500.0 million ... The 2030 Convertible Notes have an effective interest rate of 3.3% which includes the stated interest of 2.75% ... The 2030 Convertible Notes will mature on February 1, 2030 ... [Short-term convertible notes: 2030 Convertible notes $500,000 / ($10,233) / $489,767].",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1083301/000108330126000031/wulf-20251231.htm"
+    },
+    {
+     "name": "1.00% Convertible Senior Notes due 2031 (the \"2031 Convertible Notes\")",
+     "instrument_type": "convertible_notes",
+     "principal_usd": 1000000000,
+     "rate": "1.00% (stated, semi-annual Mar 1/Sep 1); 10.9% effective interest rate",
+     "maturity_year": 2031,
+     "secured": false,
+     "accession": "0001083301-26-000031",
+     "collateral": "None (unsecured). Principal $1,000,000K (incl. $150,000K greenshoe). Net carrying amount $583,699K (unamortized discount/issuance costs $416,301K, large due to bifurcated conversion-feature discount). Matures September 1, 2031. Conversion price approx $12.43/share (80.4602 shares per $1,000). Fair value approx $1,180.3M at 12/31/2025.",
+     "guarantee": "Senior unsecured obligation of TeraWulf Inc. (parent); no subsidiary guarantees disclosed.",
+     "spv_or_bankruptcy_remote": false,
+     "quote": "In August 2025, the Company completed a private offering of 1.00% Convertible Senior Notes due 2031 (the \"2031 Convertible Notes\"). The unsecured notes were sold pursuant to a purchase agreement between the Company and Morgan Stanley & Co. LLC ... The total aggregate principal amount of the offering was $1,000.0 million, including $150.0 million issued pursuant to the Initial 2031 Purchasers' full exercise of their option to purchase additional notes. ... The 2031 Convertible Notes have an effective interest rate of 10.9% which includes the stated interest of 1.00% ... The 2031 Convertible Notes mature on September 1, 2031.",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1083301/000108330126000031/wulf-20251231.htm"
+    },
+    {
+     "name": "0.00% Convertible Senior Notes due 2032 (the \"2032 Convertible Notes\")",
+     "instrument_type": "convertible_notes",
+     "principal_usd": 1025000000,
+     "rate": "0.00% (zero-coupon, no regular interest); 0.4% effective interest rate",
+     "maturity_year": 2032,
+     "secured": false,
+     "accession": "0001083301-26-000031",
+     "collateral": "None (unsecured). Principal $1,025,000K (incl. $125,000K greenshoe). Net carrying amount $999,089K (unamortized discount/issuance costs $25,911K). Matures May 1, 2032. Initial conversion rate 50.1567 shares per $1,000. Fair value approx $896.6M at 12/31/2025.",
+     "guarantee": "Senior unsecured obligation of TeraWulf Inc. (parent); no subsidiary guarantees disclosed.",
+     "spv_or_bankruptcy_remote": false,
+     "quote": "In October 2025, the Company completed a private offering of 0.00% Convertible Senior Notes due 2032 (the \"2032 Convertible Notes\"). The unsecured notes were sold pursuant to a purchase agreement between the Company and Morgan Stanley & Co. LLC ... The total aggregate principal amount of the offering was $1,025.0 million, including $125.0 million issued pursuant to the Initial 2032 Purchasers full exercise of their option to purchase additional notes. ... The 2032 Convertible Notes have an effective interest rate of 0.4% and do not bear regular interest. The 2032 Convertible Notes mature on May 1, 2032.",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1083301/000108330126000031/wulf-20251231.htm"
+    },
+    {
+     "name": "Abernathy JV 7.250% Senior Secured Notes due 2030 (the \"JV Notes\") \u2014 OFF-BALANCE-SHEET (unconsolidated equity-method VIE; EXCLUDED from total_debt and maturity schedule)",
+     "instrument_type": "senior_secured_notes",
+     "principal_usd": 1300000000,
+     "rate": "7.250% (stated)",
+     "maturity_year": 2030,
+     "secured": true,
+     "accession": "0001083301-26-000031",
+     "collateral": "Secured at the Abernathy Joint Venture level; net proceeds fund construction of the Abernathy HPC Campus, debt reserves, and $75.0M cash collateral for a letter of credit. NOT included in TeraWulf's $5,725,000K consolidated principal maturities total. Issued December 29, 2025 by the unconsolidated Abernathy Joint Venture (equity-method VIE).",
+     "guarantee": "Issued by the Abernathy Joint Venture (50.1% owned by TeraWulf alongside the Fluidstack Member). NOT a TeraWulf consolidated obligation: the Abernathy Joint Venture is a VIE accounted for under the equity method, so the JV Notes are excluded from TeraWulf's consolidated debt and the maturity schedule. Listed here for completeness as a related-party / off-balance-sheet facility.",
+     "spv_or_bankruptcy_remote": true,
+     "quote": "On December 29, 2025, the Abernathy Joint Venture completed a private offering of 7.250% Senior Secured Notes due 2030 (the \"JV Notes\"). The aggregate principal amount of JV Notes sold in the offering was $1,300.0 million. ... The Abernathy Joint Venture is a VIE accounted for using the equity method of accounting.",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1083301/000108330126000031/wulf-20251231.htm"
+    }
+   ],
+   "maturity_schedule_usd": {
+    "y2025": null,
+    "y2026": 46316000,
+    "y2027": 278004000,
+    "y2028": 299404000,
+    "y2029": 304030000,
+    "y2030": 2772246000,
+    "y2031": null,
+    "y2032": null,
+    "y2033": null,
+    "y2034_plus": 2025000000
+   },
+   "maturity_schedule_source": {
+    "quote": "Principal maturities of outstanding debt and convertible notes as of December 31, 2025 are as follows (in thousands): 2026 $46,316; 2027 278,004; 2028 299,404; 2029 304,030; 2030 2,772,246; Thereafter 2,025,000; Total principal maturities $5,725,000.",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1083301/000108330126000031/wulf-20251231.htm"
+   },
+   "unfound_fields": [
+    "maturity_schedule_usd.y2031_and_y2032_split: the 10-K aggregates 2031 and 2032 principal into a single \"Thereafter\" line of $2,025,000K (= $1,000M 2031 Conv + $1,025M 2032 Conv) rather than per-year amounts; mapped to y2034_plus as the catch-all 'thereafter' bucket. The 2026-2030 lines reflect amortizing principal on the 2030 Secured Notes plus the $500M 2030 Convertible bullet landing in 2030."
+   ],
+   "extraction_confidence": 0.95
+  },
+  "verdict": {
+   "entity": "TeraWulf Inc. (WULF)",
+   "overall": "source_backed",
+   "total_debt_confirmed": true,
+   "maturity_schedule_confirmed": true,
+   "corrections": [],
+   "note": "Independently verified against the cited 10-K (accession 0001083301-26-000031, wulf-20251231.htm), fetched directly from SEC EDGAR with a compliant User-Agent (WebFetch was 403-blocked). All figures reconcile and every cited quote was found verbatim.\n\nTOTAL DEBT RECONCILIATION (pass): Sum of the four consolidated facilities = $3,200.0M (2030 Secured) + $500.0M (2030 Conv) + $1,000.0M (2031 Conv) + $1,025.0M (2032 Conv) = $5,725.0M, matching the stated total_debt_usd of $5,725,000,000 exactly. Each principal confirmed verbatim in the filing: '$3,200.0 million', '$500.0 million', '$1,000.0 million (including $150.0 million ... option)', '$1,025.0 million (including $125.0 million ... option)'.\n\nMATURITY SCHEDULE RECONCILIATION (pass): Filing's 'Principal maturities of outstanding debt and convertible notes as of December 31, 2025 (in thousands)' = 2026 $46,316; 2027 278,004; 2028 299,404; 2029 304,030; 2030 2,772,246; Thereafter 2,025,000; Total $5,725,000. The quote in maturity_schedule_source matches the filing word-for-word and figure-for-figure, and the lines sum to $5,725,000K = total_debt. No unit errors: all figures are correctly scaled from the in-thousands table to USD in the JSON (e.g. $46,316K -> $46,316,000).\n\nCROSS-CHECKS (pass): (1) The 2026 line $46,316K equals the disclosed 'Current portion of long-term debt 46,316' and the 2030 Secured Notes current portion on the carrying-value table ($3,200,000 gross, ($101,444) discount, $3,098,556 net; less current 46,316; long-term net $3,052,240) \u2014 all confirmed verbatim. (2) The 'Thereafter' $2,025,000K equals $1,000.0M (2031 Conv) + $1,025.0M (2032 Conv) exactly, consistent with both notes maturing after 2030. (3) The 2030 column $2,772,246K = $2,272,246K amortizing 2030 Secured Notes principal + the $500.0M 2030 Convertible bullet (which matures Feb 1, 2030, correctly inside the 2030 column). (4) Effective rates confirmed: 8.7% (2030 Secured), 3.3% (2030 Conv), 10.9% (2031 Conv), 0.4% (2032 Conv, no regular interest). Net carrying amounts confirmed: $489,767K, $583,699K, $999,089K.\n\nNO DOUBLE-COUNTING / OFF-BALANCE-SHEET HANDLED CORRECTLY: The Abernathy JV 7.250% Senior Secured Notes ($1,300.0M, due 2030) are properly EXCLUDED from both total_debt and the maturity schedule. The filing confirms verbatim that 'The Abernathy Joint Venture is a VIE accounted for using the equity method of accounting' and that TeraWulf 'did not have the power to direct' it, so it is unconsolidated. Including the JV would have pushed the total to $7,025M; the stack correctly keeps it off-balance-sheet, and the $5,725M total contains no JV double-count. No facility appears twice.\n\nONE PRESENTATION NUANCE (not a refutation, already disclosed honestly): In maturity_schedule_usd, the $2,025,000K 'Thereafter' bucket is mapped to y2034_plus with y2031/y2032/y2033 set to null, even though the underlying 2031 Convertible Notes mature Sep 1, 2031 and the 2032 Convertible Notes mature May 1, 2032. This is faithful to the source because the 10-K aggregates these into a single undated 'Thereafter' line and does not provide a per-year 2031/2032 split; the unfound_fields entry documents this accurately. A downstream consumer treating y2034_plus as a literal 2034+ maturity would be misled \u2014 the cash is actually due in 2031-2032 \u2014 but the JSON's own unfound_fields note discloses the mapping, so it is transparent rather than an unsupported figure. extraction_confidence 0.95 is appropriate.\n\nConclusion: total_debt and maturity_schedule are independently verified against the cited filing; both confirmed."
+  }
+ },
+ {
+  "stack": {
+   "entity": "Applied Digital Corporation",
+   "ticker": "APLD",
+   "period": "FY2026 Q3 10-Q (quarter ended February 28, 2026; filed 2026-04-08)",
+   "total_debt_usd": 2943119000,
+   "facilities": [
+    {
+     "name": "2030 Senior Secured Notes (9.25% Senior Secured Notes due 2030)",
+     "instrument_type": "senior_secured_notes",
+     "principal_usd": 2350000000,
+     "rate": "9.25%",
+     "maturity_year": 2030,
+     "secured": true,
+     "collateral": "Senior secured obligations of the issuer APLD ComputeCo LLC, secured under an indenture with Wilmington Trust as trustee/collateral agent; proceeds fund construction of the 100 MW (ELN-02) and 150 MW (ELN-03) data centers at the Ellendale, ND campus (Polaris Forge 1). Issued at 97% of face. Interest payable semi-annually (Jun 15/Dec 15); principal amortizes semi-annually beginning Dec 15, 2027.",
+     "guarantee": "Issued by subsidiary APLD ComputeCo LLC; guaranteed by Subsidiary Guarantors; parent APLD provides a customary completion guarantee for each Project (funds issuer as needed to achieve Commencement Date). Indenture restricts additional indebtedness, dividends, liens, asset sales, affiliate transactions, etc.",
+     "spv_or_bankruptcy_remote": true,
+     "quote": "2030 Senior Secured Notes 9.25 % December 2030 $ 2,350,000 ... On November 20, 2025, APLD ComputeCo LLC (\u201cIssuer\u201d), a subsidiary of the Company, completed a private offering of 9.25 % Senior Secured Notes due 2030 ... The aggregate principal amount of Notes sold in the offering was $ 2.35 billion. The 2030 Notes were issued at a price equal to 97 % of their aggregate principal amount. ... The 2030 Notes are senior secured obligations of the Issuer and bear interest at a rate of 9.25 % per annum ... The 2030 Notes will mature on December 15, 2030",
+     "accession": "0001144879-26-000030",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1144879/000114487926000030/apld-20260228.htm"
+    },
+    {
+     "name": "Convertible Notes (senior unsecured, 2.75% due 2030)",
+     "instrument_type": "convertible_notes",
+     "principal_usd": 450000000,
+     "rate": "2.75%",
+     "maturity_year": 2030,
+     "secured": false,
+     "collateral": "None (senior unsecured). Net carrying amount $275.3M (face $450.0M less $174.7M unamortized deferred financing costs) as of Feb 28, 2026.",
+     "guarantee": "Senior unsecured obligation of the Company; no subsidiary guarantee or collateral disclosed.",
+     "spv_or_bankruptcy_remote": false,
+     "quote": "Convertible Notes, senior unsecured (1) 2.75 % June 2030 450,000 ... (1) The net carrying amount of the Convertible Notes was $ 275.3 million and $ 273.3 million and the remaining unamortized deferred financing costs related to the issuance was $ 174.7 million and $ 176.7 million, each as of February 28, 2026 and May 31, 2025, respectively.",
+     "accession": "0001144879-26-000030",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1144879/000114487926000030/apld-20260228.htm"
+    },
+    {
+     "name": "DevCo Facility (APLD DevCo LLC promissory note with Macquarie Equipment Capital, Inc.)",
+     "instrument_type": "term_loan",
+     "principal_usd": 87104000,
+     "rate": "8.00%",
+     "maturity_year": 2027,
+     "secured": true,
+     "collateral": "Secured under a guarantee and collateral agreement among APLD Intermediate HoldCo LLC (direct parent), the Borrower APLD DevCo LLC, and the Borrower's subsidiaries, as grantors in favor of MEC. Funds initial sourcing/planning/development/construction of a new data center project. Draws: $45M First Draw, $40M Second Draw (drawn Feb 24, 2026), $15M Third Draw (uncommitted/discretionary additional & rollover loans possible).",
+     "guarantee": "Subsidiary borrower APLD DevCo LLC; guarantee and collateral agreement by APLD Intermediate HoldCo LLC and Borrower subsidiaries; plus a parent guarantee from the Company (APLD) in favor of MEC. Classified as current portion of debt (matures earliest of acceleration, July 18, 2026 if Initial Lease Execution not done by Apr 18, 2026, or Dec 18, 2027).",
+     "spv_or_bankruptcy_remote": true,
+     "quote": "DevCo Facility 8.00 % December 2027 87,104 ... On December 18, 2025, APLD DevCo LLC (the \u201cBorrower\u201d), a subsidiary of the Company, entered into an ongoing credit arrangement with MEC ... The Loan shall bear interest at 8.0 % per annum ... The Loan matures on the earliest of (i) the date of acceleration ... (iii) December 18, 2027 ... the Company has entered into a parent guarantee in favor of MEC to guarantee the obligations of the Note Parties",
+     "accession": "0001144879-26-000030",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1144879/000114487926000030/apld-20260228.htm"
+    },
+    {
+     "name": "SMBC Loan (repaid in full during quarter ended Feb 28, 2026)",
+     "instrument_type": "term_loan",
+     "principal_usd": 0,
+     "rate": "SOFR + applicable margin (average SOFR+margin for FY ended May 31, 2025 was 7.82%)",
+     "maturity_year": 2026,
+     "secured": true,
+     "collateral": "Was guaranteed by APLD HPC TopCo LLC; secured by a continuing security interest in all membership interests of borrower APLD HPC Holdings LLC, including a mortgage on certain properties per the collateral agency, security and depositary agreement. Repaid in full concurrent with the 2030 Senior Secured Notes offering; balance $0 at Feb 28, 2026 (was $375,000 thousand at May 31, 2025).",
+     "guarantee": "Was guaranteed by APLD HPC TopCo LLC, a wholly-owned subsidiary. Now extinguished.",
+     "spv_or_bankruptcy_remote": true,
+     "quote": "SMBC Loan (2) (2) August 2026 \u2014 $ 375,000 ... (2) The SMBC Loan was guaranteed by APLD HPC TopCo LLC ... and was secured by a continuing security interest in all of the membership interests of the borrower, APLD HPC Holdings LLC, including a mortgage ... During the quarter ended February 28, 2026, concurrent with the closing of the 2030 Senior Secured Notes offering ... the Company repaid in full the aggregate principal balance plus accrued interest. ... The average SOFR plus the applicable margin for the fiscal year ended May 31, 2025 was 7.82 %.",
+     "accession": "0001144879-26-000030",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1144879/000114487926000030/apld-20260228.htm"
+    },
+    {
+     "name": "Starion Ellendale Loan",
+     "instrument_type": "term_loan",
+     "principal_usd": 9183000,
+     "rate": "7.48%",
+     "maturity_year": 2028,
+     "secured": true,
+     "collateral": "Secured by a security interest in substantially all assets of the Ellendale Data Center Hosting facility, plus a collateral assignment of the Company's rights/interests in all master hosting agreements related to APLD ELN-01 LLC.",
+     "guarantee": "Guaranteed by APLD ELN-01 LLC, a wholly-owned subsidiary.",
+     "spv_or_bankruptcy_remote": true,
+     "quote": "Starion Ellendale Loan (3) 7.48 % February 2028 9,183 $ 12,283 ... (3) The Starion Ellendale Loan is guaranteed by APLD ELN-01 LLC, a wholly-owned subsidiary of the Company, and is secured by a security interest in substantially all of the assets of the Ellendale Data Center Hosting facility ... and a security interest in the form of a collateral assignment of the Company\u2019s rights and interests in all master hosting agreements related to APLD ELN-01 LLC.",
+     "accession": "0001144879-26-000030",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1144879/000114487926000030/apld-20260228.htm"
+    },
+    {
+     "name": "Cornerstone Bank Loan",
+     "instrument_type": "term_loan",
+     "principal_usd": 10682000,
+     "rate": "8.59%",
+     "maturity_year": 2029,
+     "secured": true,
+     "collateral": "Secured by a security interest in multiple Terms of Service Agreements for HPC-based systems related to AI Cloud Computing Services, serviced at the Jamestown hosting facility.",
+     "guarantee": "Guaranteed by APLD GPU-01, LLC, a wholly-owned subsidiary.",
+     "spv_or_bankruptcy_remote": true,
+     "quote": "Cornerstone Bank Loan (4) 8.59 % March 2029 10,682 $ 12,866 ... (4) The Cornerstone Bank Loan is guaranteed by APLD GPU-01, LLC, a wholly-owned subsidiary of the Company, and is secured by a security interest in multiple Terms of Service Agreements for HPC based systems related to AI Cloud Computing Services, which are to be serviced at the Jamestown hosting facility.",
+     "accession": "0001144879-26-000030",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1144879/000114487926000030/apld-20260228.htm"
+    },
+    {
+     "name": "Starion Term Loan",
+     "instrument_type": "term_loan",
+     "principal_usd": 4711000,
+     "rate": "6.50%",
+     "maturity_year": 2027,
+     "secured": true,
+     "collateral": "Secured by the Jamestown hosting facility, a security interest in substantially all assets of APLD Hosting LLC, and interests in all master hosting agreements related to the Jamestown hosting facility. Subject to a debt service coverage ratio covenant (in compliance at Feb 28, 2026).",
+     "guarantee": "Guaranteed by APLD Hosting, LLC, a wholly-owned subsidiary.",
+     "spv_or_bankruptcy_remote": true,
+     "quote": "Starion Term Loan (5) 6.50 % July 2027 4,711 $ 7,061 ... (5) The Starion Term Loan is guaranteed by APLD Hosting, LLC, a wholly-owned subsidiary of the Company, and is secured by the Jamestown hosting facility, a security interest in substantially all of the assets of APLD Hosting LLC, and interests in all master hosting agreements related to the Jamestown hosting facility.",
+     "accession": "0001144879-26-000030",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1144879/000114487926000030/apld-20260228.htm"
+    },
+    {
+     "name": "Other long-term debt (incl. two SAFE agreements treated as liabilities and two promissory notes)",
+     "instrument_type": "other",
+     "principal_usd": 31439000,
+     "rate": "not disclosed",
+     "maturity_year": null,
+     "secured": null,
+     "collateral": "Not specified. Inclusive of $12.0M of proceeds from two SAFE agreements accounted for as liabilities, plus two promissory notes entered into during the second fiscal quarter totaling approximately $19.0M.",
+     "guarantee": "Not disclosed",
+     "spv_or_bankruptcy_remote": null,
+     "quote": "Other long-term debt (6) 31,439 $ 12,275 ... (6) Inclusive in this number is $ 12.0 million of proceeds from the issuance of two SAFE agreements which were accounted for as liabilities as well as two promissory notes the Company entered into during the second fiscal quarter for a total of approximately $ 19.0 million.",
+     "accession": "0001144879-26-000030",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1144879/000114487926000030/apld-20260228.htm"
+    },
+    {
+     "name": "Revolving Credit Facility (First National Bank of Omaha) - undrawn at period end; $61.9M letters of credit issued",
+     "instrument_type": "revolver",
+     "principal_usd": 0,
+     "rate": "SOFR + 2.75% (plus 0.35% unused facility fee)",
+     "maturity_year": null,
+     "secured": true,
+     "collateral": "Secured by all of the Company's (but none of its subsidiaries') assets. $65M aggregate revolving commitment. No cash borrowings outstanding at Feb 28, 2026; approximately $61.9M of letters of credit were issued under the facility.",
+     "guarantee": "Company-level facility; no subsidiary guarantee disclosed.",
+     "spv_or_bankruptcy_remote": false,
+     "quote": "On November 10, 2025, the Company entered into a loan and security agreement with First National Bank of Omaha ... in an aggregate principal amount of $ 65 million. ... Interest accrues on the outstanding balance at a rate of SOFR plus 2.75 % per annum. Additionally, there is an unused facility fee of 0.35 % per annum ... The loan is secured by all of the Company\u2019s (but none of its subsidiaries\u2019) assets. As of February 28, 2026, approximately $ 61.9 million of letters of credit were issued under the revolving credit facility.",
+     "accession": "0001144879-26-000030",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1144879/000114487926000030/apld-20260228.htm"
+    }
+   ],
+   "maturity_schedule_usd": {
+    "y2025": null,
+    "y2026": 90283000,
+    "y2027": 13184000,
+    "y2028": 100772000,
+    "y2029": 187329000,
+    "y2030": 184158000,
+    "y2031": null,
+    "y2032": null,
+    "y2033": null,
+    "y2034_plus": 2367393000
+   },
+   "maturity_schedule_source": {
+    "quote": "Remaining Principal Payments Below is a summary of the remaining principal payments due over the life of the term loans as of February 28, 2026 (in thousands): FY26 $ 90,283 FY27 13,184 FY28 100,772 FY29 187,329 FY30 184,158 Thereafter (1) 2,367,393 Total $ 2,943,119 (1) Includes $ 12.0 million of proceeds from the issuance of two SAFE agreements which were accounted for as liabilities. [NOTE: APLD fiscal year ends May 31; FY26=y2026, FY27=y2027, FY28=y2028, FY29=y2029, FY30=y2030. 'Thereafter' (FY31 onward, $2,367,393K) is mapped to y2034_plus and is dominated by the $2.35B 2030 Senior Secured Notes balloon due Dec 15, 2030 which falls in fiscal year 2031.]",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1144879/000114487926000030/apld-20260228.htm"
+   },
+   "unfound_fields": [
+    "Other long-term debt: interest rate, maturity year, collateral, and guarantee scope not individually disclosed (aggregated $31,439K line, includes $12.0M SAFE liabilities and ~$19.0M of two promissory notes)",
+    "Revolving Credit Facility maturity date not disclosed in the 10-Q debt footnote",
+    "Precise year-by-year split of the $2,367,393K 'Thereafter' bucket (FY31 onward) not disclosed; mapped in aggregate to y2034_plus"
+   ],
+   "extraction_confidence": 0.93
+  },
+  "verdict": {
+   "entity": "Applied Digital Corporation",
+   "overall": "source_backed",
+   "total_debt_confirmed": true,
+   "maturity_schedule_confirmed": true,
+   "note": "Independently verified against the cited FY2026 Q3 10-Q (accession 0001144879-26-000030, apld-20260228.htm), fetched directly from SEC EDGAR. TOTAL DEBT: Sum of the nine facility principals (2,350,000 + 450,000 + 87,104 + 0 SMBC + 9,183 + 10,682 + 4,711 + 31,439 + 0 Revolver = 2,943,119 thousand) reconciles EXACTLY to total_debt_usd 2,943,119,000, and matches the gross components in the filing's Note 6 debt table verbatim (Interest Rate / Maturity Date / Feb 28 2026 columns confirmed line-by-line: 2030 Notes 9.25% Dec 2030 $2,350,000; Convertible 2.75% Jun 2030 450,000; DevCo 8.00% Dec 2027 87,104; SMBC Aug 2026 \u2014 ($375,000 at May 31 2025); Starion Ellendale 7.48% Feb 2028 9,183; Cornerstone 8.59% Mar 2029 10,682; Starion Term 6.50% Jul 2027 4,711; Other 31,439). MATURITY SCHEDULE: 'Remaining Principal Payments' verified verbatim \u2014 FY26 $90,283; FY27 13,184; FY28 100,772; FY29 187,329; FY30 184,158; Thereafter (1) 2,367,393; Total $2,943,119 \u2014 sums exactly to total debt, and footnote (1) ($12.0M SAFE proceeds in Thereafter) matches. NO unit errors (table is 'in thousands'; correctly scaled to dollars). NO double-counted facilities (nine distinct instruments; SMBC and Revolver correctly $0). All cited narrative quotes confirmed present in the filing (97% issue price, $2.35B, mature Dec 15 2030, DevCo Dec 18 2027, $61.9M LCs under $65M FNBO revolver at SOFR+2.75%, 7.82% avg SOFR+margin, convertible net carrying $275.3M / unamortized DFC $174.7M, Other LT $19.0M two promissory notes + $12.0M SAFE). The fiscal-year mapping (APLD FY ends May 31; $2.35B notes due Dec 15 2030 fall in FY2031, hence 'Thereafter'/y2034_plus) is internally consistent. ONE CLARIFICATION (not an error): total_debt_usd 2,943,119,000 is GROSS principal/face. The same filing table then subtracts 'Deferred financing costs, net of amortization (250,444)' and splits to 'Less: Current portion of debt (98,174)' and 'Long-term debt, net $2,594,501'. So this figure is face value, not the net balance-sheet carrying amount of debt (~$2,692,675K = 2,594,501 + 98,174). Both the debt-stack figures as labeled are source-backed and reconcile.",
+   "corrections": [
+    "No figures refuted. Clarification only: total_debt_usd = $2,943,119K is GROSS principal (face). The cited filing table nets out $250,444K deferred financing costs to arrive at Long-term debt, net $2,594,501K plus Current portion of debt $98,174K (net carrying value ~$2,692,675K). The stack's total_debt and maturity schedule are both stated on a gross-principal basis and reconcile exactly to each other and to the filing."
+   ]
+  }
+ },
+ {
+  "stack": {
+   "entity": "Hut 8 Corp.",
+   "ticker": "HUT",
+   "period": "Q1 2026 (as of March 31, 2026) \u2014 Form 10-Q filed 2026-05-06",
+   "total_debt_usd": 404750000,
+   "facilities": [
+    {
+     "name": "TZRC Secured Promissory Note",
+     "instrument_type": "term_loan",
+     "principal_usd": 43348000,
+     "rate": "lesser of (WSJ Prime + 12.0%) or 15.25% (capped); 15.25% in effect; PIK",
+     "maturity_year": 2027,
+     "secured": true,
+     "collateral": "First priority security interest in the Company's membership interest in TZRC",
+     "guarantee": "Non-recourse to Hut 8 Corp.; the Company is not a guarantor",
+     "spv_or_bankruptcy_remote": true,
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1964789/000110465926055891/hut-20260331x10q.htm",
+     "accession": "0001104659-26-055891",
+     "quote": "TZRC Secured Promissory Note ... December 6, 2022 ... April 8, 2027 15.25 % $ 43,348 ... The TZRC Secured Promissory Note is secured by a first priority security interest in the Company's membership interest in TZRC. The Company is not a guarantor of the TZRC Secured Promissory Note, and there is no recourse to the Company. ... The Company elected to apply the PIK payment option."
+    },
+    {
+     "name": "Coinbase Credit Facility (Fourth Amended and Restated Credit Agreement)",
+     "instrument_type": "revolver",
+     "principal_usd": 200000000,
+     "rate": "9.00% per annum (fixed)",
+     "maturity_year": 2026,
+     "secured": true,
+     "collateral": "Bitcoin held in custody of Coinbase Custody Trust Company, LLC; LTV-based; Coinbase recourse limited to such Bitcoin",
+     "guarantee": "Limited recourse (only to pledged Bitcoin collateral)",
+     "spv_or_bankruptcy_remote": null,
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1964789/000110465926055891/hut-20260331x10q.htm",
+     "accession": "0001104659-26-055891",
+     "quote": "Coinbase Credit Facility ... June 26, 2023 ... June 16, 2026 9.00 % 200,000 ... Under the Fourth Amended and Restated Credit Agreement, the total principal amount available under the facility increased by $ 70.0 million to up to $ 200.0 million. Borrowed amounts bear interest at 9.0 % per annum and mature on June 16, 2026. ... secured by the Borrower's interest in certain Bitcoin held in the custody of Coinbase Custody Trust Company, LLC ... and Coinbase's recourse is limited to such Bitcoin. ... In May 2026, the Company paid off the outstanding balance of the Coinbase credit facility with proceeds from a term loan with FalconX Charlie, Inc."
+    },
+    {
+     "name": "Coatue Note (convertible note)",
+     "instrument_type": "convertible_notes",
+     "principal_usd": 159285000,
+     "rate": "8.00% per annum (PIK or cash at Company option); initial conversion price $16.395/share",
+     "maturity_year": 2029,
+     "secured": false,
+     "collateral": "None (senior unsecured obligation)",
+     "guarantee": "Senior unsecured obligation of the Company, guaranteed by a subsidiary Guarantor pursuant to a Guaranty Agreement",
+     "spv_or_bankruptcy_remote": false,
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1964789/000110465926055891/hut-20260331x10q.htm",
+     "accession": "0001104659-26-055891",
+     "quote": "Coatue Note (convertible note) ... June 28, 2024 ... June 28, 2029 8.00 % 159,285 ... convertible note in the principal amount of $ 150.0 million ... The convertible note is a senior unsecured obligation of the Company and guaranteed by the Guarantor pursuant to a Guaranty Agreement. ... The convertible note bears interest at a rate of 8.00 % per year ... The initial conversion price of the convertible note is $ 16.395 per share of common stock"
+    },
+    {
+     "name": "Two Prime Credit Facility (Two Prime Credit Agreement)",
+     "instrument_type": "revolver",
+     "principal_usd": 0,
+     "rate": "7.99% per annum",
+     "maturity_year": null,
+     "secured": null,
+     "collateral": "Not specified in footnote (undrawn revolving credit facility up to $200.0 million); matures 364 days after first borrowing",
+     "guarantee": "Not specified",
+     "spv_or_bankruptcy_remote": null,
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1964789/000110465926055891/hut-20260331x10q.htm",
+     "accession": "0001104659-26-055891",
+     "quote": "Two Prime Credit Facility ... August 25, 2025 ... 7.99 % \u2014 ... The Two Prime Credit Agreement provides for a revolving credit facility of up to $ 200.0 million. Amounts borrowed ... will bear interest at a rate equal to 7.99 % per annum. The facility will mature 364 days after the date of the first borrowing. ... As of March 31, 2026, the Company had no amounts outstanding under the Two Prime Credit Agreement."
+    },
+    {
+     "name": "Other financial liability (subsidiary SAFE agreement)",
+     "instrument_type": "other",
+     "principal_usd": 3205000,
+     "rate": "n/a (SAFE; carried at fair value, ASC 480 liability)",
+     "maturity_year": null,
+     "secured": false,
+     "collateral": "None",
+     "guarantee": "None (obligation of a consolidated subsidiary)",
+     "spv_or_bankruptcy_remote": null,
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1964789/000110465926055891/hut-20260331x10q.htm",
+     "accession": "0001104659-26-055891",
+     "quote": "Other financial liability ... 3,205 ... In February 2025, a consolidated subsidiary of the Company entered into a simple agreement for future equity ('SAFE agreement') for a purchase amount of $ 3.5 million ... The SAFE agreement was classified as a liability pursuant to ASC 480. ... Balance, end of period $ 3,205"
+    },
+    {
+     "name": "FalconX Bitcoin-collateralized term loan (Master Lender Agreement, Hut 8 Mining Corp. borrower) \u2014 SUBSEQUENT EVENT (May 2026)",
+     "instrument_type": "term_loan",
+     "principal_usd": 200000000,
+     "rate": "7.00% per annum (fixed)",
+     "maturity_year": 2027,
+     "secured": true,
+     "collateral": "Certain Bitcoin held in custody of BitGo Bank & Trust, N.A.; initial collateral ratio 143%, margin call at 130%, liquidation at 105%; lender recourse limited to the Collateral",
+     "guarantee": "Limited recourse to Bitcoin collateral (borrower Hut 8 Mining Corp., a wholly-owned subsidiary); customary fraud/willful-malfeasance exceptions",
+     "spv_or_bankruptcy_remote": null,
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1964789/000110465926055891/hut-20260331x10q.htm",
+     "accession": "0001104659-26-055891",
+     "quote": "FalconX Loan Agreement On May 1, 2026 ... Hut 8 Mining Corp. ... entered into a master lender agreement ... by and among the Borrower ... and FalconX Charlie, Inc. ... The Credit Agreement provides for a prepayable term loan of $200.0 million. Amounts borrowed ... will bear interest at a rate equal to 7.00% per annum. The term loan will mature on April 30, 2027 ... The Borrower's obligations ... are secured by its interest in certain Bitcoin ... held in the custody of BitGo Bank & Trust, National Association ... and Lender's recourse ... is limited to the Collateral. ... The funds from this loan were used to simultaneously pay off the loan with Coinbase."
+    },
+    {
+     "name": "Hut 8 DC LLC 6.192% Senior Secured Notes due 2042 (River Bend project financing) \u2014 SUBSEQUENT EVENT (April 2026)",
+     "instrument_type": "senior_secured_notes",
+     "principal_usd": 3250000000,
+     "rate": "6.192% (semi-annual interest from Nov 15, 2026; amortization begins May 15, 2028)",
+     "maturity_year": 2042,
+     "secured": true,
+     "collateral": "First-priority liens on substantially all assets of the Issuer (Hut 8 DC LLC), other than certain excluded property, plus a pledge of the equity interests in the Issuer held by Hut 8 DC Member LLC",
+     "guarantee": "Non-recourse to Hut 8 Corp.; project-level, structurally isolated (issued by ring-fenced subsidiary)",
+     "spv_or_bankruptcy_remote": true,
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1964789/000110465926055891/hut-20260331x10q.htm",
+     "accession": "0001104659-26-055891",
+     "quote": "In April 2026, the Company's wholly-owned subsidiary, Hut 8 DC LLC (the 'Issuer'), closed a $ 3.25 billion private offering of 6.192 % senior secured notes due November 15, 2042 (the 'Notes'). Interest on the Notes is payable semi-annually beginning on November 15, 2026, and scheduled amortization begins on May 15, 2028. The Notes are senior secured obligations of the Issuer and are secured with first-priority liens on substantially all assets of the Issuer ... as well as a pledge of the equity interests in the Issuer held by Hut 8 DC Member LLC ... The Notes are non-recourse to Hut 8 Corp."
+    }
+   ],
+   "maturity_schedule_usd": {
+    "y2025": null,
+    "y2026": 200000000,
+    "y2027": 43348000,
+    "y2028": 0,
+    "y2029": 159285000,
+    "y2030": 0,
+    "y2031": null,
+    "y2032": null,
+    "y2033": null,
+    "y2034_plus": 0
+   },
+   "maturity_schedule_source": {
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1964789/000110465926055891/hut-20260331x10q.htm",
+    "quote": "The following table outlines maturities of our long-term debt, including the current portion, as of March 31, 2026: ... 2026 (excluding the three months ended March 31, 2026) $ 200,000 2027 43,348 2028 \u2014 2029 159,285 2030 \u2014 Thereafter \u2014 Total $ 402,633"
+   },
+   "unfound_fields": [
+    "Two Prime Credit Facility maturity_year (disclosed only as '364 days after the date of the first borrowing'; undrawn at 3/31/2026)",
+    "Two Prime Credit Facility collateral/guarantee/secured (not specified in footnote)",
+    "FalconX and Hut 8 DC Notes are post-balance-sheet (subsequent events) and are NOT in the 3/31/2026 total_debt or future-maturities table"
+   ],
+   "extraction_confidence": 0.95
+  },
+  "verdict": {
+   "entity": "Hut 8 Corp. (HUT)",
+   "overall": "source_backed",
+   "total_debt_confirmed": true,
+   "maturity_schedule_confirmed": true,
+   "note": "Independently verified against the cited Form 10-Q (CIK 1964789, accession 0001104659-26-055891, filed 2026-05-06), Note 9 \"Loans, notes payable, and other financial liabilities\" and the long-term-debt maturities table. ALL figures reconcile.\n\nTOTAL DEBT: total_debt_usd = $404,750,000 is the filing's \"Total carrying amount\" line ($404,750 thousand), net of $1,088K unamortized discount/deferred financing costs. CONFIRMED as the carrying-value total. Balance-sheet cross-check ties: current portion 199,966 + long-term portion 204,784 = 404,750. CAVEAT (internal stack inconsistency, not a refutation): the filing's gross \"Total principal balance\" is $405,838K (43,348 + 200,000 + 159,285 + 0 + 3,205). The stack lists each facility at GROSS principal but reports a NET carrying total, so the sum of listed facility principal_usd values (405,838) does NOT equal total_debt_usd (404,750); the $1,088K gap is exactly the unamortized discount. Each individual number is filing-accurate.\n\nMATURITY SCHEDULE: filing table = 2026 $200,000; 2027 $43,348; 2028 \u2014; 2029 $159,285; 2030 \u2014; Thereafter \u2014; Total $402,633 (thousands). The stack's per-year values match exactly. CONFIRMED. Maturity Total (402,633) intentionally differs from total_debt (404,750): the SAFE/\"Other financial liability\" ($3,205K) is excluded from the long-term-debt maturities table and the discount ($1,088K) nets in \u2014 verified: 402,633 + 3,205 - 1,088 = 404,750 exactly.\n\nQUOTES: every maturity-year principal in the cited quotes was located verbatim in the filing (TZRC April 8 2027 / 43,348; Coinbase June 16 2026 / 200,000; Coatue June 28 2029 / 159,285; Two Prime 364-days undrawn; SAFE 3,205). No unit errors (all amounts are USD thousands in the filing, correctly scaled to dollars in the stack). No double-counted facilities.\n\nSUBSEQUENT EVENTS correctly handled: FalconX $200M term loan (7.00%, matures Apr 30 2027, paid off Coinbase) and Hut 8 DC LLC $3.25B 6.192% senior secured notes due 2042 are verified in Note 19 and are properly EXCLUDED from the 3/31/2026 total_debt and the future-maturities table, as the stack states.\n\nMinor: the FalconX quote text is lightly paraphrased but principal/rate/maturity/non-recourse-to-collateral are accurate. Net assessment: source_backed; both totals independently verified.",
+   "corrections": [
+    "Reconciliation clarification (not a figure error): sum of listed facility principal_usd values = $405,838,000 (gross Total principal balance), which exceeds total_debt_usd $404,750,000 by $1,088,000 = unamortized discount/deferred financing costs. The stack mixes gross facility principals with a net carrying total; users should note total_debt is the carrying amount, not the sum of principals.",
+    "maturity_schedule total $402,633,000 deliberately excludes the $3,205,000 SAFE 'Other financial liability' (no maturity) and is stated gross of the $1,088,000 discount; it ties to total_debt via 402,633 + 3,205 - 1,088 = 404,750."
+   ]
+  }
+ },
+ {
+  "stack": {
+   "entity": "CleanSpark, Inc.",
+   "ticker": "CLSK",
+   "period": "Q2 FY2026 (quarterly period ended March 31, 2026); 10-Q filed 2026",
+   "total_debt_usd": 1790681000,
+   "facilities": [
+    {
+     "name": "2032 Convertible Notes (0.00% convertible senior notes due 2032)",
+     "instrument_type": "convertible_notes",
+     "principal_usd": 1150000000,
+     "rate": "0.00% coupon (effective interest rate 0.27%)",
+     "maturity_year": 2032,
+     "secured": false,
+     "collateral": "None - senior, unsecured obligations",
+     "spv_or_bankruptcy_remote": false,
+     "guarantee": "Not disclosed as guaranteed; obligation of the Company (CleanSpark, Inc.) under 2032 Indenture with U.S. Bank Trust Company, N.A. as trustee",
+     "quote": "In November 2025, we issued $ 1,150,000,000 aggregate principal amount of 0 % convertible senior notes due 2032 (the \"2032 Notes\")... The 2032 Convertible Notes are senior, unsecured obligations of the Company and bear interest at a fixed rate of 0.00 % per year... The 2032 Notes will mature on February 15, 2032... the effective interest rate for the notes as of March 31, 2026 was 0.27 %. Book value (table): 2032 Convertible notes / Feb-32 / 0.27 % / $ 1,131,850",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/827876/000119312526217036/clsk-20260331.htm",
+     "accession": "0001193125-26-217036"
+    },
+    {
+     "name": "2030 Convertible Notes (0.00% convertible senior notes due 2030)",
+     "instrument_type": "convertible_notes",
+     "principal_usd": 650000000,
+     "rate": "0.00% coupon (effective interest rate 0.46%)",
+     "maturity_year": 2030,
+     "secured": false,
+     "collateral": "None - unsecured; holders have one-time put right on June 15, 2028",
+     "spv_or_bankruptcy_remote": false,
+     "guarantee": "Obligation of the Company under 2030 Indenture (Dec 17, 2024) with U.S. Bank Trust Company, N.A. as trustee; not disclosed as guaranteed",
+     "quote": "In December 2024, we issued $ 650,000 aggregate principal amount of 0 % convertible senior notes due 2030 (the \"2030 Notes\")... The 2030 Notes will mature on June 15, 2030... the effective interest rate for the notes as of March 31, 2026 was 0.46 %. Book value (table): 2030 Convertible notes / Jun-30 / 0.46 % / 637,519 (Sept 30, 2025: 636,036)",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/827876/000119312526217036/clsk-20260331.htm",
+     "accession": "0001193125-26-217036"
+    },
+    {
+     "name": "Deferred consideration (Austin County, Texas Acquisition)",
+     "instrument_type": "other",
+     "principal_usd": 10000000,
+     "rate": "8.25%",
+     "maturity_year": 2026,
+     "secured": null,
+     "collateral": "Not disclosed; arises from Oct 27, 2025 asset purchase by CleanSpark Data I, LLC (wholly-owned subsidiary)",
+     "spv_or_bankruptcy_remote": null,
+     "guarantee": "Obligation recorded as debt; acquisition entered by CleanSpark Data I, LLC, a wholly-owned subsidiary",
+     "quote": "deferred consideration of $ 10,000 with an estimated fair value of $ 8,874 , which is recorded as a debt obligation (see Note 9 - Indebtedness). Book value (table): Deferred consideration / Apr-26 / 8.25 % / $ 9,181. Maturities table FY2027 column: 10,000",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/827876/000119312526217036/clsk-20260331.htm",
+     "accession": "0001193125-26-217036"
+    },
+    {
+     "name": "Western Alliance Bank Credit Agreement (aircraft promissory note)",
+     "instrument_type": "term_loan",
+     "principal_usd": 5690000,
+     "rate": "30-day SOFR + 3.00% (effective 6.66% per table; swapped to fixed 6.75%)",
+     "maturity_year": 2029,
+     "secured": true,
+     "collateral": "Aircraft purchased for operational use is pledged as collateral",
+     "spv_or_bankruptcy_remote": false,
+     "guarantee": "Obligation of the Company; financial covenants (min LTV, min DSCR, min average deposit balance)",
+     "quote": "the Company executed a promissory note in the amount of $ 7,000 in order to finance the purchase of an aircraft for operational use. The aircraft is pledged as collateral for the note. The notes bears a variable interest rate equal to the 30-day SOFR plus 3 % per annum... and matures on August 14, 2029... the Company had $ 5,690 gross principal balance outstanding... effectively pay a fixed rate of 6.75 %. Book value (table): Western Alliance Bank credit agreement / Aug-29 / 6.66 % / 5,631",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/827876/000119312526217036/clsk-20260331.htm",
+     "accession": "0001193125-26-217036"
+    },
+    {
+     "name": "Auto & equipment loans and financing (incl. Western Alliance Bank master equipment financing schedules)",
+     "instrument_type": "other",
+     "principal_usd": 4133000,
+     "rate": "0.0% - 11.3% (WAB equipment schedules: WSJ Prime + 1.00% = 7.75% as of 3/31/26)",
+     "maturity_year": 2029,
+     "secured": true,
+     "collateral": "Loans secured by the purchased vehicles and equipment",
+     "spv_or_bankruptcy_remote": false,
+     "guarantee": "Obligation of the Company; WAB equipment schedules carry financial covenants",
+     "quote": "various financing arrangements to purchase vehicles and non-miner equipment with combined principal outstanding at March 31, 2026 of $ 2,988. The loans vary in terms from 3 - 68 months remaining with annual interest rates ranging from 0.0 - 11.3 %. The loans are secured by the purchased vehicles and equipment... August 2024 financing arrangement had an outstanding balance of $ 780, and approximately $ 365 was outstanding under the March 2026 financing arrangement. Book value (table): Auto & equipment loans and financing / Jun-26 to Dec-29 / 0.0 - 11.3 % / 4,135. Maturities-table principal total: 4,133",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/827876/000119312526217036/clsk-20260331.htm",
+     "accession": "0001193125-26-217036"
+    },
+    {
+     "name": "Corporate facility mortgage (CleanSpark HQ, LLC; Bank of Nevada / Western Alliance)",
+     "instrument_type": "term_loan",
+     "principal_usd": 1927000,
+     "rate": "one-month Term SOFR + 2.85% (initially 7.17%); table effective 6.51%",
+     "maturity_year": 2030,
+     "secured": true,
+     "collateral": "Mortgage on real property used as the Company's corporate office (April 2023 purchase); borrowed by CleanSpark HQ, LLC, a wholly-owned single-member LLC subsidiary",
+     "spv_or_bankruptcy_remote": null,
+     "guarantee": "Borrower is CleanSpark HQ, LLC (wholly-owned subsidiary); refinanced April 2025 via $2,000 Bank of Nevada / Western Alliance promissory note",
+     "quote": "CleanSpark HQ, LLC, a single member limited liability company and subsidiary wholly owned by the Company... In April 2025, the Company refinanced the outstanding balance with Western Alliance Bank through a new $ 2,000 promissory note through Bank of Nevada. The new loan matures in April 2030, bears interest at a variable rate equal to the one-month Term SOFR plus a margin of 2.85 % (initially 7.17 %)... Book value (table): Corporate facility mortgage / Apr-30 / 6.51 % / 1,906. Maturities-table principal total: 1,927",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/827876/000119312526217036/clsk-20260331.htm",
+     "accession": "0001193125-26-217036"
+    },
+    {
+     "name": "Marquee Funding Partners debt (assumed WAHA Technologies mining-facility mortgages)",
+     "instrument_type": "other",
+     "principal_usd": 460000,
+     "rate": "13.00%",
+     "maturity_year": 2027,
+     "secured": true,
+     "collateral": "Mortgages on bitcoin mining facility acquired August 2022 from WAHA Technologies Inc.",
+     "spv_or_bankruptcy_remote": false,
+     "guarantee": "Assumed mortgage obligations of the Company",
+     "quote": "the unpaid balance on the mortgages assumed from the acquisition in August 2022 of a bitcoin mining facility from WAHA Technologies Inc. is $ 459. The remaining payment terms range from 5 - 11 months with an annual interest of 13 %. The last mortgage matures on March 1, 2027. Book value (table): Marquee Funding Partners debt / Aug-26 to Mar-27 / 13.00 % / 459. Maturities-table principal total: 460",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/827876/000119312526217036/clsk-20260331.htm",
+     "accession": "0001193125-26-217036"
+    },
+    {
+     "name": "Coinbase Credit revolving line of credit (2024 Master Loan)",
+     "instrument_type": "revolver",
+     "principal_usd": 0,
+     "rate": "8.25% per annum (per table; adjusted from 9% to 8.5% to 8.25%)",
+     "maturity_year": null,
+     "secured": true,
+     "collateral": "Bitcoin pledged to a segregated custody account (LTV <= 64%); lender may rehypothecate; no defined maturity, terminable on 2 days notice. Indicative borrowing capacity up to $300,000 (thousands)",
+     "spv_or_bankruptcy_remote": false,
+     "guarantee": "Obligation of the Company under Master Loan Agreement with Coinbase Credit, Inc.",
+     "quote": "On August 7, 2024, the Company signed a Master Loan Agreement (the \"2024 Master Loan\") with Coinbase Credit, Inc.... revolving line of credit... the interest rate on the line of credit was adjusted to 8.5 % per annum and 8.25 % per annum, respectively... As of March 31, 2026, the Company had no outstanding balance under the facility and had no posted bitcoin collateral. Book value (table): Coinbase line of credit / Not specified / 8.25 % / - (Sept 30, 2025: 174,500)",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/827876/000119312526217036/clsk-20260331.htm",
+     "accession": "0001193125-26-217036"
+    },
+    {
+     "name": "Two Prime Lending Limited revolving line of credit (Master Loan Agreement)",
+     "instrument_type": "revolver",
+     "principal_usd": 0,
+     "rate": "one-month Term SOFR + 3.55%",
+     "maturity_year": 2026,
+     "secured": true,
+     "collateral": "Bitcoin pledged in designated cold storage wallet with third-party custodian; initial max LTV ~62.5%, margin call at 74%, liquidation at 80%; revolver up to $100,000 (thousands)",
+     "spv_or_bankruptcy_remote": false,
+     "guarantee": "Obligation of the Company under Master Loan Agreement with Two Prime Lending Limited",
+     "quote": "On September 19, 2025, the Company entered into a Master Loan Agreement with Two Prime Lending Limited, providing for a revolving line of credit of up to $ 100,000. Borrowings... bear interest at a rate equal to the one-month Term Secured Overnight Financing Rate (\"SOFR\") plus 3.55 % per annum and mature on September 14, 2026... As of March 31, 2026, the Company had no outstanding balance under the facility and had no posted bitcoin collateral.",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/827876/000119312526217036/clsk-20260331.htm",
+     "accession": "0001193125-26-217036"
+    }
+   ],
+   "maturity_schedule_usd": {
+    "y2025": null,
+    "y2026": 1301000,
+    "y2027": 12232000,
+    "y2028": 2181000,
+    "y2029": 4537000,
+    "y2030": 651836000,
+    "y2031": 115000,
+    "y2032": null,
+    "y2033": null,
+    "y2034_plus": 1150008000
+   },
+   "maturity_schedule_source": {
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/827876/000119312526217036/clsk-20260331.htm",
+    "quote": "The following table reflects the principal amount of loan maturities due over the next five years and thereafter as of March 31, 2026 ($ in thousands): 5-Year Loan Maturities Fiscal Year / 2026 (Remainder) / 2027 / 2028 / 2029 / 2030 / 2031 / Thereafter / Total. Total principal payments by fiscal year: $ 1,301 / $ 12,232 / $ 2,181 / $ 4,537 / $ 651,836 / $ 115 / $ 1,150,008 / $ 1,822,210. Unamortized deferred financing costs and discounts ( 31,529 ). Total debt book value as of March 31, 2026 $ 1,790,681. NOTE: buckets are CleanSpark FISCAL years ending Sept 30; y2026=FY2026 remainder, ... Thereafter (FY2032+, the 2032 Notes $1,150,000) mapped to y2034_plus."
+   },
+   "unfound_fields": [
+    "spv_or_bankruptcy_remote (no bankruptcy-remote SPV financing structures are disclosed for any facility; subsidiaries CleanSpark HQ LLC / CleanSpark Data I LLC are ordinary wholly-owned subsidiaries, not described as bankruptcy-remote)",
+    "guarantee scope (filing does not disclose explicit subsidiary guarantee or intercreditor structures for the convertible notes or bank facilities beyond identifying the obligor entity)",
+    "Two Prime maturity bucket (facility has $0 outstanding, so it is not in the future-maturities table; stated maturity Sept 14, 2026)"
+   ],
+   "extraction_confidence": 0.95
+  },
+  "verdict": {
+   "entity": "CleanSpark, Inc.",
+   "overall": "source_backed",
+   "total_debt_confirmed": true,
+   "maturity_schedule_confirmed": true,
+   "note": "Independently verified against the cited 10-Q (accession 0001193125-26-217036, clsk-20260331.htm, downloaded directly from SEC EDGAR HTTP 200). All figures reconcile.\n\nARITHMETIC: Sum of facility principals = $1,822,210K (1,150,000 + 650,000 + 10,000 + 5,690 + 4,133 + 1,927 + 460 + 0 + 0). The stated total_debt_usd of $1,790,681K is NOT the sum of principals \u2014 it is the net book value = $1,822,210K gross principal LESS $31,529K unamortized deferred financing costs/discounts. The stack correctly handles this: total_debt_usd reflects the filing's \"Total debt book value.\" Maturity schedule sums to exactly $1,822,210K (gross principal), matching the filing's 'Total principal payments by fiscal year' row.\n\nFILING VERIFICATION (Note 9 Indebtedness): \n- 5-Year Loan Maturities table verbatim match: 2026(Rem) $1,301 / 2027 $12,232 / 2028 $2,181 / 2029 $4,537 / 2030 $651,836 / 2031 $115 / Thereafter $1,150,008 / Total $1,822,210; less (31,529); Total debt book value $1,790,681. Every per-facility row also matches (e.g., 2030 Notes $650,000 in FY2030; 2032 Notes $1,150,000 in Thereafter; Deferred consideration $10,000 in FY2027; WAB aircraft $5,690; Auto/equipment $4,133; Corporate mortgage $1,927; Marquee $460).\n- Book value table verbatim match: 2032 Notes Feb-32 0.27% $1,131,850; 2030 Notes Jun-30 0.46% $637,519 (Sep-25 $636,036); Deferred consideration Apr-26 8.25% $9,181; WAB Aug-29 6.66% $5,631; Auto/equip $4,135; Corporate mortgage Apr-30 6.51% $1,906; Marquee 13.00% $459; Coinbase Not specified 8.25% $\u2014 (Sep-25 $174,500); Total $1,790,681.\n- 2032 Notes: 'In November 2025, we issued $1,150,000,000 aggregate principal amount of 0% convertible senior notes due 2032' \u2014 verified verbatim.\n- 2030 Notes: 'In December 2024, we issued $650,000 aggregate principal amount...' \u2014 note this $650,000 is IN THOUSANDS (the filing presents Note 9 in $ thousands), = $650,000,000. The stack's principal_usd of $650,000,000 is CORRECT; the quoted '$650,000' is the verbatim filing figure in thousands, not a unit error. Includes full exercise of $100,000 (thousands) over-allotment.\n- Deferred consideration $10,000 (thousands), fair value $8,874, recorded as debt \u2014 verified.\n- WAB aircraft: $7,000 note, $5,690 gross outstanding, matures Aug 14 2029, SOFR+3%, swapped to fixed 6.75% \u2014 verified.\n- Coinbase and Two Prime revolvers: both confirmed 'had no outstanding balance under the facility and had no posted bitcoin collateral' as of March 31, 2026 \u2014 $0 principal correct. Note: filing states Coinbase 2024 Master Loan original credit limit was $50,000 (thousands), later increased to $300,000 indicative borrowing capacity; the stack's '$300,000' figure is the amended capacity, correct.\n\nNO double-counting found (Western Alliance appears as distinct aircraft note vs. equipment schedules vs. corporate mortgage, each a separate row in the filing). NO unit errors in the principal figures.\n\nMINOR LABELING CAVEAT (not a figure error): The maturity_schedule_usd buckets are correct in value but use non-literal year labels \u2014 y2030=$651,836K and y2034_plus=$1,150,008K. The $1,150,008K is the filing's 'Thereafter' (FY2032+) bucket containing the 2032 Notes ($1,150,000K) plus $8K of equipment maturities, not literally 2034+. The stack explicitly discloses this fiscal-year-to-calendar mapping in maturity_schedule_source. Values reconcile; only the human-readable key naming is unconventional. y2025 is null (period is post-FY2025)."
+  }
+ },
+ {
+  "stack": {
+   "entity": "MARA Holdings, Inc.",
+   "ticker": "MARA",
+   "period": "As of March 31, 2026 (Q1 2026 10-Q, filed 2026-05-11; Note 13 - Debt)",
+   "total_debt_usd": 2447201000,
+   "facilities": [
+    {
+     "name": "December 2026 Notes (1.0% Convertible Senior Notes due 2026)",
+     "instrument_type": "convertible_notes",
+     "principal_usd": 48077000,
+     "rate": "1.0%",
+     "maturity_year": 2026,
+     "secured": false,
+     "collateral": "None disclosed; convertible senior notes (unsecured senior obligation).",
+     "spv_or_bankruptcy_remote": false,
+     "guarantee": "Not disclosed in the debt footnote.",
+     "quote": "December 2026 Notes $ 48,077 ... $ 747.5 million aggregate principal amount of 1.0 % Convertible Senior Notes due 2026 (the \u201cDecember 2026 Notes\u201d) ... Maturity Date December 1, 2026 ... Remaining Principal (in thousands) $ 48,077 ... Stated Interest Rate 1.0 %",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1507605/000150760526000016/mara-20260331.htm",
+     "accession": "0001507605-26-000016"
+    },
+    {
+     "name": "September 2031 Notes (2.125% Convertible Senior Notes due 2031)",
+     "instrument_type": "convertible_notes",
+     "principal_usd": 300000000,
+     "rate": "2.125%",
+     "maturity_year": 2031,
+     "secured": false,
+     "collateral": "None disclosed; convertible senior notes (unsecured senior obligation).",
+     "spv_or_bankruptcy_remote": false,
+     "guarantee": "Not disclosed in the debt footnote.",
+     "quote": "September 2031 Notes 300,000 ... $ 300.0 million aggregate principal amount of 2.125 % Convertible Senior Notes due 2031 (the \u201cSeptember 2031 Notes\u201d) ... Maturity Date September 1, 2031 ... Remaining Principal (in thousands) $ 300,000 ... Stated Interest Rate 2.125 %",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1507605/000150760526000016/mara-20260331.htm",
+     "accession": "0001507605-26-000016"
+    },
+    {
+     "name": "March 2030 Notes (0.0% Convertible Senior Notes due 2030)",
+     "instrument_type": "convertible_notes",
+     "principal_usd": 632540000,
+     "rate": "0.0%",
+     "maturity_year": 2030,
+     "secured": false,
+     "collateral": "None disclosed; convertible senior notes (unsecured senior obligation). $367.5M repurchased/extinguished in Mar 2026, reducing principal from $1.0B to $632.54M.",
+     "spv_or_bankruptcy_remote": false,
+     "guarantee": "Not disclosed in the debt footnote.",
+     "quote": "March 2030 Notes 632,540 ... 1,000,000 ... $ 1.0 billion aggregate principal amount of 0.0 % Convertible Senior Notes due 2030 (the \u201cMarch 2030 Notes\u201d) ... Maturity Date March 1, 2030 ... Remaining Principal (in thousands) $ ... 632,540 ... to repurchase approximately $ 367.5 million in aggregate principal amount of the March 2030 Notes",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1507605/000150760526000016/mara-20260331.htm",
+     "accession": "0001507605-26-000016"
+    },
+    {
+     "name": "June 2031 Notes (0.0% Convertible Senior Notes due 2031)",
+     "instrument_type": "convertible_notes",
+     "principal_usd": 291584000,
+     "rate": "0.0%",
+     "maturity_year": 2031,
+     "secured": false,
+     "collateral": "None disclosed; convertible senior notes (unsecured senior obligation). $633.4M repurchased/extinguished in Mar 2026, reducing principal from $925.0M to $291.584M.",
+     "spv_or_bankruptcy_remote": false,
+     "guarantee": "Not disclosed in the debt footnote.",
+     "quote": "June 2031 Notes 291,584 ... 925,000 ... $ 925.0 million aggregate principal amount of 0.0 % Convertible Senior Notes due 2031 (the \u201cJune 2031 Notes\u201d) ... Maturity Date June 1, 2031 ... Remaining Principal (in thousands) $ ... 291,584 ... to repurchase approximately $ 633.4 million in aggregate principal amount of the June 2031 Notes",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1507605/000150760526000016/mara-20260331.htm",
+     "accession": "0001507605-26-000016"
+    },
+    {
+     "name": "August 2032 Notes (0.0% Convertible Senior Notes due 2032)",
+     "instrument_type": "convertible_notes",
+     "principal_usd": 1025000000,
+     "rate": "0.0%",
+     "maturity_year": 2032,
+     "secured": false,
+     "collateral": "None disclosed; convertible senior notes (unsecured senior obligation).",
+     "spv_or_bankruptcy_remote": false,
+     "guarantee": "Not disclosed in the debt footnote.",
+     "quote": "August 2032 Notes 1,025,000 ... $ 1.025 billion aggregate principal amount of 0.0 % Convertible Senior Notes due 2032 (the \u201cAugust 2032 Notes\u201d) ... Maturity Date August 1, 2032 ... Remaining Principal (in thousands) $ ... 1,025,000 ... Stated Interest Rate ... 0.0 %",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1507605/000150760526000016/mara-20260331.htm",
+     "accession": "0001507605-26-000016"
+    },
+    {
+     "name": "Line of Credit (2026 Line of Credit, bitcoin-collateralized)",
+     "instrument_type": "revolver",
+     "principal_usd": 150000000,
+     "rate": "7.0%",
+     "maturity_year": 2027,
+     "secured": true,
+     "collateral": "Collateralized by 4,253 bitcoin (drawn against 3,250 bitcoin transferred at $334.6M fair value at time of transfer); collateral must be balanced against outstanding borrowings.",
+     "spv_or_bankruptcy_remote": false,
+     "guarantee": "Not disclosed; bitcoin-pledged facility with a single counterparty.",
+     "quote": "Line of credit 150,000 ... In January 2026, the Company entered into an additional line of credit (the \u201c2026 Line of Credit\u201d ...) with a new counterparty for total borrowings of $ 150.0 million, collateralized by 3,250 bitcoin. The 2026 Line of Credit bears interest at a rate of 7.0 % per annum and has a maturity date of January 2027. ... As of March 31, 2026, the aggregate outstanding balance under the Line of Credit was $ 150.0 million. The Line of Credit is collateralized by 4,253 bitcoin",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1507605/000150760526000016/mara-20260331.htm",
+     "accession": "0001507605-26-000016"
+    }
+   ],
+   "maturity_schedule_usd": {
+    "y2025": null,
+    "y2026": 48077000,
+    "y2027": 150000000,
+    "y2028": 0,
+    "y2029": 0,
+    "y2030": 632540000,
+    "y2031": 591584000,
+    "y2032": 1025000000,
+    "y2033": null,
+    "y2034_plus": null
+   },
+   "maturity_schedule_source": {
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1507605/000150760526000016/mara-20260331.htm",
+    "quote": "The following table summarizes the Company\u2019s remaining principal repayments on outstanding debt as of March 31, 2026: Year Remaining Payments (in thousands) 2026 (remaining) $ 48,077 2027 150,000 2028 \u2014 2029 \u2014 2030 632,540 Thereafter 1,616,584 Total $ 2,447,201. [Thereafter bucket disaggregated to instrument maturity years: September 2031 Notes $300,000 + June 2031 Notes $291,584 = y2031 $591,584; August 2032 Notes $1,025,000 = y2032.]"
+   },
+   "unfound_fields": [
+    "guarantee scope of Convertible Notes (subsidiary guarantees not addressed in the debt footnote)",
+    "explicit secured/unsecured ranking statement for the Convertible Notes (inferred unsecured from 'Convertible Senior Notes' designation; not explicitly stated in this 10-Q footnote)",
+    "Line of Credit counterparty identity / guarantee scope"
+   ],
+   "extraction_confidence": 0.25
+  },
+  "verdict": {
+   "entity": "MARA Holdings, Inc.",
+   "overall": "source_backed",
+   "total_debt_confirmed": true,
+   "maturity_schedule_confirmed": true,
+   "corrections": [],
+   "note": "Independently verified against the cited Q1 2026 10-Q (accession 0001507605-26-000016, filed 2026-05-11, Note 13 - Debt), fetched from SEC EDGAR at /tmp/mara.htm. Filing identity (CIK 1507605, period 2026-03-31, form 10-Q) confirmed via EDGAR index.\\n\\nTOTAL DEBT \u2014 CONFIRMED. The 'net carrying value' debt summary table lists: December 2026 Notes $48,077K; September 2031 Notes $300,000K; March 2030 Notes $632,540K; June 2031 Notes $291,584K; August 2032 Notes $1,025,000K; Line of credit $150,000K; 'Total debt 2,447,201'. Facility sum = 2,447,201K = stack total_debt_usd 2,447,201,000 (units correct, thousands->dollars). No double-counted note; each instrument appears once.\\n\\nNUANCE (not an error): 2,447,201,000 is the GROSS 'Total debt' line. The filing also reports net of unamortized OID/issuance costs ($31,032K) = $2,416,169K, and 'Total long-term debt' $2,218,261K (current portion $197,908K). The stack correctly uses the gross figure for facility reconciliation; a reader comparing to balance-sheet 'Notes payable' lines should note the OID adjustment.\\n\\nFACILITIES \u2014 ALL CONFIRMED against the Convertible Notes key-terms table: maturity dates (Dec 1 2026 / Sep 1 2031 / Mar 1 2030 / Jun 1 2031 / Aug 1 2032), remaining principals (48,077 / 300,000 / 632,540 / 291,584 / 1,025,000 in thousands), and rates (1.0% / 2.125% / 0.0% / 0.0% / 0.0%) all match. Repurchase narrative verified: ~$367.5M of March 2030 Notes and ~$633.4M of June 2031 Notes repurchased. Line of Credit verified: 2026 Line of Credit, new counterparty, $150.0M borrowings, 7.0% per annum, maturity January 2027 (-> y2027 bucket), drawn against 3,250 bitcoin ($334.6M fair value at transfer); 'As of March 31, 2026... collateralized by 4,253 bitcoin' with collateral-balancing provision. Note: balance sheet classifies the LoC as current (due within 12 months), but the stated maturity year 2027 is correct.\\n\\nMATURITY SCHEDULE \u2014 CONFIRMED. Filing table 'remaining principal repayments on outstanding debt as of March 31, 2026': 2026 (remaining) $48,077; 2027 $150,000; 2028 \u2014; 2029 \u2014; 2030 $632,540; Thereafter $1,616,584; Total $2,447,201. Matches stack y2026/y2027/y2028/y2029/y2030 exactly and sums to total. The stack's disaggregation of the 'Thereafter' bucket into y2031 $591,584 and y2032 $1,025,000 is mathematically and factually sound: Sep 2031 $300,000 + Jun 2031 $291,584 = $591,584 (y2031); Aug 2032 $1,025,000 (y2032); 591,584 + 1,025,000 = 1,616,584 = filing Thereafter. The filing itself does NOT break out 2031/2032 separately (it groups them in 'Thereafter'), so the per-year 2031/2032 split is an analyst-derived attribution from instrument maturity dates, clearly disclosed as such in maturity_schedule_source; the underlying principals and maturity years are each directly source-backed. No unit errors, no double-counting detected."
+  }
+ },
+ {
+  "stack": {
+   "entity": "Nebius Group N.V.",
+   "ticker": "NBIS",
+   "period": "FY2025 (as of December 31, 2025); Form 20-F filed 2026-04-30",
+   "total_debt_usd": 4109300000,
+   "facilities": [
+    {
+     "name": "2.00% Convertible Senior Notes due June 2029 (2029 Notes; part of June 2025 Notes)",
+     "instrument_type": "convertible_notes",
+     "principal_usd": 587500000,
+     "rate": "2.00% (effective 7.06%)",
+     "maturity_year": 2029,
+     "secured": false,
+     "collateral": "None - senior unsecured obligations",
+     "guarantee": "None disclosed; direct senior unsecured obligation of Nebius Group N.V. (parent), pari passu with other senior unsecured indebtedness",
+     "spv_or_bankruptcy_remote": false,
+     "quote": "2029 Notes June 2029 2.00 % 7.06 % 587.5 ( 85.1 ) ( 10.8 ) 491.6 [principal amount outstanding (accreted) $587.5M; carrying $491.6M net of $85.1M discount/accretion and $10.8M issuance costs]. '$500.0 of 2.00 % Convertible Senior Notes due 2029 (the 2029 Notes)' issued at par 6/5/2025; 'The 2029 Notes accrete to 120 % of their original principal at maturity (i.e., $1,200 for every $1,000 issued)'; $12.5M converted in 2025.",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1513845/000110465926052948/nbis-20251231x20f.htm",
+     "accession": "0001104659-26-052948"
+    },
+    {
+     "name": "1.00% Convertible Senior Notes due September 2030 (2030 Notes; part of September 2025 Notes)",
+     "instrument_type": "convertible_notes",
+     "principal_usd": 1818400000,
+     "rate": "1.00% (effective 4.15%)",
+     "maturity_year": 2030,
+     "secured": false,
+     "collateral": "None - senior unsecured obligations",
+     "guarantee": "None disclosed; direct senior unsecured obligation of Nebius Group N.V. (parent), pari passu with other senior unsecured indebtedness",
+     "spv_or_bankruptcy_remote": false,
+     "quote": "2030 Notes September 2030 1.00 % 4.15 % 1,818.4 ( 224.4 ) ( 30.2 ) 1,563.8 [principal outstanding (accreted) $1,818.4M; carrying $1,563.8M]. '$1.375 billion 1.00 % Convertible Senior Notes due 2030 (the 2030 Notes)'; 'The 2030 Notes accrete to 115 % of their original principal at maturity (i.e. $1,150 for every $1,000 issued)'; convertible to Class A shares at ~$138.75/share (7.2072 per $1,000).",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1513845/000110465926052948/nbis-20251231x20f.htm",
+     "accession": "0001104659-26-052948"
+    },
+    {
+     "name": "3.00% Convertible Senior Notes due June 2031 (2031 Notes; part of June 2025 Notes)",
+     "instrument_type": "convertible_notes",
+     "principal_usd": 612500000,
+     "rate": "3.00% (effective 6.87%)",
+     "maturity_year": 2031,
+     "secured": false,
+     "collateral": "None - senior unsecured obligations",
+     "guarantee": "None disclosed; direct senior unsecured obligation of Nebius Group N.V. (parent), pari passu with other senior unsecured indebtedness",
+     "spv_or_bankruptcy_remote": false,
+     "quote": "2031 Notes June 2031 3.00 % 6.87 % 612.5 ( 112.2 ) ( 11.4 ) 488.9 [principal outstanding (accreted) $612.5M; carrying $488.9M]. '$500.0 of 3.00 % Convertible Senior Notes due 2031 (the 2031 Notes)' issued at par 6/5/2025; 'The 2031 Notes accrete to 125 % of their original principal at maturity (i.e., $1,250 for every $1,000 issued)'; $12.5M converted in 2025.",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1513845/000110465926052948/nbis-20251231x20f.htm",
+     "accession": "0001104659-26-052948"
+    },
+    {
+     "name": "2.75% Convertible Senior Notes due September 2032 (2032 Notes; part of September 2025 Notes)",
+     "instrument_type": "convertible_notes",
+     "principal_usd": 1818400000,
+     "rate": "2.75% (effective 4.88%)",
+     "maturity_year": 2032,
+     "secured": false,
+     "collateral": "None - senior unsecured obligations",
+     "guarantee": "None disclosed; direct senior unsecured obligation of Nebius Group N.V. (parent), pari passu with other senior unsecured indebtedness",
+     "spv_or_bankruptcy_remote": false,
+     "quote": "2032 Notes September 2032 2.75 % 4.88 % 1,818.4 ( 228.7 ) ( 30.8 ) 1,558.9 [principal outstanding (accreted) $1,818.4M; carrying $1,558.9M]. '$1.375 billion 2.75 % Convertible Senior Notes due 2032 (the 2032 Notes)'; 'The 2032 Notes accrete to 115 % of their original principal at maturity'.",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1513845/000110465926052948/nbis-20251231x20f.htm",
+     "accession": "0001104659-26-052948"
+    },
+    {
+     "name": "1.250% Convertible Senior Notes due 2031 (March 2026 issuance) - SUBSEQUENT EVENT, excluded from Dec 31 2025 totals",
+     "instrument_type": "convertible_notes",
+     "principal_usd": 2587500000,
+     "rate": "1.250%",
+     "maturity_year": 2031,
+     "secured": false,
+     "collateral": "None - senior unsecured obligations",
+     "guarantee": "None disclosed; senior unsecured obligation of Nebius Group N.V.",
+     "spv_or_bankruptcy_remote": false,
+     "quote": "POST-PERIOD-END (not in total_debt_usd or maturity_schedule, which are as of Dec 31, 2025). 'On March 18, 2026, the Company announced the pricing of a private offering of $4.0 billion aggregate principal amount of convertible senior notes, comprising $2.25 billion of 1.250 % notes due 2031 and $1.75 billion of 2.625 % notes due 2033. The offering closed on March 20, 2026. The option to purchase an additional $337.5 aggregate principal amount of the 2031 Notes was exercised, increasing the total aggregate principal amount of the Notes to approximately $4.34 billion.' 2031 series = $2.25B base + $337.5M = $2,587.5M.",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1513845/000110465926052948/nbis-20251231x20f.htm",
+     "accession": "0001104659-26-052948"
+    },
+    {
+     "name": "2.625% Convertible Senior Notes due 2033 (March 2026 issuance) - SUBSEQUENT EVENT, excluded from Dec 31 2025 totals",
+     "instrument_type": "convertible_notes",
+     "principal_usd": 1750000000,
+     "rate": "2.625%",
+     "maturity_year": 2033,
+     "secured": false,
+     "collateral": "None - senior unsecured obligations",
+     "guarantee": "None disclosed; senior unsecured obligation of Nebius Group N.V.",
+     "spv_or_bankruptcy_remote": false,
+     "quote": "POST-PERIOD-END (not in total_debt_usd or maturity_schedule, which are as of Dec 31, 2025). '$1.75 billion of 2.625 % notes due 2033. The offering closed on March 20, 2026 ... An additional overallotment option of up to $262.5 of the 2033 Notes remained unexercised as of the closing date.'",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1513845/000110465926052948/nbis-20251231x20f.htm",
+     "accession": "0001104659-26-052948"
+    }
+   ],
+   "maturity_schedule_usd": {
+    "y2025": null,
+    "y2026": null,
+    "y2027": null,
+    "y2028": null,
+    "y2029": 587500000,
+    "y2030": 1818400000,
+    "y2031": 612500000,
+    "y2032": 1818400000,
+    "y2033": null,
+    "y2034_plus": null
+   },
+   "maturity_schedule_source": {
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1513845/000110465926052948/nbis-20251231x20f.htm",
+    "quote": "The carrying amount of the convertible notes as of December 31, 2025 was as follows: Maturities / Stated interest rate / Effective interest rate / Principal amount outstanding ... 2029 Notes June 2029 2.00 % 7.06 % 587.5 ... 2030 Notes September 2030 1.00 % 4.15 % 1,818.4 ... 2031 Notes June 2031 3.00 % 6.87 % 612.5 ... 2032 Notes September 2032 2.75 % 4.88 % 1,818.4 ... Total convertible debt 4,836.8. NOTE: filing presents NO aggregated consolidated 'future maturities of debt by year' table; principal-maturing-by-year is derived from the per-series 'Maturities' column of the Note 12 carrying-amount table (accreted principal amounts as of Dec 31, 2025). All are bullet maturities, settled in shares upon conversion."
+   },
+   "unfound_fields": [
+    "consolidated_future_maturities_of_debt_by_year_table (the 20-F presents per-series bullet maturities in the Note 12 carrying-amount table rather than an aggregated by-year schedule; maturity_schedule_usd is derived from that per-series table, using accreted principal outstanding)",
+    "finance_lease_maturities (none exist - all leases are operating leases, not debt; operating lease undiscounted maturities are 2026: $135.8M, 2027: $124.3M, 2028: $120.1M, 2029: $125.7M, 2030: $123.6M, thereafter $482.0M, total $1,111.5M, but these are operating-lease obligations, not financial debt)"
+   ],
+   "extraction_confidence": 0.93
+  },
+  "verdict": {
+   "entity": "Nebius Group N.V. (NBIS)",
+   "overall": "partially_source_backed",
+   "total_debt_confirmed": false,
+   "maturity_schedule_confirmed": true,
+   "corrections": [
+    "total_debt_usd = $4,109,300,000 is unsupported and does not reconcile. The 20-F Note 12 'Total convertible debt' is $4,836.8M principal / $4,103.2M carrying amount. The claimed $4,109.3M matches neither: it is $6.1M above the true carrying total and $727.5M below the principal total. It appears to be a digit-transposition typo of the real carrying figure ($4,103.2M -> $4,109.3M). Correct value: either $4,836,800,000 (aggregate principal outstanding) or $4,103,200,000 (carrying amount), depending on the intended basis.",
+    "Internal inconsistency: maturity_schedule_usd sums to $4,836,800,000 (accreted principal), but total_debt_usd is stated as $4,109,300,000 -- a $727.5M discrepancy. The schedule is built on principal while total_debt purports a carrying basis, and even on the carrying basis the figure is mistyped. The maturity schedule's per-year principal figures themselves are correct and verified against Note 12.",
+    "If total_debt is meant to be the GAAP carrying amount ($4,103.2M), then the maturity_schedule (which uses accreted principal $4,836.8M) will not sum to it by design -- a $733.6M discount/issuance-cost gap. The two fields are on different bases and should be labeled as such to avoid a false reconciliation expectation."
+   ],
+   "note": "Verified against SEC 20-F (accession 0001104659-26-052948, Note 12 'Convertible Debt' and subsequent-events note). All four per-series principals (587.5 / 1,818.4 / 612.5 / 1,818.4 = 4,836.8 total principal), stated/effective rates, discounts, issuance costs, carrying amounts (491.6 / 1,563.8 / 488.9 / 1,558.9 = 4,103.2 total carrying), maturity years, accretion terms, $12.5M conversions, and the March 2026 subsequent-event $4.0B/$4.34B offering all match the filing verbatim. No double-counted facility (June 2025 Notes = 2029+2031; September 2025 Notes = 2030+2032; four distinct series). No per-series unit errors. The maturity_schedule per-year figures and their $4,836.8M sum are independently confirmed = filing's Total convertible debt principal line. REFUTED: total_debt_usd = $4,109,300,000 is unsupported -- it reconciles to neither the $4,836.8M principal total nor the $4,103.2M carrying total (off by $727.5M and $6.1M respectively); most likely a transposition typo of the $4,103.2M carrying amount. total_debt_confirmed = false. maturity_schedule_confirmed = true (per-series principals verified), with the caveat that the schedule sums to $4,836.8M and therefore does not match the stated total_debt_usd."
+  }
+ },
+ {
+  "stack": {
+   "entity": "Core Scientific, Inc.",
+   "ticker": "CORZ",
+   "period": "Q1 2026 (10-Q, period ended March 31, 2026)",
+   "total_debt_usd": 2085000000,
+   "facilities": [
+    {
+     "name": "Term Loan Facility (Credit Agreement w/ Morgan Stanley Senior Funding, Inc.)",
+     "instrument_type": "term_loan",
+     "principal_usd": 1000000000,
+     "rate": "SOFR+2.50% (0% floor); stated 6.2%, effective 6.9% as disclosed at 3/31/2026",
+     "maturity_year": 2027,
+     "secured": true,
+     "collateral": "First-priority lien on substantially all assets of the Company and the guarantors",
+     "guarantee": "Guaranteed by certain direct or indirect, wholly owned material domestic subsidiaries",
+     "spv_or_bankruptcy_remote": false,
+     "accession": "0001628280-26-031396",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1839341/000162828026031396/core-20260331.htm",
+     "quote": "Term Loan Facility 6.2 % 6.9 % 2027 $ 1,000,000 $ \u2014 ... Loans under the Term Loan Facility bear interest at Term Secured Overnight Financing Rate (\u201cSOFR\u201d) (subject to a 0 % floor) plus an applicable margin of 2.50 % per annum. The Term Loan Facility matures 364 days after the closing date. ... As of March 31, 2026, $ 1.0 billion was outstanding under the Term Loan Facility. ... The Company\u2019s obligations are guaranteed by certain direct or indirect, wholly owned material domestic subsidiaries and secured by a first-priority lien on substantially all assets of the Company and the guarantors. NOTE: Repaid in full and terminated in May 2026 from Secured Notes proceeds."
+    },
+    {
+     "name": "3.00% Convertible Senior Notes due 2029 (2029 Convertible Notes)",
+     "instrument_type": "convertible_notes",
+     "principal_usd": 460000000,
+     "rate": "3.000% (stated); 3.7% effective",
+     "maturity_year": 2029,
+     "secured": false,
+     "collateral": "None (senior unsecured; not part of secured collateral package)",
+     "guarantee": "Not disclosed (no subsidiary guarantees disclosed)",
+     "spv_or_bankruptcy_remote": false,
+     "accession": "0001628280-26-031396",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1839341/000162828026031396/core-20260331.htm",
+     "quote": "2029 Convertible Notes 3.0 % 3.7 % 2029 460,000 460,000 ... On August 19, 2024, the Company issued $ 460.0 million in aggregate principal amount of 3.00 % Convertible Senior Notes due 2029 (the \u201c2029 Convertible Notes\u201d). The 2029 Convertible Notes mature on September 1, 2029, unless earlier converted, redeemed or repurchased."
+    },
+    {
+     "name": "0.00% Convertible Senior Notes due 2031 (2031 Convertible Notes)",
+     "instrument_type": "convertible_notes",
+     "principal_usd": 625000000,
+     "rate": "0.000% (stated; zero-coupon); 0.4% effective",
+     "maturity_year": 2031,
+     "secured": false,
+     "collateral": "None (senior unsecured; not part of secured collateral package)",
+     "guarantee": "Not disclosed (no subsidiary guarantees disclosed)",
+     "spv_or_bankruptcy_remote": false,
+     "accession": "0001628280-26-031396",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1839341/000162828026031396/core-20260331.htm",
+     "quote": "2031 Convertible Notes \u2014 % 0.4 % 2031 625,000 625,000 ... On December 5, 2024, the Company issued $ 625.0 million aggregate principal amount of 0.00 % Convertible Senior Notes due 2031 (the \"2031 Convertible Notes\"). The 2031 Convertible Notes mature on June 15, 2031, unless earlier converted, redeemed, or repurchased."
+    },
+    {
+     "name": "7.75% Senior Secured Notes due 2031 (issued by Core Scientific Finance I LLC) - subsequent event, closed May 6, 2026",
+     "instrument_type": "senior_secured_notes",
+     "principal_usd": 3300000000,
+     "rate": "7.750% (issued at 99.25% of principal)",
+     "maturity_year": 2031,
+     "secured": true,
+     "collateral": "First-priority liens on (i) substantially all assets of Core Scientific Finance and the Subsidiary Guarantors (other than excluded property), (ii) all equity interests of Core Scientific Finance held by Holdco (Core Scientific Finance Holding LLC), and (iii) certain Company assets/rights to be transferred to the SPV per restructuring",
+     "guarantee": "Guaranteed by each of Core Scientific Austin LLC, Core Scientific Denton LLC, Core Scientific Dalton LLC, Core Scientific Marble LLC and Core Scientific Muskogee LLC (Subsidiary Guarantors). Parent also provides a customary, uncapped completion guarantee to holders re: completion of the data center development projects.",
+     "spv_or_bankruptcy_remote": true,
+     "accession": "0001628280-26-031396",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1839341/000162828026031396/core-20260331.htm",
+     "quote": "On April 22, 2026, the Company's indirect wholly-owned subsidiary, Core Scientific Finance I LLC (\u201cCore Scientific Finance\u201d), priced a private offering of $ 3.30 billion aggregate principal amount of 7.75 % senior secured notes due 2031 at an issue price of 99.25 % of the principal amount. ... The Notes are guaranteed by each of Core Scientific Austin LLC, Core Scientific Denton LLC, Core Scientific Dalton LLC, Core Scientific Marble LLC and Core Scientific Muskogee LLC ... The Notes and related guarantees are secured by first-priority liens on (i) substantially all assets of Core Scientific Finance and the Subsidiary Guarantors ... (ii) all equity interests of Core Scientific Finance held by ... Holdco ... we provide a customary, uncapped completion guarantee ... The offering of Secured Notes closed on May 6, 2026."
+    }
+   ],
+   "maturity_schedule_usd": {
+    "y2025": null,
+    "y2026": 0,
+    "y2027": 1000000000,
+    "y2028": 0,
+    "y2029": 460000000,
+    "y2030": 0,
+    "y2031": 625000000,
+    "y2032": null,
+    "y2033": null,
+    "y2034_plus": null
+   },
+   "maturity_schedule_source": {
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1839341/000162828026031396/core-20260331.htm",
+    "quote": "Maturities on debt, gross of unamortized discounts, as of March 31, 2026, are as follows (in thousands): Convertible Notes Term Loan Facility Remaining 2026 $ \u2014 $ \u2014  2027 \u2014 1,000,000  2028 \u2014 \u2014  2029 460,000 \u2014  2030 \u2014 \u2014  Thereafter 625,000 \u2014  Total $ 1,085,000 $ 1,000,000. NOTE: 'Thereafter' for the 2031 Convertible Notes ($625,000K, due June 15, 2031) is mapped to y2031. Schedule reflects the 3/31/2026 balance sheet; the Term Loan ($1.0B in 2027) was repaid/terminated in May 2026 and replaced by the $3.30B 7.75% Secured Notes due 2031 (subsequent event), which are not in this table."
+   },
+   "unfound_fields": [
+    "maturity_schedule for the $3.30B Secured Notes due 2031 (subsequent event - not included in the 3/31/2026 future-maturities table; full $3.3B principal matures 2031 per disclosure but no separate by-year table was provided)",
+    "convertible_notes guarantee/collateral scope (filing does not explicitly state they are unsecured/unguaranteed; inferred from their absence from the secured collateral packages)"
+   ],
+   "extraction_confidence": 0.95
+  },
+  "verdict": {
+   "entity": "Core Scientific, Inc. (CORZ)",
+   "overall": "source_backed",
+   "total_debt_confirmed": true,
+   "maturity_schedule_confirmed": true,
+   "note": "Internally reconciled against the cited quotes (no live SEC fetch available in this environment; verification is quote-vs-figure consistency).\n\nRECONCILIATION (all pass):\n- total_debt_usd $2,085,000,000 = Term Loan $1.0B + 2029 Conv $460M + 2031 Conv $625M. EXACT.\n- The $3.3B 7.75% Secured Notes is CORRECTLY EXCLUDED from total_debt: it was priced 4/22/2026 and closed 5/6/2026, both AFTER the 3/31/2026 period end. Including it would be the principal trap (forward-looking double-count); it was handled correctly. This is why summing ALL 4 facilities (=$5.385B) does NOT equal total_debt, and that is the right outcome.\n- maturity_schedule sum = $2,085,000,000 = total_debt. EXACT.\n- Cited maturity quote (in thousands) contains the year principals: 2027 Term $1,000,000K, 2029 Conv $460,000K, Thereafter Conv $625,000K; subtotals Convertible $1,085,000K + Term $1,000,000K = $2,085,000K. Units convert correctly (thousands -> dollars); no millions/dollars error.\n- No double-counting: 3 distinct instruments in total; the repeated values in the convertible quotes ('460,000 460,000', '625,000 625,000') are two period columns, not additive. Convertible subtotal 460,000+625,000=1,085,000K matches the table exactly.\n\nCAVEATS (do not refute core figures):\n1) 'Thereafter -> y2031' is an INFERENCE, not a direct quote: the maturity TABLE labels the $625,000K row 'Thereafter,' not '2031.' Mapping to y2031 is well-supported by the separate narrative quote (2031 Convertible Notes mature June 15, 2031). Acceptable derived field.\n2) Term Loan internal tension: narrative says 'matures 364 days after the closing date' (a 364-day facility) yet it sits in y2027 of the table; consistent only if closing landed the 364-day maturity in 2027. The $1.0B is a point-in-time 3/31/2026 balance; the NOTE that it was repaid/terminated in May 2026 is a correctly-flagged subsequent event and does not change the period figure.\n3) Convertible-notes unsecured/unguaranteed status is the stack's own acknowledged inference (listed in unfound_fields), not an explicit filing statement.\n\nVerdict: total_debt and maturity_schedule are source-backed and self-consistent against the cited quotes; the subsequent-event exclusion is correct."
+  }
+ },
+ {
+  "stack": {
+   "entity": "Cipher Digital Inc. (formerly Cipher Mining Inc.; renamed effective February 20, 2026)",
+   "ticker": "CIFR",
+   "period": "Q1 2026 (as of March 31, 2026) \u2014 Form 10-Q filed 2026-05-05; supplemented by FY2025 Form 10-K (filed 2026-02-24)",
+   "total_debt_usd": 5205500000,
+   "facilities": [
+    {
+     "name": "2030 Convertible Notes (1.75% Convertible Senior Notes due 2030)",
+     "instrument_type": "convertible_notes",
+     "principal_usd": 172500000,
+     "rate": "1.75% (effective interest rate 2.42%)",
+     "maturity_year": 2030,
+     "secured": false,
+     "collateral": "None \u2014 senior, unsecured obligations of the parent",
+     "spv_or_bankruptcy_remote": false,
+     "guarantee": "Issued directly by the parent (Cipher Digital Inc.); senior unsecured; conversion settled in cash, shares, or combination at company election; initial conversion price ~$4.45/share (224.9213 shares per $1,000). Matures May 15, 2030.",
+     "accession": "0001819989-26-000028",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1819989/000181998926000028/cifr-20260331.htm",
+     "quote": "On May 22, 2025, the Company issued $ 172.5 million of principal amount of the 2030 Convertible Notes with an interest rate of 1.75 %. The 2030 Convertible Notes are senior, unsecured obligations ... The 2030 Convertible Notes will mature on May 15, 2030"
+    },
+    {
+     "name": "2031 Convertible Notes (0.00% Convertible Senior Notes due 2031)",
+     "instrument_type": "convertible_notes",
+     "principal_usd": 1300000000,
+     "rate": "0.00% (effective interest rate 6.89%)",
+     "maturity_year": 2031,
+     "secured": false,
+     "collateral": "None \u2014 senior, unsecured obligations of the parent",
+     "spv_or_bankruptcy_remote": false,
+     "guarantee": "Issued directly by the parent (Cipher Digital Inc.); senior unsecured; rank equal with the 2030 Convertible Notes; conversion settled in cash, shares, or combination at company election; initial conversion price ~$16.03/share (62.3733 shares per $1,000). Matures October 1, 2031.",
+     "accession": "0001819989-26-000028",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1819989/000181998926000028/cifr-20260331.htm",
+     "quote": "On September 30, 2025, the Company issued $ 1.3 billion of principal amount of the 2031 Convertible Notes with an interest rate of 0.00 %. The 2031 Convertible Notes are senior, unsecured obligations ... The 2031 Convertible Notes will mature on October 1, 2031"
+    },
+    {
+     "name": "2030 Senior Secured Notes (7.125% Senior Secured Notes due 2030)",
+     "instrument_type": "senior_secured_notes",
+     "principal_usd": 1733000000,
+     "rate": "7.125% (table rounds to 7.13%); effective rate per 10-K",
+     "maturity_year": 2030,
+     "secured": true,
+     "collateral": "Senior secured obligations of Cipher Compute LLC, secured at the project level (Barber Lake Facility); proceeds held in restricted cash to finance Barber Lake construction and a debt service account. Amortizes semi-annually (May 15 / Nov 15) per indenture; no amortization until Barber Lake completion. Revolving Credit Facility is pari passu with these notes on certain collateral.",
+     "spv_or_bankruptcy_remote": true,
+     "guarantee": "Issued by Cipher Compute LLC, a wholly-owned indirect subsidiary, with co-obligors/guarantors Cipher Barber Lake LLC and Cipher Songbird LLC (per Indenture dated Nov 13, 2025). Project-level / non-recourse-where-possible financing; parent (CDI) is limited in its ability to receive distributions from Cipher Compute. Original $1.4B issued Nov 13, 2025 plus $333.0M tap on Nov 24, 2025 = $1,733.0M.",
+     "accession": "0001819989-26-000028",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1819989/000181998926000028/cifr-20260331.htm",
+     "quote": "On November 13, 2025, Cipher Compute LLC ... a wholly-owned indirect subsidiary of the Company, issued an aggregate principal amount of $ 1.4 billion of 7.125 % Senior Secured Notes due 2030 ... On November 24, 2025, Cipher Compute issued an additional series of $ 333.0 million aggregate principal amount of the 2030 Senior Secured Notes."
+    },
+    {
+     "name": "2031 Senior Secured Notes (6.125% Senior Secured Notes due 2031)",
+     "instrument_type": "senior_secured_notes",
+     "principal_usd": 2000000000,
+     "rate": "6.125% (table rounds to 6.13%)",
+     "maturity_year": 2031,
+     "secured": true,
+     "collateral": "Senior secured obligations of Black Pearl Compute LLC, secured at the project level (Black Pearl Facility). Amortizes semi-annually (Feb 15 / Aug 15) per indenture; no amortization until Black Pearl completion.",
+     "spv_or_bankruptcy_remote": true,
+     "guarantee": "Issued by Black Pearl Compute LLC ('BP Compute'), a wholly-owned indirect subsidiary, on February 11, 2026. Project-level / non-recourse-where-possible financing structure. Senior secured obligations of BP Compute.",
+     "accession": "0001819989-26-000028",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1819989/000181998926000028/cifr-20260331.htm",
+     "quote": "On February 11, 2026, Black Pearl Compute LLC ... a wholly-owned indirect subsidiary of the Company, issued an aggregate principal of $ 2.0 billion of 6.13 % Senior Secured Notes due 2031 ... The 2031 Senior Secured Notes are senior secured obligations of BP Compute"
+    },
+    {
+     "name": "Revolving Credit Facility (Morgan Stanley Senior Funding, Inc., admin/collateral agent)",
+     "instrument_type": "revolver",
+     "principal_usd": 0,
+     "rate": "Adjusted Term SOFR + 1.750% (initially; thereafter 1.250%-1.750% grid) or ABR + 0.750% initially; commitment fee 0.500%",
+     "maturity_year": 2030,
+     "secured": true,
+     "collateral": "First-priority security interest in substantially all assets of the Borrower and each guarantor (pari passu with the 2030 Senior Secured Notes on certain collateral), including pledges of equity interests in the Borrower's material subsidiaries.",
+     "spv_or_bankruptcy_remote": false,
+     "guarantee": "$200.0M revolving facility entered March 23, 2026 with a syndicate of lenders; $50M accordion; $50M LC sublimit; Pre-Completion Availability Cap of $50.0M. Liquidity maintenance covenant. No borrowings outstanding as of March 31, 2026. Matures March 23, 2030 (with springing maturity tied to 2030 Convertible Notes).",
+     "accession": "0001819989-26-000028",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1819989/000181998926000028/cifr-20260331.htm",
+     "quote": "On March 23, 2026, the Company entered into a $ 200.0 million revolving credit facility ... with Morgan Stanley Senior Funding, Inc. ... As of March 31, 2026, there were no borrowings outstanding under the Revolving Credit Facility."
+    },
+    {
+     "name": "Coinbase Overnight Credit Facility (Coinbase Master Loan Agreement)",
+     "instrument_type": "revolver",
+     "principal_usd": 0,
+     "rate": "Federal Funds Target Rate - Upper Bound + 2.5% (weighted-avg 9.5% on the $25.0M balance outstanding at Dec 31, 2025)",
+     "maturity_year": null,
+     "secured": true,
+     "collateral": "Bitcoin transferred to the Lending Service Provider's platform (rehypothecable; bitcoin derecognized when pledged). Open term / available on demand.",
+     "spv_or_bankruptcy_remote": false,
+     "guarantee": "Secured line of credit up to $25.0M with Coinbase Credit, Inc. (lender) and Coinbase, Inc. (lending service provider). No amounts outstanding as of March 31, 2026 ($25.0M outstanding at Dec 31, 2025 at 9.5%).",
+     "accession": "0001819989-26-000028",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1819989/000181998926000028/cifr-20260331.htm",
+     "quote": "As of March 31, 2026, the Company had no amounts outstanding on the Coinbase Overnight Credit Facility. The Company had a $ 25.0 million balance outstanding on the Coinbase Overnight Credit Facility at a weighted average interest rate of 9.5 % as of December 31, 2025."
+    },
+    {
+     "name": "Two Prime Lending Facility (Two Prime Credit Facility)",
+     "instrument_type": "revolver",
+     "principal_usd": 0,
+     "rate": "Not disclosed (undrawn)",
+     "maturity_year": null,
+     "secured": true,
+     "collateral": "Backed by the Company's bitcoin held in a triparty account.",
+     "spv_or_bankruptcy_remote": false,
+     "guarantee": "$100.0M secured credit facility with Two Prime Lending Limited. Undrawn \u2014 nothing outstanding as of March 31, 2026.",
+     "accession": "0001819989-26-000028",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1819989/000181998926000028/cifr-20260331.htm",
+     "quote": "The Company also has a $ 100.0 million secured credit facility with Two Prime Lending Limited ... The Company has not drawn on the Two Prime Credit Facility, and as such has nothing outstanding on this facility as of March 31, 2026."
+    },
+    {
+     "name": "Finance lease liability (Luminant/related lease arrangements)",
+     "instrument_type": "lease",
+     "principal_usd": 1960000,
+     "rate": "Disclosed via weighted-average discount rate (finance lease) in the lease note",
+     "maturity_year": null,
+     "secured": null,
+     "collateral": "Finance lease ROU assets (recorded within property and equipment, net)",
+     "spv_or_bankruptcy_remote": false,
+     "guarantee": "Finance lease liability per condensed consolidated balance sheet: $1,960K noncurrent at March 31, 2026 (plus a current portion). Not part of the $5,205,500K debt-borrowings total; reported separately as a lease obligation.",
+     "accession": "0001819989-26-000028",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1819989/000181998926000028/cifr-20260331.htm",
+     "quote": "Finance lease liability 1,960"
+    }
+   ],
+   "maturity_schedule_usd": {
+    "y2025": null,
+    "y2026": 177793000,
+    "y2027": 432305000,
+    "y2028": 436874000,
+    "y2029": 441580000,
+    "y2030": 1676948000,
+    "y2031": 2040000000,
+    "y2032": null,
+    "y2033": null,
+    "y2034_plus": null
+   },
+   "maturity_schedule_source": {
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1819989/000181998926000028/cifr-20260331.htm",
+    "quote": "As of March 31, 2026, aggregate future required minimum principal payments based on the terms of the long-term borrowings were as follows: Remainder of 2026 $177,793; 2027 432,305; 2028 436,874; 2029 441,580; 2030 (1) 1,676,948; Thereafter (2) 2,040,000; Total principal of long-term borrowings $5,205,500. (1) Included in 2030 is $172.5 million of principal related to the 2030 Convertible Notes ... (2) Included in Thereafter is $1,300.0 million of principal related to the 2031 Convertible Notes."
+   },
+   "unfound_fields": [
+    "maturity_schedule_usd.y2032_and_beyond_breakout (filing aggregates all post-2030 maturities as 'Thereafter'=$2,040,000K, which maps to 2031 since the 2031 Convertible Notes mature Oct 1, 2031 and 2031 Senior Secured Notes mature Feb 15, 2031; no separate 2032+ disclosure)",
+    "finance_lease_current_portion_principal (current portion shown on balance sheet but exact split not separately tabulated in extracted text)",
+    "Two Prime Credit Facility interest rate (undrawn; rate not disclosed)"
+   ],
+   "extraction_confidence": 0.95
+  },
+  "verdict": {
+   "entity": "Cipher Digital Inc. (formerly Cipher Mining Inc.), ticker CIFR",
+   "overall": "source_backed",
+   "total_debt_confirmed": true,
+   "maturity_schedule_confirmed": true,
+   "corrections": [
+    "LABEL (not a figure error): The maturity_schedule_usd key 'y2031' = 2,040,000 is the stack's relabeling of the filing's literal 'Thereafter' bucket. The 10-Q labels this bucket 'Thereafter', not 2031, and footnote (2) discloses only that the $1,300.0M 2031 Convertible Notes are inside it. The $2.0B 2031 Senior Secured Notes are NOT all in Thereafter: they amortize semi-annually across the 2026-2030 buckets with only ~$740M remaining as the post-2030 bullet (2,040,000 = 1,300,000 conv + ~740,000 SSN residual). So 'y2031' should be read as 'Thereafter (post-2030)', not a clean 2031-only principal.",
+    "The unfound_fields note asserting 'Thereafter ... maps to 2031 since the 2031 Senior Secured Notes mature Feb 15, 2031' is partially misleading: the 2031 SSN principal does not sit entirely in 2031/Thereafter because it amortizes earlier; the indenture maturity year is 2031 but cash principal is spread across buckets. This does not change any dollar figure but the maturity-year attribution is an interpretation, not a filing statement.",
+    "Minor: stack quote for 2031 SSN cites rate '6.13 %' from the prose, while the narrative elsewhere references 6.125%; the filing prose and table both use 6.13% (rounded). 2030 SSN similarly 7.13% in table vs 7.125% nominal. Both are accurate as rounded; no correction to principal needed."
+   ],
+   "note": "Independently verified against the cited Form 10-Q (accession 0001819989-26-000028, cifr-20260331.htm) pulled directly from SEC EDGAR. (1) total_debt: The filing's own 'Long-term borrowings' table as of March 31, 2026 lists Outstanding Principal: 2030 Conv $172,500K, 2031 Conv $1,300,000K, 2030 SSN $1,733,000K ($1.4B + $333.0M Nov-24-2025 tap), 2031 SSN $2,000,000K (issued Feb 11, 2026), Total $5,205,500K (in thousands = $5.2055B). Sum of the four facilities reconciles exactly to the stated total. No double-counting (the $3,205,500K figure also visible in the filing is the Dec 31, 2025 comparative total, BEFORE the 2031 SSN issuance \u2014 correctly NOT used). Units verified: table is in thousands, total_debt_usd of 5,205,500,000 correctly converts. Revolver ($200.0M, $0 drawn), Coinbase ($25.0M line, $0 at 3/31/26), and Two Prime ($100.0M, undrawn) are all $0 outstanding and correctly excluded; finance lease noncurrent $1,960K matches the balance sheet verbatim and is correctly held outside the borrowings total. (2) maturity_schedule: The filing's 'aggregate future required minimum principal payments' table matches the stack key-for-key: Remainder of 2026 $177,793K; 2027 $432,305K; 2028 $436,874K; 2029 $441,580K; 2030 $1,676,948K; Thereafter $2,040,000K; Total $5,205,500K. Schedule sums to the total. Both footnotes verified verbatim ($172.5M conv in 2030; $1,300.0M conv in Thereafter). Both total_debt and maturity figures are source-backed; the only caveat is the editorial relabeling of 'Thereafter' as 'y2031' (see corrections), which is an attribution gloss, not a figure error."
+  }
+ },
+ {
+  "stack": {
+   "entity": "Bitdeer Technologies Group",
+   "ticker": "BTDR",
+   "period": "FY2025 (fiscal year ended December 31, 2025)",
+   "total_debt_usd": 1001091000,
+   "facilities": [
+    {
+     "name": "November 2024 Convertible Senior Notes (5.25% Convertible Senior Notes due 2029)",
+     "instrument_type": "convertible_notes",
+     "principal_usd": 400000000,
+     "rate": "5.25%",
+     "maturity_year": 2029,
+     "secured": false,
+     "collateral": "None - senior unsecured obligation of the Group",
+     "spv_or_bankruptcy_remote": false,
+     "guarantee": "Senior unsecured obligation of Bitdeer Technologies Group; effectively junior to secured indebtedness and structurally junior to liabilities of subsidiaries; no subsidiary guarantees disclosed. Holder put on December 6, 2027 at 100% of principal plus accrued interest.",
+     "accession": "0001213900-26-049770",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1899123/000121390026049770/R22.htm",
+     "quote": "In November 2024, the Group issued US$400.0 million in aggregate principal amount of the 5.25% Convertible Senior Notes due 2029 ... senior and unsecured obligations of the Group ... accrue interest at a rate of 5.25% per annum ... will mature on December 1, 2029 ... On December 6, 2027 (the 'specified repurchase date'), the holders ... may require the Group to repurchase ... Balance at December 31, 2025 93,630 [carrying value, net of US$106.4 million unamortized debt discount and bifurcated embedded derivative]"
+    },
+    {
+     "name": "June 2025 Convertible Senior Notes (4.875% Convertible Senior Notes due 2031)",
+     "instrument_type": "convertible_notes",
+     "principal_usd": 375000000,
+     "rate": "4.875%",
+     "maturity_year": 2031,
+     "secured": false,
+     "collateral": "None - senior unsecured obligation of the Group",
+     "spv_or_bankruptcy_remote": false,
+     "guarantee": "Senior unsecured obligation of Bitdeer Technologies Group; effectively junior to secured indebtedness and structurally junior to subsidiary liabilities; no subsidiary guarantees disclosed. Holder put on July 6, 2029 at 100% of principal plus accrued interest.",
+     "accession": "0001213900-26-049770",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1899123/000121390026049770/R22.htm",
+     "quote": "In June 2025, the Group issued US$375.0 million in aggregate principal amount of 4.875% Convertible Senior Notes due 2031 ... senior and unsecured obligations of the Group ... accrue interest at a rate of 4.875% per annum ... will mature on July 1, 2031 ... On July 6, 2029 (the 'specified repurchase date'), the holders ... may require the Group to repurchase ... Balance at December 31, 2025 160,409 [carrying value, net of US$214.6 million unamortized debt discount]"
+    },
+    {
+     "name": "November 2025 Convertible Senior Notes (4.00% Convertible Senior Notes due 2031)",
+     "instrument_type": "convertible_notes",
+     "principal_usd": 400000000,
+     "rate": "4.00%",
+     "maturity_year": 2031,
+     "secured": false,
+     "collateral": "None - senior unsecured obligation of the Group",
+     "spv_or_bankruptcy_remote": false,
+     "guarantee": "Senior unsecured obligation of Bitdeer Technologies Group; effectively junior to secured indebtedness and structurally junior to subsidiary liabilities; no subsidiary guarantees disclosed. Holder put on November 20, 2029 at 100% of principal plus accrued interest.",
+     "accession": "0001213900-26-049770",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1899123/000121390026049770/R22.htm",
+     "quote": "In November 2025, the Group issued US$400.0 million in aggregate principal amount of 4.00% Convertible Senior Notes due 2031 ... senior and unsecured obligations of the Group ... accrue interest at a rate of 4.00% per annum ... will mature on November 15, 2031 ... On November 20, 2029 (the 'specified repurchase date'), the holders ... may require the Group to repurchase ... Balance at December 31, 2025 198,740 [carrying value, net of US$201.3 million unamortized debt discount]"
+    },
+    {
+     "name": "Bank loans",
+     "instrument_type": "other",
+     "principal_usd": 26481000,
+     "rate": "not disclosed",
+     "maturity_year": null,
+     "secured": null,
+     "collateral": "not disclosed",
+     "spv_or_bankruptcy_remote": false,
+     "guarantee": "Not disclosed beyond line-item presentation in Note 16 Borrowings; no separate terms (rate, maturity, collateral) provided in the filing.",
+     "accession": "0001213900-26-049770",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1899123/000121390026049770/R110.htm",
+     "quote": "Bank Loans [Member] ... Borrowings $ 26,481 [thousands, at December 31, 2025]; 20-F body: 'bank loans of US$26.5 million'"
+    },
+    {
+     "name": "BIT Assets Collateralized Loan (related party - BIT Group)",
+     "instrument_type": "term_loan",
+     "principal_usd": null,
+     "rate": "9.0% plus a market-based reference rate",
+     "maturity_year": 2027,
+     "secured": true,
+     "collateral": "Assets of the Group including mining rigs, inventories and datacenter assets; maintained under an agreed loan-to-value ratio",
+     "spv_or_bankruptcy_remote": false,
+     "guarantee": "Collateralized loan from related party BIT Group; facility size increased from US$200.0M to US$400.0M, plus additional US$100.0M and US$50.0M facilities (US$150.0M aggregate) on substantially the same terms. 24-month term with fixed monthly instalments. Per-facility carrying split not separately disclosed; combined related-party borrowings carrying value US$521.8M (see total below).",
+     "accession": "0001213900-26-049770",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1899123/000121390026049770/R138.htm",
+     "quote": "On April 15, 2025, the Group entered into a loan agreement (the 'BIT Assets Collateralized Loan') with BIT Group for a financing facility of up to US$200.0 million ... total maximum financing facility was increased from US$200.0 million to US$400.0 million ... Loans drawn under the facility bear a variable interest rate equal to 9.0% plus a market-based reference rate and are repayable in fixed monthly instalments over a 24-month term. The facility is collateralized by assets of the Group, including mining rigs ..."
+    },
+    {
+     "name": "BIT BTC Collateralized Loan (related party - BIT Group)",
+     "instrument_type": "term_loan",
+     "principal_usd": null,
+     "rate": "8.35%",
+     "maturity_year": 2027,
+     "secured": true,
+     "collateral": "Bitcoin, maintained based on a loan-to-value ratio (fair value of BTC collateral disclosed in Note 7)",
+     "spv_or_bankruptcy_remote": false,
+     "guarantee": "Collateralized loan from related party BIT Group; facility of up to US$400.0M; each drawdown has a 24-month tenor; interest payable monthly in arrears. Per-facility carrying split not separately disclosed; combined related-party borrowings carrying value US$521.8M (see total below).",
+     "accession": "0001213900-26-049770",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1899123/000121390026049770/R30.htm",
+     "quote": "September 2025, the Group entered into a loan agreement (the 'BIT BTC Collateralized Loan') with BIT Group for a financing facility of up to US$400.0 million. Loans drawn under the facility bear interest at 8.35% per annum, payable monthly in arrears. Each drawdown has a tenor of 24 months from its drawdown date and is collateralized by Bitcoin ..."
+    },
+    {
+     "name": "Borrowings from a related party (BIT Group) - total carrying value (BIT Assets + BIT BTC Collateralized Loans combined)",
+     "instrument_type": "term_loan",
+     "principal_usd": 521831000,
+     "rate": "BIT Assets: 9.0% + market reference rate; BIT BTC: 8.35%",
+     "maturity_year": 2027,
+     "secured": true,
+     "collateral": "Mining rigs, inventories, datacenter assets (BIT Assets loan) and Bitcoin (BIT BTC loan), under agreed loan-to-value ratios",
+     "spv_or_bankruptcy_remote": false,
+     "guarantee": "Secured related-party borrowings from BIT Group. Presented separately from Note 16 'Borrowings' on the balance sheet as 'Borrowings from a related party': current US$275,000K + non-current US$246,831K = US$521,831K. 24-month tenor facilities entered April-December 2025.",
+     "accession": "0001213900-26-049770",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1899123/000121390026049770/R3.htm",
+     "quote": "Current liabilities: Borrowings from a related party 275,000 ... Non-current liabilities: Borrowings from a related party 246,831 ... R138: 'Borrowings from a related party - Borrowings 521,831 ... Total borrowings from a related party 521,831'"
+    },
+    {
+     "name": "Embedded conversion derivative liabilities (bifurcated from convertible senior notes)",
+     "instrument_type": "other",
+     "principal_usd": null,
+     "rate": "n/a - fair-valued derivative",
+     "maturity_year": null,
+     "secured": false,
+     "collateral": "n/a",
+     "spv_or_bankruptcy_remote": false,
+     "guarantee": "Not debt per se: the conversion features embedded in the convertible senior notes were bifurcated and recognized separately at fair value. Balance-sheet 'Derivative liabilities' of US$501,085K at Dec 31, 2025 (US$763,939K at 2024). Economically part of the convertible note obligations; the Note 16 carrying values are net of these bifurcated derivatives.",
+     "accession": "0001213900-26-049770",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1899123/000121390026049770/R3.htm",
+     "quote": "Derivative liabilities 501,085 [thousands, Dec 31, 2025] ... R22: 'The conversion features embedded ... met the criteria to be separated from the host contract and recognized separately at fair value. The total proceeds received were first allocated to the fair value of the derivative liability ...'"
+    }
+   ],
+   "maturity_schedule_usd": {
+    "y2025": null,
+    "y2026": null,
+    "y2027": null,
+    "y2028": null,
+    "y2029": null,
+    "y2030": null,
+    "y2031": null,
+    "y2032": null,
+    "y2033": null,
+    "y2034_plus": null
+   },
+   "maturity_schedule_source": {
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1899123/000121390026049770/R73.htm",
+    "quote": "Schedule of Maturity Profile of the Group's Financial Liabilities (Details) - the filing discloses an IFRS contractual undiscounted cash-flow maturity profile bucketed in ranges (Within 1 year or on-demand; More than 1 year but less than 2 years; More than 2 years but less than 5 years; More than 5 years), NOT a by-year principal schedule. At Dec 31, 2025 'Borrowings and derivative liabilities' undiscounted: within 1yr 68,238; 1-2yr 44,794; 2-5yr 323,889; >5yr 800,462 (total 1,237,383, carrying 980,345). 'Borrowings from a related party' undiscounted: within 1yr 319,893; 1-2yr 256,479 (total 576,372, carrying 521,831). Because conversion conditions can be met, the convertible notes are classified as current liabilities on the balance sheet at Dec 31, 2025 despite legal maturities of 2029-2031, so a clean per-calendar-year principal-maturity table is not presented."
+   },
+   "unfound_fields": [
+    "maturity_schedule_usd.y2025",
+    "maturity_schedule_usd.y2026",
+    "maturity_schedule_usd.y2027",
+    "maturity_schedule_usd.y2028",
+    "maturity_schedule_usd.y2029",
+    "maturity_schedule_usd.y2030",
+    "maturity_schedule_usd.y2031",
+    "maturity_schedule_usd.y2032",
+    "maturity_schedule_usd.y2033",
+    "maturity_schedule_usd.y2034_plus",
+    "bank_loans.rate",
+    "bank_loans.maturity_year",
+    "bank_loans.collateral",
+    "bank_loans.secured",
+    "related_party_loans.per_facility_principal_split"
+   ],
+   "extraction_confidence": 0.85
+  },
+  "verdict": {
+   "entity": "Bitdeer Technologies Group (BTDR)",
+   "overall": "source_backed",
+   "total_debt_confirmed": true,
+   "maturity_schedule_confirmed": false,
+   "corrections": [
+    "maturity_schedule_confirmed must remain FALSE not because the stack is wrong, but because no per-calendar-year principal maturity table exists in the filing. R73 (verified) presents only an IFRS undiscounted maturity profile in time-buckets (within 1yr / 1-2yr / 2-5yr / >5yr): Borrowings+derivative liabilities 68,238 / 44,794 / 323,889 / 800,462 (total 1,237,383, carrying 980,345); Borrowings from a related party 319,893 / 256,479 (total 576,372, carrying 521,831). The stack correctly leaves all y20xx fields null.",
+    "MIXED PRINCIPAL CONVENTION (reconciliation trap, not an error in the total): the three convertible-note facilities report principal_usd as FACE/principal (400,000K / 375,000K / 400,000K) while total_debt_usd is built from CARRYING values (Nov24 93,630K, Jun25 160,409K, Nov25 198,740K, Bank 26,481K, Related-party 521,831K). A naive sum of stated facility principal_usd = 1,723,312K and does NOT equal total_debt 1,001,091K. The total is a carrying-value figure and reconciles only on that basis.",
+    "Related-party loan appears as 3 entries but BIT Assets and BIT BTC carry principal_usd:null and only the combined entry carries 521,831K, so it is counted once - no double-count. Confirmed correct.",
+    "Derivative liabilities 501,085K are correctly EXCLUDED from total_debt (note carrying values are already net of bifurcated derivatives); including them would double-count."
+   ],
+   "note": "Independently verified against SEC filing 0001213900-26-049770 (FY2025 20-F), fetched live via curl. TOTAL DEBT CONFIRMED: total_debt_usd 1,001,091,000 reconciles exactly = Note 16 Borrowings 479,260K (R110 schedule: Nov2024 conv 93,630 + Jun2025 conv 160,409 + Nov2025 conv 198,740 + Bank Loans 26,481 = 479,260, matching the schedule's own stated total) + Borrowings from a related party 521,831K (R3 balance sheet: current 275,000 + non-current 246,831). All convertible-note terms verified in R22 (5.25%/Dec1 2029/$400.0M/put Dec6 2027/carry 93,630 net of $106.4M discount; 4.875%/Jul1 2031/$375.0M/put Jul6 2029/carry 160,409 net of $214.6M; 4.00%/Nov15 2031/$400.0M/put Nov20 2029/carry 198,740 net of $201.3M). Related-party terms verified: R138 (BIT Assets, Apr 15 2025, $200M->$400M +$100M+$50M, 9.0%+ref rate, 24-month, rigs/inventories/datacenter collateral) and R30 (BIT BTC, Sep 2025, $400M, 8.35%, 24-month tenor, monthly in arrears, BTC collateral). MATURITY SCHEDULE NOT CONFIRMABLE BY YEAR: R73 confirms the filing discloses only a bucketed IFRS undiscounted profile, not a per-year principal table; convertibles classified current despite legal 2029-2031 maturities because conversion conditions are met. No unit errors (all figures consistently in thousands). No double-counting found. Single caveat: facility principal_usd mixes face value (convertibles) with the carrying values used to build the total."
+  }
+ }
+]

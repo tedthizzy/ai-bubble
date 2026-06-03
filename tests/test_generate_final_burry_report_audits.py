@@ -607,13 +607,21 @@ def test_physical_mismatch_reports_honest_tracker_proxy_not_join_artifact(tmp_pa
     (phys / "queue_project_matches.csv").write_text(
         "matched_project_id,match_status,match_confidence\n"
     )
-    (phys / "queues.csv").write_text("region\nnyiso\nmiso\n")
+    # Fully-ingested ISO queue records (generation-side), incl. a PJM row.
+    src_rows = tmp_path / "source_acquisition" / "source_rows"
+    src_rows.mkdir(parents=True)
+    (src_rows / "queue_records.csv").write_text(
+        "source_id,region\n"
+        "pjm-planning-queues-xml,pjm\n"
+        "nyiso-interconnection-queue,nyiso\n"
+        "ercot-gis-report,ercot\n"
+    )
 
     ratios = compute_burry_mismatch_ratios(
         debt_service_metrics=object(),
         compute_metrics=object(),
         physical_capacity=object(),
-        queue_match_summary={},
+        queue_match_summary={"data_center_queue_rows": 26, "matched_rows": 9},
         physical_record_match_summary={},
         resolved_data_dirs=[str(tmp_path)],
         payback_cases=[],
@@ -622,10 +630,14 @@ def test_physical_mismatch_reports_honest_tracker_proxy_not_join_artifact(tmp_pa
 
     # The misleading "deliverable" join metric is gone; honest proxy is present.
     assert "deliverable_vs_announced_strong_queue_match_pct" not in pm
-    assert pm["queue_match_status"] == "coverage_limited_not_a_deliverability_rate"
+    # Corrected framing: queues ARE ingested; the gap is generation-vs-load, not parsing.
+    assert pm["queue_match_status"] == "weak_lens_generation_queue_not_data_center_load"
     assert pm["in_service_mw_pct"] == 10.0  # 100 / 1000
     assert pm["under_construction_mw_pct"] == 30.0  # 300 / 1000
     assert pm["announced_only_mw_pct"] == 60.0  # 600 / 1000
     assert pm["permit_not_confirmed_mw_pct"] == 90.0  # (300 + 600) / 1000
-    assert pm["ingested_iso_queue_rows"] == 2
+    assert pm["iso_queue_records_ingested"] == 3
+    assert pm["data_center_related_queue_records"] == 26
+    assert "pjm" in pm["iso_queue_records_by_source"]
+    assert "un-ingested" not in pm["note"].lower()
     assert "non_primary" in pm["deliverability_proxy_source"]
