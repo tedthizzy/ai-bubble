@@ -123,7 +123,18 @@ def test_blocks_verdict_when_cluster_dscr_not_source_backed() -> None:
     assert v["core_verdict_confidence"] <= 0.45
 
 
-def test_crack_timing_reconciles_structural_and_near_term_windows() -> None:
+def test_crack_timing_uses_real_census_and_corrects_the_88pct_cliff() -> None:
+    census = {
+        "status": "source_backed",
+        "cluster_total_debt_usd": 54_800_000_000,
+        "issuer_count": 11,
+        "scheduled_maturities_usd": 50_300_000_000,
+        "wall_2030_2033_pct_of_scheduled": 40.0,
+        "near_term_2025_2027_pct_of_scheduled": 29.0,
+        "peak_maturity_year": "y2030",
+        "peak_maturity_usd": 10_300_000_000,
+        "maturity_schedule_usd_by_year": {"y2030": 10_300_000_000},
+    }
     v = synthesize_core_verdict(
         cluster_dscr=_cluster_dscr(),
         thesis_findings=_findings(),
@@ -131,12 +142,18 @@ def test_crack_timing_reconciles_structural_and_near_term_windows() -> None:
         direct_ai_usd=142_030_000_000,
         not_established_pct=0.8998,
         timing_summary={"candidate_peak_stress_quarter": "2026-Q2"},
+        debt_census=census,
     )
     ct = v["crack_timing"]
-    assert ct["structural_principal_wall_window"] == "2030-2033"
+    # Real census: spread, not an 88% cliff.
+    assert ct["pct_2030_2033"] == 40.0
+    assert ct["pct_near_term_2025_2027"] == 29.0
+    assert ct["peak_maturity_year"] == "2030"
+    assert "88% cliff" in ct["maturity_profile"] or "NOT an 88% cliff" in ct["maturity_profile"]
     assert "2026-Q2" in ct["near_term_pressure_window"]
-    assert "reconciliation" in ct
     assert ct["earlier_triggers"]
+    # The "how large" scoped answer is now the source-backed cluster debt total.
+    assert v["how_large_scoped_core"]["cluster_total_debt_usd"] == 54_800_000_000
     assert len(v["weakest_links"]) >= 2
     assert len(v["top_risks"]) >= 2
 

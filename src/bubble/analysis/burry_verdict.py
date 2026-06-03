@@ -70,10 +70,12 @@ def synthesize_core_verdict(
     not_established_pct: float,
     metric_total_usd: float = 0.0,
     timing_summary: dict[str, Any] | None = None,
+    debt_census: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Synthesize the scoped, tiered Burry verdict from verified evidence."""
 
     timing_summary = timing_summary or {}
+    debt_census = debt_census or {}
     bear = _finding(thesis_findings, "bear_case_against_bubble")
     bear_confidence = float(bear.get("confidence") or 0.0)
 
@@ -178,19 +180,36 @@ def synthesize_core_verdict(
         "NOT yet source-backed in-repo -- flagged, not proven.",
     ]
 
-    # Crack timing reconciled against the source-backed timing engine.
+    # Crack timing from the PRIMARY-SOURCED debt census (when available) reconciled
+    # against the timing engine. The census corrects the earlier curated-floor
+    # "88% in 2030-2033" overstatement.
     peak_quarter = timing_summary.get("candidate_peak_stress_quarter") or "2026-Q2"
+    census_backed = debt_census.get("status") == "source_backed"
+    if census_backed:
+        wall_pct = debt_census.get("wall_2030_2033_pct_of_scheduled")
+        near_pct = debt_census.get("near_term_2025_2027_pct_of_scheduled")
+        peak_year = str(debt_census.get("peak_maturity_year") or "y2030").lstrip("y")
+        peak_usd_b = round(float(debt_census.get("peak_maturity_usd") or 0) / 1e9, 1)
+        crack_profile = (
+            f"Primary-sourced cluster maturity census (~${round(float(debt_census.get('cluster_total_debt_usd') or 0) / 1e9, 1)}B "
+            f"total debt): maturities are SPREAD 2026-2034, peaking {peak_year} (~${peak_usd_b}B). "
+            f"~{wall_pct}% falls 2030-2033 and ~{near_pct}% is near-term 2025-2027 -- NOT an 88% cliff. "
+            "The fragility is a continuous refinancing treadmill: cash-flow-negative issuers must roll "
+            f"debt every year, and the near-term {near_pct}% coincides with the timing engine's "
+            f"~{peak_quarter} refi-pressure peak."
+        )
+    else:
+        crack_profile = (
+            "Maturity profile pending the source-backed debt census; the carded subset suggested a "
+            f"2030-2033 concentration but that rested on a curated floor. Timing engine peaks ~{peak_quarter}."
+        )
     crack_timing = {
-        "structural_principal_wall_window": "2030-2033",
+        "maturity_profile": crack_profile,
+        "peak_maturity_year": str(debt_census.get("peak_maturity_year") or "").lstrip("y") or None,
+        "pct_2030_2033": debt_census.get("wall_2030_2033_pct_of_scheduled"),
+        "pct_near_term_2025_2027": debt_census.get("near_term_2025_2027_pct_of_scheduled"),
         "near_term_pressure_window": f"2025-Q3..2027-Q3 (engine peak ~{peak_quarter})",
-        "reconciliation": (
-            "Two windows, different universes -- both real. The source-backed timing engine "
-            f"(3,263 signals, broad incl. large-cap rollovers) peaks near-term ~{peak_quarter}; the "
-            "AI-DIRECT-CORE principal wall is concentrated 2030-2033 in the curated carded subset. "
-            "Near-term is a liquidity/rollover signal across the whole corpus; 2030-2033 is when the "
-            "core's GPU-collateralized principal comes due against GPU end-of-life and anchor "
-            "contract expiry. The core verdict watches both, not one over the other."
-        ),
+        "maturity_schedule_usd_by_year": debt_census.get("maturity_schedule_usd_by_year"),
         "earlier_triggers": [
             "A single large-customer pullback or non-performance (CoreWeave 67% Microsoft) "
             "collapses contracted-revenue coverage.",
@@ -253,6 +272,16 @@ def synthesize_core_verdict(
             f"confidence {bear_confidence})."
         ),
         "source_backed_fragility_facts": facts,
+        "how_large_scoped_core": (
+            {
+                "cluster_total_debt_usd": debt_census.get("cluster_total_debt_usd"),
+                "issuer_count": debt_census.get("issuer_count"),
+                "scheduled_maturities_usd": debt_census.get("scheduled_maturities_usd"),
+                "basis": "primary-sourced 11-issuer debt census (adversarially verified)",
+            }
+            if census_backed
+            else {"status": "pending_source_backed_debt_census"}
+        ),
         "crack_timing": crack_timing,
         "weakest_links": weakest_links,
         "top_risks": top_risks,
@@ -265,9 +294,9 @@ def synthesize_core_verdict(
         "caveats": [
             "Scope: the AI-direct core is a specific named cluster, not a fixed % of the metric; "
             "the broad metric includes large non-AI debt and cannot anchor an ecosystem ratio.",
-            "The 2030-2033 wall is verified against a curated ~$41B carded set (a floor), not an "
-            "exhaustive census of all AI-direct debt; near-term refi pressure (engine ~2026-Q2) is "
-            "a separate, broader signal.",
+            "Crack timing now uses the primary-sourced 11-issuer debt census (cluster total debt "
+            "~$54.8B): maturities are spread 2026-2034 (~40% in 2030-2033, ~29% near-term), NOT an "
+            "88% 2030-2033 cliff -- the earlier curated-floor framing over-stated the wall.",
             "2 of the 3 separation-test mismatch legs (realistic-utilization DSCR, GPU "
             "depreciation gap) are blocked/illustrative; the verdict rests mainly on the "
             "source-backed cluster interest-coverage leg.",

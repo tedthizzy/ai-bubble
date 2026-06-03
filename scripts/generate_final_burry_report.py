@@ -22,6 +22,7 @@ from bubble.analysis.compute_economics import (
     analyze_compute_economics,
     empty_compute_economics_batch,
 )
+from bubble.analysis.debt_census import aggregate_debt_census, load_debt_census
 from bubble.analysis.debt_service import analyze_debt_service
 from bubble.analysis.ecosystem_scope import scope_deals
 from bubble.analysis.evidence import EvidenceGate, SemanticEvidenceBucket, classify_claim_semantics
@@ -2265,6 +2266,9 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:  #
                 thesis_findings = [f for f in loaded if isinstance(f, dict)]
         except (json.JSONDecodeError, OSError):
             thesis_findings = []
+    debt_census_aggregate = aggregate_debt_census(
+        load_debt_census(Path("handoffs/ai_direct_debt_census_20260603.json"))
+    )
     ai_direct_core_verdict = synthesize_core_verdict(
         cluster_dscr=mismatch_ratios.get("cluster_interest_coverage", {}),
         thesis_findings=thesis_findings,
@@ -2273,6 +2277,7 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:  #
         not_established_pct=float(materiality_relevance.get("not_established_pct") or 0.0),
         metric_total_usd=float(materiality_relevance.get("total_usd") or 0.0),
         timing_summary=timing_signal_summary,
+        debt_census=debt_census_aggregate,
     )
     coverage_dict = coverage.to_dict()
     physical_capacity_dict = physical_capacity.to_dict()
@@ -3731,10 +3736,14 @@ ecosystem-wide bubble call is not supported.
 ({", ".join(verdict.get("evidence_basis", {}).get("source_backed_legs", []))}); these legs are
 blocked/illustrative, not yet proof: {"; ".join(verdict.get("evidence_basis", {}).get("blocked_or_illustrative_legs", []))}.
 
-**When it cracks (two windows, reconciled):**
-- Structural AI-direct principal wall: **{_ct.get("structural_principal_wall_window")}**
+**How large (scoped core):** primary-sourced 11-issuer debt census — cluster total debt
+**${round(float((verdict.get("how_large_scoped_core", {}) or {}).get("cluster_total_debt_usd") or 0) / 1e9, 1)}B**
+(vs the broader $3.62T materiality metric, which is mostly non-AI debt and not the AI-direct figure).
+
+**When it cracks (from the census maturity schedule):**
+{_ct.get("maturity_profile", "")}
+- Peak maturity year: **{_ct.get("peak_maturity_year")}** | 2030-2033 share: **{_ct.get("pct_2030_2033")}%** | near-term 2025-2027: **{_ct.get("pct_near_term_2025_2027")}%**
 - Near-term refinancing pressure (timing engine): **{_ct.get("near_term_pressure_window")}**
-{_ct.get("reconciliation", "")}
 
 Earlier triggers:
 {_bullets(_ct.get("earlier_triggers"))}
