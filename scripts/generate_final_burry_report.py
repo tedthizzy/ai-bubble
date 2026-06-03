@@ -60,6 +60,7 @@ from bubble.analysis.gpu_earnings_quality import (
     load_gpu_earnings_quality,
 )
 from bubble.analysis.gpu_economics import load_gpu_price_evidence, summarize_gpu_depreciation_gap
+from bubble.analysis.leading_indicator_monitor import build_leading_indicator_monitor
 from bubble.analysis.physical_capacity import build_physical_capacity_summary
 from bubble.analysis.physical_execution_summary import build_physical_execution_summary
 from bubble.analysis.physical_risk_summary import build_physical_risk_summary
@@ -2958,6 +2959,9 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:  #
     )
     if refi_wall_aggregate.get("status") == "source_backed":
         mismatch_ratios["refi_wall"] = refi_wall_aggregate
+    leading_indicator_monitor = build_leading_indicator_monitor(mismatch_ratios)
+    if leading_indicator_monitor.get("status") == "source_backed":
+        mismatch_ratios["leading_indicator_monitor"] = leading_indicator_monitor
     utilization_debt_service_aggregate = aggregate_utilization_debt_service(
         load_utilization_debt_service(Path("handoffs/ai_utilization_debt_service_20260603.json"))
     )
@@ -3994,6 +3998,7 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:  #
                 "candidate_stress_window_end": timing_signal_summary.get(
                     "candidate_stress_window_end"
                 ),
+                "leading_indicator_monitor": leading_indicator_monitor,
                 "current_timing_capital_refinancing_usd_2024_2030": (
                     timing_signal_summary.get("capital_refinancing_usd_2024_2030", 0)
                 ),

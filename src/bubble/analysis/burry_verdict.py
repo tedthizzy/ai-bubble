@@ -489,6 +489,7 @@ def synthesize_core_verdict(
                     "filing_verified_reciprocal_loops"
                 ),
                 "press_or_inferred_loops": circular_financing.get("press_or_inferred_loops"),
+                "disclosure_gap": circular_financing.get("disclosure_gap"),
                 "demand_durability_read": circular_financing.get("demand_durability_read"),
                 "interpretation_caveat": circular_financing.get("interpretation_caveat"),
                 "note": circular_financing.get("note"),

@@ -117,22 +117,31 @@
       "to": "OpenAI",
       "flow_type": "framework_commitment",
       "amount_usd": 100000000000,
-      "date": "2025",
+      "date": "2025-09-22",
       "binding": false,
       "source_tier": "press_reported",
-      "quote": "NVIDIA announced an intent to invest up to ~$100B in OpenAI tied to staged compute deployment. PRESS/ANNOUNCEMENT only -- framework, not a binding filing; amount and structure NOT yet tied to a primary SEC disclosure. Flagged, capped, never drives the verdict.",
-      "source_uri": "PRESS_REPORTED_PENDING_FILING_VERIFICATION"
+      "quote": "NVIDIA press release (Sep 22, 2025): 'a letter of intent for a landmark strategic partnership... NVIDIA intends to invest up to $100 billion in OpenAI progressively as each gigawatt is deployed.' VERIFIED non-binding: NVIDIA CFO (Dec 2, 2025) 'We still haven't completed a definitive agreement'. NVIDIA's own Q1-FY2027 10-Q (period ended 2026-04-26) does NOT mention OpenAI and lists total investment commitments of only ~$27B (not $100B); $0 of the OpenAI LOI has funded. Stays press_reported -- a non-binding LOI, capped, never drives the verdict.",
+      "source_uri": "https://nvidianews.nvidia.com/news/openai-and-nvidia-announce-strategic-partnership-to-deploy-10gw-of-nvidia-systems"
     },
     {
       "from": "Microsoft",
       "to": "OpenAI",
       "flow_type": "equity_investment",
       "amount_usd": 13000000000,
-      "date": "2023-2025",
+      "date": "2026-03-31",
       "binding": true,
-      "source_tier": "press_reported",
-      "quote": "Microsoft's cumulative OpenAI investment is widely reported at ~$13B and is referenced in Microsoft filings as an equity-method investment, but the $13B figure itself is press-sourced here, not extracted from a primary filing. Flagged, capped.",
-      "source_uri": "PRESS_REPORTED_PENDING_FILING_VERIFICATION"
+      "source_tier": "filing_verified",
+      "quote": "Microsoft 10-Q (Q3 FY2026, period ended Mar 31 2026): 'We have made total funding commitments of $13 billion, of which $11.8 billion has been funded as of March 31, 2026.' Equity-method investment of ~27% of OpenAI on an as-converted basis (HLBV). FILING-VERIFIED ($13B is filing-stated, not press). This funds the demand side (OpenAI -> CoreWeave $18.4B) but does NOT close an NVIDIA loop (no OpenAI->Microsoft return edge), so it is a chain, not a round-trip.",
+      "source_uri": "https://www.sec.gov/Archives/edgar/data/789019/000119312526191507/msft-20260331.htm"
     }
-  ]
+  ],
+  "verification_notes": {
+    "verified_2026-06-03": "Macro-loop edges re-verified against primary sources. NVIDIA->OpenAI ($100B): non-binding letter of intent (Sep 22 2025), CFO confirmed no definitive agreement (Dec 2025), $0 funded, ABSENT from NVIDIA's Q1-FY2027 10-Q ('OpenAI' appears zero times; total investment commitments ~$27B). Microsoft->OpenAI ($13B): UPGRADED to filing_verified from the MSFT Q3-FY2026 10-Q ($11.8B funded, equity method/HLBV).",
+    "disclosure_gap": "Neither NVIDIA's nor Microsoft's filings NAME the supplier-AND-investor circularity (NVIDIA) or the Microsoft->OpenAI->CoreWeave->NVIDIA loop as a related-party or customer/supplier-concentration risk. NVIDIA's customer concentration is anonymized (Customer A/B/C ~21/17/16% of Q1-FY2027 revenue). The round-trip is analyst/forensic framing, not a filing-disclosed risk -- itself a disclosure-gap red flag.",
+    "sources": [
+      "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000052/nvda-20260426.htm",
+      "https://www.sec.gov/Archives/edgar/data/789019/000119312526191507/msft-20260331.htm",
+      "https://nvidianews.nvidia.com/news/openai-and-nvidia-announce-strategic-partnership-to-deploy-10gw-of-nvidia-systems"
+    ]
+  }
 }

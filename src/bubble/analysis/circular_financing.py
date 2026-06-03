@@ -52,6 +52,16 @@ _RETURN_FLOWS = {"gpu_purchase", "lease_payment", "purchase_commitment", "custom
 
 _TIER_RANK = {"filing_verified": 2, "inferred": 1, "press_reported": 0}
 
+# Primary-source verified 2026-06-03 (NVIDIA Q1-FY2027 10-Q; MSFT Q3-FY2026 10-Q): neither
+# principal NAMES the circularity as a disclosed risk -- itself a disclosure-gap red flag.
+_DISCLOSURE_GAP = (
+    "Neither NVIDIA's nor Microsoft's filings name the supplier-AND-investor circularity (NVIDIA) "
+    "or the Microsoft->OpenAI->CoreWeave->NVIDIA chain as a related-party or "
+    "customer/supplier-concentration risk; NVIDIA's customer concentration is anonymized "
+    "(Customer A/B/C). The round-trip is forensic framing, not a filing-disclosed risk -- a "
+    "disclosure-gap red flag in its own right."
+)
+
 
 def load_edges(path: str | Path) -> list[dict[str, Any]]:
     p = Path(path)
@@ -204,6 +214,7 @@ def analyze_circular_financing(edges: list[dict[str, Any]]) -> dict[str, Any]:
         "filing_verified_reciprocal_loops": filing_verified,
         "press_or_inferred_loops": flagged,
         "reciprocal_hub": hub,
+        "disclosure_gap": _DISCLOSURE_GAP,
         "demand_durability_read": _read(filing_verified, flagged, hub),
         "interpretation_caveat": (
             "The equity-investment and GPU-purchase legs are LEGALLY SEPARATE transactions; their "
