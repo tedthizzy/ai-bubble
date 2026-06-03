@@ -222,3 +222,26 @@ def test_bear_case_summary_is_not_truncated_mid_token() -> None:
     # Never ends mid-word: either complete, or a clean boundary + ellipsis.
     assert summary.endswith(".") or summary.endswith(" ...")
     assert "$14 " not in summary and not summary.endswith("$14")
+
+
+def test_gpu_leg_upgrades_evidence_basis_to_two_source_backed_legs() -> None:
+    one = synthesize_core_verdict(
+        cluster_dscr=_cluster_dscr(),
+        thesis_findings=_findings(),
+        established_ai_usd=362_975_850_000,
+        direct_ai_usd=142_030_000_000,
+        not_established_pct=0.8998,
+        gpu_gap_source_backed=False,
+    )
+    two = synthesize_core_verdict(
+        cluster_dscr=_cluster_dscr(),
+        thesis_findings=_findings(),
+        established_ai_usd=362_975_850_000,
+        direct_ai_usd=142_030_000_000,
+        not_established_pct=0.8998,
+        gpu_gap_source_backed=True,
+    )
+    assert len(one["evidence_basis"]["source_backed_legs"]) == 1
+    assert len(two["evidence_basis"]["source_backed_legs"]) == 2
+    assert any("gpu" in leg.lower() for leg in two["evidence_basis"]["source_backed_legs"])
+    assert "2 source-backed" in two["evidence_basis"]["note"]

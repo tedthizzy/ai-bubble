@@ -26,6 +26,7 @@ from bubble.analysis.debt_census import aggregate_debt_census, load_debt_census
 from bubble.analysis.debt_service import analyze_debt_service
 from bubble.analysis.ecosystem_scope import scope_deals
 from bubble.analysis.evidence import EvidenceGate, SemanticEvidenceBucket, classify_claim_semantics
+from bubble.analysis.gpu_economics import load_gpu_price_evidence, summarize_gpu_depreciation_gap
 from bubble.analysis.physical_capacity import build_physical_capacity_summary
 from bubble.analysis.physical_execution_summary import build_physical_execution_summary
 from bubble.analysis.physical_risk_summary import build_physical_risk_summary
@@ -1943,6 +1944,17 @@ def compute_burry_mismatch_ratios(  # noqa: PLR0912, PLR0915
     except Exception:
         pass
 
+    # 2b. Source-backed GPU depreciation gap (book life vs observed rental-yield
+    # compression), from the adversarially-verified GPU price/rental evidence.
+    try:
+        gpu_gap = summarize_gpu_depreciation_gap(
+            load_gpu_price_evidence(Path("handoffs/gpu_price_evidence_20260603.json"))
+        )
+        if gpu_gap.get("status") == "source_backed":
+            ratios["gpu_economics_mismatch"]["source_backed_gap"] = gpu_gap
+    except Exception:
+        pass
+
     # 3. Cash flow mismatch at realistic utilization
     # Use payback cases (they carry utilization_pct, revenue, power, debt_service)
     realistic_util = (
@@ -2278,6 +2290,12 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:  #
         metric_total_usd=float(materiality_relevance.get("total_usd") or 0.0),
         timing_summary=timing_signal_summary,
         debt_census=debt_census_aggregate,
+        gpu_gap_source_backed=(
+            mismatch_ratios.get("gpu_economics_mismatch", {})
+            .get("source_backed_gap", {})
+            .get("status")
+            == "source_backed"
+        ),
     )
     coverage_dict = coverage.to_dict()
     physical_capacity_dict = physical_capacity.to_dict()

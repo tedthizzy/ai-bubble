@@ -71,6 +71,7 @@ def synthesize_core_verdict(
     metric_total_usd: float = 0.0,
     timing_summary: dict[str, Any] | None = None,
     debt_census: dict[str, Any] | None = None,
+    gpu_gap_source_backed: bool = False,
 ) -> dict[str, Any]:
     """Synthesize the scoped, tiered Burry verdict from verified evidence."""
 
@@ -175,9 +176,10 @@ def synthesize_core_verdict(
         f"{loss_making} of {usable} issuers are loss-making and cannot cover interest from EBITDA; "
         "the negative ex-CoreWeave aggregate is driven by the large loss-makers (MARA, Nebius, "
         f"Cipher), though {other_positive} do individually cover interest.",
-        "GPU collateral: ~5-7yr book life vs faster economic obsolescence is directionally "
-        "supported (Amazon's own 6->5yr filing admission), but the secondary-price magnitude is "
-        "NOT yet source-backed in-repo -- flagged, not proven.",
+        "GPU collateral: ~5-7yr book life vs observed economic-life compression -- deployed-fleet "
+        "rental yields fell ~60-75% in ~18-24 months (source-backed market data) and Amazon's SEC "
+        "filing already cut server life 6->5yr. Book life overstates the secured collateral's "
+        "monetization window. (Caveat: newest gen still appreciating; gap clearest on rental yield.)",
     ]
 
     # Crack timing from the PRIMARY-SOURCED debt census (when available) reconciled
@@ -247,17 +249,36 @@ def synthesize_core_verdict(
             ),
         },
         "evidence_basis": {
-            "source_backed_legs": ["cluster_ebitda_interest_coverage (primary 10-K/10-Q)"],
+            "source_backed_legs": [
+                "cluster_ebitda_interest_coverage (primary 10-K/10-Q)",
+                *(
+                    [
+                        "gpu_depreciation_gap (deployed-fleet rental-yield compression + Amazon's SEC "
+                        "6->5yr server-life revision)"
+                    ]
+                    if gpu_gap_source_backed
+                    else []
+                ),
+            ],
             "blocked_or_illustrative_legs": [
                 "cash_flow_dscr_at_realistic_utilization (illustrative; per-case inputs undisclosed)",
-                "gpu_depreciation_gap (book life source-backed; secondary-price magnitude not "
-                "source-backed in-repo)",
+                *(
+                    []
+                    if gpu_gap_source_backed
+                    else ["gpu_depreciation_gap (pending source-backed GPU price/rental evidence)"]
+                ),
             ],
             "note": (
-                "The core verdict stands principally on the ONE fully source-backed leg (cluster "
-                "EBITDA/interest coverage). The realistic-utilization-DSCR and GPU-depreciation-gap "
-                "legs are directional/illustrative pending per-deal debt-service and secondary "
-                "GPU-price inputs; they are NOT yet counted as proof."
+                f"The core verdict rests on {2 if gpu_gap_source_backed else 1} source-backed "
+                "leg(s): cluster EBITDA/interest coverage"
+                + (
+                    " and the GPU book-vs-economic-life gap (rental-yield compression + the SEC-filed "
+                    "Amazon useful-life revision)"
+                    if gpu_gap_source_backed
+                    else ""
+                )
+                + ". The realistic-utilization-DSCR leg remains illustrative pending per-deal "
+                "debt-service/utilization inputs; it is NOT yet counted as proof."
             ),
         },
         "ecosystem_verdict": "not_established_as_ecosystem_wide_bubble",
