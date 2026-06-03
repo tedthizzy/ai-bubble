@@ -74,6 +74,7 @@ from bubble.analysis.refi_wall import aggregate_refi_wall, load_debt_census_raw
 from bubble.analysis.risk_register import build_risk_register
 from bubble.analysis.scenario_stress import stress_cluster
 from bubble.analysis.source_coverage import build_source_coverage_report
+from bubble.analysis.universe_extrapolation import estimate_universe
 from bubble.analysis.utilization_debt_service import (
     aggregate_utilization_debt_service,
     load_utilization_debt_service,
@@ -1566,6 +1567,22 @@ def report_answer_metric_audits(  # noqa: PLR0912, PLR0915
                 unit="USD",
             )
 
+        # Capture-recapture estimate of the TRUE universe (INFERRED-capped extrapolation).
+        ux = m.get("universe_extrapolation", {})
+        if ux.get("status") == "inferred_capped" and ux.get("estimated_true_universe_mid"):
+            add(
+                "mismatch.universe_extrapolation.estimated_true_universe_mid",
+                "Capture-recapture (Chapman) estimate of the TRUE AI-infra entity universe from "
+                "overlapping observable sources -- a principled population estimate (NOT an assumed "
+                "fraction), CAPPED at INFERRED tier (<=0.45). The load-bearing point: even at the "
+                "estimated true size, the distress cluster stays a small bounded share, so the scoped "
+                "(not ecosystem-wide) conclusion survives the unobserved. Near-disjoint source pairs "
+                "excluded; never drives the verdict.",
+                ux.get("estimated_true_universe_mid"),
+                [mismatch_artifact],
+                unit="count",
+            )
+
         # Empirical entity-universe composition (deep-modeled count + structural split).
         eum = m.get("entity_universe_map", {})
         if eum.get("status") == "source_backed":
@@ -2356,6 +2373,17 @@ def _load_csv_rows(path: Path) -> list[dict[str, str]]:
         return []
 
 
+def _load_json_rows(path: Path) -> list[dict[str, Any]]:
+    """Load a JSON-list fixture as rows (empty on missing/malformed)."""
+    if not path.exists():
+        return []
+    try:
+        loaded = json.loads(path.read_text())
+    except (json.JSONDecodeError, OSError):
+        return []
+    return [r for r in loaded if isinstance(r, dict)] if isinstance(loaded, list) else []
+
+
 def compute_burry_mismatch_ratios(  # noqa: PLR0912, PLR0915
     *,
     debt_service_metrics: Any,
@@ -2855,6 +2883,14 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:  #
     )
     if entity_universe_map.get("status") == "source_backed":
         mismatch_ratios["entity_universe_map"] = entity_universe_map
+    universe_extrapolation = estimate_universe(
+        _load_json_rows(Path("handoffs/ai_entity_universe_20260603.json")),
+        observed_distress_count=(entity_universe_map.get("by_bucket") or {}).get(
+            "financed_ai_infra_leveraged"
+        ),
+    )
+    if universe_extrapolation.get("status") == "inferred_capped":
+        mismatch_ratios["universe_extrapolation"] = universe_extrapolation
     gpu_earnings_quality = aggregate_gpu_earnings_quality(
         load_gpu_earnings_quality(Path("handoffs/ai_gpu_earnings_quality_20260603.json"))
     )
