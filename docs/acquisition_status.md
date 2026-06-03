@@ -9,7 +9,7 @@ the scoped conclusion.
 
 ## Current Corpus
 
-- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260603-2201 .md`
+- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260603-2244 .md`
 - Evidence gate: ecosystem `high_confidence_final=false` / `bubble_confidence 0.25` (by design).
 - **Tiered verdict (`ai_direct_core_verdict`):** AI-direct core `bubble_dynamics_present` @ 0.67;
   ecosystem-wide `not_established_as_ecosystem_wide_bubble` (broad metric is mostly non-AI debt, so

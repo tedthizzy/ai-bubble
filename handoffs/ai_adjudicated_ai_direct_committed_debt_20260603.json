@@ -1,0 +1,956 @@
+{
+ "status": "source_backed",
+ "as_of": "2026-06-03",
+ "method": "extract-verify adjudication of 76 AI-direct blocked materiality rows vs primary local SEC filings (63 filings; skeptical default-exclude)",
+ "summary": {
+  "groups_total": 63,
+  "groups_done": 63,
+  "row_count": 76,
+  "committed_count": 39,
+  "total_verified_committed_usd": 89292000000,
+  "by_decision": {
+   "exclude_aggregate_or_capacity": 17,
+   "committed_ai_debt": 19,
+   "exclude_not_committed": 8,
+   "partial_committed": 20,
+   "exclude_seller_revenue": 3,
+   "exclude_resale_or_shelf_registration": 8,
+   "exclude_asset_or_upb": 1
+  },
+  "by_entity_committed_usd": {
+   "TERAWULF INC.": 22175000000,
+   "EQUINIX INC": 1250000000,
+   "Hut 8 Corp.": 3250000000,
+   "Applied Digital Corp.": 6850000000,
+   "SPACE EXPLORATION TECHNOLOGIES CORP": 20000000000,
+   "MARA Holdings, Inc.": 1950000000,
+   "CoreWeave, Inc.": 9300000000,
+   "AKAMAI TECHNOLOGIES INC": 1500000000,
+   "IREN Ltd": 11150000000,
+   "Bit Digital, Inc": 50000000,
+   "IRON MOUNTAIN INC": 1200000000,
+   "Galaxy Digital Inc.": 9467000000,
+   "CLEANSPARK, INC.": 1150000000
+  }
+ },
+ "decisions": [
+  {
+   "id": "review:5982da808130bb5d",
+   "decision": "exclude_aggregate_or_capacity",
+   "verified_committed_usd": 0,
+   "counterparty": "WULF Compute LLC (issuer); Morgan Stanley & Co. LLC (Initial Purchaser); Wilmington Trust, N.A. (Trustee)",
+   "recourse": "N/A - basis figure unsupported by filing",
+   "rationale": "The ~$73.27B basis appears nowhere in the filing; the only committed obligation disclosed is the $3.2B notes, so this inflated aggregate has no matching specific committed principal.",
+   "source_quote": "The aggregate principal amount of notes sold in the offering was $3.2 billion.",
+   "path": "data/edgar_acquisition/documents/0001083301/000110465925101866/tm2529300d1_8k.htm"
+  },
+  {
+   "id": "review:2becf3de20b8b237",
+   "decision": "committed_ai_debt",
+   "verified_committed_usd": 3200000000,
+   "counterparty": "WULF Compute LLC (issuer, TeraWulf indirect subsidiary); Wilmington Trust, N.A. (Trustee); Morgan Stanley & Co. LLC (Initial Purchaser); TeraWulf and Guarantors (guarantors)",
+   "recourse": "Senior secured obligations of WULF Compute LLC, guaranteed by TeraWulf and the Guarantors, plus a TeraWulf completion guarantee for the Data Center Expansion",
+   "rationale": "$3.2B of 7.750% Senior Secured Notes due 2030 were actually issued/completed at 100% of principal under an executed indenture to finance the Lake Mariner data center expansion - a specific, committed AI-infrastructure debt obligation.",
+   "source_quote": "On October 23, 2025, WULF Compute LLC (\u201cWULF Compute\u201d), a wholly-owned indirect subsidiary of TeraWulf Inc. ... completed its previously announced private offering of 7.750% Senior Secured Notes due 2030 (the \u201cnotes\u201d). ... The aggregate principal amount of notes sold in the offering was $3.2 billion.",
+   "path": "data/edgar_acquisition/documents/0001083301/000110465925101866/tm2529300d1_8k.htm"
+  },
+  {
+   "id": "review:38c7188004f1e40f",
+   "decision": "exclude_not_committed",
+   "verified_committed_usd": 0,
+   "counterparty": "None named; subsidiary-level disclosure (Google and certain other subsidiaries). Trustee for the notes is The Bank of New York Mellon Trust Company, N.A., but the $75.6B is not tied to the notes.",
+   "recourse": "Not applicable \u2014 not an issuer debt obligation. Disclosed within a structural-subordination risk factor regarding subsidiary liabilities; leases have not commenced and are off-balance-sheet.",
+   "rationale": "The $75.6B is aggregate FUTURE lease payments on data-center leases that have NOT yet commenced and are NOT yet recorded on the balance sheet, with only 'a portion' ever becoming finance-lease obligations \u2014 not issued notes, a drawn/committed term loan, or a recognized finance-lease principal; the issuer's only stated committed finance-lease balance is a separate $2.2B.",
+   "source_quote": "Additionally, as of March 31, 2026, we have entered into leases primarily related to data centers that have not yet commenced with future lease payments of $75.6 billion, that are not yet recorded on our consolidated balance sheets, a portion of which will represent finance lease obligations.",
+   "path": "data/edgar_acquisition/documents/0001652044/000119312526204938/d152073d424b5.htm"
+  },
+  {
+   "id": "review:db038e61b2484ef6",
+   "decision": "exclude_aggregate_or_capacity",
+   "verified_committed_usd": 0,
+   "counterparty": "Alphabet Inc. (issuer); $58.475B figure relates to unnamed third-party data-center lessors, not a financing agent",
+   "recourse": "None as committed debt; figure is off-balance-sheet future lease-payment commitment for not-yet-commenced leases, only an unquantified portion of which would ever become finance-lease obligations",
+   "rationale": "The $58.475B is undiscounted future lease payments for not-yet-commenced data-center leases, explicitly not recorded on the balance sheet and only a portion of which will be finance-lease debt; it is an aggregate commitment figure, not a specific committed debt obligation. The filing's actual committed debt (the new notes) has only blank placeholder amounts in this preliminary supplement.",
+   "source_quote": "Additionally, as of December 31, 2025, we have entered into leases primarily related to data centers that have not yet commenced with future lease payments of $58.475 billion, that are not yet recorded on our consolidated balance sheets, a portion of which will represent finance lease obligations.",
+   "path": "data/edgar_acquisition/documents/0001652044/000119312526041936/d108033d424b5.htm"
+  },
+  {
+   "id": "review:abadd1804fc6e06f",
+   "decision": "exclude_aggregate_or_capacity",
+   "verified_committed_usd": 0,
+   "counterparty": "Alphabet Inc. (issuer); no lessor/agent named for the $42.6B figure",
+   "recourse": "N/A \u2014 not a committed debt obligation; the $42.6B is uncommenced, unrecorded future lease payments, only a portion of which would become finance-lease (recourse) obligations once leases commence",
+   "rationale": "The $42.6B basis is an aggregate of future lease payments for data-center leases that have NOT yet commenced and are NOT yet on the balance sheet, only 'a portion' of which will be finance leases \u2014 not a specific committed debt obligation; the filing's actual committed debt is the separate EUR 6.5B notes issuance for general corporate purposes.",
+   "source_quote": "Additionally, as of September 30, 2025, we have entered into leases primarily related to data centers that have not yet commenced with future lease payments of $42.6 billion, that are not yet recorded on our consolidated balance sheets, a portion of which will represent finance lease obligations.",
+   "path": "data/edgar_acquisition/documents/0001652044/000119312525267232/d65573d424b2.htm"
+  },
+  {
+   "id": "review:236606bc33781152",
+   "decision": "partial_committed",
+   "verified_committed_usd": 1250000000,
+   "counterparty": "Equinix Europe 2 Financing Corporation LLC (issuer/subsidiary), guaranteed by Equinix, Inc.; underwriters per Nov 5, 2025 underwriting agreement",
+   "recourse": "Senior unsecured; fully and unconditionally guaranteed by Equinix, Inc. on an unsecured basis",
+   "rationale": "Basis ~$141.55B appears nowhere in filing (an inflated synthetic aggregate; largest real figure is total long-term debt $18.6B / total capitalization $32.8B). The notes 'offered hereby' are a preliminary C$ supplement with principal left BLANK and shown as '\u2014' in the capitalization table, so no specific committed amount. The only specific, already-issued committed debt with a stated dollar amount is the $1.25B 4.600% Senior Notes due 2030; verified to that committed part only.",
+   "source_quote": "On November 13, 2025, Equinix Europe 2 Financing Corporation LLC (\"Equinix Europe 2 Finco\"), a Delaware limited liability company and an indirect, wholly-owned subsidiary of Equinix, Inc., issued and sold $1,250,000,000 aggregate principal amount of its 4.600% Senior Notes due 2030 (the \"4.600% Senior Notes due 2030\"), fully and unconditionally guaranteed by Equinix, Inc., pursuant to an underwriting agreement dated November 5, 2025 among Equinix Europe 2 Finco, Equinix, Inc. and the several underwriters named therein.",
+   "path": "data/edgar_acquisition/documents/0001101239/000110465925113094/tm2530576-3_424b5.htm"
+  },
+  {
+   "id": "review:b8f93d283d004b8f",
+   "decision": "partial_committed",
+   "verified_committed_usd": 3250000000,
+   "counterparty": "J.P. Morgan Securities LLC (Representative of Initial Purchasers); Wilmington Trust, National Association (Trustee and Collateral Agent)",
+   "recourse": "Senior secured obligations of the Issuer (Hut 8 DC LLC, indirect wholly-owned subsidiary of Hut 8 Corp.) and HoldCo (Hut 8 DC Member LLC); secured by/limited to the River Bend Data Center Project (245 MW), non-recourse to Hut 8 Corp. at the parent level (SPV-level project financing).",
+   "rationale": "Genuine issued, committed AI/data-center debt \u2014 6.192% Senior Secured Notes due 2042 completed/sold with an executed indenture \u2014 but the real committed principal is $3.25B, not the inflated $32.912B basis; verified amount set to the committed principal actually sold.",
+   "source_quote": "The aggregate principal amount of Notes sold in the Offering was $3,250 million.",
+   "path": "data/edgar_acquisition/documents/0001964789/000110465926053247/tm2613163d1_8k.htm"
+  },
+  {
+   "id": "review:308b0c6b7ceff944",
+   "decision": "committed_ai_debt",
+   "verified_committed_usd": 2350000000,
+   "counterparty": "Wilmington Trust, National Association (trustee and collateral agent); Morgan Stanley & Co. LLC (representative of initial purchasers); Issuer: APLD ComputeCo LLC",
+   "recourse": "Senior secured obligations of the Issuer (APLD ComputeCo LLC) guaranteed by the Subsidiary Guarantors; secured by collateral on the ELN-02/ELN-03 Facilities/Projects; Applied Digital Corporation provides a customary completion guarantee. Notes issued at 97.000% of principal; 9.250% per annum, maturing December 15, 2030.",
+   "rationale": "Completed private offering of 9.250% Senior Secured Notes due 2030 with a specific aggregate principal amount of $2.35 billion issued/closed on Nov 20, 2025 to fund construction of the ELN-02/ELN-03 Ellendale data centers - genuine committed, issued AI-infrastructure debt of the issuer.",
+   "source_quote": "The aggregate principal amount of notes sold in the offering was $2.35 billion.",
+   "path": "data/edgar_acquisition/documents/0001144879/000149315225024479/form8-k.htm"
+  },
+  {
+   "id": "review:49f8c80f9b38132f",
+   "decision": "exclude_aggregate_or_capacity",
+   "verified_committed_usd": 0,
+   "counterparty": "APLD ComputeCo LLC (Issuer); Applied Digital Corporation (parent)",
+   "recourse": "N/A - no such obligation exists in the filing",
+   "rationale": "The $35,559,499,998 basis is an inflated aggregate that appears nowhere in the filing. The only specific committed debt in this 8-K is the same $2.35 billion 9.250% Senior Secured Notes (rate 9.250% per annum) already credited to row 308b0c6b7ceff944; there is no separate $35.5B committed obligation, so excluded to avoid double-counting an inflated rollup.",
+   "source_quote": "The notes are senior secured obligations of the Issuer and bear interest at a rate of 9.250% per annum, payable semi-annually in arrears on June 15 and December 15 of each year, beginning on June 15, 2026.",
+   "path": "data/edgar_acquisition/documents/0001144879/000149315225024479/form8-k.htm"
+  },
+  {
+   "id": "review:268b259d98d2633d",
+   "decision": "committed_ai_debt",
+   "verified_committed_usd": 20000000000,
+   "counterparty": "Goldman Sachs Bank USA (Administrative Agent); Lenders party to the Bridge Loan Credit Agreement",
+   "recourse": "Unsecured, full recourse to Borrower (Space Exploration Technologies Corp.) plus Continuing Guaranty by the Guarantors party hereto (Article X), each guarantor's liability capped by a customary fraudulent-conveyance savings clause. No Collateral Agent, Security Agreement, Pledge Agreement or Mortgage exists in the document (0 occurrences); pricing references 'unsecured, long-term indebtedness for borrowed money of the Borrower.'",
+   "rationale": "Binding committed $20B term-loan (Bridge) facility per a Mar 2, 2026 Bridge Loan Credit Agreement; Lenders severally agree to make the Loans with Aggregate Commitments of exactly $20,000,000,000 on the Closing Date - genuine committed debt of the issuer, not a shelf/resale, capacity, asset value, or seller-revenue figure. Proceeds refinance Existing Subsidiary Indebtedness (X Tranche B Term Loans, X.AI Term Loans and X.AI Notes), tying it to the AI-infrastructure debt stack.",
+   "source_quote": "The Borrower has requested that the Lenders extend credit to it in the form of a term loan credit facility in an aggregate principal amount of $20,000,000,000 (the \"Bridge Facility\"). ... \"Aggregate Commitments\" means, on any date, the Commitments of all the Lenders as of such date. The aggregate principal amount of the Aggregate Commitments in effect on the Closing Date is TWENTY BILLION and No/100 DOLLARS ($20,000,000,000.00).",
+   "path": "data/edgar_acquisition/documents/0001181412/000162828026036936/exhibit109-sx1.htm"
+  },
+  {
+   "id": "review:4e4f48a170e62161",
+   "decision": "exclude_aggregate_or_capacity",
+   "verified_committed_usd": 0,
+   "counterparty": "None \u2014 no financing counterparty exists; figure is an internal executive-compensation goal. (Convertible-note holder Coatue LP appears only in a beneficial-ownership footnote with no dollar amount.)",
+   "recourse": "None \u2014 no debt instrument, no obligor, no guarantee, no recourse scope; this is a hypothetical lease-contract-value metric, not a borrowing.",
+   "rationale": "The $14B is the 500 MW maximum incentive-pay goal expressed as hypothetical AI-data-center-lease 'contract value' at prevailing market rates \u2014 an aggregate/aspirational capacity figure in a DEF 14A, not any issued note, committed term loan, or finance-lease principal of the issuer.",
+   "source_quote": "With respect to Additional MW Expansion : The target 200 MW goal represented over $5.5 billion in contract value, and the 500 MW maximum goal represents approximately $14 billion in contract value based on prevailing market rates for AI data center leases.",
+   "path": "data/edgar_acquisition/documents/0001964789/000110465926049711/hut-20260611xdef14a.htm"
+  },
+  {
+   "id": "review:56bab44c85b24266",
+   "decision": "exclude_aggregate_or_capacity",
+   "verified_committed_usd": 0,
+   "counterparty": "MUFG and Morgan Stanley (co-structuring agents and joint bookrunners); Goldman Sachs and JPMorgan (additional coordinating lead arrangers); anchored by Blackstone Credit & Insurance",
+   "recourse": "Non-recourse; secured by substantially all assets of CoreWeave Compute Acquisition Co. VIII, LLC (special-purpose subsidiary), not full recourse to CoreWeave, Inc.",
+   "rationale": "The $8.5B is the maximum total borrowing CAPACITY of a delayed-draw term loan, not a drawn/committed principal: the filing explicitly frames it as 'up to ~$7.5B initially' rising to '$8.5 billion total borrowing capacity' only as assets stabilize -- a capacity 'up to' figure, not a specific committed obligation.",
+   "source_quote": "The structure enables CoreWeave to borrow up to approximately $7.5 billion initially, with the ability to increase total borrowing capacity  to $8.5 billion as underlying assets reach stabilization.",
+   "path": "data/edgar_acquisition/documents/0001769628/000176962826000129/ex991.htm"
+  },
+  {
+   "id": "review:11444f18905b4b23",
+   "decision": "exclude_seller_revenue",
+   "verified_committed_usd": 0,
+   "counterparty": "Fluidstack (lease supported by Google's credit)",
+   "recourse": "n/a - lessor revenue, not issuer debt",
+   "rationale": "The $12.8B is the aggregate contractual VALUE of long-term HPC lease agreements TeraWulf entered as LESSOR (revenue it is contracted to receive from customers), not committed debt of the issuer; it is also an aggregate 'in excess of' figure, not a specific committed obligation. The filing's actual debt line is a separate ~$6.5B blended debt-and-equity-linked figure.",
+   "source_quote": "Execution of HPC lease agreements - Entered into long-term HPC lease agreements representing aggregate contractual value in excess of $12.8 billion, including a lease with Fluidstack supported by Google's credit.",
+   "path": "data/edgar_acquisition/documents/0001083301/000108330126000077/wulf-20260428.htm"
+  },
+  {
+   "id": "review:09fdbd825c1f9d60",
+   "decision": "exclude_aggregate_or_capacity",
+   "verified_committed_usd": 0,
+   "counterparty": "IREN Limited (issuer); placement agents Citigroup Global Markets Inc., Goldman Sachs & Co. LLC, J.P. Morgan Securities LLC; initial purchasers of the Concurrent Offering",
+   "recourse": "N/A - no such obligation; convertible notes (when/if issued) stated to be unsecured with no meaningful restrictive covenants",
+   "rationale": "The $76,998,700,000 basis appears NOWHERE in the filing in any form (0 matches); it is a fabricated/inflated aggregate. The instrument is a preliminary, unpriced (rate is a blank '%') equity prospectus supplement plus a separate, non-consummated Concurrent Offering of convertible notes \u2014 no committed debt of this magnitude exists and the 'need' rate evidence is absent for the new notes.",
+   "source_quote": "Concurrently with this offering, we are offering $1.0 billion aggregate principal amount of % convertible senior notes due 2032 (the \u201c2032 notes\u201d) and $1.0 billion aggregate principal amount of % convertible senior notes due 2033 ... that the initial purchasers of the Concurrent Offering have the options to purchase from us (the \u201cConcurrent Offering\u201d).",
+   "path": "data/edgar_acquisition/documents/0001878848/000114036125043802/ny20060080x1_424b5.htm"
+  },
+  {
+   "id": "review:33d02576195eddf7",
+   "decision": "exclude_aggregate_or_capacity",
+   "verified_committed_usd": 0,
+   "counterparty": "IREN Limited (issuer); initial purchasers of the Concurrent Offering (made via separate confidential offering memorandum)",
+   "recourse": "Convertible notes, if issued, stated to be unsecured; indentures contain no meaningful restrictive covenants",
+   "rationale": "The $1.0 billion is an 'aggregate principal amount ... we are offering' figure for convertible senior notes in a preliminary (SUBJECT TO COMPLETION, Dec 1 2025) offering that is explicitly not consummated ('you should not assume that the Concurrent Offering ... will be consummated ... if at all'), made via a separate confidential offering memorandum and not this prospectus, with a still-blank '%' coupon. It is an offering-capacity / 'up to' aggregate, not a drawn or bindingly-committed obligation, so it is excluded.",
+   "source_quote": "Additionally, in the Concurrent Offering, we are offering $1.0 billion aggregate principal amount of % convertible senior notes due 2032 and $1.0 billion aggregate principal amount of % convertible senior notes due 2033 ... Accordingly, you should not assume that the Concurrent Offering or the Repurchase will be consummated on the terms described in this prospectus supplement, if at all.",
+   "path": "data/edgar_acquisition/documents/0001878848/000114036125043802/ny20060080x1_424b5.htm"
+  },
+  {
+   "id": "review:cebb30f11cf8816c",
+   "decision": "exclude_aggregate_or_capacity",
+   "verified_committed_usd": 0,
+   "counterparty": "None named (private offering to qualified institutional buyers under Rule 144A; initial purchasers unnamed)",
+   "recourse": "N/A \u2014 proposed unsecured general senior obligations, not yet issued or committed",
+   "rationale": "Filing is a press release announcing a PROPOSED $3.0B convertible notes offering 'subject to market and other conditions' with terms/rate to be set at pricing \u2014 an intended offering-capacity figure, not issued or bindingly-committed debt; basis $33.36B does not appear anywhere in the filing.",
+   "source_quote": "CoreWeave, Inc. (Nasdaq: CRWV) (\u201cCoreWeave\u201d) today announced its intention to offer, subject to market and other conditions, $3.0 billion aggregate principal amount of its convertible senior notes due 2032 (the \u201cNotes\u201d) in a private offering.",
+   "path": "data/edgar_acquisition/documents/0001769628/000119312526148912/d136714dex992.htm"
+  },
+  {
+   "id": "review:619c6fa2a9bac64e",
+   "decision": "partial_committed",
+   "verified_committed_usd": 950000000,
+   "counterparty": "Initial purchasers / qualified institutional buyers under Rule 144A (option counterparties for capped calls unnamed); no agent named",
+   "recourse": "Unsecured senior obligations of MARA Holdings, Inc. (full recourse to issuer, unsecured)",
+   "rationale": "Only $950M of issued 0.00% convertible senior notes due 2032 is genuine committed debt (closed/issued); the $19.35B basis is an unsupported inflated aggregate, and the $200M purchaser option plus $19.4M repurchase of existing 2026 notes are not new committed financing. Explicit rate: 0.00%, no accretion, only discretionary 'special interest' as sole remedy for reporting failures.",
+   "source_quote": "MARA Holdings, Inc. (\u201cMARA\u201d or the \u201cCompany\u201d), a leading digital energy and infrastructure company, today announced the closing on July 25, 2025 of its upsized offering of 0.00% convertible senior notes due 2032 (the \u201cnotes\u201d). The aggregate principal amount of the notes sold in the offering was $950 million.",
+   "path": "data/edgar_acquisition/documents/0001507605/000095014225002027/eh250659491_ex9901.htm"
+  },
+  {
+   "id": "review:c701f8b5c1ae9226",
+   "decision": "exclude_aggregate_or_capacity",
+   "verified_committed_usd": 0,
+   "counterparty": "Bank of America, N.A. (Global Administrative Agent); various lenders and agents",
+   "recourse": "Recourse to Prologis, L.P. (Operating Partnership), which unconditionally guarantees all borrower obligations; Prologis, Inc. not required to guarantee unless it incurs/guarantees new indebtedness. Cross-acceleration trigger >$150,000,000.",
+   "rationale": "The only substantive figure is a revolving credit facility's aggregate 'up to' program capacity (~$3B plus $1B accordion), with tranche sizings being borrowing availability, not drawn or bindingly-committed term debt; no drawn balance, no notes issued, and not AI-infrastructure. The $16.5B basis does not appear in the filing.",
+   "source_quote": "Pursuant to the 2026 Global Facility, the Operating Partnership and various affiliates thereof (collectively the \u201cBorrowers\u201d) may obtain loans and/or procure the issuance of letters of credit in various currencies on a revolving basis in an aggregate amount not exceeding the U.S. Dollar equivalent of approximately $3,000,000,000 (subject to increase by not more than the U.S. Dollar equivalent of $1,000,000,000 (determined as of the effective date of such increase) pursuant to the accordion feature included in the 2026 Global Facility).",
+   "path": "data/edgar_acquisition/documents/0001045609/000119312526132661/d141690d8k.htm"
+  },
+  {
+   "id": "review:33f93234e2090d78",
+   "decision": "committed_ai_debt",
+   "verified_committed_usd": 3200000000,
+   "counterparty": "WULF Compute LLC (issuing subsidiary of TeraWulf Inc.); these are the '2030 senior secured notes'. TeraWulf's general debt-securities indenture trustee is Wilmington Trust Company, N.A., though the filing names that trustee only for TeraWulf Inc. shelf debt securities, not specifically for these subsidiary notes.",
+   "recourse": "Subsidiary-level senior secured notes at WULF Compute LLC, secured and structurally separate from TeraWulf's parent-level $2.5B convertible notes; filing does not label them non-recourse to TeraWulf but locates the obligation at the WULF Compute subsidiary.",
+   "rationale": "Specific stated outstanding principal balance of issued senior secured notes funding HPC/data-center (AI) infrastructure -- a genuine committed debt obligation with an exact dollar figure, not a shelf/resale, capacity, UPB, or seller-revenue figure.",
+   "source_quote": "As of December 31, 2025, the outstanding principal balance of the 2030 senior secured notes was $3,200.0 million.",
+   "path": "data/edgar_acquisition/documents/0001083301/000110465926043376/tm2611661-6_424b5.htm"
+  },
+  {
+   "id": "review:9b07cb4a6d95f12b",
+   "decision": "committed_ai_debt",
+   "verified_committed_usd": 3200000000,
+   "counterparty": "WULF Compute LLC (issuer/obligor subsidiary of TeraWulf Inc.); no external indenture trustee or collateral agent named in this prospectus",
+   "recourse": "Senior secured notes issued at the WULF Compute LLC subsidiary level (secured, 'senior secured'); recourse to WULF Compute LLC and its data-center collateral, included in consolidated TeraWulf total debt of $5.8 billion",
+   "rationale": "Filing states the $3.2B as outstanding 'senior secured notes at WULF Compute LLC,' an issued/committed debt obligation with a specific dollar amount that is part of the company's actual total debt as of March 31, 2026 \u2014 not a capacity, shelf, or revenue figure. Google/Fluidstack relationship is separate lease-revenue credit support, not this debt.",
+   "source_quote": "As of March 31, 2026, we had cash, cash equivalents and restricted cash of $3.1 billion and total debt of $5.8 billion, comprised of $2.5 billion of convertible notes at TeraWulf, $3.2 billion of senior secured notes at WULF Compute LLC, and $100 million of delayed-draw bridge loans at TeraWulf's Kentucky subsidiaries.",
+   "path": "data/edgar_acquisition/documents/0001083301/000110465926043250/tm2611661-3_424b5.htm"
+  },
+  {
+   "id": "review:c9d2d9b32532e163",
+   "decision": "committed_ai_debt",
+   "verified_committed_usd": 3100000000,
+   "counterparty": "Morgan Stanley and Mitsubishi UFJ Financial Group (joint lead arrangers and bookrunners); facility issued through CoreWeave Financing DDTL V, LLC",
+   "recourse": "Asset-backed (HPC/GPU-backed) financing issued through a special-purpose financing subsidiary, CoreWeave Financing DDTL V, LLC; structured as secured, syndicated debt aligned to the GPU infrastructure assets, indicating limited recourse to the CoreWeave parent rather than full corporate recourse.",
+   "rationale": "Filing explicitly states CoreWeave has CLOSED a specific $3.1B delayed draw term loan facility (DDTL 5.0) to fund AI/GPU infrastructure for committed customer contracts; a closed, bindingly-committed DDTL with a specific dollar amount qualifies as committed AI-infrastructure debt.",
+   "source_quote": "CoreWeave, Inc. (Nasdaq: CRWV), The Essential Cloud for AI\u2122, today announced it has closed its $3.1 billion delayed draw term loan facility (\u201cDDTL 5.0 Facility\u201d), supporting continued expansion of its AI cloud platform and committed customer deployments.",
+   "path": "data/edgar_acquisition/documents/0001769628/000176962826000236/ex9912.htm"
+  },
+  {
+   "id": "review:f81b786d55a3a121",
+   "decision": "committed_ai_debt",
+   "verified_committed_usd": 3100000000,
+   "counterparty": "Morgan Stanley and Mitsubishi UFJ Financial Group (joint lead arrangers and bookrunners); facility issued through CoreWeave Financing DDTL V, LLC",
+   "recourse": "Issued through special-purpose financing subsidiary CoreWeave Financing DDTL V, LLC; HPC/GPU-collateralized syndicated term loan structured to align with the useful life of the underlying GPU assets, indicating asset-backed, limited recourse rather than unsecured parent recourse.",
+   "rationale": "Same $3.1B closed DDTL 5.0 facility as the prior row; it is a specific, bindingly-committed (closed) delayed draw term loan for AI infrastructure, so it counts as committed AI-infrastructure debt rather than an aggregate or capacity figure.",
+   "source_quote": "The DDTL 5.0 Facility has a maturity of approximately 5.5 years and was issued through CoreWeave Financing DDTL V, LLC. The facility is structured as a delayed draw term loan designed to align funding with the deployment schedule and useful life of the underlying GPU infrastructure assets.",
+   "path": "data/edgar_acquisition/documents/0001769628/000176962826000236/ex9912.htm"
+  },
+  {
+   "id": "review:5f374bcdcf580f0b",
+   "decision": "committed_ai_debt",
+   "verified_committed_usd": 3100000000,
+   "counterparty": "Morgan Stanley and Mitsubishi UFJ Financial Group (joint lead arrangers and bookrunners); borrower/issuer entity CoreWeave Financing DDTL V, LLC",
+   "recourse": "Limited/asset-backed recourse: the facility is issued through the bankruptcy-remote special-purpose subsidiary CoreWeave Financing DDTL V, LLC, is HPC/GPU-collateral-backed, and is structured against the underlying GPU infrastructure assets, indicating recourse is to the SPV and its pledged AI infrastructure rather than full corporate recourse to CoreWeave, Inc.; no explicit parent guarantee is stated in the filing.",
+   "rationale": "The $3.1B DDTL 5.0 Facility is explicitly closed (committed) and dedicated to AI/GPU infrastructure; it is a specific committed term-loan obligation, and the filing identifies the issuing SPV and arrangers, supporting it as genuine committed AI-infrastructure debt with limited recourse.",
+   "source_quote": "The DDTL 5.0 Facility has a maturity of approximately 5.5 years and was issued through CoreWeave Financing DDTL V, LLC. The facility is structured as a delayed draw term loan designed to align funding with the deployment schedule and useful life of the underlying GPU infrastructure assets.",
+   "path": "data/edgar_acquisition/documents/0001769628/000176962826000236/ex9912.htm"
+  },
+  {
+   "id": "review:dcf5633ef19ea29f",
+   "decision": "exclude_not_committed",
+   "verified_committed_usd": 0,
+   "counterparty": "APLD ComputeCo LLC (issuer/subsidiary); Sumitomo Mitsui Banking Corporation named only as admin agent on the to-be-repaid existing SMBC credit facility, not on these Notes",
+   "recourse": "Proposed Notes would be non-recourse to parent for principal (guaranteed only by APLD Compute's own subsidiaries the ELN-02/ELN-03 HoldCos/LandCos, secured by first-priority liens on APLD Compute and Guarantor assets and equity); parent provides only customary completion guarantees. But moot: nothing is yet committed.",
+   "rationale": "Press release announces a PROPOSED, condition-subject 144A offering ('intends to offer... subject to market conditions'; 'no assurance as to whether, when or on what terms the offering may be completed') -- no notes issued/priced, so no committed debt; and the $4.7B basis is unsupported (only figure in filing is $2.35B).",
+   "source_quote": "Applied Digital Corporation (NASDAQ: APLD) ... today announced that its subsidiary, APLD ComputeCo LLC ('APLD Compute'), intends to offer, subject to market conditions and other factors, $2.35 billion aggregate principal amount of senior secured notes due 2030 (the 'Notes'), in a private offering to persons reasonably believed to be qualified institutional buyers in reliance on Rule 144A under the Securities Act of 1933, as amended.",
+   "path": "data/edgar_acquisition/documents/0001144879/000149315225021400/ex99-1.htm"
+  },
+  {
+   "id": "review:e2a3b0dde5552a82",
+   "decision": "partial_committed",
+   "verified_committed_usd": 2350000000,
+   "counterparty": "Issuer: APLD ComputeCo LLC (subsidiary of Applied Digital Corp.); Guarantors: APLD ELN-02/ELN-03 HoldCo, LLC and LandCo entities. Prior Credit and Guaranty Agreement admin agent (being repaid): Sumitomo Mitsui Banking Corporation (SMBC).",
+   "recourse": "Structurally siloed / limited recourse: notes issued by APLD ComputeCo LLC and fully and unconditionally guaranteed only by APLD Compute's direct/indirect subsidiaries (the ELN-02/ELN-03 entities). Secured by first-priority liens on (i) substantially all assets of APLD Compute and the Guarantors (excluding certain excluded property), (ii) equity of the Guarantors, (iii) equity of APLD Compute held by APLD HPC Holdings 2 LLC, and (iv) the project accounts. Parent Applied Digital Corp. provides only customary completion guarantees, not full recourse for principal.",
+   "rationale": "Only specific committed debt is the $2.35B senior secured notes priced by subsidiary APLD ComputeCo LLC; the $4.7B basis is an unsupported inflated aggregate (exactly 2x the $2.35B notes) with no support in the filing. Committed part set to the $2.35B note principal.",
+   "source_quote": "Applied Digital Corporation (NASDAQ: APLD) ... today announced that its subsidiary, APLD ComputeCo LLC (\u201cAPLD Compute\u201d), has priced a $2.35 billion offering (the \u201cOffering\u201d) of 9.250% senior secured notes due 2030 (the \u201cNotes\u201d) at an issue price of 97%.",
+   "path": "data/edgar_acquisition/documents/0001144879/000149315225022506/ex99-1.htm"
+  },
+  {
+   "id": "review:af93f54ef2207b36",
+   "decision": "partial_committed",
+   "verified_committed_usd": 3300000000,
+   "counterparty": "WULF Compute LLC (issuer of senior secured notes); Morgan Stanley Senior Funding, Inc. (Administrative Agent/Lead Arranger for the uncommitted revolver); delayed-draw bridge loans at TeraWulf's Kentucky subsidiaries",
+   "recourse": "Senior secured notes are obligations at WULF Compute LLC (subsidiary-level secured debt); delayed-draw bridge loans are at TeraWulf's Kentucky subsidiaries; the uncommitted $250M revolver would be secured by substantially all assets of TeraWulf and certain subsidiaries but is NOT yet committed.",
+   "rationale": "Of the $3.55B basis, only the $3.2B senior secured notes plus $100M delivered delayed-draw bridge loans are genuine committed/outstanding debt; the $250M revolver is excluded as it is only an allocation 'subject to negotiation of and finalizing documentation and other closing conditions' (uncommitted 'up to' capacity).",
+   "source_quote": "As of March 31, 2026, the Company had cash, cash equivalents and restricted cash of $3.1 billion and total debt of $5.8 billion, comprised of $2.5 billion of convertible notes at TeraWulf, $3.2 billion of senior secured notes at WULF Compute LLC, and $100 million of delayed-draw bridge loans at TeraWulf's Kentucky subsidiaries.",
+   "path": "data/edgar_acquisition/documents/0001083301/000110465926043279/tm2611661d4_ex99-1.htm"
+  },
+  {
+   "id": "review:d09fde46ad49590d",
+   "decision": "committed_ai_debt",
+   "verified_committed_usd": 3200000000,
+   "counterparty": "WULF Compute LLC (issuer subsidiary); 2030 senior secured notes",
+   "recourse": "Issued/outstanding senior SECURED notes at the WULF Compute LLC subsidiary level, secured by subsidiary collateral; structurally senior at the subsidiary (TeraWulf parent-level debtholders are structurally subordinated to WULF Compute creditors). Specific stated outstanding principal, not parent-guaranteed shelf capacity.",
+   "rationale": "Footnote (1) to the Capitalization table states the 2030 senior secured notes had an outstanding principal balance of exactly $3,200.0 million; the cover/Recent Developments narrative independently confirms '$3.2 billion of senior secured notes at WULF Compute LLC' as part of actual total debt of $5.8B as of 3/31/2026 \u2014 issued, drawn, specific-dollar committed AI-infrastructure (HPC/AI data center) debt, not a shelf/capacity/asset figure.",
+   "source_quote": "As of December 31, 2025, the outstanding principal balance of the 2030 senior secured notes was $3,200.0 million.",
+   "path": "data/edgar_acquisition/documents/0001083301/000110465926044031/tm2611661-8_424b5.htm"
+  },
+  {
+   "id": "review:d8b1538e4471b9b2",
+   "decision": "committed_ai_debt",
+   "verified_committed_usd": 3200000000,
+   "counterparty": "Issuer/obligor: WULF Compute LLC (wholly-owned subsidiary of TeraWulf Inc.); Guarantors: La Lupa Data LLC, Akela Data Holdings LLC, Akela Data LLC; Sole Bookrunner: Morgan Stanley",
+   "recourse": "Secured + guaranteed. First-priority liens on substantially all assets of WULF Compute and the Guarantors, all WULF Compute equity held by TeraWulf Brookings LLC, a Fluidstack USA I Inc. lockbox account, and a pre-completion Google LLC warrant pledge; fully and unconditionally guaranteed by the named Guarantors; TeraWulf provides a completion guarantee for the Data Center Expansion.",
+   "rationale": "Specific $3.2B principal of 7.750% senior secured notes due 2030 PRICED at par to finance AI/HPC data-center expansion (Lake Mariner) \u2014 issued/committed secured debt with a specific dollar amount, not an aggregate capacity, shelf/resale, UPB, or seller revenue.",
+   "source_quote": "its wholly-owned subsidiary, WULF Compute LLC (\u201cWULF Compute\u201d), has priced a $3.2 billion offering (the \u201cOffering\u201d) of 7.750% senior secured notes due 2030 (the \u201cNotes\u201d) at par.",
+   "path": "data/edgar_acquisition/documents/0001083301/000110465925100142/tm2528904d1_ex99-1.htm"
+  },
+  {
+   "id": "review:cb7c85a9a0c26c3f",
+   "decision": "exclude_not_committed",
+   "verified_committed_usd": 0,
+   "counterparty": "Google (backstop provider); Fluidstack (tenant whose obligations are backstopped); TeraWulf / WULF Compute (issuer)",
+   "recourse": "Non-recourse to TeraWulf as debt; the $1.8Bn is a Google-provided backstop/guarantee of Fluidstack's lease obligations in support of project debt, not an obligation of the issuer",
+   "rationale": "The $1.8Bn is Google's backstop/guarantee of tenant Fluidstack's obligations 'in support of project debt' \u2014 not an issued note, drawn/committed term loan, or finance-lease principal of the issuer; the underlying project debt itself carries no stated specific committed dollar amount.",
+   "source_quote": "Google to provide $1.8Bn backstop of Fluidstack obligations in support of project debt",
+   "path": "data/edgar_acquisition/documents/0001083301/000110465925078084/tm2523008d2_ex99-2.htm"
+  },
+  {
+   "id": "review:f551a94cf9b2de42",
+   "decision": "exclude_seller_revenue",
+   "verified_committed_usd": 0,
+   "counterparty": "Fluidstack (tenant); Google (backstop provider)",
+   "recourse": "No issuer recourse debt. The $1.8Bn is a Google guarantee/backstop of Fluidstack's tenant lease obligations 'in Support of Project Debt' \u2014 not a debt obligation of the issuer TeraWulf.",
+   "rationale": "The $1.8Bn is a third-party (Google) backstop of the tenant's (Fluidstack's) lease obligations under a 10-yr ~$3.7Bn hyperscale lease (seller-side contracted revenue), not issued notes, a drawn/committed term loan, or finance-lease principal of TeraWulf; TeraWulf's only genuine issued debt here is the separate $500M Convertible Notes, not this figure.",
+   "source_quote": "$1.8Bn Google Backstop of Fluidstack Obligations in Support of Project Debt",
+   "path": "data/edgar_acquisition/documents/0001083301/000110465925078086/tm2523008d1_ex99-3.htm"
+  },
+  {
+   "id": "review:baffee83ebb4d438",
+   "decision": "committed_ai_debt",
+   "verified_committed_usd": 1500000000,
+   "counterparty": "Initial purchasers under Rule 144A (qualified institutional buyers); notes are senior unsecured obligations of Akamai Technologies, Inc.",
+   "recourse": "Senior unsecured full-recourse obligation of Akamai Technologies, Inc. (issuer-level, not project-ring-fenced)",
+   "rationale": "Priced private offering of $1.5B aggregate principal of 0.25% convertible senior notes due 2033 -- a specific, committed issuer debt obligation with stated terms and a fixed close date; the separate $225M purchaser option is contingent capacity and is excluded.",
+   "source_quote": "today announced that it has priced its private offering of $1.5 billion in aggregate principal amount of convertible senior notes due 2033.",
+   "path": "data/edgar_acquisition/documents/0001086222/000119312525120317/d912420dex991.htm"
+  },
+  {
+   "id": "review:4f5e7ff421cdf6bc",
+   "decision": "exclude_aggregate_or_capacity",
+   "verified_committed_usd": 0,
+   "counterparty": "Initial purchasers (QIBs under Rule 144A); Option Counterparties for hedge/warrant transactions (unnamed)",
+   "recourse": "N/A \u2014 no committed obligation; if priced, notes would be senior unsecured obligations of Akamai with no AI-infrastructure security or use",
+   "rationale": "$1.35B is a proposed 'aggregate principal amount' offering that is subject to market conditions, has undetermined terms, and is not assured to close; proceeds are for refinancing existing debt and share buybacks, not AI-infrastructure debt.",
+   "source_quote": "Akamai Technologies, Inc. (NASDAQ: AKAM) (\u201cAkamai\u201d), the cybersecurity and cloud computing company that powers and protects business online, today announced that it proposes to offer, subject to market factors and other conditions, $1.35 billion in aggregate principal amount of convertible senior notes due 2033.",
+   "path": "data/edgar_acquisition/documents/0001086222/000119312525118908/d942780dex991.htm"
+  },
+  {
+   "id": "review:23a7735c8484fd22",
+   "decision": "exclude_aggregate_or_capacity",
+   "verified_committed_usd": 0,
+   "counterparty": "The Bank of New York Mellon Trust Company, N.A. (trustee, registrar, transfer agent); offering by Alphabet Inc.",
+   "recourse": "Senior unsecured obligations of Alphabet Inc., ranking equally with other unsecured/unsubordinated indebtedness; structurally subordinated to subsidiary obligations",
+   "rationale": "Filing is a 424(b)(2) supplement for a EUR 9,000,000,000 senior-unsecured euro notes offering for general corporate purposes (not AI-specific); the $564,275,000,000 basis appears nowhere in the document and is a fabricated/inflated aggregate, not a stated committed AI-infrastructure debt amount.",
+   "source_quote": "We are offering \u20ac1,500,000,000 aggregate principal amount of our 3.200% notes due 2030 (the \u201c2030 Notes\u201d), \u20ac1,750,000,000 aggregate principal amount of our 3.450% notes due 2032 (the \u201c2032 Notes\u201d), \u20ac1,500,000,000 aggregate principal amount of our 3.625% notes due 2034 (the \u201c2034 Notes\u201d), \u20ac1,750,000,000 aggregate principal amount of our 4.100% notes due 2039 (the \u201c2039 Notes\u201d), \u20ac1,250,000,000 aggregate principal amount of our 4.500% notes due 2045 (the \u201c2045 Notes\u201d) and \u20ac1,250,000,000 aggregate principal amount of our 4.800% notes due 2063.",
+   "path": "data/edgar_acquisition/documents/0001652044/000119312526212210/d152073d424b2.htm"
+  },
+  {
+   "id": "review:ebd38711fa3ed3c5",
+   "decision": "exclude_seller_revenue",
+   "verified_committed_usd": 0,
+   "counterparty": "Fluidstack (lessee); Google (backstop provider)",
+   "recourse": "None \u2014 figure is prospective lease revenue, not issuer debt; Google backstops project debt as guarantor",
+   "rationale": "The $16B is seller-side potential contracted lease revenue with extensions, not committed AI-infrastructure debt of TeraWulf; the only financing figures are Google credit backstops ($1.4B incremental / $3.2B total), which are guarantees, not drawn or bindingly-committed issuer debt.",
+   "source_quote": "Represents $6.7 Billion in Contracted Revenue, with Potential to Reach $16 Billion with Lease Extensions",
+   "path": "data/edgar_acquisition/documents/0001083301/000110465925079463/tm2523651d3_ex99-1.htm"
+  },
+  {
+   "id": "review:80a2bd5b652ff216",
+   "decision": "partial_committed",
+   "verified_committed_usd": 3000000000,
+   "counterparty": "Bookrunners: J.P. Morgan Securities LLC, Goldman Sachs & Co. LLC, Citigroup Global Markets Inc., Jefferies LLC, MUFG Securities Americas Inc., Wells Fargo Securities LLC, Cantor Fitzgerald & Co. (initial purchasers / QIB holders under Rule 144A)",
+   "recourse": "Full corporate recourse to issuer IREN Limited; unsecured senior obligation (1.00% convertible SENIOR notes due 2033, no collateral or security interest disclosed, no subsidiary guarantee scope disclosed); no investor put except customary fundamental-change put right",
+   "rationale": "Filing confirms CLOSED issuance of $3.0B aggregate principal of convertible senior notes (issued debt with specific dollar amount), but the $9B basis is an inflated aggregate unsupported by the filing; committed principal is $3.0B ($2.6B + fully-exercised $400M greenshoe), so only that part is verified.",
+   "source_quote": "IREN Limited (NASDAQ: IREN) (\u201cIREN\u201d) today announced the closing of its offering of $3.0 billion aggregate principal amount of 1.00% convertible senior notes due 2033 (the \u201cnotes\u201d) in a private offering to persons reasonably believed to be qualified institutional buyers pursuant to Rule 144A under the Securities Act of 1933, as amended.",
+   "path": "data/edgar_acquisition/documents/0001878848/000114036126021285/ef20073507_ex99-1.htm"
+  },
+  {
+   "id": "review:188d134896c4140a",
+   "decision": "exclude_aggregate_or_capacity",
+   "verified_committed_usd": 0,
+   "counterparty": "G42 Holding US LLC / EPTH (customer); Cerebras Systems Inc. is the issuer",
+   "recourse": "none \u2014 no debt obligation; document is an equity (Series F-1/F-2 Preferred Stock) purchase agreement and the $5B is a contingent customer purchase-order option ceiling",
+   "rationale": "Document is the Cerebras Series F-1/F-2 Preferred Stock Purchase Agreement (equity, not debt); the only $5B figure is an aggregate 'less than $5 billion' upper cap on G42 HPC-cluster purchase orders that triggers an equity Purchase Option \u2014 a contingent capacity threshold, not issued notes, a committed term/delayed-draw loan, or a finance lease, and no specific committed debt principal appears (debt reps are redacted [***]).",
+   "source_quote": "for a purchase price per order greater than $500 million and less than $5 billion in the aggregate (the \u201cPurchase Option Threshold\u201d), then the Company shall grant EPTH an option (a \u201cPurchase Option\u201d), exercisable in EPTH\u2019s sole discretion, to purchase the number of shares of Series F-1 Preferred Stock or Alternative Securities or any equity securities issued pursuant to the Alternative Economic Position",
+   "path": "data/edgar_acquisition/documents/0002021728/000162828024041596/exhibit1015b-sx1.htm"
+  },
+  {
+   "id": "review:c76076666a4612a6",
+   "decision": "exclude_not_committed",
+   "verified_committed_usd": 0,
+   "counterparty": "EPTH / G42 Holding US LLC (purchaser/affiliate)",
+   "recourse": "none (equity instrument, no debt recourse)",
+   "rationale": "Document is a Series F-1 Preferred Stock Purchase Agreement (equity); the $5B figure is a contingent HPC-cluster purchase-order threshold, not committed issuer debt.",
+   "source_quote": "for a purchase price per order greater than $500 million and less than $5 billion in the aggregate (the \u201c Purchase Option Threshold \u201d), then the Company shall grant EPTH an option (a \u201c Purchase Option \u201d), exercisable in EPTH\u2019s sole discretion, to purchase the number of shares of Series F-1 Preferred Stock",
+   "path": "data/edgar_acquisition/documents/0002021728/000162828024041596/exhibit1015a-sx1.htm"
+  },
+  {
+   "id": "review:b92f94ff2f937d82",
+   "decision": "exclude_aggregate_or_capacity",
+   "verified_committed_usd": 0,
+   "counterparty": "EPTH / G42 Holding US LLC",
+   "recourse": "none (equity preferred stock, no guarantee or collateral)",
+   "rationale": "The $5B is an aggregate 'less than $5 billion' purchase-order capacity band gating a contingent equity Purchase Option; no drawn loan, note, or finance lease, no collateral or guarantee exists in the agreement.",
+   "source_quote": "for a purchase price per order greater than $500 million and less than $5 billion in the aggregate (the \u201c Purchase Option Threshold \u201d), then the Company shall grant EPTH an option (a \u201c Purchase Option \u201d), exercisable in EPTH\u2019s sole discretion, to purchase the number of shares of Series F-1 Preferred Stock",
+   "path": "data/edgar_acquisition/documents/0002021728/000162828024041596/exhibit1015a-sx1.htm"
+  },
+  {
+   "id": "review:b40415132127eb56",
+   "decision": "exclude_not_committed",
+   "verified_committed_usd": 0,
+   "counterparty": "EPTH / G42 Holding US LLC",
+   "recourse": "none (equity instrument)",
+   "rationale": "The $5.075B is an inflated aggregate built from the $5B option band; there is no debt instrument, hence no maturity or payment schedule -- shares are sold at $14.66/share, an equity not debt obligation.",
+   "source_quote": "each Purchaser\u2019s name on Exhibit A (the \u201c Shares \u201d), at a purchase price of $14.66 per share.",
+   "path": "data/edgar_acquisition/documents/0002021728/000162828024041596/exhibit1015a-sx1.htm"
+  },
+  {
+   "id": "review:382007a170c8dd64",
+   "decision": "exclude_resale_or_shelf_registration",
+   "verified_committed_usd": 0,
+   "counterparty": "Sales agents: B. Riley Securities, Canaccord Genuity, Cantor Fitzgerald, Citigroup, Citizens Capital Markets, Compass Point, Goldman Sachs & Co. LLC, Jefferies, J.P. Morgan Securities (JPMS), Macquarie Capital, Roth Capital Partners",
+   "recourse": "None - equity issuance; no debt, no recourse obligation",
+   "rationale": "The $6B is the maximum aggregate offering price of a shelf-registered At-The-Market EQUITY offering of ordinary shares (Rule 424(b)(5), Reg. No. 333-284369), not committed debt; it is an 'up to' capacity with explicitly no minimum offering amount, so it is neither debt nor a committed obligation.",
+   "source_quote": "This prospectus supplement, together with the accompanying prospectus, relates to our ordinary shares that may be offered and sold under the sales agreement. ... we may offer and sell our ordinary shares having an aggregate offering price of up to $6,000,000,000 from time to time through or to the sales agents, as agent or principal. ... Because there is no minimum offering amount required as a condition to close this offering, the actual total public offering amount, commissions and proceeds to us are not determinable at this time.",
+   "path": "data/edgar_acquisition/documents/0001878848/000114036126007918/ny20064909x1_424b5.htm"
+  },
+  {
+   "id": "review:0cb601b39705a54d",
+   "decision": "exclude_resale_or_shelf_registration",
+   "verified_committed_usd": 0,
+   "counterparty": "None (no underwriter, agent, lender or trustee named \u2014 debt securities would be issued in the future under an indenture 'to be entered into between us and the trustee to be named therein')",
+   "recourse": "None \u2014 no debt has been issued, drawn, or committed; no guarantee or collateral exists. Recourse/collateral scope is undefined because nothing is outstanding.",
+   "rationale": "The $5,000,000,000 is the aggregate 'up to' offering-price ceiling of a Gryphon/American Bitcoin shelf (Rule 415) registration statement covering a basket that is predominantly equity (Class A Common Stock, Preferred Stock, Depositary Shares) plus warrants, rights, purchase contracts/units and optional debt securities \u2014 not issued notes or a drawn/committed loan; debt securities, if ever sold, would be issued in the future under an indenture 'to be entered into,' with unlimited authorized amount \u2014 so zero committed issuer debt.",
+   "source_quote": "This prospectus is part of a registration statement that we filed with the SEC using a \u201cshelf\u201d registration process. Under the shelf registration process, we may from time to time, offer and sell to the public any combination of the securities described in this prospectus in one or more offerings for an aggregate offering price of up to $5,000,000,000.",
+   "path": "data/edgar_acquisition/documents/0001755953/000121390025083737/ea0255483-424b5_american.htm"
+  },
+  {
+   "id": "review:8d4c949dfe023e7e",
+   "decision": "exclude_resale_or_shelf_registration",
+   "verified_committed_usd": 0,
+   "counterparty": "None (no lender/agent; underwriters/dealers/agents to be named in future prospectus supplements)",
+   "recourse": "N/A \u2014 no debt obligation exists; this is unissued shelf capacity, not a borrowing",
+   "rationale": "The $5B is the maximum aggregate offering price of a Form S-3 universal shelf (mostly equity, debt only optional and unissued) that the issuer 'may offer...from time to time,' not any specific committed AI-infrastructure debt; no notes issued, no drawn/committed term loan, no finance lease.",
+   "source_quote": "The aggregate offering price of all securities sold by us under this prospectus may not exceed $5,000,000,000.",
+   "path": "data/edgar_acquisition/documents/0001755953/000121390025072233/ea0251445-s3_gryphon.htm"
+  },
+  {
+   "id": "review:f048939156ed74ef",
+   "decision": "exclude_aggregate_or_capacity",
+   "verified_committed_usd": 0,
+   "counterparty": "Macquarie Asset Management (MAM); Northland Capital Markets (sole placement agent)",
+   "recourse": "Asset-level / project-level financing at Polaris Forge 1 (Ellendale, ND); CEO describes it as 'Securing this funding at the asset level' \u2014 non-recourse asset-level financing, and in any case equity not debt",
+   "rationale": "The $5.0B is an aggregate 'up to' perpetual PREFERRED EQUITY facility (not debt), and only $112.5M was actually drawn; no specific committed AI-infrastructure debt obligation of the issuer is stated.",
+   "source_quote": "announced today that it has received the initial funding from its previously disclosed perpetual preferred equity financing facility of up to $5.0 billion with Macquarie Asset Management (\u201cMAM\u201d). The first draw of $112.5 million was funded today by MAM-managed funds and will support the build-out of Applied Digital\u2019s 400MW AI Factory campus in Ellendale, North Dakota (\u201cPolaris Forge 1\u201d).",
+   "path": "data/edgar_acquisition/documents/0001144879/000149315225017609/ex99-1.htm"
+  },
+  {
+   "id": "review:bcd7a0da18a07e24",
+   "decision": "exclude_resale_or_shelf_registration",
+   "verified_committed_usd": 0,
+   "counterparty": "BofA Securities, Barclays, BMO, Citigroup, Deutsche Bank, J.P. Morgan, Morgan Stanley, Wells Fargo et al. (the Agents / Forward Sellers / Forward Purchasers)",
+   "recourse": "None as committed debt \u2014 this is an at-the-market common-stock (equity) sales/forward-sale registration; no issuer debt obligation is created or committed.",
+   "rationale": "Filing is a $2.0B ATM common-stock (equity) offering prospectus supplement, not committed debt; the $32.25B basis appears nowhere in the filing (issuer's total existing indebtedness incl. finance leases is only ~$17.4B), so it is an unsupported aggregate with zero verified new committed AI-infrastructure debt.",
+   "source_quote": "Following the amendment, as of the date of this prospectus supplement, shares of our common stock having an aggregate sales price of up to $2,000,000,000 are available for offer and sale pursuant to this prospectus supplement and the accompanying prospectus.",
+   "path": "data/edgar_acquisition/documents/0001297996/000119312524044656/d778686d424b5.htm"
+  },
+  {
+   "id": "review:2d6bbd56b081a28f",
+   "decision": "exclude_aggregate_or_capacity",
+   "verified_committed_usd": 0,
+   "counterparty": "Two Prime Lending Limited (lender, as agent/lender under the Two Prime Master Loan Agreement)",
+   "recourse": "Non-recourse beyond collateral: Two Prime's recourse is limited to the Company's pledged digital-asset (Bitcoin) Collateral; collateral-maintenance/margin obligations only.",
+   "rationale": "The only facility is a REVOLVING credit facility of 'up to $100 million' that the filing's own press release says remains 'largely undrawn' -- a maximum capacity, not a committed/drawn principal; the $22.5B basis has zero support and the $400M and $3B figures are aggregate program capacity and the lender's own lending capacity.",
+   "source_quote": "The Two Prime Master Loan Agreement provides for a revolving credit facility of up to $100 million.",
+   "path": "data/edgar_acquisition/documents/0000827876/000119312525216457/clsk-20250919.htm"
+  },
+  {
+   "id": "review:53a52b34b10db009",
+   "decision": "partial_committed",
+   "verified_committed_usd": 50000000,
+   "counterparty": "Galaxy Digital LLC (lender); Bit Digital, Inc. (borrower) under Master Digital Currency Loan Agreement dated March 27, 2026",
+   "recourse": "Full recourse to Bit Digital, Inc. as the borrower; crypto/cash-collateralized with margin-call top-up and NAV/Net-Worth covenant termination triggers. The Delayed Draw Term Loan ($100M-$150M) and the $20M B. Riley portion are EXCLUDED because Bit Digital is the LENDER (asset side), not the borrower, and those are 'up to' capacity figures.",
+   "rationale": "Basis of $5.84B is a grossly inflated aggregate found nowhere in the filing; the only genuine specific committed debt OF the issuer is the $50M drawn Galaxy loan. The $100M/$150M Term Loan and $20M B. Riley assignment are loans Bit Digital MADE (it is the Lender), not debt it owes, and are also 'up to' capacity figures.",
+   "source_quote": "The initial draw on May 20, 2026 was for $50 million at an interest rate of 5.45% per annum.",
+   "path": "data/edgar_acquisition/documents/0001710350/000121390026061574/ea0292031-8k_bitdigital.htm"
+  },
+  {
+   "id": "review:a4ce758f9a84b300",
+   "decision": "partial_committed",
+   "verified_committed_usd": 1200000000,
+   "counterparty": "Computershare Trust Company, N.A. (Trustee); Iron Mountain Incorporated (issuer/Company)",
+   "recourse": "Senior unsecured notes of Iron Mountain Incorporated, guaranteed by the Subsidiary Guarantors party to the Indenture (equal and ratable benefit of Holders); not contractually subordinated",
+   "rationale": "Filing is the 6.25% Senior Notes due 2033 Indenture; the only specific committed debt issued under it is the $1,200,000,000 Initial Notes, far below the inflated $5.03B basis, so only the $1.2B issued principal is verified committed.",
+   "source_quote": "\u201cInitial Notes\u201d means the first $1,200,000,000 aggregate principal amount of Notes issued under this Indenture on the date hereof.",
+   "path": "data/edgar_acquisition/documents/0001020569/000110465924126301/tm2430275d1_ex4-1.htm"
+  },
+  {
+   "id": "review:919abfa8adfed516",
+   "decision": "exclude_asset_or_upb",
+   "verified_committed_usd": 0,
+   "counterparty": "None named (no creditor/agent identified)",
+   "recourse": "n/a \u2014 not a debt obligation",
+   "rationale": "The $4.6B is an asset/balance-sheet value (bitcoin holdings, i.e. combined cash + BTC), not committed debt; the filing's convertible-note 'offerings' are mentioned only generically with no specific principal amount.",
+   "source_quote": "Combined, our balance of cash and BTC (including loaned and collateralized bitcoin) was approximately $4.6 billion as of December 31, 2024.",
+   "path": "data/edgar_acquisition/documents/0001507605/000149315225008402/ex99-1.htm"
+  },
+  {
+   "id": "review:871058a64a7ffef1",
+   "decision": "partial_committed",
+   "verified_committed_usd": 2000000000,
+   "counterparty": "Initial purchasers via placement agents Citigroup Global Markets Inc., Goldman Sachs & Co. LLC, and J.P. Morgan Securities LLC (convertible senior notes)",
+   "recourse": "Full recourse, unsecured senior convertible obligations of the issuer IREN Limited (corporate-level convertible senior notes); no project-level collateral or guarantee scope disclosed in this filing.",
+   "rationale": "Only the two priced convertible senior note tranches ($1B 2032 Notes + $1B 2033 Notes = $2.0B) are genuine specific committed issuer debt; the $4.2738B basis is an inflated aggregate that also bundles a $1.6324B EQUITY ordinary-share offering, $300M of 'up to' greenshoe options (not committed), and ~$544.3M of EXISTING convertible notes being repurchased/extinguished (not new committed debt).",
+   "source_quote": "IREN also announced today the pricing of its previously announced private offering of $1 billion aggregate principal amount of 0.25% convertible senior notes due 2032 (the \"2032 Notes\") and $1 billion aggregate principal amount of 1.00% convertible senior notes due 2033 (the \"2033 Notes\" and, together with the 2032 Notes, the \"Convertible Notes\"), plus up to an additional $150 million aggregate principal amount of 2032 Notes and up to an additional $150 million aggregate principal amount of 2033 Notes that the initial purchasers of the concurrent offering have the options to purchase from IREN (the \"Concurrent Offering\").",
+   "path": "data/edgar_acquisition/documents/0001878848/000114036125044095/ny20060080x4_ex99-2.htm"
+  },
+  {
+   "id": "review:be30e2c009810806",
+   "decision": "partial_committed",
+   "verified_committed_usd": 3000000000,
+   "counterparty": "U.S. Bank Trust Company, National Association (Trustee); Initial Purchasers hold the Shoe Option",
+   "recourse": "Senior unsecured general obligation of the issuer IREN Limited; full recourse to the issuer with no collateral, no security/lien, and no current guarantor (indenture only permits the Company to add guarantees in the future). Convertible Senior Notes due 2033.",
+   "rationale": "$3.0B of Convertible Senior Notes are issued on the Issue Date (committed debt); the extra $0.4B in the $3.4B basis is the Initial Purchasers' optional over-allotment 'Shoe Option' (may-purchase-up-to capacity), which is excluded.",
+   "source_quote": "On the Issue Date, there will be originally issued three billion dollars ($3,000,000,000) aggregate principal amount of Notes, subject to the provisions of this Indenture (including Section 2.02).",
+   "path": "data/edgar_acquisition/documents/0001878848/000114036126021285/ef20073507_ex4-1.htm"
+  },
+  {
+   "id": "review:5f8ae4eaf7b2713e",
+   "decision": "partial_committed",
+   "verified_committed_usd": 1100000000,
+   "counterparty": "Deutsche Bank AG (lender); borrower Galaxy Helios I LLC, a wholly owned subsidiary of GDH LP",
+   "recourse": "Senior secured term loan at the Galaxy Helios I subsidiary level, secured project financing for the Dickens County, TX data center (Project Financing Documents); GDH LP support covenants only (tangible net worth >= Loan Amount, liquidity >= 10% of outstanding) - subsidiary-level project debt, not full parent recourse",
+   "rationale": "Basis $1.4B is the aggregate 'up to' facility capacity, not committed debt; the actual drawn/committed principal recognized in Notes payable at 3/31/2026 is $1.1B, so only the drawn portion is genuine committed AI data-center debt.",
+   "source_quote": "On August 15, 2025, Galaxy Helios I LLC (\"Galaxy Helios I\"), a wholly owned subsidiary of GDH LP, entered into a credit agreement (the \"Credit Agreement\") with Deutsche Bank AG providing for a senior secured term loan facility in an aggregate principal amount of up to $1.4 billion. The intended use for this facility is to finance the construction and development of a data center project in Dickens County, Texas and related costs. As of March 31, 2026, the outstanding amount drawn on this facility was $1.1 billion, which is recognized within Notes payable in the Company's condensed consolidated interim statements of financial position.",
+   "path": "data/edgar_acquisition/documents/0001859392/000162828026032994/a424b3-decemberresalesx1q1.htm"
+  },
+  {
+   "id": "review:1b2c064d3ce04769",
+   "decision": "partial_committed",
+   "verified_committed_usd": 1100000000,
+   "counterparty": "Deutsche Bank AG (lender); borrower Galaxy Helios I LLC, a wholly owned subsidiary of GDH LP",
+   "recourse": "Senior secured term loan facility at the Galaxy Helios I subsidiary level (SOFR + 4.75%, 2.5% floor); secured project financing for the Dickens County, TX data center, maturing 8/15/2028. Covenants: min DSCR 1.40 post-Stabilization, max loan-to-cost 80%; GDH LP must maintain tangible net worth >= Loan Amount and liquidity >= 10% of aggregate outstanding Loan Amount. Subsidiary project debt with limited parent support, not full direct parent recourse.",
+   "rationale": "Same Deutsche Bank facility as the contract row; the $1.4B basis is the aggregate 'up to' capacity (exclude as capacity), while the committed/drawn principal recognized in Notes payable at 3/31/2026 is $1.1B - the only genuinely committed AI data-center debt amount.",
+   "source_quote": "On August 15, 2025, Galaxy Helios I LLC entered into the Credit Agreement with Deutsche Bank AG providing for a senior secured term loan facility in an aggregate principal amount of up to $1.4 billion. The intended use for this facility is to finance the construction and development of a data center project in Dickens County, Texas and related costs. As of March 31, 2026, the outstanding amount drawn under the Credit Agreement was $1.1 billion, which is recognized within Notes payable in the Company's condensed consolidated interim statements of financial position.",
+   "path": "data/edgar_acquisition/documents/0001859392/000162828026032994/a424b3-decemberresalesx1q1.htm"
+  },
+  {
+   "id": "review:6228172162e82d2a",
+   "decision": "committed_ai_debt",
+   "verified_committed_usd": 1400000000,
+   "counterparty": "Deutsche Bank AG, New York Branch (initial lender); GLAS USA LLC (administrative and collateral agent)",
+   "recourse": "Non-recourse to Galaxy Digital: secured by all assets of borrower Galaxy Helios I LLC and the equity interests in Galaxy Helios I; NOT secured by any assets of Galaxy Digital. Galaxy Digital Holdings LP provided customary completion and limited recourse carve-out guarantees.",
+   "rationale": "Executed Credit Agreement (Aug 15, 2025) provides a specific $1.4B senior secured term loan facility with binding commitments maturing Aug 15, 2028, financing data-center (AI-infrastructure) construction in Dickens County, TX \u2014 genuine committed term-loan debt of the issuer's affiliate borrower.",
+   "source_quote": "The Credit Agreement provides for a $1,400,000,000 senior secured term loan facility.",
+   "path": "data/edgar_acquisition/documents/0001859392/000185939225000039/glxy-20250815.htm"
+  },
+  {
+   "id": "review:37fabcfa964f1ae5",
+   "decision": "committed_ai_debt",
+   "verified_committed_usd": 1400000000,
+   "counterparty": "Deutsche Bank AG, New York Branch (initial lender); GLAS USA LLC (administrative and collateral agent)",
+   "recourse": "Non-recourse to Galaxy Digital: secured by all assets of borrower Galaxy Helios I LLC and the equity interests in Galaxy Helios I; NOT secured by any assets of Galaxy Digital. Galaxy Digital Holdings LP provided customary completion and limited recourse carve-out guarantees.",
+   "rationale": "Same single financing as the other row: the Aug 15, 2025 Credit Agreement's $1.4B senior secured term loan facility with binding commitments (mature Aug 15, 2028) financing data-center construction \u2014 a specific committed term-loan obligation, not a capacity/UPB/asset figure.",
+   "source_quote": "The Credit Agreement provides for a $1,400,000,000 senior secured term loan facility.",
+   "path": "data/edgar_acquisition/documents/0001859392/000185939225000039/glxy-20250815.htm"
+  },
+  {
+   "id": "review:2006cfec32697f14",
+   "decision": "committed_ai_debt",
+   "verified_committed_usd": 1400000000,
+   "counterparty": "Deutsche Bank AG, New York Branch (initial lender); GLAS USA LLC (administrative agent and collateral agent); borrower Galaxy Helios I LLC, affiliate of Galaxy Digital Inc.",
+   "recourse": "Ring-fenced/non-recourse to Galaxy Digital: secured by all assets of Galaxy Helios I and the equity interests in Galaxy Helios I, expressly NOT secured by any assets of Galaxy Digital; Galaxy Digital Holdings LP provided customary completion and limited recourse carve-out guarantees.",
+   "rationale": "Specific, committed senior secured term loan facility of $1,400,000,000 to finance development/construction of a Texas data center (Item 2.03 direct financial obligation), with named lender/agent and a defined Aug 15, 2028 maturity -- genuine committed AI/data-center infrastructure debt, though project-financed at the subsidiary (Galaxy Helios I) level and non-recourse to the parent.",
+   "source_quote": "The Credit Agreement provides for a $1,400,000,000 senior secured term loan facility.",
+   "path": "data/edgar_acquisition/documents/0001859392/000185939225000040/a424b3-creditagreement8xka.htm"
+  },
+  {
+   "id": "review:c65c8a7bb234f98d",
+   "decision": "exclude_aggregate_or_capacity",
+   "verified_committed_usd": 0,
+   "counterparty": "Deutsche Bank AG, New York Branch (initial lender); GLAS USA LLC (agent); borrower Galaxy Helios I LLC",
+   "recourse": "Same single facility as review:2006cfec32697f14 -- non-recourse to Galaxy Digital; secured only by Galaxy Helios I assets/equity; GDH LP completion + limited recourse carve-out guarantee.",
+   "rationale": "This 'contract' row references the identical $1,400,000,000 figure from the same single senior secured term loan facility already counted in the 'capital' row (review:2006cfec32697f14); the filing contains exactly one $1.4B financing amount, so crediting this row would double-count the same single obligation -- excluded as a duplicate of the same aggregate facility figure.",
+   "source_quote": "The Credit Agreement provides for a $1,400,000,000 senior secured term loan facility.",
+   "path": "data/edgar_acquisition/documents/0001859392/000185939225000040/a424b3-creditagreement8xka.htm"
+  },
+  {
+   "id": "review:dbe88bf6570d2826",
+   "decision": "partial_committed",
+   "verified_committed_usd": 1100000000,
+   "counterparty": "Deutsche Bank AG (lender, New York Branch); borrower Galaxy Helios I LLC, a wholly owned subsidiary of GDH LP",
+   "recourse": "Senior secured term loan (project financing). Recourse at the subsidiary/SPV borrower level (Galaxy Helios I LLC), secured against the Helios AI/HPC data center project in Dickens County, West Texas; covenants restrict Galaxy Helios I specifically. Consolidated into the Company's Notes payable; no parent guaranty or non-recourse carve-out is disclosed in the filing.",
+   "rationale": "The $1.4B basis is the facility cap ('up to $1.4 billion' aggregate principal = capacity, exclude_aggregate_or_capacity); only the $1.1 billion drawn as of March 31, 2026 (per Q1 2026 repayment schedule, 2028 line = $1,069,633K) is genuinely committed, drawn AI-data-center debt recognized in Notes payable.",
+   "source_quote": "On August 15, 2025, Galaxy Helios I LLC (\u201cGalaxy Helios I\u201d), a wholly owned subsidiary of GDH LP, entered into a credit agreement (the \u201cCredit Agreement\u201d) with Deutsche Bank AG providing for a senior secured term loan facility in an aggregate principal amount of up to $1.4 billion. The intended use for this facility is to finance the construction and development of a data center project in Dickens County, Texas and related costs. As of March 31, 2026, the outstanding amount drawn on this facility was $1.1 billion, which is recognized within Notes payable in the Company\u2019s condensed consolidated interim statements of financial position.",
+   "path": "data/edgar_acquisition/documents/0001859392/000162828026032992/a424b3-juneresalesx1q12026.htm"
+  },
+  {
+   "id": "review:aca97b31c4bd1f66",
+   "decision": "partial_committed",
+   "verified_committed_usd": 1100000000,
+   "counterparty": "Deutsche Bank AG (lender, New York Branch); borrower Galaxy Helios I LLC, a wholly owned subsidiary of GDH LP",
+   "recourse": "Senior secured term loan facility structured as project financing (the 'Project Financing Documents'). Recourse runs to the SPV borrower Galaxy Helios I LLC and is secured by the Helios data center project assets (West Texas AI/HPC campus); financial/maintenance covenants (min DSCR 1.40, max loan-to-cost 80%) bind Galaxy Helios I. SOFR + 4.75% margin (2.5% floor), matures Aug 15, 2028. Consolidated into the parent's Notes payable; no parent guaranty or explicit non-recourse statement disclosed.",
+   "rationale": "Same Deutsche Bank Credit Agreement viewed as capital: $1.4B is the 'up to' facility capacity (exclude_aggregate_or_capacity), while the committed/drawn balance is $1.1 billion (precisely $1,069,633K on the 2028 maturity line of the March 31, 2026 notes-payable repayment schedule), financing the Helios AI/HPC data center buildout.",
+   "source_quote": "On August 15, 2025, Galaxy Helios I LLC (\u201cGalaxy Helios I\u201d) entered into a credit agreement (the \u201cCredit Agreement\u201d and, together with the related transaction documents, the \u201cProject Financing Documents\u201d) with Deutsche Bank AG providing for a senior secured term loan facility in an aggregate principal amount of up to $1.4 billion (the \u201cLoan Amount\u201d), to finance the first phase of the buildout of our Helios data center campus (the \u201cProject Financing\u201d). ... As of March 31, 2026, the outstanding amount drawn under the Credit Agreement was $1.1 billion, which is recognized within Notes payable.",
+   "path": "data/edgar_acquisition/documents/0001859392/000162828026032992/a424b3-juneresalesx1q12026.htm"
+  },
+  {
+   "id": "review:f7be509da8e13454",
+   "decision": "partial_committed",
+   "verified_committed_usd": 433500000,
+   "counterparty": "Deutsche Bank AG (lender) to borrower Galaxy Helios I LLC, a wholly owned subsidiary of GDH LP",
+   "recourse": "Project-financing structure ring-fenced to the subsidiary Galaxy Helios I LLC: a senior secured term loan secured at the project level with project-level covenants (the Project Financing Documents); no parent guarantee is stated in the filing.",
+   "rationale": "The $1.4B basis is the facility ceiling ('aggregate principal amount of up to $1.4 billion'), an aggregate/capacity figure, not committed debt; only the $433.5M actually drawn and recognized in Notes payable is genuine committed AI/data-center (Helios campus) debt.",
+   "source_quote": "On August 15, 2025, Galaxy Helios I LLC (\"Galaxy Helios I\"), a wholly owned subsidiary of GDH LP, entered into a credit agreement (the \"Credit Agreement\") with Deutsche Bank AG providing for a senior secured term loan facility in an aggregate principal amount of up to $1.4 billion. The intended use for this facility is to finance the construction and development of a data center project in Dickens County, Texas and related costs. As of September 30, 2025, the outstanding amount drawn on this facility was $433.5 million, which is recognized within Notes payable in the Company's condensed consolidated interim statements of financial position.",
+   "path": "data/edgar_acquisition/documents/0001859392/000185939225000083/a424b3-q3202510xq.htm"
+  },
+  {
+   "id": "review:4dc72909cb1557af",
+   "decision": "partial_committed",
+   "verified_committed_usd": 433500000,
+   "counterparty": "Deutsche Bank AG (lender / agent under the Credit Agreement) to borrower Galaxy Helios I LLC (subsidiary of GDH LP, controlled by Galaxy Digital Inc.)",
+   "recourse": "Structured as project financing ('Project Financing Documents') at the Galaxy Helios I LLC subsidiary level: senior secured term loan with project-level financial maintenance covenants (minimum 1.40 debt service coverage ratio after Stabilization; maximum 80% loan-to-cost) and limitations on Galaxy Helios I's incurrence of indebtedness/liens; no explicit parent guarantee disclosed, so recourse is ring-fenced to the project subsidiary and its collateral.",
+   "rationale": "Same Deutsche Bank facility; the $1.4B basis is an 'up to' aggregate facility capacity (the 'Loan Amount' ceiling), not committed debt. The committed/drawn principal recognized in Notes payable is $433.5M (table: $433,471K due 2028), so only that portion is verified committed AI-infrastructure debt.",
+   "source_quote": "On August 15, 2025, Galaxy Helios I LLC (\"Galaxy Helios I\") entered into a credit agreement (the \"Credit Agreement\" and, together with the related transaction documents, the \"Project Financing Documents\") with Deutsche Bank AG providing for a senior secured term loan facility in an aggregate principal amount of up to $1.4 billion (the \"Loan Amount\"), to finance the first phase of the buildout of our Helios data center campus (the \"Project Financing\").",
+   "path": "data/edgar_acquisition/documents/0001859392/000185939225000083/a424b3-q3202510xq.htm"
+  },
+  {
+   "id": "review:a0e960204ffea3b9",
+   "decision": "committed_ai_debt",
+   "verified_committed_usd": 2150000000,
+   "counterparty": "Issuer: APLD ComputeCo 2 LLC (subsidiary of Applied Digital Corp.); Trustee/Collateral Agent: Wilmington Trust, National Association; Initial Purchasers' Representative: Goldman Sachs & Co. LLC",
+   "recourse": "Senior secured obligations of the Issuer (APLD ComputeCo 2 LLC), guaranteed by the Subsidiary Guarantors; secured by project collateral. Parent Applied Digital provided only a customary completion guarantee, not a guarantee of note principal -- so the debt principal is effectively non-recourse to the parent.",
+   "rationale": "Completed private offering of issued 6.750% Senior Secured Notes due 2031 with a specific aggregate principal amount of $2.15B sold/issued to fund 200MW AI Factory construction -- genuine committed, issued debt, not a shelf/resale cap or program capacity.",
+   "source_quote": "On March 10, 2026, APLD ComputeCo 2 LLC (the \u201cIssuer\u201d), a subsidiary of Applied Digital Corporation (the \u201cCompany\u201d or \u201cApplied Digital\u201d), completed its previously announced private offering of 6.750% Senior Secured Notes due 2031 (the \u201cnotes\u201d). ... The aggregate principal amount of notes sold in the offering was $2.15 billion.",
+   "path": "data/edgar_acquisition/documents/0001144879/000149315226009538/form8-k.htm"
+  },
+  {
+   "id": "review:f6a915e225c1ded4",
+   "decision": "exclude_resale_or_shelf_registration",
+   "verified_committed_usd": 0,
+   "counterparty": "Sales Agents: Barclays Capital Inc., BMO Capital Markets Corp., BTIG LLC, Cantor Fitzgerald & Co., Guggenheim Securities LLC, H.C. Wainwright & Co. LLC, Mizuho Securities USA LLC",
+   "recourse": "None \u2014 this is equity, not debt; no recourse or guarantee. Agents act on a commercially reasonable efforts basis and are not obligated to sell any shares; no escrow/trust arrangement.",
+   "rationale": "The $2.0B is the maximum capacity of an at-the-market COMMON STOCK (equity) offering under a Form S-3 shelf prospectus supplement, not committed debt \u2014 no notes, term loan, or finance lease, and agents are not required to sell any amount.",
+   "source_quote": "We have entered into an at-the-market offering agreement, dated March 28, 2025 (the \u201cSales Agreement\u201d), with Barclays Capital Inc., BMO Capital Markets Corp., BTIG, LLC, Cantor Fitzgerald & Co., Guggenheim Securities, LLC, H.C. Wainwright & Co., LLC and Mizuho Securities USA LLC (each a \u201cSales Agent\u201d and collectively the \u201cSales Agents\u201d), under which we may offer and sell up to $2.0 billion of shares of our common stock, par value $0.0001 per share (\u201ccommon stock\u201d), offered by this prospectus supplement and the accompanying base prospectus.",
+   "path": "data/edgar_acquisition/documents/0001507605/000164117225001325/form424b5.htm"
+  },
+  {
+   "id": "review:fe1e801a9669d639",
+   "decision": "exclude_resale_or_shelf_registration",
+   "verified_committed_usd": 0,
+   "counterparty": "Cantor Fitzgerald & Co. and other sales agents (acting as agents under the Controlled Equity Offering Sales Agreement); shelf Registration No. 333-283579",
+   "recourse": "None \u2014 this is an equity offering, not debt; no recourse, guarantee or collateral. Sales agents are not obligated to sell any amount.",
+   "rationale": "The $1,000,000,000 is the aggregate offering capacity of an at-the-market COMMON STOCK offering registered under a shelf registration statement (Form 424(b)(5)), not committed AI-infrastructure debt of the issuer; no notes/loan/finance-lease principal is committed.",
+   "source_quote": "Shares having an aggregate offering price of up to $1,000,000,000.",
+   "path": "data/edgar_acquisition/documents/0001964789/000110465925081946/tm2524001d1_424b5.htm"
+  },
+  {
+   "id": "review:3e51c045c0c769a0",
+   "decision": "exclude_resale_or_shelf_registration",
+   "verified_committed_usd": 0,
+   "counterparty": "Cantor Fitzgerald & Co. and the other U.S./Canadian sales agents under the December 4, 2024 Controlled Equity Offering Sales Agreement; shelf Registration No. 333-283579",
+   "recourse": "None \u2014 equity, not debt. No drawn loan, no finance-lease principal, no guarantee and no collateral; there is no minimum amount that must be raised and the agents are not required to sell any specific dollar amount.",
+   "rationale": "Same instrument as the prior row: an 'up to $1,000,000,000' aggregate at-the-market common-stock offering capacity under a shelf registration \u2014 an equity capacity figure, not a specific committed debt obligation, so there is no recourse/guarantee/collateral scope to assess.",
+   "source_quote": "In accordance with the terms of the sales agreement, under this prospectus supplement we may offer and sell shares of our common stock having an aggregate offering price of up to $1,000,000,000 from time to time through the sales agents, acting as our agents, or directly to the sales agents, acting as principals.",
+   "path": "data/edgar_acquisition/documents/0001964789/000110465925081946/tm2524001d1_424b5.htm"
+  },
+  {
+   "id": "review:22c15ce022b76e25",
+   "decision": "exclude_not_committed",
+   "verified_committed_usd": 0,
+   "counterparty": "Holders of IREN's Existing 2029 (3.50% due 2029) and Existing 2030 (3.25% due 2030) Convertible Notes; placement agents Citigroup, Goldman Sachs & Co. LLC and J.P. Morgan (for the equity offering funding it)",
+   "recourse": "None as committed debt \u2014 this is an equity-funded cash outflow that extinguishes existing notes, not a recourse obligation of the issuer",
+   "rationale": "The $1,632.4M basis is the aggregate REPURCHASE PRICE paid to retire/extinguish existing convertible notes (including accrued interest), funded by the equity-financed Concurrent Equity Offering (39.7M shares at $41.12) \u2014 it reduces issuer debt and is not newly issued or committed AI-infrastructure debt; the new committed debt is the separate $2.3B convertible notes, not this figure.",
+   "source_quote": "to repurchase approximately $227.7 million aggregate principal amount of the Existing 2030 Convertible Notes and approximately $316.6 million aggregate principal amount of the Existing 2029 Convertible Notes for an aggregate repurchase price of approximately $1,632.4 million, funded by the Concurrent Equity Offering (as defined below) and includes accrued and unpaid interest on the Existing Convertible Notes to be repurchased (the \"Repurchase\").",
+   "path": "data/edgar_acquisition/documents/0001878848/000114036125044888/ef20060782_ex99-1.htm"
+  },
+  {
+   "id": "review:7ddfdbb51c2aba3e",
+   "decision": "exclude_resale_or_shelf_registration",
+   "verified_committed_usd": 0,
+   "counterparty": "H.C. Wainwright & Co., LLC (sales agent for ATM equity offering)",
+   "recourse": "none - no debt obligation exists; figure is an equity net-tangible-book-value metric, not borrowing",
+   "rationale": "The $1.446B is CleanSpark's as-adjusted net tangible book value at Dec 31, 2023 in a 424(b)(5) ATM COMMON STOCK shelf offering (up to $800M via Wainwright); it is an equity book-value accounting figure, not issued notes, a committed term loan, or finance-lease principal. The doc's only Description of Debt Securities is generic shelf boilerplate with no specific committed amount.",
+   "source_quote": "After giving effect to the sale of shares of our common stock in this offering at the assumed public offering price of $23.11 per share (which was the closing sales price of our common stock on the Nasdaq Capital Market on March 27, 2024), and after deducting commissions and estimated offering expenses, our as adjusted net tangible book value as of December 31, 2023 would have been approximately $1,446 million, or approximately $6.57 per share.",
+   "path": "data/edgar_acquisition/documents/0000827876/000119312524080832/d793236d424b5.htm"
+  },
+  {
+   "id": "review:c744b972743dbed0",
+   "decision": "exclude_not_committed",
+   "verified_committed_usd": 0,
+   "counterparty": "Google (backstop provider); Fluidstack (lease obligor); joint venture project to be project-financed",
+   "recourse": "No recourse to issuer TeraWulf for the $1.3B; it is Google backstopping Fluidstack's lease obligations. TeraWulf contributes only staged equity and issued no securities/warrants.",
+   "rationale": "The $1.3B is Google's credit backstop of Fluidstack's lease obligations in support of unquantified project debt -- not issued notes/bonds, a committed term loan, or finance-lease principal of the issuer TeraWulf; no specific committed debt principal of the issuer is stated.",
+   "source_quote": "The joint venture will be project-financed, with Google backing approximately $1.3 billion of Fluidstack's long-term lease obligations to support project-related debt financing, materially enhancing credit quality for project debt.",
+   "path": "data/edgar_acquisition/documents/0001083301/000110465925102858/tm2529509d1_ex99-1.htm"
+  },
+  {
+   "id": "review:d6ccdaf9b12f96fe",
+   "decision": "partial_committed",
+   "verified_committed_usd": 1150000000,
+   "counterparty": "U.S. Bank Trust Company, National Association (Trustee); issuer IREN Limited (ACN 629 842 799)",
+   "recourse": "Senior unsecured obligation of IREN Limited (parent issuer); no collateral, security interest, lien, or guarantee granted at issuance \u2014 convertible senior notes ranking equally and ratably among holders",
+   "rationale": "Indenture (Dec 8, 2025) for IREN's 0.25% Convertible Senior Notes due 2032 issues a specific $1,150,000,000 of Initial Notes on the Issue Date = genuine committed issuer debt; the $1.3B basis inflates this by adding the $150M Shoe Option (greenshoe purchase option, not committed) plus uncapped Additional Notes, so only $1.15B is committed.",
+   "source_quote": "Initial Notes. On the Issue Date, there will be originally issued one billion one hundred fifty million dollars ($1,150,000,000) aggregate principal amount of Notes, subject to the provisions of this Indenture",
+   "path": "data/edgar_acquisition/documents/0001878848/000114036125044888/ef20060782_ex4-1.htm"
+  },
+  {
+   "id": "review:cfd0fb273d721e56",
+   "decision": "partial_committed",
+   "verified_committed_usd": 1150000000,
+   "counterparty": "U.S. Bank Trust Company, National Association (Trustee); Initial Purchasers under the Purchase Agreement",
+   "recourse": "Solely corporate obligation of the issuer CleanSpark, Inc. (unsecured, unguaranteed); Section 12.01 expressly disclaims recourse against any incorporator, stockholder, employee, agent, Officer, director or Subsidiary. No collateral or guarantee stated.",
+   "rationale": "Executed Indenture for issued 0% Convertible Senior Notes due 2032 = genuine committed issuer debt; specific stated aggregate principal is $1,150,000,000, not the inflated $1,160,000,000 basis. The unquantified Initial Purchasers' over-allotment option is excluded as it has no specific dollar amount in the filing.",
+   "source_quote": "The aggregate principal amount of Notes that may be authenticated and delivered under this Indenture is initially limited to $1,150,000,000 (as increased by an amount equal to the aggregate principal amount of additional Notes purchased by the Initial Purchasers pursuant to the exercise of their option to purchase additional Notes as set forth in the Purchase Agreement, subject to Section 2.10 ...).",
+   "path": "data/edgar_acquisition/documents/0000827876/000119312525280105/clsk-ex4_1.htm"
+  },
+  {
+   "id": "review:4f21bf54c7a47aab",
+   "decision": "exclude_not_committed",
+   "verified_committed_usd": 0,
+   "counterparty": "H.C. Wainwright & Co., LLC (sales agent for the $500M ATM common-stock program); trustee under any future debt-securities indenture is unnamed",
+   "recourse": "none - no debt obligation exists; figure is an equity book-value metric of the issuer",
+   "rationale": "The $1,090.7M basis is the issuer's AS-ADJUSTED NET TANGIBLE BOOK VALUE (total tangible assets less total liabilities, after an assumed $500M common-stock ATM raise) from the dilution section of an S-3ASR shelf; it is an equity/book-value figure, not any issued, drawn, or committed debt. The filing's only 'Debt Securities' are a prospective shelf category ('any limit upon the aggregate principal amount that may be issued') with no specific committed principal; no term loan, notes, or finance lease is outstanding.",
+   "source_quote": "After giving effect to the sale of shares of our common stock in this offering at the assumed public offering price of $10.76 per share ... and after deducting commissions and estimated offering expenses, our as adjusted net tangible book value as of September 30, 2023 would have been approximately $1,090.7 million or approximately $5.28 per share.",
+   "path": "data/edgar_acquisition/documents/0000827876/000119312524003460/d83199ds3asr.htm"
+  },
+  {
+   "id": "review:9d2e62e467af202c",
+   "decision": "committed_ai_debt",
+   "verified_committed_usd": 1025000000,
+   "counterparty": "Wilmington Trust, National Association (Trustee); initial purchasers under Purchase Agreement dated October 29, 2025",
+   "recourse": "Senior UNSECURED obligation of TeraWulf Inc. (the issuer) only. No subsidiary guarantees and no collateral. Section 12.01 ('Indenture and Notes Solely Corporate Obligations') expressly waives recourse against any incorporator, stockholder, employee, officer, director or Subsidiary; holders look to the Company 'as an unsecured general creditor.' The 'Guarantee' mentions elsewhere are signature-guarantee-medallion (Rule 17Ad-15) transfer formalities, not debt guarantees.",
+   "rationale": "Issued 0.00% Convertible Senior Notes due 2032 of TeraWulf Inc. with a specific $1.025B principal, backed by an executed indenture and Purchase Agreement -- genuine committed issuer debt, not a shelf/capacity figure; full basis is committed.",
+   "source_quote": "This Note is one of a duly authorized issue of Notes of the Company, designated as its 0.00% Convertible Senior Notes due 2032 (the \"Notes\"), limited to the aggregate principal amount of $1,025,000,000, all issued or to be issued under and pursuant to an Indenture dated as of October 31, 2025 (the \"Indenture\"), between the Company and Wilmington Trust, National Association, as trustee.",
+   "path": "data/edgar_acquisition/documents/0001083301/000110465925104928/tm2529894d1_ex4-1.htm"
+  },
+  {
+   "id": "review:a306e4ce11948278",
+   "decision": "partial_committed",
+   "verified_committed_usd": 1000000000,
+   "counterparty": "U.S. Bank Trust Company, National Association (Trustee); issuer IREN Limited",
+   "recourse": "Senior unsecured, full-recourse general obligation of IREN Limited; no collateral pledged (notes rank equally and ratably with other senior obligations); guarantees only optionally addable later under Section 9.01(B), none in place at issuance",
+   "rationale": "Issued 0.00% Convertible Senior Notes due 2031 are genuine committed issuer debt, but the filing fixes the issued principal at $1,000,000,000, $5M below the inflated $1,005,000,000 basis; committed part = $1.0B.",
+   "source_quote": "(A) Initial Notes. On the Issue Date, there will be originally issued one billion dollars ($1,000,000,000) aggregate principal amount of Notes, subject to the provisions of this Indenture (including Section 2.02).",
+   "path": "data/edgar_acquisition/documents/0001878848/000114036125038083/ef20056955_ex4-1.htm"
+  },
+  {
+   "id": "review:abaa510e35037e1b",
+   "decision": "committed_ai_debt",
+   "verified_committed_usd": 1000000000,
+   "counterparty": "U.S. Bank Trust Company, National Association (Trustee); Initial Purchasers under Purchase Agreement dated November 18, 2024",
+   "recourse": "Senior, unsecured obligation of the issuer MARA Holdings, Inc. only. No subsidiary guarantees (Sec. 12.01 expressly bars recourse against any Subsidiary, officer, director, or stockholder; Sec. 4601 only permits adding guarantees later). Convertible into MARA common stock; full $1.0B issued at close.",
+   "rationale": "Issued 0.00% Convertible Senior Notes due 2030 of MARA Holdings; Form of Note confirms full $1,000,000,000 'all issued or to be issued' under an underwritten Purchase Agreement, not a shelf/resale or mere authentication ceiling.",
+   "source_quote": "This Note is one of a duly authorized issue of Notes of the Company, designated as its 0.00% Convertible Senior Notes due 2030 (the \u201cNotes\u201d), limited to the aggregate principal amount of $1,000,000,000, all issued or to be issued under and pursuant to an Indenture dated as of November 20, 2024 (the \u201cIndenture\u201d), between the Company and U.S. Bank Trust Company, National Association, as trustee.",
+   "path": "data/edgar_acquisition/documents/0001507605/000149315224047078/ex4-1.htm"
+  },
+  {
+   "id": "review:c605dc7e3c8f3f19",
+   "decision": "committed_ai_debt",
+   "verified_committed_usd": 1000000000,
+   "counterparty": "Initial purchasers via placement agents Citigroup Global Markets Inc., Goldman Sachs & Co. LLC, and J.P. Morgan Securities LLC; 0.25% convertible senior notes due 2032",
+   "recourse": "Senior unsecured recourse to the issuer IREN Limited (convertible senior notes; no collateral pledged / no specific AI-asset security stated)",
+   "rationale": "Filing states the priced Concurrent Notes Offering includes $1,000,000,000 aggregate principal amount of 0.25% convertible senior notes due 2032 \u2014 a specific, priced, committed senior note obligation of the issuer, settling Dec 8, 2025, not a shelf/resale, capacity, or aggregate 'up to' figure.",
+   "source_quote": "On December 2, 2025, we announced the pricing of our previously announced private offering (the \u201cConcurrent Notes Offering\u201d) of $1,000,000,000 aggregate principal amount of 0.25% convertible senior notes due 2032 (the \u201c2032 Notes\u201d) and $1,000,000,000 aggregate principal amount of 1.00% convertible senior notes due 2033 (the \u201c2033 Notes\u201d and, together with the 2032 Notes, the \u201cNotes\u201d).",
+   "path": "data/edgar_acquisition/documents/0001878848/000114036125044082/ny20060080x5_fwp.htm"
+  },
+  {
+   "id": "review:da54496e9db5047e",
+   "decision": "partial_committed",
+   "verified_committed_usd": 850000000,
+   "counterparty": "Wilmington Trust, National Association (Trustee); Morgan Stanley & Co. LLC (representative of Initial Purchasers)",
+   "recourse": "Senior unsecured obligations of TeraWulf Inc. (the issuer); no collateral, no subsidiary guarantees. 1.00% Convertible Senior Notes due 2031; proceeds partly fund the Company's data center expansion (AI/HPC infrastructure).",
+   "rationale": "The $1B basis is the indenture's authorized ceiling ('initially limited to $1,000,000,000' / 'not to exceed'); the actual committed/issued debt is the $850M of notes sold in the offering. The additional $150M was an unexercised greenshoe option, not committed.",
+   "source_quote": "The aggregate principal amount of notes sold in the offering was $850 million.",
+   "verified_committed_usd_note": "850000000",
+   "path": "data/edgar_acquisition/documents/0001083301/000110465925080911/tm2523651d5_ex4-1.htm"
+  },
+  {
+   "id": "review:dbf9783dcc10bfb7",
+   "decision": "committed_ai_debt",
+   "verified_committed_usd": 1000000000,
+   "counterparty": "Initial purchasers of the 1.00% Convertible Senior Notes due 2031 (Rule 144A private placement; qualified institutional buyers)",
+   "recourse": "Senior unsecured recourse obligation of TeraWulf Inc. (convertible senior notes; no collateral/lien described in filing). Proceeds allocated to data center expansion and general corporate purposes.",
+   "rationale": "Issued 1.00% Convertible Senior Notes due 2031; offering completed/settled Aug 22, 2025 with total principal of $1.0B (incl. $150M greenshoe) and ~$975.2M net proceeds received \u2014 a specific committed debt obligation of the issuer, not a shelf/resale or capacity figure.",
+   "source_quote": "Including the greenshoe, the total principal amount of Convertible Notes sold in the offering was $1.0 billion.",
+   "path": "data/edgar_acquisition/documents/0001083301/000110465925081886/tm2523651d6_ex99-1.htm"
+  }
+ ],
+ "adversarial_verification": {
+  "items_verified": 39,
+  "by_verdict": {
+   "confirmed": 36,
+   "corrected": 3
+  },
+  "refuted_count": 0,
+  "raw_confirmed_sum_usd": 89492000000,
+  "distinct_instrument_count": 32,
+  "distinct_committed_ai_debt_usd": 76258500000
+ },
+ "deduped_distinct_instruments": {
+  "method": "Canonical instrument-level de-duplication of the 39 adversarially-confirmed committed rows (0 refuted). Same instrument disclosed across multiple filings collapsed to ONE; facility size counted once (draws are subsets). AI-linkage classed: core_cluster (neocloud/crypto-AI compute), datacenter_infra (colo/REIT/CDN general corporate notes), questionable_linkage (SpaceX bridge facility = space, not AI data centers -- excluded from headline).",
+  "instrument_count": 19,
+  "core_cluster_committed_usd": 25775000000,
+  "datacenter_infra_committed_usd": 3950000000,
+  "questionable_linkage_committed_usd": 20000000000,
+  "distinct_committed_ex_questionable_usd": 29725000000,
+  "distinct_committed_all_usd": 49725000000,
+  "instruments": [
+   {
+    "instrument": "TeraWulf 7.750% Senior Secured Notes 2030",
+    "issuer": "TeraWulf",
+    "committed_usd": 3200000000,
+    "ai_class": "core_cluster",
+    "member_row_count": 6
+   },
+   {
+    "instrument": "TeraWulf 0% Convertible 2032",
+    "issuer": "TeraWulf",
+    "committed_usd": 1025000000,
+    "ai_class": "core_cluster",
+    "member_row_count": 1
+   },
+   {
+    "instrument": "TeraWulf 1% Convertible 2031 (incl greenshoe)",
+    "issuer": "TeraWulf",
+    "committed_usd": 1000000000,
+    "ai_class": "core_cluster",
+    "member_row_count": 2
+   },
+   {
+    "instrument": "Hut 8 6.192% Senior Secured Notes 2042",
+    "issuer": "Hut 8",
+    "committed_usd": 3250000000,
+    "ai_class": "core_cluster",
+    "member_row_count": 1
+   },
+   {
+    "instrument": "Applied Digital (ComputeCo) 9.25% SSN 2030",
+    "issuer": "Applied Digital",
+    "committed_usd": 2350000000,
+    "ai_class": "core_cluster",
+    "member_row_count": 2
+   },
+   {
+    "instrument": "Applied Digital (ComputeCo 2) 6.75% SSN 2031",
+    "issuer": "Applied Digital",
+    "committed_usd": 2150000000,
+    "ai_class": "core_cluster",
+    "member_row_count": 1
+   },
+   {
+    "instrument": "MARA 0% Convertible 2032",
+    "issuer": "MARA Holdings",
+    "committed_usd": 950000000,
+    "ai_class": "core_cluster",
+    "member_row_count": 1
+   },
+   {
+    "instrument": "MARA 0% Convertible 2030",
+    "issuer": "MARA Holdings",
+    "committed_usd": 1000000000,
+    "ai_class": "core_cluster",
+    "member_row_count": 1
+   },
+   {
+    "instrument": "CoreWeave DDTL 5.0 Facility 2031",
+    "issuer": "CoreWeave",
+    "committed_usd": 3100000000,
+    "ai_class": "core_cluster",
+    "member_row_count": 3
+   },
+   {
+    "instrument": "IREN 1.00% Convertible 2033",
+    "issuer": "IREN",
+    "committed_usd": 3000000000,
+    "ai_class": "core_cluster",
+    "member_row_count": 2
+   },
+   {
+    "instrument": "IREN 0.25% Convertible 2032",
+    "issuer": "IREN",
+    "committed_usd": 1150000000,
+    "ai_class": "core_cluster",
+    "member_row_count": 3
+   },
+   {
+    "instrument": "IREN 0.25%/0% Convertible 2031",
+    "issuer": "IREN",
+    "committed_usd": 1000000000,
+    "ai_class": "core_cluster",
+    "member_row_count": 1
+   },
+   {
+    "instrument": "Galaxy Helios I Senior Secured Term Loan (Deutsche Bank) 2028",
+    "issuer": "Galaxy Digital",
+    "committed_usd": 1400000000,
+    "ai_class": "core_cluster",
+    "member_row_count": 9
+   },
+   {
+    "instrument": "CleanSpark 0% Convertible 2032",
+    "issuer": "CleanSpark",
+    "committed_usd": 1150000000,
+    "ai_class": "core_cluster",
+    "member_row_count": 1
+   },
+   {
+    "instrument": "Bit Digital / Galaxy currency loan (initial draw)",
+    "issuer": "Bit Digital",
+    "committed_usd": 50000000,
+    "ai_class": "core_cluster",
+    "member_row_count": 1
+   },
+   {
+    "instrument": "Equinix 4.600% Senior Notes 2030",
+    "issuer": "Equinix",
+    "committed_usd": 1250000000,
+    "ai_class": "datacenter_infra",
+    "member_row_count": 1
+   },
+   {
+    "instrument": "Iron Mountain 6.25% Senior Notes 2033",
+    "issuer": "Iron Mountain",
+    "committed_usd": 1200000000,
+    "ai_class": "datacenter_infra",
+    "member_row_count": 1
+   },
+   {
+    "instrument": "Akamai 0.25% Convertible 2033",
+    "issuer": "Akamai",
+    "committed_usd": 1500000000,
+    "ai_class": "datacenter_infra",
+    "member_row_count": 1
+   },
+   {
+    "instrument": "SpaceX $20B Bridge Term Loan Facility 2027",
+    "issuer": "SpaceX",
+    "committed_usd": 20000000000,
+    "ai_class": "questionable_linkage",
+    "member_row_count": 1
+   }
+  ],
+  "caveat": "IREN's 0.25% 2032 convertible stack carries residual dedup uncertainty (~+-$1B): multiple 2032 disclosures ($1.0B/$1.15B/$2.0B-concurrent) treated conservatively as one $1.15B instrument plus a separate $1.0B 2031 leg. SpaceX $20B bridge facility is filing-verified but its AI-data-center linkage is dubious (refinances existing subsidiary debt; SpaceX is space) -> excluded from the headline AI figure."
+ },
+ "original_inflated_basis_usd": 1451858410389
+}

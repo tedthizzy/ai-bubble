@@ -15,6 +15,7 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
+from bubble.analysis.adjudicated_committed_debt import aggregate_adjudicated_committed_debt
 from bubble.analysis.burry_verdict import synthesize_core_verdict
 from bubble.analysis.circular_financing import analyze_circular_financing
 from bubble.analysis.circular_financing import load_edges as load_circular_financing_edges
@@ -2045,8 +2046,8 @@ def load_neo4j_analytics(data_dirs: list[str]) -> dict[str, Any]:
     return {}
 
 
-def load_gds_graph_analytics(path: Path) -> dict[str, Any]:
-    """Load optional GDS (betweenness/PageRank/Louvain) analytics fixture."""
+def load_json_dict_fixture(path: Path) -> dict[str, Any]:
+    """Load an optional JSON-object fixture (GDS analytics, adjudicated debt, etc.)."""
 
     if path.exists():
         loaded = json.loads(path.read_text())
@@ -2892,10 +2893,17 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:  #
     if (neo4j_analytics.get("load") or {}).get("status") == "loaded":
         mismatch_ratios["neo4j_production_graph"] = neo4j_analytics
     gds_graph_analytics = aggregate_gds_analytics(
-        load_gds_graph_analytics(Path("handoffs/ai_gds_graph_analytics_20260603.json"))
+        load_json_dict_fixture(Path("handoffs/ai_gds_graph_analytics_20260603.json"))
     )
     if gds_graph_analytics.get("status") == "source_backed":
         mismatch_ratios["gds_graph_analytics"] = gds_graph_analytics
+    adjudicated_committed_debt = aggregate_adjudicated_committed_debt(
+        load_json_dict_fixture(
+            Path("handoffs/ai_adjudicated_ai_direct_committed_debt_20260603.json")
+        )
+    )
+    if adjudicated_committed_debt.get("status") == "source_backed":
+        mismatch_ratios["adjudicated_committed_debt"] = adjudicated_committed_debt
     satellite_aggregate = aggregate_satellite_observations(
         load_satellite_observations(Path("data/physical/satellite_observations.json"))
     )
@@ -3989,8 +3997,15 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:  #
                     "Partially measured, still not final. Current source-backed deal coverage "
                     "now supports a preliminary capital-structure calculation, but extraction "
                     "review and broader SEC/SPV coverage are still required before this can be "
-                    "treated as ecosystem leverage."
+                    "treated as ecosystem leverage. BOTTOM-UP CHECK: adjudicating the 76 highest-impact "
+                    "AI-direct blocked rows (which carried ~$1.45T of inflated 'exposure' bases) against "
+                    "primary filings, with an adversarial re-verification (0 of 39 committed decisions "
+                    "refuted) and instrument-level de-duplication, yields ~$25.8B of distinct committed "
+                    "AI-compute-cluster debt (~$29.7B incl. data-center-infra issuers) -- a ~98% "
+                    "over-count stripped. The financed-cluster committed debt is small and specific, not "
+                    "a trillion-dollar aggregate."
                 ),
+                "adjudicated_ai_direct_committed_debt": adjudicated_committed_debt,
                 "current_source_backed_deals": coverage.source_backed_deals,
                 "low_target_deals": TARGET_DEALS_LOW,
                 "current_capital_deal_count": capital_metrics.deal_count,
