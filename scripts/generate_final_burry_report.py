@@ -29,6 +29,10 @@ from bubble.analysis.debt_service import analyze_debt_service
 from bubble.analysis.demand_side import aggregate_demand_side, load_demand_side
 from bubble.analysis.ecosystem_scope import scope_deals
 from bubble.analysis.end_holders import aggregate_end_holders, load_end_holders
+from bubble.analysis.equipment_bottlenecks import (
+    aggregate_equipment_bottlenecks,
+    load_equipment_bottlenecks,
+)
 from bubble.analysis.evidence import EvidenceGate, SemanticEvidenceBucket, classify_claim_semantics
 from bubble.analysis.gpu_economics import load_gpu_price_evidence, summarize_gpu_depreciation_gap
 from bubble.analysis.physical_capacity import build_physical_capacity_summary
@@ -1401,6 +1405,32 @@ def report_answer_metric_audits(  # noqa: PLR0912, PLR0915
                 unit="count",
             )
 
+        # Supply-side equipment bottlenecks (can they physically build it). Audit
+        # the count of verified chokepoints that gate the buildout + max lead time.
+        equip = m.get("equipment_bottlenecks", {})
+        if equip.get("status") == "source_backed":
+            add(
+                "mismatch.equipment.gating_chokepoint_count",
+                "Number of AI data-center supply-chain chokepoints (TSMC CoWoS, HBM, GPUs, gas "
+                "turbines, transformers, gensets, cooling, electrical labor) that are BOTH a "
+                "hard/material constraint AND gate the buildout, from supplier filings (10-K/10-Q/"
+                "earnings calls, adversarially verified). A physical cap on revenue conversion "
+                "independent of demand or financing; single-source gates propagate a shock to all "
+                "downstream issuers at once.",
+                equip.get("gating_chokepoint_count"),
+                [mismatch_artifact],
+                unit="count",
+            )
+            if equip.get("max_lead_time_months") is not None:
+                add(
+                    "mismatch.equipment.max_lead_time_months",
+                    "Longest verified equipment lead time across the gating chokepoints (months) — "
+                    "the slowest physical input the announced buildout must wait on.",
+                    equip.get("max_lead_time_months"),
+                    [mismatch_artifact],
+                    unit="months",
+                )
+
         # Forward cash-flow stress (how severely it cracks). Audit the adverse-case
         # cluster coverage and breach count from the source-backed base financials.
         sstress = m.get("scenario_stress", {})
@@ -2409,6 +2439,11 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:  #
     )
     if end_holders_aggregate.get("status") == "source_backed":
         mismatch_ratios["ultimate_end_holders"] = end_holders_aggregate
+    equipment_bottlenecks_aggregate = aggregate_equipment_bottlenecks(
+        load_equipment_bottlenecks(Path("handoffs/ai_equipment_bottlenecks_20260603.json"))
+    )
+    if equipment_bottlenecks_aggregate.get("status") == "source_backed":
+        mismatch_ratios["equipment_bottlenecks"] = equipment_bottlenecks_aggregate
     ai_direct_core_verdict = synthesize_core_verdict(
         cluster_dscr=mismatch_ratios.get("cluster_interest_coverage", {}),
         thesis_findings=thesis_findings,
@@ -2429,6 +2464,7 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:  #
         power_exposure=power_exposure_aggregate,
         scenario_stress=mismatch_ratios.get("scenario_stress", {}),
         end_holders=end_holders_aggregate,
+        equipment_bottlenecks=equipment_bottlenecks_aggregate,
     )
     coverage_dict = coverage.to_dict()
     physical_capacity_dict = physical_capacity.to_dict()
@@ -3908,6 +3944,19 @@ def main() -> None:
     else:
         holder_line = "pending source-backed end-holder extraction."
 
+    _eq = verdict.get("supply_side_equipment_constraints", {}) or {}
+    if _eq.get("chokepoint_count") is not None:
+        equip_line = (
+            f"{_eq.get('gating_chokepoint_count')}/{_eq.get('chokepoint_count')} verified supply-chain "
+            f"chokepoints gate the buildout (lead times up to ~{_eq.get('max_lead_time_months')} months, "
+            f"median ~{_eq.get('median_lead_time_months')}); single-source/duopoly: "
+            f"{', '.join((_eq.get('single_source_or_duopoly_chokepoints') or [])[:6])}. "
+            f"{_eq.get('filing_verified_suppliers')} suppliers filing-verified. "
+            f"{str(_eq.get('constraint_read', '')).split(':')[0]}."
+        )
+    else:
+        equip_line = "pending source-backed equipment-bottleneck extraction."
+
     md_verdict = f"""## The Verdict (Tiered)
 
 **AI-direct core:** `{verdict.get("core_verdict")}` at confidence **{verdict.get("core_verdict_confidence")}**.
@@ -3922,6 +3971,8 @@ ecosystem-wide bubble call is not supported.
 **Power / ratepayer exposure (the hidden downside leg):** {power_line}
 
 **Ultimate end-holders (who really eats it — SEC ownership filings):** {holder_line}
+
+**Supply-side equipment bottlenecks (can they physically build it — supplier filings):** {equip_line}
 
 **Source-backed fragility facts (primary 10-K/10-Q, adversarially verified):**
 {_bullets(verdict.get("source_backed_fragility_facts"))}

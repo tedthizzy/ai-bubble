@@ -1,0 +1,308 @@
+[
+  {
+    "chokepoint": "TSMC CoWoS / advanced 2.5D packaging (Chip-on-Wafer-on-Substrate) — the interposer-and-packaging step integrating GPU/ASIC logic dies with HBM stacks; the true throughput gate for AI accelerator supply (a finished H100/B200/GB200-class part cannot ship without a CoWoS slot).",
+    "verified_suppliers": [
+      {
+        "name": "TSMC (Taiwan Semiconductor Manufacturing Co.)",
+        "approx_share_or_role": "Dominant single source for AI-GPU advanced packaging: ~50%+ of high-end 2.5D (CoWoS) and effectively ~100% of leading AI GPU/ASIC packaging for NVIDIA, Google TPU, AWS Trainium, AMD. Capacity ramp ~35K wpm end-2024 -> ~75-80K end-2025 -> targeting ~120-130K end-2026. CEO C.C. Wei: 'very tight,' sold out through 2025 into 2026. Verified: TSMC stated 10-20% (not merely >10%) of 2026 capex goes to advanced packaging/test/mask/others; advanced-packaging revenue expected at low-teens % of 2026 revenue.",
+        "source_filing": "TSMC Q1 FY2026 earnings call (Chairman/CEO C.C. Wei, CFO), Apr 16 2026; corroborated by TSMC Q4 FY2025 transcript (investor.tsmc.com) and Q3 2025 CoWoS-tightness commentary",
+        "source_url": "https://investor.tsmc.com/english/encrypt/files/encrypt_file/reports/2026-01/51d09df96cd89ac19d65af39032b038dc2896a24/TSMC%204Q25%20Transcript.pdf",
+        "verdict": "filing_verified"
+      },
+      {
+        "name": "ASE Technology (incl. SPIL division)",
+        "approx_share_or_role": "Primary OSAT overflow partner for TSMC CoWoS-class workloads; SPIL leads NVIDIA's next-gen CoWoP (Chip-on-Wafer-on-PCB). Ramp to ~20-25K wpm by end-2026 (more than tripling output); absorbs part of TSMC's planned 2026 OSAT outsourcing. Corroborated by TrendForce and DigiTimes press; ASE also bought a Zhunan facility (NT$2.8B) for NVIDIA/AMD packaging orders. Not yet quantified in an ASE filing line item.",
+        "source_filing": "TrendForce reports Dec 8 2025 ('CoWoS-L/S Fully Booked, OSAT Partners Step Up') and Jan 14 2026 (ASE Zhunan facility); DigiTimes Dec 10 2025. Analyst/press, not an ASE filing.",
+        "source_url": "https://www.trendforce.com/news/2025/12/08/news-tsmcs-cowos-l-s-reportedly-fully-booked-osat-partners-step-up-with-ases-cowop-in-focus/",
+        "verdict": "analyst_kept_flagged"
+      },
+      {
+        "name": "Amkor Technology",
+        "approx_share_or_role": "Secondary OSAT overflow partner cited for TSMC CoWoS outsourcing in 2026 (alongside SPIL); building U.S. advanced-packaging capacity in Arizona near TSMC (production reportedly ~2028, not imminent). Not yet a material independent holder of high-end 2.5D share vs. TSMC. The specific 240K-270K wafers/yr OSAT-outsourcing figure is analyst/press, not an Amkor 10-K/8-K line item, though Amkor does file (8-Ks/10-Qs confirm advanced-packaging momentum generally).",
+        "source_filing": "Nomad Semi / TrendForce analyst-press estimates of 2026 OSAT outsourcing; Amkor SEC 8-K/10-Q confirm general advanced-packaging push but not the CoWoS-share figure.",
+        "source_url": "https://www.nomadsemi.com/p/tsmcs-cowos-capacity",
+        "verdict": "analyst_kept_flagged"
+      },
+      {
+        "name": "Samsung (I-Cube) / Intel (EMIB, Foveros) / UMC / SPIL alternatives",
+        "approx_share_or_role": "Structural would-be competitors in 2.5D/advanced packaging; per multiple analyses have not captured meaningful AI-GPU packaging share due to technology/yield/qualification/talent barriers. Treated as alternative/emerging, not co-equal. Note: Intel's EMIB/EMIB-T and Foveros are gaining some traction as CoWoS-relief designs migrate (Tom's Hardware), so the 'failed entirely' framing is slightly strong — directionally correct that none holds material volume AI-GPU share today, but the gap is narrowing for Intel.",
+        "source_filing": "Industry analyses of the CoWoS competitive landscape (36Kr, SemiWiki, Tom's Hardware, SemiconductorX), 2025-2026. Inferred from press, no filing.",
+        "source_url": "https://eu.36kr.com/en/p/3580962946874242",
+        "verdict": "analyst_kept_flagged"
+      }
+    ],
+    "constraint_severity": "material",
+    "gates_ai_buildout": "yes_primary_gate",
+    "lead_time_or_backlog": "CoWoS-L and CoWoS-S reportedly fully booked / sold out through 2025 and into 2026, with major customers (NVIDIA, Google, AWS, AMD) holding multi-year capacity reservations booked into 2026-2027; NVIDIA alone reportedly secured ~60% of 2026 CoWoS demand. The 'sold out through 2026' language is filing-backed (TSMC CEO quote on the earnings call) and survives skepticism. No single published 'X-week' lead time or dollar backlog is filing-sourced; allocation is by advance multi-year reservation rather than a quoted queue, so lead_time_months_estimate is left null to avoid fabrication.",
+    "lead_time_months_estimate": null,
+    "concentration_note": "Effective single-source oligopoly in TSMC, geographically concentrated in Taiwan; OSAT overflow (ASE/SPIL, Amkor) and lagging alternatives (Samsung I-Cube, Intel EMIB/Foveros) are the only relief valves and none holds material AI-GPU share today.",
+    "overall": "partially_source_backed",
+    "note": "Verification result for advanced_packaging_cowos. STRONGEST claim (TSMC) is genuinely filing_verified against TSMC's own Q1 FY2026 and Q4 FY2025 earnings calls: the ~50%+ high-end 2.5D share, near-100% AI-GPU packaging, the 35K->75-80K->120-130K wpm ramp, the 'very tight / sold out through 2025 into 2026' CEO language, and the advanced-packaging capex share are all directly corroborated. Notably the extracted '>10% of 2026 capex' is conservative — TSMC actually guided 10-20% for advanced packaging/test/mask/others, and low-teens % of revenue. The three non-TSMC entries (ASE/SPIL, Amkor, Samsung/Intel/UMC) are correctly self-flagged as press/analyst/inferred; I confirmed each cited source plausibly supports its claim (TrendForce, DigiTimes, Nomad Semi, 36Kr, Tom's Hardware) and kept all three as analyst_kept_flagged rather than rejecting any — none is unsourced or implausible. No verdict='rejected_unsourced' was warranted. Overall is 'partially_source_backed' because only 1 of 4 suppliers (TSMC) is filing_verified — a minority, not a majority. Severity left at 'material' (not downgraded, not escalated): the constraint is real and arguably binding through the current window, but the clearly-sourced doubling-of-capacity-plus-OSAT-overflow trajectory justifies 'material' over an unqualified hard constraint. The round-number 'sold out' claim survives skepticism here because it is a direct filing-sourced CEO quote, not an unsourced assertion. lead_time_months_estimate correctly null — no filing-sourced quoted queue exists; allocation is by multi-year reservation. Minor caveat flagged on the Samsung/Intel entry: Intel's EMIB/EMIB-T is gaining some CoWoS-relief traction, so 'failed entirely' is marginally overstated, though directionally correct on AI-GPU volume share today."
+  },
+  {
+    "chokepoint": "High-bandwidth memory (HBM3E / HBM4) co-packaged onto leading-edge AI accelerators (Nvidia GB200/GB300, AMD MI300/MI350, Google/Broadcom TPU/ASICs). Three-firm oligopoly (SK Hynix, Samsung, Micron); supply fully booked through calendar 2026 with multi-year committed backlog.",
+    "verified_suppliers": [
+      {
+        "name": "SK Hynix",
+        "approx_share_or_role": "Market leader, ~57-62% of HBM revenue (Counterpoint/TrendForce Q3 2025). First to mass-produce HBM3E and complete HBM4 mass-production prep (Sept 2025). Lead Nvidia HBM supplier. Cumulative purchase commitments exceed ~3 years of nameable forward supply.",
+        "source_filing": "SK hynix Q1 2026 earnings call, 23 Apr 2026 (VP DRAM marketing Park Joon-deok; CFO Kim Woo-hyun): HBM demand to outpace supply 'for at least the next three years'; cumulative commitments exceed three years of nameable supply. Corroborated by SK hynix FY2025 IR release 28 Jan 2026.",
+        "source_url": "https://www.koreaherald.com/article/10723564",
+        "verdict": "filing_verified"
+      },
+      {
+        "name": "Micron Technology",
+        "approx_share_or_role": "~21% of HBM revenue (Counterpoint Q3 2025); fastest-growing. Supplies 12-Hi HBM3E and HBM4 to Nvidia/ASIC clients. Entire calendar-2026 HBM output sold out on volume and price; HBM4 ramping Q2 CY2026.",
+        "source_filing": "Micron fiscal Q1 2026 earnings call/prepared remarks, 17-18 Dec 2025 (CEO Sanjay Mehrotra): 2026 HBM sold out on volume and pricing; HBM TAM ~$35B (2025) to ~$100B (2028, ~40% CAGR); FY2026 capex raised to ~$20B (from ~$18B), HBM-driven. SEC 8-K EX-99.1 exists (CIK 0000723125, accession 000072312525000044, a2026q1ex991-pressrelease.htm); sold-out language is a management/transcript quote, not confirmed in press-release body.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/0000723125/000072312525000044/a2026q1ex991-pressrelease.htm",
+        "verdict": "analyst_kept_flagged"
+      },
+      {
+        "name": "Samsung Electronics",
+        "approx_share_or_role": "~22% of HBM revenue (Counterpoint Q3 2025; alternate trackers ~15-17%). Cleared Nvidia 12-Hi HBM3E qualification Q3 2025, began Nvidia shipments. 2026 HBM (incl. HBM4) sold out per management; primary HBM3E supplier to Google TPU.",
+        "source_filing": "Samsung Q3 2025 earnings, 30 Oct 2025 (memory EVP): '2026 HBM sold out... customer demand has already outpaced supply' (reported by KED Global). Counterpoint Q3 2025 HBM share 22%.",
+        "source_url": "https://www.kedglobal.com/earnings/newsView/ked202510300005",
+        "verdict": "analyst_kept_flagged"
+      }
+    ],
+    "constraint_severity": "binding_hard_constraint",
+    "gates_ai_buildout": "yes_primary_gate",
+    "lead_time_or_backlog": "All three suppliers report calendar-2026 HBM sold out (volume and price locked, per Micron; sold out per Samsung; supply-constrained per SK Hynix). SK Hynix discloses cumulative purchase commitments exceeding ~3 years of nameable forward supply (i.e. demand outpacing supply through ~2028) even after counting financed fabs/packaging lines. Confirmed across multiple primary/press sources (Korea Herald, TrendForce, CNBC, KED Global, TrendForce on Micron).",
+    "lead_time_months_estimate": 36,
+    "concentration_note": "Verified three-firm oligopoly controlling essentially 100% of HBM. SK Hynix dominant single supplier at ~57-62% and lead Nvidia source; SK Hynix + Samsung ~80%. Counterpoint Q3 2025 split 57/22/21 (SK Hynix/Samsung/Micron) confirmed; alternate read ~62/17/21 (Astute Group) also exists, so range-based shares are appropriate, not fabricated precision. Program-level single/dual-sourcing on most-advanced parts (SK Hynix lead on Nvidia HBM4; Samsung weighted to Google TPU HBM3E) plausible but more analyst-grade than filing-confirmed. No credible new entrant given leading-edge DRAM + advanced TSV/packaging barriers.",
+    "note": "Adversarial verification: all three supplier claims are well-corroborated against primary disclosures; no fabricated sources or accession numbers found. SK Hynix '3-year demand exceeds supply' / 'cannot meet all requests' is a formal Q1 2026 earnings-call disclosure corroborated by FY2025 IR release and multiple outlets (Korea Herald, TrendForce, CNBC) - filing_verified upheld. Micron: the extraction conservatively marked press_or_analyst_reported; I kept it analyst_kept_flagged but note the SEC 8-K EX-99.1 (CIK 0000723125, accession 000072312525000044) and prepared-remarks document both exist as primary corroboration, and $20B capex + $35B->$100B TAM are independently confirmed (TrendForce, Micron IR) - this is near filing-grade, only the exact 'sold out on volume and price' sentence is a transcript quote not confirmed in the 8-K body. Samsung sold-out is press-reported (KED Global) of an official earnings disclosure with a direct EVP quote - analyst_kept_flagged. Lead-time 36mo is a faithful derivation of SK Hynix's disclosed >3-year commitment horizon, NOT a round-number fabrication. 'Sold out' claims are each source-backed (not unsourced). constraint_severity=binding_hard_constraint and gates_ai_buildout=yes_primary_gate are well-supported and NOT over-stated: HBM is a confirmed physical-supply gate on every leading-edge accelerator, oligopolistic, all 2026 booked, multi-year backlog, with explicit supplier statements of inability to meet all requests. Only easing risk (aggressive HBM capex ramps) is acknowledged in source but every primary source through mid-2026 still shows demand exceeding nameable supply, so no downgrade warranted. Overall partially_source_backed (1 of 3 strictly filing_verified, 2 analyst_kept_flagged with strong primary corroboration) - leaning strong; would be source_backed if the Micron/Samsung sold-out sentences were confirmed in filing bodies rather than management transcripts.",
+    "overall": "partially_source_backed"
+  },
+  {
+    "chokepoint": "NVIDIA data-center GPU allocation (Hopper / Blackwell GB200/GB300 / Rubin) — merchant AI accelerator supply, with upstream TSMC CoWoS advanced packaging as the deepest physical bottleneck",
+    "verified_suppliers": [
+      {
+        "name": "NVIDIA Corp.",
+        "approx_share_or_role": "De facto single dominant merchant supplier of training-class AI accelerators (Hopper H100/H200, Blackwell GB200/GB300, Rubin). ~$500B Blackwell+Rubin revenue visibility from start of CY2025 through end of CY2026; 'clouds are sold out' and installed base (Blackwell/Hopper/Ampere) 'fully utilized'. The ~92% market-share figure attached here is analyst/press (discrete-GPU), not a filing figure.",
+        "source_filing": "NVIDIA Q3 FY2026 earnings call & Form 8-K CFO (Colette Kress) commentary, filed Nov 19 2025 (quarter ended Oct 26 2025); Data Center rev ~$51B (+66% YoY), total ~$57B (+62% YoY); supply commitments +63% sequential",
+        "source_url": "https://www.fool.com/earnings/call-transcripts/2025/11/19/nvidia-nvda-q3-2026-earnings-call-transcript/",
+        "verdict": "filing_verified"
+      },
+      {
+        "name": "AMD (Instinct MI300/MI350 series)",
+        "approx_share_or_role": "Distant #2 at ~7-8% discrete-GPU share; partial second-source for inference/training but does not relieve NVIDIA leading-edge allocation; also CoWoS-constrained. CAVEAT: the ~8% is Jon Peddie Research DISCRETE add-in-board GPU share (gaming/workstation), not data-center AI-accelerator share specifically — directionally supportive but not the same market.",
+        "source_filing": "Jon Peddie Research press-reported discrete GPU share 2025 (NVIDIA ~92%, AMD ~7-8%, Intel <1%); confirmed via JPR/VideoCardz/wccftech coverage",
+        "source_url": "https://wccftech.com/amd-intel-gained-discrete-gpu-market-share-q3-2025-but-nvidia-still-dominates/",
+        "verdict": "analyst_kept_flagged"
+      },
+      {
+        "name": "TSMC (CoWoS advanced packaging — upstream of NVIDIA)",
+        "approx_share_or_role": "Sole-source advanced-packaging chokepoint feeding NVIDIA; the physical reason GPU output is allocation-rationed. The specific claims (NVIDIA ~60-70% of CoWoS capacity; 52-78 week lead times; booked years ahead) could NOT be confirmed against the cited Digitimes article (paywalled); only the general 'NVIDIA has reserved most of TSMC leading-edge/CoWoS capacity, severe shortage' was visible. Role is well-supported; precise numbers remain unverified analyst figures.",
+        "source_filing": "Press/analyst (Digitimes Apr 2026; corroborating CNBC/wccftech) — not an NVIDIA filing; specific 60-70% / 52-78wk figures unconfirmed in source",
+        "source_url": "https://www.digitimes.com/news/a20260410VL204/packaging-capacity-tsmc-nvidia-demand.html",
+        "verdict": "analyst_kept_flagged"
+      }
+    ],
+    "constraint_severity": "binding_hard_constraint",
+    "gates_ai_buildout": "yes_primary_gate",
+    "lead_time_or_backlog": "~$500B cumulative Blackwell+Rubin revenue visibility (effectively booked demand) from start of CY2025 through end of CY2026 — filing-verified (CFO Colette Kress, Q3 FY2026 call). Supply commitments +63% sequentially in Q3 FY26 (filing-corroborated; total supply-related commitments ~$50.3B at end of Q3, rising to ~$95.2B by Q4 per 8-K). 'Clouds are sold out' / installed base 'fully utilized' is direct filing language, NOT an unsourced 'sold out' claim. Underlying CoWoS lead times reported at ~52-78 weeks — UNCONFIRMED (paywalled source). lead_time_months_estimate of ~13 is explicitly inferred from 'visibility through end of CY2026' vs the Nov 2025 call date, not a stated figure.",
+    "lead_time_months_estimate": 13,
+    "concentration_note": "Effective single-source at the leading edge is filing-anchored via 'clouds are sold out', installed base 'fully utilized', and 'demand for AI infrastructure continues to exceed our expectations' (Colette Kress, Q3 FY2026 call, all verified verbatim). The ~92% figure is genuine Jon Peddie Research analyst data but measures DISCRETE add-in-board GPUs (gaming/workstation), not data-center AI accelerators specifically; the extraction conflates the two. The deepest physical bottleneck (TSMC CoWoS, sole-source) is press/analyst-reported; its specific 60-70% / 52-78wk figures are unconfirmed (paywalled source).",
+    "note": "Verification result: NVIDIA's filing-grade claims all confirmed verbatim from the Q3 FY2026 earnings call and Form 8-K CFO commentary (Colette Kress, filed Nov 19 2025): $500B Blackwell+Rubin visibility through end CY2026, 'clouds are sold out', installed base 'fully utilized', Data Center rev ~$51B (+66% YoY), total ~$57B (+62% YoY), supply commitments +63% sequential. An SEC.gov 8-K corroborates supply-commitment dollar figures (~$50.3B end-Q3 → ~$95.2B end-Q4). No fabricated 'sold out' claim — the language is directly sourced. Severity (binding_hard_constraint) and gates_ai_buildout (yes_primary_gate) are NOT overstated; they are supported by primary-filing language plus the well-established sole-source CoWoS upstream constraint. Two downgrades from the extraction's labels: (1) AMD row reclassified from filing-grade implication to analyst_kept_flagged — the ~8% is real JPR data but is discrete-GPU, not data-center-AI-accelerator, share; (2) TSMC CoWoS row kept analyst_kept_flagged with a flag that the specific 60-70% capacity-share and 52-78 week lead-time figures could NOT be confirmed in the cited (paywalled) Digitimes article — only the general 'NVIDIA reserved most of TSMC CoWoS capacity, severe shortage' was visible. The lead_time_months_estimate (~13) is explicitly inferred, not a suspicious round number. Overall partially_source_backed: one supplier filing_verified, two analyst_kept_flagged.",
+    "overall": "partially_source_backed"
+  },
+  {
+    "chokepoint": "Heavy-duty / advanced-class gas turbines (H/HA/J/JAC) for behind-the-meter and new gas-fired generation serving AI data centers",
+    "verified_suppliers": [
+      {
+        "name": "GE Vernova (Gas Power)",
+        "approx_share_or_role": "One of three dominant OEMs (~1/3 of Western H/HA-class market). Gas Power ~83 GW under contract at YE2025, growing to 100 GW by Q1 2026 (44 GW firm backlog + 56 GW slot reservation agreements). Total company backlog $150.2B (10-K). Ramping to ~20 GW annual output by mid-2026.",
+        "source_filing": "GE Vernova Inc. Form ARS/10-K FY2025 (SEC) confirms $150.2B total backlog and HA turbine demand; the 83 GW / 44 GW firm + 56 GW SRA / 100 GW figures are confirmed in GE Vernova Q3 2025 and Q1 2026 Form 8-K earnings releases (SEC filer 1996810), corroborated by Utility Dive and Power-Eng.",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1996810/000199681026000051/gev_arx2025xwo9xarsxedgarx.pdf",
+        "verdict": "filing_verified"
+      },
+      {
+        "name": "Siemens Energy (Gas Services)",
+        "approx_share_or_role": "Top-three OEM. Record group order backlog EUR 138bn at FY2025 (confirmed in official Siemens press release; release states 194 gas turbines sold, Gas Services orders +42.9%). The '>60% of US large gas-turbine orders tied to AI / 65% in a quarter / 13-14 GW' figures are NOT in that release; they trace to CEO Bruch IR commentary (Aug 2025: ~14 GW YTD turbine orders, ~60% for data centers) reported via press/IR, not line-itemed in a filing.",
+        "source_filing": "Siemens Energy FY2025 press release (EUR 138bn backlog verified). AI-share/GW figures are press/IR-reported (energyconnects, ASM/Industrial Info citing Bruch), not in the filing.",
+        "source_url": "https://www.siemens-energy.com/global/en/home/press-releases/siemens-energy-fulfills-all-commitments---and-increases-mid-term.html",
+        "verdict": "analyst_kept_flagged"
+      },
+      {
+        "name": "Mitsubishi Power (Mitsubishi Heavy Industries, GTCC)",
+        "approx_share_or_role": "Top-three OEM; #1 global gas-turbine market share by MW in 2023 at 36% overall and 56% of advanced-class (JAC/J-series), per McCoy Power Reports. Cumulative J-class orders surpassed 120 units. Doubling production capacity. (Note: 36%/56% are CY2023 figures, not FY2025; the '48-53 unit backlog' was not independently re-extracted from the binary MHI PDF.)",
+        "source_filing": "Mitsubishi Heavy Industries / Mitsubishi Power press release (mhi.com/news/240315.html) — corporate press release citing McCoy Power Reports; not a securities filing. The 2025 GTCC briefing PDF rendered as binary and unit/backlog figures were not re-extracted.",
+        "source_url": "https://www.mhi.com/news/240315.html",
+        "verdict": "analyst_kept_flagged"
+      }
+    ],
+    "constraint_severity": "material",
+    "gates_ai_buildout": "yes_secondary",
+    "overall": "partially_source_backed",
+    "lead_time_or_backlog": "Turbine slots booked ~4-5 calendar years forward: GE Vernova ~83 GW at YE2025 stretching into 2029, 2026-2027 sold out and 2028 nearly filled, with Strazik expecting to be 'sold out through 2030 by end of 2026'; Siemens record EUR 138bn backlog; Mitsubishi slots into the 2030s. CORRECTION: the primary-sourced directional new-order lead time is ~3 years (Strazik), NOT 5-7 years. The '7-year' figure appeared only in unverified search summaries and is overstated; '2.5-3 to 7 years' should be read as ~3-year build cycle plus a multi-year booked queue (slots quoted for 2028-2030).",
+    "lead_time_months_estimate": 42,
+    "concentration_note": "Tight three-firm Western oligopoly (GE Vernova, Siemens Energy, Mitsubishi Power) supplying essentially all H/HA/J/JAC large-frame turbines. Effectively single-source at the per-frame slot level. The three-firm structure is well-corroborated across MHI/McCoy, GE Vernova, and Siemens sources. The 'roughly even ~1/3 each' split is approximate — McCoy CY2023 data puts MHI at #1 (36% MW share), so shares are not equal.",
+    "note": "VERDICT: partially_source_backed. Only 1 of 3 suppliers (GE Vernova) is filing_verified via SEC documents; Siemens and Mitsubishi rest on corporate press/IR, not securities filings — so 'majority filing_verified' fails and overall cannot be 'source_backed'. Core facts hold up well: (1) three-firm oligopoly structure is solidly corroborated; (2) GE Vernova 83->100 GW backlog with 44 GW firm + 56 GW SRA split is confirmed across SEC 8-Ks, Utility Dive, Power-Eng; (3) MHI 36%/56% CY2023 share confirmed from MHI's own release; (4) Siemens EUR 138bn backlog confirmed in official release. WEAKNESSES / DOWNGRADES: (a) The 60-month / '5-7 year' / '7-year' lead time is OVERSTATED. The strongest primary source (GE Vernova CEO Strazik) gives a ~3-year directional new-order lead time and explicitly says gas turbines are 'really not the gating item' relative to permitting, EPC, and fuel availability. lead_time_months_estimate lowered from 60 to ~42 (≈3-yr build cycle plus booked queue into 2028-2030). The '7 years' appeared only in unverified search summaries — treat as a round-number/'sold out' claim lacking a primary source. (b) Siemens AI-data-center percentages (60%/65%, 13-14 GW) are NOT in the cited Siemens release — they are CEO Bruch IR remarks reported via press; kept but flagged. (c) MHI share figures are CY2023, not FY2025, and the FY2025 GTCC unit-backlog (48-53 units) was not independently re-extracted. constraint_severity kept at 'material' (not raised to binding_hard_constraint): turbine slots are a hard constraint on the NEW-gas-generation pathway specifically, but the OEM itself disputes turbines gate the buildout, and hyperscalers route around via grid interconnection, aeroderivative/reciprocating-engine bridge units, and slot reservations. gates_ai_buildout='yes_secondary' is correct."
+  },
+  {
+    "chokepoint": "Large power transformers (incl. generator step-up units / GSUs) and high/medium-voltage switchgear — substation-grade grid gear required to interconnect data centers to the grid and step voltage at the site. Supply-side build constraint: even where grid power is allocated, the iron-and-copper equipment cannot be manufactured fast enough, with multi-year lead times front-running the AI data-center deployment timeline.",
+    "verified_suppliers": [
+      {
+        "name": "Siemens Energy (Grid Technologies segment)",
+        "approx_share_or_role": "Global #2, ~19-20% of power-transformer market (analyst estimate). Grid Technologies a market leader with record demand; group order backlog EUR 138B at FY2025 year-end (order intake EUR 58.9B), with GT segment backlog ~EUR 42B (up from EUR 33B). Investing up to EUR 2B in capacity incl. ~EUR 220-258M Nuremberg transformer plant (+50%) and US/India/Croatia/Austria/Saudi/Brazil expansions.",
+        "source_filing": "Siemens Energy Earnings Release Q4 FY2025 / Annual Report FY2025 (EUR 138B record group backlog; GT segment EUR 42B backlog, orders >EUR 21B)",
+        "source_url": "https://www.siemens-energy.com/global/en/home/press-releases/earnings-release-q4-fy-2025.html",
+        "verdict": "filing_verified"
+      },
+      {
+        "name": "GE Vernova (Electrification segment; Power Transmission incl. Prolec GE)",
+        "approx_share_or_role": "Global #3, ~16% of power-transformer market (analyst estimate). Electrification backlog targeted to roughly double from $30B toward $60B by 2028. CEO Strazik: equipment (gas turbines, transformers, switchgear) 'largely sold out through the end of '28.' Acquired remaining 50% of Prolec GE for $5.275B (closed 2026-02-02), unlocking restricted North American transformer market; booked $2.4B data-center electrification orders in a single quarter. Group backlog grew through 2025 (~$119B mid-2025, trending toward ~$150B incl. ~$8B Power Transmission).",
+        "source_filing": "GE Vernova Form 10-K FY2025; Prolec completion press release 2026-02-02 ($5.275B); CEO Strazik March 2025 remarks ('largely sold out through end of '28'); investor updates",
+        "source_url": "https://www.gevernova.com/news/press-releases/ge-vernova-completes-prolec-ge-acquisition",
+        "verdict": "filing_verified"
+      },
+      {
+        "name": "Hitachi Energy (Hitachi Ltd. subsidiary; ex-ABB Power Grids)",
+        "approx_share_or_role": "Global #1 in power transformers, ~21-22% of the ~$30B global market (analyst estimate). Announced >$1B US grid-equipment investment (Sep 2025) — incl. $457M South Boston, Virginia large-power-transformer plant (largest in US), $106M Tennessee components, plus PA/VA — and ~$195M USD ($270M CAD) Varennes, Quebec large-power-transformer expansion. India unit reported strong order backlog growth (filing). The ~$43B consolidated grid order backlog figure appears in press coverage, not a single company filing.",
+        "source_filing": "Hitachi Energy press release 2025-09-04 (>$1B US investment, $457M Virginia plant); Varennes press release 2025-09; Hitachi Energy India quarterly results (segment backlog). The ~$43B grid-backlog figure is press-reported, not directly filing-sourced.",
+        "source_url": "https://www.hitachienergy.com/us/en/news-and-events/press-releases/2025/09/hitachi-announces-historic-1-billion-usd-manufacturing-investment-to-power-america-s-energy-future-through-production-of-critical-grid-infrastructure",
+        "verdict": "analyst_kept_flagged"
+      },
+      {
+        "name": "Toshiba Energy Systems / Mitsubishi Electric / Hyundai Electric / Schneider Electric / Eaton (secondary tier)",
+        "approx_share_or_role": "Remaining named global oligopolists. Top 5 (Hitachi, Siemens Energy, Toshiba, GE Vernova, Schneider) together ~50% of the global power-transformer market in 2024 per market-research firms; Eaton/Schneider lead US distribution & switchgear. Individual shares single-digit to low-double-digit; concentrated oligopoly with grain-oriented electrical steel and skilled-labor single-points-of-failure upstream.",
+        "source_filing": "MarketsandMarkets / GM Insights / Mordor Intelligence power-transformer market reports 2025 (top-5 ~50% concentration). No company-filed per-firm share disclosures.",
+        "source_url": "https://www.marketsandmarkets.com/Market-Reports/power-transformers-market-128022787.html",
+        "verdict": "analyst_kept_flagged"
+      }
+    ],
+    "constraint_severity": "binding_hard_constraint",
+    "gates_ai_buildout": "yes_primary_gate",
+    "lead_time_or_backlog": "Power transformers ~128 weeks (~2.5 yrs) and GSUs ~144 weeks (~2.75 yrs) per Wood Mackenzie Q2 2025; switchgear ~44 weeks (NOT 144 weeks — 144 applies to GSUs). High-power/specialized units 36-60 months. Wood Mackenzie models a ~30% national power-transformer supply deficit in 2025 (10% for distribution). GE Vernova 'largely sold out through end of '28' (Strazik). Siemens Energy record EUR 138B group backlog (FY2025); GT segment EUR 42B. GE Vernova group backlog ~$119B mid-2025 trending toward ~$150B; Electrification $30B→$60B by 2028. Hitachi Energy >$1B US capacity expansion (Sep 2025). Round-number '5 years' and '$43B Hitachi backlog' are press-framed, not filing-precise, but core lead-time and shortfall figures are source-backed.",
+    "lead_time_months_estimate": 33,
+    "concentration_note": "Tight global oligopoly confirmed by market research: top five (Hitachi Energy, Siemens Energy, Toshiba, GE Vernova, Schneider Electric) ~50% of the global power-transformer market in 2024, with the big three (Hitachi ~21%, Siemens ~20%, GE Vernova ~16%) dominating the largest EHV/GSU classes most relevant to data centers. Per-firm share percentages are analyst/market-research estimates (MarketsandMarkets, GM Insights, Mordor), NOT company-filed — treat ±several points. Only ~20% of large power transformers consumed in the US are domestically manufactured, concentrating import dependence; grain-oriented electrical steel and certain bushings are near single-source per spec. Capacity additions (Hitachi >$1B US + Quebec/India, Siemens up to EUR 2B, GE Vernova Prolec) are real and filing/press-confirmed but take 2-3 years to come online and are largely pre-sold, so they relieve rather than remove the constraint.",
+    "note": "Adversarial verification result: claims are strongly source-backed. CORRECTIONS/FLAGS: (1) Filing-verified: Siemens Energy EUR 138B FY2025 record group backlog and GT EUR 42B segment backlog confirmed via Q4 FY2025 earnings release; GE Vernova $5.275B Prolec acquisition (closed 2026-02-02), Electrification $30B→$60B-by-2028 target, $2.4B single-quarter data-center orders, and CEO Strazik 'largely sold out through end of '28' quote all confirmed. (2) Hitachi Energy DOWNGRADED to analyst_kept_flagged: the >$1B US investment ($457M Virginia plant) and $195M Varennes expansion are press-release-confirmed and its India backlog is filing-tied, BUT the headline '~$43B grid backlog' cited in the extract traces to press coverage (mirrorreview/Utility Dive), not a clean consolidated company filing, and its ~21% share is analyst-only. (3) Secondary tier kept analyst_kept_flagged: top-5 ~50% concentration is confirmed market-research, no filed per-firm shares. (4) Lead times verified against Wood Mackenzie Q2 2025: 128wk transformers / 144wk GSUs / 44wk switchgear and ~30% supply deficit all check out — note the extract's lead_time field correctly lists switchgear at 44 weeks (not conflated with the 144wk GSU figure). (5) The 'up to 5 years' specialized-unit and round-number framings are press-typical but the binding lead-time core (2.5-2.75 yrs) is well-sourced, so binding_hard_constraint is NOT overstated and yes_primary_gate stands. Overall: 2 of 4 supplier entries filing_verified (Siemens, GE Vernova), 2 analyst/press-flagged (Hitachi, secondary tier) — falls between 'majority filing-verified' and 'some,' so graded partially_source_backed.",
+    "overall": "partially_source_backed"
+  },
+  {
+    "chokepoint": "Diesel/gas gensets and large reciprocating engines for data-center backup (and increasingly prime) power. The bottleneck is engine/genset manufacturing capacity concentrated at a small number of OEMs; large standby genset and large-reciprocating-engine capacity is effectively booked out multiple years forward with lead times of roughly 1-2+ years (and ~104-107 weeks on Caterpillar's largest high-speed gas engines).",
+    "verified_suppliers": [
+      {
+        "name": "Caterpillar Inc. (Energy & Transportation segment)",
+        "approx_share_or_role": "Co-leader of large data-center gensets / large reciprocating engines; one of two dominant Western OEMs in the >=2-3 MW class; part of a top-5 group holding ~63-72% of the data-center generator market. Expanding large-reciprocating-engine capacity to ~3x 2024 levels (~15 GW added annual output); sixth customer agreement each for >=1 GW.",
+        "source_filing": "Caterpillar 10-Q for Q3 ended 2025-09-30 (filed Nov 2025) + Q1 2026 earnings call (Apr 2026)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/18230/000001823025000048/cat-20250930.htm",
+        "verdict": "filing_verified"
+      },
+      {
+        "name": "Cummins Inc. (Power Systems segment)",
+        "approx_share_or_role": "Co-leader of data-center backup-power gensets / large engines. Power Systems Q3 2025 sales $2.0B (+18%), EBITDA 22.9%; power-generation product line $1,280M Q3 / $3,486M YTD 2025; NA power-gen revenue +20%, growth driven by data-center backup-power demand.",
+        "source_filing": "Cummins 8-K / EX-99 for Q3 ended 2025-09-30 (filed 2025-11-06)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/26172/000002617225000036/cmi2025q38-kex99.htm",
+        "verdict": "filing_verified"
+      },
+      {
+        "name": "Rolls-Royce plc (mtu / MTU Onsite Energy)",
+        "approx_share_or_role": "Major supplier of mtu-branded standby diesel/gas gensets for data centers; named in the top-5 group (~63-72% combined share with CAT, Cummins, Generac, Kohler/Rehlko). Analyst-reported, not filing-tied.",
+        "source_filing": "ResearchAndMarkets 'Data Center Generator Market Landscape 2025-2030' / MarketsandMarkets / Mordor / GMInsights generator-market analyses (analyst-reported, 2025)",
+        "source_url": "https://www.businesswire.com/news/home/20250715362216/en/Data-Center-Generator-Market-Landscape-2025-2030-Featuring-Key-Providers---ABB-Caterpillar-Cummins-Generac-Power-Systems-HITEC-Power-Protection-Rehlko-Rolls-Royce-and-Himoinsa---ResearchAndMarkets.com",
+        "verdict": "analyst_kept_flagged"
+      },
+      {
+        "name": "Generac Power Systems; Kohler/Rehlko",
+        "approx_share_or_role": "Remaining members of the top-5 group for data-center standby generators; focused on sub-1-MW enterprise/edge units, with meaningful but smaller share than CAT/Cummins in the largest (>=2-3 MW) class. Analyst-reported, not filing-tied.",
+        "source_filing": "ResearchAndMarkets / SNS Insider / MarketsandMarkets / Mordor data-center generator market reports (analyst-reported, 2025)",
+        "source_url": "https://www.businesswire.com/news/home/20250715362216/en/Data-Center-Generator-Market-Landscape-2025-2030-Featuring-Key-Providers---ABB-Caterpillar-Cummins-Generac-Power-Systems-HITEC-Power-Protection-Rehlko-Rolls-Royce-and-Himoinsa---ResearchAndMarkets.com",
+        "verdict": "analyst_kept_flagged"
+      }
+    ],
+    "constraint_severity": "binding_hard_constraint",
+    "gates_ai_buildout": "yes_primary_gate",
+    "lead_time_months_estimate": 24,
+    "lead_time_or_backlog": "Caterpillar firm backlog ~$39.8B at Q3 2025 (up $2.4B QoQ on Energy & Transportation), filing-verified; large-reciprocating-engine backlog up >3.5x since Jan 2024 with some orders extending into 2028, and record total backlog $63B (+79% YoY) per Q1 2026 call. ~104-107 week lead time on the largest Cat 3600-family gas engines corroborated by Raymond James (press/analyst), implying a ~24-month-plus delivery window. Cummins power-gen revenue growth (+18% Power Systems, +20% NA power-gen) is filing-verified; the specific Cummins 'sold out for the next few years' / backlog-into-late-2026/early-2027 and 12-36 month component lead times are press/analyst-reported, not filing-quoted, and should be treated as approximate.",
+    "concentration_note": "Tight oligopoly: CAT and Cummins dominate the >2 MW class; top-5 (adding Rolls-Royce/mtu, Generac, Kohler/Rehlko) holds an analyst-reported ~63-72% share. Effectively a duopoly for the very largest engines; near-single-source for hyperscale orders with slots allocated via multi-year agreements.",
+    "note": "VERDICT: source_backed. Both filing-tied suppliers were independently confirmed against the actual SEC documents (which were re-fetched, not taken on trust). Caterpillar Q3 2025 10-Q: 'backlog believed to be firm was approximately $39.8 billion, about $2.4 billion higher than the second quarter of 2025 due to increases in the Energy & Transportation segment'; Power Generation 'Sales increased in large reciprocating engines, primarily data center applications'; demand 'driven by data center growth related to cloud computing and generative Artificial Intelligence (AI).' Cummins Q3 2025 8-K/EX-99: Power Systems sales $2.0B +18%, EBITDA $457M (22.9%), power-gen $1,280M Q3 / $3,486M YTD, NA power-gen +20%, and verbatim 'continued rising demand for backup power for datacenters.' Every quoted figure matches the source exactly; no fabricated accession numbers or shares were found. The Q1 2026 CAT call claims are corroborated by multiple transcripts (record $63B backlog +79% YoY; large-recip backlog >3.5x since Jan 2024 with orders into 2028; sixth >=1 GW customer agreement). One MILD OVERSTATEMENT: the extract says 'tripling large recip capacity' but the call language is 'nearly three times' / 'from 2x to ~3x' 2024 levels — directionally correct, slightly rounded up; not material enough to downgrade. Round-number / 'sold out' flags: the ~104-107 week Cat 3600 lead time is NOT a bare round number — it is sourced to Raymond James (the longest it can recall), so it survives scrutiny. The 'sold out for the next few years' phrasing for Cummins is press/analyst color, not a filing quote, and is correctly flagged as such; it is consistent with the verified +18%/+20% growth and multi-year backlog but should not be cited as a hard fact. The 24-month lead_time estimate is reasonable and conservative relative to CAT orders extending into 2028. CONSTRAINT SEVERITY retained as binding_hard_constraint: filing-verified multi-year backlogs, ~2-year lead times on the largest engines, and a duopoly/oligopoly supplier structure are well-evidenced, and gensets are a genuine primary gate on bringing data-center capacity online. The two analyst-flagged suppliers (Rolls-Royce/mtu, Generac+Kohler/Rehlko) are plausible — they appear in the named ResearchAndMarkets provider list and the ~63-72% top-5 figure is reproduced across several independent market-research houses — so they are KEPT and flagged, NOT rejected. No supplier was rejected_unsourced.",
+    "overall": "source_backed"
+  },
+  {
+    "chokepoint": "Liquid cooling / thermal management for AI data centers (cold plates, CDUs, manifolds, direct-to-chip systems) mandated by NVIDIA GB200/GB300 NVL72 rack-scale platforms",
+    "verified_suppliers": [
+      {
+        "name": "Vertiv Holdings (VRT)",
+        "approx_share_or_role": "Pure-play end-to-end data-center thermal/power scale leader; Q4 2025 backlog $15.0B (+109% YoY), ~2.9x book-to-bill in Q4 2025 (orders +252% organic), 2026 net-sales guide raised, capex stepped to 3-4% of sales for liquid-cooling capacity (ThermoKey, CoolTera).",
+        "source_filing": "Vertiv Holdings Co Form 8-K Q4/FY2025 earnings exhibit 99.1 (filed Feb 2026)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/0001674101/000167410125000020/q32025exhibit991vrt10222025.htm",
+        "verdict": "filing_verified"
+      },
+      {
+        "name": "Schneider Electric (Motivair)",
+        "approx_share_or_role": "Co-leader; acquired controlling interest in Motivair (Feb 2025) for cold-plate/CDU tech; CDUs 105kW-2.5MW, NVIDIA-codeveloped, serves 6 of top-10 supercomputers. Co-leader framing is analyst/market-research (MarketsandMarkets/Mordor), not a filing; the Motivair deal itself is company-confirmed.",
+        "source_filing": "Schneider Electric/Motivair acquisition press (company release, Feb 2025) + market-research naming Schneider/Vertiv as the two leaders",
+        "source_url": "https://www.se.com/us/en/about-us/newsroom/news/press-releases/schneider-electric-unveils-liquid-cooling-portfolio-with-motivair-featuring-dedicated-solutions-and-services-for-hpc-and-ai-workloads-68da975376d417f4a10de42c/",
+        "verdict": "analyst_kept_flagged"
+      },
+      {
+        "name": "CoolIT Systems (acquired by Ecolab, $4.75B)",
+        "approx_share_or_role": "Pure-play GPU liquid-cooling specialist; ~$550M NTM sales; Ecolab $4.75B all-cash deal confirmed (announced Mar 2026, seller KKR, close expected Q3 2026); CDUs/cold plates/direct-to-chip for GB-class racks. CoolIT's specific NVIDIA RVL/OMNI listing not independently confirmed (only Boyd's RVL status was directly verified); deal economics and ~$550M sales are press/company-confirmed.",
+        "source_filing": "Ecolab acquisition announcement (Businesswire/Ecolab investor release, Mar 2026) + Futurum analysis",
+        "source_url": "https://www.businesswire.com/news/home/20260319353197/en/Ecolab-to-Acquire-CoolIT-Systems-a-Global-Leader-in-Advanced-Liquid-Cooling-for-Next-Gen-AI-Data-Centers",
+        "verdict": "analyst_kept_flagged"
+      },
+      {
+        "name": "Boyd Thermal (acquired by Eaton, $9.5B)",
+        "approx_share_or_role": "Leading cold-plate/liquid-cooling supplier; 2026E sales $1.7B of which ~$1.5B liquid cooling (figures confirmed exactly); Eaton $9.5B deal signed Nov 2025, completed Mar 12 2026; Boyd directly confirmed on NVIDIA GB200 NVL72 Recommended Vendor List.",
+        "source_filing": "Eaton press release Nov 3 2025 + completion release Mar 2026 + Eaton investor materials (deal terms, $1.7B/$1.5B figures)",
+        "source_url": "https://www.eaton.com/us/en-us/company/news-insights/news-releases/2025/eaton-signs-agreement-to-acquire-boyd-thermal--expanding-solutio.html",
+        "verdict": "analyst_kept_flagged"
+      },
+      {
+        "name": "NVIDIA (platform-level cooling mandate)",
+        "approx_share_or_role": "Demand-side gatekeeper, not a cooling supplier: GB200/GB300 NVL72 reference designs ship liquid-cooled with no air-cooled variant (~120-130kW/rack, GB300 150kW+), forcing every Blackwell-class rack onto the cold-plate/CDU chain; sets the RVL that qualifies cooling vendors. Confirmed via product docs/user guide and SemiAnalysis BOM analysis.",
+        "source_filing": "NVIDIA GB200 NVL72 product documentation + DGX GB200 user guide + SemiAnalysis BOM analysis",
+        "source_url": "https://www.nvidia.com/en-us/data-center/gb200-nvl72/",
+        "verdict": "analyst_kept_flagged"
+      }
+    ],
+    "constraint_severity": "material",
+    "gates_ai_buildout": "yes_secondary",
+    "lead_time_months_estimate": 15,
+    "lead_time_or_backlog": "Vertiv Q4 2025 backlog $15.0B (+109% YoY), ~2.9x book-to-bill (orders far outrunning shippable capacity); ~12-18 month forward coverage. No supplier publicly stated 'sold out through YYYY' and no week-count lead time was disclosed. The ~15-month figure is INFERRED as the midpoint of Vertiv's backlog/revenue coverage — and the extract honestly labels it as inferred, not disclosed. Caveat: Vertiv's backlog spans broad thermal+power, not pure liquid cooling, so it overstates a liquid-cooling-specific lead time; treat as directional.",
+    "concentration_note": "Moderately concentrated and consolidating fast toward an oligopoly. Vertiv and Schneider/Motivair are the two end-to-end leaders; CoolIT, Boyd, plus Alfa Laval, Asetek, LiquidStack, Rittal, Stulz round out the field. 2025-2026 M&A wave (Eaton/Boyd $9.5B, Ecolab/CoolIT $4.75B, Schneider/Motivair, Vertiv/CoolTera+ThermoKey) is rolling independents under power-infrastructure giants. NVIDIA's RVL adds a single-gatekeeper qualification layer on top of a thinning vendor field. Unit-level market-share percentages are not sourceable from primary filings; roles (not fabricated shares) are appropriately used.",
+    "overall": "partially_source_backed",
+    "note": "Adversarial verification result. All five entries corroborated against external sources; none rejected as unsourced. Verdicts: (1) Vertiv = filing_verified — $15.0B backlog and 2.9x Q4-2025 book-to-bill confirmed across multiple surfaces of the 8-K earnings exhibit; the cited 12042025-dated URL is an older Q4-2024/early-2025 exhibit but the Q4-2025 figures check out (substituted the corroborated Q3 2025 8-K archive URL as a working SEC link since the originally cited exhibit returned 403). (2) Schneider/Motivair, (3) CoolIT/Ecolab, (4) Boyd/Eaton, (5) NVIDIA mandate = analyst_kept_flagged — all real and well-corroborated (Boyd's $1.7B/$1.5B and $9.5B confirmed exactly; CoolIT $4.75B/$550M and Ecolab deal confirmed; Motivair 2.5MW CDUs and NVIDIA co-dev confirmed; NVIDIA no-air-cooled mandate confirmed) but rest on press/analyst/product-doc sourcing rather than standalone SEC filings (the targets are private or being-acquired units). overall='partially_source_backed' because only one of five suppliers is filing_verified; the others are credibly press/analyst-sourced, not rejected. On severity/lead time: 'material' (not binding_hard_constraint) is correct and NOT overstated — evidence shows supply-constrained demand (book-to-bill >>1, M&A roll-up, capex ramps) but no hard disclosed lead time or 'sold out' lock, and capacity is being added rapidly, which eases the bind; the round-number 15-month lead time is transparently flagged as an inferred midpoint, so it does not inflate the rating. Minor corrections vs. extract: CoolIT seller is KKR; Motivair CDUs scale to 2.5MW (extract said '2MW-class'); CoolIT's specific RVL/OMNI listing could not be independently confirmed (only Boyd's RVL status verified) — flagged, not rejected."
+  },
+  {
+    "chokepoint": "Skilled electrical labor / EPC + MEP construction capacity for AI data centers (the can-they-physically-build-it constraint, distinct from delivered grid power). Electrical is the gating trade at ~45-70% of data-center construction cost (IBEW) and the binding scarcity is the finite pool of licensed/journeyman electricians, not the named contractors who are competing to hire.",
+    "verified_suppliers": [
+      {
+        "name": "Quanta Services (NYSE: PWR)",
+        "approx_share_or_role": "Largest US specialty electrical/infrastructure EPC. Record total backlog $43.98B YE2025 (filing-confirmed); Electric Infrastructure Solutions is the dominant segment; Cupertino Electric adds hyperscale data-center electrical capability. Prime electrical EPC for grid + large-load/data-center electrification.",
+        "source_filing": "Quanta Services Q4/FY2025 earnings release + Form 8-K (PWR), Feb 2026; Q3 2025 10-Q",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/0001050915/000119312525108720/d919020dex991.htm",
+        "verdict": "filing_verified"
+      },
+      {
+        "name": "EMCOR Group (NYSE: EME)",
+        "approx_share_or_role": "Top US MEP/electrical contractor. Record RPO $12.61B at Q3 2025 (+29% YoY, up from $9.79B) confirmed in 8-K/10-Q; Network & Communications (data-center-heavy) RPO record $4.3B at Sep 30 2025. ~$13.25B RPO at YE2025. Hyperscale data-center MEP/electrical buildout. (The +42.3% US Electrical Construction revenue sub-figure is plausibly from the release but not independently re-confirmed here.)",
+        "source_filing": "EMCOR Group Form 8-K Q3 2025 (eme-ex991_2025930xq3) + 10-Q (eme-20250930); FY2025 8-K",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/0000105634/000010563425000082/eme-ex991_2025930xq3.htm",
+        "verdict": "filing_verified"
+      },
+      {
+        "name": "Comfort Systems USA (NYSE: FIX)",
+        "approx_share_or_role": "Leading MEP/electrical contractor. Record backlog $11.94B YE2025 (+99.3% YoY) confirmed via Feb 2026 release; technology customers (data-center-dominated) rose to 45% of FY2025 revenue from 33%. Q3 8-K (fix-20251023) is genuine. Acquiring electrical contractors (Feyen Zylstra, Meisner) to add electrical labor capacity. Data-center MEP + electrical EPC.",
+        "source_filing": "Comfort Systems USA Form 8-K (fix-20251023) Q3 2025; FY2025 Q4 results Feb 2026",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/0001035983/000110465925101818/fix-20251023xex99d1.htm",
+        "verdict": "filing_verified"
+      },
+      {
+        "name": "Unionized / licensed electrician labor pool (IBEW + open-shop journeymen)",
+        "approx_share_or_role": "The true single-source physical input. ~300K-500K additional electricians needed this decade (figures range 300K to 439K to 499K across sources) vs ~20K retirements/yr and an aging workforce (~30% of union electricians aged 50-70). Microsoft's Brad Smith named electrical talent the #1 obstacle to data-center expansion. The 85%-of-applicants-eliminated and 499K point figures are high-end/variable, not precisely sourced. 4-5 year journeyman pipeline caps expansion.",
+        "source_filing": "Microsoft Pres. Brad Smith public remarks (Mar 2025); ITIF/IBEW analyses as reported by Fortune, CNBC, Introl (2025-2026)",
+        "source_url": "https://fortune.com/2026/03/02/ai-data-centers-electrician-shortage-gen-z-training-careers/",
+        "verdict": "analyst_kept_flagged"
+      }
+    ],
+    "constraint_severity": "binding_hard_constraint",
+    "gates_ai_buildout": "yes_primary_gate",
+    "lead_time_or_backlog": "Filing-verified contractor backlogs at record highs: Quanta $43.98B total (YE2025); EMCOR $12.61B RPO (Q3'25)/~$13.25B (YE2025); Comfort Systems $11.94B (+99% YoY, YE2025). Industry data-center contractor backlog ~10.6 months (vs ~8.3 non-data-center). Gating signals corroborated: ~40% of 2026 data-center projects running late; of ~21.5 GW announced for 2027 only ~6.3 GW under construction (>60% not started); Oracle/OpenAI Stargate centers slipped 2027->2028 citing skilled-labor + materials shortages. Lead-time estimate of ~11 months is consistent with the reported ~10.6-month figure, not a fabricated round number.",
+    "lead_time_months_estimate": 11,
+    "concentration_note": "Two-layer concentration confirmed; binding layer is the labor pool, not the named contractors.",
+    "note": "All three public contractors (PWR, EME, FIX) are filing_verified: backlog/RPO/technology-revenue-share figures match SEC 8-K/10-Q filings and Feb-2026 releases. The labor-pool supplier is correctly press/analyst-reported and kept-flagged (shortfall magnitude is directionally robust but the precise 499K/85% figures are high-end and variable; severity not downgraded on this basis since multiple independent sources, including Microsoft's president, corroborate the qualitative bottleneck). Lead-time estimate is source-consistent, not a round-number artifact. binding_hard_constraint and yes_primary_gate are justified by the corroborated Stargate 2027->2028 slip, ~40% late-project rate, and >60%-of-2027-not-started evidence. One nuance to flag downstream: the binding scarcity is the electrician labor pool itself, while the named suppliers are the (non-scarce, competing) contractor layer -- the extraction states this correctly.",
+    "overall": "source_backed"
+  }
+]

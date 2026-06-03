@@ -120,6 +120,7 @@ def synthesize_core_verdict(
     power_exposure: dict[str, Any] | None = None,
     scenario_stress: dict[str, Any] | None = None,
     end_holders: dict[str, Any] | None = None,
+    equipment_bottlenecks: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Synthesize the scoped, tiered Burry verdict from verified evidence."""
 
@@ -130,6 +131,7 @@ def synthesize_core_verdict(
     power_exposure = power_exposure or {}
     scenario_stress = scenario_stress or {}
     end_holders = end_holders or {}
+    equipment_bottlenecks = equipment_bottlenecks or {}
     bear = _finding(thesis_findings, "bear_case_against_bubble")
     bear_confidence = float(bear.get("confidence") or 0.0)
 
@@ -281,6 +283,19 @@ def synthesize_core_verdict(
             "RPO growth stalling or customer commitment renegotiation",
             "Secondary GPU price / cloud rental-rate prints",
             "New SPV/DDTL draw pace vs free cash flow",
+            *(
+                [
+                    "Supply-side equipment chokepoints easing or tightening (TSMC CoWoS "
+                    "advanced-packaging / HBM allocation, gas-turbine and transformer lead times): "
+                    f"{equipment_bottlenecks.get('gating_chokepoint_count')} of "
+                    f"{equipment_bottlenecks.get('chokepoint_count')} verified chokepoints currently "
+                    f"gate the buildout (lead times up to ~"
+                    f"{equipment_bottlenecks.get('max_lead_time_months')} months) -- a loosening is a "
+                    "demand-cooling tell, a further tightening caps revenue conversion."
+                ]
+                if equipment_bottlenecks.get("status") == "source_backed"
+                else []
+            ),
         ],
     }
 
@@ -424,6 +439,22 @@ def synthesize_core_verdict(
             }
             if end_holders.get("status") == "source_backed"
             else {"status": "pending_source_backed_end_holders"}
+        ),
+        "supply_side_equipment_constraints": (
+            {
+                "chokepoint_count": equipment_bottlenecks.get("chokepoint_count"),
+                "gating_chokepoint_count": equipment_bottlenecks.get("gating_chokepoint_count"),
+                "gating_chokepoints": equipment_bottlenecks.get("gating_chokepoints"),
+                "single_source_or_duopoly_chokepoints": equipment_bottlenecks.get(
+                    "single_source_or_duopoly_chokepoints"
+                ),
+                "max_lead_time_months": equipment_bottlenecks.get("max_lead_time_months"),
+                "median_lead_time_months": equipment_bottlenecks.get("median_lead_time_months"),
+                "filing_verified_suppliers": equipment_bottlenecks.get("filing_verified_suppliers"),
+                "constraint_read": equipment_bottlenecks.get("constraint_read"),
+            }
+            if equipment_bottlenecks.get("status") == "source_backed"
+            else {"status": "pending_source_backed_equipment_bottlenecks"}
         ),
         "crack_timing": crack_timing,
         "weakest_links": weakest_links,

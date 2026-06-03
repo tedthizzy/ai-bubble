@@ -32,8 +32,8 @@ The important change is that ecosystem-scale conclusions are now blocked from be
 
 Latest verified evidence-gated report at this checkpoint:
 
-- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260603-0315.md`
-- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260603-0315.json`
+- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260603-0328.md`
+- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260603-0328.json`
 - `high_confidence_final`: `false` (ecosystem-wide, BY DESIGN — see verdict below).
 - Current `master` checkpoint: `e72d74e` (single-agent; the prior two-agent
   Claude/Codex handoff queue was consolidated into `master` at `7638aa9` and the
@@ -71,7 +71,16 @@ Latest verified evidence-gated report at this checkpoint:
   5,102-node / 7,617-edge graph as the rest of the ecosystem. Per-lender syndicate
   allocations are undisclosed, so each issuer's debt is attributed once to its lead
   arranger (no double-count); names are canonicalized so variants don't fragment hubs.
-- Evidence audit coverage now includes 526 claim audits: analyzer-level capital,
+- Supply-side equipment-bottleneck layer (the goal's "equipment bottlenecks" physical-
+  constraint capability): 8 AI data-center supply chokepoints mapped from supplier
+  filings (TSMC CoWoS advanced packaging, HBM, NVIDIA GPU allocation, gas turbines,
+  large power transformers/switchgear, backup gensets, liquid cooling, skilled electrical
+  labor). All 8 gate the buildout; 6 are single-source/duopoly; lead times up to ~42
+  months (median ~24); 12 of 30 kept suppliers filing-verified (TSMC Q1-FY2026 / Q4-FY2025
+  earnings calls, SK Hynix IR, etc.). Burry read: TSMC CoWoS is the near-single-source gate
+  whose shock propagates to every downstream issuer at once (supply-side analogue of the
+  NVIDIA hub); unsourceable lead times left null, analyst-only figures flagged.
+- Evidence audit coverage now includes 528 claim audits: analyzer-level capital,
   compute, and debt-service audits, explicit row/artifact-backed audits for
   high-impact Burry-answer rollups, and aggregate hooks for pending review
   capital, pending AI-infra capital, pending compute, weak-link AI-infra,
