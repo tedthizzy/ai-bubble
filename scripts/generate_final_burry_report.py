@@ -24,6 +24,10 @@ from bubble.analysis.compute_economics import (
 )
 from bubble.analysis.contagion_hubs import compute_contagion_hubs, load_contagion_edges
 from bubble.analysis.contagion_propagation import top_contagion_cascades
+from bubble.analysis.contract_structure import (
+    aggregate_contract_structure,
+    load_contract_structure,
+)
 from bubble.analysis.debt_census import aggregate_debt_census, load_debt_census
 from bubble.analysis.debt_service import analyze_debt_service
 from bubble.analysis.demand_side import aggregate_demand_side, load_demand_side
@@ -1441,6 +1445,29 @@ def report_answer_metric_audits(  # noqa: PLR0912, PLR0915
                 unit="count",
             )
 
+        # Contract-level recourse structure (who bears the loss, from the agreements).
+        cs = m.get("contract_structure", {})
+        if cs.get("status") == "source_backed":
+            add(
+                "mismatch.contract_structure.filing_verified_facilities",
+                "Number of cluster debt facilities whose recourse / guarantee / SPV / collateral "
+                "structure was verified against the actual credit-agreement or guaranty exhibit. The "
+                "contract-level basis for who-bears-downside (parent equity vs ring-fenced SPV "
+                "creditors); non-recourse / bankruptcy-remote claims rejected unless the document "
+                "states them.",
+                cs.get("filing_verified_facilities"),
+                [mismatch_artifact],
+                unit="count",
+            )
+            add(
+                "mismatch.contract_structure.gpu_collateralized_facilities",
+                "Number of contract-verified facilities explicitly secured by GPUs -- the collateral "
+                "whose recovery value the GPU-depreciation-gap leg puts in question.",
+                cs.get("gpu_collateralized_facilities"),
+                [mismatch_artifact],
+                unit="count",
+            )
+
         # Per-entity weakest-links ranking (who cracks first).
         err = m.get("entity_risk_ranking", {})
         if err.get("status") == "source_backed":
@@ -2579,6 +2606,11 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:  #
     )
     if entity_risk_ranking.get("status") == "source_backed":
         mismatch_ratios["entity_risk_ranking"] = entity_risk_ranking
+    contract_structure_aggregate = aggregate_contract_structure(
+        load_contract_structure(Path("handoffs/ai_cluster_contract_structure_20260603.json"))
+    )
+    if contract_structure_aggregate.get("status") == "source_backed":
+        mismatch_ratios["contract_structure"] = contract_structure_aggregate
     utilization_debt_service_aggregate = aggregate_utilization_debt_service(
         load_utilization_debt_service(Path("handoffs/ai_utilization_debt_service_20260603.json"))
     )
@@ -2615,6 +2647,7 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:  #
         risk_register=risk_register,
         utilization_debt_service=utilization_debt_service_aggregate,
         entity_risk_ranking=entity_risk_ranking,
+        contract_structure=contract_structure_aggregate,
     )
     coverage_dict = coverage.to_dict()
     physical_capacity_dict = physical_capacity.to_dict()
@@ -4265,6 +4298,15 @@ Leading indicators:
 **Who bears the downside (by disclosed facility recourse):**
 {_bullets(f"{k}: ${round(v / 1e9, 1)}B" for k, v in sorted(((verdict.get("who_bears_downside_quantified", {}) or {}).get("by_recourse_class_usd", {}) or {}).items(), key=lambda kv: -kv[1]))}
 {(verdict.get("who_bears_downside_quantified", {}) or {}).get("note", "")}
+
+**Who bears the downside (CONTRACT-LEVEL, from the actual credit agreements):** {(
+    f"{(_cl := verdict.get('contract_level_recourse', {}) or {}).get('filing_verified_facilities')}/"
+    f"{_cl.get('facility_count')} facilities contract-verified; recourse "
+    f"{_cl.get('recourse_breakdown_counts')}; {_cl.get('named_borrower_spv_facilities')} named-SPV, "
+    f"{_cl.get('bankruptcy_remote_facilities')} bankruptcy-remote, {_cl.get('gpu_collateralized_facilities')} "
+    f"GPU-collateralized. {str(_cl.get('who_bears_downside_read', '')).split(':')[0]}."
+) if (verdict.get('contract_level_recourse', {}) or {}).get('facility_count') is not None
+    else 'pending source-backed contract-structure extraction.'}
 
 **Contagion hubs (counterparties shared across the cluster — where a shock propagates):**
 {_bullets(f"{h.get('counterparty')} ({h.get('category')}) — touches {h.get('issuer_count')} issuers: {', '.join(h.get('issuers', []))}" for h in (verdict.get("contagion_hubs", {}) or {}).get("top_contagion_hubs", []) or [])}

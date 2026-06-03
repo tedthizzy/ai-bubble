@@ -148,6 +148,7 @@ def synthesize_core_verdict(
     risk_register: dict[str, Any] | None = None,
     utilization_debt_service: dict[str, Any] | None = None,
     entity_risk_ranking: dict[str, Any] | None = None,
+    contract_structure: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Synthesize the scoped, tiered Burry verdict from verified evidence."""
 
@@ -514,6 +515,29 @@ def synthesize_core_verdict(
             else {"status": "pending_source_backed_equipment_bottlenecks"}
         ),
         "forensic_red_flags": _forensic_red_flags_block(red_flag_scorecard),
+        "contract_level_recourse": (
+            {
+                "facility_count": (contract_structure or {}).get("facility_count"),
+                "filing_verified_facilities": (contract_structure or {}).get(
+                    "filing_verified_facilities"
+                ),
+                "recourse_breakdown_counts": (contract_structure or {}).get(
+                    "recourse_breakdown_counts"
+                ),
+                "bankruptcy_remote_facilities": (contract_structure or {}).get(
+                    "bankruptcy_remote_facilities"
+                ),
+                "gpu_collateralized_facilities": (contract_structure or {}).get(
+                    "gpu_collateralized_facilities"
+                ),
+                "named_borrower_spv_facilities": (contract_structure or {}).get(
+                    "named_borrower_spv_facilities"
+                ),
+                "who_bears_downside_read": (contract_structure or {}).get("who_bears_downside_read"),
+            }
+            if (contract_structure or {}).get("status") == "source_backed"
+            else {"status": "pending_source_backed_contract_structure"}
+        ),
         "weakest_links_ranked": (
             {
                 "entity_count": (entity_risk_ranking or {}).get("entity_count"),
