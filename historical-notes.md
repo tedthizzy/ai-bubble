@@ -124,9 +124,12 @@ layers (order matters; any change needs a before/after-total regression):
   collateral + single-customer contract cash flows (IREN Hardware 3: GPUs + Microsoft Contract cash flows, Limited
   Parent Guarantee; TeraWulf WULF/Flash Compute; Hut 8 DC; CoreWeave CCAC VII full parent guarantee) → serviceable only
   from *holed* take-or-pay contracts (CoreWeave 96% take-or-pay but "except nonperformance" carve-out + OpenAI/MSFT 71%
-  concentration) → bunched into a **2030-2033 refinancing wall (88% of carded AI-direct debt)** that coincides with GPU
-  obsolescence (H100 secondary $40K→$6-15K in ~2-3yr vs 6-12yr book life) and contract expiry. Physical buildout is real
-  + power-advantaged (brownfield/ERCOT, firm interconnection) → risk has moved from concrete to demand+refinancing.
+  concentration) → a **continuous refinancing treadmill**. CORRECTED by the primary-sourced debt census
+  (`ai-direct-debt-census` workflow, cluster total debt ~$54.8B): maturities are SPREAD 2026-2034 — ~40% in
+  2030-2033, ~29% near-term 2025-2027, peak 2030 (~$10.3B) — NOT the "88% in 2030-2033" the curated ~$41B
+  floor implied. Coincides with GPU economic-life compression (H100 cloud rents −64-83% from 2023 peak;
+  Amazon's own SEC 6→5yr server-life revision — see `handoffs/gpu_price_evidence_20260603.json`) and contract
+  expiry. Physical buildout is real + power-advantaged → risk has moved from concrete to demand+refinancing.
 - **Debt-service rates (primary EDGAR):** CoreWeave SOFR+400bp; IREN Hardware 3 SOFR+225bp (Microsoft-backed, hedged);
   secured fixed TeraWulf 7.750%/7.250%, Applied Digital 6.750%, Hut 8 6.192%; parent convertibles 0.00-2.75% (deferred
   to dilution). **Source-backed (commit 075ca7d, 11-issuer primary-10-K fixture):** cluster aggregate
