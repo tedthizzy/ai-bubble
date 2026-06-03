@@ -1,0 +1,514 @@
+[
+  {
+    "issuer": "CoreWeave, Inc. (CRWV) — SEC CIK 1769628",
+    "overall": "source_backed",
+    "note": "All eight flags were verified against the primary source: FY2025 10-K (accession 0001769628-26-000104, filed 2026-03-02, Deloitte & Touche LLP, PCAOB ID 34, San Jose CA, audit report dated March 2, 2026). I downloaded the actual filing document from SEC EDGAR and confirmed each quoted phrase verbatim. The single SERIOUS flag asserted present (material_weakness_icfr) has a real, accurate filing cite and is verbatim-confirmed ('continued to exist as of December 31, 2025'; three weaknesses = IT general controls, segregation of duties, sufficient number of qualified personnel; 'did not result in a material misstatement'). The three other serious flags (going_concern, restatement, auditor_change) are all correctly marked ABSENT with verified filing support — no inferred going-concern slipped through: 0 hits for 'going concern', unqualified opinion, +$3,058M operating cash flow despite GAAP net loss of $(1,167)M, so the loss-making-but-positive-OCF nuance is handled correctly. Microsoft 67% revenue concentration, $60.7B RPO (up from $15.1B), OpenAI ~$6.5B order form, and GPU useful-life change 'from five to six years' (Jan 1, 2023) with 6yr technology / up to 12yr data-center lives and $2,454M D&A all confirmed verbatim. The only non-filing component is the editorial 'aggressive vs peers (Nebius ~4yr)' comparison on the depreciation flag, which is an analyst judgment not in the 10-K — kept flagged. Majority (in fact all) filing-tied facts verified -> source_backed.",
+    "verified_flags": [
+      {
+        "flag_type": "material_weakness_icfr",
+        "present": "present",
+        "detail": "VERIFIED verbatim in 10-K Item 9A. Three material weaknesses confirmed: (1) lack of effectively designed/implemented/maintained IT general controls over applications supporting financial reporting; (2) insufficient segregation of duties across financially relevant functions; (3) lack of sufficient number of qualified personnel. Filing states verbatim 'We have also concluded that these material weaknesses continued to exist as of December 31, 2025' and 'The deficiencies identified did not result in a material misstatement to our financial statements.' Serious flag asserted present WITH a real, accurate filing cite — accepted.",
+        "source_filing": "10-K FY2025, CoreWeave Inc., filed 2026-03-02, Item 9A (accession 0001769628-26-000104)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000104/crwv-20251231.htm",
+        "verdict": "filing_verified"
+      },
+      {
+        "flag_type": "going_concern_doubt",
+        "present": "absent",
+        "detail": "VERIFIED correctly absent. Zero hits for 'going concern' in the full 10-K text. Deloitte audit report is unqualified (PCAOB ID 34, dated 2026-03-02). Strong liquidity and positive operating cash flow ($3,058M). No inferred going-concern asserted — correctly NOT flagged present per instruction.",
+        "source_filing": "10-K FY2025, CoreWeave Inc., filed 2026-03-02, audit report & liquidity disclosures",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000104/crwv-20251231.htm",
+        "verdict": "filing_verified"
+      },
+      {
+        "flag_type": "auditor_change_or_resignation",
+        "present": "absent",
+        "detail": "VERIFIED correctly absent. Audit report verbatim: '/s/ Deloitte & Touche LLP, San Jose, CA, March 2, 2026' and 'We have served as the Company's auditor since 2024.' PCAOB ID No. 34. No change, dismissal, or resignation.",
+        "source_filing": "10-K FY2025, CoreWeave Inc., filed 2026-03-02, Report of Independent Registered Public Accounting Firm",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000104/crwv-20251231.htm",
+        "verdict": "filing_verified"
+      },
+      {
+        "flag_type": "restatement",
+        "present": "absent",
+        "detail": "VERIFIED correctly absent. Cover-page check-mark boxes for correction-of-error and clawback-triggering restatement are unchecked (rendered as empty 'o' boxes). Item 9A states deficiencies 'did not result in a material misstatement to our financial statements.' No prior-period restatement disclosed.",
+        "source_filing": "10-K FY2025, CoreWeave Inc., filed 2026-03-02, cover page & Item 9A",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000104/crwv-20251231.htm",
+        "verdict": "filing_verified"
+      },
+      {
+        "flag_type": "customer_concentration_over_35pct",
+        "present": "present",
+        "detail": "VERIFIED verbatim: 'We recognized an aggregate of approximately 67% of our revenue from our top customer, Microsoft, for the year ended December 31, 2025.' Also confirmed: 'approximately 77% ... from our top two customers for the year ended December 31, 2024' and 'approximately 73% ... for the year ended December 31, 2023, from our top three customers.' 67% is well above the 35% threshold.",
+        "source_filing": "10-K FY2025, CoreWeave Inc., filed 2026-03-02, Risk Factors / MD&A",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000104/crwv-20251231.htm",
+        "verdict": "filing_verified"
+      },
+      {
+        "flag_type": "negative_operating_cash_flow",
+        "present": "absent",
+        "detail": "VERIFIED correctly absent. Cash flow statement: 'Net cash provided by operating activities $ 3,058 $ 2,749 $ 1,833' (FY2025/2024/2023, $M) — positive. GAAP net loss confirmed at $(1,167)M / $(863)M / $(594)M with D&A add-back $2,454M. Positive OCF despite net loss correctly does NOT trigger the negative-OCF flag; the loss-making-but-positive-cash-flow nuance is handled properly.",
+        "source_filing": "10-K FY2025, CoreWeave Inc., filed 2026-03-02, Consolidated Statements of Cash Flows",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000104/crwv-20251231.htm",
+        "verdict": "filing_verified"
+      },
+      {
+        "flag_type": "rpo_quality_or_concentration",
+        "present": "partial",
+        "detail": "VERIFIED verbatim: 'As of December 31, 2025, we had $60.7 billion of remaining performance obligations (\"RPO\"), compared to $15.1 [billion]' and 'the Company had $60.7 billion of unsatisfied RPO, of which 43% is expected to [be recognized].' OpenAI ~$6.5B order form (Sept 2025, through May 31, 2031) confirmed; separate OpenAI MSA up to ~$11.9B also disclosed. Concentration tied to Microsoft (67%) plus OpenAI verified. Backlog is contractual/binding but counterparty-concentrated — 'partial' designation is appropriate and filing-tied.",
+        "source_filing": "10-K FY2025, CoreWeave Inc., filed 2026-03-02, MD&A (RPO) & customer disclosures",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000104/crwv-20251231.htm",
+        "verdict": "filing_verified"
+      },
+      {
+        "flag_type": "aggressive_useful_life_or_depreciation",
+        "present": "present",
+        "detail": "Filing facts VERIFIED verbatim: 'Technology equipment 6 years; Software 3-6 years; Data center ... up to 12 years' and 'Effective January 1, 2023, the Company changed its estimate of the useful life for its computing equipment utilized in data centers from five to six years.' D&A $2,454M confirmed. The quantitative/depreciation facts are filing_verified. However the editorial characterization 'aggressive vs peers (Nebius ~4 years), widely challenged given NVIDIA cadence' is an analyst/press judgment not contained in the 10-K — that comparative framing is analyst-kept, not filing-sourced.",
+        "source_filing": "10-K FY2025, CoreWeave Inc., filed 2026-03-02, Significant Accounting Policies (PP&E useful lives) & cash flow statement",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000104/crwv-20251231.htm",
+        "verdict": "analyst_kept_flagged"
+      }
+    ]
+  },
+  {
+    "issuer": "Nebius Group N.V. (NASDAQ: NBIS)",
+    "overall": "source_backed",
+    "note": "All six flags adversarially verified against the locally held audited FY2025 Form 20-F (CIK 0001513845, accession 000110465926052948, file nbis-20251231x20f.htm). No 'present' serious flag (going_concern / material_weakness / restatement / auditor_change) is asserted without a real filing cite: the two serious 'present' flags (material weakness, auditor change) carry explicit Item 15 / Item 16F cites, and the two serious 'absent' flags (going concern, restatement) are correctly absent. Notable: the related-party/circular-financing flag UNDERSTATED the source base — the 20-F audited notes DO disclose the ~$2.0B NVIDIA equity investment (March 11, 2026 securities purchase agreement, pre-funded Warrant for 21,065,936 Class A shares at $0.0001), so the supplier-as-investor loop is filing-verified, not merely press-sourced; binding upgraded accordingly. The orchestrator's specific concern is satisfied: the substantial-doubt language is confined to the prior auditor (Technologies of Trust – Audit, Moscow, April 26 2024) on the legacy/divested Yandex business and was explicitly 'Removed' via management actions, so no inferred going-concern slipped through. Net loss $641.4M and negative operating cash flow ($269.9M used in 2024) are verifiable and do not themselves imply going-concern doubt. 6 of 6 returned flags are filing_verified => source_backed.",
+    "verified_flags": [
+      {
+        "flag_type": "going_concern_doubt",
+        "present": "absent",
+        "detail": "VERIFIED. The only substantial-doubt language is from the prior auditor report by 'Technologies of Trust - Audit' (Moscow), dated April 26, 2024, on the legacy/divested Yandex business, and it was explicitly removed: filing states 'Substantial Doubt about the Company's Ability to Continue as a Going Concern Has Been Removed ... management has subsequently taken certain actions, which management and we have concluded remove that substantial doubt.' FY2025 statements prepared on normal going-concern basis with no qualification from current auditor (Reanda). Net loss of $641.4M and negative operating cash flow are verifiable but do not constitute a present going-concern flag. Correctly marked absent.",
+        "source_filing": "20-F (FY2025), Nebius Group N.V., Note 1 Basis of Presentation and Going Concern; prior-auditor report of Technologies of Trust - Audit dated 2024-04-26 (re-dated 2025-04-30 for divested business)",
+        "source_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001513845&type=20-F",
+        "verdict": "filing_verified"
+      },
+      {
+        "flag_type": "material_weakness_icfr",
+        "present": "present",
+        "detail": "VERIFIED in audited 20-F. Filing states 'We have identified two material weaknesses in our internal control over financial reporting.' (1) Property/equipment: did not fully implement/ensure effectiveness of controls over depreciation start dates and timely reconciliation around the asset-count process, affecting accounting for fixed assets including server and network equipment. (2) IT general controls and undocumented business-process controls over revenue recognition in the TripleTen business unit (filing: 'representing approximately 10% of total revenues'). Both material weaknesses are named in the PCAOB auditor's report. Management states these deficiencies 'did not result in a misstatement in our annual or interim financial' statements and describes compensating control procedures and a remediation project. Serious flag WITH a real Item 15 cite — properly asserted, not unsourced.",
+        "source_filing": "20-F (FY2025), Item 15 Controls and Procedures and PCAOB auditor's report (period ended 2025-12-31)",
+        "source_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001513845&type=20-F",
+        "verdict": "filing_verified"
+      },
+      {
+        "flag_type": "auditor_change_or_resignation",
+        "present": "present",
+        "detail": "VERIFIED. Item 16F: 'As disclosed in the company's Report on Form 6-K filed on February 12, 2026, the board ... resolved ... to recommend that the ... General Meeting ... approve the appointment of Deloitte & Touche LLP ... for the fiscal year ending December 31, 2026. The dismissal and termination of Reanda Audit & Assurance B.V. ... is to be effective upon shareholder approval ... at the company's 2026 annual general meeting.' Filing confirms Reanda's FY2024/FY2025 reports contained no adverse opinion, disclaimer or qualification, and 'there was no disagreement with management that constituted a reportable event as contemplated by Item 16F(a)(1)(iv).' Routine change, not a dispute-driven resignation, but a genuine change of record (Technologies of Trust -> Reanda -> Deloitte post-divestment). Serious flag WITH a real Item 16F / 6-K cite — properly asserted.",
+        "source_filing": "20-F (FY2025), Item 16F Changes in Registrant's Certifying Accountant; Form 6-K filed 2026-02-12",
+        "source_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001513845&type=20-F",
+        "verdict": "filing_verified"
+      },
+      {
+        "flag_type": "restatement",
+        "present": "absent",
+        "detail": "VERIFIED. The Form 20-F cover-page error-correction checkbox indicating whether the financial statements reflect 'the correction of an error to previously issued financial statements' is UNCHECKED. The two material weaknesses are stated NOT to have resulted in a misstatement. The words 'restate'/'restated' appear only in (a) the 'Amended and Restated Equity Incentive Plan' name and (b) segment-reporting recasting and discontinued-operations re-presentation tied to the 2024 Divestment and the change in reporting currency (Notes 1 and 15) — not an error-correction restatement of previously issued GAAP statements. Correctly marked absent; not an unsourced serious flag.",
+        "source_filing": "20-F (FY2025), cover page error-correction checkboxes; Item 15; Notes 1 and 15 (period ended 2025-12-31)",
+        "source_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001513845&type=20-F",
+        "verdict": "filing_verified"
+      },
+      {
+        "flag_type": "related_party_or_circular_financing",
+        "present": "partial",
+        "detail": "VERIFIED — and the audited 20-F supports MORE than the flag claimed. Supplier dependence: 'We currently rely on Nvidia for the GPU chips we use and on a limited number of other suppliers.' Supplier-as-investor loop: contrary to the flag's assertion that the $2B equity-stake mechanics were only press/analyst-sourced, the audited notes disclose the 'Equity Investment and Commercial Partnership with NVIDIA' — a March 11, 2026 securities purchase agreement under which the Group sold, in a private placement for aggregate gross proceeds of approximately $2.0 billion, a pre-funded Class A shares purchase Warrant exercisable for 21,065,936 Class A shares at $0.0001, issued to NVIDIA. The Dec 2024 $700.0M private placement (33.3M Class A shares) is also disclosed. Controlled-company structure: Mr. Arkady Volozh (founder/CEO) beneficially holds approximately 52% of voting control (as of 2026-03-31) via Class B shares (~11% economic interest); Nebius is a Nasdaq 'Controlled Company' relying on governance exemptions; related-party transactions referenced in Note 16. Marked partial appropriately (it is a structural exposure, not a confirmed abusive transaction), but the binding is filing_verified because the supplier-investor equity mechanics ARE in the audited notes, not just press.",
+        "source_filing": "20-F (FY2025) Risk Factors; Item 7 Major Shareholders and Related Party Transactions; Note 16 Related party transactions; subsequent-events disclosure of March 11, 2026 NVIDIA securities purchase agreement; Dec 2024 $700.0M private placement",
+        "source_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001513845&type=20-F",
+        "verdict": "filing_verified"
+      },
+      {
+        "flag_type": "customer_concentration_over_35pct",
+        "present": "partial",
+        "detail": "VERIFIED exactly against the audited notes. Revenue concentration table: Customer A = 27% (2024) and 25% (2025); Customer B = 15% (2025); Customer C = 11% (2024); footnote '* Customer did not represent 10% or more of revenue.' No single customer reaches 35% of revenue, so the '>35%' threshold is correctly not met (marked partial). AR concentration is extreme and confirmed: 'maximum exposure to credit risk related to significant customer concentrations, measured at the gross fair value of accounts receivable was $6.6 (59%) attributable to Customer A in 2024 and $597.0 (83%) attributable to Customer D in 2025, and no significant customer concentration existed as of December 31, 2023.' Customer mix shifts year to year. Meta and Microsoft are named as longer-term contract counterparties. All figures filing-sourced.",
+        "source_filing": "20-F (FY2025), consolidated financial statements — revenue and credit-risk/customer-concentration disclosures (period ended 2025-12-31)",
+        "source_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001513845&type=20-F",
+        "verdict": "filing_verified"
+      }
+    ]
+  },
+  {
+    "issuer": "IREN Limited (NASDAQ: IREN; SEC CIK 1878848) — AI Cloud / data-center and Bitcoin mining company, incorporated in Australia, formerly Iris Energy Ltd.",
+    "verified_flags": [
+      {
+        "flag_type": "going_concern_doubt",
+        "present": "partial",
+        "source_filing": "8-K Item 4.01 (IREN Limited, filed Nov 28, 2025, acc 0001140361-25-043599), referencing RCGT FY2024 audit report; FY2025 10-K (filed Aug 28, 2025) and FY2026 Q3 10-Q (period ended Mar 31, 2026)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1878848/000114036125043599/ef20060170_8k.htm",
+        "verdict": "filing_verified",
+        "detail": "VERIFIED against primary filings. The 8-K Item 4.01 states verbatim that RCGT's audit reports were not qualified 'except that the report for the year ended June 30, 2024 contained an explanatory paragraph expressing significant doubt about the Company's ability to continue as a going concern at that time.' The FY2025 10-K body contains ONLY risk-factor boilerplate ('Such events could have a material adverse effect on our ability to continue as a going concern...') — NOT an audit-opinion going-concern paragraph; the FY2025 audit report is unqualified. FY2026 Q3 10-Q confirms cash and cash equivalents of $2,213,274 thousand ($2,213.3M) at Mar 31, 2026 and POSITIVE net cash from operating activities of +$289,326 thousand (nine months). So the going-concern doubt was real but HISTORICAL (FY2024) and resolved; not an inferred live going concern. The 'partial' framing is accurate and properly sourced — this is NOT an unsourced going-concern assertion."
+      },
+      {
+        "flag_type": "material_weakness_icfr",
+        "present": "partial",
+        "source_filing": "10-K FY2025 Item 9A (IREN Limited, filed Aug 28, 2025, acc 0001878848-25-000063), referencing Form 20-F/A for FY ended June 30, 2024 (filed Mar 20, 2025, acc 0001878848-25-000020)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1878848/000187884825000063/iren-20250630.htm",
+        "verdict": "filing_verified",
+        "detail": "VERIFIED. The 20-F/A (filed Mar 20, 2025, FY ended June 30, 2024) discloses a material weakness 'relating to the failure to design and maintain effective controls to ensure the accurate classification of proceeds from the sale of Bitcoin mined on the Company's consolidated statements of cash flows' (improper classification as operating vs. investing). FY2025 10-K Item 9A states: 'Management has concluded that the material weakness described in our 20-F/A, filed on March 20, 2025, for the year ended June 30, 2024, has been remediated as of June 30, 2025' and 'our internal control over financial reporting was effective as of June 30, 2025.' The 8-K independently corroborates: the 'only reportable event' was 'RCGT's communication to the Company of the material weakness in internal controls over financial reporting disclosed in the Company's Annual Report on Form 20-F for the year ended June 30, 2024.' Real historical MW, remediated; correctly scoped as 'partial'."
+      },
+      {
+        "flag_type": "auditor_change_or_resignation",
+        "present": "present",
+        "source_filing": "8-K Item 4.01 (IREN Limited, filed Nov 28, 2025, dated 2025-11-26/27, acc 0001140361-25-043599)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1878848/000114036125043599/ef20060170_8k.htm",
+        "verdict": "filing_verified",
+        "detail": "VERIFIED verbatim. 8-K Item 4.01: RCGT (auditor since May 19, 2023) 'was dismissed' on November 26, 2025; KPMG LLP 'was appointed as the independent registered public accounting firm... effective November 27, 2025.' The filing states there were 'no \"disagreements\" with RCGT' on accounting principles, financial statement disclosure, or auditing scope/procedure. The only reportable event was the FY2024 material weakness communication. The auditor change post-dates both the FY2024 going-concern paragraph and the FY2024 material weakness, as the analyst notes. Filing-tied and accurate."
+      },
+      {
+        "flag_type": "restatement",
+        "present": "absent",
+        "source_filing": "10-K FY2025 (IREN Limited, filed Aug 28, 2025, acc 0001878848-25-000063); cf. 20-F/A (filed Mar 20, 2025) re prior-period restatement",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1878848/000187884825000063/iren-20250630.htm",
+        "verdict": "filing_verified",
+        "detail": "Verdict 'absent' is correct for the CURRENT reporting (FY2025 10-K / FY2026 Q3 10-Q): no new error-correction restatement of issued statements. The 10-K cover-page error-correction checkbox is checked, but the audit opinion clarifies this is the IFRS-to-U.S.-GAAP transition with retroactive restatement of COMPARATIVE information (a framework change), not a classic error restatement. NUANCE / CORRECTION to analyst detail: the analyst wrote 'no error-correction restatement was disclosed,' but the 20-F/A (Mar 2025) DID disclose a genuine prior-period error-correction restatement of 'the restated financial statements for the Affected Periods' tied to the Bitcoin cash-flow misclassification material weakness. So a historical error-correction restatement DOES exist; the 'absent' verdict only holds for the current-period filings. Net: flag is filing-grounded and not over-asserted, but its supporting detail understates the historical restatement."
+      },
+      {
+        "flag_type": "related_party_or_circular_financing",
+        "present": "present",
+        "source_filing": "10-Q FY2026 Q3 (IREN Limited, period ended Mar 31, 2026, acc 0001878848-26-000026), subsequent-events note: NVIDIA Cloud Services Agreement & NVIDIA Securities Purchase Agreement dated May 7, 2026",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1878848/000187884826000026/iren-20260331.htm",
+        "verdict": "filing_verified",
+        "detail": "VERIFIED in the 10-Q subsequent-events note. (a) NVIDIA Cloud Services Agreement, May 7, 2026: 'dedicated GPU services in tranches' at Childress, TX over a five-year term, total contract value 'approximately $3.4 billion' (NVIDIA = customer/revenue). (b) NVIDIA Securities Purchase Agreement, May 7, 2026: Investment Rights to purchase 'an aggregate 30 million Ordinary shares' for gross proceeds up to ~$2.1B, exercise price $70.00, vesting tied to deliveries of 'up to 600,000 NVIDIA GPUs,' exercisable through May 7, 2031 (NVIDIA = equity investor). NVIDIA is also the GPU supplier — confirmed supplier-customer-investor entanglement (circular/vendor financing). Microsoft corroborated as both a $9.7B customer (Nov 2, 2025) and anchor for a ~$3.6B JPMorgan delayed-draw facility secured by the GPUs and Microsoft-contract cash flows. Strongly filing-verified."
+      },
+      {
+        "flag_type": "customer_concentration_over_35pct",
+        "present": "partial",
+        "source_filing": "10-Q FY2026 Q3 (IREN Limited, period ended Mar 31, 2026, acc 0001878848-26-000026), Microsoft Agreement & NVIDIA Cloud Services Agreement notes; FY2025 10-K risk factors",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1878848/000187884826000026/iren-20260331.htm",
+        "verdict": "filing_verified",
+        "detail": "VERIFIED with correct 'partial' scoping. 10-Q confirms Microsoft Agreement (Nov 2, 2025), 'total contract value approximately $9.7 billion' over avg ~5-year term, and NVIDIA Agreement $3.4B — the two announced AI Cloud contracts dominate forward backlog. 'Customer concentration' is explicitly listed as a risk factor. As the analyst states, the exact single-customer % of trailing recognized revenue is NOT surfaced as a numeric line (legacy Bitcoin mining still dilutes the trailing percentage), so the >35% threshold is structurally evident for the forward AI backlog but not numerically pinned for trailing total revenue. 'Partial' is the honest, source-faithful call."
+      },
+      {
+        "flag_type": "rpo_quality_or_concentration",
+        "present": "present",
+        "source_filing": "10-Q FY2026 Q3 (IREN Limited, period ended Mar 31, 2026, acc 0001878848-26-000026), Remaining Performance Obligations note",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1878848/000187884826000026/iren-20260331.htm",
+        "verdict": "filing_verified",
+        "detail": "VERIFIED (flag text was truncated in the extract but is corroborated by the filing). 10-Q: 'As of March 31, 2026, the Group had $710,272,000 of unsatisfied RPO,' with $307,950,000 expected over the initial 12 months, $265,198,000 in months 13-24, and the balance in months 25-60. RPO-QUALITY concern confirmed: 'The Group includes amounts in unsatisfied RPO only for tranches that have been delivered and accepted, of which there have been nil as of the reporting date. Consideration related to future tranches is not included in unsatisfied RPO.' Thus the ~$710M reported RPO massively understates the ~$9.7B Microsoft + ~$3.4B NVIDIA announced backlog because none of those tranches are yet delivered/accepted — a genuine, filing-grounded RPO concentration/quality flag."
+      }
+    ],
+    "overall": "source_backed",
+    "note": "All 7 flags verified directly against primary SEC EDGAR filings (fetched via curl with proper User-Agent; sec.gov 403s WebFetch). Filing existence and accession numbers cross-checked against the EDGAR submissions JSON for CIK 1878848: 8-K acc 0001140361-25-043599 (filed Nov 28, 2025), 10-K acc 0001878848-25-000063 (filed Aug 28, 2025), 10-Q acc 0001878848-26-000026 (filed May 8, 2026, period Mar 31, 2026), and 20-F/A acc 0001878848-25-000020 (filed Mar 20, 2025). All four SERIOUS flags (going_concern, material_weakness, auditor_change, restatement) carry genuine primary-source cites — NONE was asserted unsourced, so NONE required rejection. going_concern and material_weakness are correctly scoped as historical-and-resolved (not inferred live doubts); the FY2025 10-K 'going concern' mentions are confirmed to be risk-factor boilerplate, and FY2026 Q3 operating cash flow is POSITIVE (+$289.3M, 9 mo) with $2,213.3M cash, so no going-concern slipped through. One correction to analyst detail: the restatement flag's narrative claims 'no error-correction restatement was disclosed,' but the 20-F/A (Mar 2025) DID disclose a real prior-period error-correction restatement of the 'Affected Periods' for Bitcoin cash-flow misclassification; the 'absent' verdict still holds only for the current-period (FY2025 10-K / FY2026 Q3) filings. Majority (all 7) are filing_verified, hence overall = source_backed."
+  },
+  {
+    "issuer": "Applied Digital Corporation (APLD; CIK 0001144879)",
+    "verified_flags": [
+      {
+        "flag_type": "going_concern_doubt",
+        "present": "absent",
+        "source_filing": "10-K FY2025 (filed 2025-07-30, acc 0001144879-25-000021) and 10-Q Q3 FY2026 (period 2026-02-28, acc 0001144879-26-000030)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1144879/000114487925000021/apld-20250531.htm",
+        "verdict": "filing_verified",
+        "detail": "VERIFIED ABSENT. All ~9 'going concern' occurrences in the FY2025 10-K are hypothetical risk-factor boilerplate ('could have a material adverse effect on our ability to continue as a going concern'). The CBIZ CPAs P.C. opinion on the financial statements is clean/unqualified ('present fairly, in all material respects ... in conformity with [GAAP]') dated July 30, 2025, with NO going-concern emphasis paragraph. The Q3 FY2026 10-Q has zero 'going concern' and zero 'substantial doubt' occurrences (grep count = 0). No inferred going-concern slipped through; the 'absent' call is correct and a loss-making-miner negative-cash-flow situation was not upgraded into a going-concern flag."
+      },
+      {
+        "flag_type": "material_weakness_icfr",
+        "present": "partial",
+        "source_filing": "10-K FY2025 (filed 2025-07-30) Item 9A + CBIZ adverse ICFR opinion; remediation per 10-Q Q3 FY2026 (period 2026-02-28) Item 4",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1144879/000114487925000021/apld-20250531.htm",
+        "verdict": "filing_verified",
+        "detail": "VERIFIED with a real filing cite. 10-K: CEO/CFO 'concluded that our disclosure controls and procedures were not effective as of May 31, 2025, as a result of the material weakness.' The MW is described verbatim as being 'around the accounting and assessment of complex financial instruments.' Auditor CBIZ CPAs P.C. 'expressed an adverse opinion on the effectiveness of the Company's internal control over financial reporting because of the existence of a material weakness,' report dated July 30, 2025. 10-Q Q3 FY2026: 'disclosure controls and procedures were effective at the reasonable assurance level' as of Feb 28, 2026, supporting the remediation claim. This is a serious flag and it IS source-backed, so it is properly asserted (not rejected)."
+      },
+      {
+        "flag_type": "auditor_change_or_resignation",
+        "present": "absent",
+        "source_filing": "8-K Item 4.01 filed 2025-06-20 (acc 0001641172-25-015732) + Ex.16.1; 10-K FY2025 auditor report and Item 9",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1144879/000164117225015732/form8-k.htm",
+        "verdict": "filing_verified",
+        "detail": "VERIFIED ABSENT (non-adverse). The Item 4.01 8-K states CBIZ CPAs P.C. acquired Marcum LLP's attest business effective Nov 1, 2024; Marcum's June 18, 2025 'resignation' was a direct consequence of that transaction, with Audit Committee approval. Marcum's prior reports were unqualified; there were (a) NO disagreements under Item 304(a)(1)(iv) and (b) no new reportable events except the previously-disclosed FY2024 material weakness. 10-K auditor tenure statement matches the claim verbatim: 'We have served as the Company's auditor since 2021 (such date takes into account the acquisition of the attest business of Marcum LLP by CBIZ CPAs P.C. effective November 1, 2024).' Item 9 'Changes in and Disagreements With Accountants ... None.' Correctly characterized as a firm-acquisition continuation, not a dismissal/resignation-for-cause."
+      },
+      {
+        "flag_type": "restatement",
+        "present": "absent",
+        "source_filing": "10-K FY2025 (filed 2025-07-30) auditor report / Notes 2 & 16 (ASU 2023-07); Item 9A; no Item 4.02 8-K in EDGAR index",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1144879/000114487925000021/apld-20250531.htm",
+        "verdict": "filing_verified",
+        "detail": "VERIFIED ABSENT. The only retrospective adjustment is adoption of ASU 2023-07 (Segment Reporting, Topic 280) applied to 2024/2023 comparatives ('retrospectively apply the change in accounting due to the adoption of ASU 2023-07'), an accounting-standard adoption, not an error correction. The 10-K explicitly states the material weakness 'did not result in changes to previously released financial results.' I independently searched the full EDGAR submissions index: there is NO Item 4.02 (non-reliance) 8-K (only Item 4.01 auditor-change 8-Ks exist). Correctly marked absent."
+      },
+      {
+        "flag_type": "related_party_or_circular_financing",
+        "present": "partial",
+        "source_filing": "10-Q Q3 FY2026 (period 2026-02-28) CoreWeave Warrants disclosure + Note 5; 10-K FY2025 related-party revenue table",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1144879/000114487926000030/apld-20260228.htm",
+        "verdict": "filing_verified",
+        "detail": "VERIFIED. 10-Q: CoreWeave Warrant for up to 13,062,521 shares at $7.19 issued May 28, 2025 with the CoreWeave Leases, plus Building 4 Warrant for up to 8,393,611 shares at $10.75 issued Aug 28, 2025 -- the dominant revenue customer is also a sizeable potential equity holder (customer/financier overlap = real structural circularity). 10-K: related-party revenue $14,761K (FY24) -> $1,926K (FY25), 'driven by certain related parties terminating their contracts during the first fiscal quarter of fiscal year 2025'; declining toward zero. 'Partial' is the correct calibration: circular customer-equity structure is real and filing-tied, while classic insider self-dealing is de minimis and shrinking."
+      },
+      {
+        "flag_type": "customer_concentration_over_35pct",
+        "present": "present",
+        "source_filing": "10-K FY2025 Note 4 (Customer A 93%/75%); 10-Q Q3 FY2026 Note 4 (Customer A 56%/52%, B 30%/33%, C 14%/15%)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1144879/000114487925000021/apld-20250531.htm",
+        "verdict": "filing_verified",
+        "detail": "VERIFIED. 10-K revenue-concentration table: 'Customer A 93% 75%' (FY2025/FY2024); narrative confirms one customer was 93% of FY2025 revenue. 10-Q Q3 FY2026 table: Customer A 56% (3-mo)/52% (9-mo), Customer B 30%/33%, Customer C 14%/15%. Single largest customer still exceeds 50% and the top two are ~85-86% of revenue -- far above the 35% threshold. Severe and persistent concentration confirmed."
+      },
+      {
+        "flag_type": "insider_net_selling",
+        "present": "present",
+        "source_filing": "Form 4 filed 2025-09-05 (acc 0001641172-25-026784), reporting person Cummins Wes (CEO; Chairman)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1144879/000164117225026784/ownership.xml",
+        "verdict": "filing_verified",
+        "detail": "VERIFIED via Form 4 ownership XML. Reporting owner 'Cummins Wes', title 'CEO; Chairman', non-derivative transaction dated 2025-09-03, code S (open-market sale), Acquired/Disposed = D, 400,000 shares at $15.26 -- matches the claim's first leg ('~400,000 shares sold @ ~$15.26 on 2025-09-03') exactly. Same-day dispositions by CFO (75,000 @ $15.26) and a director reinforce the net-selling pattern. This is a Form 4-tied disclosure, kept as filing-verified (the truncated second-leg ~165,000 @ ~$36.42 in October Form 4s could not be matched to a specific Cummins accession in this review but does not affect the verdict, since the core insider-selling claim is independently filing-verified)."
+      }
+    ],
+    "overall": "source_backed",
+    "note": "All 7 flags independently verified against the cited SEC filings (FY2025 10-K acc 0001144879-25-000021; Q3 FY2026 10-Q acc 0001144879-26-000030; Item 4.01 8-K acc 0001641172-25-015732; Cummins Form 4 acc 0001641172-25-026784) fetched directly from SEC EDGAR via curl with a compliant User-Agent. Identity confirmed: CIK 0001144879 = Applied Digital Corp. (formerly Applied Blockchain). The three serious negative flags that could be over-asserted were scrutinized: (1) going_concern correctly ABSENT -- only boilerplate, clean audit opinion, zero substantial-doubt language in the 10-Q; (2) the one serious flag asserted PRESENT (material_weakness_icfr) is fully filing-cited with a verbatim adverse ICFR opinion -- not an inference; (3) restatement correctly ABSENT (ASU 2023-07 adoption, no Item 4.02 8-K in the EDGAR index). No 'present' serious flag lacks a real filing cite, so none required rejection. 7 of 7 returned flags are filing_verified => majority filing-verified => overall source_backed.\""
+  },
+  {
+    "issuer": "Core Scientific, Inc. (CORZ)",
+    "verified_flags": [
+      {
+        "flag_type": "restatement",
+        "present": "present",
+        "detail": "VERIFIED. 10-K/A filed 2026-03-02 (SEC accession 0001628280-26-013232) restates FY2024. Cause: improper continued capitalization of carrying values of assets committed to demolition during conversion of mining facilities to HPC colocation; should have been impaired to fair value. PP&E (net) overstated ~$122.9M at 12/31/2024 with corresponding understatement of accumulated deficit (understatement of impairment expense same amount; no impact on revenue/cost of revenue/cash flows/tax). Non-Reliance Periods include FY2024 and multiple 2025 interim periods; management concluded prior statements should no longer be relied upon. Minor note: the extracted accession (013232 for the 10-K/A) matches; the parenthetical 'original FY2024 10-K filed 2025-02-27' is plausible but the verified amending-filing chain is the load-bearing cite and it checks out.",
+        "source_filing": "10-K/A, Core Scientific, Inc., filed 2026-03-02 (amends FY2024 10-K)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/0001839341/000162828026013232/core-20241231.htm",
+        "verdict": "filing_verified"
+      },
+      {
+        "flag_type": "material_weakness_icfr",
+        "present": "present",
+        "detail": "VERIFIED. Marcum LLP reissued its ICFR report in the 10-K/A to an ADVERSE opinion that internal control over financial reporting was ineffective as of December 31, 2024, tied to a newly identified material weakness in accounting for demolition/conversion of facilities (the same issue driving the $122.9M restatement). This is a genuine filing-cited material weakness, NOT an inferred one. No auditor change is claimed (Marcum remained auditor; it merely reissued to adverse). Serious-flag source-cite requirement satisfied.",
+        "source_filing": "10-K/A, Core Scientific, Inc., filed 2026-03-02 (Marcum LLP adverse ICFR opinion as of 2024-12-31)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/0001839341/000162828026013232/core-20241231.htm",
+        "verdict": "filing_verified"
+      },
+      {
+        "flag_type": "customer_concentration_over_35pct",
+        "present": "present",
+        "detail": "VERIFIED. FY2024 10-K and IR disclosure: CoreWeave is the only HPC colocation customer, ~100% of Colocation segment revenue; projected ~76%+ of total company revenue under 2026 estimates as the build-out scales. Company has signed no other HPC customer since bankruptcy emergence. Far exceeds 35% threshold. The 100% segment figure and 'only HPC customer' are filing-tied; the ~76% total-revenue figure is a forward IR/press estimate.",
+        "source_filing": "10-K, Core Scientific, Inc., FY2024, filed 2025-02-27 (risk factors / segment disclosure)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/0001839341/000162828025008302/core-20241231.htm",
+        "verdict": "filing_verified"
+      },
+      {
+        "flag_type": "rpo_quality_or_concentration",
+        "present": "present",
+        "detail": "VERIFIED. CoreWeave colocation relationship expanded to ~590 MW of contracted/leased power (16 MW Austin Feb 2024, 200 MW June 2024, options to ~590 MW into early 2025), with projected revenue >$10B over ~12 years. Long-dated wholesale agreements concentrate virtually all disclosed multi-billion backlog/RPO in a single counterparty, so backlog quality is hostage to one customer's credit/drawdown/renewal. Power/MW and $10B+ figures are filing- and 8-K/press-tied; the qualitative 'take-or-pay style' characterization is analyst framing.",
+        "source_filing": "10-K, Core Scientific, FY2024 + CoreWeave expansion 8-K/press releases",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/0001839341/000162828025008302/core-20241231.htm",
+        "verdict": "filing_verified"
+      },
+      {
+        "flag_type": "related_party_or_circular_financing",
+        "present": "partial",
+        "detail": "VERIFIED as a partial/honest flag. CoreWeave was simultaneously sole colocation customer (100% segment revenue) AND would-be all-stock acquirer (~0.1235 CRWV per CORZ). Merger TERMINATED 2025-10-30 after stockholders failed to approve (vote: 20,752,327 For vs 203,451,498 Against, 21,588,639 Abstain; ~79.97% of voting power present). M&A leg removed; 100% customer dependency intact. The extract correctly states NO confirmed CoreWeave common-equity stake or vendor-financing loop verified in filings — i.e., it does not over-claim a classic circular equity loop. Appropriately scoped as 'partial'.",
+        "source_filing": "8-K, Core Scientific, 2025-10-30 (merger termination); 10-K FY2024 (CoreWeave concentration)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/0001839341/000114036125039808/ef20057995_ex99-1.htm",
+        "verdict": "filing_verified"
+      },
+      {
+        "flag_type": "dilution_or_share_count_growth",
+        "present": "present",
+        "detail": "VERIFIED. FY2025 10-K (filed 2026-03-02, accession 0001628280-26-013305) cover reports 315,332,655 shares outstanding as of the filing/record date (extract says as of 2026-02-26). Company emerged from Chapter 11 on Jan 24, 2024 issuing new common stock plus Tranche 1/Tranche 2 warrants (listed CORZ/CORZW/CORZZ) and an equity rights offering; convertible notes outstanding. Warrant tranches and convertibles represent meaningful potential dilution. Share count and warrant/convertible structure are filing-tied.",
+        "source_filing": "10-K, Core Scientific, FY2025, filed 2026-03-02 (cover: 315,332,655 shares); Ch.11 emergence 8-K Jan 2024",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/0001839341/000162828026013305/core-20251231.htm",
+        "verdict": "filing_verified"
+      },
+      {
+        "flag_type": "insider_net_selling",
+        "present": "partial",
+        "detail": "VERIFIED as a partial/honest flag. Form 4 activity is dominated by non-discretionary code-F tax-withholding dispositions, not open-market net selling. CEO Adam Sullivan dispositions (e.g., 87,355 shares at $19.08; 23,508 at $17.94 on 9/30/2025) were code F (RSU vesting tax withholding); he still directly held ~4,470,033 shares. Officer Todd Duchene executed open-market sales under a Rule 10b5-1 plan adopted Dec 5, 2025 (10,000-share tranches; still holds ~2.0M+ shares). Extract correctly characterizes this as routine/plan-based/tax-withholding rather than a strong discretionary net-selling signal. Properly scoped as 'partial'; this is Form 4 (filing) sourced.",
+        "source_filing": "Form 4 filings, Core Scientific insiders (Sullivan 2025; Duchene 2025-2026)",
+        "source_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001839341&type=4",
+        "verdict": "filing_verified"
+      }
+    ],
+    "overall": "source_backed",
+    "note": "All seven flags are filing-corroborated. The two serious flags subject to the no-unsourced rule — restatement and material_weakness_icfr — both carry genuine 10-K/A (filed 2026-03-02) cites and were independently confirmed (restated $122.9M PP&E overstatement / demolition capitalization; Marcum LLP reissued ICFR report to an ADVERSE opinion). No going_concern was asserted, so no inferred going-concern slipped through. No auditor_change is claimed (Marcum stayed; merely reissued adverse). The two 'partial' flags (related_party/circular and insider_net_selling) are honestly down-scoped and explicitly decline to over-claim (no verified equity loop; selling is tax-withholding/10b5-1, not discretionary). Customer concentration (CoreWeave 100% of HPC segment) and RPO concentration (~590 MW, $10B+/~12yr, mono-customer) are confirmed. Share count 315,332,655 confirmed on the FY2025 10-K cover. Merger termination 2025-10-30 confirmed via 8-K with the failed stockholder vote tally. Majority filing_verified => source_backed."
+  },
+  {
+    "issuer": "Cipher Mining Inc. / Cipher Digital Inc. (NASDAQ: CIFR, CIK 0001819989)",
+    "verified_flags": [
+      {
+        "flag_type": "going_concern_doubt",
+        "present": "absent",
+        "source_filing": "10-K FY2025, Cipher Digital Inc., filed 2026-02-24 (acc 0001819989-26-000009)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1819989/000181998926000009/cifr-20251231.htm",
+        "verdict": "filing_verified",
+        "detail": "VERIFIED ABSENT. Fetched the full FY2025 10-K text: 'going concern' = 0 occurrences, 'substantial doubt' = 0 occurrences. No auditor or management going-concern qualification. 10-K states the company 'raised approximately $3.2 billion of gross proceeds through convertible notes offerings and senior secured notes offerings' in 2025 (matches the ~$3.19B claim; $1,300.0M convertible at 0% and Senior Secured Notes due 2030 both confirmed in text). Correctly marked absent; no inferred going-concern is being smuggled in. A loss-making miner with negative operating cash flow is not equated to going-concern doubt here."
+      },
+      {
+        "flag_type": "material_weakness_icfr",
+        "present": "partial",
+        "source_filing": "10-K FY2024 (filed 2025-02-25) and 10-K FY2025 Item 9A (filed 2026-02-24)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1819989/000181998926000009/cifr-20251231.htm",
+        "verdict": "filing_verified",
+        "detail": "VERIFIED verbatim in FY2025 10-K Item 9A. ITGC material weakness: company 'did not complete design and implementation of program change management controls for certain financially relevant systems' covering financial IT applications and digital currency mining equipment; 'Automated process-level and manual controls related to revenue recognition ... were also determined to be ineffective.' Text confirms it 'did not result in a material misstatement' and 'has been remediated as of December 31, 2025'; management 'concluded that our internal control over financial reporting was effective as of December 31, 2025'; auditor 'has issued an attestation report on our internal control over financial reporting.' Present historically (FY2024), remediated FY2025. 'Partial' is accurate."
+      },
+      {
+        "flag_type": "auditor_change_or_resignation",
+        "present": "partial",
+        "source_filing": "8-K filed 2025-04-18 (event 2025-04-14), Item 4.01 (acc 0001819989-25-000024)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1819989/000181998925000024/cifr-20250414.htm",
+        "verdict": "filing_verified",
+        "detail": "VERIFIED verbatim in the Item 4.01 8-K. Marcum LLP resigned 2025-04-14; CBIZ CPAs P.C. engaged effective 2025-04-15 with Audit Committee approval. Cause: CBIZ acquired Marcum's attest business effective 11/1/2024 with substantially all partners/staff joining CBIZ. Filing explicitly states no disagreement (Item 304(a)(1)(iv)) and no reportable event (Item 304(a)(1)(v)); Marcum's reports for FY2023/FY2024 contained no adverse opinion. Benign structural change, not an audit dispute or auditor flight. 'Partial' framing is correct. Accession number matches the cite exactly."
+      },
+      {
+        "flag_type": "restatement",
+        "present": "absent",
+        "source_filing": "10-K FY2025, Cipher Digital Inc., filed 2026-02-24 (acc 0001819989-26-000009)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1819989/000181998926000009/cifr-20251231.htm",
+        "verdict": "filing_verified",
+        "detail": "VERIFIED ABSENT. All 'restate' hits in the 10-K are contractual 'Amended and Restated' instruments (Luminant Power Agreement, Amended & Restated Charter for the 2/20/2026 name change to Cipher Digital Inc., bylaws/ATM) plus ASU 2023-08 crypto fair-value adoption (RestatementAdjustmentMember XBRL tag, 6 ASU 2023-08 references). No Big-R/little-r error correction of previously issued financials. The single 'error correction' hit is standard cover-page checkbox form language, not an affirmed restatement. Correctly marked absent."
+      },
+      {
+        "flag_type": "related_party_or_circular_financing",
+        "present": "present",
+        "source_filing": "10-K FY2025 Notes (Google Warrants; Fluidstack/Google Data Center Lease)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1819989/000181998926000009/cifr-20251231.htm",
+        "verdict": "filing_verified",
+        "detail": "VERIFIED verbatim. 10-K: 'Google LLC ... has agreed to backstop certain obligations of Fluidstack under our HPC leases' at Barber Lake. Separately: 'On September 24, 2025, as consideration for Google agreeing to backstop certain obligations of Fluidstack in connection with the Barber Lake Facility lease, the Company entered into a warrant agreement with Google.' 24,178,576 Google warrants confirmed in the antidilutive-securities table; recorded as a warrant liability at fair value. The customer-side credit provider (Google) is also the equity-instrument recipient — circular-financing-adjacent. Filing-tied facts all confirmed; characterization is a defensible analyst read on verified facts, so retained as filing_verified (present)."
+      },
+      {
+        "flag_type": "customer_concentration_over_35pct",
+        "present": "partial",
+        "source_filing": "10-K FY2025, Business/Risk Factors (HPC Leases; Fluidstack & Amazon)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1819989/000181998926000009/cifr-20251231.htm",
+        "verdict": "filing_verified",
+        "detail": "VERIFIED verbatim. 10-K: 'our HPC-related contracts represent a significant portion of our expected future revenues'; risk factor warns that 'defaulting on one of our leases with Amazon or Fluidstack/Google) ... could have a material adverse effect' and references 'anticipated concentration of our customer base.' No precise >35% single-customer percentage of FY2025 GAAP revenue is quantified (HPC rent not yet commenced; Fluidstack delivery expected Sept 2026). Forward concentration risk is real and disclosed but not yet a quantified current-revenue >35% threshold. 'Partial' is accurate."
+      },
+      {
+        "flag_type": "insider_net_selling",
+        "present": "present",
+        "source_filing": "Form 4 filings, Sept-Nov 2025 (e.g., Bitfury/V3 group Form 4 acc 0001123292-25-000469, filed 2025-09-25)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1819989/000112329225000469/form4.xml",
+        "verdict": "analyst_kept_flagged",
+        "detail": "VERIFIED against the actual Form 4 XML. Reporting owners V3 Holding Ltd, Bitfury Top HoldCo B.V., Bitfury Holding B.V., Bitfury Group Ltd, and Valerijs Vavilovs disposed (transaction code S, acquired/disposed = D) on 2025-09-23/24/25 at prices spanning $11.87-$15.11 — matching the claimed price range exactly (e.g., 1,679,532 sh @ $11.87 and 67,309 sh @ $15.11 on 9/24-25). Numerous additional officer/director Form 4s exist across the Sept-Nov 2025 window (incl. the Bitfury group filer 0001123292 on 9/22, 9/30, 10/16, 11/5, 11/18). This is an insider-behavior / ownership-data observation backed by real Section 16 filings, not a company risk disclosure, so kept flagged (analyst_kept_flagged) rather than treated as a filing risk assertion."
+      }
+    ],
+    "overall": "source_backed",
+    "note": "All seven flags are backed by real, fetched SEC filings; every cited accession number matches EDGAR exactly. Serious-flag discipline holds: going_concern is independently confirmed ABSENT (0 occurrences of 'going concern'/'substantial doubt' in the full FY2025 10-K text) and is not being inferred from the company's loss-making/cash-burn profile; restatement is confirmed ABSENT (only contractual 'Amended and Restated' instruments + ASU 2023-08 adoption); material_weakness and auditor_change are present/partial with verbatim filing support and correctly contextualized (ITGC weakness remediated by 12/31/2025 with clean auditor attestation; auditor change is a benign CBIZ-acquires-Marcum structural move with no disagreements/reportable events). The Google/Fluidstack circular-financing and forward customer-concentration flags are tied to verbatim 10-K language; insider net selling is verified against the underlying Form 4 XML (Bitfury/V3 disposals, price range $11.87-$15.11) and kept as analyst_kept_flagged. Six of seven are filing_verified and the seventh (insider selling) is a sourced Section-16-backed behavioral flag — overall source_backed. No 'present' serious flag lacks a real cite; nothing required rejection."
+  },
+  {
+    "issuer": "TeraWulf Inc. (WULF), SEC CIK 1083301",
+    "verified_flags": [
+      {
+        "flag_type": "going_concern_doubt",
+        "present": "absent",
+        "detail": "VERIFIED against primary 10-K text. The only 'going concern' occurrence in the FY2025 10-K is the hypothetical SHA-256/bitcoin risk factor ('could potentially impact our ability to continue as a going concern'). Deloitte & Touche LLP issued a clean opinion dated February 27, 2026 ('/s/ DELOITTE & TOUCHE LLP, Houston, Texas February 27, 2026; We have served as the Company's auditor since 2024'). Balance sheet confirms strong liquidity: Cash and cash equivalents $3,266,389K (~$3.27B) at 12/31/2025, restricted cash $189,933K current + $266,453K non-current = $456,386K (~$456.4M); financing activities provided $4,940,835K (~$4.94B). No real going-concern qualification exists. Correctly marked absent — no rejected serious flag here.",
+        "source_filing": "10-K FY2025, TeraWulf Inc., filed 2026-02-27 (period 2025-12-31), accession 0001083301-26-000031",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1083301/000108330126000031/wulf-20251231.htm",
+        "verdict": "filing_verified"
+      },
+      {
+        "flag_type": "material_weakness_icfr",
+        "present": "partial",
+        "detail": "VERIFIED. Item 9A: management 'concluded that our internal control over financial reporting was effective as of December 31, 2025' under COSO, and Deloitte issued an unqualified ICFR audit report (SOX 404(b)). No current material weakness. Prior material weakness confirmed verbatim in Item 9: '...except for the material weaknesses in the Company's internal control over financial reporting related to the inadequate design or operation of management's review controls over classification in the consolidated statements of cash flows of payments made related to business combinations, as described in the Company's Annual Report on Form 10-K for the fiscal year ended December 31, 2023.' Historical, now remediated — partial classification is appropriate and filing-sourced.",
+        "source_filing": "10-K FY2025 Item 9/9A, TeraWulf Inc., filed 2026-02-27 (prior MW originally disclosed in 10-K FY2023)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1083301/000108330126000031/wulf-20251231.htm",
+        "verdict": "filing_verified"
+      },
+      {
+        "flag_type": "auditor_change_or_resignation",
+        "present": "present",
+        "detail": "VERIFIED. Item 9: 'As of August 20, 2024, the Company dismissed RSM US LLP (\"RSM\") as its independent registered public accounting firm, not as a result of any disagreements on any matter of accounting principles or practices, financial statement disclosure, or audit scope or procedure.' RSM report notes 'We served as the Company's auditor from 2021 to 2024.' Deloitte engaged ('auditor since 2024'). Dismissal (not resignation), no stated disagreement; only reportable event was the prior cash-flow-classification material weakness. A real auditor change occurred and is filing-tied. Kept flagged.",
+        "source_filing": "10-K FY2025 Item 9, TeraWulf Inc., filed 2026-02-27",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1083301/000108330126000031/wulf-20251231.htm",
+        "verdict": "filing_verified"
+      },
+      {
+        "flag_type": "restatement",
+        "present": "absent",
+        "detail": "VERIFIED. Cover page shows the 'correction of an error to previously issued financial statements' checkbox and the clawback recovery-analysis restatement checkbox both UNCHECKED (marked 'o', not 'x'). The prior cash-flow-classification issue was handled as ICFR remediation, not a formal restatement of issued financials. Correctly marked absent. (A 10-K/A and 10-Q/A both filed 2025-07-25 exist in EDGAR historically, consistent with the analyst's note that these are not assessed as restatements here.)",
+        "source_filing": "10-K FY2025 cover page, TeraWulf Inc., filed 2026-02-27",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1083301/000108330126000031/wulf-20251231.htm",
+        "verdict": "filing_verified"
+      },
+      {
+        "flag_type": "related_party_or_circular_financing",
+        "present": "present",
+        "detail": "VERIFIED with one factual correction to the analyst's detail. Confirmed verbatim: Company issued Google Warrants to purchase 73,580,000 shares of Common Stock at $0.01 exercise as a condition of the Google Backstop supporting Fluidstack's payment/performance obligations under the Akela and Abernathy Fluidstack HPC Leases ('benefit from substantial credit support provided by Google'). Beowulf (BeowulfED) and Nautilus JV related parties present. CORRECTION: the analyst described '$429.8M loss on extinguishment in 2025 related to the Google Warrants and 2031 convertible conversion feature.' The filing actually states the $429.8M is the 'Change in fair value of warrant and derivative liabilities during the year ended December 31, 2025... related to the Google Warrants and the conversion feature of the 2031 Convertible Notes,' and explicitly that 'No loss on extinguishment of debt was recorded during the year ended December 31, 2025.' The flag's substance (circular customer/backstop/equity triangle) is fully filing-supported; the $429.8M characterization is mislabeled but the figure and attribution are real.",
+        "source_filing": "10-K FY2025 (Business + equity/commitments/MD&A notes), TeraWulf Inc., filed 2026-02-27",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1083301/000108330126000031/wulf-20251231.htm",
+        "verdict": "filing_verified"
+      },
+      {
+        "flag_type": "customer_concentration_over_35pct",
+        "present": "present",
+        "detail": "VERIFIED verbatim: 'During the year end[ed] December 31, 2025, the Company's HPC lease revenue was generated from one customer.' Single mining-pool operator confirmed ('the Company primarily contracted with one mining pool operator during the years ended December 31, 2025, 2024, and 2023'). Legacy diversification point confirmed: 'Revenue from one bitcoin miner hosting customer represented 10.9% of consolidated revenue for the year ended December 31, 2023.' 100% HPC single-customer concentration is filing-sourced and exceeds 35%.",
+        "source_filing": "10-K FY2025 (Concentrations note), TeraWulf Inc., filed 2026-02-27",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1083301/000108330126000031/wulf-20251231.htm",
+        "verdict": "filing_verified"
+      },
+      {
+        "flag_type": "insider_net_selling",
+        "present": "present",
+        "detail": "VERIFIED via EDGAR submissions index (not a financial-statement flag — behavioral/ownership-form based). A Form 4 was filed 2026-05-28 (accession 0001083301-26-000112), consistent with the cited CEO Paul B. Prager open-market sales. EDGAR recent-filing block contains exactly 440 Form 4 filings (matches '~440 Form 4s') and 7 Form 144 notices of proposed sale (matches 'Seven Form 144 notices'). The specific per-tranche share counts/prices were not opened, but the existence, count, and dating of the insider-selling forms are confirmed. Because this rests on ownership-form/press-style behavior rather than a financial-statement disclosure, it stays analyst-kept rather than 'filing_verified' in the financial-statement sense.",
+        "source_filing": "Form 4 filed 2026-05-28 (accession 0001083301-26-000112) and 7 Form 144 notices, TeraWulf Inc., per EDGAR CIK 1083301",
+        "source_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=1083301&type=4",
+        "verdict": "analyst_kept_flagged"
+      }
+    ],
+    "overall": "source_backed",
+    "note": "All seven flags are supported by primary sources. The four serious flag categories were each adjudicated against the actual FY2025 10-K (accession 0001083301-26-000031, downloaded and text-searched), not inferred: going_concern correctly ABSENT (only hypothetical risk-factor language; Deloitte clean opinion 2026-02-27; $3.27B cash); material_weakness PARTIAL (ICFR effective 12/31/2025 + Deloitte 404(b) report, prior MW historical); auditor_change PRESENT (RSM dismissed 2024-08-20, no disagreement); restatement correctly ABSENT (both cover-page boxes unchecked). No serious flag was asserted 'present' without a real cite, so none warranted rejection. Six of seven flags are filing_verified; the insider-selling flag is correctly kept as analyst/EDGAR-form based. ONE accuracy defect to correct in the related-party flag's narrative: the $429.8M is the 'change in fair value of warrant and derivative liabilities,' NOT a 'loss on extinguishment' — the 10-K explicitly states no loss on extinguishment was recorded in 2025. The flag itself remains valid and filing-supported. Overall source_backed (majority filing_verified)."
+  },
+  {
+    "issuer": "Hut 8 Corp. (HUT) — SEC CIK 1964789",
+    "overall": "source_backed",
+    "note": "Verified against the actual FY2025 10-K (accession 0001104659-26-019392, filed 2026-02-25), retrieved from SEC EDGAR with a UA header and tag-stripped to plain text. 7 of 8 flags are filing_verified; the 8th (insider net selling) is correctly tagged as press/aggregator-only and kept flagged. Critically, NO serious flag was asserted 'present' without a real cite, and no inferred going-concern slipped through: the text contains 0 occurrences of 'going concern' or 'substantial doubt', KPMG issued a clean ('present fairly, in all material respects') opinion dated 2026-02-25, and management states cash flows + Bitcoin + financings 'will be sufficient to meet our anticipated short-term cash requirements' — so the going_concern flag is correctly marked present=absent. The two FY2024 material weaknesses (deferred tax on internationally-held Bitcoin; Bitmain miner purchase agreement transaction) are quoted verbatim, including 'did not result in a material misstatement' and 'have been remediated as of December 31, 2025.' Auditor change verified: KPMG 'since 2025' (NY, 2026-02-25) and Raymond Chabot Grant Thornton 'from 2023 to 2024' (Montreal, 2025-02-28), both reports present. 'Restatement' is correctly downgraded to a segment recast ('restated to align with our new reporting segments: Power, Digital Infrastructure, Compute, and Other'), with the Rule 10D-1 error-correction/clawback checkboxes shown unchecked. Related-party items confirmed: ABTC is a consolidated majority-owned subsidiary for which Hut 8 is the 'exclusive infrastructure development and operating partner'; the LLC Purchaser solely managed by CEO Asher Genoot and CSO Michael Ho (with profit-share interest) bought 23,199,205 ABTC Class B shares at $1.40; a consolidated subsidiary entered a $3.5M SAFE with a related party; TZRC LLC has a PMA. Negative operating cash flow verified exactly to the financials: net cash used in operating activities $(139,226)K FY2025 / $(68,535)K FY2024, net loss $248.0M FY2025. One minor caveat: the related-party flag's '~80% voting' is a quantitative gloss; the filing says 'majority-owned'/'majority owner of American Bitcoin's capital stock' without that exact percentage in the body — the material claim still holds.",
+    "verified_flags": [
+      {
+        "flag_type": "going_concern_doubt",
+        "present": "absent",
+        "detail": "Correctly marked absent. Tag-stripped full text of the FY2025 10-K contains 0 occurrences of 'going concern' or 'substantial doubt'. KPMG LLP issued an unqualified opinion ('the consolidated financial statements present fairly, in all material respects...') dated New York, February 25, 2026. Management states: 'We believe that cash flows generated from operating activities, Bitcoin held on our consolidated balance sheet, and other financings will be sufficient to meet our anticipated short-term cash requirements.' No inferred going-concern was asserted. A loss-making miner with negative operating cash flow does not equate to substantial doubt, and none was claimed.",
+        "source_filing": "10-K (FY2025), Hut 8 Corp., filed 2026-02-25 (accession 0001104659-26-019392)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1964789/000110465926019392/hut-20251231x10k.htm",
+        "verdict": "filing_verified"
+      },
+      {
+        "flag_type": "material_weakness_icfr",
+        "present": "partial",
+        "detail": "Verified verbatim. 10-K: 'As previously reported in our Annual Report on Form 10-K for fiscal year ended December 31, 2024, we identified material weaknesses... related to (i) inadequate review of the deferred tax provision for Bitcoin held in an international jurisdiction and (ii) inadequate review of a complex accounting transaction related to our Bitmain miner purchase agreement.' The text states these 'did not result in a material misstatement' and that 'we completed our testing of the operating effectiveness... and determined the material weaknesses have been remediated as of December 31, 2025.' KPMG audited ICFR effectiveness as of Dec 31, 2025. Present historically, remediated as of latest report.",
+        "source_filing": "10-K (FY2025), Hut 8 Corp., filed 2026-02-25 (Item 9A; references FY2024 10-K filed 2025-03-03)",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1964789/000110465926019392/hut-20251231x10k.htm",
+        "verdict": "filing_verified"
+      },
+      {
+        "flag_type": "auditor_change_or_resignation",
+        "present": "present",
+        "detail": "Verified. Item 8 contains two auditor reports: '/s/ KPMG LLP We have served as the Company's auditor since 2025. New York, New York February 25, 2026' and '/s/ RAYMOND CHABOT GRANT THORNTON LLP We have served as the Company's auditor from 2023 to 2024. Montreal, Canada February 28, 2025.' Exhibits 23.1 (Consent of KPMG LLP) and 23.2 (Consent of Raymond Chabot Grant Thornton LLP) both filed. Auditor change is real and filing-tied; change overlaps the material-weakness remediation period.",
+        "source_filing": "10-K (FY2025), Hut 8 Corp., filed 2026-02-25 — Item 8 auditor reports; Exhibits 23.1, 23.2",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1964789/000110465926019392/hut-20251231x10k.htm",
+        "verdict": "filing_verified"
+      },
+      {
+        "flag_type": "restatement",
+        "present": "partial",
+        "detail": "Verified as a segment recast, NOT an error-correction restatement. 10-K: 'all financial results included in this Annual Report have been restated to align with our new reporting segments: Power, Digital Infrastructure, Compute, and Other. Our previous reporting segments were Digital Asset Mining, Managed Services, High Performance Computing - Colocation...'. The Rule 10D-1 cover-page error-correction/clawback checkboxes are shown unchecked (boxes display as empty). The FY2024 material weaknesses 'did not result in a material misstatement.' Correctly characterized as a reclassification recast rather than a correction of a material misstatement.",
+        "source_filing": "10-K (FY2025), Hut 8 Corp., filed 2026-02-25 — cover page and segment note",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1964789/000110465926019392/hut-20251231x10k.htm",
+        "verdict": "filing_verified"
+      },
+      {
+        "flag_type": "related_party_or_circular_financing",
+        "present": "present",
+        "detail": "Verified. (1) American Bitcoin (ABTC) is a 'majority-owned subsidiary' / 'consolidated subsidiary' Hut 8 'launched in 2025' and for which Hut 8 is 'its exclusive infrastructure development and operating partner' under long-term commercial agreements (Master Colocation Services Agreement from April 1, 2025). (2) The board consented to purchase of 23,199,205 ABTC Class B shares by an 'LLC Purchaser' at '$1.40 per share'; 'Asher Genoot, Chief Executive Officer... and Michael Ho, Chief Strategy Officer... solely manage' the LLC Purchaser and 'have an indirect financial interest therein in the form of a profit share interest.' (3) 'a consolidated subsidiary of the Company entered into a simple agreement for future equity ('SAFE agreement') for a purchase amount of $3.5 million with a related party entity controlled by a person related to' subsidiary management. (4) TZRC LLC has a 'property management agreement ('PMA')'. The '~80% voting' figure is a gloss not quoted verbatim (filing says 'majority owner of American Bitcoin's capital stock'), but the circular/related-party substance is strongly supported.",
+        "source_filing": "10-K (FY2025), Hut 8 Corp., filed 2026-02-25 — Related party / Note 24 Commitments; Business section",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1964789/000110465926019392/hut-20251231x10k.htm",
+        "verdict": "filing_verified"
+      },
+      {
+        "flag_type": "customer_concentration_over_35pct",
+        "present": "partial",
+        "detail": "Verified. No explicit third-party single-customer >35% percentage is disclosed. The concentration note states the Company's 'digital asset mining revenue within its Compute segment is related to one digital asset' (100% Bitcoin) and that 'The Company used two mining pool operators' during FY2025 - Foundry and Luxor named as payout providers ('our daily payout is calculated based on the hashrate contribution delivered to the pool'). Largest revenue now flows through consolidated subsidiary ABTC (intercompany), with contracted Power/Digital Infrastructure revenue anchored by ABTC (a related party) - a structural concentration, not framed as a >35% customer metric. Correctly marked partial.",
+        "source_filing": "10-K (FY2025), Hut 8 Corp., filed 2026-02-25 — Concentrations note",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1964789/000110465926019392/hut-20251231x10k.htm",
+        "verdict": "filing_verified"
+      },
+      {
+        "flag_type": "insider_net_selling",
+        "present": "partial",
+        "detail": "Source is press/aggregator (QuiverQuant / StockTitan), explicitly NOT individually verified against Form 4 filings in the assessment, and the analyst tagged it 'press_or_analyst_reported.' This is not a serious accounting flag and is not asserted as a filing fact, so it is retained as analyst/press-reported rather than rejected. Not independently confirmed against EDGAR Form 4s in this verification; treat the share counts as unverified aggregator data.",
+        "source_filing": "Form 4 filings (aggregated), Hut 8 Corp. insiders — not individually verified",
+        "source_url": "https://www.quiverquant.com/insiders/1999341/Genoot-Asher",
+        "verdict": "analyst_kept_flagged"
+      },
+      {
+        "flag_type": "negative_operating_cash_flow",
+        "present": "present",
+        "detail": "Verified exactly to the financial statements. Statement of cash flows: 'Net cash used in operating activities (139,226) (68,535) (19,621)' (USD thousands, FY2025/FY2024/prior). MD&A: 'Net cash used in operating activities was $139.2 million for the twelve months ended December 31, 2025, resulting from net loss of $248.0 million...' and 'Net cash used in operating activities was $68.5 million for the twelve months ended December 31, 2024.' Operating cash burn roughly doubled YoY. Verifiable, ordinary disclosure for a loss-making miner; correctly marked present without overreach into going-concern.",
+        "source_filing": "10-K (FY2025), Hut 8 Corp., filed 2026-02-25 — Consolidated Statements of Cash Flows; MD&A",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1964789/000110465926019392/hut-20251231x10k.htm",
+        "verdict": "filing_verified"
+      }
+    ]
+  }
+]

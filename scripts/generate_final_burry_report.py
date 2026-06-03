@@ -43,6 +43,10 @@ from bubble.analysis.private_credit_funding import (
     aggregate_private_credit_funding,
     load_private_credit_funding,
 )
+from bubble.analysis.red_flag_scorecard import (
+    aggregate_red_flag_scorecard,
+    load_red_flag_scorecard,
+)
 from bubble.analysis.scenario_stress import stress_cluster
 from bubble.analysis.source_coverage import build_source_coverage_report
 from bubble.ingestion.capital import (
@@ -1409,6 +1413,28 @@ def report_answer_metric_audits(  # noqa: PLR0912, PLR0915
                 unit="count",
             )
 
+        # Forensic red-flag scorecard (per-issuer Burry checklist from filings).
+        rfs = m.get("red_flag_scorecard", {})
+        if rfs.get("status") == "source_backed":
+            add(
+                "mismatch.red_flags.issuers_with_serious_accounting_flag",
+                "Count of financed-cluster issuers carrying a filing-tied SERIOUS accounting red flag "
+                "(going-concern doubt / material weakness in internal controls / restatement / auditor "
+                "change), from per-issuer SEC filings (adversarially verified; unsourced serious flags "
+                "rejected). A pervasive serious-flag rate is a systemic forensic tell, not idiosyncratic.",
+                len(rfs.get("issuers_with_serious_accounting_flag") or []),
+                [mismatch_artifact],
+                unit="count",
+            )
+            add(
+                "mismatch.red_flags.filing_verified_present_flags",
+                "Total PRESENT red flags across the cluster tied to a specific SEC filing (the "
+                "evidentiary base of the forensic scorecard; absent/unsourced flags do not count).",
+                rfs.get("filing_verified_present_flags"),
+                [mismatch_artifact],
+                unit="count",
+            )
+
         # Debt-side funding routing (who funds the lenders that hold cluster debt).
         pcf = m.get("private_credit_funding", {})
         if pcf.get("status") == "source_backed":
@@ -2477,6 +2503,11 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:  #
     )
     if private_credit_funding_aggregate.get("status") == "source_backed":
         mismatch_ratios["private_credit_funding"] = private_credit_funding_aggregate
+    red_flag_scorecard_aggregate = aggregate_red_flag_scorecard(
+        load_red_flag_scorecard(Path("handoffs/ai_cluster_red_flags_20260603.json"))
+    )
+    if red_flag_scorecard_aggregate.get("status") == "source_backed":
+        mismatch_ratios["red_flag_scorecard"] = red_flag_scorecard_aggregate
     ai_direct_core_verdict = synthesize_core_verdict(
         cluster_dscr=mismatch_ratios.get("cluster_interest_coverage", {}),
         thesis_findings=thesis_findings,
@@ -2499,6 +2530,7 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:  #
         end_holders=end_holders_aggregate,
         equipment_bottlenecks=equipment_bottlenecks_aggregate,
         private_credit_funding=private_credit_funding_aggregate,
+        red_flag_scorecard=red_flag_scorecard_aggregate,
     )
     coverage_dict = coverage.to_dict()
     physical_capacity_dict = physical_capacity.to_dict()
@@ -4002,6 +4034,23 @@ def main() -> None:
     else:
         equip_line = "pending source-backed equipment-bottleneck extraction."
 
+    _rf = verdict.get("forensic_red_flags", {}) or {}
+    if _rf.get("issuer_count") is not None:
+        _serious = _rf.get("issuers_with_serious_accounting_flag") or []
+        _common = _rf.get("most_common_flags") or {}
+        _top = ", ".join(f"{k} ({v})" for k, v in list(_common.items())[:4])
+        _hr = ", ".join(
+            f"{h.get('issuer')} ({h.get('red_flag_score')})"
+            for h in (_rf.get("highest_risk_issuers") or [])[:3]
+        )
+        red_flag_line = (
+            f"{len(_serious)}/{_rf.get('issuer_count')} issuers carry a filing-tied SERIOUS "
+            f"accounting flag; {_rf.get('filing_verified_present_flags')} present flags filing-verified. "
+            f"Most common: {_top}. Highest-risk: {_hr}. {str(_rf.get('red_flag_read', '')).split(':')[0]}."
+        )
+    else:
+        red_flag_line = "pending source-backed red-flag extraction."
+
     md_verdict = f"""## The Verdict (Tiered)
 
 **AI-direct core:** `{verdict.get("core_verdict")}` at confidence **{verdict.get("core_verdict_confidence")}**.
@@ -4018,6 +4067,8 @@ ecosystem-wide bubble call is not supported.
 **Ultimate end-holders (who really eats it — SEC ownership filings):** {holder_line}
 
 **Supply-side equipment bottlenecks (can they physically build it — supplier filings):** {equip_line}
+
+**Forensic red flags (per-issuer Burry checklist — SEC filings):** {red_flag_line}
 
 **Source-backed fragility facts (primary 10-K/10-Q, adversarially verified):**
 {_bullets(verdict.get("source_backed_fragility_facts"))}

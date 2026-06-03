@@ -61,6 +61,28 @@ def _sentence_clip(text: str, limit: int) -> str:
     return (window[:cut] if cut > 0 else window).rstrip() + " ..."
 
 
+def _forensic_red_flags_block(red_flag_scorecard: dict[str, Any]) -> dict[str, Any]:
+    """Shape the per-issuer forensic red-flag scorecard for the verdict."""
+
+    if red_flag_scorecard.get("status") != "source_backed":
+        return {"status": "pending_source_backed_red_flags"}
+    return {
+        "issuer_count": red_flag_scorecard.get("issuer_count"),
+        "issuers_with_serious_accounting_flag": red_flag_scorecard.get(
+            "issuers_with_serious_accounting_flag"
+        ),
+        "highest_risk_issuers": red_flag_scorecard.get("highest_risk_issuers"),
+        "most_common_flags": red_flag_scorecard.get("most_common_flags"),
+        "filing_verified_present_flags": red_flag_scorecard.get("filing_verified_present_flags"),
+        "red_flag_read": red_flag_scorecard.get("red_flag_read"),
+        "note": (
+            "Filing-verified forensic red-flag checklist per issuer (severity-weighted; only PRESENT, "
+            "source-tied flags score; serious accounting flags rejected if unsourced). Absence of a "
+            "serious flag is not a clean bill -- only that none was disclosed in the window read."
+        ),
+    }
+
+
 def _build_forward_scenarios(scenario_stress: dict[str, Any]) -> dict[str, Any] | None:
     """Shape the forward cash-flow stress band for the verdict (how severely it cracks)."""
 
@@ -122,6 +144,7 @@ def synthesize_core_verdict(
     end_holders: dict[str, Any] | None = None,
     equipment_bottlenecks: dict[str, Any] | None = None,
     private_credit_funding: dict[str, Any] | None = None,
+    red_flag_scorecard: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Synthesize the scoped, tiered Burry verdict from verified evidence."""
 
@@ -133,7 +156,10 @@ def synthesize_core_verdict(
     scenario_stress = scenario_stress or {}
     end_holders = end_holders or {}
     equipment_bottlenecks = equipment_bottlenecks or {}
-    private_credit_funding = private_credit_funding or {}
+    private_credit_funding, red_flag_scorecard = (
+        private_credit_funding or {},
+        red_flag_scorecard or {},
+    )
     bear = _finding(thesis_findings, "bear_case_against_bubble")
     bear_confidence = float(bear.get("confidence") or 0.0)
 
@@ -484,6 +510,7 @@ def synthesize_core_verdict(
             if equipment_bottlenecks.get("status") == "source_backed"
             else {"status": "pending_source_backed_equipment_bottlenecks"}
         ),
+        "forensic_red_flags": _forensic_red_flags_block(red_flag_scorecard),
         "crack_timing": crack_timing,
         "weakest_links": weakest_links,
         "top_risks": top_risks,

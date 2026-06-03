@@ -32,8 +32,8 @@ The important change is that ecosystem-scale conclusions are now blocked from be
 
 Latest verified evidence-gated report at this checkpoint:
 
-- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260603-0341.md`
-- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260603-0341.json`
+- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260603-0423.md`
+- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260603-0423.json`
 - `high_confidence_final`: `false` (ecosystem-wide, BY DESIGN — see verdict below).
 - Current `master` checkpoint: `e72d74e` (single-agent; the prior two-agent
   Claude/Codex handoff queue was consolidated into `master` at `7638aa9` and the
@@ -90,7 +90,19 @@ Latest verified evidence-gated report at this checkpoint:
   retirees (households) — the quiet 2008-style channel, invisible in 13-F equity data.
   Coverage is partial and explicit: aggregate lender funding mix, NOT a per-DDTL-facility
   attribution (undisclosed); analyst/residual figures flagged, nulls not fabricated.
-- Evidence audit coverage now includes 530 claim audits: analyzer-level capital,
+- Forensic red-flag scorecard (the goal's "Advanced red flag detection" capability):
+  per-issuer Burry checklist run on all 8 financed-cluster issuers from their SEC filings
+  (adversarially verified). Striking systemic result: ALL 8 carry a filing-tied SERIOUS
+  accounting flag; 38 of 42 present flags filing-verified. material_weakness_icfr is present
+  in 8/8 (e.g. CoreWeave's three control weaknesses verbatim-confirmed "continued to exist
+  as of December 31, 2025"); customer concentration >35% 8/8; related-party/circular 7/8;
+  auditor change 5/8; insider net selling 5/8. Highest red-flag scores: Core Scientific,
+  Hut 8, IREN. This is a pervasive, correlated forensic signal — not idiosyncratic.
+  Severity-weighted; only PRESENT, source-tied flags score; unsourced serious flags rejected
+  by the verifier; absence is not a clean bill, only non-disclosure in the window read.
+  Complements the inferred-heuristic RedFlagEngine. Fixture:
+  handoffs/ai_cluster_red_flags_20260603.json.
+- Evidence audit coverage now includes 532 claim audits: analyzer-level capital,
   compute, and debt-service audits, explicit row/artifact-backed audits for
   high-impact Burry-answer rollups, and aggregate hooks for pending review
   capital, pending AI-infra capital, pending compute, weak-link AI-infra,

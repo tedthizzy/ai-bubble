@@ -9,7 +9,7 @@ the scoped conclusion.
 
 ## Current Corpus
 
-- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260603-0341.md`
+- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260603-0423.md`
 - Evidence gate: ecosystem `high_confidence_final=false` / `bubble_confidence 0.25` (by design).
 - **Tiered verdict (`ai_direct_core_verdict`):** AI-direct core `bubble_dynamics_present` @ 0.67;
   ecosystem-wide `not_established_as_ecosystem_wide_bubble` (broad metric is mostly non-AI debt, so
@@ -32,7 +32,13 @@ the scoped conclusion.
   + pension funding (median ~41% insurance-funded, 18 sources filing-verified), so the
   cluster's private-placement DEBT loss routes to policyholders/retirees — the channel
   13-F equity data cannot show. Aggregate funding mix, not per-facility attribution.
-- Evidence audit coverage: 530 claim audits now include analyzer-level capital,
+- Forensic red-flag scorecard (per-issuer Burry checklist from SEC filings, adversarially
+  verified): all 8 cluster issuers carry a filing-tied SERIOUS accounting flag; 38 of 42
+  present flags filing-verified. Most common: material_weakness_icfr (8/8),
+  customer_concentration >35% (8/8), related-party/circular financing (7/8), auditor change
+  (5/8), insider net selling (5/8). Highest-risk: Core Scientific, Hut 8, IREN. A SYSTEMIC
+  (not idiosyncratic) forensic signal across the financed cluster.
+- Evidence audit coverage: 532 claim audits now include analyzer-level capital,
   compute, and debt-service audits, explicit row/artifact-backed audits for
   high-impact Burry-answer rollups, and aggregate hooks for pending review
   capital, pending AI-infra capital, pending compute, weak-link AI-infra,
