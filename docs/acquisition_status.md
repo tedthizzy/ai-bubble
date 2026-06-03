@@ -9,7 +9,7 @@ the scoped conclusion.
 
 ## Current Corpus
 
-- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260603-0558.md`
+- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260603-1550.md`
 - Evidence gate: ecosystem `high_confidence_final=false` / `bubble_confidence 0.25` (by design).
 - **Tiered verdict (`ai_direct_core_verdict`):** AI-direct core `bubble_dynamics_present` @ 0.67;
   ecosystem-wide `not_established_as_ecosystem_wide_bubble` (broad metric is mostly non-AI debt, so
@@ -72,8 +72,13 @@ the scoped conclusion.
   full 5,102-node / 7,617-edge capital-exposure graph. Ecosystem-wide systemic centers are the major
   utility/energy counterparties (PG&E, SoCal Edison, NRG, Shell Energy) + Morgan Stanley — the broad
   corpus is mostly non-AI — while the AI-cluster-specific systemic nodes (NVIDIA/Microsoft/shared
-  lenders) remain in the contagion-hub layer. The GDS algorithm is engine-independent; the production
-  Neo4j storage swap is still the open infra item.
+  lenders) remain in the contagion-hub layer.
+- PRODUCTION NEO4J (done): the capital-exposure graph (5,102 nodes / 7,617 edges) is now loaded into a
+  live Neo4j 2026.05.0 instance (`bubble.graph.neo4j_loader` + `scripts/load_graph_to_neo4j.py`) under
+  uniqueness constraints + indexes, and native-Cypher analytics run IN the database. The AI-infra mass
+  computed in Neo4j ($56.5B / 232 edges) cross-validates the in-code figure. The report surfaces
+  `neo4j_production_graph`. (GDS plugin not installed on the local instance; the in-code weighted
+  PageRank covers the GDS-algorithm side.)
 - Core verdict evidence basis now enumerates the 2 PRIMARY source-backed legs PLUS 11 corroborating
   source-backed layers (honest depth; confidence unchanged at 0.67).
 - Report now opens with a "Scoped Burry Conclusion": binary call (core
@@ -84,7 +89,7 @@ the scoped conclusion.
   source-backed layers, each anchored to a computed/sourced number + backing layer +
   source-status tag. Top 2 are severity-5 (cash-flow fragility flipping negative by the
   adverse case; refinancing treadmill on negative carry); all 10 currently source_backed.
-- Evidence audit coverage: 543 claim audits now include analyzer-level capital,
+- Evidence audit coverage: 544 claim audits now include analyzer-level capital,
   compute, and debt-service audits, explicit row/artifact-backed audits for
   high-impact Burry-answer rollups, and aggregate hooks for pending review
   capital, pending AI-infra capital, pending compute, weak-link AI-infra,

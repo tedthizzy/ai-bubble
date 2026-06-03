@@ -1450,6 +1450,21 @@ def report_answer_metric_audits(  # noqa: PLR0912, PLR0915
                 unit="count",
             )
 
+        # Production Neo4j graph backend: the capital-exposure graph loaded + analyzed in-DB.
+        n4 = m.get("neo4j_production_graph", {})
+        load_block = n4.get("load") or {}
+        if load_block.get("status") == "loaded":
+            add(
+                "mismatch.neo4j.edges_in_db",
+                "Capital-exposure graph edges loaded into the PRODUCTION Neo4j store and verified "
+                "in-database (the graph engine is now Neo4j-backed, not only CSV/in-memory). Native "
+                "Cypher analytics run in the DB; the AI-infra mass computed in Neo4j cross-validates "
+                "the in-code figure.",
+                load_block.get("edges_in_db"),
+                [mismatch_artifact],
+                unit="count",
+            )
+
         # Graph Data Science: weighted-PageRank systemic centrality over the graph.
         gc = m.get("graph_systemic_centrality", {})
         if gc.get("status") == "source_backed" and gc.get("node_count"):
@@ -1791,6 +1806,18 @@ def load_graph_centrality(data_dirs: list[str]) -> dict[str, Any]:
 
     for root in data_dirs:
         path = Path(root) / "graph" / "graph_centrality.json"
+        if path.exists():
+            loaded = json.loads(path.read_text())
+            if isinstance(loaded, dict):
+                return loaded
+    return {}
+
+
+def load_neo4j_analytics(data_dirs: list[str]) -> dict[str, Any]:
+    """Load optional production-Neo4j load + in-database analytics artifact."""
+
+    for root in data_dirs:
+        path = Path(root) / "graph" / "neo4j_analytics.json"
         if path.exists():
             loaded = json.loads(path.read_text())
             if isinstance(loaded, dict):
@@ -2582,6 +2609,7 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:  #
     entity_universe_summary = load_entity_universe_summary(resolved_data_dirs)
     capital_exposure_graph_summary = load_capital_exposure_graph_summary(resolved_data_dirs)
     graph_centrality = load_graph_centrality(resolved_data_dirs)
+    neo4j_analytics = load_neo4j_analytics(resolved_data_dirs)
     ownership_graph_summary = load_ownership_graph_summary(resolved_data_dirs)
     weak_link_summary = load_weak_link_summary(resolved_data_dirs)
     contract_contagion_summary = load_contract_contagion_summary(resolved_data_dirs)
@@ -2620,6 +2648,8 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:  #
     )
     if graph_centrality.get("status") == "source_backed":
         mismatch_ratios["graph_systemic_centrality"] = graph_centrality
+    if (neo4j_analytics.get("load") or {}).get("status") == "loaded":
+        mismatch_ratios["neo4j_production_graph"] = neo4j_analytics
     # Tiered Burry verdict synthesized from the verified evidence: source-backed
     # cluster cash-flow fragility + the adversarially stress-tested thesis
     # premises. Scoped to the AI-direct core; the ecosystem binary stays gated.
