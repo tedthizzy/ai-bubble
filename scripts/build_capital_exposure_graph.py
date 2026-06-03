@@ -13,6 +13,7 @@ from bubble.analysis.capital_exposure_graph import (
     build_capital_exposure_graph,
     write_capital_exposure_graph,
 )
+from bubble.analysis.graph_centrality import weighted_pagerank
 from bubble.ingestion.capital import CapitalEvidenceBatch, load_capital_evidence
 
 if TYPE_CHECKING:
@@ -75,6 +76,11 @@ def main() -> None:
     cluster_deals = load_ai_direct_cluster_deals()
     graph = build_capital_exposure_graph([*batch.deals, *cluster_deals])
     outputs = write_capital_exposure_graph(graph, args.output_dir)
+
+    # Graph Data Science: notional-weighted PageRank systemic centrality.
+    centrality = weighted_pagerank([edge.to_dict() for edge in graph.edges])
+    args.output_dir.mkdir(parents=True, exist_ok=True)
+    (args.output_dir / "graph_centrality.json").write_text(json.dumps(centrality, indent=2))
     print(
         json.dumps(
             {

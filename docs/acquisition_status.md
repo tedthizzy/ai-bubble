@@ -9,7 +9,7 @@ the scoped conclusion.
 
 ## Current Corpus
 
-- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260603-0551.md`
+- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260603-0558.md`
 - Evidence gate: ecosystem `high_confidence_final=false` / `bubble_confidence 0.25` (by design).
 - **Tiered verdict (`ai_direct_core_verdict`):** AI-direct core `bubble_dynamics_present` @ 0.67;
   ecosystem-wide `not_established_as_ecosystem_wide_bubble` (broad metric is mostly non-AI debt, so
@@ -65,6 +65,17 @@ the scoped conclusion.
   diffs a fresh EDGAR submissions snapshot vs ingested accessions (189,737 found), prioritizes
   by form relevance, flags rerun. The report now also carries a Methodology/Assumptions/Limitations
   appendix.
+- Named refinancing wall (specific maturities, $/% , most-exposed): $68.7B dated debt; peak 2030
+  ($26.2B); near-term 2025-2027 $2.4B (3.5%) — named facilities (Core Scientific $1B Morgan Stanley
+  term loan due 2027, Hut 8 Coinbase/FalconX, CoreWeave convertible notes, MARA line of credit).
+- Graph Data Science: notional-weighted PageRank systemic centrality (`graph_centrality.py`) over the
+  full 5,102-node / 7,617-edge capital-exposure graph. Ecosystem-wide systemic centers are the major
+  utility/energy counterparties (PG&E, SoCal Edison, NRG, Shell Energy) + Morgan Stanley — the broad
+  corpus is mostly non-AI — while the AI-cluster-specific systemic nodes (NVIDIA/Microsoft/shared
+  lenders) remain in the contagion-hub layer. The GDS algorithm is engine-independent; the production
+  Neo4j storage swap is still the open infra item.
+- Core verdict evidence basis now enumerates the 2 PRIMARY source-backed legs PLUS 11 corroborating
+  source-backed layers (honest depth; confidence unchanged at 0.67).
 - Report now opens with a "Scoped Burry Conclusion": binary call (core
   `bubble_dynamics_present` @ 0.67; ecosystem not-established), crack timeline, and the
   top-3 register risks — the Final Report's "clear binary conclusion + confidence" up front.
@@ -73,7 +84,7 @@ the scoped conclusion.
   source-backed layers, each anchored to a computed/sourced number + backing layer +
   source-status tag. Top 2 are severity-5 (cash-flow fragility flipping negative by the
   adverse case; refinancing treadmill on negative carry); all 10 currently source_backed.
-- Evidence audit coverage: 542 claim audits now include analyzer-level capital,
+- Evidence audit coverage: 543 claim audits now include analyzer-level capital,
   compute, and debt-service audits, explicit row/artifact-backed audits for
   high-impact Burry-answer rollups, and aggregate hooks for pending review
   capital, pending AI-infra capital, pending compute, weak-link AI-infra,

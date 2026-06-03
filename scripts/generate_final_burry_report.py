@@ -1450,6 +1450,22 @@ def report_answer_metric_audits(  # noqa: PLR0912, PLR0915
                 unit="count",
             )
 
+        # Graph Data Science: weighted-PageRank systemic centrality over the graph.
+        gc = m.get("graph_systemic_centrality", {})
+        if gc.get("status") == "source_backed" and gc.get("node_count"):
+            add(
+                "mismatch.graph_centrality.node_count",
+                "Nodes scored by notional-weighted PageRank systemic centrality over the source-backed "
+                "capital-exposure graph (GDS algorithm, deterministic in-code). The top_systemic_nodes "
+                "are the entities whose distress propagates most widely; ecosystem-wide these are the "
+                "major utility/energy counterparties (the broad corpus is mostly non-AI), while the "
+                "AI-cluster-specific systemic nodes (NVIDIA/Microsoft/shared lenders) are in the "
+                "contagion-hub layer.",
+                gc.get("node_count"),
+                [mismatch_artifact],
+                unit="count",
+            )
+
         # Named refinancing wall (specific near-term maturities from the census).
         rw = m.get("refi_wall", {})
         if rw.get("status") == "source_backed":
@@ -1765,6 +1781,18 @@ def load_capital_exposure_graph_summary(data_dirs: list[str]) -> dict[str, Any]:
         summary_path = Path(root) / "graph" / "capital_exposure_graph_summary.json"
         if summary_path.exists():
             loaded = json.loads(summary_path.read_text())
+            if isinstance(loaded, dict):
+                return loaded
+    return {}
+
+
+def load_graph_centrality(data_dirs: list[str]) -> dict[str, Any]:
+    """Load optional weighted-PageRank systemic-centrality artifact."""
+
+    for root in data_dirs:
+        path = Path(root) / "graph" / "graph_centrality.json"
+        if path.exists():
+            loaded = json.loads(path.read_text())
             if isinstance(loaded, dict):
                 return loaded
     return {}
@@ -2553,6 +2581,7 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:  #
     physical_record_match_summary = load_physical_record_match_summary(resolved_data_dirs)
     entity_universe_summary = load_entity_universe_summary(resolved_data_dirs)
     capital_exposure_graph_summary = load_capital_exposure_graph_summary(resolved_data_dirs)
+    graph_centrality = load_graph_centrality(resolved_data_dirs)
     ownership_graph_summary = load_ownership_graph_summary(resolved_data_dirs)
     weak_link_summary = load_weak_link_summary(resolved_data_dirs)
     contract_contagion_summary = load_contract_contagion_summary(resolved_data_dirs)
@@ -2589,6 +2618,8 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:  #
         resolved_data_dirs=resolved_data_dirs,
         payback_cases=getattr(compute_batch, "payback_cases", None),
     )
+    if graph_centrality.get("status") == "source_backed":
+        mismatch_ratios["graph_systemic_centrality"] = graph_centrality
     # Tiered Burry verdict synthesized from the verified evidence: source-backed
     # cluster cash-flow fragility + the adversarially stress-tested thesis
     # premises. Scoped to the AI-direct core; the ecosystem binary stays gated.
