@@ -28,6 +28,7 @@ from bubble.analysis.debt_census import aggregate_debt_census, load_debt_census
 from bubble.analysis.debt_service import analyze_debt_service
 from bubble.analysis.demand_side import aggregate_demand_side, load_demand_side
 from bubble.analysis.ecosystem_scope import scope_deals
+from bubble.analysis.end_holders import aggregate_end_holders, load_end_holders
 from bubble.analysis.evidence import EvidenceGate, SemanticEvidenceBucket, classify_claim_semantics
 from bubble.analysis.gpu_economics import load_gpu_price_evidence, summarize_gpu_depreciation_gap
 from bubble.analysis.physical_capacity import build_physical_capacity_summary
@@ -1377,6 +1378,29 @@ def report_answer_metric_audits(  # noqa: PLR0912, PLR0915
                 unit="USD",
             )
 
+        # Ultimate end-holders (who really bears the loss). Audit the share of
+        # disclosed holders routed to households (insurer/pension/index funds).
+        eh = m.get("ultimate_end_holders", {})
+        if eh.get("status") == "source_backed" and eh.get("household_routed_count_pct") is not None:
+            add(
+                "mismatch.end_holders.household_routed_count_pct",
+                "Share of DISCLOSED end-holders (SEC 13F-HR / SC 13G-13D / S-1 & 10-K beneficial "
+                "ownership) of the AI-direct cluster's public securities that route to households "
+                "(insurers / pensions / passive index funds). The final leg of who-bears-downside. "
+                "Coverage is partial: private-placement DDTL/SPV debt holders are not 13-F-visible.",
+                eh.get("household_routed_count_pct"),
+                [mismatch_artifact],
+                unit="percent",
+            )
+            add(
+                "mismatch.end_holders.filing_verified_holders",
+                "Count of cluster-security holders independently tied to a specific SEC ownership "
+                "filing (exact share/percent match) — the evidentiary base of the end-holder leg.",
+                eh.get("filing_verified_holders"),
+                [mismatch_artifact],
+                unit="count",
+            )
+
         # Forward cash-flow stress (how severely it cracks). Audit the adverse-case
         # cluster coverage and breach count from the source-backed base financials.
         sstress = m.get("scenario_stress", {})
@@ -2380,6 +2404,11 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:  #
     )
     if power_exposure_aggregate.get("status") == "source_backed":
         mismatch_ratios["power_ratepayer_exposure"] = power_exposure_aggregate
+    end_holders_aggregate = aggregate_end_holders(
+        load_end_holders(Path("handoffs/ai_direct_end_holders_20260603.json"))
+    )
+    if end_holders_aggregate.get("status") == "source_backed":
+        mismatch_ratios["ultimate_end_holders"] = end_holders_aggregate
     ai_direct_core_verdict = synthesize_core_verdict(
         cluster_dscr=mismatch_ratios.get("cluster_interest_coverage", {}),
         thesis_findings=thesis_findings,
@@ -2399,6 +2428,7 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:  #
         contagion_hubs=contagion_hubs,
         power_exposure=power_exposure_aggregate,
         scenario_stress=mismatch_ratios.get("scenario_stress", {}),
+        end_holders=end_holders_aggregate,
     )
     coverage_dict = coverage.to_dict()
     physical_capacity_dict = physical_capacity.to_dict()
@@ -3864,6 +3894,20 @@ def main() -> None:
     else:
         power_line = "pending source-backed utility/ratepayer extraction."
 
+    _eh = verdict.get("ultimate_end_holders", {}) or {}
+    if _eh.get("total_kept_holders") is not None:
+        _eh_bucket = _eh.get("count_by_routing_bucket", {}) or {}
+        holder_line = (
+            f"{_eh.get('filing_verified_holders')}/{_eh.get('total_kept_holders')} disclosed holders "
+            f"filing-verified across {_eh.get('entity_count')} entities; household-routed "
+            f"(insurer/pension/index) {_eh.get('household_routed_count_pct')}% by count "
+            f"(~{_eh.get('household_routed_value_pct')}% by disclosed value); "
+            f"buckets {_eh_bucket}. {str(_eh.get('ultimate_downside_read', '')).split(':')[0]}. "
+            f"Caveat: private-placement DDTL/SPV debt holders are not 13-F-visible."
+        )
+    else:
+        holder_line = "pending source-backed end-holder extraction."
+
     md_verdict = f"""## The Verdict (Tiered)
 
 **AI-direct core:** `{verdict.get("core_verdict")}` at confidence **{verdict.get("core_verdict_confidence")}**.
@@ -3876,6 +3920,8 @@ ecosystem-wide bubble call is not supported.
 **Demand side (hyperscaler/offtaker funding — the bear-case test):** {demand_line}
 
 **Power / ratepayer exposure (the hidden downside leg):** {power_line}
+
+**Ultimate end-holders (who really eats it — SEC ownership filings):** {holder_line}
 
 **Source-backed fragility facts (primary 10-K/10-Q, adversarially verified):**
 {_bullets(verdict.get("source_backed_fragility_facts"))}

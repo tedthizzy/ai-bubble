@@ -119,6 +119,7 @@ def synthesize_core_verdict(
     demand_side: dict[str, Any] | None = None,
     power_exposure: dict[str, Any] | None = None,
     scenario_stress: dict[str, Any] | None = None,
+    end_holders: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Synthesize the scoped, tiered Burry verdict from verified evidence."""
 
@@ -128,6 +129,7 @@ def synthesize_core_verdict(
     demand_side = demand_side or {}
     power_exposure = power_exposure or {}
     scenario_stress = scenario_stress or {}
+    end_holders = end_holders or {}
     bear = _finding(thesis_findings, "bear_case_against_bubble")
     bear_confidence = float(bear.get("confidence") or 0.0)
 
@@ -399,6 +401,29 @@ def synthesize_core_verdict(
             }
             if power_exposure.get("status") == "source_backed"
             else {"status": "pending_source_backed_power_exposure"}
+        ),
+        "ultimate_end_holders": (
+            {
+                "entity_count": end_holders.get("entity_count"),
+                "total_kept_holders": end_holders.get("total_kept_holders"),
+                "filing_verified_holders": end_holders.get("filing_verified_holders"),
+                "household_routed_count_pct": end_holders.get("household_routed_count_pct"),
+                "household_routed_value_pct": end_holders.get("household_routed_value_pct"),
+                "count_by_routing_bucket": end_holders.get("count_by_routing_bucket"),
+                "example_household_routed_holders": end_holders.get(
+                    "example_household_routed_holders"
+                ),
+                "ultimate_downside_read": end_holders.get("ultimate_downside_read"),
+                "coverage_caveat": (
+                    "Disclosed-holder distribution from SEC ownership filings (13F-HR, SC 13G/13D, "
+                    "S-1/10-K beneficial ownership); equity-heavy. Most DDTL/SPV debt is a private "
+                    "placement with NO 13-F, so undisclosed debt holders -- likely insurance/"
+                    "annuity-funded private credit -- are NOT counted. This is the final, partial leg "
+                    "of who-bears-downside, not a full cap table."
+                ),
+            }
+            if end_holders.get("status") == "source_backed"
+            else {"status": "pending_source_backed_end_holders"}
         ),
         "crack_timing": crack_timing,
         "weakest_links": weakest_links,

@@ -32,8 +32,8 @@ The important change is that ecosystem-scale conclusions are now blocked from be
 
 Latest verified evidence-gated report at this checkpoint:
 
-- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260603-0234.md`
-- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260603-0234.json`
+- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260603-0256.md`
+- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260603-0256.json`
 - `high_confidence_final`: `false` (ecosystem-wide, BY DESIGN — see verdict below).
 - Current `master` checkpoint: `e72d74e` (single-agent; the prior two-agent
   Claude/Codex handoff queue was consolidated into `master` at `7638aa9` and the
@@ -53,7 +53,16 @@ Latest verified evidence-gated report at this checkpoint:
   source-backed financials: the cluster runs 1.35x at base but flips NEGATIVE by the
   adverse case (25% utilization miss + 200bp rate shock), with a majority of issuers
   breaching — a moderate, non-tail shock is enough to push the financed core into distress.
-- Evidence audit coverage now includes 481 claim audits: analyzer-level capital,
+- Ultimate end-holder leg (who really eats it): SEC ownership filings (13F-HR, SC
+  13G/13D, S-1/10-K beneficial ownership) across 12 cluster issuers + private-credit
+  lenders yield 96 disclosed holders, **80 filing-verified** (exact DEF 14A / SC 13G
+  share matches). Routing: household-routed (insurer/pension/passive index) ~15.6% by
+  count / ~25.2% by disclosed value; read `mixed_holding` — disclosed equity is
+  dominated by founders (super-voting) + intermediaries + risk-capital, with index
+  funds the main household channel. Coverage is PARTIAL by construction: private-
+  placement DDTL/SPV debt holders (likely insurance/annuity-funded private credit)
+  are not 13-F-visible, so this is the disclosed-holder distribution, not a full cap table.
+- Evidence audit coverage now includes 483 claim audits: analyzer-level capital,
   compute, and debt-service audits, explicit row/artifact-backed audits for
   high-impact Burry-answer rollups, and aggregate hooks for pending review
   capital, pending AI-infra capital, pending compute, weak-link AI-infra,
