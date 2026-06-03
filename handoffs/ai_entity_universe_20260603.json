@@ -1,0 +1,5219 @@
+[
+ {
+  "name": "Google LLC",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 24078.0,
+  "sites": 112
+ },
+ {
+  "name": "Joule Power",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 24000.0,
+  "sites": 2
+ },
+ {
+  "name": "BorderPlex Digital Assets; STACK Infrastructure",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 23571.0,
+  "sites": 1
+ },
+ {
+  "name": "Oracle Cloud Infrastructure",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 23571.0,
+  "sites": 1
+ },
+ {
+  "name": "Fermi America and Texas Tech",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 22000.0,
+  "sites": 2
+ },
+ {
+  "name": "Amazon Web Services",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 20160.0,
+  "sites": 32
+ },
+ {
+  "name": "Softbank",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 18400.0,
+  "sites": 2
+ },
+ {
+  "name": "Amazon",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 17234.0,
+  "sites": 86
+ },
+ {
+  "name": "Fidelis",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 16000.0,
+  "sites": 2
+ },
+ {
+  "name": "Microsoft Corporation",
+  "sources": [
+   "capital_graph_ai_node",
+   "project_owner"
+  ],
+  "announced_mw": 15206.0,
+  "sites": 116
+ },
+ {
+  "name": "Meta",
+  "sources": [
+   "capital_graph_ai_node",
+   "project_owner"
+  ],
+  "announced_mw": 12369.0,
+  "sites": 56
+ },
+ {
+  "name": "Aligned Data Centers",
+  "sources": [
+   "boundary_sweep",
+   "project_owner"
+  ],
+  "announced_mw": 9892.0,
+  "sites": 26
+ },
+ {
+  "name": "Meta Platforms, Inc.",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 9632.0,
+  "sites": 26
+ },
+ {
+  "name": "TransGas Development Systems LLC",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 9600.0,
+  "sites": 4
+ },
+ {
+  "name": "TransGas Development, LLC",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 9594.0,
+  "sites": 4
+ },
+ {
+  "name": "Vermaland LLC",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 9000.0,
+  "sites": 3
+ },
+ {
+  "name": "Homer City Redevelopment (with Kiewit as contractor/partner)",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 9000.0,
+  "sites": 2
+ },
+ {
+  "name": "Vantage Data Centers",
+  "sources": [
+   "boundary_sweep",
+   "project_owner"
+  ],
+  "announced_mw": 8726.0,
+  "sites": 26
+ },
+ {
+  "name": "TeraWulf",
+  "sources": [
+   "capital_graph_ai_node",
+   "project_owner"
+  ],
+  "announced_mw": 8260.0,
+  "sites": 12
+ },
+ {
+  "name": "Joule Capital Partners",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 8000.0,
+  "sites": 2
+ },
+ {
+  "name": "Cloverleaf Infrastructure",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 7000.0,
+  "sites": 2
+ },
+ {
+  "name": "Balico LLC",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 7000.0,
+  "sites": 2
+ },
+ {
+  "name": "TECfusions",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 6000.0,
+  "sites": 2
+ },
+ {
+  "name": "Stak",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 6000.0,
+  "sites": 2
+ },
+ {
+  "name": "Hut 8 Corp.",
+  "sources": [
+   "capital_graph_ai_node",
+   "project_owner"
+  ],
+  "announced_mw": 5498.0,
+  "sites": 10
+ },
+ {
+  "name": "Frontier Group of Companies",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 5400.0,
+  "sites": 2
+ },
+ {
+  "name": "T5 Data Centers",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 5146.5,
+  "sites": 10
+ },
+ {
+  "name": "Crusoe",
+  "sources": [
+   "boundary_sweep",
+   "project_owner"
+  ],
+  "announced_mw": 5060.0,
+  "sites": 4
+ },
+ {
+  "name": "VALCO HANOVER COUNTY",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 4800.0,
+  "sites": 2
+ },
+ {
+  "name": "CloudHQ",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 4592.0,
+  "sites": 10
+ },
+ {
+  "name": "Homer City Redevelopment; Kiewit Power Constructors",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 4500.0,
+  "sites": 1
+ },
+ {
+  "name": "Homer City Redevelopment",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 4500.0,
+  "sites": 1
+ },
+ {
+  "name": "PowerHouse Data Centers",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 4365.0,
+  "sites": 8
+ },
+ {
+  "name": "Granite Renewables",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 4000.0,
+  "sites": 2
+ },
+ {
+  "name": "Prometheus Hyperscale",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 3900.0,
+  "sites": 3
+ },
+ {
+  "name": "PowerHouse Data Centers / Pennsylvania Data Center Partners",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 3600.0,
+  "sites": 2
+ },
+ {
+  "name": "Tract",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 3400.0,
+  "sites": 2
+ },
+ {
+  "name": "Fundamental Data LLC",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 3312.0,
+  "sites": 2
+ },
+ {
+  "name": "Compass Datacenters",
+  "sources": [
+   "boundary_sweep",
+   "project_owner"
+  ],
+  "announced_mw": 3068.0,
+  "sites": 10
+ },
+ {
+  "name": "Bristolville 25 Developer LLC",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 3000.0,
+  "sites": 2
+ },
+ {
+  "name": "EdgeCore Digital Infrastructure",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 2920.0,
+  "sites": 6
+ },
+ {
+  "name": "Switch",
+  "sources": [
+   "boundary_sweep",
+   "project_owner"
+  ],
+  "announced_mw": 2775.0,
+  "sites": 6
+ },
+ {
+  "name": "QTS Realty Trust",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 2699.0,
+  "sites": 9
+ },
+ {
+  "name": "Stream Data Centers",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 2514.0,
+  "sites": 16
+ },
+ {
+  "name": "Zenith Volts Corporation",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 2500.0,
+  "sites": 2
+ },
+ {
+  "name": "Fleet",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 2400.0,
+  "sites": 2
+ },
+ {
+  "name": "Open AI",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 2400.0,
+  "sites": 2
+ },
+ {
+  "name": "Amazon Web Services; Clayco",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 2250.0,
+  "sites": 1
+ },
+ {
+  "name": "Northpoint Development",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 2216.0,
+  "sites": 2
+ },
+ {
+  "name": "Fortune 100 Company (undisclosed)",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 2200.0,
+  "sites": 1
+ },
+ {
+  "name": "Apple",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 2008.0,
+  "sites": 10
+ },
+ {
+  "name": "EdgeConneX",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 2002.0,
+  "sites": 10
+ },
+ {
+  "name": "COPT Defense Properties",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 2000.0,
+  "sites": 2
+ },
+ {
+  "name": "TPG Real Estate; Quantum Loophole (former)",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 2000.0,
+  "sites": 1
+ },
+ {
+  "name": "Catellus Development Corporation",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 2000.0,
+  "sites": 1
+ },
+ {
+  "name": "CleanArc Data Centers",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 2000.0,
+  "sites": 2
+ },
+ {
+  "name": "Fidelis New Energy",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 2000.0,
+  "sites": 2
+ },
+ {
+  "name": "Tract Data Centers",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 2000.0,
+  "sites": 4
+ },
+ {
+  "name": "Eagle Rock Partners",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 2000.0,
+  "sites": 2
+ },
+ {
+  "name": "InfraKey Capital",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 2000.0,
+  "sites": 2
+ },
+ {
+  "name": "Meta, Google, Amazon",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 2000.0,
+  "sites": 2
+ },
+ {
+  "name": "Patmos",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 1960.0,
+  "sites": 4
+ },
+ {
+  "name": "Digital Realty",
+  "sources": [
+   "boundary_sweep",
+   "capital_graph_ai_node",
+   "project_owner"
+  ],
+  "announced_mw": 1936.0,
+  "sites": 12
+ },
+ {
+  "name": "QTS Data Centers",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 1890.0,
+  "sites": 14
+ },
+ {
+  "name": "Essential Utilities/ International Electric Power of Pittsburgh",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 1820.0,
+  "sites": 2
+ },
+ {
+  "name": "PowerHouse Data Centers; Provident",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 1800.0,
+  "sites": 1
+ },
+ {
+  "name": "Crusoe Energy Systems; Tallgrass Energy",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 1800.0,
+  "sites": 1
+ },
+ {
+  "name": "Crusoe Energy Systems",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 1800.0,
+  "sites": 1
+ },
+ {
+  "name": "Energy Storage Solutions",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 1800.0,
+  "sites": 2
+ },
+ {
+  "name": "CleanSpark",
+  "sources": [
+   "boundary_sweep",
+   "capital_graph_ai_node",
+   "project_owner"
+  ],
+  "announced_mw": 1770.0,
+  "sites": 4
+ },
+ {
+  "name": "NTT Global Data Centers",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 1741.4,
+  "sites": 9
+ },
+ {
+  "name": "Applied Digital",
+  "sources": [
+   "capital_graph_ai_node",
+   "project_owner"
+  ],
+  "announced_mw": 1720.0,
+  "sites": 4
+ },
+ {
+  "name": "CleanArc",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 1690.0,
+  "sites": 4
+ },
+ {
+  "name": "Cologix",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 1620.0,
+  "sites": 4
+ },
+ {
+  "name": "Vantage",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 1600.0,
+  "sites": 2
+ },
+ {
+  "name": "QTS Realty Trust; Blackstone",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 1559.0,
+  "sites": 2
+ },
+ {
+  "name": "1778 Rich Pike LLC; Quantm Group LLC",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 1500.0,
+  "sites": 1
+ },
+ {
+  "name": "1778 Rich Pike LLC",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 1500.0,
+  "sites": 1
+ },
+ {
+  "name": "Prometheus Hyperscale; Spiritus; Casper Carbon Capture",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 1500.0,
+  "sites": 1
+ },
+ {
+  "name": "IREN",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 1500.0,
+  "sites": 2
+ },
+ {
+  "name": "Prime Data Centers",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 1404.0,
+  "sites": 10
+ },
+ {
+  "name": "DigitalBridge",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 1400.0,
+  "sites": 2
+ },
+ {
+  "name": "CNX Resources/Jones Lang LaSalle (JLL)",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 1400.0,
+  "sites": 2
+ },
+ {
+  "name": "OpenAI; Oracle; SoftBank; MGX; Related Digital",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 1383.0,
+  "sites": 1
+ },
+ {
+  "name": "Stargate LLC",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 1383.0,
+  "sites": 1
+ },
+ {
+  "name": "Jones Lang Sallee",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 1290.0,
+  "sites": 2
+ },
+ {
+  "name": "Skybox Datacenters LLC",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 1280.0,
+  "sites": 4
+ },
+ {
+  "name": "Logistics Land Investments LLC",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 1200.0,
+  "sites": 1
+ },
+ {
+  "name": "Western Hospitality Partners",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 1200.0,
+  "sites": 2
+ },
+ {
+  "name": "OpenAI; Oracle; SoftBank; Crusoe Energy; Lancium",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 1200.0,
+  "sites": 1
+ },
+ {
+  "name": "Oracle; Crusoe Energy",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 1200.0,
+  "sites": 1
+ },
+ {
+  "name": "Cloverleaf",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 1200.0,
+  "sites": 6
+ },
+ {
+  "name": "Breaker Street Associates LLC",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 1200.0,
+  "sites": 2
+ },
+ {
+  "name": "CyrusOne",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 1192.0,
+  "sites": 18
+ },
+ {
+  "name": "Switch; DigitalBridge; IFM Investors",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 1145.0,
+  "sites": 2
+ },
+ {
+  "name": "Verrus",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 1050.0,
+  "sites": 2
+ },
+ {
+  "name": "Stadium Partners; Garrison Data Partners",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 1000.0,
+  "sites": 1
+ },
+ {
+  "name": "Quantica Infrastructure LLC; Big Sky Digital Infrastructure LLC",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 1000.0,
+  "sites": 1
+ },
+ {
+  "name": "Big Sky Digital Infrastructure LLC",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 1000.0,
+  "sites": 1
+ },
+ {
+  "name": "Rainbow Energy Center, LLC",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 1000.0,
+  "sites": 2
+ },
+ {
+  "name": "OpenAI; Oracle; SoftBank",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 1000.0,
+  "sites": 1
+ },
+ {
+  "name": "OpenAI",
+  "sources": [
+   "capital_graph_ai_node",
+   "project_owner"
+  ],
+  "announced_mw": 1000.0,
+  "sites": 1
+ },
+ {
+  "name": "QTS Data Centers (and Microsoft)",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 1000.0,
+  "sites": 2
+ },
+ {
+  "name": "Genesee County Economic Development Corporation (GCEDC)",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 1000.0,
+  "sites": 2
+ },
+ {
+  "name": "Sentinel",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 1000.0,
+  "sites": 4
+ },
+ {
+  "name": "Clean Cloud Energy",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 1000.0,
+  "sites": 2
+ },
+ {
+  "name": "Novva Data Centers",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 995.0,
+  "sites": 9
+ },
+ {
+  "name": "Five 9s Digital",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 992.0,
+  "sites": 2
+ },
+ {
+  "name": "QTS; Blackstone",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 960.0,
+  "sites": 2
+ },
+ {
+  "name": "QTS",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 960.0,
+  "sites": 2
+ },
+ {
+  "name": "Amazon Web Services; Amazon",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 960.0,
+  "sites": 1
+ },
+ {
+  "name": "Nebius Group",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 900.0,
+  "sites": 3
+ },
+ {
+  "name": "DC BLOX",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 884.0,
+  "sites": 13
+ },
+ {
+  "name": "CalEthos",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 840.0,
+  "sites": 2
+ },
+ {
+  "name": "Energy Capital Partners; Calpine Corporation",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 828.0,
+  "sites": 1
+ },
+ {
+  "name": "Calpine Corporation",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 828.0,
+  "sites": 1
+ },
+ {
+  "name": "Sabey Data Centers",
+  "sources": [
+   "boundary_sweep",
+   "project_owner"
+  ],
+  "announced_mw": 770.0,
+  "sites": 5
+ },
+ {
+  "name": "Iron Mountain",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 768.6,
+  "sites": 10
+ },
+ {
+  "name": "Meta (Facebook); Diode Ventures",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 750.0,
+  "sites": 1
+ },
+ {
+  "name": "Universal Planning and Development LLC, JBW Investments, LLC data center",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 720.0,
+  "sites": 2
+ },
+ {
+  "name": "Unknown (under NDA)",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 714.0,
+  "sites": 1
+ },
+ {
+  "name": "Advance Phase LLC (Fortune 500 company alias)",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 714.0,
+  "sites": 1
+ },
+ {
+  "name": "Advance Phase LLC",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 714.0,
+  "sites": 1
+ },
+ {
+  "name": "US Development",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 700.0,
+  "sites": 1
+ },
+ {
+  "name": "Google LLC; AG Rose Solutions LLC; Diode Ventures LLC",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 700.0,
+  "sites": 1
+ },
+ {
+  "name": "FX Solutions Inc.; Atlas Power Holdings ND, LLC",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 700.0,
+  "sites": 1
+ },
+ {
+  "name": "Atlas Power",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 700.0,
+  "sites": 1
+ },
+ {
+  "name": "Amazon Data Services",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 698.0,
+  "sites": 2
+ },
+ {
+  "name": "Hyperscale Data, Inc.",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 685.0,
+  "sites": 3
+ },
+ {
+  "name": "Google; Alphabet",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 670.0,
+  "sites": 1
+ },
+ {
+  "name": "Imperial Valley Computer Manufacturing, LLC",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 660.0,
+  "sites": 2
+ },
+ {
+  "name": "Switch Communications Group LLC",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 640.0,
+  "sites": 2
+ },
+ {
+  "name": "Meta Platforms Inc. (Facebook)",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 630.0,
+  "sites": 4
+ },
+ {
+  "name": "CORSCALE",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 612.0,
+  "sites": 2
+ },
+ {
+  "name": "Related Digital",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 604.0,
+  "sites": 2
+ },
+ {
+  "name": "Red Wolf DCD Properties LLC",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 600.0,
+  "sites": 1
+ },
+ {
+  "name": "Ardent TAC Data Centers",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 600.0,
+  "sites": 1
+ },
+ {
+  "name": "TAC Data Centers",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 600.0,
+  "sites": 1
+ },
+ {
+  "name": "Rowan",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 600.0,
+  "sites": 2
+ },
+ {
+  "name": "Stack",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 598.0,
+  "sites": 2
+ },
+ {
+  "name": "H5 Data Centers",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 572.0,
+  "sites": 24
+ },
+ {
+  "name": "Microsoft Azure",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 548.0,
+  "sites": 5
+ },
+ {
+  "name": "PowerHouse Data Centers; Town Lane",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 500.0,
+  "sites": 1
+ },
+ {
+  "name": "Thor Equities Group",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 500.0,
+  "sites": 1
+ },
+ {
+  "name": "DAMAC Group; EDGNEX Data Centers",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 500.0,
+  "sites": 1
+ },
+ {
+  "name": "EDGNEX Data Centers",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 500.0,
+  "sites": 1
+ },
+ {
+  "name": "Gemini Data Center SD LLC; Michael Anvar (Capital Gemini)",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 500.0,
+  "sites": 1
+ },
+ {
+  "name": "Gemini Data Center SD LLC",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 500.0,
+  "sites": 1
+ },
+ {
+  "name": "Texas Critical Data Centers",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 500.0,
+  "sites": 2
+ },
+ {
+  "name": "New Fortress Energy",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 496.0,
+  "sites": 2
+ },
+ {
+  "name": "Fluidstack, Anthropic, Google",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 490.0,
+  "sites": 2
+ },
+ {
+  "name": "Far North Digital, LLC",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 480.0,
+  "sites": 4
+ },
+ {
+  "name": "Fluidstack/TeraWulf",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 480.0,
+  "sites": 2
+ },
+ {
+  "name": "DataBank",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 478.0,
+  "sites": 8
+ },
+ {
+  "name": "fifteenfortyseven Critical Systems Realty; Green Fig Land Company",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 450.0,
+  "sites": 1
+ },
+ {
+  "name": "fifteenfortyseven Critical Systems Realty",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 450.0,
+  "sites": 1
+ },
+ {
+  "name": "Mount Sunflower Properties, LLC; Beale Infrastructure; Blue Owl",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 443.0,
+  "sites": 1
+ },
+ {
+  "name": "5C Data Centers",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 440.0,
+  "sites": 4
+ },
+ {
+  "name": "Stack Infrastructure",
+  "sources": [
+   "boundary_sweep",
+   "project_owner"
+  ],
+  "announced_mw": 432.0,
+  "sites": 6
+ },
+ {
+  "name": "NextNRG",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 400.0,
+  "sites": 2
+ },
+ {
+  "name": "Google LLC; Alphabet Inc.",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 400.0,
+  "sites": 1
+ },
+ {
+  "name": "PowerHouse Data Centers; Poe Companies",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 400.0,
+  "sites": 1
+ },
+ {
+  "name": "Polaris Technologies Inc.",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 400.0,
+  "sites": 2
+ },
+ {
+  "name": "Atlas Development",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 400.0,
+  "sites": 2
+ },
+ {
+  "name": "Logistix Property Group",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 400.0,
+  "sites": 2
+ },
+ {
+  "name": "Mesones",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 400.0,
+  "sites": 2
+ },
+ {
+  "name": "Riot",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 400.0,
+  "sites": 2
+ },
+ {
+  "name": "Energy Capital Partners; KKR",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 380.0,
+  "sites": 2
+ },
+ {
+  "name": "MMM Acquisitions LLC",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 360.0,
+  "sites": 2
+ },
+ {
+  "name": "Allegheny DC Property Co",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 360.0,
+  "sites": 2
+ },
+ {
+  "name": "Menlo Digital",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 360.0,
+  "sites": 2
+ },
+ {
+  "name": "Flexential",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 348.1,
+  "sites": 12
+ },
+ {
+  "name": "NE Edge; Dominion Energy",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 300.0,
+  "sites": 1
+ },
+ {
+  "name": "NE Edge",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 300.0,
+  "sites": 1
+ },
+ {
+  "name": "Ryan Companies",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 300.0,
+  "sites": 1
+ },
+ {
+  "name": "Potentially Google (unconfirmed)",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 300.0,
+  "sites": 1
+ },
+ {
+  "name": "Nebius Group N.V.; DataOne",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 300.0,
+  "sites": 1
+ },
+ {
+  "name": "Core Scientific",
+  "sources": [
+   "capital_graph_ai_node",
+   "project_owner"
+  ],
+  "announced_mw": 300.0,
+  "sites": 3
+ },
+ {
+  "name": "Switch SUPERNAP",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 300.0,
+  "sites": 2
+ },
+ {
+  "name": "Lakeland Equity Group",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 300.0,
+  "sites": 2
+ },
+ {
+  "name": "EdgeCore Digital Infrastructure; Partners Group",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 288.0,
+  "sites": 2
+ },
+ {
+  "name": "Unknown Fortune 100 Company",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 286.0,
+  "sites": 2
+ },
+ {
+  "name": "Blueprint Projects",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 286.0,
+  "sites": 2
+ },
+ {
+  "name": "CoreWeave",
+  "sources": [
+   "capital_graph_ai_node",
+   "project_owner"
+  ],
+  "announced_mw": 271.0,
+  "sites": 2
+ },
+ {
+  "name": "Edged",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 268.0,
+  "sites": 6
+ },
+ {
+  "name": "Edged Data Centers",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 252.4,
+  "sites": 4
+ },
+ {
+  "name": "Natelli Investments LLC",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 250.0,
+  "sites": 1
+ },
+ {
+  "name": "Green 4 Maine; Tom Manning; Scott Hinkle",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 240.0,
+  "sites": 1
+ },
+ {
+  "name": "Green 4 Maine",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 240.0,
+  "sites": 1
+ },
+ {
+  "name": "Archer Datacenters",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 240.0,
+  "sites": 2
+ },
+ {
+  "name": "AVAIO Digital Partners",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 232.0,
+  "sites": 2
+ },
+ {
+  "name": "Meta; Turner Construction",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 225.0,
+  "sites": 1
+ },
+ {
+  "name": "QTS Data Centers; Blackstone",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 222.0,
+  "sites": 1
+ },
+ {
+  "name": "Edged Data Centers; EDC Omaha LLC",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 200.0,
+  "sites": 1
+ },
+ {
+  "name": "IB10 Martinsburg LLC",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 200.0,
+  "sites": 1
+ },
+ {
+  "name": "Metrobloks",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 200.0,
+  "sites": 4
+ },
+ {
+  "name": "Franklin Partners",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 200.0,
+  "sites": 2
+ },
+ {
+  "name": "Mawson Infrastructure Group",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 200.0,
+  "sites": 2
+ },
+ {
+  "name": "Fayette County Development Authority",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 192.0,
+  "sites": 2
+ },
+ {
+  "name": "CyrusOne; Calpine",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 190.0,
+  "sites": 1
+ },
+ {
+  "name": "Undisclosed Fortune 50 company",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 180.0,
+  "sites": 1
+ },
+ {
+  "name": "Novva Data Centers; CIM Group",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 175.0,
+  "sites": 1
+ },
+ {
+  "name": "University of Michigan; Los Alamos National Laboratory",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 171.0,
+  "sites": 1
+ },
+ {
+  "name": "University of Michigan",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 171.0,
+  "sites": 1
+ },
+ {
+  "name": "CoreWeave; Onyx Equities; Machine Investment Group",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 171.0,
+  "sites": 1
+ },
+ {
+  "name": "Edged Energy",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 168.0,
+  "sites": 3
+ },
+ {
+  "name": "CoreSite",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 168.0,
+  "sites": 7
+ },
+ {
+  "name": "Cirrus Data Services; Gardner Company",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 160.0,
+  "sites": 1
+ },
+ {
+  "name": "Cirrus Data Services",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 160.0,
+  "sites": 1
+ },
+ {
+  "name": "Servistar Realties",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 150.0,
+  "sites": 1
+ },
+ {
+  "name": "EdgeCore",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 144.0,
+  "sites": 2
+ },
+ {
+  "name": "Willowbend Capital LLC; Unknown Fortune 100 Company",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 143.0,
+  "sites": 1
+ },
+ {
+  "name": "Forgelight Ventures LLC; Unknown Fortune 100 Company",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 143.0,
+  "sites": 1
+ },
+ {
+  "name": "Stantec Consulting Michigan Inc.; Randee LLC",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 143.0,
+  "sites": 1
+ },
+ {
+  "name": "Thor Equities; Form8tion; JDS Equities II LLC",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 143.0,
+  "sites": 1
+ },
+ {
+  "name": "Gigabit Fiber; Lincoln Property Co.; Tradition Holdings",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 143.0,
+  "sites": 1
+ },
+ {
+  "name": "Gigabit Fiber",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 143.0,
+  "sites": 1
+ },
+ {
+  "name": "Niagara Falls Redevelopment (NFR); Urbacon Data Centre Solutions",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 140.0,
+  "sites": 1
+ },
+ {
+  "name": "Niagara Falls Redevelopment",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 140.0,
+  "sites": 1
+ },
+ {
+  "name": "Cigna Corporation",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 110.0,
+  "sites": 2
+ },
+ {
+  "name": "Connect Data Centers",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 110.0,
+  "sites": 2
+ },
+ {
+  "name": "DeepGreen Western Passage SPV LLC",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 102.0,
+  "sites": 2
+ },
+ {
+  "name": "Atlas Capital Group; River Bend Development CT",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 100.0,
+  "sites": 1
+ },
+ {
+  "name": "Atlas Capital Group",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 100.0,
+  "sites": 1
+ },
+ {
+  "name": "U.S. Department of Energy",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 100.0,
+  "sites": 1
+ },
+ {
+  "name": "Oppidan Investment Co.; Connect Data Centers",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 100.0,
+  "sites": 1
+ },
+ {
+  "name": "Equinix",
+  "sources": [
+   "boundary_sweep",
+   "capital_graph_ai_node",
+   "project_owner"
+  ],
+  "announced_mw": 100.0,
+  "sites": 8
+ },
+ {
+  "name": "CoreWeave; Core Scientific",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 100.0,
+  "sites": 1
+ },
+ {
+  "name": "Sabey Data Centers; National Real Estate Advisors",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 100.0,
+  "sites": 1
+ },
+ {
+  "name": "Crane Data Centers; Principal Asset Management",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 100.0,
+  "sites": 1
+ },
+ {
+  "name": "Crane Data Centers",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 100.0,
+  "sites": 1
+ },
+ {
+  "name": "CoreWeave; Chirisa Technology Parks; Machine Investment Group",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 100.0,
+  "sites": 1
+ },
+ {
+  "name": "Evoque Data Center Solutions; Archer Datacenters",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 100.0,
+  "sites": 1
+ },
+ {
+  "name": "Evoque Data Center Solutions",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 100.0,
+  "sites": 1
+ },
+ {
+  "name": "Cloud Centers",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 100.0,
+  "sites": 2
+ },
+ {
+  "name": "Edged Energy; Seefried Properties",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 96.0,
+  "sites": 1
+ },
+ {
+  "name": "TierPoint",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 92.0,
+  "sites": 26
+ },
+ {
+  "name": "Viridien",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 90.0,
+  "sites": 2
+ },
+ {
+  "name": "Google LLC; Agate LLC",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 86.0,
+  "sites": 1
+ },
+ {
+  "name": "Bitzero Blockchain Inc.; Cavalier County Job Development Authority",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 71.0,
+  "sites": 1
+ },
+ {
+  "name": "Bitzero Blockchain Inc.",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 71.0,
+  "sites": 1
+ },
+ {
+  "name": "PowerHouse Data Centers; Harrison Street",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 65.0,
+  "sites": 1
+ },
+ {
+  "name": "National Security Agency; U.S. Department of Defense",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 65.0,
+  "sites": 1
+ },
+ {
+  "name": "National Security Agency",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 65.0,
+  "sites": 1
+ },
+ {
+  "name": "California Digital Realty",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 64.0,
+  "sites": 2
+ },
+ {
+  "name": "NTT GLOBAL DATA CENTERS VA LLC",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 64.0,
+  "sites": 2
+ },
+ {
+  "name": "Arcadis; Terra Ventures",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 60.0,
+  "sites": 2
+ },
+ {
+  "name": "Nautilus Data Technologies",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 60.0,
+  "sites": 1
+ },
+ {
+  "name": "DartPoints",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 56.0,
+  "sites": 6
+ },
+ {
+  "name": "Solstice",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 52.0,
+  "sites": 2
+ },
+ {
+  "name": "Element Critical",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 52.0,
+  "sites": 2
+ },
+ {
+  "name": "Charter Development Group LLC",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 50.0,
+  "sites": 1
+ },
+ {
+  "name": "TRG Datacenters",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 50.0,
+  "sites": 2
+ },
+ {
+  "name": "MAG Partners",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 50.0,
+  "sites": 1
+ },
+ {
+  "name": "Leola Data Center (Bill Connors)",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 50.0,
+  "sites": 1
+ },
+ {
+  "name": "Leola Data Center",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 50.0,
+  "sites": 1
+ },
+ {
+  "name": "WhiteFiber",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 48.0,
+  "sites": 2
+ },
+ {
+  "name": "Deep Green",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 48.0,
+  "sites": 2
+ },
+ {
+  "name": "ark data centers",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 46.0,
+  "sites": 6
+ },
+ {
+  "name": "Northern Data",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 40.0,
+  "sites": 2
+ },
+ {
+  "name": "Data Center Power Company",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 40.0,
+  "sites": 2
+ },
+ {
+  "name": "Box Miner",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 40.0,
+  "sites": 2
+ },
+ {
+  "name": "DaSTOR LLC",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 39.2,
+  "sites": 8
+ },
+ {
+  "name": "365 Data Centers",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 37.9,
+  "sites": 12
+ },
+ {
+  "name": "NTT DATA",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 36.0,
+  "sites": 1
+ },
+ {
+  "name": "TPC Data Centers; Twin Palms Capital Group",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 30.0,
+  "sites": 1
+ },
+ {
+  "name": "TPC Data Centers",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 30.0,
+  "sites": 1
+ },
+ {
+  "name": "University of Alabama",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 28.0,
+  "sites": 2
+ },
+ {
+  "name": "Edged Energy; Evergy",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 26.0,
+  "sites": 1
+ },
+ {
+  "name": "Centra",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 24.0,
+  "sites": 2
+ },
+ {
+  "name": "Server Farm Realty",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 24.0,
+  "sites": 2
+ },
+ {
+  "name": "Lifeline Data Centers",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 22.0,
+  "sites": 4
+ },
+ {
+  "name": "BlackRock",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 22.0,
+  "sites": 2
+ },
+ {
+  "name": "C Spire",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 20.0,
+  "sites": 2
+ },
+ {
+  "name": "Hyperscale Data Inc.; Sentinum Inc.",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 20.0,
+  "sites": 1
+ },
+ {
+  "name": "Sentinum Inc.",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 20.0,
+  "sites": 1
+ },
+ {
+  "name": "Fortune Data Centers; Infomart Data Centers",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 20.0,
+  "sites": 1
+ },
+ {
+  "name": "Infomart Data Centers",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 20.0,
+  "sites": 1
+ },
+ {
+  "name": "DataVerge",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 20.0,
+  "sites": 2
+ },
+ {
+  "name": "CoreSite (American Tower)",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 18.0,
+  "sites": 1
+ },
+ {
+  "name": "Cervalis; Fortis Property Group",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 16.0,
+  "sites": 1
+ },
+ {
+  "name": "Data Canopy",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 16.0,
+  "sites": 4
+ },
+ {
+  "name": "HostDime",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 16.0,
+  "sites": 2
+ },
+ {
+  "name": "Commonwealth of Massachusetts",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 16.0,
+  "sites": 1
+ },
+ {
+  "name": "Commonwealth of Massachusetts - Information Technology Division",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 16.0,
+  "sites": 1
+ },
+ {
+  "name": "Aphorio Carter Critical Infrastructure Fund",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 15.0,
+  "sites": 1
+ },
+ {
+  "name": "Aphorio Carter",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 15.0,
+  "sites": 1
+ },
+ {
+  "name": "Eaton Corporation",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 14.4,
+  "sites": 4
+ },
+ {
+  "name": "MIDDLETOWN DATA CENTER LLC",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 14.0,
+  "sites": 2
+ },
+ {
+  "name": "AT&T",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 12.0,
+  "sites": 2
+ },
+ {
+  "name": "Mississippi State University",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 12.0,
+  "sites": 2
+ },
+ {
+  "name": "ATL Data Centers LLC",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 12.0,
+  "sites": 2
+ },
+ {
+  "name": "Directlink Technologies",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 12.0,
+  "sites": 2
+ },
+ {
+  "name": "FirstLight",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 10.4,
+  "sites": 8
+ },
+ {
+  "name": "ValorC3 Data Centers; DIF Capital Partners",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 10.0,
+  "sites": 1
+ },
+ {
+  "name": "ValorC3 Data Centers",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 10.0,
+  "sites": 1
+ },
+ {
+  "name": "Eternal Mind Inc; Green 4 Maine",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 10.0,
+  "sites": 1
+ },
+ {
+  "name": "Eternal Mind Inc",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 10.0,
+  "sites": 1
+ },
+ {
+  "name": "Oppidan Investment Company",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 10.0,
+  "sites": 1
+ },
+ {
+  "name": "Anexio",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 10.0,
+  "sites": 2
+ },
+ {
+  "name": "Rainbow Energy Marketing Corp.",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 10.0,
+  "sites": 2
+ },
+ {
+  "name": "Cerebras Systems; Scale Datacenters",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 10.0,
+  "sites": 1
+ },
+ {
+  "name": "Cerebras Systems",
+  "sources": [
+   "boundary_sweep",
+   "project_owner"
+  ],
+  "announced_mw": 10.0,
+  "sites": 1
+ },
+ {
+  "name": "SDN Communications",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 10.0,
+  "sites": 2
+ },
+ {
+  "name": "Otava",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 8.4,
+  "sites": 4
+ },
+ {
+  "name": "News Press & Gazette Company",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 8.0,
+  "sites": 1
+ },
+ {
+  "name": "1623 Farnam",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 8.0,
+  "sites": 1
+ },
+ {
+  "name": "NOVA Corporation (Navajo Nation); Din\u00e9 Development Corporation",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 8.0,
+  "sites": 1
+ },
+ {
+  "name": "NOVA Corporation",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 8.0,
+  "sites": 1
+ },
+ {
+  "name": "American Tower",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 8.0,
+  "sites": 2
+ },
+ {
+  "name": "Southern Company",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 6.0,
+  "sites": 2
+ },
+ {
+  "name": "Trijit Corporation",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 6.0,
+  "sites": 2
+ },
+ {
+  "name": "Servpac Inc.",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 6.0,
+  "sites": 2
+ },
+ {
+  "name": "tw telecom",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 6.0,
+  "sites": 2
+ },
+ {
+  "name": "Cogent Communications",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 6.0,
+  "sites": 6
+ },
+ {
+  "name": "Hivelocity",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 6.0,
+  "sites": 2
+ },
+ {
+  "name": "Federal Bureau of Investigation; U.S. Department of Justice",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 5.4,
+  "sites": 1
+ },
+ {
+  "name": "Federal Bureau of Investigation",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 5.4,
+  "sites": 1
+ },
+ {
+  "name": "Lumen Technologies; Level 3 Communications; CenturyLink",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 5.0,
+  "sites": 1
+ },
+ {
+  "name": "Lumen Technologies",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 5.0,
+  "sites": 7
+ },
+ {
+  "name": "Hawaiian Telcom",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 5.0,
+  "sites": 1
+ },
+ {
+  "name": "Hawaiian Telcom; SystemMetrics Corporation",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 5.0,
+  "sites": 1
+ },
+ {
+  "name": "Hyperscale Data, Inc. (NYSE American: GPUS)",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 5.0,
+  "sites": 1
+ },
+ {
+  "name": "Mass General Brigham (formerly Partners Healthcare)",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 5.0,
+  "sites": 1
+ },
+ {
+  "name": "Mass General Brigham",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 5.0,
+  "sites": 1
+ },
+ {
+  "name": "State of Rhode Island; Department of Administration",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 5.0,
+  "sites": 1
+ },
+ {
+  "name": "Division of Enterprise Technology Strategy and Services (ETSS)",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 5.0,
+  "sites": 1
+ },
+ {
+  "name": "Sequitor Edge; Shamrock Data LLC",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 4.0,
+  "sites": 1
+ },
+ {
+  "name": "Sequitor Edge",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 4.0,
+  "sites": 1
+ },
+ {
+  "name": "Consolidated Communications",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 4.0,
+  "sites": 4
+ },
+ {
+  "name": "FirstLight Fiber",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 4.0,
+  "sites": 2
+ },
+ {
+  "name": "Alpha Technologies Inc",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 4.0,
+  "sites": 2
+ },
+ {
+  "name": "Expedient",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 4.0,
+  "sites": 2
+ },
+ {
+  "name": "US Signal",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 4.0,
+  "sites": 2
+ },
+ {
+  "name": "Contegix",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 4.0,
+  "sites": 2
+ },
+ {
+  "name": "Vermont Electric Power Company (VELCO)",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 3.2,
+  "sites": 2
+ },
+ {
+  "name": "Transformyx (now Lockstep Technology Group)",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 3.0,
+  "sites": 1
+ },
+ {
+  "name": "Transformyx",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 3.0,
+  "sites": 1
+ },
+ {
+  "name": "GCI Communication Corp.",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 2.0,
+  "sites": 2
+ },
+ {
+  "name": "State of Nebraska",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 2.0,
+  "sites": 2
+ },
+ {
+  "name": "Dedispec",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 2.0,
+  "sites": 2
+ },
+ {
+  "name": "Tech Vault, Inc.; Continent 8 Group",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 0.8,
+  "sites": 1
+ },
+ {
+  "name": "Tech Vault, Inc.",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 0.8,
+  "sites": 1
+ },
+ {
+  "name": "University of Rhode Island",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 0.2,
+  "sites": 1
+ },
+ {
+  "name": "University of Rhode Island Information Technology Services",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 0.2,
+  "sites": 1
+ },
+ {
+  "name": "Greensparc; Cordova Electric Cooperative; Hewlett Packard Enterprise",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 0.1,
+  "sites": 1
+ },
+ {
+  "name": "Greensparc; Cordova Electric Cooperative",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 0.1,
+  "sites": 1
+ },
+ {
+  "name": "DC BLOX; Google",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 0.0,
+  "sites": 1
+ },
+ {
+  "name": "Blackstone; QTS Realty Trust",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 0.0,
+  "sites": 1
+ },
+ {
+  "name": "Serverfarm",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 0.0,
+  "sites": 2
+ },
+ {
+  "name": "Windstream",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 0.0,
+  "sites": 4
+ },
+ {
+  "name": "Willowbend Capital LLC",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 0.0,
+  "sites": 2
+ },
+ {
+  "name": "Compass Data Centers",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 0.0,
+  "sites": 2
+ },
+ {
+  "name": "Huntley LLC",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 0.0,
+  "sites": 2
+ },
+ {
+  "name": "Coloblox",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 0.0,
+  "sites": 2
+ },
+ {
+  "name": "RSC Investment Management LLC",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 0.0,
+  "sites": 2
+ },
+ {
+  "name": "CBRE",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 0.0,
+  "sites": 2
+ },
+ {
+  "name": "Telecad Wireless",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 0.0,
+  "sites": 2
+ },
+ {
+  "name": "Google/Cloverleaf Infrastructure",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 0.0,
+  "sites": 2
+ },
+ {
+  "name": "Eagle Rock Partners LLC and Thomas & Hutton Engineering",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 0.0,
+  "sites": 2
+ },
+ {
+  "name": "Southeast Property Holdings LLC",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 0.0,
+  "sites": 2
+ },
+ {
+  "name": "SDC ATLA, LLC",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 0.0,
+  "sites": 2
+ },
+ {
+  "name": "Brasfield & Gorrie",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 0.0,
+  "sites": 2
+ },
+ {
+  "name": "Sailfish Investors Acquisitions, LLC",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 0.0,
+  "sites": 2
+ },
+ {
+  "name": "Langdale Capital Assets",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 0.0,
+  "sites": 2
+ },
+ {
+  "name": "Atlanta Development",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 0.0,
+  "sites": 2
+ },
+ {
+  "name": "Gail Technology",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 0.0,
+  "sites": 2
+ },
+ {
+  "name": "WHP",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 0.0,
+  "sites": 2
+ },
+ {
+  "name": "TXLAAR LLC",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 0.0,
+  "sites": 4
+ },
+ {
+  "name": "MillCompute LLC",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 0.0,
+  "sites": 2
+ },
+ {
+  "name": "Santec Consulting",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 0.0,
+  "sites": 2
+ },
+ {
+  "name": "Alterra Development",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 0.0,
+  "sites": 2
+ },
+ {
+  "name": "Prologis",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 0.0,
+  "sites": 2
+ },
+ {
+  "name": "Los Alamos National Laboratory",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 0.0,
+  "sites": 2
+ },
+ {
+  "name": "Deep River Data",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 0.0,
+  "sites": 2
+ },
+ {
+  "name": "Strata",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 0.0,
+  "sites": 2
+ },
+ {
+  "name": "Cleanview",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 0.0,
+  "sites": 2
+ },
+ {
+  "name": "Archbald 25 Developer LLC",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 0.0,
+  "sites": 2
+ },
+ {
+  "name": "PDC Realty LLC",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 0.0,
+  "sites": 2
+ },
+ {
+  "name": "Fairview Crossroads LLC",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 0.0,
+  "sites": 2
+ },
+ {
+  "name": "Provident Realty (Harrisburg I, LLC)",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 0.0,
+  "sites": 2
+ },
+ {
+  "name": "Brewster Land Company, LLC",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 0.0,
+  "sites": 2
+ },
+ {
+  "name": "Netrality",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 0.0,
+  "sites": 2
+ },
+ {
+  "name": "The Vanguard Group",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 0.0,
+  "sites": 2
+ },
+ {
+  "name": "Omega",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 0.0,
+  "sites": 2
+ },
+ {
+  "name": "Pennhurst Holdings LLC",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 0.0,
+  "sites": 2
+ },
+ {
+  "name": "SunCap Property Group",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 0.0,
+  "sites": 2
+ },
+ {
+  "name": "Talen Energy",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 0.0,
+  "sites": 2
+ },
+ {
+  "name": "Comcast",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 0.0,
+  "sites": 2
+ },
+ {
+  "name": "Marathon Digital Holdings (MARA)",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 0.0,
+  "sites": 2
+ },
+ {
+  "name": "YONDR JK 2 LLC",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 0.0,
+  "sites": 2
+ },
+ {
+  "name": "LOUDOUN GC LLC",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 0.0,
+  "sites": 2
+ },
+ {
+  "name": "DIGITAL LOUDOUN 3 LLC",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 0.0,
+  "sites": 2
+ },
+ {
+  "name": "INTERGATE ASHBURN I LLC",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 0.0,
+  "sites": 2
+ },
+ {
+  "name": "Tradeport Ashland Land LLC",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 0.0,
+  "sites": 2
+ },
+ {
+  "name": "Catlett Station II LLC",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 0.0,
+  "sites": 2
+ },
+ {
+  "name": "ONEPARTNER LLC",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 0.0,
+  "sites": 2
+ },
+ {
+  "name": "Black Chamber Partners, LLC",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 0.0,
+  "sites": 2
+ },
+ {
+  "name": "HIGHWOODS PROP",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 0.0,
+  "sites": 2
+ },
+ {
+  "name": "BOLES, BRENDA ET ALS EAST, SHARON ET ALS BOLES, DOUGLAS ET ALS KELLEY, OTEY HARRIS III ET ALS KELLEY, CHARLES ET ALS",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 0.0,
+  "sites": 2
+ },
+ {
+  "name": "COMPASS DATACENTERS IAD I LLC",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 0.0,
+  "sites": 2
+ },
+ {
+  "name": "PROPCO LLC",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 0.0,
+  "sites": 2
+ },
+ {
+  "name": "SAMX Data",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 0.0,
+  "sites": 2
+ },
+ {
+  "name": "Infotel",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 0.0,
+  "sites": 2
+ },
+ {
+  "name": "VALCO CAROLINE COUNTY",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 0.0,
+  "sites": 2
+ },
+ {
+  "name": "DCT DULLES PHASE II LLC",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 0.0,
+  "sites": 2
+ },
+ {
+  "name": "VANTAGE DATA CENTERS VA11 LLC",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 0.0,
+  "sites": 2
+ },
+ {
+  "name": "VANTAGE DATA CENTERS VA12 LLC",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 0.0,
+  "sites": 2
+ },
+ {
+  "name": "VANTAGE DATA CENTERS VA2 LLC",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 0.0,
+  "sites": 2
+ },
+ {
+  "name": "DATA CENTER VINT HILL LLC",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 0.0,
+  "sites": 2
+ },
+ {
+  "name": "C1 Vint Hill LLC",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 0.0,
+  "sites": 2
+ },
+ {
+  "name": "Black Mountain Power",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 0.0,
+  "sites": 2
+ },
+ {
+  "name": "Fortescue",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 0.0,
+  "sites": 2
+ },
+ {
+  "name": "HMC StratCorp and subsidiary DigiCo REIT",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 0.0,
+  "sites": 2
+ },
+ {
+  "name": "Monticello Tech, LLC,",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 0.0,
+  "sites": 2
+ },
+ {
+  "name": "Gateway Development",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 0.0,
+  "sites": 2
+ },
+ {
+  "name": "CRG",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 0.0,
+  "sites": 2
+ },
+ {
+  "name": "ReLoad",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 0.0,
+  "sites": 2
+ },
+ {
+  "name": "Inch & Company",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 0.0,
+  "sites": 2
+ },
+ {
+  "name": "Curata Partners",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 0.0,
+  "sites": 2
+ },
+ {
+  "name": "ForgeLight Ventures, LLC",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 0.0,
+  "sites": 2
+ },
+ {
+  "name": "FLX Gateway",
+  "sources": [
+   "project_owner"
+  ],
+  "announced_mw": 0.0,
+  "sites": 2
+ },
+ {
+  "name": "MARA Holdings",
+  "sources": [
+   "boundary_sweep",
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Coyote Ridge Wind, LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Altona Solar, LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Osagrove Flats Wind, LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Unnamed Bitcoin Miner Hosting Customer",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Glass Sands Wind Energy, LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Wilmington Trust",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Leaning Juniper Wind Power II LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Sun Streams 2, LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Bethel Wind Energy LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Little Blue Wind Project, LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Jonestrading Institutional Services",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Leaning Juniper 2B, LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Calpine Energy Services, L.P.",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Blackwell Wind Energy, LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Quartz Solar, LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Black Rock Wind Force, LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Garden Wind, LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Public Service Company of New Mexico",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Paulding Wind Farm III LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Cantor Fitzgerald",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Powells Creek Farm Solar, LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Camino Solar, LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Nimbus Wind Farm, LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Yorkville Ya Ii Yorkville Advisors",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Dell",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Bitmain Technologies Limited Bitmain Technologies Delaware Limited",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Fowler Ridge IV Wind Farm LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Emily Solar, LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Bitmain Technologies Delaware Limited",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Carvers Creek LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "High Point Solar LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Bluestem Wind Energy, LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "FACEBOOK OPERATIONS, LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Starwood Digital Ventures",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Glaciers Edge Wind Project, LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Wekaio",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Tether International Limited Tether",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Rush Springs Solar, LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Earp Solar, LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Two Prime",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Powell Creek Solar, LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Great Western Wind Energy, LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Blackwell Wind, LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Post Rock Wind Power Project, LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Sunnybrook Farm Solar, LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Brookfield Renewable Trading and Marketing LP",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Ranchland Solar, LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Trinity",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Bofa",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Minco II Energy Storage, LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "City of St. Cloud",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Wild Plains Wind Project, LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Madison Fields Solar Project, LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Scott-II Solar LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Crescent Ridge LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Goose Prairie Solar LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Coinbase",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Hillcrest Solar I, LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Wind Wall 1 LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "NMRD Data Center, LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Cloud County Wind Farm, LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Barclays",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Equinix Asia Financing Corporation Pte. Ltd.",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Cryptech Solutions",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Midland Wind, LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Envoy Solar, LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Redfield PV I, LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "NVIDIA",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "IREN Limited",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Microsoft Energy LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "New Madrid Solar, LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "EXUS NM Data Center IV, LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Cimarron Bend Wind Project I, LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Amazoncom Services LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Google/Alphabet",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Auradine",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Canaan U S",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Citigroup Global Markets",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Sumitomo Mitsui Banking Smbc",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Minco Wind II, LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "EQUINIX CANADA FINANCING LTD.",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Virginia Solar 2017 Projects LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "FPL Energy Stateline II, Inc.",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "California Choice Energy Authority",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Bitmain Technologies Bitmain",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Southampton Solar, LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Eldorado Solar Project II, LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Susquehanna Nuclear, LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Indian Creek Solar Farm LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Core42 Holding Us",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "The Empire District Electric Company",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Pleinmont Solar 1, LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Customer D Unnamed In Filing Accounts Receivable Credit Risk Concentration",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Tzrc Tzrc Secured Promissory Note Holder",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Morgan Stanley Capital Group Inc.",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Cornerstone",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Macquarie Equipment Mec",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Guggenheim",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Block",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Willow Creek Wind Project, LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Proxima Solar, LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Timbermill Wind, LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "High Banks Wind, LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Honeysuckle Solar, LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Eastern Shore Solar LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Oklahoma Gas and Electric Company",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Golden Hills Wind, LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Morgan Stanley",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "McFarland Solar B, LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Core42 Holding Us G42 Full Legal Name Per Fy2024 10 K",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "ORACLE AMERICA, INC.",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Indiana Kentucky Electric Corporation",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Western Alliance",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Macquarie Asset Management Mip Vi Hpc Mip Vi Ii Mam",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "EDPR Scarlet II LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Eldorado Solar Project, LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Customer B Unnamed Fy2026 Segment",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Hay Canyon Wind LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Northern States Power Company, a Minnesota corporation",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "TWO PRIME LENDING LIMITED",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Vansycle II Wind, LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Foundry Mining Pool Operator",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Duke Energy Florida, LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Hawtree Creek Farm Solar, LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Blackwell Solar, LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Associated Electric Cooperative, Inc.",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Flying Cloud Power Partners, LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "American Bitcoin",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Unnamed Single Bitcoin Mining Pool Hosted Mining Customer",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Bitmain Technologies Limited",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Panama Energy Center, LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Nestlewood Solar I LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Brookfield Renewable Trading and Marketi",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Hecate Energy Highland LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "DERMOTT WIND, LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Unnamed Single Hosting Services Customer",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Great Prairie Wind, LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Red Cloud Wind LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Coatue",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Raceway Solar 1, LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "BP Energy Company",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Nebius Group N.V.",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "26SB 8me LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Sun Ridge Solar, LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Desert Wind Farm LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "New Mexico PPA Corporation",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Lenovo",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Northumberland Solar, LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "PACIFIC GAS AND ELECTRIC COMPANY",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Pierce County Energy Center, LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Magnetar",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Albertsons Companies, Inc.",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "B Riley",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Bit Formerly Matrix Finance And Technologies Holding Matrixport",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "B Riley Principal Ii",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Powerex Corp.",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "AMAZON ENERGY LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Cim Cim Promissory Note Lender",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "ENGIE Solidago Solar LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "50LW 8me LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Bayou Galion Solar Project, LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Salt Creek Township Solar, LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Fluidstack",
+  "sources": [
+   "boundary_sweep",
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Goldman Sachs",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Willowbrook Solar I, LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Horus West Virginia I, LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Customer A Unnamed Crypto Data Center Hosting Customer",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Ostrea Solar, LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Foundry Digital",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Mplx",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "EXUS NM Data Center II, LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Baldy Mesa Solar, LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Southern California Public Power Authority",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Wheatridge East Wind, LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Pleinmont Solar 2, LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Minco Wind Energy II, LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Starion Starion Term Loan",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Google Energy LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Tilden Solar, LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Equinix Europe 2 Financing Corporation LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Silver Peak Energy, LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Bitdeer Technologies Group",
+  "sources": [
+   "boundary_sweep",
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Shell Energy North America (US), L.P.",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Customer B Unnamed In Filing",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Ohio Valley Electric Corporation",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Glacier Sands Wind Power, LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Whitehorn Solar LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Customer A Unnamed In Filing",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Supermicro",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Crossett Solar Energy, LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Beech Ridge Energy II LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Northern States Power Company, a Minneso",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Interstate Power and Light Company",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Evergy Kansas Central, Inc.",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Bethel Wind Farm LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Clearview Solar I, LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "JPMorgan",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Anthropic Pbc",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Aron Energy Prepay 23 LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Prod Smoketest MR",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "White Cloud Wind Project, LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "EXUS NM Data Center III, LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "City of Roseville",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Tatanka Ridge Wind, LLC",
+  "sources": [
+   "capital_graph_ai_node"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Riot Platforms, Inc.",
+  "sources": [
+   "boundary_sweep"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Bitfarms Ltd",
+  "sources": [
+   "boundary_sweep"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Bit Digital, Inc.",
+  "sources": [
+   "boundary_sweep"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Galaxy Digital Inc.",
+  "sources": [
+   "boundary_sweep"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "HIVE Digital Technologies Ltd.",
+  "sources": [
+   "boundary_sweep"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Canaan Inc.",
+  "sources": [
+   "boundary_sweep"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Greenidge Generation Holdings Inc.",
+  "sources": [
+   "boundary_sweep"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Soluna Holdings, Inc.",
+  "sources": [
+   "boundary_sweep"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Stronghold Digital Mining, Inc.",
+  "sources": [
+   "boundary_sweep"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Cango Inc.",
+  "sources": [
+   "boundary_sweep"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Cipher Mining / Cipher Digital Inc.",
+  "sources": [
+   "boundary_sweep"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Crusoe Energy",
+  "sources": [
+   "boundary_sweep"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Lambda",
+  "sources": [
+   "boundary_sweep"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Nscale",
+  "sources": [
+   "boundary_sweep"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Together AI",
+  "sources": [
+   "boundary_sweep"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Vultr",
+  "sources": [
+   "boundary_sweep"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Voltage Park",
+  "sources": [
+   "boundary_sweep"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Sustainable Metal Cloud",
+  "sources": [
+   "boundary_sweep"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Iron Mountain Incorporated",
+  "sources": [
+   "boundary_sweep"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "QTS Realty Trust / QTS Data Centers",
+  "sources": [
+   "boundary_sweep"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "CoreSite / American Tower",
+  "sources": [
+   "boundary_sweep"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ },
+ {
+  "name": "Groq, Inc.",
+  "sources": [
+   "boundary_sweep"
+  ],
+  "announced_mw": 0.0,
+  "sites": 0
+ }
+]

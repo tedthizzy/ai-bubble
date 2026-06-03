@@ -39,6 +39,10 @@ from bubble.analysis.demand_side import aggregate_demand_side, load_demand_side
 from bubble.analysis.ecosystem_scope import scope_deals
 from bubble.analysis.end_holders import aggregate_end_holders, load_end_holders
 from bubble.analysis.entity_risk_ranking import build_entity_risk_ranking
+from bubble.analysis.entity_universe_map import (
+    aggregate_entity_universe,
+    load_entity_universe_map,
+)
 from bubble.analysis.equipment_bottlenecks import (
     aggregate_equipment_bottlenecks,
     load_equipment_bottlenecks,
@@ -1510,6 +1514,29 @@ def report_answer_metric_audits(  # noqa: PLR0912, PLR0915
                 unit="count",
             )
 
+        # Empirical entity-universe composition (deep-modeled count + structural split).
+        eum = m.get("entity_universe_map", {})
+        if eum.get("status") == "source_backed":
+            add(
+                "mismatch.entity_universe.classified_count",
+                "Count of data-derived AI-infra entities (project owners + capital-graph AI nodes + "
+                "boundary sweep) classified into structural buckets, each with a sourced bucket + "
+                "public-filer status + AI-infra-debt flag. The deep-modeled entity universe; most are "
+                "demand/power/supply/private context, NOT the leveraged-distress thesis.",
+                eum.get("entity_count"),
+                [mismatch_artifact],
+                unit="count",
+            )
+            add(
+                "mismatch.entity_universe.confirmed_financed_leveraged",
+                "Adversarially-confirmed financed_ai_infra_leveraged entities across the whole universe "
+                "-- the empirical size of the bubble-distress cluster (vs hyperscaler-demand / REIT / "
+                "utility / supplier / crypto / private-developer buckets).",
+                eum.get("confirmed_financed_leveraged_count"),
+                [mismatch_artifact],
+                unit="count",
+            )
+
         # Unsupervised cluster discovery (data-driven boundary, not asserted).
         cdsc = m.get("cluster_discovery", {})
         if cdsc.get("status") == "source_backed":
@@ -2771,6 +2798,11 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:  #
     )
     if cluster_discovery.get("status") == "source_backed":
         mismatch_ratios["cluster_discovery"] = cluster_discovery
+    entity_universe_map = aggregate_entity_universe(
+        load_entity_universe_map(Path("handoffs/ai_entity_universe_classified_20260603.json"))
+    )
+    if entity_universe_map.get("status") == "source_backed":
+        mismatch_ratios["entity_universe_map"] = entity_universe_map
     refi_wall_aggregate = aggregate_refi_wall(
         load_debt_census_raw(Path("handoffs/ai_direct_debt_census_20260603.json"))
     )

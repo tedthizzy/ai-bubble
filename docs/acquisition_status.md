@@ -9,7 +9,7 @@ the scoped conclusion.
 
 ## Current Corpus
 
-- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260603-1633.md`
+- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260603-1808.md`
 - Evidence gate: ecosystem `high_confidence_final=false` / `bubble_confidence 0.25` (by design).
 - **Tiered verdict (`ai_direct_core_verdict`):** AI-direct core `bubble_dynamics_present` @ 0.67;
   ecosystem-wide `not_established_as_ecosystem_wide_bubble` (broad metric is mostly non-AI debt, so
@@ -76,6 +76,16 @@ the scoped conclusion.
   DISCOVERED then labelled, bootstrap-stability 0.93. HONEST: n=11 -> silhouette 0.375 (modest),
   k=2/3/4 statistically close, so the *number* is uncertain; what's solid is the 2-axis structure
   + the robust fragile sub-cluster. Next rigor step: expand n with the boundary-sweep additions.
+- EXHAUSTIVE ENTITY-UNIVERSE MAP (`entity_universe_map.py`): all 649 data-derived AI-infra entities
+  (422 project owners + 216 capital-graph AI nodes + 36 sweep) classified into structural buckets
+  via a 50-agent batched workflow, the financed-leveraged subset adversarially verified. Empirical
+  composition: 137 private developers, 133 utility/power, 46 IG-REIT, 33 hyperscaler-demand, 30
+  crypto, 21 financing-SPV, 15 chip/equipment supplier, 6 EPC, 200 unidentifiable — and only 28
+  financed_ai_infra_leveraged (9 strictly confirmed). So the bubble-distress cluster is ~4% of the
+  AI-infra universe — EMPIRICALLY bounded, not ecosystem-wide. Surfaced genuinely new material names:
+  Crusoe (~$10-17B debt, private), EdgeConneX (~$10B ABS), Edged (~$2B). 153 public filers. This is
+  the deep-modeled entity universe (each entity carries a sourced bucket + filer + AI-debt flag).
+  Fixture: handoffs/ai_entity_universe_classified_20260603.json.
 - Continuous-update harness (`bubble.ingestion.update_detector` + `scripts/check_for_updates.py`):
   diffs a fresh EDGAR submissions snapshot vs ingested accessions (189,737 found), prioritizes
   by form relevance, flags rerun. The report now also carries a Methodology/Assumptions/Limitations
@@ -112,7 +122,7 @@ the scoped conclusion.
   source-backed layers, each anchored to a computed/sourced number + backing layer +
   source-status tag. Top 2 are severity-5 (cash-flow fragility flipping negative by the
   adverse case; refinancing treadmill on negative carry); all 10 currently source_backed.
-- Evidence audit coverage: 547 claim audits now include analyzer-level capital,
+- Evidence audit coverage: 549 claim audits now include analyzer-level capital,
   compute, and debt-service audits, explicit row/artifact-backed audits for
   high-impact Burry-answer rollups, and aggregate hooks for pending review
   capital, pending AI-infra capital, pending compute, weak-link AI-infra,
