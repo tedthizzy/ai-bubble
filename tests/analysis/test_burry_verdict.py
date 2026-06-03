@@ -45,6 +45,14 @@ def _findings() -> list[dict[str, object]]:
             "summary": "Book 6yr vs faster obsolescence.",
             "key_caveat": "headline not local",
         },
+        {
+            "key": "physical_deliverability",
+            "verdict": "data_gap_not_reality",
+            "confidence": 0.9,
+            "tier": "MEASURED",
+            "summary": "0.5% is a join artifact; ISO queues un-ingested.",
+            "key_caveat": "mechanically near-zero",
+        },
     ]
 
 
@@ -55,6 +63,17 @@ def _cluster_dscr() -> dict[str, object]:
         "loss_making_issuer_count": 7,
         "issuers_with_ebitda_coverage_below_1": 7,
         "cluster_ebitda_interest_coverage": 1.35,
+        "per_issuer": [
+            {"entity": "CoreWeave, Inc.", "ebitda_or_operating_income_usd": 2_408_000_000},
+            {"entity": "CleanSpark, Inc.", "ebitda_or_operating_income_usd": 667_300_000},
+            {
+                "entity": "Bitdeer Technologies Group (BTDR)",
+                "ebitda_or_operating_income_usd": 327_800_000,
+            },
+            {"entity": "IREN Limited", "ebitda_or_operating_income_usd": 278_200_000},
+            {"entity": "MARA Holdings, Inc.", "ebitda_or_operating_income_usd": -589_000_000},
+            {"entity": "TeraWulf Inc.", "ebitda_or_operating_income_usd": -20_000_000},
+        ],
     }
 
 
@@ -104,7 +123,25 @@ def test_blocks_verdict_when_cluster_dscr_not_source_backed() -> None:
     assert v["core_verdict_confidence"] <= 0.45
 
 
-def test_crack_timing_and_weakest_links_present() -> None:
+def test_crack_timing_reconciles_structural_and_near_term_windows() -> None:
+    v = synthesize_core_verdict(
+        cluster_dscr=_cluster_dscr(),
+        thesis_findings=_findings(),
+        established_ai_usd=362_975_850_000,
+        direct_ai_usd=142_030_000_000,
+        not_established_pct=0.8998,
+        timing_summary={"candidate_peak_stress_quarter": "2026-Q2"},
+    )
+    ct = v["crack_timing"]
+    assert ct["structural_principal_wall_window"] == "2030-2033"
+    assert "2026-Q2" in ct["near_term_pressure_window"]
+    assert "reconciliation" in ct
+    assert ct["earlier_triggers"]
+    assert len(v["weakest_links"]) >= 2
+    assert len(v["top_risks"]) >= 2
+
+
+def test_data_gap_premises_are_separated_not_counted_as_support() -> None:
     v = synthesize_core_verdict(
         cluster_dscr=_cluster_dscr(),
         thesis_findings=_findings(),
@@ -112,7 +149,59 @@ def test_crack_timing_and_weakest_links_present() -> None:
         direct_ai_usd=142_030_000_000,
         not_established_pct=0.8998,
     )
-    assert v["crack_timing"]["primary_window"] == "2030-2033"
-    assert v["crack_timing"]["earlier_triggers"]
-    assert len(v["weakest_links"]) >= 2
-    assert len(v["top_risks"]) >= 3
+    risk_premises = {r["premise"] for r in v["top_risks"]}
+    gap_premises = {g["premise"] for g in v["data_gaps"]}
+    # A data-gap premise must NOT appear among the affirmative top risks.
+    assert "physical_deliverability" not in risk_premises
+    assert "physical_deliverability" in gap_premises
+
+
+def test_weakest_links_do_not_overclaim_only_generator() -> None:
+    v = synthesize_core_verdict(
+        cluster_dscr=_cluster_dscr(),
+        thesis_findings=_findings(),
+        established_ai_usd=362_975_850_000,
+        direct_ai_usd=142_030_000_000,
+        not_established_pct=0.8998,
+    )
+    blob = " ".join(v["weakest_links"]).lower()
+    assert "only ebitda generator" not in blob
+    assert "the cluster's only" not in blob
+    # The other positive-EBITDA issuers are acknowledged.
+    assert "cleanspark" in blob or "bitdeer" in blob or "iren" in blob
+
+
+def test_ecosystem_basis_does_not_use_junk_percentage_inference() -> None:
+    v = synthesize_core_verdict(
+        cluster_dscr=_cluster_dscr(),
+        thesis_findings=_findings(),
+        established_ai_usd=362_975_850_000,
+        direct_ai_usd=142_030_000_000,
+        not_established_pct=0.8998,
+        metric_total_usd=3_622_011_629_458.83,
+    )
+    basis = v["ecosystem_verdict_basis"].lower()
+    # The honest framing names the denominator pollution, not a clean ratio.
+    assert "non-ai" in basis or "non-ai debt" in basis
+    assert "denominator" in basis
+
+
+def test_bear_case_summary_is_not_truncated_mid_token() -> None:
+    long_summary = (
+        "The non-bubble view is well supported by primary data; after scanning 197,243 filings "
+        "the engine caps confidence at 25% and concludes the final call is not yet supported, "
+        "with only $362.98B established and just $142B direct AI-linked exposure remaining."
+    )
+    findings = _findings()
+    findings[0]["summary"] = long_summary
+    v = synthesize_core_verdict(
+        cluster_dscr=_cluster_dscr(),
+        thesis_findings=findings,
+        established_ai_usd=362_975_850_000,
+        direct_ai_usd=142_030_000_000,
+        not_established_pct=0.8998,
+    )
+    summary = v["bear_case"]["summary"]
+    # Never ends mid-word: either complete, or a clean boundary + ellipsis.
+    assert summary.endswith(".") or summary.endswith(" ...")
+    assert "$14 " not in summary and not summary.endswith("$14")

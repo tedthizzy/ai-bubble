@@ -2264,6 +2264,8 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:  #
         established_ai_usd=float(materiality_relevance.get("established_usd") or 0.0),
         direct_ai_usd=float(materiality_relevance.get("direct_usd") or 0.0),
         not_established_pct=float(materiality_relevance.get("not_established_pct") or 0.0),
+        metric_total_usd=float(materiality_relevance.get("total_usd") or 0.0),
+        timing_summary=timing_signal_summary,
     )
     coverage_dict = coverage.to_dict()
     physical_capacity_dict = physical_capacity.to_dict()
@@ -3134,16 +3136,17 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:  #
         "burry_question_answers": {
             "is_this_a_bubble": {
                 "answer": (
-                    "Tiered. ECOSYSTEM-WIDE: not established as a bubble -- only ~"
-                    f"{round((1 - float(materiality_relevance.get('not_established_pct') or 0)) * 100, 1)}% "
-                    "of the deduped materiality metric is AI-linked and the non-bubble case is "
-                    "credible, so the broad binary stays gated. AI-DIRECT CORE: "
+                    "Tiered. ECOSYSTEM-WIDE: not assessable as a clean ratio -- the broad "
+                    "materiality metric is dominated by non-AI debt, so the AI-linked share is not "
+                    "a meaningful denominator and no defensible total-AI-leverage figure exists "
+                    "yet; the broad binary stays gated. AI-DIRECT CORE: "
                     f"{ai_direct_core_verdict.get('core_verdict')} at confidence "
                     f"{ai_direct_core_verdict.get('core_verdict_confidence')} -- source-backed "
-                    "cash-flow fragility (majority loss-making, refinancing-dependent, "
-                    "GPU-collateralized, holed take-or-pay) concentrated in the financed cluster. "
-                    "See 'ai_direct_core_verdict' for the scoped verdict, crack timing, weakest "
-                    "links, and bear case."
+                    "cash-flow fragility (7 of 11 issuers loss-making, refinancing-dependent, "
+                    "GPU-collateralized, holed take-or-pay) in the financed cluster, resting mainly "
+                    "on the one source-backed interest-coverage leg. See 'ai_direct_core_verdict' "
+                    "for the scoped verdict, reconciled crack timing, weakest links, data gaps, and "
+                    "bear case."
                 ),
                 "ecosystem_confidence": capped_bubble_confidence,
                 "ai_direct_core_verdict": ai_direct_core_verdict,
@@ -3707,14 +3710,21 @@ def main() -> None:
 **AI-direct core:** `{verdict.get("core_verdict")}` at confidence **{verdict.get("core_verdict_confidence")}**.
 **Ecosystem-wide:** `{verdict.get("ecosystem_verdict")}` — {verdict.get("ecosystem_verdict_basis", "")}
 
-This split is deliberate: the financed AI-direct cluster shows source-backed fragility, but it is
-only ~{round((1 - float(verdict.get("scope_size", {}).get("not_established_pct", 0) or 0)) * 100, 1)}% of the
-broad metric, so an ecosystem-wide bubble call is not supported.
+The split is deliberate: the financed AI-direct cluster shows source-backed fragility, but it is a
+specific named cluster, not a fixed % of the broad metric (which is dominated by non-AI debt), so an
+ecosystem-wide bubble call is not supported.
 
 **Source-backed fragility facts (primary 10-K/10-Q, adversarially verified):**
 {_bullets(verdict.get("source_backed_fragility_facts"))}
 
-**When it cracks:** primary window **{_ct.get("primary_window")}**. {_ct.get("rationale", "")}
+**Evidence basis:** the verdict rests mainly on the one fully source-backed leg
+({", ".join(verdict.get("evidence_basis", {}).get("source_backed_legs", []))}); these legs are
+blocked/illustrative, not yet proof: {"; ".join(verdict.get("evidence_basis", {}).get("blocked_or_illustrative_legs", []))}.
+
+**When it cracks (two windows, reconciled):**
+- Structural AI-direct principal wall: **{_ct.get("structural_principal_wall_window")}**
+- Near-term refinancing pressure (timing engine): **{_ct.get("near_term_pressure_window")}**
+{_ct.get("reconciliation", "")}
 
 Earlier triggers:
 {_bullets(_ct.get("earlier_triggers"))}
@@ -3724,6 +3734,12 @@ Leading indicators:
 
 **Weakest links in the capital structure:**
 {_bullets(verdict.get("weakest_links"))}
+
+**Top risks (affirmatively-held premises):**
+{_bullets(f"{r.get('premise')} [{r.get('tier')}/{r.get('verdict')}]: {r.get('finding')}" for r in verdict.get("top_risks", []))}
+
+**Open data gaps (NOT counted as fragility support):**
+{_bullets(f"{g.get('premise')}: {g.get('finding')}" for g in verdict.get("data_gaps", []))}
 
 **Confidence derivation (transparent):** {json.dumps(verdict.get("confidence_derivation", {}))}
 

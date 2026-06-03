@@ -1,14 +1,21 @@
 # Acquisition Status
 
-Last updated: 2026-06-02 22:06 UTC.
+Last updated: 2026-06-03 00:26 UTC.
 
-This file is the operational snapshot for the current evidence corpus. Treat it
-as a run log, not as a final investment conclusion.
+This file is the operational snapshot for the current evidence corpus. The report
+now carries a scoped, tiered verdict (below), but the ECOSYSTEM-WIDE binary is
+still gated; treat the ecosystem call as a run log and the AI-direct-core call as
+the scoped conclusion.
 
 ## Current Corpus
 
-- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-2355.md`
-- Evidence gate: not high-confidence final.
+- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260603-0026.md`
+- Evidence gate: ecosystem `high_confidence_final=false` / `bubble_confidence 0.25` (by design).
+- **Tiered verdict (`ai_direct_core_verdict`):** AI-direct core `bubble_dynamics_present` @ 0.67;
+  ecosystem-wide `not_established_as_ecosystem_wide_bubble` (broad metric is mostly non-AI debt, so
+  no defensible total-AI-leverage denominator). Source-backed cluster EBITDA/interest coverage 1.35x
+  (7/11 issuers loss-making; CoreWeave DSCR incl. principal ~0.30x); 2 of 3 separation-test mismatch
+  legs still blocked/illustrative.
 - Evidence audit coverage: 476 claim audits now include analyzer-level capital,
   compute, and debt-service audits, explicit row/artifact-backed audits for
   high-impact Burry-answer rollups, and aggregate hooks for pending review
@@ -38,14 +45,12 @@ as a run log, not as a final investment conclusion.
   and 9,208,844 rows scanned, 0 violations, 0 warnings.
 - Generated report assets are internal evidence artifacts; the user-facing
   deliverable remains a high-level chat summary once the evidence supports it.
-- Coordination checkpoint: main is at `c525027` with only the known unrelated
-  `scripts/seed_graph 2.py` file untracked. Claude's isolated
-  `claude/report-qa` worktree has a small one-commit readiness queue
-  (`f853695`) that is not yet merged into main. That queue contains repaired
-  branch-side fixture candidates for downside-bearer role mapping, grid/permit
-  source handles, economic-commitment binding split, and related direct-tier
-  synthesis packs. The queue is handoff/import-ready for review, but it is not
-  part of the production corpus or report metrics until explicitly imported.
+- Checkpoint: single-agent on `master` at `e72d74e`; the prior two-agent handoff
+  queue was consolidated into `master` (`7638aa9`) and the role docs retired. The
+  only untracked strays are `scripts/seed_graph 2.py` and the two Grok comm files.
+  Recent landed work: economic-event collapse, separation-test mismatch ratios,
+  source-backed cluster DSCR, physical-deliverability honesty, tiered verdict +
+  adversarial-audit corrections.
 - Source catalog artifacts: 586 / 586 attempted in the latest broad public-source run.
 - Latest source-catalog extracted rows: 4,878,655.
 - Covered filings: 197,243.

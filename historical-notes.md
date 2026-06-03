@@ -3,13 +3,32 @@
 Consolidated implementation knowledge for the Burry forensic engine. Durable technical facts only.
 
 ## Current State (2026-06-02)
-- Latest report: `data/reports/BURRY_REPORT_EvidenceGated_20260602-2300.json/.md`
-- Gate: `high_confidence_final=false`, `bubble_confidence=0.25`.
+- Latest report: `data/reports/BURRY_REPORT_EvidenceGated_20260603-0026.json/.md`
+- Gate: `high_confidence_final=false`, ecosystem `bubble_confidence=0.25` (BY DESIGN — see verdict below).
 - Final metric: ~`$3.622T` across `1,326` final-metric groups from `2,705` approved rows (post
   economic-event collapse; was `$3.652T`/`1,338`).
-- AI/data-center linkage in the metric: `$362.98B` established direct/watchlist; `90.0%` not-established
-  (was `$392.9B`/`89.2%` — the ~$29.9B economic-event collapse fell entirely in the `direct` bucket).
-- Report consistency + strict invariants pass (0 errors / 0 violations).
+- AI/data-center linkage in the metric: `$362.98B` established direct/watchlist, `$142.03B` direct.
+  NOTE: the `90% not-established` is NOT a bubbliness measure — the `$3.622T` denominator is the whole
+  EDGAR materiality corpus (casinos, student loans, utilities, telecom), so the AI share is not a clean
+  ratio. Do not infer "only 10% AI-linked → not a bubble"; the honest ecosystem framing is "no defensible
+  total-AI-leverage denominator yet."
+- **TIERED VERDICT now in the report** (`ai_direct_core_verdict`, markdown "The Verdict (Tiered)"):
+  AI-direct core `bubble_dynamics_present` @ **0.67** confidence (`0.85*(1-0.35*0.62)`); ecosystem-wide
+  `not_established_as_ecosystem_wide_bubble`. Rests mainly on the ONE source-backed leg (cluster
+  interest coverage); the realistic-util DSCR + GPU-depreciation legs are blocked/illustrative.
+- **Source-backed cluster DSCR** (`bubble.analysis.cluster_dscr`, fixture
+  `handoffs/fixtures/ai_direct_issuer_financials.csv`, 11 issuers, primary 10-Ks, adversarially verified):
+  cluster EBITDA/interest coverage `1.35x` but leans on CoreWeave (~$2.4B EBITDA); ex-CoreWeave aggregate
+  EBITDA NEGATIVE; 7/11 loss-making, 7/11 sub-1 interest coverage; CoreWeave DSCR incl. its $6.7B 2026
+  principal wall ~`0.30x` (interest covered, principal only by refinancing); 67% Microsoft concentration.
+- **Burry separation-test mismatch ratios** (`burry_separation_test`): debt-refi missing-rate 64.2% /
+  $689.88B; physical deliverability is the honest tracker proxy (8.1% in-service, 23.6% under-construction,
+  63.4% announced-only, 60.7% permit not_confirmed) — the 0.5% strong-queue-match is a
+  `coverage_limited_not_a_deliverability_rate` JOIN ARTIFACT (only 26 ISO rows parsed; PJM 9,263 +
+  CAISO/ISO-NE/SPP un-ingested).
+- Crack timing reconciled: structural AI-direct principal wall `2030-2033` vs near-term timing-engine
+  refi pressure peak `~2026-Q2` (different universes; both real).
+- Report consistency + strict invariants pass (0 errors / 0 violations); full gate green (ruff/mypy/pytest).
 - Loose untracked file `scripts/seed_graph 2.py` is a pre-existing stray — do not stage; it is not part of the build.
 
 ## Scale (data-acquisition targets already met)
@@ -106,7 +125,12 @@ layers (order matters; any change needs a before/after-total regression):
   + power-advantaged (brownfield/ERCOT, firm interconnection) → risk has moved from concrete to demand+refinancing.
 - **Debt-service rates (primary EDGAR):** CoreWeave SOFR+400bp; IREN Hardware 3 SOFR+225bp (Microsoft-backed, hedged);
   secured fixed TeraWulf 7.750%/7.250%, Applied Digital 6.750%, Hut 8 6.192%; parent convertibles 0.00-2.75% (deferred
-  to dilution). DSCR<1 cluster-wide on EBITDA (all names loss-making).
+  to dilution). **Source-backed (commit 075ca7d, 11-issuer primary-10-K fixture):** cluster aggregate
+  EBITDA/interest coverage `1.35x` — interest IS covered cluster-wide but propped by CoreWeave; ex-CoreWeave
+  aggregate EBITDA is NEGATIVE; 7 of 11 issuers loss-making and 7 of 11 cannot cover interest from EBITDA
+  (IREN/CleanSpark/Bitdeer do). DSCR INCLUDING principal is <1x where disclosed (CoreWeave ~0.30x with its
+  $6.7B 2026 wall) — principal only serviceable by refinancing. (Earlier "DSCR<1 all loss-making" was an
+  over-generalization the source-backed pull corrected.)
 - **Downside bearer:** secured-SPV creditors (collateral = depreciating GPUs + one contract); ratepayers (rate-base
   socialization where tariffs don't fully shift cost — AEP Ohio 85% min-take shifts it, Entergy 7 gas plants for Meta is
   stranded-risk); equity holders (convertible dilution). Role-field caveat: 79 survivors mislabel trustees/agents (U.S.
@@ -133,13 +157,23 @@ layers (order matters; any change needs a before/after-total regression):
   backed (Neo4j is optional infra; in-memory CSV layer is authoritative for reports).
 - iCloud sync creates duplicate strays (`* N.ext`, multi-digit too). A worktree-local `core.excludesFile` pattern
   suppresses them; clean with a `grep -E ' [0-9]+\.'` purge before commits.
-- The Burry-question answers are gated `blocked_until_source_coverage_sufficient` until the high-impact claims pass the
-  evidence gate.
+- The ecosystem-wide `high_confidence_final` stays `false` / `bubble_confidence 0.25` BY DESIGN — an
+  ecosystem-wide bubble is genuinely not established (the metric denominator is mostly non-AI debt). The
+  defensible high-confidence answer is the SCOPED AI-direct core verdict, which the report now states
+  outside that gate. Do not try to force the ecosystem gate open; that would be overclaiming.
 
 ## Open Critical Path
-See `handoffs/claude_gate_unlock_critical_path_20260602.md`: the breadth is built; the goal's bottleneck is lifting the
-high-impact Burry-question claims through the evidence tiers (UNSUPPORTED/INFERRED → MEASURED + corroborated + APPROVED)
-so `high_confidence_final` can flip. Near-term milestone: high-confidence on the AI-direct core ($310-321B post-collapse
-cluster), where primary evidence is end-to-end, then expand outward. Next production steps: (1) apply the economic-event
-collapse with negative-control regression + report regen; (2) wire the verified AI-direct evidence into the report claim
-audits so tier→MEASURED; (3) adjudicate those claims to APPROVED; (4) regenerate and read the new confidence cap.
+**DONE (this session, master):** economic-event collapse (`7542037`); separation-test mismatch ratios +
+honesty hardening (`10e3f5e`); source-backed cluster DSCR + physical-deliverability honesty (`075ca7d`);
+tiered verdict synthesis (`e72d74e`) + adversarial-audit corrections (data-driven weakest links, data-gap
+separation, honest ecosystem framing, reconciled crack timing, no truncation). The report now answers all
+five Burry questions with a scoped, tiered, evidence-tiered verdict.
+
+**Remaining (rigor, not blockers — task #11):** the adversarial audit (`handoffs/ai_direct_thesis_stress_findings_20260602.json`)
+verified three data-completeness gaps: (1) **ISO queues** — PJM 9,263 projects + CAISO/ISO-NE/SPP raw files
+sit un-ingested (`data/source_acquisition/raw/queue_records/`), so physical deliverability is a tracker proxy
+not a firm-vs-queue ratio; (2) **capital-exposure graph drops AI-direct GPU-SPV debt** (shows ~$4.75B Equinix
+of $408B; CoreWeave's $21B+ DDTL/SPV debt absent) → who-bears-downside is qualitative; (3) **refi wall is a
+curated ~$41B floor**, not an exhaustive AI-direct maturity census. Each is a clean subagent fan-out. Also:
+the GPU-depreciation and realistic-utilization-DSCR mismatch legs are still blocked/illustrative (need
+secondary GPU prices + per-deal debt-service inputs).

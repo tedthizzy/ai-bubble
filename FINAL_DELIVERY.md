@@ -32,15 +32,22 @@ The important change is that ecosystem-scale conclusions are now blocked from be
 
 Latest verified evidence-gated report at this checkpoint:
 
-- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260602-2355.md`
-- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260602-2355.json`
-- `high_confidence_final`: `false`
-- Current main checkpoint: `c525027`. Claude's isolated worktree has a clean
-  one-commit readiness queue (`f853695`) with repaired branch-side fixtures for
-  downside-bearer role mapping, grid/permit source handles, economic-commitment
-  binding split, and related direct-tier synthesis packs. Those files are ready
-  for review/import or coordinator handoff, but are not included in the report
-  metrics until merged and validated on main.
+- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260603-0026.md`
+- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260603-0026.json`
+- `high_confidence_final`: `false` (ecosystem-wide, BY DESIGN — see verdict below).
+- Current `master` checkpoint: `e72d74e` (single-agent; the prior two-agent
+  Claude/Codex handoff queue was consolidated into `master` at `7638aa9` and the
+  role docs retired). Recent landed work: economic-event collapse, separation-test
+  mismatch ratios, source-backed cluster DSCR, physical-deliverability honesty, and
+  the tiered verdict + adversarial-audit corrections.
+- **Tiered verdict (report `ai_direct_core_verdict`):** AI-direct core
+  `bubble_dynamics_present` @ **0.67** confidence (fragility_facts 0.85 discounted by
+  a credible bear case 0.62) for the financed AI-direct cluster; ecosystem-wide
+  `not_established_as_ecosystem_wide_bubble` (no defensible total-AI-leverage
+  denominator — the broad metric is mostly non-AI debt). The verdict rests mainly on
+  the one source-backed leg (cluster EBITDA/interest coverage `1.35x`, 7/11 issuers
+  loss-making, CoreWeave DSCR incl. principal ~0.30x); the realistic-util DSCR and
+  GPU-depreciation legs remain blocked/illustrative.
 - Evidence audit coverage now includes 476 claim audits: analyzer-level capital,
   compute, and debt-service audits, explicit row/artifact-backed audits for
   high-impact Burry-answer rollups, and aggregate hooks for pending review
@@ -275,9 +282,14 @@ The system does not yet satisfy the full vision:
 - It has measured multi-trillion-dollar graph exposure, but it has not yet
   proven full visible plus hidden ecosystem leverage with enough corroboration
   to support a final bubble conclusion.
-- It has not built complete project-level power, permitting, construction, and asset coverage.
-- It has not proven bubble/no-bubble conclusions with measured and corroborated evidence.
-- It has not produced a professional-investor-grade final report backed by real source coverage.
+- It has not built complete project-level power, permitting, construction, and asset coverage
+  (the ISO interconnection queues — PJM/CAISO/ISO-NE/SPP — remain un-ingested).
+- It has not proven an ECOSYSTEM-WIDE bubble conclusion (there is no defensible total-AI-leverage
+  denominator yet). It DOES now state a scoped, source-backed AI-direct-core verdict
+  (`bubble_dynamics_present` @ 0.67) — see the tiered verdict above.
+- It has not yet produced the airtight version: 2 of 3 separation-test mismatch legs
+  (realistic-util DSCR, GPU-depreciation gap) are blocked/illustrative, and the AI-direct GPU-SPV
+  debt is not yet in the capital-exposure graph, so contagion/who-bears-downside is qualitative.
 
 ## Current Command
 
