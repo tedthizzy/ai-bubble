@@ -55,6 +55,23 @@ def _breadth_risks(m: dict[str, Any]) -> list[dict[str, Any]]:
     """The lower-severity breadth-layer risks (supply, demand, downside incidence, ratepayer)."""
 
     out: list[dict[str, Any]] = []
+    geq = m.get("gpu_earnings_quality", {}) or {}
+    if geq.get("status") == "source_backed" and geq.get("issuers_with_restatement"):
+        out.append(
+            _risk(
+                "R12",
+                "Earnings overstated by slow GPU depreciation: honest economic-life depreciation deepens the losses",
+                "earnings_quality",
+                4,
+                f"Restating GPU depreciation at ~3yr economic life adds "
+                f"~${round((geq.get('cluster_annual_da_understatement_usd') or 0) / 1e9, 1)}B/yr of D&A "
+                f"across {geq.get('issuers_with_restatement')} issuers; "
+                f"{geq.get('issuers_earnings_worsen_under_honest_depreciation')} see earnings worsen "
+                "(CoreWeave's loss ~triples; Nebius flips negative). Several EXTENDED useful lives "
+                "(earnings-flattering). Inputs primary-sourced; economic life a labeled assumption.",
+                "gpu_earnings_quality",
+            )
+        )
     sat = m.get("satellite_construction", {}) or {}
     if sat.get("status") == "source_backed" and sat.get("active_construction_pct") is not None:
         out.append(
