@@ -1,0 +1,805 @@
+[
+ {
+  "data": {
+   "entity": "American Electric Power (AEP) / AEP Ohio (OPCo)",
+   "cost_allocation": "ai_customer_bears_via_special_tariff_or_min_take",
+   "ai_datacenter_load_mw": 36000,
+   "generation_build_for_ai_usd": 72000000000,
+   "named_ai_customers": [],
+   "min_take_or_collateral_protection": "YES \u2014 substantial, primary-source confirmed. AEP's new large-load/data-center tariffs include: (1) contract lengths of up to 20 years; (2) take-or-pay contractual minimums requiring a customer to pay for as much as 90% of contracted demand; and (3) cash or cash-related instruments as deposits/collateral (stated for both pending and approved tariffs). The OPCo \"Ohio Data Center\" tariff (PUCO, applying to new data-center load of 25 MW or more) is Approved. AEP frames these explicitly as protecting EXISTING customers and shifting build-out risk onto the large-load customer (\"designed to protect existing customers... reduce risks around the build out of large load infrastructure on existing customers\"). For ERCOT/AEP Texas, Texas SB 6 (effective June 2025) adds statutory protection to minimize stranded infrastructure costs and require large loads to pay a reasonable share of allocated transmission costs (rules being finalized through 2026). PJM-side, a Jan 2026 White House/13-governor Statement of Principles directs that costs of new capacity be paid by the large-load customers necessitating them. CAVEAT: the 36 GW AEP Texas figure is \"Letters of Agreement\" (non-binding LOAs), not executed take-or-pay contracts; and minimum-take/deposit terms protect against utility cost-of-service stranding but transmission/generation built ahead of ramp still carries timing and cancellation exposure (10-K explicitly warns an impairment \"may need to be recorded in the event a project is canceled\").",
+   "stranded_asset_risk_note": "Moderate and explicitly disclosed. AEP's $72B 2026-2030 capital plan ($12.2B in 2026; $59.7B 2027-2030) is expressly driven by data-center/large-load growth (transmission + ~12,700 MW of new generation RFPs + 2.2 GW added in 2025 + up to 1 GW fuel-cell option). The structural mitigant is that most large-load cost is contracted to the AI/data-center customer via 20-year terms, up-to-90% take-or-pay minimums, and cash collateral/deposits \u2014 so if a data center cancels or leaves, the customer (not ratepayers) is contractually on the hook, materially reducing socialization/stranded-cost risk to existing ratepayers. Residual risks: (a) the 36 GW Texas figure is non-binding LOAs, not signed take-or-pay contracts, so the headline pipeline could shrink; (b) 10-K warns of impairment if a project is canceled and of execution risk (supply chain, capital-market access for capex exceeding historical financing needs); (c) generation/transmission built somewhat ahead of ramp; (d) regulatory risk that PUCs disallow imprudently incurred costs. Net: ratepayer protection is among the strongest in the sector due to PUCO/state-approved tariffs with high take-or-pay minimums, but it is contract-quality- and ramp-dependent, and a large share of the announced pipeline is still at LOA (non-binding) stage.",
+   "sources": [
+    {
+     "claim": "AEP's new large-load/data-center tariffs are designed to protect existing customers via contract lengths up to 20 years and take-or-pay minimums of as much as 90% of contracted demand (customer bears the risk, not ratepayers).",
+     "quote": "Several AEP utility subsidiaries have made rate filings with state commissions to establish new tariffs for data centers and other large load customers. The new tariffs are designed to protect existing customers by strengthening and lengthening contract terms with large customers. These new protections include contract lengths of up to 20 years and take-or-pay contractual minimums which can require a customer to pay for as much as 90% of their contracted demand. In practice, these provisions reduce risks around the build out of large load infrastructure on existing customers, promoting stability and affordability.",
+     "source_type": "SEC_filing",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/4904/000000490426000013/aep-20251231.htm"
+    },
+    {
+     "claim": "OPCo Ohio Data Center tariff is APPROVED (PUCO), applying to new data center load of 25 MW or more; both pending and approved tariffs require cash or cash-related instruments as deposits (collateral protection).",
+     "quote": "OPCo Ohio Data Center Approved New data center load of 25 MWs or more ... (a) Both the pending and the approved tariffs include certain requirements for cash, or cash related instruments, as deposits.",
+     "source_type": "SEC_filing",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/4904/000000490426000013/aep-20251231.htm"
+    },
+    {
+     "claim": "AEP Texas has signed Letters of Agreement (non-binding LOAs) for an incremental 36 gigawatts of load by 2030; Texas SB 6 (effective June 2025) aims to minimize stranded infrastructure costs and make large loads pay a reasonable share of transmission costs.",
+     "quote": "AEP Texas has signed Letters of Agreement for an incremental 36 gigawatts of load by 2030. ... In June 2025, Texas Senate Bill 6 (SB 6) became effective ... SB 6 establishes a standardized process for connecting large load customers within ERCOT in a way that supports business development in Texas while minimizing the potential for stranded infrastructure costs. ... directs the PUCT to ensure that these large load customers pay a reasonable share of allocated transmission costs.",
+     "source_type": "SEC_filing",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/4904/000000490426000013/aep-20251231.htm"
+    },
+    {
+     "claim": "AEP announced a $72 billion 2026-2030 capital plan driven by load growth, with ~$12.2B budgeted in 2026 and $59.7B for 2027-2030, for transmission and new generation to serve forecasted large-load increases.",
+     "quote": "In October 2025, AEP announced a $72 billion capital plan for 2026-2030 driven by transmission and distribution infrastructure upgrades and new generation to support anticipated load growth. ... Management forecasts approximately $12.2 billion of capital expenditures in 2026. For the four-year period, 2027 through 2030, management forecasts capital expenditures of $59.7 billion. Management's forecasted capital expenditures reflect planned investments for transmission infrastructure and new generation resources to support existing customers and forecasted large load increases.",
+     "source_type": "SEC_filing",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/4904/000000490426000013/aep-20251231.htm"
+    },
+    {
+     "claim": "AEP is procuring large new generation to serve forecasted load: 2.2 GW added in 2025, RFPs seeking ~12,700 MW of generating capacity, gas turbines, and an option for up to 1 GW of solid oxide fuel cells; OPCo signed two ~98 MW fuel-cell contracts (PUCO approved May 2025) as a bridge solution for data centers.",
+     "quote": "The addition of 2.2 GWs of owned generating capacity in 2025. ... RFPs seeking approximately 12,700 MWs of generating capacity. ... In November 2024, AEP executed a purchase agreement to acquire 100 MWs of solid oxide fuel cells with an option to acquire up to one gigawatt in total by the end of 2025. AEP, through its subsidiaries, offers data centers and other large customers this custom solution ... By the end of the first quarter of 2025, OPCo had signed two contracts totaling approximately 98 MWs for electricity service from fuel cells. In February 2025, OPCo requested PUCO approval of those two contracts. The PUCO approved the contracts in May 2025.",
+     "source_type": "SEC_filing",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/4904/000000490426000013/aep-20251231.htm"
+    },
+    {
+     "claim": "Stranded/cancellation risk is explicitly disclosed: AEP warns an impairment may be recorded if a project is canceled, and that load may not materialize as projected; demand driven by data centers and AI.",
+     "quote": "Much of this demand is driven by interconnecting with and providing power to data centers and other large load customers to serve an increasingly digital economy and to support AI. ... an impairment may need to be recorded in the event a project is canceled. This would cause financial results to be diminished. Meeting the significant increase in electricity demand from new data centers and other large-load customers will require substantial investment in new generation and transmission facilities.",
+     "source_type": "SEC_filing",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/4904/000000490426000013/aep-20251231.htm"
+    },
+    {
+     "claim": "PJM-side cost allocation: a January 2026 Statement of Principles (White House, all 13 PJM-state governors, federal officials) directs that costs of new capacity be paid by the large-load customers necessitating them, to protect existing customer affordability; AEP Ohio (OPCo) participates in the PJM capacity auction (other AEP East companies use the FRR alternative).",
+     "quote": "This Statement of Principles is designed to increase capacity available in the PJM market for large load customers and to ensure the costs of those resources are paid for by the large load customers to protect existing customer affordability. ... All AEP East Companies other than AEP Ohio utilize the FRR alternative.",
+     "source_type": "SEC_filing",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/4904/000000490426000013/aep-20251231.htm"
+    }
+   ],
+   "unfound": [
+    "Named AI/hyperscaler/neocloud customers (Google, Amazon/AWS, Microsoft, Meta, OpenAI, Oracle, CoreWeave, etc.) \u2014 AEP does not disclose individual large-load/data-center customer names in its SEC 10-K; word-boundary search of the FY2025 10-K found zero references to any hyperscaler by name. (Public press identifies AEP Ohio data-center customers such as Amazon/Google/Microsoft/Meta, but that is non-primary and not in the filing reviewed.)",
+    "Precise contracted/committed data-center load in MW for AEP Ohio (OPCo) specifically \u2014 the 10-K gives the system-wide AEP Texas figure of 36 GW LOAs and the 25 MW per-customer eligibility threshold for the Ohio tariff, but not an aggregate signed Ohio data-center MW total. (PUCO Case 24-508-EL-ATA contains the granular Ohio terms but was not in local data.)",
+    "Dollar capex specifically isolated to AI/data-center load \u2014 the $72B plan is for all load growth (data centers + other large load + reliability), not broken out as AI-only; generation_build_for_ai_usd is reported as the full $72B plan as the upper-bound proxy.",
+    "Exact minimum-take percentage, ramp schedule, and exit-fee mechanics of the specific OPCo Ohio Data Center tariff (PUCO docket) \u2014 10-K gives the system-wide 'up to 90%' / 'up to 20 years' range but not the Ohio-specific stipulated terms.",
+    "State PUC docket filings, FERC filings, and utility IRP documents were not present in local data/ (edgar_acquisition only); analysis is based solely on the AEP FY2025 SEC 10-K."
+   ],
+   "confidence": 0.25
+  },
+  "verdict": {
+   "entity": "American Electric Power (AEP) / AEP Ohio (OPCo)",
+   "overall": "partially_source_backed",
+   "cost_allocation_confirmed": true,
+   "corrections": [
+    "Direction of cost allocation (AI/large-load customer bears via special tariff + min-take) is independently supported and confirmable; the OPCo Ohio Data Center tariff is genuinely Approved (PUCO), 25 MW+ threshold, both verbatim in the cited 10-K. No 'claims-customer-pays-but-socializes' trap detected here.",
+    "OVER-ASSERTION RISK: The '20-year / up-to-90% take-or-pay / cash deposit' protections are stated only as system-wide CEILINGS in aspirational language ('designed to', 'in practice... reduce risks'). 'take-or-pay' and 'contractual minimum' each appear exactly ONCE in the 1.6M-char filing. The Ohio-specific binding min-take %, ramp schedule, and exit-fee mechanics are NOT in the 10-K \u2014 they live in PUCO Case 24-508-EL-ATA, which is absent from local data. The Ohio split is partly INFERRED from system-wide language, not docket-confirmed.",
+    "The 36 GW AEP Texas figure is explicitly 'Letters of Agreement' (non-binding LOAs), not executed take-or-pay contracts \u2014 correctly caveated in the data; the headline pipeline can shrink.",
+    "generation_build_for_ai_usd = $72B is the FULL 2026-2030 all-load capital plan (transmission + distribution + generation for existing customers + large load), NOT AI-isolated. Used as an upper-bound proxy only; the 10-K does not break out AI-only capex.",
+    "named_ai_customers correctly empty: word-boundary search confirms zero hyperscaler names in the cited 10-K. Press-identified names (Amazon/Google/Microsoft/Meta) are non-primary and not in the filing.",
+    "Residual socialization channel is real and disclosed: the 10-K's disallowance/prudence and impairment-if-canceled language confirms capex defaults to standard regulated cost-of-service recovery from the general rate base unless the special tariffs effectively reassign it; ratepayer protection is contract-quality- and ramp-dependent, not a closed outcome."
+   ],
+   "note": "All 7 cited quotes verified verbatim against the locally-present primary source (AEP FY2025 10-K, accession 0000004904-26-000013, /Users/ted/Documents/dev-archive/bubble/data/edgar_acquisition/documents/0000004904/000000490426000013/aep-20251231.htm); cited source_uri matches the real EDGAR path. cost_allocation_confirmed=true: the customer-bears DIRECTION is independently supported \u2014 the OPCo Ohio Data Center tariff is Approved (PUCO) at 25 MW+, and the 10-K explicitly frames the new large-load tariffs as shifting build-out risk onto large-load customers to protect existing customers. NOT the 'claims-customer-but-socializes' trap. Marked overall partially_source_backed (not source_backed) because: (a) the Ohio-specific take-or-pay %/ramp/exit terms are inferred from system-wide CEILING language ('up to 90%', 'up to 20 years'), not confirmed at the PUCO docket (24-508-EL-ATA absent from local data); (b) 36 GW is non-binding LOAs; (c) the $72B is all-load capex used as an AI upper-bound proxy, not measured AI spend. Net: among the sector's stronger ratepayer protections, genuinely tariff-backed, but contract-quality-/ramp-dependent and granular Ohio terms remain un-adjudicated against primary docket sources."
+  }
+ },
+ {
+  "data": {
+   "entity": "Entergy Corporation (ETR)",
+   "cost_allocation": "mixed",
+   "ai_datacenter_load_mw": 2262,
+   "generation_build_for_ai_usd": 15000000000,
+   "named_ai_customers": [
+    "Meta Platforms, Inc. (subsidiary; north Louisiana data center, served by Entergy Louisiana)",
+    "Amazon Web Services (AWS) (data center campuses in Madison County and Warren County, Mississippi, served by Entergy Mississippi)",
+    "Alphabet/Google via Altitude, LLC (West Memphis, Arkansas data center, served by Entergy Arkansas)"
+   ],
+   "min_take_or_collateral_protection": "Partial / contract-dependent and contested. Entergy states ESAs/large-customer supply agreements include \"minimum payment obligations, lengthy contract durations, customer advances for construction, and credit and collateral requirements\" plus termination payments. LA Meta ESA \"contains provisions for termination payments that will help ensure that there is no harm to Entergy Louisiana and its customers in the event of early termination\" and customer makes \"direct financial contributions.\" MS large-customer supply agreements \"contain provisions which cover Entergy Mississippi's incremental investment costs in the event of early termination.\" HOWEVER protection strength is unresolved: (1) in Jan 2026 LA intervenors filed a motion asking the LPSC to investigate the customer's financing arrangements and open a prudence review, \"question[ing] whether the credit protections for the customer's obligations under the electric service agreement are adversely affected by the change in the customer's financial structure\"; (2) Entergy's own 10-K risk factor concedes \"contractual and credit and collateral protections included in the agreements with these customers may prove insufficient\" and \"Negotiated contract terms and credit collateral requirements may be insufficient to protect against\" stranded-cost risk.",
+   "stranded_asset_risk_note": "Entergy explicitly flags stranded-asset risk. The build is dedicated generation/transmission (gas CCGTs, solar+storage, 500 kV lines) for \"a small number of\" hyperscale customers in an \"industry based on emerging technologies, including artificial intelligence and machine learning.\" 10-K risk factors warn of \"reductions in the demand for electricity to power large-scale data centers and other large customers and the potential for stranded assets\"; \"concentration of business and credit risk with a small number of customers\"; recovery of \"significant investments in transmission and generation assets to power those new large-scale data centers subject to a significant degree to the success of those customers.\" Customers could also \"choose to develop their own energy sources in the future.\" LA staff/intervenors flagged risks and the August 2025 settlement imposed conditions including possible net-revenue sharing with other customers. The risk is heightened because much of the supporting build (CCGTs are general-fleet assets, transmission, solar) enters the rate base and is recovered via riders/formula rate plans from all ratepayers, while contractual customer protections (CIAC, minimum bills, collateral, termination payments) are the only backstop and are explicitly conceded as possibly insufficient.",
+   "sources": [
+    {
+     "claim": "Entergy Louisiana built dedicated generation (2,262 MW of gas CCGTs across Franklin Farms 1&2 and Waterford 5), a 500 kV line and substation upgrades for a Meta Platforms data center in north LA, with an executed ESA; Franklin Farms 1&2 cost ~$2,387M, Waterford 5 cost ~similar to each (~$1.19B), 500 kV line ~$546M.",
+     "quote": "In October 2024, Entergy Louisiana filed an application with the LPSC seeking approval of a variety of generation and transmission resources proposed in connection with establishing service to a new data center to be developed by a subsidiary of Meta Platforms, Inc. in north Louisiana, for which an electric service agreement has been executed. The filing requested LPSC certification of three new combined cycle combustion turbine generation resources totaling 2,262 MW ... The combined cost of Franklin Farms Power Station Units 1 and 2 is estimated to be approximately $2,387 million. ... the third new generation resource, Waterford 5 Power Station, is expected to have an estimated cost similar to the cost of each of Franklin Farms Power Station Units 1 and 2. ... the cost of the new 500 kV transmission line is estimated to be $546 million.",
+     "source_type": "SEC_filing",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/65984/000006598426000174/etr-20251231.htm"
+    },
+    {
+     "claim": "Cost-recovery for the LA Meta build is mixed: customer makes direct financial contributions and pays under the ESA, and the ESA has termination payments to protect ratepayers; corporate sustainability rider has the customer fund 1,500 MW of new solar/storage and CCS.",
+     "quote": "Entergy Louisiana anticipates funding the incremental cost to serve the customer through direct financial contributions from the customer and the revenues it expects to earn under the electric service agreement. The electric service agreement also contains provisions for termination payments that will help ensure that there is no harm to Entergy Louisiana and its customers in the event of early termination. ... The corporate sustainability rider contemplates the new customer contributing to the costs of the future addition of 1,500 MW of new solar and energy storage resources ... and potential future wind and nuclear resources.",
+     "source_type": "SEC_filing",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/65984/000006598426000174/etr-20251231.htm"
+    },
+    {
+     "claim": "August 2025 LPSC settlement approved the LA build; in Jan 2026 intervenors moved to investigate the customer's financing/credit protections and seek a prudence review, raising doubt about whether ratepayer credit protections were impaired by a change in the customer's financial structure.",
+     "quote": "In January 2026, several months after the LPSC order became final, certain intervenors filed a motion asking the LPSC to investigate the financing arrangements that the customer implemented for its data center project and to initiate a prudence review. The motion questions whether the credit protections for the customer's obligations under the electric service agreement are adversely affected by the change in the customer's financial structure",
+     "source_type": "SEC_filing",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/65984/000006598426000174/etr-20251231.htm"
+    },
+    {
+     "claim": "Entergy Mississippi signed large-customer supply and service agreements for three AWS (Amazon) data center campuses (two in Madison County, one in Warren County); cost recovered through the ESAs and via the formula rate plan / interim facilities rate adjustments; agreements cover incremental investment on early termination.",
+     "quote": "In March 2024, Entergy Mississippi executed a large customer supply and service agreement to serve two data center campuses located in Madison County, Mississippi in which Amazon Web Services is investing. In February 2025, Entergy Mississippi also executed a large customer supply and service agreement to serve a data center campus located in Warren County ... The large customer supply and service agreements also contain provisions which cover Entergy Mississippi's incremental investment costs in the event of early termination. Entergy Mississippi anticipates recovering the incremental cost to serve the customer through the revenues it is collecting under the large customer supply and service agreements.",
+     "source_type": "SEC_filing",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/65984/000006598426000174/etr-20251231.htm"
+    },
+    {
+     "claim": "MS gas plants supporting data center load (Delta Blues 754 MW ~$1.2B; Traceview 754 MW >$1B) are recovered via formula rate plan / interim facilities rate adjustments under MS data-center legislation (CWIP cash recovery), with prudence review only after construction - i.e., rate-base recovery from ratepayers with DC non-fuel revenue offsetting the revenue requirement.",
+     "quote": "Entergy Mississippi began recovery of certain costs of construction of the Delta Blues Advanced Power Station through the interim facilities rate adjustments provision of its formula rate plan rider. Non-fuel revenue collected from the data center customer will be included in the formula rate plan to offset the facility's revenue requirement. The project costs will be reviewed for prudence by the MPSC following the completion of construction.",
+     "source_type": "SEC_filing",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/65984/000006598426000174/etr-20251231.htm"
+    },
+    {
+     "claim": "Entergy Arkansas sought a long-term SPECIAL RATE CONTRACT with Altitude, LLC (Alphabet/Google) for a West Memphis data center, plus 600 MW Arkansas Cypress Solar + 350 MW storage (~$1,602M) recovered via the Generating Arkansas Jobs Act rider; APSC approved the special rate contract Dec 2025 but denied special ratemaking treatment of Google's upfront payments, forcing renegotiation.",
+     "quote": "In September 2025, Entergy Arkansas filed an application with the APSC seeking approval of a long-term special rate contract between Altitude, LLC, a subsidiary of Alphabet, Inc. (Google) and Entergy Arkansas for the sale of electricity to a new large-scale data center in West Memphis, Arkansas. ... In December 2025 the APSC issued an order approving the special rate contract but denying the requested ratemaking treatment of Google's upfront payments ... the Arkansas Cypress Solar facility, a planned 600 MW solar photovoltaic array with a 350 MW battery energy storage system ... The estimated cost of the project is $1,602 million. ... Entergy Arkansas proposes to recover the costs of constructing the Arkansas Cypress Solar facility through the Generating Arkansas Jobs Act rider.",
+     "source_type": "SEC_filing",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/65984/000006598426000174/etr-20251231.htm"
+    },
+    {
+     "claim": "Entergy concedes contractual/credit/collateral protections may be insufficient and flags stranded-asset and customer-concentration risk for AI/data-center build.",
+     "quote": "small number of large-scale data center customers which makes recovery of Entergy's significant investments in transmission and generation assets to power those new large-scale data centers subject to a significant degree to the success of those customers. The contractual and credit and collateral protections included in the agreements with these customers may prove insufficient ... Negotiated contract terms and credit collateral requirements may be insufficient to protect against [these risks].",
+     "source_type": "SEC_filing",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/65984/000006598426000174/etr-20251231.htm"
+    },
+    {
+     "claim": "Risk-factor language explicitly lists stranded-asset risk and concentration in AI/data-center industry, and that DC owners could self-supply, reducing utility demand.",
+     "quote": "reductions in the demand for electricity to power large-scale data centers and other large customers and the potential for stranded assets; concentration of business and credit risk with a small number of customers in an industry based on emerging technologies, including artificial intelligence and machine learning ... Some data center owners and operators are developing their own energy sources to power their data centers, and it is possible that the Utility operating companies' customers could choose to develop their own energy sources in the future.",
+     "source_type": "SEC_filing",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/65984/000006598426000174/etr-20251231.htm"
+    },
+    {
+     "claim": "Additional LA gas/grid build tied to large-load/data-center growth: Waterford 6 (754 MW, ~$2,027M) and Westlake (754 MW, ~$2,091M) gas CCGTs filed Feb 2026; Cottonwood 1,263 MW gas acquisition (~$1.5B + $309.3M upgrades) sought for rate-base recovery; 500 kV transmission projects Commodore/Churchill ($954.7M), Amite South ($498.8M), Babel-Webre ($1,238M).",
+     "quote": "In February 2026, Entergy Louisiana filed an application ... to construct two 754 MW combined cycle combustion turbine generators, the Waterford 6 Power Station and the Westlake Power Station ... estimated costs are approximately $2,027 million for the Waterford 6 Power Station and $2,091 million for the Westlake Power Station. ... the Cottonwood combined cycle combustion turbine facility, a 1,263 MW combined cycle facility ... the approximately $1.5 billion purchase price and $309.3 million in capital upgrades ... are eligible for recovery in customer rates.",
+     "source_type": "SEC_filing",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/65984/000006598426000174/etr-20251231.htm"
+    }
+   ],
+   "unfound": [
+    "A single consolidated system-wide contracted/announced data-center load figure in MW (the 10-K discloses dedicated generation MW per project - e.g. 2,262 MW LA Meta gas, +754 MW Waterford 5, MS 754 MW x2+, AR 600 MW solar - but not one aggregate signed DC load number).",
+    "Specific contracted MW or peak-demand of the Meta, AWS, and Google data centers themselves (load served), as opposed to generation capacity built.",
+    "Exact dollar value / duration of minimum-take, minimum-bill, or termination-payment amounts and collateral/LOC sizing for each ESA (terms described qualitatively; specific figures are confidential / not in the 10-K).",
+    "A precise total capex figure explicitly tagged 'for data centers' (the ~$15B generation/grid estimate here is a bottom-up sum of disclosed project costs tied to data-center/large-load service, not a single disclosed line item).",
+    "The increased LA Meta load amount after the executed rider increasing the load (10-K notes load increase was negotiated and a rider executed, plus additional customer-funded transmission, but does not quantify the MW increase).",
+    "Whether any PUC docket primary documents (LPSC/APSC/MPSC filings) beyond the 10-K narrative are present in local data/ - only FERC renewable-sale PPA rows and Entergy SEC filings were found locally."
+   ],
+   "confidence": 0.25
+  },
+  "verdict": {
+   "entity": "Entergy Corporation (ETR)",
+   "overall": "source_backed",
+   "cost_allocation_confirmed": true,
+   "corrections": [
+    "stranded_asset_risk_note overstates the August 2025 LPSC settlement: it asserts the settlement 'imposed conditions including possible net-revenue sharing with other customers,' but the cited 10-K only states the LPSC 'issued an order accepting the settlement agreement' and gives no condition detail. The settlement was with LPSC staff and three intervenors; no net-revenue-sharing condition is disclosed in this filing. That specific claim is an inference, not supported by the cited source, and should be flagged as unverified/removed.",
+    "The only 'sharing/benefit to other customers' language in the 10-K concerns sustainability resources potentially 'lower[ing] the costs...to the benefit of their other customers' \u2014 a prospective cost-benefit statement, not a settlement-mandated revenue-sharing backstop. Do not conflate the two."
+   ],
+   "note": "Independently verified against the locally stored 10-K (data/edgar_acquisition/documents/0001348952/000006598426000174/etr-20251231.htm; full path /Users/ted/Documents/dev-archive/bubble/data/edgar_acquisition/documents/0001348952/000006598426000174/etr-20251231.htm). The 'mixed' cost-allocation read is genuinely source-backed and is NOT a utility falsely claiming customer-pays while socializing. The filing itself documents the socialization channel: dedicated generation/transmission (Franklin Farms CCGTs $2,387M, Waterford 5/6, Westlake, Cottonwood, 500kV lines) and MS gas plants (Delta Blues) are recovered 'in customer rates' / through the 'interim facilities rate adjustments provision of its formula rate plan rider' / the GAJA rider \u2014 i.e., rate-base recovery from all ratepayers \u2014 with customer ESA/large-customer-supply revenues, CIAC/'direct financial contributions,' and termination payments serving only as an offset/backstop. Crucially, Entergy's own risk factors concede the 'contractual and credit and collateral protections...may prove insufficient' and that 'credit collateral requirements may be insufficient,' and intervenors' Jan 2026 motion questions whether credit protections were impaired by the customer's financial-structure change \u2014 all verified verbatim. So the split is correctly characterized as partial-customer / partial-socialized and contested, not overstated as full customer-pays. Every load-bearing quote (LA Meta funding/termination, Jan 2026 prudence-review motion, MS formula-rate-plan recovery + non-fuel offset, AR special rate contract with denied upfront-payment treatment, Cottonwood 'eligible for recovery in customer rates,' and the insufficiency/stranded-asset risk factors) matches the filing exactly. The 'unfound' list is accurate \u2014 specific minimum-take/collateral dollar terms are confidential and absent, and the ~$15B is a correctly-labeled bottom-up sum, not a disclosed line item. One overreach: the claimed Aug 2025 settlement 'net-revenue sharing' condition is unsupported inference (see corrections). cost_allocation_confirmed=true because the 'mixed' label is independently supported by the filing's own recovery-mechanism and insufficiency-of-protection language; confidence remains capped at 0.25 per project policy pending adjudication."
+  }
+ },
+ {
+  "data": {
+   "entity": "Dominion Energy, Inc. (D) / Virginia Electric and Power Company (\"Virginia Power\" / Dominion Energy Virginia), CIK 0000715957",
+   "cost_allocation": "mixed",
+   "ai_datacenter_load_mw": null,
+   "generation_build_for_ai_usd": 55000000000,
+   "named_ai_customers": [],
+   "min_take_or_collateral_protection": "PARTIAL / PHASING IN. As of FY2025, the principal protection was a firm-queue regime: deposits for expensive long-lead-time equipment plus reimbursement clauses for canceled projects, and \"data center customer deposits\" carried as restricted cash on the balance sheet (Note 2). The stronger, customer-specific protection is NOT yet in force: per the 2025 Biennial Review order, Virginia Power will BEGIN in JANUARY 2027 to require, for high-load (>=25 MW, >=75% load factor, including certain data centers) customers at connection: (1) a 14-year contract, (2) collateral over that 14-year period, and (3) demand minimums covering distribution, transmission AND generation revenues. The 10-K states these provisions are \"designed to minimize both cross-rate class subsidies and stranded costs.\" Until Jan 2027 there is no system-wide 14-year minimum-take/collateral mandate, so pre-2027-connected data-center load and the bulk of the $55B generation/grid build are recovered through riders (rate adjustment clauses) and the rate base, i.e. socialized to all ratepayers, with the data-center minimum-take/collateral protection applying prospectively to new high-load connections.",
+   "stranded_asset_risk_note": "Concentration risk is high and explicitly disclosed: data centers were 28% of Virginia Power's electricity sales in 2025 (26% in 2024), heavily concentrated in Loudoun County, VA, and PJM projects 5.4% average annual peak load growth for the DOM Zone over ten years. Virginia Power is building ~$55B of generation/grid (2026-2030, net of Stonepeak reimbursements) primarily to serve this load, including ~$8.3B dispatchable natural gas, the $1.5B/944 MW Chesterfield Energy Reliability Center gas plant (in service 2029), the $11.5B 2.6 GW CVOW offshore wind project, ~$6.9B solar, ~$2B storage, and ~$8.3B PJM-authorized transmission. Because most of this capital enters the rate base / is recovered via riders, a softening of AI/data-center demand or cancellation/relocation of hyperscaler load before the Jan-2027 14-year-contract/collateral regime takes hold would leave costs to be socialized across the remaining ~2.8M ratepayers (cross-subsidy and stranded-cost risk). Mitigants the 10-K cites: the firm-queue deposit/reimbursement requirements; data-center customer deposits held as restricted cash; the prospective Jan-2027 14-year contract + collateral + demand-minimum requirements; and for CVOW specifically, a 50% noncontrolling-interest sale to Stonepeak ($2.6B received) plus a Virginia Commission cost-sharing cap (recovery limited above $11.3B, no recovery $11.3B-$13.7B). Additional tail risk: Virginia's Retail Access Statutes allow certain large customers exceptions to Virginia Power's exclusive franchise, so high-load customers could potentially shop, eroding the load base backing the build.",
+   "sources": [
+    {
+     "claim": "Data centers represented 28% of Virginia Power's electricity sales in 2025 (26% in 2024); concentration in Loudoun County, VA; PJM projects 5.4% average annual peak load growth for the DOM Zone (Virginia Power's service territory) over the next ten years.",
+     "quote": "Data centers represent 28% and 26% of Virginia Power's electricity sales for the years ended December 31, 2025 and 2024, respectively. ... The concentration of data centers primarily in Loudoun County, Virginia represents a unique challenge and requires significant investments in electric transmission and generation facilities to meet the growing demand. PJM has projected a 5.4% average peak annual load growth over the next ten years for the PJM DOM Zone, which includes Dominion Energy Virginia's service territory.",
+     "source_type": "SEC_filing",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/715957/000119312526063120/d-20251231.htm"
+    },
+    {
+     "claim": "Dominion Energy Virginia's 2026-2030 capital plan is approximately $55 billion (net of Stonepeak reimbursements), driven primarily by new and larger data-center customers and growing demand including AI.",
+     "quote": "Dominion Energy Virginia's capital plan for 2026 through 2030 includes spending approximately $55 billion, net of reimbursements from Stonepeak, to construct new generation capacity, including the CVOW Commercial Project and dispatchable generation facilities ... The proposed infrastructure projects and investment commitments are intended to address both continued customer growth and increases in electricity consumption which are primarily driven by new and larger data center customers.",
+     "source_type": "SEC_filing",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/715957/000119312526063120/d-20251231.htm"
+    },
+    {
+     "claim": "COST ALLOCATION / RATEPAYER PROTECTION: Under the 2025 Biennial Review order, Virginia Power will begin in January 2027 to require a 14-year contract, collateral over that period, and demand minimums for distribution, transmission and generation revenues for high-load customers at connection, designed to minimize cross-rate-class subsidies and stranded costs. Existing protections are deposits for long-lead equipment plus cancellation reimbursement clauses.",
+     "quote": "Virginia Power has implemented requirements over the years intended to ensure that its project queue is firm, such as requiring deposits for expensive long lead-time equipment along with reimbursement clauses for canceled projects. In addition, Virginia Power will, in accordance with the terms of the 2025 Biennial Review order, begin in January 2027 to require a 14-year contract, collateral over that period and demand minimums for distribution, transmission and generation revenues for high load customers at connection. All of these contract provisions are designed to minimize both cross-rate class subsidies and stranded costs.",
+     "source_type": "SEC_filing",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/715957/000119312526063120/d-20251231.htm"
+    },
+    {
+     "claim": "High-load tariff class defined as customers in Virginia (including certain data centers) with actual/forecast demand of 25 MW or higher and annual load factor of 75% or higher.",
+     "quote": "Represents customers in Virginia, including certain data centers, with actual or anticipated forecast demand of 25 MW or higher and annual load factor of 75% or higher.",
+     "source_type": "SEC_filing",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/715957/000119312526063120/d-20251231.htm"
+    },
+    {
+     "claim": "Data center customer deposits are held as restricted cash and are a material expected cash requirement (Note 2), evidencing customer-posted collateral against data-center commitments.",
+     "quote": "the following represent material expected cash requirements recorded on Dominion Energy's Consolidated Balance Sheets at December 31, 2025 ... Data center customer deposits - See Note 2 to the Consolidated Financial Statements. ... The Companies hold restricted cash and equivalent balances that primarily consist of amounts held for litigation settlements, customer deposits, federal assistance funds and future debt payments...",
+     "source_type": "SEC_filing",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/715957/000119312526063120/d-20251231.htm"
+    },
+    {
+     "claim": "Generation/grid costs are recovered through riders (rate adjustment clauses, RACs) and the rate base set via the biennial review - i.e. recovered from ratepayers. Example: Chesterfield gas plant rider increase ~$50M; CVOW recovered via Rider OSW.",
+     "quote": "Rider CE A rate adjustment clause associated with the recovery of costs related to certain renewable generation, energy storage and related transmission facilities in Virginia ... [Rider OSW filing for CVOW] ... operations associated with such riders, including the Chesterfield Energy Reliability Center described above, which if approved, would result in a net increase of approximately $50 million.",
+     "source_type": "SEC_filing",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/715957/000119312526063120/d-20251231.htm"
+    },
+    {
+     "claim": "Generation buildout components tied to load growth: ~$8.3B dispatchable natural gas (2026-2030); $1.5B / 944 MW Chesterfield Energy Reliability Center gas plant (in service 2029); ~$6.9B solar; ~$2.0B storage; ~$8.3B PJM-authorized transmission; CVOW 2.6 GW offshore wind est. $11.5B total.",
+     "quote": "The project [Chesterfield Energy Reliability Center] is expected to cost approximately $1.5 billion in the aggregate, excluding financing costs, have a generating capacity of 944 MW and be placed into service in 2029. ... Virginia Power plans to invest approximately $8.3 billion from 2026 to 2030 to develop additional dispatchable natural gas generation facilities ... Virginia Power plans to invest approximately $6.9 billion from 2026 through 2030 to acquire or construct several solar facilities ... approximately $2.0 billion ... to develop battery-storage facilities ... The estimated total project cost [CVOW] is approximately $11.5 billion (excluding financing costs) ... [PJM-authorized transmission] expected to result in future capital expenditures of approximately $8.3 billion from 2026 through 2030.",
+     "source_type": "SEC_filing",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/715957/000119312526063120/d-20251231.htm"
+    },
+    {
+     "claim": "CVOW offshore wind stranded-cost mitigants: 50% noncontrolling interest sold to Stonepeak ($2.6B received) and a Virginia Commission cost-sharing cap limiting recovery above $11.3B with no recovery between $11.3B and $13.7B.",
+     "quote": "In October 2024, Virginia Power completed the sale of a 50% noncontrolling interest in the CVOW Commercial Project to Stonepeak through the formation of OSWP. At closing, Virginia Power received $2.6 billion ... the Companies are subject to a cost sharing mechanism in which Virginia Power will be eligible to recover 50% of such incremental costs which fall between $10.3 billion and $11.3 billion with no recovery of such incremental costs which fall between $11.3 billion and $13.7 billion.",
+     "source_type": "SEC_filing",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/715957/000119312526063120/d-20251231.htm"
+    },
+    {
+     "claim": "Local data/ contains Dominion's FY2025 10-K and 10-Qs; the data-center demand attribution and cost-allocation language above were extracted from the locally cached 10-K.",
+     "quote": "Local cached primary source: data/edgar_acquisition/documents/0000715957/000119312526063120/d-20251231.htm (Dominion Energy FY2025 Form 10-K)",
+     "source_type": "SEC_filing",
+     "source_uri": "/Users/ted/Documents/dev-archive/bubble/data/edgar_acquisition/documents/0000715957/000119312526063120/d-20251231.htm"
+    }
+   ],
+   "unfound": [
+    "Specific contracted/announced data-center load in MW: the 10-K quantifies data centers only as a share of sales (28% of 2025 electricity sales) and defines the high-load class (>=25 MW, >=75% load factor); it does NOT disclose an aggregate contracted/queued MW figure. (Dominion has elsewhere publicly cited large queued data-center load, but that figure is not in the primary SEC filing reviewed and is not in local data/.)",
+    "Named AI/hyperscaler customers (Amazon/AWS, Microsoft, Google, Meta, Oracle, neoclouds): the 10-K refers to data centers only generically and by geographic concentration (Loudoun County); it names no individual hyperscaler/neocloud offtaker. Local capital/deals.csv and physical/projects.csv contain only FERC wholesale PPAs (mostly South Carolina solar / Connecticut nuclear) and a third-party data-center facility tracker (e.g., QTS Richmond 240 MW, Henrico County VA) - none tie a named AI customer to a Dominion retail power contract.",
+    "Dollar value of data-center customer deposits / collateral currently posted: referenced (Note 2, restricted cash) but the specific amount was not extracted from the local 10-K text in this pass.",
+    "The precise GS-4 / new high-load tariff schedule mechanics and the exact split of the $55B between data-center-driven vs. baseline reliability spend were not separately quantified in the filing.",
+    "Virginia SCC (PUC) docket primary documents for the 2025 Biennial Review order and the high-load tariff are not present in local data/; only the 10-K's summary of the order was available.",
+    "FERC rate filings / IRP (Virginia Integrated Resource Plan) primary documents were not present in local data/ (local FERC data is wholesale MBR PPA records only)."
+   ],
+   "confidence": 0.25
+  },
+  "verdict": {
+   "entity": "Dominion Energy, Inc. (D) / Virginia Electric and Power Company, CIK 0000715957",
+   "overall": "source_backed",
+   "cost_allocation_confirmed": true,
+   "note": "All eight source quotes confirmed verbatim in the local primary 10-K. See corrections for two minor paraphrase/granularity caveats.",
+   "corrections": [
+    "CVOW cost-sharing cap: the narrative paraphrase in stranded_asset_risk_note ('recovery limited above $11.3B') is loose. The filing (and the data's own verbatim source quote) actually says: Virginia Power recovers 50% of incremental costs between $10.3B and $11.3B, NO recovery between $11.3B and $13.7B, and amounts above $13.7B are left to a future Virginia Commission proceeding. The verbatim source quote is correct; the prose paraphrase elsewhere is imprecise.",
+    "Restricted-cash detail: the 'Data center customer deposits' line appears verbatim in the 10-K's material-expected-cash-requirements list (referencing Note 2). However, the restricted-cash RECONCILIATION paragraph in the notes itemizes only generic 'customer deposits' among litigation settlements, federal assistance funds, etc., and does NOT separately break out a data-center deposit dollar amount. The data's 'unfound' list already correctly concedes the specific dollar value was not extracted; the existence of data-center-specific deposits is supported, the magnitude is not.",
+    "The cost_allocation='mixed' label and the 'socialized to all ratepayers' characterization are sound INFERENCES synthesized from verbatim filing facts (rider/rate-base recovery + prospective-only customer protections); the 10-K itself neither uses the word 'socialized' nor discloses an explicit ratepayer-vs-data-center cost split. Treat as well-supported interpretation, not a direct filing statement."
+   ]
+  }
+ },
+ {
+  "data": {
+   "entity": "Southern Company / Georgia Power (NYSE: SO; CIK 0000092122 / Georgia Power CIK 0000041091)",
+   "ai_datacenter_load_mw": 9000,
+   "generation_build_for_ai_usd": 19500000000,
+   "cost_allocation": "mixed",
+   "named_ai_customers": [],
+   "min_take_or_collateral_protection": "YES \u2014 partial, contractual + regulatory, but flagged as incomplete. Per the SO 2025 10-K: new large-load/data-center electric service agreements \"contain various terms and conditions, such as minimum duration, minimum bill provisions, contribution by the customer to local construction costs, termination payment requirements, and financial security, designed to generate adequate incremental revenues associated with incremental costs to serve these customers.\" The traditional electric operating companies (incl. Georgia Power) \"have received collateral or acceptable substitute guarantees as financial security from counterparties to contracts for certain data centers and other large load customers.\" Additional regulatory backstop: under the Georgia PSC Certification Stipulation, Georgia Power agreed to file its next base rate case so that incremental revenue from large-load customers exerts downward pressure on rates \"of at least $556 million per year for the years 2029, 2030, and 2031.\" HOWEVER the 10-K explicitly cautions these provisions \"may not fully protect the traditional electric operating companies against all risks,\" and \"[i]f anticipated demand growth does not materialize, the traditional electric operating companies could experience unrecovered capital investments made to serve expected load.\" No specific minimum-take MW percentage, exit-fee dollar amount, or collateral dollar amount tied to data-center contracts is disclosed; protections are described qualitatively only.",
+   "stranded_asset_risk_note": "MODERATE-TO-ELEVATED and explicitly acknowledged by management. Georgia Power is building ~9 GW of new utility-owned generation and battery storage (out of ~13 GW certified) at certified cost of ~$19.5B placed in service through 2030, plus Sept/Dec 2025 certifications of GP-owned projects and related transmission of ~$16.7B (ex-AFUDC), largely to serve ~9 GW of contracted data-center/large-load demand signed since 2023. System-wide capex jumped from $45.2B (2024-28) to $78.1B (2026-30). Because the generation is rate-based (utility-owned, recovered through retail rates plus a return), if AI/data-center demand softens or customers cancel/relocate, the unrecovered investment risk migrates toward ALL retail RATEPAYERS \u2014 the 10-K states the companies \"could experience unrecovered capital investments made to serve expected load\" and that data-center industries \"may experience a business downturn, which could cause the loss of current or potential customers.\" Mitigants: minimum-bill/termination/financial-security clauses, collateral/guarantees posted by counterparties, the $556M/yr levelized downward-rate-pressure commitment, and the >100 MW/contract scale with multi-year ramps. Net: ratepayers are partially but not fully insulated; the filing itself warns contractual protections \"may not fully protect.\" Concentration/credit detail is thin (no named counterparties, no per-contract take-or-pay terms disclosed), limiting external verification of how robust the ratepayer protection actually is.",
+   "sources": [
+    {
+     "claim": "Since 2023, Southern's traditional electric operating companies (incl. Georgia Power) have contracted with new data centers and other large-load customers covering ~9 GW, each contract >100 MW max annual load, signed/reviewed by state commissions; service beginning through 2028.",
+     "quote": "Since 2023, the traditional electric operating companies have contracted with new data centers and other large load customers covering approximately nine GWs of electric load, with each contract individually representing a maximum annual electric load greater than 100 MWs, that have been signed by the parties and/or reviewed by the state regulatory commissions. These new contracts fully ramp up over several years after commencement of service. Some of these contracts are already in effect. Service under the contracts is expected to begin through 2028.",
+     "source_type": "SEC_filing",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/92122/000009212226000006/so-20251231.htm"
+    },
+    {
+     "claim": "Georgia PSC has certified ~13 GW of resources, ~9 GW of which are new Georgia Power-owned generation and battery storage, at certified cost of $19.5 billion, in service through 2030.",
+     "quote": "Through the 2022 IRP and the 2023 IRP Update, the Georgia PSC has certified resources totaling approximately 13 GWs, approximately nine GWs of which are new generation and battery energy storage facilities that are being, or are expected to be, constructed by Georgia Power. The certified costs of these Georgia Power projects total $19.5 billion, and these projects are projected to be placed in service through 2030.",
+     "source_type": "SEC_filing",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/92122/000009212226000006/so-20251231.htm"
+    },
+    {
+     "claim": "Sept and Dec 2025 certification requests for Georgia Power-owned generation/storage projects and related transmission total ~$16.7 billion (ex-AFUDC); system-wide capex rose from $45.2B (2024-28) to $78.1B (2026-30), primarily at the electric operating companies, driven largely by data centers and other large-load customers.",
+     "quote": "The approved certification requests in September and December 2025 associated with these Georgia Power-owned projects and related transmission investments total approximately $16.7 billion, excluding AFUDC. ... Total estimated capital expenditures, primarily at the traditional electric operating companies, increased significantly since 2023, from $45.2 billion previously estimated for 2024 through 2028 to $78.1 billion currently estimated for 2026 through 2030.",
+     "source_type": "SEC_filing",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/92122/000009212226000006/so-20251231.htm"
+    },
+    {
+     "claim": "Cost allocation is MIXED: new Georgia Power generation/storage is utility-owned and recovered via retail rate base/return (ratepayer-borne), while data-center contracts carry minimum-bill, termination-payment, customer construction-cost contribution, and financial-security provisions intended to make incremental revenue cover incremental cost (customer-borne).",
+     "quote": "The contracts contain various terms and conditions, such as minimum duration, minimum bill provisions, contribution by the customer to local construction costs, termination payment requirements, and financial security, designed to generate adequate incremental revenues associated with incremental costs to serve these customers.",
+     "source_type": "SEC_filing",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/92122/000009212226000006/so-20251231.htm"
+    },
+    {
+     "claim": "Georgia Power's Certification Stipulation requires its next base rate case to ensure large-load incremental revenue exerts at least $556 million/year of downward pressure on rates (levelized) for 2029-2031 \u2014 an explicit ratepayer-protection commitment.",
+     "quote": "Pursuant to the Certification Stipulation, Georgia Power has agreed to file its next base rate case in a manner that will ensure the incremental revenue from large load customers has downward pressure, on a levelized basis, of at least $556 million per year for the years 2029, 2030, and 2031.",
+     "source_type": "SEC_filing",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/92122/000009212226000006/so-20251231.htm"
+    },
+    {
+     "claim": "Ratepayer protections are explicitly described as incomplete; if demand does not materialize the utilities could face unrecovered capital investment (stranded-cost risk).",
+     "quote": "While electric service agreements with new large load customers (including data centers) typically include provisions such as early termination payments, minimum bills, and financial security, these and other contractual provisions may not fully protect the traditional electric operating companies against all risks. ... If anticipated demand growth does not materialize, the traditional electric operating companies could experience unrecovered capital investments made to serve expected load.",
+     "source_type": "SEC_filing",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/92122/000009212226000006/so-20251231.htm"
+    },
+    {
+     "claim": "Collateral / substitute guarantees have been received as financial security from data-center and other large-load counterparties.",
+     "quote": "The traditional electric operating companies and Southern Power have received collateral or acceptable substitute guarantees as financial security from counterparties to contracts for certain data centers and other large load customers as described in FUTURE EARNINGS POTENTIAL \u2013 \u201cGeneral\u201d herein",
+     "source_type": "SEC_filing",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/92122/000009212226000006/so-20251231.htm"
+    },
+    {
+     "claim": "2025 weather-adjusted commercial KWH sales at Georgia Power rose 2.8%, primarily from new and existing data centers, confirming the load is already materializing in revenue.",
+     "quote": "Weather-adjusted commercial KWH sales increased 2.8% primarily due to additional sales from new and existing data centers at Georgia Power.",
+     "source_type": "SEC_filing",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/92122/000009212226000006/so-20251231.htm"
+    }
+   ],
+   "unfound": [
+    "Named AI/hyperscaler/neocloud customers (Microsoft, Amazon/AWS, Google, Meta, OpenAI, QTS, etc.) \u2014 the SO 2025 10-K discloses data-center load only generically as 'data centers and other large load customers' and names no specific counterparties; 'Meta' string hits in the filing are XBRL member tags, not Meta Platforms.",
+    "Per-contract minimum-take percentages, take-or-pay MW commitments, exit-fee dollar amounts, or contract-duration terms specific to data-center agreements (disclosed only qualitatively).",
+    "Dollar amount of collateral/financial security actually posted by data-center counterparties (the disclosed $106M cash collateral is Southern Power PPA-related, not data-center large-load).",
+    "Allocation split of the $19.5B / $16.7B / $78.1B capex specifically attributable to AI/data-center load versus other industrial/baseline growth (filing aggregates 'data centers and other large load customers').",
+    "Georgia PSC docket numbers and the full text of the Large Load tariff / Certification Stipulation (referenced as Note 2 'Georgia Power \u2013 Integrated Resource Plans \u2013 Certification Requests' but underlying PUC docket not in local data/).",
+    "Specific gas-plant vs nuclear-uprate vs transmission breakdown of the new generation build (10-K cites batteries, ~930 MW and 646 MW non-affiliate PPAs, 260-MW GP battery, Plant Scherer/Bowen/Daniel actions, but not a clean AI-tied gas-MW total)."
+   ],
+   "confidence": 0.78
+  },
+  "verdict": {
+   "entity": "Southern Company / Georgia Power (NYSE: SO; CIK 0000092122 / Georgia Power CIK 0000041091)",
+   "overall": "source_backed",
+   "cost_allocation_confirmed": false,
+   "note": "duplicate-removed",
+   "corrections": [
+    "Source-claim #4's parenthetical framing of the contract terms as '(customer-borne)' overstates certainty: the filing only supports 'DESIGNED TO' cover incremental costs and explicitly warns these provisions 'may not fully protect...against all risks.' Treat the customer-borne side as intended/qualitative, not realized.",
+    "min_take_or_collateral_protection field's 'YES - partial' should be read strictly as qualitative-only; the filing discloses NO data-center-specific collateral dollar amount, NO take-or-pay MW/%, and NO exit-fee figure. The only hard number ($556M/yr) is a system-wide regulatory rate-pressure commitment, not a contract-level customer cost-recovery term.",
+    "The rate-base recovery of the ~$19.5B/~$16.7B utility-owned generation means the stranded-cost residual is socialized to all retail ratepayers per the 10-K's own 'unrecovered capital investments' language - the ratepayer-protection robustness is unverifiable externally because the Georgia PSC docket/tariff text is not in the filing."
+   ]
+  }
+ },
+ {
+  "data": {
+   "entity": "Ohio Valley Electric Corporation (OVEC)",
+   "cost_allocation": "unknown",
+   "ai_datacenter_load_mw": null,
+   "named_ai_customers": [],
+   "generation_build_for_ai_usd": null,
+   "min_take_or_collateral_protection": "Not applicable to any AI/datacenter load (none found). OVEC's structural protection is general, not AI-specific: under the Inter-Company Power Agreement (ICPA), OVEC sells its entire generating capacity to its sponsoring utility owners on a cost-of-service (take-or-pay-style) basis, so OVEC's own costs are borne by the sponsors. No datacenter-specific minimum-take, collateral, or exit-fee was found because no datacenter contract was found at the OVEC entity level.",
+   "stranded_asset_risk_note": "OVEC's stranded-asset risk is driven by coal economics, not AI demand. OVEC operates only two 1950s-era coal plants (Kyger Creek ~1,086 MW, Clifty Creek ~1,304 MW; ~2,400 MW total). Its output is fully committed to sponsoring utilities under the ICPA through 2040, and those sponsors recover OVEC costs from their own ratepayers (OVEC rider/charge mechanisms in Ohio, Indiana, etc.). There is NO evidence in primary sources of any AI/data-center load contract, hyperscaler/neocloud customer, or AI-tied new generation or grid capex at the OVEC entity. Therefore AI-demand-softening is not a material stranded-asset vector for OVEC specifically; the relevant ratepayer exposure is the legacy coal cost socialized via state-approved OVEC riders, which is a separate (pre-existing) issue from the AI bubble thesis. Any AI exposure is indirect, sitting one level up at OVEC's sponsoring utilities (e.g., AEP, Duke, AES/Dayton, FirstEnergy successors) that may serve datacenters in their own service territories.",
+   "sources": [
+    {
+     "claim": "In the bubble repo's local FERC/PJM/EDGAR primary-source corpus, OVEC appears only as (a) buyer/offtaker in legacy wind PPAs and (b) transmission owner in PJM interconnection queues; it has 192 capital_deals, 76 ppas, 10 equipment_records and 7 queue_records, none of which is an AI/data-center load contract.",
+     "quote": "fe37a192f3903344,Ohio Valley Electric Corporation,...\"capital_deals\": 192, \"equipment_records\": 10, \"ppas\": 76 ... role: counterparty / reporting_entity (FERC dataset 17 Entities to PPAs)",
+     "source_uri": "file:///Users/ted/Documents/dev-archive/bubble/data/entity_universe/entities.csv",
+     "source_type": "FERC"
+    },
+    {
+     "claim": "The OVEC PPA records in local data are FERC market-based-rate (dataset 17) filings where OVEC is the BUYER/offtaker of a 1304 MW renewable portfolio from Indiana Kentucky Electric Corporation, with various wind/SPV reporting entities -- legacy renewable purchases, not AI-datacenter supply.",
+     "quote": "FERC PPA 1000: Indiana Kentucky Electric Corporation Sale with Ohio Valley Electric Corporation, 1304 MW ... \"buyer\": [\"Ohio Valley Electric Corporation\"], \"offtaker\": [\"Ohio Valley Electric Corporation\"] ... \"ppa_type\": \"Sale\"",
+     "source_uri": "https://data.ferc.gov/api/v1/dataset/17/",
+     "source_type": "FERC"
+    },
+    {
+     "claim": "The apparent 'data center' matches for OVEC are coincidental SPV legal names (FERC MBR reporting entities) in which OVEC is the buyer, NOT datacenter customers of OVEC.",
+     "quote": "FERC PPA 4298 ... \"reporting_entity\": [\"EXUS NM Data Center III, LLC\"] ... \"buyer\": [\"Ohio Valley Electric Corporation\"], \"seller\": [\"Indiana Kentucky Electric Corporation\"]",
+     "source_uri": "https://data.ferc.gov/api/v1/dataset/17/",
+     "source_type": "FERC"
+    },
+    {
+     "claim": "In PJM Planning Queues, OVEC appears solely as TransmissionOwner at points of interconnection for generation projects in its zone, not as a party to any datacenter load agreement.",
+     "quote": "entity OVEC ... role transmission_owner ... source_field TransmissionOwner ... pjm-planning-queues-xml",
+     "source_uri": "https://www.pjm.com/pjmfiles/media/planning/queues-data/PlanningQueues.xml",
+     "source_type": "FERC"
+    },
+    {
+     "claim": "OVEC is a coal-only generation/transmission company owning two coal plants (Kyger Creek near Gallipolis OH; Clifty Creek near Madison IN) jointly owned by sponsoring utilities; no public source ties it to a data-center AI load PPA.",
+     "quote": "OVEC and its wholly owned subsidiary, Indiana-Kentucky Electrical Corporation (IKEC), own and operate two coal-fired electrical generating plants -- the Kyger Creek Power Plant ... and the Clifty Creek Power Plant. ... the search results do not contain any information about OVEC entering into data center AI load PPA contracts.",
+     "source_uri": "https://en.wikipedia.org/wiki/Ohio_Valley_Electric_Corporation",
+     "source_type": "press"
+    },
+    {
+     "claim": "OVEC publishes Long-Term Forecast Reports and quarterly financial statements; output is committed to sponsoring utilities under the Inter-Company Power Agreement (cost-of-service recovery via state-approved OVEC riders), the structural cost-allocation mechanism (which is coal-legacy, not AI-driven).",
+     "quote": "OHIO VALLEY ELECTRIC CORPORATION LONG-TERM FORECAST REPORT ... OVEC 2020 LTFR; ohio valley electric corporation - and subsidiary company 2025 2nd Quarter Financials",
+     "source_uri": "https://www.ovec.com/EO/OVEC%202020%20LTFR%20Final.pdf",
+     "source_type": "utility_IRP"
+    }
+   ],
+   "unfound": [
+    "contracted/announced AI data-center load (MW) tied to OVEC -- none found in any primary source",
+    "named AI/hyperscaler/neocloud customers of OVEC -- none found (apparent 'Data Center' matches are coincidental FERC SPV names where OVEC is the buyer)",
+    "capex for new generation (gas/nuclear uprate) or transmission tied to AI/datacenter load at OVEC -- none found; OVEC operates only legacy 1950s coal units",
+    "AI-specific special tariff vs rate-base cost allocation at OVEC -- not applicable; no AI load exists at the entity. OVEC costs flow to sponsoring utilities via the ICPA and then to those utilities' ratepayers via OVEC riders (a coal-legacy mechanism)",
+    "AI-specific minimum-take / collateral / exit-fee ratepayer protection -- not applicable; no datacenter contract found",
+    "OVEC SEC 10-K/10-Q -- OVEC is privately held by sponsoring utilities and does not file 10-K/10-Q with the SEC (only bond/financial disclosures on ovec.com); no SEC filing evidences AI-datacenter exposure"
+   ],
+   "confidence": 0.25
+  },
+  "verdict": {
+   "entity": "Ohio Valley Electric Corporation (OVEC)",
+   "overall": "source_backed",
+   "cost_allocation_confirmed": false,
+   "note": "Adversarial verification complete; see corrections for the two inferred (non-primary) elements.",
+   "corrections": [
+    "The structural ICPA description ('OVEC sells its entire capacity to sponsors') is directionally simplified: the local FERC corpus encodes the relationship both ways (53 Sale rows, 8 Purchase rows; OVEC is buyer in 15 rows from sponsors/SPVs). The sponsor-counterparty structure is primary-source-confirmed, but the precise direction-of-sale framing is partly inferred.",
+    "The actual ratepayer-exposure mechanism cited (legacy-coal cost socialized via state-approved OVEC riders) rests on Wikipedia + ovec.com LTFR/financials, which are NOT present in the local data corpus (no LTFR/OVEC PDF found under data/). That specific rider/socialization claim is secondary-source / non-local and not independently verifiable from the primary corpus, though it is the pre-existing coal-legacy issue, separate from the AI thesis.",
+    "AI exposure is correctly characterized as indirect (one level up at sponsoring utilities AEP/Duke/AES-Dayton/FirstEnergy-successors); confirmed by the sponsor list in the primary FERC counterparty records."
+   ]
+  }
+ },
+ {
+  "data": {
+   "entity": "Talen Energy Corporation (NASDAQ: TLN); CIK 0001622536",
+   "cost_allocation": "ai_customer_bears_via_special_tariff_or_min_take",
+   "ai_datacenter_load_mw": 1920,
+   "named_ai_customers": [
+    "Amazon Web Services, Inc. (AWS) - hyperscaler, at the AWS Data Campus adjacent to the Susquehanna nuclear plant"
+   ],
+   "generation_build_for_ai_usd": 3793000000,
+   "min_take_or_collateral_protection": "YES, on the customer side. The AWS PPA \"has minimum commitments\" with a delivery schedule that ramps to the full 1,920 MW no later than 2032 (Talen 2025 10-K). This is take-or-pay-style volume protection that shifts demand/offtake risk to AWS, not to ratepayers. CRITICALLY, ratepayer protection here did NOT come from collateral but from STRUCTURE: the original behind-the-meter co-location ISA Amendment was REJECTED by FERC in Nov 2024 precisely because AEP/Exelon argued it would shift up to ~$140M/yr of transmission cost onto PJM ratepayers. Talen restructured to a 'front-of-the-meter' (grid-connected) arrangement in June 2025, under which AWS takes service as a grid customer and pays applicable transmission/distribution charges, eliminating the cost-shift concern. PJM separately restored 148 MW of capacity interconnection rights to Susquehanna and added the generation back into the capacity auction (FERC-approved Dec 2025), so capacity is not withdrawn from the grid. NOTE: Talen is a merchant IPP, NOT a rate-regulated utility, so there is no traditional regulated 'rate base' into which AI costs could be socialized in the first place.",
+   "stranded_asset_risk_note": "LOW-TO-MODERATE and largely borne by Talen/AWS, not ratepayers. (1) No rate base exposure: Talen is a merchant generator; if AI demand softens there is no regulated ratepayer who can be charged for stranded plant. (2) The underlying asset is the existing 2.2 GW Susquehanna nuclear plant (not a speculative new build), so if AWS volumes underperform the power is fully resaleable into the PJM wholesale market at merchant prices - the 148 MW of CIRs were deliberately restored to the capacity auction. (3) Customer-side cushion: the PPA's 'minimum commitments' and the front-of-meter transmission reconfiguration shift volume and interconnection-cost risk toward AWS. (4) The main NEW capex is the $3.79B / 2.9 GW Freedom + Guernsey gas acquisitions (Nov 2025), explicitly positioned to 'provide reliable, low-carbon capacity to hyperscale data centers' - these are merchant PJM assets, so a hyperscaler pullback would expose Talen equity/debt holders to merchant price risk, but again not ratepayers. (5) Residual risk: ongoing FERC co-location rulemaking (Dec 18, 2025 order; PJM tariff filing Feb 23, 2026) could still reshape economics of large co-located load in PJM, and the $18B-headline PPA value depends on AWS ramping to full volume by 2032.",
+   "sources": [
+    {
+     "claim": "Expanded AWS PPA: up to 1,920 MW of fixed-price carbon-free nuclear power from Susquehanna through 2042; PPA has minimum commitments; ramps to full volume no later than 2032; transition to front-of-the-meter.",
+     "quote": "in June 2025, we and AWS entered into an expanded power purchase agreement for the long-term, fixed-price supply of up to 1,920 MW of power annually from Susquehanna to the adjacent AWS data center campus through 2042. ... The AWS PPA, which has minimum commitments, has a power delivery schedule that ramps up over time, which is expected to achieve the full volume no later than 2032",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1622536/000162253626000017/tln-20251231.htm",
+     "source_type": "SEC_filing"
+    },
+    {
+     "claim": "Original deal was behind-the-meter co-location; FERC rejected the ISA Amendment in Nov 2024; Talen transitioned to front-of-the-meter in June 2025; 148 MW of CIRs restored to the capacity auction.",
+     "quote": "in November 2024, the FERC issued an order denying an Amended Interconnection Service Agreement ... that would have permitted Susquehanna to decrease by up to 480 MW the amount of power it would have otherwise supplied to the grid and instead supply that power directly to AWS in a co-located \"behind-the-meter\" arrangement. ... in June 2025, we entered into an amended AWS PPA to ... transition to a \"front-of-the-meter\" arrangement with AWS. ... in October 2025, PJM filed a waiver request at the FERC to restore 148 MW of capacity interconnection rights (\"CIRs\") to Susquehanna and add the corresponding generation back into the capacity auction. The FERC approved the request",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1622536/000162253626000017/tln-20251231.htm",
+     "source_type": "SEC_filing"
+    },
+    {
+     "claim": "$3.79B / 2.9 GW Freedom (1,045 MW gas, PA) + Guernsey (1,836 MW gas, OH) acquisitions, financed by $2.7B notes + $1.2B TLB, positioned to serve hyperscale data centers.",
+     "quote": "They add nearly 2.9 gigawatts of modern, highly efficient baseload generation to Talen's fleet and enhance our ability to provide reliable, low-carbon capacity to hyperscale data centers and large commercial off-takers.",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1622536/000162253625000037/ex99120251125pressreleasec.htm",
+     "source_type": "SEC_filing"
+    },
+    {
+     "claim": "AWS Data Campus (Cumulus) was SOLD to AWS for $650M in March 2024 - the data-center real estate capex sits with AWS, not Talen; initial PPA was 960 MW.",
+     "quote": "In March 2024, AWS purchased substantially all the assets related to the AWS Data Campus and certain other assets for gross proceeds of $650 million ... the Company agreed to supply up to 960 MW of long-term power to the AWS Data Campus from Susquehanna. In June 2025, the Company and AWS entered into a revised AWS PPA, under which the Company is expected to provide AWS with up to 1,920 MW of power in a \"front-of-the-meter\" model through 2042.",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1622536/000162253626000017/tln-20251231.htm",
+     "source_type": "SEC_filing"
+    },
+    {
+     "claim": "Ratepayer cost-shift was the central FERC concern: AEP/Exelon estimated up to ~$140M/yr shifted to PJM ratepayers under behind-the-meter; front-of-meter makes AWS pay transmission/distribution charges as a grid customer.",
+     "quote": "American Electric Power and Exelon claimed the original interconnection agreement could cause an annual shift of up to $140 million in transmission costs onto PJM ratepayers. ... AWS, as a retail customer, will pay all applicable transmission and distribution charges, eliminating the risk of shifting costs to other ratepayers",
+     "source_uri": "https://www.utilitydive.com/news/ferc-interconnection-isa-talen-amazon-data-center-susquehanna-exelon/731841/",
+     "source_type": "press"
+    },
+    {
+     "claim": "Ongoing FERC co-location rulemaking will govern PJM large co-located load; Dec 18, 2025 FERC order, PJM tariff filing Feb 23, 2026.",
+     "quote": "the FERC issued an order on December 18, 2025 and outlined its views on several allowable co-location configurations ... That PJM filing was made on February 23, 2026. When final, the new PJM tariff language will govern how large load may co-locate with generation facilities in PJM.",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1622536/000162253626000017/tln-20251231.htm",
+     "source_type": "SEC_filing"
+    }
+   ],
+   "unfound": [
+    "Exact dollar value of the minimum-take floor / minimum annual revenue commitment in the AWS PPA (10-K states the PPA 'has minimum commitments' but does not disclose the MW floor, price, or take-or-pay percentage; PPA exhibit is redacted/confidentially treated)",
+    "Specific exit fee, termination payment, or collateral/credit-support amount posted by AWS if it cancels or leaves (not disclosed in 10-K)",
+    "Dollar capex specifically attributable to the spring-2026/2027 transmission reconfiguration projects for the front-of-meter transition (not separately quantified in the 10-K)",
+    "Whether any Susquehanna nuclear uprate MW are dedicated to the AWS load (10-K mentions uprates only as a general growth lever, not tied to a specific AWS MW commitment)",
+    "Contracted PPA price per MWh (described only as 'premium prices'/'fixed-price'; not disclosed)"
+   ],
+   "confidence": 0.82
+  },
+  "verdict": {
+   "entity": "Talen Energy Corporation (NASDAQ: TLN); CIK 0001622536",
+   "overall": "partially_source_backed",
+   "cost_allocation_confirmed": true,
+   "note": "Verification rests on the primary SEC 10-K (independently downloaded), which substantively confirms the ratepayer-protection-by-structure read; the only failures are one misattributed secondary quote and a still-open FERC rulemaking.",
+   "corrections": [
+    "Source #5 quote 'AWS, as a retail customer, will pay all applicable transmission and distribution charges, eliminating the risk of shifting costs to other ratepayers' is NOT supported by the cited utilitydive article (dated Nov 4, 2024, which pre-dates the June 2025 restructuring and instead documents the unresolved cost-shift concern). This quote should be removed or re-sourced; the underlying conclusion is an inference from the front-of-the-meter structure, not a verbatim filing/press statement.",
+    "The 10-K itself does not state AWS pays 'transmission and distribution charges' as a 'retail/grid customer' verbatim; it supports the load-pays-grid-charges principle only indirectly (load moved into PJM load forecast; Exelon 205 Proceeding subjecting co-located load to the same transmission charges as grid-connected load). Characterize the cost-allocation as structurally inferred-and-supported rather than explicitly stated.",
+    "Cost allocation is supported as currently structured but NOT final: FERC's Dec 18, 2025 order and PJM's Feb 23, 2026 tariff filing remain pending ('When final, the new PJM tariff language will govern how large load may co-locate'). Flag the AWS/co-located cost treatment as subject to change.",
+    "min_take_or_collateral_protection note overstates settlement: the FERC co-location rulemaking is open, so 'eliminating the cost-shift concern' should be qualified as eliminating it under the current front-of-meter structure pending final PJM tariff language."
+   ]
+  }
+ },
+ {
+  "data": {
+   "entity": "Constellation Energy Corporation (CEG) \u2014 CIK 0001868275",
+   "ai_datacenter_load_mw": 835,
+   "generation_build_for_ai_usd": 3900000000,
+   "cost_allocation": "ai_customer_bears_via_special_tariff_or_min_take",
+   "named_ai_customers": [
+    "Microsoft (Crane Clean Energy Center / TMI-1 restart, 20-year PPA to power its PJM data centers)",
+    "Meta Platforms (Clinton nuclear station PPA)"
+   ],
+   "min_take_or_collateral_protection": "The AI-datacenter exposure is structured as long-term bilateral PPAs (Microsoft: 20-year PPA for the full output of the ~835 MW Crane/TMI-1 restart; Meta: PPA for Clinton output), NOT as regulated rate-base recovery. Under these PPAs the hyperscaler offtaker contracts to purchase the plant's energy, capacity, and emissions-free attributes for the contract term, so the AI customer \u2014 not utility ratepayers \u2014 bears the offtake/price commitment. CEG is a competitive/merchant generator (spun off from Exelon Feb 1, 2022; the regulated rate-base utilities BGE/ComEd/PECO remained with Exelon), so it has no rate base into which AI-driven generation capex can be socialized to captive ratepayers. The specific minimum-take volume, price floor, exit-fee, and collateral terms of the Microsoft and Meta PPAs are NOT disclosed in the public 10-K/10-Q (commercially confidential); 'unfound' as to exact min-take/collateral figures. Ratepayer-protection at the SYSTEM level (transmission/capacity cost of serving co-located data-center load) is unresolved and being litigated at FERC in the PJM Show Cause docket (Dec 2025 order), where PJM proposals explicitly include 'protecting residential customers from capacity price increases' and 'allocating costs to data centers through the Reliability Backstop Auctions.'",
+   "stranded_asset_risk_note": "Stranded-asset risk to RATEPAYERS is LOW because CEG is a merchant generator with no rate base \u2014 generation capex (incl. $3.9B growth capex covering the Crane restart, nuclear uprates, and co-location infrastructure, plus a $1.0B DOE Office of Energy Dominance unsecured loan guarantee for Crane) is borne by CEG shareholders/creditors and backstopped by the hyperscaler PPAs, not by captive utility customers. Stranded-asset risk to CEG/INVESTORS is real but PPA-mitigated: (1) the Crane restart is contingent on NRC, state/local permits, and PJM interconnection \u2014 PJM's Phase I System Impact Study identified contingent transmission upgrades with projected in-service dates as late as Dec 2030, and in March 2026 CEG filed a FERC waiver to transfer Eddystone capacity interconnection rights to Crane to reduce required upgrades; (2) the FERC Dec 2025 PJM Show Cause order found PJM's tariff for co-located load unjust/unreasonable and is rewriting the rules (interim interruptible, firm and non-firm contract-demand transmission services) for serving co-located/behind-the-meter data-center load \u2014 the economics of co-location deals are unsettled pending 2026 FERC compliance filings and paper hearing; (3) CEG notes that without PPAs, generation sold merchant on the spot market could fetch significantly less, so if AI/data-center demand softens before/after the PPA terms, repricing risk falls on CEG. Net: the cost and demand risk sits with the AI customer (via PPA) and CEG (via merchant exposure), not with socialized ratepayers \u2014 the opposite of the regulated-IOU rate-base socialization pattern. The one area where ratepayers could still bear cost is shared PJM transmission/capacity upgrades for co-located load, which is exactly the open FERC question.",
+   "sources": [
+    {
+     "claim": "20-year PPA with Microsoft supports the restart of TMI-1 as Crane Clean Energy Center; Microsoft buys energy/capacity/emissions-free attributes to power its PJM data centers; site will have ~835 MW emissions-free capacity.",
+     "quote": "In September 2024, we executed a 20-year PPA with Microsoft that will support the restart of Three Mile Island Unit 1, renamed as the Crane Clean Energy Center, which was retired in 2019 for economic reasons. Under the agreement, Microsoft will purchase the output generated from the renewed plant which includes energy, capacity and emissions-free attributes as part of its goal to help power its data centers in PJM with clean reliable energy. The site, once operational, will have approximately 835 MWs of emissions-free capacity.",
+     "source_type": "SEC_filing",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1868275/000186827526000032/ceg-20251231.htm"
+    },
+    {
+     "claim": "DOE issued a $1.0B unsecured loan guarantee (via Federal Financing Bank) to support the Crane restart; maturity 2055; no borrowings yet at filing.",
+     "quote": "In November 2025, the DOE Office of Energy Dominance Financing issued a guarantee for up to $1.0 billion for an unsecured loan from the Federal Financing Bank to support the restart of the Crane Clean Energy Center. ... There have been no borrowings on this loan as of the date of this filing.",
+     "source_type": "SEC_filing",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1868275/000186827526000032/ceg-20251231.htm"
+    },
+    {
+     "claim": "PPA with Meta for the output of Clinton supports Meta's clean energy goals and continued operation of the plant.",
+     "quote": "Recent examples include the PPA with Microsoft that will support the restart of Crane and the PPA with Meta for the output of Clinton which supports Meta's clean energy goals and the continued operations of Clinton.",
+     "source_type": "SEC_filing",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1868275/000186827526000032/ceg-20251231.htm"
+    },
+    {
+     "claim": "CEG is a competitive (merchant) generator separated from Exelon's regulated utilities; non-contracted generation is sold merchant on the spot market with repricing risk when PPAs expire \u2014 i.e., no captive rate base.",
+     "quote": "On February 21, 2021, the Board of Directors of Exelon authorized management to pursue a plan to separate its competitive generation and customer-facing energy businesses, conducted through Constellation and its subsidiaries, into an independent, publicly traded company. ... Our non-contracted generation is generally sold on the spot market at current market prices as merchant energy. ... it is possible that the price paid to us for generation under subsequent arrangements or in short-term markets may be significantly less than the price paid to us under the PPA.",
+     "source_type": "SEC_filing",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1868275/000186827526000032/ceg-20251231.htm"
+    },
+    {
+     "claim": "$3.9B growth capex including the Crane restart, nuclear uprates, co-location infrastructure, and license renewals.",
+     "quote": "the above estimates of capital expenditures include $3.9 billion of growth capital expenditures, including our planned restart of Crane, nuclear uprates, co-location infrastructure, and license renewals.",
+     "source_type": "SEC_filing",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1868275/000186827526000032/ceg-20251231.htm"
+    },
+    {
+     "claim": "FERC Dec 2025 PJM Show Cause order: existing PJM tariff for co-located (data-center) load is unjust/unreasonable; new transmission services to be developed in 2026 \u2014 the cost-allocation rules for serving co-located load are unresolved.",
+     "quote": "In December 2025, FERC found PJM's tariff unjust and unreasonable because it lacked sufficient clarity and consistency regarding rates, terms, and conditions of service for serving co-located load. ... FERC also directed that PJM make three new transmission services available to co-located loads: an interim, interruptible network integration transmission service, a permanent firm contract demand service, and a non-firm contract demand service.",
+     "source_type": "SEC_filing",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1868275/000186827526000032/ceg-20251231.htm"
+    },
+    {
+     "claim": "PJM reform proposals explicitly aim to protect residential customers from capacity price increases and to allocate costs to data centers \u2014 evidence the ratepayer-vs-datacenter cost split is being actively decided at the RTO/FERC level.",
+     "quote": "...include: 1) providing revenue certainty to new generation ... 2) protecting residential customers from capacity price increases, 3) allocating costs to data centers through the Reliability Backstop Auctions, 4) improving load forecasting, specifically large load modeling...",
+     "source_type": "SEC_filing",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1868275/000186827526000032/ceg-20251231.htm"
+    },
+    {
+     "claim": "Crane interconnection is contingent: PJM Phase I study identified transmission upgrades with in-service dates as late as Dec 2030; in March 2026 CEG filed a FERC waiver to transfer Eddystone capacity interconnection rights to Crane to reduce contingent upgrades.",
+     "quote": "PJM's Phase I System Impact Study for Crane identified contingent transmission upgrades that would need to be completed for Crane to be fully deliverable to the grid, some of which suggested projected in-service dates extending as late as December 2030. In March 2026, we filed a waiver request with FERC to allow the transfer of capacity interconnection rights (CIRs) from Eddystone to Crane...",
+     "source_type": "SEC_filing",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1868275/000186827526000067/ceg-20260331.htm"
+    },
+    {
+     "claim": "MPSC approved CEG to advance more than 700 MW of natural gas generation in Maryland via expedited CPCN under the Next Generation Energy Act (a merchant/competitive build, not BGE rate base).",
+     "quote": "We submitted multiple proposals, and the MPSC approved our application to advance more than 700 MW of natural gas generation under the streamlined pathway.",
+     "source_type": "SEC_filing",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1868275/000186827526000032/ceg-20251231.htm"
+    }
+   ],
+   "unfound": [
+    "Exact minimum-take volume / take-or-pay percentage in the Microsoft Crane PPA (commercially confidential; not disclosed in 10-K/10-Q)",
+    "Exact PPA price, price floor, or escalation in the Microsoft and Meta PPAs",
+    "Collateral / credit-support / parent-guarantee terms posted by Microsoft or Meta",
+    "Exit-fee / termination-payment / make-whole terms protecting CEG if the hyperscaler cancels",
+    "Specific MW of data-center load Microsoft will draw vs. the 835 MW plant nameplate (PPA is for plant output, not a stated datacenter load figure)",
+    "Cost figure / allocation method for the PJM transmission upgrades required for Crane deliverability (pending FERC PJM Show Cause compliance filings in 2026)",
+    "Capex specifically attributable to the 700 MW Maryland gas build and whether any portion is recoverable from a regulated entity",
+    "Any PUC docket number or state-commission cost-recovery mechanism (none applies \u2014 CEG is merchant; relevant proceeding is FERC PJM Show Cause, docket number not stated in filing)"
+   ],
+   "confidence": 0.72
+  },
+  "verdict": {
+   "entity": "Constellation Energy Corporation (CEG) \u2014 CIK 0001868275",
+   "overall": "source_backed",
+   "cost_allocation_confirmed": true,
+   "note": "All nine cited quotes verified verbatim against the SEC filings; merchant/no-rate-base structural premise independently confirmed.",
+   "corrections": [
+    "Classification string 'ai_customer_bears_via_special_tariff_or_min_take' is slightly inaccurate: there is no special/regulated tariff. The actual mechanism is long-term bilateral PPAs (Microsoft 20-yr for full Crane/TMI-1 output; Meta for Clinton output) under which the hyperscaler offtaker bears the offtake/price commitment. Recommend relabeling to 'ai_customer_bears_via_long_term_bilateral_PPA'.",
+    "Scope the 'confirmed' status: customer-bears is confirmed only at the plant/offtake level. SYSTEM-LEVEL PJM transmission/capacity cost allocation for co-located load remains open and is being decided at FERC (Dec 2025 Show Cause order; 2026 compliance filings) \u2014 that is the residual ratepayer-exposure vector and should not be characterized as resolved."
+   ]
+  }
+ },
+ {
+  "data": {
+   "entity": "Vistra Corp. (VST)",
+   "cost_allocation": "ai_customer_bears_via_special_tariff_or_min_take",
+   "ai_datacenter_load_mw": 3809,
+   "generation_build_for_ai_usd": null,
+   "named_ai_customers": [
+    "Amazon Web Services (AWS)",
+    "Meta Platforms, Inc."
+   ],
+   "min_take_or_collateral_protection": "Not applicable in the ratepayer sense and not disclosed in commercial terms. Vistra is a competitive/merchant generator, NOT a rate-regulated utility, so there are no captive ratepayers behind these assets to strand. The AWS (1,200 MW, 20-yr) and Meta (2,609 MW, 20-yr) deals are bilateral long-term PPAs in which the hyperscaler is the contractual offtaker bearing the take commitment; the underlying min-take volumes, floor prices, collateral/credit-support, and termination/exit-fee provisions are confidential commercial terms NOT disclosed in the 10-K. The 10-K (Note 18 / liquidity) shows Vistra maintains financial standby letters of credit and posts collateral on its OWN risk-management/ERCOT obligations, but discloses no customer-posted collateral or exit fee for the AWS/Meta PPAs. So ratepayer protection is moot (no rate base); offtaker counterparty-credit protection on the PPAs is unverified/undisclosed.",
+   "stranded_asset_risk_note": "Stranded-asset risk sits with Vistra shareholders/creditors, NOT ratepayers, because the AI-tied generation (Comanche Peak nuclear, PJM nuclear uprates at Perry/Davis-Besse/Beaver Valley, 860 MW West Texas gas) is competitive/merchant capacity in ERCOT/PJM, not rate-base. The 10-K's lead AI-related risk factor warns that 'if we are unable to execute on large load offtake opportunities, including under long-term power purchase or offtake agreements that we have entered into, our financial performance, growth opportunities, and stock price could be adversely impacted,' and that completing the nuclear uprates depends on timelines/budgets/performance that 'could affect our ability to meet contractual obligations.' Mitigants: (1) 20-year tenor with 20-yr extension options shifts duration risk to the hyperscaler; (2) ~2,176 MW of the Meta volume is from EXISTING operating nuclear (low build risk) and the 1,200 MW AWS is from existing Comanche Peak units, so most contracted MW are backed by already-operating zero-marginal-cost nuclear that would be resold into liquid wholesale markets if a customer defaulted; only the 433 MW of nuclear uprates plus the 860 MW gas plant are genuinely new speculative build. Residual risk = counterparty credit on the PPAs and uprate construction overrun/timeline (delivery stretching to 2031-2034), borne by Vistra, not the public.",
+   "sources": [
+    {
+     "claim": "Vistra entered a 20-year PPA (extendable +20 yrs) with Amazon Web Services for 1,200 MW of carbon-free power from Comanche Peak Nuclear, delivery beginning Q4 2027 ramping to full by 2032.",
+     "quote": "In September 2025, we announced that we had entered into a 20-year power purchase agreement (PPA) (with options to extend for up to an additional 20 years) with Amazon Web Services (AWS) to supply 1,200 MW of carbon-free power from our Comanche Peak Nuclear Power Plant. We anticipate power delivery to begin in the fourth quarter of 2027 and ramp to full capacity by 2032.",
+     "source_type": "SEC_filing",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1692819/000169281926000006/vistra-20251231.htm"
+    },
+    {
+     "claim": "Vistra entered 20-year PPAs with Meta Platforms for 2,609 MW of carbon-free power and capacity from its PJM nuclear plants, comprising 2,176 MW of existing operating capacity plus 433 MW of nuclear uprate capacity to be constructed; deliveries 2026-2034.",
+     "quote": "In January 2026, we announced that we had entered into 20-year PPAs with Meta Platforms, Inc. (Meta) to supply 2,609 MW of carbon-free power and capacity from our PJM nuclear power plants, including 2,176 MW of operating energy and capacity and 433 of uprate energy and capacity to be constructed.",
+     "source_type": "SEC_filing",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1692819/000169281926000006/vistra-20251231.htm"
+    },
+    {
+     "claim": "Capex tied to AI load: 433 MW of nuclear uprates at Perry, Davis-Besse, Beaver Valley (announced Jan 2026) plus an 860 MW West Texas gas facility; no separate dollar figure for the uprate program is broken out, total company capex (incl nuclear fuel) was $2,752M in 2025.",
+     "quote": "Uprated capacity at existing plants - In January 2026, we announced plans to add 433 MW of uprate capacity from our Perry, Davis-Besse, and Beaver Valley nuclear power plants in PJM. ... Capital expenditures, including nuclear fuel purchases and LTSA prepayments (2,752)",
+     "source_type": "SEC_filing",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1692819/000169281926000006/vistra-20251231.htm"
+    },
+    {
+     "claim": "Vistra is a competitive/merchant generator (not rate-regulated), so generation costs are sold into wholesale/retail markets or under bilateral contracts and are NOT recovered from a regulated rate base socialized to ratepayers.",
+     "quote": "Vistra is one of the largest competitive power generators in the U.S. ... The majority of our facilities operate as \"merchant\" facilities without long-term power sales agreements. As a result, we largely sell electric energy, capacity and ancillary services into the wholesale energy spot market or into other wholesale and retail power markets",
+     "source_type": "SEC_filing",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1692819/000169281926000006/vistra-20251231.htm"
+    },
+    {
+     "claim": "The 10-K's principal AI-related risk factor states that failure to execute on large-load offtake/PPAs would hurt Vistra's own financial performance and stock price (risk borne by the company, not ratepayers).",
+     "quote": "If electricity demand does not grow at the rate expected, or if we are unable to execute on large load offtake opportunities, including under long-term power purchase or offtake agreements that we have entered into, our financial performance, growth opportunities, and stock price could be adversely impacted.",
+     "source_type": "SEC_filing",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1692819/000169281926000006/vistra-20251231.htm"
+    },
+    {
+     "claim": "Texas SB 6 (2025) requires certain co-located and front-of-the-meter large loads (data centers) to provide load flexibility/curtailment during ERCOT emergencies; PJM is developing co-location transmission rules requiring co-located loads to pay for some ancillary services on a gross basis.",
+     "quote": "In 2025, the Texas legislature passed Senate Bill 6 (SB 6) that requires certain co-located large loads and some front-of-the-meter large loads to provide load flexibility during emergencies. ... These new rules also require co-located loads to pay for some ancillary services on a gross basis.",
+     "source_type": "SEC_filing",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1692819/000169281926000006/vistra-20251231.htm"
+    }
+   ],
+   "unfound": [
+    "Dollar capex specifically attributable to the 433 MW nuclear uprate program (not separately disclosed; subsumed in total $2.75B 2025 capex and forward growth capex not itemized in the captured 10-K text)",
+    "Min-take / floor-price / take-or-pay volume terms of the AWS and Meta PPAs (confidential commercial terms, not disclosed)",
+    "Customer-posted collateral, credit support, or termination/exit-fee provisions for the AWS and Meta PPAs (not disclosed)",
+    "MW of additional pipeline large-load deals 'under discussion' beyond AWS/Meta (10-K references ongoing discussions but gives no contracted MW)",
+    "Whether any portion of grid/transmission interconnection cost for these loads is socialized via ERCOT/PJM transmission tariffs (not addressed in the 10-K beyond the SB6 / PJM gross-ancillary-service references)"
+   ],
+   "confidence": 0.25
+  },
+  "verdict": {
+   "entity": "Vistra Corp. (VST)",
+   "overall": "source_backed",
+   "cost_allocation_confirmed": true,
+   "note": "Independently verified against the cited 2025 10-K (downloaded directly from SEC EDGAR, the WebFetch 403 required a curl with a proper SEC user agent). Every load-bearing quote matches the filing verbatim: (1) merchant status \u2014 \"The majority of our facilities operate as 'merchant' facilities without long-term power sales agreements... not guaranteed any rate of return on our capital investments\" and \"Vistra is one of the largest competitive power generators in the U.S.\"; (2) AWS 1,200 MW 20-yr PPA from Comanche Peak; (3) Meta 2,609 MW PPAs (2,176 MW operating + 433 MW uprate) from PJM nuclear; (4) the AI risk factor placing risk on \"our financial performance, growth opportunities, and stock price\"; (5) SB 6 and PJM \"co-located loads to pay for some ancillary services on a gross basis\"; (6) 433 MW uprate at Perry/Davis-Besse/Beaver Valley and $2,752M 2025 capex.\n\ncost_allocation_confirmed = TRUE, but the confirmation is the INVERSE of a typical \"customer-pays tariff\": the central finding (and the report's own narrative) is that there is NO regulated rate base and NO captive ratepayers to socialize costs to. The \"rate base\" string in the 10-K appears ONLY in lease accounting, never for these generation assets \u2014 independently confirming the merchant/no-socialization read. This is the correct adversarial outcome: no utility-style ratepayer socialization is occurring, so there is no hidden cost-shift to ratepayers. The report does NOT falsely claim \"customer-pays\" while a tariff socializes \u2014 it explicitly states ratepayer protection is moot and offtaker counterparty/min-take terms are undisclosed.\n\nTwo caveats worth flagging, neither overturning the verdict: (a) The cost_allocation LABEL \"ai_customer_bears_via_special_tariff_or_min_take\" is imprecise/misleading \u2014 there is NO special tariff (Vistra files no retail tariff for these merchant assets) and the min-take terms are explicitly confidential/undisclosed. \"minimum take\" appears 0 times in the filing; the only \"take-or-pay\" reference is Vistra's OWN upstream nuclear-fuel/gas procurement, not a customer commitment. The label asserts a mechanism the filing does not substantiate; the customer \"bears\" the load only via standard bilateral PPA offtake, not a verified take-or-pay. (b) The stranded_asset_risk_note attributes the 860 MW West Texas gas plant to AI load, but the 10-K describes that peaker as supporting \"the increasing power needs of the region, including the state's oil and gas industry\" (Permian electrification), not the AWS/Meta PPAs \u2014 a mild over-attribution. Risk-allocation conclusion is unaffected since it is merchant capacity either way. Confidence 0.25 cap is appropriate given undisclosed commercial terms.",
+   "corrections": [
+    "cost_allocation label 'ai_customer_bears_via_special_tariff_or_min_take' overstates the mechanism: the 10-K discloses NO special tariff and NO min-take terms (string 'minimum take' = 0 hits; the sole 'take-or-pay' is Vistra's own nuclear-fuel/gas procurement). The customer bears load only via ordinary bilateral PPA offtake, not a verified tariff or take-or-pay. Suggest relabeling to 'ai_customer_offtaker_via_bilateral_ppa_terms_undisclosed'.",
+    "stranded_asset_risk_note ties the 860 MW West Texas gas plant to AI; the 10-K instead frames it as serving regional needs 'including the state's oil and gas industry' (Permian electrification), not the AWS/Meta data-center PPAs. Drop the AI attribution of that 860 MW (it remains merchant peaker capacity, so risk allocation to shareholders/creditors is unchanged)."
+   ]
+  }
+ },
+ {
+  "data": {
+   "entity": "NRG Energy, Inc. (NYSE: NRG; CIK 0001013871)",
+   "cost_allocation": "ai_customer_bears_via_special_tariff_or_min_take",
+   "ai_datacenter_load_mw": null,
+   "generation_build_for_ai_usd": 1148000000,
+   "named_ai_customers": [],
+   "min_take_or_collateral_protection": "No AI-customer-specific minimum-take, collateral, or exit-fee is disclosed in NRG's FY2025 10-K (filed 2026-02-24). NRG does not disclose a signed contract with any named hyperscaler/neocloud, so there is no contractual ratepayer/shareholder protection tied to a specific datacenter to point to. The relevant protection is STATUTORY, not contractual: Texas SB 6 (signed June 20, 2025) defines large loads as >=75 MW, requires financial commitments from a large-load customer when it requests interconnection engineering studies, allows large loads to be required/incentivized to curtail, and establishes a PUCT procedure to minimize reliability and stranded-cost impacts from new large-load co-locations with generators. Separately, the White House National Energy Dominance Council Statement of Principles (Jan 16, 2026) and the PJM CIFP/Board process urge that the cost of new capacity be allocated TO data centers (not to all ratepayers) -- but these are pending policy proposals, not executed protections. Net: protection for the grid/taxpayer is partial and policy-driven, not a firm bilateral min-take in NRG's filings.",
+   "stranded_asset_risk_note": "CRITICAL STRUCTURAL POINT: NRG is a COMPETITIVE/MERCHANT independent power producer (IPP), not a rate-regulated vertically integrated utility. Its core ~12 GW (and the acquired ~13 GW LSP Portfolio) sit primarily in ERCOT/Texas and other deregulated markets that have NO traditional cost-of-service rate base. Therefore the classic Burry failure mode -- socializing AI-driven generation capex into a captive ratepayer rate base -- largely DOES NOT apply to NRG's own build. NRG owns and operates the new generation (Texas Development Projects: T.H. Wharton 415 MW peaker, Cedar Bayou 5 689 MW CCGT, Greens Bayou 6 443 MW peaker = ~1,547 MW; plus the GEV/Kiewit agreement for up to 5.4 GW of new gas CCGT and 3.6 GW of 7HA turbine slot reservations) and recovers it through merchant/contracted wholesale and retail revenues, so SHAREHOLDERS AND LENDERS bear the build/stranding risk -- NRG explicitly warns that if anticipated load growth fails to materialize it 'could incur additional expenses to terminate or redeploy any underutilized assets or infrastructure, or it may be unable to fully recover its capital expenditures.' PARTIAL SOCIALIZATION CHANNELS DO EXIST: (1) Texas Energy Fund (TEF) loans -- $216M (T.H. Wharton) + $562M (Cedar Bayou 5) + $370M (Greens Bayou 6) = $1.148B at a subsidized 3.0% fixed rate to 2045, plus PUCT completion-bonus grants -- are Texas taxpayer/state-subsidized financing for NRG-owned merchant plants, i.e. a public subsidy that shifts financing cost to Texas taxpayers even though the debt is recourse to NRG subsidiaries. (2) Generic ERCOT transmission cost allocation is under PUCT rulemaking (SB 6) and remains a socialization vector at the system level. STRANDED-ASSET RISK if AI demand softens: MATERIAL but borne mainly by NRG equity/debt, not captive ratepayers. NRG is committing ~7 GW+ of new gas generation against a Texas demand outlook (ERCOT peak 86 GW 2024 -> 139 GW 2030) that the 10-K itself flags as uncertain ('no assurance that these forecasts will be accurate'), with project delays/cancellations by data-center C&I customers named as a downside driver. No firm AI-customer minimum-take backstops these builds in the filing, so a demand air-pocket would hit NRG's returns and the TEF loan repayment, with secondary exposure to Texas taxpayers via the subsidized financing.",
+   "sources": [
+    {
+     "claim": "NRG is a competitive merchant generator (~12 GW competitive generation, primarily Texas/ERCOT) serving data-center and large-load customers, not a rate-base utility.",
+     "quote": "the Company's core power and natural gas business consists of approximately 12 GW of competitive power generation, primarily in Texas ... serves electricity, natural gas, and smart-home technology solutions to approximately 8 million residential customers ... in addition to large commercial and industrial, data center, and wholesale customers.",
+     "source_type": "SEC_filing",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1013871/000101387126000004/nrg-20251231.htm"
+    },
+    {
+     "claim": "NRG signed a Project Development Agreement with GE Vernova and Kiewit/TIC to develop up to 5.4 GW of new gas CCGT, NRG-owned/operated, with 3.6 GW of 7HA turbine slot reservations; first projects by end-2029.",
+     "quote": "On February 13, 2025, NRG signed a strategic Project Development Agreement with GE Vernova ('GEV') and Kiewit's subsidiary, TIC, to develop and construct up to 5.4 GW of new gas-fired, combined cycle generation projects. The generation facilities will be owned and operated by NRG. Additionally, NRG has entered into slot reservation agreements with GEV for the procurement of 3.6 GW of 7HA gas turbines.",
+     "source_type": "SEC_filing",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1013871/000101387126000004/nrg-20251231.htm"
+    },
+    {
+     "claim": "Texas Development Projects (~1,547 MW: T.H. Wharton 415 MW, Cedar Bayou 5 689 MW, Greens Bayou 6 443 MW) target growing ERCOT retail power supply; NRG-owned.",
+     "quote": "During 2025, NRG advanced progress on three new generation projects aimed at expanding its operational capacity to meet growing retail power supply needs in the ERCOT wholesale electric market. The projects include a 415 MW peaker plant at T.H. Wharton ... a 689 MW combined cycle generating facility at Cedar Bayou 5, and a 443 MW peaker plant at Greens Bayou 6.",
+     "source_type": "SEC_filing",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1013871/000101387126000004/nrg-20251231.htm"
+    },
+    {
+     "claim": "The three Texas projects are financed by subsidized 3.0% Texas Energy Fund (TEF) state loans totaling $1.148B plus completion-bonus grants -- a partial taxpayer-subsidized financing channel.",
+     "quote": "on July 31, 2025, the Company entered into a $216 million loan agreement with the PUCT under the TEF (the 'First TEF Loan') to support ... T.H. Wharton ... On September 26, 2025 ... a $562 million loan agreement ... ('Second TEF Loan') ... Cedar Bayou 5 ... on November 20, 2025, the Company entered into a $370 million loan agreement with the PUCT under the TEF (the 'Third TEF Loan') ... Greens Bayou 6 ... The loan bears interest at a fixed rate of 3.000% per annum and has a final maturity date of July 31, 2045.",
+     "source_type": "SEC_filing",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1013871/000101387126000004/nrg-20251231.htm"
+    },
+    {
+     "claim": "NRG offers BYOP (bring-your-own-power) arrangements for data centers/large loads, but no named hyperscaler customer or contracted MW is disclosed.",
+     "quote": "new build generation, uprates, and energy storage projects ... (including BYOP arrangements for data centers and other large load customers) ... bring your own power ('BYOP') arrangements for large loads.",
+     "source_type": "SEC_filing",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1013871/000101387126000004/nrg-20251231.htm"
+    },
+    {
+     "claim": "Texas SB 6 protects the grid from large-load stranded costs: defines large loads as >=75 MW, requires financial commitments at interconnection request, allows curtailment, and creates a PUCT stranded-cost procedure for large-load co-locations.",
+     "quote": "SB 6 ... concern how both ERCOT, transmission and distribution utilities, and power generation companies plan for and serve large loads (defined as 75 MWs and above) ... requiring financial commitments upon a request for a large load customer seeking interconnection to begin engineering studies ... SB 6 establishes a PUCT regulatory procedure to minimize potential reliability and stranded-cost impacts that may be associated with new large load co-locations with power generators.",
+     "source_type": "SEC_filing",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1013871/000101387126000004/nrg-20251231.htm"
+    },
+    {
+     "claim": "Pending PJM/White House policy urges allocating the cost of new capacity TO data centers (customer-pays), not socializing to ratepayers -- but it is a proposal, not executed.",
+     "quote": "the National Energy Dominance Council within the White House released a Statement of Principles, signed by all 13 governors in the PJM region, urging PJM to address revenue certainty for new generation through an auction process for new capacity, allocate the costs of these new resources to data centers, improve load forecasting.",
+     "source_type": "SEC_filing",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1013871/000101387126000004/nrg-20251231.htm"
+    },
+    {
+     "claim": "NRG explicitly bears stranded-asset risk if AI/data-center load growth fails to materialize -- it may be unable to fully recover capital expenditures.",
+     "quote": "project delays or cancellations by the Company's commercial and industrial consumers (including data center facilities) could reduce or slow demand for electricity ... if the anticipated load growth fails to materialize, the Company could incur additional expenses to terminate or redeploy any underutilized assets or infrastructure, or it may be unable to fully recover its capital expenditures or realize the expected returns.",
+     "source_type": "SEC_filing",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1013871/000101387126000004/nrg-20251231.htm"
+    },
+    {
+     "claim": "NRG acquired the ~13 GW LSP Portfolio (18 gas/dual-fuel plants in nine states) plus CPower, expanding fleet to serve large-load growth; financed with Lightning Senior Secured Notes (merchant balance-sheet debt, not rate base).",
+     "quote": "The LSP Portfolio includes 18 natural gas-fired and dual fuel facilities totaling approximately 13 GW of capacity, located across nine states, as well as CPower, a leading demand response platform.",
+     "source_type": "SEC_filing",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/1013871/000101387126000004/nrg-20251231.htm"
+    }
+   ],
+   "unfound": [
+    "No named AI/hyperscaler/neocloud customer disclosed (no Microsoft, Amazon/AWS, Google, Meta, OpenAI, Oracle, CoreWeave, Crusoe in the FY2025 10-K).",
+    "No contracted/announced data-center load in MW tied to a specific AI customer (BYOP and large-load capability is described generically; the 5.4 GW GEV/Kiewit and ~1,547 MW Texas projects are NRG-owned merchant generation for general retail/ERCOT supply, not assigned to a named datacenter).",
+    "No disclosed AI-customer-specific minimum-take, collateral, or exit-fee contract terms.",
+    "No PUC docket, FERC filing, or utility IRP for NRG in local data/ beyond the SEC 10-K; SB 6 / PJM CIFP details are as summarized in the 10-K, not pulled from the underlying PUCT/FERC dockets.",
+    "No standalone capex figure isolating AI/data-center-driven generation spend (the $1.148B TEF figure covers the three named Texas projects financed under TEF; total new-build capex including the 5.4 GW GEV/Kiewit program is not quantified in dollars in the 10-K).",
+    "No explicit confirmation of whether GEV/Kiewit 5.4 GW capacity is contracted to datacenters vs. general merchant supply."
+   ],
+   "confidence": 0.25
+  },
+  "verdict": {
+   "entity": "NRG Energy, Inc. (NYSE: NRG; CIK 0001013871)",
+   "overall": "partially_source_backed",
+   "cost_allocation_confirmed": false,
+   "corrections": [
+    "cost_allocation label 'ai_customer_bears_via_special_tariff_or_min_take' is inferred/aspirational, not supported by the cited 10-K. The filing discloses NO AI-customer-specific special tariff, minimum-take, take-or-pay, collateral, or exit fee (zero hits for all such terms), and NO named hyperscaler customer (zero hits for Microsoft/Amazon/Google/Meta/OpenAI/Oracle/CoreWeave/Crusoe; the apparent 'AWS' matches are 'laws/lawsuits'). The data's own min_take_or_collateral_protection field concedes there is no contractual AI-customer protection and that the only protection is statutory (SB 6) and policy-driven (PJM/White House proposal), i.e. pending not executed.",
+    "More accurate cost-allocation classification: NRG is a competitive merchant/IPP operating under market-based rate authority, NOT a cost-of-service rate-base utility ('rate base'/'cost of service rate base'/self-described 'regulated utility' do not appear; 'cost-of-service' appears only in a hypothetical about LOSING market-based rate authority). The AI-driven generation build is borne by NRG shareholders/lenders, with a partial taxpayer-subsidized FINANCING channel (TEF loans, $1.148B at 3.000% to 2045) that is recourse debt to NRG subsidiaries -- not socialized ratepayer cost recovery and not a customer-pays tariff."
+   ],
+   "note": "Adversarial verification against the cited FY2025 10-K (nrg-20251231.htm, downloaded and full-text searched). All 9 source quotes verify verbatim: ~12 GW competitive generation primarily in Texas; GEV/Kiewit PDA for up to 5.4 GW owned/operated by NRG plus 3.6 GW 7HA slots; three Texas projects (T.H. Wharton 415 MW, Cedar Bayou 5 689 MW, Greens Bayou 6 443 MW); three TEF loans $216M/$562M/$370M at 3.000% to 2045 (= $1.148B); BYOP; SB 6 (>=75 MW large loads, financial commitments at interconnection, stranded-cost PUCT procedure for co-locations); White House/PJM proposal to allocate new-capacity costs to data centers; and the 'unable to fully recover its capital expenditures' stranding warning. The structural stranded-asset read (shareholders/lenders bear the build, no captive rate base, partial TEF taxpayer subsidy) is source-backed and correct. The ONE material defect: the cost_allocation enum label asserts a customer-pays special-tariff/min-take mechanism that the docket does not support -- it is inferred, not filed. This is exactly the watch-flag pattern (claiming customer-pays while no contractual cost-shift exists), though here the costs are NOT socialized to ratepayers either; they sit on NRG's merchant balance sheet with a TEF taxpayer-financing wrinkle. cost_allocation_confirmed = false because the labeled allocation mechanism is unsupported. Overall partially_source_backed: quotes and structure verified, allocation label corrected. Source: https://www.sec.gov/Archives/edgar/data/1013871/000101387126000004/nrg-20251231.htm"
+  }
+ },
+ {
+  "data": {
+   "entity": "PPL Corporation (NYSE: PPL; CIK 0000922224)",
+   "cost_allocation": "mixed",
+   "ai_datacenter_load_mw": null,
+   "generation_build_for_ai_usd": 3700000000,
+   "named_ai_customers": [],
+   "min_take_or_collateral_protection": "YES \u2014 multi-layered but partly prospective. (1) Kentucky (LG&E/KU): the KPSC, in its Oct 28, 2025 CPCN order, approved an \"Extremely High Load Factor Tariff for future applicable customers, such as data centers, which includes requirements such as long-term contracts, minimum revenue payments and collateral security structures that help protect the interests of LG&E, KU and of other ratepayers.\" (2) Pennsylvania (PPL Electric): the March 13, 2026 base-rate-case settlement (PAPUC) \"supports adoption of a new tariff schedule governing service to certain large load customers (including data centers)\" creating a dedicated large-load rate class. (3) General/PPL-wide: 10-K states \"contracts with new large load customers typically include provisions for early termination payments, minimum bills, and financial security\" \u2014 but immediately warns \"these contracts may not fully protect PPL against all risks.\" (4) Blackstone JV gas plants in PA are to be built under long-term Energy Services Agreements (ESAs) with data-center developers/hyperscalers \u2014 i.e., customer-contracted, NOT rate-based \u2014 but as of the FY2025 10-K filing date \"no ESAs with hyperscalers have been signed.\"",
+   "stranded_asset_risk_note": "Stranded-asset risk is explicitly flagged by PPL itself and is REAL but currently bounded by the pre-contract/protected posture. The exposure is overwhelmingly PROSPECTIVE: PPL discloses NO contracted data-center MW and NO named hyperscaler customers, and states no hyperscaler ESAs were signed as of the FY2025 10-K. So the bubble-relevant capex is still optional/conditional, not committed-on-spec. Two distinct risk channels: (A) RATE-BASE channel (Kentucky regulated gas build): ~$3.7B of LG&E/KU generation (645 MW Brown Unit 12 NGCC, 645 MW Mill Creek Unit 6 NGCC, 400 MW/1,600 MWh BESS, Ghent Unit 2 SCR) approved by KPSC in Oct 2025 to serve \"anticipated load growth, including from potential data center demand,\" recovered via rate-adjustment-clause mechanisms \u2014 i.e., RATEPAYERS bear this if data-center demand fails to materialize, though the Extremely High Load Factor Tariff (long-term contracts + minimum revenue payments + collateral) is the designed backstop. (B) CUSTOMER-CONTRACTED channel (PA Blackstone JV, PPL 51%/Blackstone 49%): gas plants built only against signed ESAs with hyperscalers, off the regulated rate base, so the JV/equity holders (and contracted hyperscalers via min-take) \u2014 NOT ratepayers \u2014 bear the risk; but the JV has already spent on land parcels with zero signed offtake. PPL's own risk factor: \"If anticipated demand growth does not materialize, PPL could experience unrecovered capital investments.\" Net: ratepayer stranding risk is partially mitigated by special tariffs with minimum-bill/collateral terms, but the protection is only as strong as those (largely still-to-be-signed) contracts, and the Kentucky gas build proceeds into rate base ahead of firm data-center contracts.",
+   "sources": [
+    {
+     "claim": "PPL's business and capital plans depend on data-center / large-load growth to serve AI; if demand does not materialize PPL could have unrecovered capital investments (self-identified stranded-asset risk).",
+     "quote": "The business and capital investment plans of PPL depend, in part, on the continued growth and viability of data centers and large load customers... Much of this demand is driven by interconnecting with and providing power to data centers and large load customers... to support artificial intelligence... If anticipated demand growth does not materialize, PPL could experience unrecovered capital investments.",
+     "source_type": "SEC_filing",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/922224/000092222426000008/ppl-20251231.htm"
+    },
+    {
+     "claim": "Large-load (data center) contracts typically carry early-termination payments, minimum bills, and financial security, but PPL warns they may not fully protect it.",
+     "quote": "While contracts with new large load customers typically include provisions for early termination payments, minimum bills, and financial security, these contracts may not fully protect PPL against all risks.",
+     "source_type": "SEC_filing",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/922224/000092222426000008/ppl-20251231.htm"
+    },
+    {
+     "claim": "PPL/Blackstone Infrastructure JV (PPL 51%) to build new generation for PA data centers under long-term ESAs; engaged with hyperscalers but NO ESAs signed as of FY2025 10-K filing date.",
+     "quote": "PPL and Blackstone Infrastructure have created a joint venture to build, own and operate new electricity generation stations to power data centers in Pennsylvania under long-term energy services agreements (ESAs)... PPL owns 51% of the joint venture interest and Blackstone Infrastructure owns 49%. The joint venture is actively engaged with hyperscalers... and has secured multiple land parcels... however, no ESAs with hyperscalers have been signed as of the filing date of this Form 10-K.",
+     "source_type": "SEC_filing",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/922224/000092222426000008/ppl-20251231.htm"
+    },
+    {
+     "claim": "Kentucky KPSC approved an Extremely High Load Factor Tariff for data centers with long-term contracts, minimum revenue payments and collateral security to protect LG&E/KU and other ratepayers (ratepayer protection mechanism).",
+     "quote": "an Extremely High Load Factor Tariff for future applicable customers, such as data centers, which includes requirements such as long-term contracts, minimum revenue payments and collateral security structures that help protect the interests of LG&E, KU and of other ratepayers.",
+     "source_type": "SEC_filing",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/922224/000092222426000008/ppl-20251231.htm"
+    },
+    {
+     "claim": "LG&E/KU 2025 CPCN: ~$3.7B of new generation (two 645 MW NGCC gas units, 400 MW/1,600 MWh BESS, Ghent Unit 2 SCR) filed to serve load growth 'including from potential data center demand'; KPSC Oct 28, 2025 order approved much of it, recovered via rate-adjustment-clause mechanisms (rate base / ratepayers).",
+     "quote": "The proposals included in the application were intended to serve anticipated load growth, including from potential data center demand... The aggregate projected capital expenditures associated with these proposals were expected to be $3.7 billion. The application included proposals to build: a 645 MW NGCC generation unit at KU's E.W. Brown station (Brown Unit 12), a 645 MW NGCC generation unit at LG&E's Mill Creek station (Mill Creek Unit 6), a four-hour 400 MW (1600 MWh total) battery... the relevant costs... recovered through a new rate adjustment clause mechanism.",
+     "source_type": "SEC_filing",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/922224/000092222426000008/ppl-20251231.htm"
+    },
+    {
+     "claim": "PPL 2026-2028 capital plan totals $17.35B (incl. $4.2B generation) and regulated-utility capex is to be recovered through rates pending regulatory approval (rate base / ratepayers).",
+     "quote": "The table below shows the Registrants' current capital expenditure projections for the years 2026 through 2028. Expenditures for the regulated utilities are expected to be recovered through rates, pending regulatory approval. ... PPL Generating facilities $ 4,200 ... Total Capital Expenditures $ 17,350.",
+     "source_type": "SEC_filing",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/922224/000092222426000008/ppl-20251231.htm"
+    },
+    {
+     "claim": "Pennsylvania PPL Electric base-rate-case settlement (joint petition filed with PAPUC March 13, 2026) adopts a new tariff schedule / rate class governing large load customers including data centers.",
+     "quote": "supports adoption of a new tariff schedule governing service to certain large load customers (including data centers). This new rate class would provide $11 million in support for PPL Electric's residential low-income program.",
+     "source_type": "SEC_filing",
+     "source_uri": "https://www.sec.gov/Archives/edgar/data/922224/000092222426000026/ppl-20260331.htm"
+    },
+    {
+     "claim": "PPL identified as a PJM transmission owner (interconnection point for data-center large-load in its PA service territory).",
+     "quote": "TransmissionOwner = PPL (PJM Planning Queues).",
+     "source_type": "FERC",
+     "source_uri": "https://www.pjm.com/pjmfiles/media/planning/queues-data/PlanningQueues.xml"
+    }
+   ],
+   "unfound": [
+    "Specific contracted/announced data-center load in MW or GW \u2014 PPL discloses none in the FY2025 10-K or Q1 2026 10-Q; the Blackstone JV explicitly has no signed hyperscaler ESAs.",
+    "Named AI customers / hyperscalers / neoclouds \u2014 none disclosed (no Amazon/Microsoft/Google/Meta/OpenAI/CoreWeave/Oracle references found in the 10-K or 10-Q); filings refer only generically to 'hyperscalers' and 'data center developers'.",
+    "Dollar value of capex specifically attributable to AI/data-center load distinct from general load growth (the $3.7B Kentucky build and $17.35B 2026-2028 plan are only partly data-center-driven; PPL does not isolate an AI-specific figure). The $3.7B figure is the closest proxy (Kentucky generation tied to 'potential data center demand').",
+    "Specific minimum-take dollar amounts, exit-fee schedules, or collateral amounts in the Kentucky Extremely High Load Factor Tariff or the PA large-load tariff (described qualitatively only).",
+    "PUC docket numbers and full tariff text (not present in local data/; only the SEC-filing summaries were available as primary sources).",
+    "Whether the Blackstone JV gas-plant capex sits outside the regulated rate base in all scenarios \u2014 10-K notes ESAs could be with 'data center developers, including hyperscalers, OR the regulated utilities in Pennsylvania,' leaving open a path for partial rate-base recovery."
+   ],
+   "confidence": 0.25
+  },
+  "verdict": {
+   "entity": "PPL Corporation (NYSE: PPL; CIK 0000922224)",
+   "overall": "partially_source_backed",
+   "cost_allocation_confirmed": false,
+   "note": "see structured note field",
+   "corrections": [
+    "Kentucky $3.7B build: the 10-K states KPSC EXCLUDED Brown Unit 12 and Mill Creek Unit 6 (the two 645 MW NGCC gas units, the bulk of the $3.7B) from the GCR/PGR rate-adjustment-clause recovery mechanism 'without prejudice to LG&E and KU seeking recovery of such costs in future proceedings' \u2014 so these dominant gas assets are NOT covered by the Extremely High Load Factor Tariff's minimum-revenue/collateral backstop and proceed toward traditional base-rate recovery (ratepayers).",
+    "The Extremely High Load Factor Tariff protects against future-customer default but does not ring-fence the gas capex itself; framing it as a backstop for the $3.7B build overstates ratepayer protection.",
+    "The 'customer-pays' (PA Blackstone JV ESA min-take) leg is entirely unsigned/prospective (no MW, no hyperscalers, no ESAs), and ESAs could be 'with the regulated utilities in Pennsylvania,' leaving open partial rate-base recovery \u2014 so it cannot be confirmed as a binding non-ratepayer allocation."
+   ]
+  }
+ }
+]
