@@ -47,6 +47,7 @@ from bubble.analysis.red_flag_scorecard import (
     aggregate_red_flag_scorecard,
     load_red_flag_scorecard,
 )
+from bubble.analysis.risk_register import build_risk_register
 from bubble.analysis.scenario_stress import stress_cluster
 from bubble.analysis.source_coverage import build_source_coverage_report
 from bubble.ingestion.capital import (
@@ -1435,6 +1436,28 @@ def report_answer_metric_audits(  # noqa: PLR0912, PLR0915
                 unit="count",
             )
 
+        # Top actionable-risk register (cross-layer synthesis).
+        rr = m.get("risk_register", {})
+        if rr.get("status") == "source_backed":
+            add(
+                "mismatch.risk_register.severity_5_count",
+                "Count of severity-5 (highest) risks in the ranked cross-layer risk register, each "
+                "anchored to a source-backed computed number across the verified layers "
+                "(cash-flow/refi/concentration/contagion/forensic). Synthesis for an analyst, not a "
+                "new claim -- every anchor traces to its layer's evidence.",
+                rr.get("severity_5_count"),
+                [mismatch_artifact],
+                unit="count",
+            )
+            add(
+                "mismatch.risk_register.source_backed_risk_count",
+                "Number of top risks whose evidence anchor is source-backed (vs illustrative) in the "
+                "ranked register.",
+                rr.get("source_backed_risk_count"),
+                [mismatch_artifact],
+                unit="count",
+            )
+
         # Debt-side funding routing (who funds the lenders that hold cluster debt).
         pcf = m.get("private_credit_funding", {})
         if pcf.get("status") == "source_backed":
@@ -2508,6 +2531,11 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:  #
     )
     if red_flag_scorecard_aggregate.get("status") == "source_backed":
         mismatch_ratios["red_flag_scorecard"] = red_flag_scorecard_aggregate
+    risk_register = build_risk_register(
+        mismatch_ratios, debt_census=debt_census_aggregate, contagion_hubs=contagion_hubs
+    )
+    if risk_register.get("status") == "source_backed":
+        mismatch_ratios["risk_register"] = risk_register
     ai_direct_core_verdict = synthesize_core_verdict(
         cluster_dscr=mismatch_ratios.get("cluster_interest_coverage", {}),
         thesis_findings=thesis_findings,
@@ -2531,6 +2559,7 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:  #
         equipment_bottlenecks=equipment_bottlenecks_aggregate,
         private_credit_funding=private_credit_funding_aggregate,
         red_flag_scorecard=red_flag_scorecard_aggregate,
+        risk_register=risk_register,
     )
     coverage_dict = coverage.to_dict()
     physical_capacity_dict = physical_capacity.to_dict()
@@ -4118,6 +4147,9 @@ Leading indicators:
 
 **Loss cascades (multi-hop: a shock to the hub → directly-hit issuers + census debt at risk → 2nd-order):**
 {_bullets(f"{c.get('origin')} ({'/'.join(c.get('origin_categories', []))}){' [demand/supply]' if c.get('is_demand_or_supply_hub') else ' [infrastructure]'} → {c.get('directly_hit_count')} issuers, ${round((c.get('debt_at_risk_usd') or 0) / 1e9, 1)}B at risk → 2nd-order: {', '.join(s.get('counterparty') for s in (c.get('second_order_counterparties') or [])[:3])}" for c in (verdict.get("contagion_hubs", {}) or {}).get("top_loss_cascades", []) or [])}
+
+**Top actionable risks (ranked, cross-layer synthesis — severity 1-5, each anchored to a sourced number):**
+{_bullets(f"#{r.get('rank')} [S{r.get('severity')}/{r.get('source_status')}] {r.get('title')} — {r.get('evidence')} ({r.get('backing_layer')})" for r in (verdict.get("top_actionable_risks", {}) or {}).get("risks", []) or [])}
 
 **Top risks (affirmatively-held premises):**
 {_bullets(f"{r.get('premise')} [{r.get('tier')}/{r.get('verdict')}]: {r.get('finding')}" for r in verdict.get("top_risks", []))}

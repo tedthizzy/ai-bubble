@@ -9,7 +9,7 @@ the scoped conclusion.
 
 ## Current Corpus
 
-- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260603-0423.md`
+- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260603-0436.md`
 - Evidence gate: ecosystem `high_confidence_final=false` / `bubble_confidence 0.25` (by design).
 - **Tiered verdict (`ai_direct_core_verdict`):** AI-direct core `bubble_dynamics_present` @ 0.67;
   ecosystem-wide `not_established_as_ecosystem_wide_bubble` (broad metric is mostly non-AI debt, so
@@ -38,7 +38,12 @@ the scoped conclusion.
   customer_concentration >35% (8/8), related-party/circular financing (7/8), auditor change
   (5/8), insider net selling (5/8). Highest-risk: Core Scientific, Hut 8, IREN. A SYSTEMIC
   (not idiosyncratic) forensic signal across the financed cluster.
-- Evidence audit coverage: 532 claim audits now include analyzer-level capital,
+- Top actionable-risk register (the Final Report's "Top 10-15 risks" requirement):
+  10 ranked, severity-weighted (1-5) risks synthesized DETERMINISTICALLY across the
+  source-backed layers, each anchored to a computed/sourced number + backing layer +
+  source-status tag. Top 2 are severity-5 (cash-flow fragility flipping negative by the
+  adverse case; refinancing treadmill on negative carry); all 10 currently source_backed.
+- Evidence audit coverage: 534 claim audits now include analyzer-level capital,
   compute, and debt-service audits, explicit row/artifact-backed audits for
   high-impact Burry-answer rollups, and aggregate hooks for pending review
   capital, pending AI-infra capital, pending compute, weak-link AI-infra,

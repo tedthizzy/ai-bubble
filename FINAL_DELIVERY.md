@@ -32,8 +32,8 @@ The important change is that ecosystem-scale conclusions are now blocked from be
 
 Latest verified evidence-gated report at this checkpoint:
 
-- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260603-0423.md`
-- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260603-0423.json`
+- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260603-0436.md`
+- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260603-0436.json`
 - `high_confidence_final`: `false` (ecosystem-wide, BY DESIGN — see verdict below).
 - Current `master` checkpoint: `e72d74e` (single-agent; the prior two-agent
   Claude/Codex handoff queue was consolidated into `master` at `7638aa9` and the
@@ -102,7 +102,20 @@ Latest verified evidence-gated report at this checkpoint:
   by the verifier; absence is not a clean bill, only non-disclosure in the window read.
   Complements the inferred-heuristic RedFlagEngine. Fixture:
   handoffs/ai_cluster_red_flags_20260603.json.
-- Evidence audit coverage now includes 532 claim audits: analyzer-level capital,
+- Top actionable-risk register (fulfills the Final Burry Report's "Top 10-15 actionable
+  risks with supporting data" requirement): 10 ranked, severity-weighted (1-5) risks
+  synthesized deterministically across the seven verified layers + red-flag scorecard,
+  each anchored to a computed/sourced number, its backing layer, and a source-status tag.
+  Ranked output (all 10 source_backed): (1, S5) cluster cash-flow fragility — positive
+  coverage leans on CoreWeave and flips NEGATIVE by the adverse case; (2, S5) refinancing
+  treadmill on negative carry ($54.8B, 6-10% refi); (3, S4) anchor-customer concentration
+  (8/8 issuers >35%); (4, S4) pervasive internal-control/accounting red flags (8/8 serious);
+  (5, S4) single-counterparty contagion (NVIDIA supplier+investor circular); (6, S4) GPU
+  economic life < depreciation schedule; (7, S3) TSMC CoWoS single-source supply gate;
+  (8, S3) demand-side off-BS leverage; (9, S3) downside socialized to insurance/pension
+  (households); (10, S2) ratepayer exposure (largely protected). A risk enters only if its
+  backing layer is source-backed; nothing asserted above its evidence tier.
+- Evidence audit coverage now includes 534 claim audits: analyzer-level capital,
   compute, and debt-service audits, explicit row/artifact-backed audits for
   high-impact Burry-answer rollups, and aggregate hooks for pending review
   capital, pending AI-infra capital, pending compute, weak-link AI-infra,

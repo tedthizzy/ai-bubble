@@ -145,6 +145,7 @@ def synthesize_core_verdict(
     equipment_bottlenecks: dict[str, Any] | None = None,
     private_credit_funding: dict[str, Any] | None = None,
     red_flag_scorecard: dict[str, Any] | None = None,
+    risk_register: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Synthesize the scoped, tiered Burry verdict from verified evidence."""
 
@@ -511,6 +512,16 @@ def synthesize_core_verdict(
             else {"status": "pending_source_backed_equipment_bottlenecks"}
         ),
         "forensic_red_flags": _forensic_red_flags_block(red_flag_scorecard),
+        "top_actionable_risks": (
+            {
+                "risk_count": (risk_register or {}).get("risk_count"),
+                "severity_5_count": (risk_register or {}).get("severity_5_count"),
+                "source_backed_risk_count": (risk_register or {}).get("source_backed_risk_count"),
+                "risks": (risk_register or {}).get("risks"),
+            }
+            if (risk_register or {}).get("status") == "source_backed"
+            else {"status": "pending_source_backed_risk_register"}
+        ),
         "crack_timing": crack_timing,
         "weakest_links": weakest_links,
         "top_risks": top_risks,
