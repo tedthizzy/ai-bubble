@@ -87,6 +87,24 @@ def _corroborating_layers(**layers: dict[str, Any] | None) -> list[str]:
     return out
 
 
+def _demand_durability_clause(dfd: dict[str, Any]) -> str:
+    """A second, INDEPENDENT demand-durability leg for the core-verdict basis note."""
+
+    if dfd.get("status") != "source_backed" or not dfd.get(
+        "majority_of_named_backlog_capital_markets_dependent"
+    ):
+        return ""
+    pct = dfd.get("capital_markets_dependent_pct")
+    return (
+        f" A second, INDEPENDENT demand-durability leg corroborates: {pct}% of the cluster's named "
+        "take-or-pay backlog rests on a capital-markets-dependent, circular offtaker (OpenAI -- partly "
+        "funded by the cluster's own GPU supplier and largest current customer), so the bull case's "
+        "strongest evidence (the contracted backlog) is bifurcated and its larger half is not "
+        "arm's-length end-demand. A first-principles judgment on filing-verified commitments, not a "
+        "measured ratio -- but it attacks the demand side the cash-flow legs cannot."
+    )
+
+
 def _named_refi_wall_block(rw: dict[str, Any]) -> dict[str, Any]:
     """Shape the named refinancing wall for crack_timing."""
 
@@ -435,6 +453,7 @@ def synthesize_core_verdict(
                 )
                 + ". The realistic-utilization-DSCR leg remains illustrative pending per-deal "
                 "debt-service/utilization inputs; it is NOT yet counted as proof."
+                + _demand_durability_clause(demand_funding_durability)
             ),
             "corroborating_source_backed_layers": _corroborating_layers(
                 contagion_hubs=contagion_hubs,
