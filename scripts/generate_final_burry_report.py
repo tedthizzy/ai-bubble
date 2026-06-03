@@ -4097,6 +4097,40 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:  #
     return report
 
 
+def _methodology_appendix(report: dict[str, Any], verdict: dict[str, Any]) -> str:
+    """A methodology / assumptions / limitations appendix (Final Report Output-Quality item)."""
+
+    audits = len(report.get("evidence_quality", {}).get("claim_audits", []) or [])
+    return (
+        "## Methodology, Assumptions & Limitations\n\n"
+        "**Data used.** Primary SEC/SEDAR filings (10-K, 10-Q, 8-K, 20-F, S-1, DEF 14A, SC 13D/13G, "
+        "Form 4, credit-agreement & guaranty exhibits), supplier earnings calls/IR, utility 10-Ks + "
+        "PUC dockets, and the broad acquired corpus (filings, deals, projects, ISO queues, ownership/"
+        "LEI). Every cluster layer is built from an adversarially-verified handoff fixture whose rows "
+        "carry a source URI and a filing-verified vs analyst-flagged vs rejected verdict.\n\n"
+        "**Evidence discipline.** Each claim is tiered (MEASURED > CORROBORATED > SINGLE-SOURCE > "
+        "INFERRED > UNSUPPORTED); the report confidence is capped by its weakest load-bearing claim "
+        f"(any UNSUPPORTED -> 0.25). {audits} per-metric claim audits trace figures to evidence. "
+        "Source-backed and illustrative/blocked legs are labeled distinctly throughout; nothing is "
+        "asserted above its tier.\n\n"
+        "**Key assumptions (labeled, not hidden).** Forward scenario stress parameters (utilization "
+        "miss, rate shock, GPU-life compression) are assumptions applied to primary-sourced base "
+        "financials. Recourse classification, household-routing buckets, and severity weights are "
+        "stated conventions. Per-lender syndicate allocations, per-DDTL-facility debt-holder "
+        "attribution, and realistic-utilization DSCR are NOT publicly disclosed and are left "
+        "illustrative or null rather than estimated as fact.\n\n"
+        "**Limitations.** (1) Depth is on a bounded ~8-11 issuer financed core, not the full "
+        "1,200-2,000-entity ambition; the cluster-boundary test shows adjacent crypto-AI names mostly "
+        "fail the in-scope gate, so the core is specific, not exhaustive. (2) The ecosystem-wide gate "
+        "is held at 0.25 BY DESIGN -- the broad metric is mostly non-AI debt, so no defensible "
+        "total-AI denominator exists. (3) Per-deal utilization/debt-service disclosure is thin; the "
+        "leg quantifies that opacity rather than papering over it. (4) The knowledge graph is "
+        "CSV-backed with the cluster injected, not a production Neo4j+GDS engine; satellite/FOIA and "
+        "continuous live ingest are scaffolded, not fully integrated. The scoped-core conclusions are "
+        "grounded; the ecosystem-scale ambition is explicitly incomplete.\n"
+    )
+
+
 def _executive_conclusion(verdict: dict[str, Any]) -> str:
     """A crisp scoped binary conclusion + confidence + timeline + top risks for the top of the report."""
 
@@ -4460,6 +4494,7 @@ If 2+ of these mismatches are large on source-backed data for the AI-direct core
 ## Blocked Burry Questions
 {json.dumps(report["burry_question_answers"], indent=2)}
 
+{_methodology_appendix(report, verdict)}
 See the accompanying JSON for full structured data.
 """
     md_path.write_text(md)

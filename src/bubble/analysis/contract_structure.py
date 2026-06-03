@@ -30,6 +30,20 @@ _RECOURSE_CLASSES = (
 _KEPT_VERDICTS = {"filing_verified", "analyst_kept_flagged"}
 
 
+def _is_yes(value: Any) -> bool:
+    """Verify agents may return a verbose 'yes -- SUPPORTED by ...' string; match the yes prefix."""
+
+    return str(value or "").strip().lower().startswith("yes")
+
+
+def _norm_recourse(value: Any) -> str:
+    text = str(value or "").strip().lower()
+    for rc in _RECOURSE_CLASSES:
+        if text.startswith(rc) or rc in text:
+            return rc
+    return "unclear"
+
+
 def load_contract_structure(path: str | Path) -> list[dict[str, Any]]:
     p = Path(path)
     if not p.exists():
@@ -85,17 +99,15 @@ def aggregate_contract_structure(records: list[dict[str, Any]]) -> dict[str, Any
             facilities_total += 1
             if str(f.get("verdict")) == "filing_verified":
                 filing_verified_facilities += 1
-            rc = str(f.get("recourse") or "unclear")
-            if rc not in recourse_counts:
-                rc = "unclear"
+            rc = _norm_recourse(f.get("recourse"))
             recourse_counts[rc] += 1
             issuer_recourse[rc] = issuer_recourse.get(rc, 0) + 1
             principal = _num(f.get("principal_usd"))
             if principal:
                 recourse_principal[rc] += principal
-            if str(f.get("bankruptcy_remote")) == "yes":
+            if _is_yes(f.get("bankruptcy_remote")):
                 bankruptcy_remote += 1
-            if str(f.get("gpu_collateral")) == "yes":
+            if _is_yes(f.get("gpu_collateral")):
                 gpu_collateralized += 1
             if f.get("guarantors"):
                 parent_guaranteed += 1

@@ -9,7 +9,7 @@ the scoped conclusion.
 
 ## Current Corpus
 
-- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260603-0507.md`
+- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260603-0536.md`
 - Evidence gate: ecosystem `high_confidence_final=false` / `bubble_confidence 0.25` (by design).
 - **Tiered verdict (`ai_direct_core_verdict`):** AI-direct core `bubble_dynamics_present` @ 0.67;
   ecosystem-wide `not_established_as_ecosystem_wide_bubble` (broad metric is mostly non-AI debt, so
@@ -50,6 +50,21 @@ the scoped conclusion.
   Scientific (19.0: restatement + material weakness + concentration + negative EBITDA),
   #2 Hut 8, #3 TeraWulf, #4 IREN (partial going-concern), #5 CoreWeave ($21.4B debt). Each
   concern traces to its source layer; fragility is broad (8/8 serious flag, most EBITDA-negative).
+- Contract-level recourse structure (who bears the loss, from the ACTUAL credit-agreement
+  & guaranty exhibits Grok's locator surfaced): 22 facilities, 18 filing-verified — 16
+  full-recourse-to-parent, 2 non-recourse, 1 limited; 8 parent-guaranteed, 1 bankruptcy-
+  remote, 1 GPU-collateralized. Read `loss_concentrates_on_parent_equity` — confirms the
+  census recourse finding with document language (e.g. CoreWeave's DDTL 5.0 parent guaranty
+  has NO commercial cap, only a fraudulent-conveyance savings clause; DSCR ≥1.35x covenant;
+  $35M cross-default). Non-recourse/bankruptcy-remote claims rejected unless the document states them.
+- Cluster-boundary test: a 6-name adjacent breadth sweep (crypto-miners/HPC pivots) with an
+  adversarial in-scope gate qualifies only 1 (Bit Digital) as genuine financed AI-infra; 5
+  are crypto-only-marginal-AI (the verify pass corrected Bitdeer down + nulled a fabricated
+  EBITDA). `cluster_is_bounded` — reinforces the scoped (not ecosystem-wide) verdict.
+- Continuous-update harness (`bubble.ingestion.update_detector` + `scripts/check_for_updates.py`):
+  diffs a fresh EDGAR submissions snapshot vs ingested accessions (189,737 found), prioritizes
+  by form relevance, flags rerun. The report now also carries a Methodology/Assumptions/Limitations
+  appendix.
 - Report now opens with a "Scoped Burry Conclusion": binary call (core
   `bubble_dynamics_present` @ 0.67; ecosystem not-established), crack timeline, and the
   top-3 register risks — the Final Report's "clear binary conclusion + confidence" up front.
@@ -58,7 +73,7 @@ the scoped conclusion.
   source-backed layers, each anchored to a computed/sourced number + backing layer +
   source-status tag. Top 2 are severity-5 (cash-flow fragility flipping negative by the
   adverse case; refinancing treadmill on negative carry); all 10 currently source_backed.
-- Evidence audit coverage: 537 claim audits now include analyzer-level capital,
+- Evidence audit coverage: 540 claim audits now include analyzer-level capital,
   compute, and debt-service audits, explicit row/artifact-backed audits for
   high-impact Burry-answer rollups, and aggregate hooks for pending review
   capital, pending AI-infra capital, pending compute, weak-link AI-infra,
