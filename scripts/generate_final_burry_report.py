@@ -34,6 +34,7 @@ from bubble.analysis.physical_capacity import build_physical_capacity_summary
 from bubble.analysis.physical_execution_summary import build_physical_execution_summary
 from bubble.analysis.physical_risk_summary import build_physical_risk_summary
 from bubble.analysis.power_exposure import aggregate_power_exposure, load_power_exposure
+from bubble.analysis.scenario_stress import stress_cluster
 from bubble.analysis.source_coverage import build_source_coverage_report
 from bubble.ingestion.capital import (
     CapitalEvidenceBatch,
@@ -1376,6 +1377,35 @@ def report_answer_metric_audits(  # noqa: PLR0912, PLR0915
                 unit="USD",
             )
 
+        # Forward cash-flow stress (how severely it cracks). Audit the adverse-case
+        # cluster coverage and breach count from the source-backed base financials.
+        sstress = m.get("scenario_stress", {})
+        if sstress.get("status") == "source_backed":
+            adverse: dict[str, Any] = next(
+                (s for s in (sstress.get("scenarios") or []) if s.get("scenario") == "adverse"),
+                {},
+            )
+            if adverse.get("cluster_stressed_interest_coverage") is not None:
+                add(
+                    "mismatch.scenario_stress.adverse_cluster_coverage",
+                    "Cluster interest coverage under the ADVERSE scenario (25% utilization miss + "
+                    "200bp rate shock + GPU-life compression) on the source-backed 11-issuer "
+                    "financials; <1x = the financed core cannot cover interest under a moderate "
+                    "demand/financing shock. Stress params are labeled assumptions; base is primary.",
+                    adverse.get("cluster_stressed_interest_coverage"),
+                    [mismatch_artifact],
+                    unit="ratio",
+                )
+                add(
+                    "mismatch.scenario_stress.adverse_issuers_breaching",
+                    "Number of issuers breaching (coverage<1 or negative EBITDA) under the adverse "
+                    "scenario — the count of the financed cluster pushed into distress by a moderate, "
+                    "non-tail shock.",
+                    adverse.get("issuers_breaching"),
+                    [mismatch_artifact],
+                    unit="count",
+                )
+
         # Physical deliverability mismatch. We audit the honest tracker
         # construction-status proxy, NOT the strong-queue-match figure (which is
         # a coverage-limited join artifact until the ISO queues are ingested).
@@ -2090,7 +2120,7 @@ def compute_burry_mismatch_ratios(  # noqa: PLR0912, PLR0915
 
         def _num(row: dict[str, str], key: str) -> float | None:
             value = row.get(key)
-            if value in (None, ""):
+            if not value:
                 return None
             try:
                 return float(value)
@@ -2116,6 +2146,21 @@ def compute_burry_mismatch_ratios(  # noqa: PLR0912, PLR0915
         ]
         if issuers:
             ratios["cluster_interest_coverage"] = compute_cluster_interest_coverage(issuers)
+        # Forward-looking cash-flow stress on the same source-backed rows.
+        stress = stress_cluster(
+            [
+                {
+                    "entity": row.get("entity", ""),
+                    "revenue_usd": _num(row, "revenue_usd"),
+                    "ebitda_usd": _num(row, "ebitda_usd"),
+                    "annual_interest_expense_usd": _num(row, "annual_interest_expense_usd"),
+                    "verification_overall": (row.get("verification_overall") or "").strip(),
+                }
+                for row in issuer_rows
+            ]
+        )
+        if stress.get("status") == "source_backed":
+            ratios["scenario_stress"] = stress
     except Exception:
         pass
 
@@ -2353,6 +2398,7 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:  #
         ),
         contagion_hubs=contagion_hubs,
         power_exposure=power_exposure_aggregate,
+        scenario_stress=mismatch_ratios.get("scenario_stress", {}),
     )
     coverage_dict = coverage.to_dict()
     physical_capacity_dict = physical_capacity.to_dict()
@@ -3852,6 +3898,20 @@ Earlier triggers:
 
 Leading indicators:
 {_bullets(_ct.get("leading_indicators"))}
+
+**How severely it cracks (forward cash-flow stress — base financials primary-sourced, stress params labeled assumptions):**
+{(
+    "\n".join(
+        f"- **{s.get('scenario')}** (util miss {s.get('utilization_miss_pct')}%, +{s.get('rate_shock_bps')}bp): "
+        f"cluster coverage **{s.get('cluster_interest_coverage')}x**, "
+        f"{s.get('issuers_breaching')}/{s.get('issuer_count')} issuers breaching "
+        f"({s.get('issuers_negative_ebitda')} negative-EBITDA)"
+        for s in (_fs.get("by_scenario") or [])
+    )
+    if (_fs := (_ct.get("forward_scenarios") or {})).get("by_scenario")
+    else "- pending source-backed issuer financials."
+)}
+{(_ct.get("forward_scenarios") or {}).get("severity_read", "")}
 
 **Weakest links in the capital structure:**
 {_bullets(verdict.get("weakest_links"))}

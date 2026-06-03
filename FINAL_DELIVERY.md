@@ -32,8 +32,8 @@ The important change is that ecosystem-scale conclusions are now blocked from be
 
 Latest verified evidence-gated report at this checkpoint:
 
-- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260603-0225.md`
-- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260603-0225.json`
+- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260603-0234.md`
+- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260603-0234.json`
 - `high_confidence_final`: `false` (ecosystem-wide, BY DESIGN — see verdict below).
 - Current `master` checkpoint: `e72d74e` (single-agent; the prior two-agent
   Claude/Codex handoff queue was consolidated into `master` at `7638aa9` and the
@@ -48,8 +48,12 @@ Latest verified evidence-gated report at this checkpoint:
   TWO source-backed legs: cluster EBITDA/interest coverage (`1.35x`, 7/11 issuers
   loss-making, CoreWeave DSCR incl. principal ~0.30x) AND the GPU book-vs-economic-life
   gap (deployed-fleet rental yields −60-75% in ~2yr + Amazon's SEC 6→5yr server-life
-  revision). Only the realistic-utilization DSCR leg remains illustrative.
-- Evidence audit coverage now includes 479 claim audits: analyzer-level capital,
+  revision). Only the realistic-utilization DSCR leg remains illustrative. A
+  forward cash-flow stress (Base/Adverse/Severe/Tail) now sits on the same
+  source-backed financials: the cluster runs 1.35x at base but flips NEGATIVE by the
+  adverse case (25% utilization miss + 200bp rate shock), with a majority of issuers
+  breaching — a moderate, non-tail shock is enough to push the financed core into distress.
+- Evidence audit coverage now includes 481 claim audits: analyzer-level capital,
   compute, and debt-service audits, explicit row/artifact-backed audits for
   high-impact Burry-answer rollups, and aggregate hooks for pending review
   capital, pending AI-infra capital, pending compute, weak-link AI-infra,

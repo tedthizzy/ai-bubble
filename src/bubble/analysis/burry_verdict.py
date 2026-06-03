@@ -61,6 +61,49 @@ def _sentence_clip(text: str, limit: int) -> str:
     return (window[:cut] if cut > 0 else window).rstrip() + " ..."
 
 
+def _build_forward_scenarios(scenario_stress: dict[str, Any]) -> dict[str, Any] | None:
+    """Shape the forward cash-flow stress band for the verdict (how severely it cracks)."""
+
+    stress_scenarios = list(scenario_stress.get("scenarios") or [])
+    if scenario_stress.get("status") != "source_backed" or not stress_scenarios:
+        return None
+    base_cov = next(
+        (
+            s.get("cluster_stressed_interest_coverage")
+            for s in stress_scenarios
+            if s.get("scenario") == "base"
+        ),
+        None,
+    )
+    first_break = scenario_stress.get("first_majority_breach_scenario")
+    return {
+        "base_cluster_interest_coverage": base_cov,
+        "by_scenario": [
+            {
+                "scenario": s.get("scenario"),
+                "utilization_miss_pct": (s.get("params") or {}).get("utilization_miss_pct"),
+                "rate_shock_bps": (s.get("params") or {}).get("rate_shock_bps"),
+                "cluster_interest_coverage": s.get("cluster_stressed_interest_coverage"),
+                "issuers_breaching": s.get("issuers_breaching"),
+                "issuers_negative_ebitda": s.get("issuers_negative_ebitda"),
+                "issuer_count": s.get("issuer_count"),
+            }
+            for s in stress_scenarios
+        ],
+        "first_majority_breach_scenario": first_break,
+        "severity_read": (
+            f"The source-backed cluster already runs near 1x coverage at base; a majority of "
+            f"issuers breach (coverage<1 or negative EBITDA) by the {first_break} scenario "
+            f"(utilization miss + rate shock + GPU-life compression). A thin buffer -> a moderate "
+            f"demand/financing shock, not a tail event, is enough to push the financed core into "
+            f"distress."
+            if first_break
+            else "Cluster survives the modeled stress band without a majority breach."
+        ),
+        "note": scenario_stress.get("note"),
+    }
+
+
 def synthesize_core_verdict(
     *,
     cluster_dscr: dict[str, Any],
@@ -75,6 +118,7 @@ def synthesize_core_verdict(
     contagion_hubs: dict[str, Any] | None = None,
     demand_side: dict[str, Any] | None = None,
     power_exposure: dict[str, Any] | None = None,
+    scenario_stress: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Synthesize the scoped, tiered Burry verdict from verified evidence."""
 
@@ -83,6 +127,7 @@ def synthesize_core_verdict(
     contagion_hubs = contagion_hubs or {}
     demand_side = demand_side or {}
     power_exposure = power_exposure or {}
+    scenario_stress = scenario_stress or {}
     bear = _finding(thesis_findings, "bear_case_against_bubble")
     bear_confidence = float(bear.get("confidence") or 0.0)
 
@@ -211,8 +256,12 @@ def synthesize_core_verdict(
             "Maturity profile pending the source-backed debt census; the carded subset suggested a "
             f"2030-2033 concentration but that rested on a curated floor. Timing engine peaks ~{peak_quarter}."
         )
+    # Forward-looking cluster cash-flow stress (how SEVERELY it cracks).
+    forward_scenarios = _build_forward_scenarios(scenario_stress)
+
     crack_timing = {
         "maturity_profile": crack_profile,
+        "forward_scenarios": forward_scenarios,
         "peak_maturity_year": str(debt_census.get("peak_maturity_year") or "").lstrip("y") or None,
         "pct_2030_2033": debt_census.get("wall_2030_2033_pct_of_scheduled"),
         "pct_near_term_2025_2027": debt_census.get("near_term_2025_2027_pct_of_scheduled"),
