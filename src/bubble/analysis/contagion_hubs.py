@@ -40,10 +40,17 @@ _CANONICAL = {
     "morgan stanley": "Morgan Stanley",
     "goldman": "Goldman Sachs",
     "wilmington trust": "Wilmington Trust",
+    "u.s. bank": "U.S. Bank",
+    "us bank": "U.S. Bank",
+    "u. s. bank": "U.S. Bank",
+    "mufg": "MUFG",
+    "cantor": "Cantor Fitzgerald",
+    "coinbase": "Coinbase",
     "bnp paribas": "BNP Paribas",
     "coatue": "Coatue",
     "blackstone": "Blackstone",
     "magnetar": "Magnetar",
+    "coreweave": "CoreWeave",
 }
 
 _SUFFIX_RE = re.compile(

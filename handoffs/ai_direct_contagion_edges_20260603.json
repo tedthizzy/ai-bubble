@@ -1,0 +1,956 @@
+[
+ {
+  "entity": "CoreWeave, Inc. (CRWV) \u2014 CIK 0001769628",
+  "top_customers": [
+   {
+    "name": "Microsoft Corporation",
+    "revenue_concentration_pct": 67,
+    "quote": "We recognized an aggregate of approximately 67% of our revenue from our top customer, Microsoft, for the year ended December 31, 2025.",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000104/crwv-20251231.htm"
+   },
+   {
+    "name": "OpenAI OpCo, LLC",
+    "revenue_concentration_pct": null,
+    "quote": "In May 2025, we entered into a master services agreement with OpenAI OpCo, LLC (\"OpenAI\")... OpenAI has committed to pay us up to approximately $6.5 billion through May 31, 2031... in March 2025, we entered into a master services agreement with OpenAI, a private company, pursuant to which OpenAI has committed to pay us up to approximately $11.9 billion through October 2030.",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000104/crwv-20251231.htm"
+   },
+   {
+    "name": "Meta Platforms, Inc.",
+    "revenue_concentration_pct": null,
+    "quote": "in September 2025, we entered into an order form under an existing master services agreement pursuant to which Meta Platforms, Inc. (\"Meta\") initially committed to pay us up to approximately $14.2 billion through December 2031... Other significant customers include Microsoft and Meta.",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000104/crwv-20251231.htm"
+   }
+  ],
+  "gpu_suppliers": [
+   {
+    "name": "NVIDIA Corporation",
+    "quote": "as a result of our obligations in our current customer contracts, all of the GPUs used in our infrastructure today are NVIDIA GPUs... our current customers have contractually specified our use of NVIDIA GPUs.",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000104/crwv-20251231.htm"
+   },
+   {
+    "name": "Three unnamed suppliers (supplier concentration \u2014 names not disclosed in 10-K)",
+    "quote": "for the year ended December 31, 2025, three suppliers accounted for 23%, 20%, and 17% of total purchases, for the year ended December 31, 2024, three suppliers accounted for 46%, 16%, and 14% of total purchases, and for the year ended December 31, 2023, three suppliers account for 57%, 22%, and 11% of total purchases.",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000104/crwv-20251231.htm"
+   }
+  ],
+  "lenders_or_agents": [
+   {
+    "name": "Morgan Stanley Senior Funding, Inc.",
+    "role": "admin_agent",
+    "quote": "CoreWeave Financing DDTL V, LLC (the \"Borrower\")... entered into a credit agreement... with Morgan Stanley Senior Funding, Inc., as administrative agent... and Morgan Stanley Senior Funding, Inc. as coordinating lead arrangers and joint bookrunners... providing for a $3.1 billion delayed draw term loan facility (the \"DDTL 5.0 Facility\").",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000236/crwv-20260515.htm"
+   },
+   {
+    "name": "U.S. Bank Trust Company, National Association",
+    "role": "collateral_agent",
+    "quote": "U.S. Bank Trust Company, National Association as collateral agent (DDTL 5.0 Facility); also \"as administrative agent and collateral agent\" on the DDTL 2.0 Fifth Amendment and as collateral agent on the DDTL 3.0 Credit Agreement; and \"as trustee\" on the July 25, 2025 (9.000% Senior Notes due 2031) and December 11, 2025 (1.75% Convertible Senior Notes due 2031) Indentures.",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000236/crwv-20260515.htm"
+   },
+   {
+    "name": "U.S. Bank National Association",
+    "role": "collateral_agent",
+    "quote": "U.S. Bank National Association as depository bank (DDTL 5.0 Facility, and DDTL 2.0/3.0 credit agreements).",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000236/crwv-20260515.htm"
+   },
+   {
+    "name": "MUFG Bank, Ltd.",
+    "role": "admin_agent",
+    "quote": "MUFG Bank, Ltd.... as coordinating lead arrangers and joint bookrunners (DDTL 5.0). On the DDTL 3.0 Credit Agreement: \"MUFG Bank, Ltd., as administrative agent... Morgan Stanley Asset Funding, Inc., MUFG Bank, Ltd. and Goldman Sachs Bank USA, as joint lead arrangers.\"",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000236/crwv-20260515.htm"
+   },
+   {
+    "name": "Goldman Sachs Bank USA",
+    "role": "lender",
+    "quote": "Credit Agreement between CoreWeave Compute Acquisition Co. V, LLC, CoreWeave Compute Acquisition Co. VII, LLC, U.S. Bank National Association, as depository bank, MUFG Bank, Ltd., as administrative agent, U.S. Bank Trust Company, National Association as collateral agent, Morgan Stanley Asset Funding, Inc., MUFG Bank, Ltd. and Goldman Sachs Bank USA, as joint lead arrangers, and other lenders party thereto.",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000104/crwv-20251231.htm"
+   },
+   {
+    "name": "Morgan Stanley Asset Funding, Inc.",
+    "role": "lender",
+    "quote": "Morgan Stanley Asset Funding, Inc., MUFG Bank, Ltd. and Goldman Sachs Bank USA, as joint lead arrangers, and other lenders party thereto (DDTL 3.0 Credit Agreement, CoreWeave Compute Acquisition Co. V/VII).",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000104/crwv-20251231.htm"
+   },
+   {
+    "name": "Wilmington Trust, National Association",
+    "role": "trustee",
+    "quote": "Indenture, dated as of May 27, 2025, by and among CoreWeave, Inc., the guarantor party thereto and Wilmington Trust, National Association, as trustee (9.250% Senior Notes due 2030).",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000104/crwv-20251231.htm"
+   }
+  ],
+  "strategic_investors": [
+   {
+    "name": "NVIDIA Corporation",
+    "stake_or_amount": "$2 billion equity investment in Class A common stock at $87.20/share (January 2026)",
+    "quote": "In January 2026, NVIDIA Corporation invested $2 billion in the Company's Class A common stock at a purchase price of $87.20 per share. (Subsequent Events) ... in January 2026, we announced that we entered into a collaboration framework with NVIDIA Corporation to expand our long-standing complementary relationship.",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000104/crwv-20251231.htm"
+   },
+   {
+    "name": "Magnetar Financial LLC (CW Opportunity 2 LP; Magnetar Constellation Master Fund, Ltd; Magnetar Capital Master Fund Ltd; Longhorn Special Opportunities Fund LP)",
+    "stake_or_amount": "Pre-IPO investor; held board director nomination right under May 20, 2024 letter agreement, terminated November 6, 2025",
+    "quote": "Reference is made to that certain letter agreement dated May 20, 2024... among CoreWeave, Inc. and CW Opportunity 2 LP, Magnetar Constellation Master Fund, Ltd, Magnetar Capital Master Fund Ltd and Longhorn Special Opportunities Fund LP (collectively, the \"Investor\"), pursuant to which the Investor was granted the right to nominate an individual... to serve as a member of the Company's Board of Directors.",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000104/ex1033-magnetar_coreweavex.htm"
+   }
+  ],
+  "unfound": [
+   "GPU/server suppliers other than NVIDIA are not named in the 10-K \u2014 supplier concentration is disclosed only as anonymized percentages (23%/20%/17% for FY2025). Dell, Supermicro/Super Micro, Lenovo, HPE are NOT named in the SEC filings reviewed.",
+   "Note underwriters / initial purchasers for the Senior Notes and Convertible Notes are not named in the 10-K (would be in the separate notes-offering 8-Ks / purchase agreements not fully reviewed here).",
+   "Per-customer revenue % beyond Microsoft (67% FY2025) is not broken out individually; OpenAI and Meta concentration % not separately stated (FY2025: '67% from top customer Microsoft'; no second/third FY2025 named-customer % disclosed).",
+   "The DDTL 1.0 / 2.0 / 2.1 facility agents (CoreWeave Compute Acquisition Co. II) \u2014 exhibit index references 'the agents and lenders party thereto' without naming them in the 10-K body text."
+  ],
+  "confidence": 0.25
+ },
+ {
+  "entity": "IREN Limited (IREN) \u2014 CIK 0001878848",
+  "top_customers": [
+   {
+    "name": "Microsoft Corporation",
+    "revenue_concentration_pct": null,
+    "quote": "IREN Limited ... today announced it has signed a multi-year GPU cloud services contract with Microsoft. Under the agreement, IREN will provide Microsoft with access to NVIDIA GB300 GPUs over a five-year term, with a total contract value of approximately $9.7 billion, including a 20% prepayment.",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1878848/000114036125040072/ef20058139_ex99-1.htm"
+   },
+   {
+    "name": "Microsoft Corporation",
+    "revenue_concentration_pct": null,
+    "quote": "Strategic Customer Agreement On November 2, 2025, the Group entered into an agreement with Microsoft Corporation (the \"Microsoft Agreement\") to provide dedicated GPU services in tranches at data center facilities located in Childress, Texas, over an [extended term]. (FY2026 Q3 10-Q) The Group's HPC and AI services have and may continue to have a significant customer concentration.",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1878848/000187884826000026/iren-20260331.htm"
+   }
+  ],
+  "gpu_suppliers": [
+   {
+    "name": "NVIDIA Corporation",
+    "quote": "we had approximately 1.9k NVIDIA H100 and H200 GPUs ... Subsequent to June 30, 2025, we procured ... approximately 5.5k NVIDIA B200 GPUs, 2.3k NVIDIA B300 GPUs and 1.2k NVIDIA GB300 GPUs. ... we have strong relationships with leading hardware providers for HPC and AI services and equipment suppliers for data centers, including Dell Technologies Inc., Hunton Trane, Lenovo, NVIDIA, Supermicro and WekaIO, Inc, among others.",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1878848/000187884825000063/iren-20250630.htm"
+   },
+   {
+    "name": "Dell Technologies Inc.",
+    "quote": "we have strong relationships with leading hardware providers for HPC and AI services and equipment suppliers for data centers, including Dell Technologies Inc., Hunton Trane, Lenovo, NVIDIA, Supermicro and WekaIO, Inc, among others.",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1878848/000187884825000063/iren-20250630.htm"
+   },
+   {
+    "name": "Dell Financial Services (Dell, GPU equipment lessor)",
+    "quote": "Equipment Leasing Agreements On November 5, 2025, the Group entered into financing arrangements with Dell Financial Services to finance a portion of the Group's GPU orders. The facility provides $199.8 million of financing, structured as a 24-month lease.",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1878848/000187884826000026/iren-20260331.htm"
+   },
+   {
+    "name": "Super Micro Computer, Inc. (Supermicro)",
+    "quote": "we have strong relationships with leading hardware providers ... including Dell Technologies Inc., Hunton Trane, Lenovo, NVIDIA, Supermicro and WekaIO, Inc, among others.",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1878848/000187884825000063/iren-20250630.htm"
+   },
+   {
+    "name": "Lenovo",
+    "quote": "... including Dell Technologies Inc., Hunton Trane, Lenovo, NVIDIA, Supermicro and WekaIO, Inc, among others.",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1878848/000187884825000063/iren-20250630.htm"
+   },
+   {
+    "name": "WekaIO, Inc.",
+    "quote": "... including Dell Technologies Inc., Hunton Trane, Lenovo, NVIDIA, Supermicro and WekaIO, Inc, among others.",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1878848/000187884825000063/iren-20250630.htm"
+   }
+  ],
+  "lenders_or_agents": [
+   {
+    "name": "CSC Delaware Trust Company",
+    "role": "admin_agent",
+    "quote": "a credit agreement ... among Hardware 3, as borrower ... CSC Delaware Trust Company, as administrative agent (in such capacity, the \"Administrative Agent\") ... and CSC Delaware Trust Company, as intercreditor agent ..., collateral agent (in such capacity, the \"Collateral Agent\") and note agent.",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1878848/000114036126023427/ef20075181_8k.htm"
+   },
+   {
+    "name": "CSC Delaware Trust Company",
+    "role": "collateral_agent",
+    "quote": "CSC Delaware Trust Company, as intercreditor agent ..., collateral agent (in such capacity, the \"Collateral Agent\") and note agent ... approximately $3.6 billion, comprised of (i) an approximately $1.5 billion delayed draw term loan facility (the \"DDTL\").",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1878848/000114036126023427/ef20075181_8k.htm"
+   },
+   {
+    "name": "Goldman Sachs Bank USA",
+    "role": "lender",
+    "quote": "Goldman Sachs Bank USA and JPMorgan Chase Bank, N.A., as joint lead arrangers and joint bookrunners, and the lenders party thereto ... ($1.5 billion DDTL of the ~$3.6 billion Microsoft-backed financing). Hedge ... with ... J. Aron & Company LLC (an affiliate of Goldman Sachs).",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1878848/000114036126023427/ef20075181_8k.htm"
+   },
+   {
+    "name": "JPMorgan Chase Bank, N.A.",
+    "role": "lender",
+    "quote": "Goldman Sachs Bank USA and JPMorgan Chase Bank, N.A., as joint lead arrangers and joint bookrunners ... The Group entered into hedge agreements with respect to (a) the interest rate under the DDTL, initially with JPMorgan Chase Bank, N.A., and J. Aron & Company LLC.",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1878848/000114036126023427/ef20075181_8k.htm"
+   },
+   {
+    "name": "U.S. Bank Trust Company, National Association",
+    "role": "trustee",
+    "quote": "IREN LIMITED and U.S. BANK TRUST COMPANY, NATIONAL ASSOCIATION as [Trustee] ... IREN Limited ... as issuer (the \"Company\"), and U.S. Bank Trust Company, National Association, as [Trustee] (convertible notes indenture).",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1878848/000114036125044888/ef20060782_ex4-1.htm"
+   }
+  ],
+  "strategic_investors": [],
+  "unfound": [
+   "No NVIDIA Corporation or Microsoft Corporation EQUITY/strategic investment in IREN found \u2014 both are commercial counterparties only (NVIDIA = GPU supplier; Microsoft = anchor GPU-cloud customer). No 13-D and no strategic 8-K/S-1 equity stake located.",
+   "No strategic AI-ecosystem equity investors disclosed. The Schedule 13G/13G-A filers are passive market-makers/index holders (Jane Street Group LLC, Citadel Securities/Citadel Advisors, Susquehanna/G1 Execution Services), not strategic investors.",
+   "Named initial purchasers/underwriters of the convertible notes (2029/2030/2031 Notes) not disclosed in the body 8-Ks reviewed locally; they are in the (unreviewed/redacted) purchase agreement exhibits. Capped call/option counterparties referenced but not individually named in the 8-K body.",
+   "Precise revenue-concentration percentages for the named customer (Microsoft) not disclosed; FY2025 10-K states AI Cloud Services is still a small portion of revenue and customer concentration is described qualitatively. FY2025 revenue was ~97% from three Bitcoin mining-pool operators (unnamed)."
+  ],
+  "confidence": 0.25
+ },
+ {
+  "entity": "TeraWulf Inc. (WULF) \u2014 CIK 0001083301",
+  "top_customers": [
+   {
+    "name": "Core42 Holding US LLC",
+    "revenue_concentration_pct": 100,
+    "quote": "In December 2024, La Lupa entered into long-term data center lease agreements with Core42 (the \u201cCore42 Leases\u201d) ... Certain of the Core42 Leases commenced in 2025 ... During the year end December 31, 2025, the Company\u2019s HPC lease revenue was generated from one customer.",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1083301/000108330126000031/wulf-20251231.htm"
+   },
+   {
+    "name": "Fluidstack USA I Inc. / Fluidstack USA III Inc.",
+    "revenue_concentration_pct": null,
+    "quote": "In August 2025, Akela entered into three data center lease agreements (the \u201cAkela Fluidstack Leases\u201d) with Fluidstack USA I Inc. ... This capacity is fully pre-leased to Fluidstack USA III under a 25-year data center lease ... The Akela Fluidstack Leases benefit from substantial credit support provided by Google.",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1083301/000108330126000031/wulf-20251231.htm"
+   },
+   {
+    "name": "Core42 Holding US LLC (G42 company) \u2014 full legal name per FY2024 10-K",
+    "revenue_concentration_pct": null,
+    "quote": "Core42 Holding US LLC (\u201cCore42\u201d), a G42 company specializing in sovereign cloud, AI infrastructure, and digital services, securing ... 72 [MW]",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1083301/000108330125000018/wulf-20241231.htm"
+   },
+   {
+    "name": "Unnamed bitcoin miner hosting customer",
+    "revenue_concentration_pct": 10.9,
+    "quote": "Revenue from one bitcoin miner hosting customer represented 10.9 % of consolidated revenue for the year ended December 31, 2023.",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1083301/000108330126000031/wulf-20251231.htm"
+   }
+  ],
+  "gpu_suppliers": [
+   {
+    "name": "Bitmain Technologies Limited / Bitmain Technologies Delaware Limited",
+    "quote": "We currently predominantly use Bitmain Technologies Limited (\u201cBitmain\u201d) miners ... the Company entered into a Future Sales and Purchase Agreement and Supplemental Agreement with Bitmain Technologies Delaware Limited (\u201cBitmain Delaware\u201d) which provided the Company the right ... to purchase up to 7,020 PH (approximately 30,000 miners) of S21 Pro miners for a purchase price of $112.3 million (the \u201cBitmain Call Option\u201d). Substantially all of these miners were manufactured by Bitmain.",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1083301/000108330126000031/wulf-20251231.htm"
+   },
+   {
+    "name": "Foundry (mining pool operator)",
+    "quote": "We receive bitcoin rewards from our mining activity through a third-party mining pool operator, Foundry.",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1083301/000108330126000031/wulf-20251231.htm"
+   }
+  ],
+  "lenders_or_agents": [
+   {
+    "name": "Wilmington Trust, National Association",
+    "role": "trustee / collateral_agent / admin_agent",
+    "quote": "(4.9) Indenture, dated as of October 23, 2025, among WULF Compute LLC, the guarantors party thereto and Wilmington Trust, National Association, as trustee, relating to the 7.750% Senior Secured Notes ... (4.13) Indenture, dated as of December 29, 2025, among FS CS I LLC, Flash Compute LLC, the guarantor party thereto and Wilmington Trust, National Association, as trustee and collateral agent, relating to the 7.250% Senior Secured Notes due 2030 ... Indenture, dated as of October 25, 2024, between TeraWulf Inc. and Wilmington Trust, National Association, as trustee, related to the 2.75% convertible senior notes ... the Company entered into the LGSA with Wilmington Trust, National Association, as administrative agent.",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1083301/000108330126000031/wulf-20251231.htm"
+   },
+   {
+    "name": "Morgan Stanley & Co. LLC",
+    "role": "underwriter",
+    "quote": "The unsecured notes were sold pursuant to a purchase agreement between the Company and Morgan Stanley & Co. LLC, as representative of the initial purchasers (the \u201cInitial 2031 Purchasers\u201d) ... [and likewise] as representative of the initial purchasers (the \u201cInitial 2032 Purchasers\u201d).",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1083301/000108330126000031/wulf-20251231.htm"
+   },
+   {
+    "name": "Cantor Fitzgerald & Co.",
+    "role": "underwriter",
+    "quote": "the 2030 Convertible Notes, which are unsecured, were sold under a purchase agreement entered into by and between the Company and Cantor Fitzgerald & Co. (\u201cCantor\u201d) as representative of the initial purchasers named therein (the \u201cInitial Purchasers\u201d).",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1083301/000108330126000031/wulf-20251231.htm"
+   },
+   {
+    "name": "JonesTrading Institutional Services LLC",
+    "role": "underwriter",
+    "quote": "JonesTrading Institutional Services LLC, as representative of the several underwriters (the \u201cUnderwriters\u201d) and pursuant to an underwriting agreement.",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1083301/000108330126000031/wulf-20251231.htm"
+   }
+  ],
+  "strategic_investors": [
+   {
+    "name": "Google LLC (Alphabet Inc. affiliate)",
+    "stake_or_amount": "Warrants for 73,580,000 shares of Common Stock at $0.01 exercise price; plus credit backstop of Fluidstack HPC leases and pledge in 2030 Senior Secured Notes financing ($3,200.0M)",
+    "quote": "In consideration of Google providing the Google Backstop, the Company entered into Warrant Agreements with Google, pursuant to which the Company issued to Google warrants (the \u201cGoogle Warrants\u201d) to purchase a total of 73,580,000 shares of Common Stock for an exercise price of $0.01 per share of Common Stock ... Google entered into this pledge agreement with the Company and Wilmington Trust, National Association, as collateral agent, in connection with the Company\u2019s $3,200.0 million 2030 Senior Secured Notes financing.",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1083301/000108330126000031/wulf-20251231.htm"
+   }
+  ],
+  "unfound": [
+   "NVIDIA Corporation \u2014 not disclosed as a GPU supplier, customer, or strategic investor in TeraWulf filings reviewed (the GPUs/servers for HPC tenants are procured by the tenants Core42/Fluidstack, not by WULF; WULF's own hardware spend is Bitmain ASIC miners)",
+   "Microsoft / OpenAI / Meta \u2014 not TeraWulf customers (TeraWulf's named HPC customers are Core42 and Fluidstack, with Google as credit backstop, not a hyperscaler offtaker in the Microsoft/OpenAI sense)",
+   "Name of the bitcoin-miner hosting customer (10.9% of 2023 revenue) \u2014 disclosed only as 'one bitcoin miner hosting customer', not named",
+   "Specific DDTL/delayed-draw term-loan syndicate lender list \u2014 legacy Term Loans (LGSA, repaid July 2024) had Wilmington Trust as admin agent; underlying lenders not individually named in the 10-K body reviewed"
+  ],
+  "confidence": 0.25
+ },
+ {
+  "entity": "Applied Digital Corporation (APLD), CIK 0001144879",
+  "top_customers": [
+   {
+    "name": "CoreWeave, Inc.",
+    "revenue_concentration_pct": null,
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1144879/000114487925000021/apld-20250531.htm",
+    "quote": "APLD ELN-02 LLC and APLD ELN-03 LLC, our subsidiaries, each entered into a data center lease (together, the \"Data Center Leases\") with CoreWeave, Inc. (\"CoreWeave\") to deliver an aggregate of 250 MW of infrastructure to host CoreWeave's HPC operations at Polaris Forge 1. ... On August 28, 2025, ... entered into a third data center lease with CoreWeave to deliver an additional 150MW at Polaris Forge 1, bringing the total capacity under contract at Polaris Forge 1 to 400 MW. CoreWeave is the sole named HPC Hosting customer (two fifteen-year term leases)."
+   },
+   {
+    "name": "Customer A (unnamed crypto/data-center hosting customer)",
+    "revenue_concentration_pct": 93,
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1144879/000114487925000021/apld-20250531.htm",
+    "quote": "During fiscal year 2025, this business segment was comprised of four customers accounting for 100% of our revenue from continuing operations. One of such customers accounted for 93% of our revenue during fiscal year 2025. No other customers accounted for more than 10% of revenue. ... Customer A 93% (FY2025). Identity not disclosed in filing."
+   },
+   {
+    "name": "Customer B (unnamed, FY2026 segment)",
+    "revenue_concentration_pct": 30,
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1144879/000114487926000030/apld-20260228.htm",
+    "quote": "Three Months Ended February 28, 2026: Customer A 56%, Customer B 30%, Customer C 14%. Customer identities anonymized in the revenue-concentration disclosure."
+   }
+  ],
+  "gpu_suppliers": [],
+  "lenders_or_agents": [
+   {
+    "name": "Sumitomo Mitsui Banking Corporation (SMBC)",
+    "role": "lender / admin_agent / collateral_agent",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1144879/000149315225006049/form8-k.htm",
+    "quote": "each Lender ... from time to time party thereto (collectively, the Lenders), and Sumitomo Mitsui Banking Corporation, as Administrative Agent (in such capacity, the Administrative Agent) and as Collateral Agent ... and as Depositary. The SMBC Credit Agreement (dated February 11, 2025, with APLD HPC Holdings LLC) provides for an aggregate of $375 million of term loans."
+   },
+   {
+    "name": "Wilmington Trust, National Association",
+    "role": "trustee",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1144879/000114487925000021/apld-20250531.htm",
+    "quote": "Also on November 4, 2024, the Company entered into an indenture with respect to the Convertible Notes [2.75% Convertible Senior Notes due 2030, $450M] with Wilmington Trust, National Association, as trustee (the \"Indenture\")."
+   },
+   {
+    "name": "Macquarie Equipment Capital, Inc. (MEC)",
+    "role": "lender",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1144879/000114487925000021/apld-20250531.htm",
+    "quote": "On November 27, 2024, APLD ELN-02 Holdings LLC, our subsidiary, entered into a promissory note (the \"Macquarie Promissory Note\") with Macquarie Equipment Capital, Inc. for a loan of $150 million. ... we issued warrants (the \"Macquarie Warrants\") ... repaid in full on February 11, 2025."
+   },
+   {
+    "name": "Yorkville (YA II / Yorkville Advisors)",
+    "role": "lender",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1144879/000114487925000021/apld-20250531.htm",
+    "quote": "apld:YorkvilleConvertibleDebtMember us-gaap:ConvertibleDebtMember \u2014 Yorkville Convertible Debt (YA Notes) and related Standby Equity Purchase Agreement (SEPA) counterparty."
+   },
+   {
+    "name": "CIM (CIM Promissory Note lender)",
+    "role": "lender",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1144879/000114487925000021/apld-20250531.htm",
+    "quote": "apld:CIMPromissoryNoteMember us-gaap:NotesPayableOtherPayablesMember \u2014 CIM Promissory Note; issued CIM Warrants as partial consideration; repaid in full from Macquarie Promissory Note proceeds."
+   },
+   {
+    "name": "Cornerstone Bank",
+    "role": "lender",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1144879/000114487926000030/apld-20260228.htm",
+    "quote": "Cornerstone Bank Loan (4) 8.59% March 2029 ... to be serviced at the Jamestown hosting facility."
+   },
+   {
+    "name": "Starion (Starion Term Loan)",
+    "role": "lender",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1144879/000114487926000030/apld-20260228.htm",
+    "quote": "Starion Term Loan (5) 6.50% July 2027 ... The Starion Term Loan is guaranteed by APLD Hosting, LLC ... and is secured by the Jamestown hosting facility."
+   }
+  ],
+  "strategic_investors": [
+   {
+    "name": "NVIDIA (NVIDIA and Related Companies)",
+    "stake_or_amount": "Participant in Sept 5, 2024 PIPE private placement of 49,382,720 shares at $3.24/share (~$160M)",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1144879/000114487925000021/apld-20250531.htm",
+    "quote": "On September 5, 2024, we entered into a securities purchase agreement with a group of institutional and accredited investors, NVIDIA and Related Companies (collectively, the \"PIPE Purchasers\"), for the private placement (the \"Private Placement\") of 49,382,720 shares of our common stock at a purchase price of $3.24 per share."
+   },
+   {
+    "name": "CoreWeave, Inc.",
+    "stake_or_amount": "Warrants: 13,062,521 shares @ $7.19 (May 2025 Data Center Leases) + 8,393,611 shares (Aug 2025 Building 4 Lease); CoreWeave assigned portions to Jane Street Global Trading, LLC",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1144879/000114487925000021/apld-20250531.htm",
+    "quote": "In connection with the Data Center Leases, we issued to CoreWeave a warrant (the \"CoreWeave Warrant\") to acquire up to 13,062,521 shares of our common stock at an exercise price of $7.19 per share. ... The CoreWeave Warrant was measured at a fair value of $85.7 million."
+   },
+   {
+    "name": "Macquarie Asset Management / MIP VI HPC Holdings, LLC / MIP VI Holdings II, LLC (MAM)",
+    "stake_or_amount": "JV / Unit Purchase Agreement (dated Jan 13, 2025) for HPC Hosting Business; strategic equity partner in Polaris Forge",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1144879/000114487925000021/apld-20250531.htm",
+    "quote": "the Unit Purchase Agreement, dated January 13, 2025, by and among Applied Digital Corporation, APLD HPC Holdings LLC and MIP VI Holdings II, LLC ... our anticipated partnership with MIP VI HPC Holdings, LLC (\"MAM\"), which is an affiliate of funds and investment vehicles managed by entities within Macquarie Asset Management (\"MAM\")."
+   }
+  ],
+  "unfound": [
+   "gpu_suppliers: No GPU/server vendor (NVIDIA-as-supplier, Dell, Supermicro) is named in APLD's SEC filings. APLD operates a data-center hosting / landlord (powered-shell lease) model where tenants such as CoreWeave bring and own their own GPUs; APLD does not disclose direct GPU/server procurement. Macquarie Equipment Capital is an equipment financier (lender), not a GPU vendor.",
+   "Convertible Senior Notes due 2030 ($450M) initial purchasers/underwriters: named only as 'the Initial Purchasers' in the Nov 2024 8-K and 10-K; specific bank names (e.g. J.P. Morgan, Barclays) not disclosed in the locally available exhibits.",
+   "Identity of the dominant crypto/data-center hosting customer (Customer A, 93% of FY2025 revenue): anonymized in all revenue-concentration disclosures; not named in available filings.",
+   "NVIDIA legal entity confirmation: filings reference the investor group as 'NVIDIA and Related Companies' (PIPE Purchasers); the precise legal entity 'NVIDIA Corporation' string was not located in the available exhibits (the Sept 2024 securities purchase agreement exhibit listing individual purchaser entities was not in the local cache)."
+  ],
+  "confidence": 0.25
+ },
+ {
+  "entity": "Hut 8 Corp. (NASDAQ/TSX: HUT), CIK 0001964789",
+  "top_customers": [
+   {
+    "name": "Fluidstack Ltd.",
+    "source_uri": "/Users/ted/Documents/dev-archive/bubble/data/edgar_acquisition/documents/0001964789/000110465926019392/hut-20251231x10k.htm",
+    "revenue_concentration_pct": null,
+    "quote": "we entered into a 15-year, triple-net lease with Fluidstack for 245 MW of AI data center IT capacity at our River Bend campus ... The lease has a base contract value of approximately $7.0 billion, with the potential to increase to $17.7 billion through renewal options ... As we look to expand our large-scale data center development, we expect to generate a significant portion of our revenue from a limited number of customers. For example, we recently entered into a 15-year, 245 MW IT lease at our River Bend campus"
+   },
+   {
+    "name": "American Bitcoin Corp.",
+    "source_uri": "/Users/ted/Documents/dev-archive/bubble/data/edgar_acquisition/documents/0001964789/000110465926019392/hut-20251231x10k.htm",
+    "revenue_concentration_pct": null,
+    "quote": "We also provide managed services and ASIC colocation services to American Bitcoin through our Power and Digital Infrastructure segments ... because American Bitcoin is a consolidated subsidiary, revenue from these intercompany agreements is eliminated in consolidation. (Note: ASIC colocation customer, but consolidated subsidiary so revenue eliminated)"
+   },
+   {
+    "name": "Anthropic, PBC",
+    "source_uri": "/Users/ted/Documents/dev-archive/bubble/data/edgar_acquisition/documents/0001964789/000110465926019392/hut-20251231x10k.htm",
+    "revenue_concentration_pct": null,
+    "quote": "In December 2025, we announced a strategic partnership with Anthropic, PBC (\"Anthropic\") and Fluidstack Ltd. ... Hut 8 and Anthropic may jointly diligence and develop up to 1,050 MW of additional optional capacity across our broader pipeline ... for a total of up to 2,295 MW of AI data center infrastructure"
+   }
+  ],
+  "gpu_suppliers": [
+   {
+    "name": "NVIDIA Corporation",
+    "source_uri": "/Users/ted/Documents/dev-archive/bubble/data/edgar_acquisition/documents/0001964789/000110465926019392/hut-20251231x10k.htm",
+    "quote": "As of December 31, 2025, Highrise AI operated 1,000 NVIDIA H100 GPUs and 96 NVIDIA H200 GPUs. (GPU hardware named; NVIDIA not separately named as a direct contractual supplier in the filing prose)"
+   },
+   {
+    "name": "Bitmain Technologies (BITMAIN)",
+    "source_uri": "/Users/ted/Documents/dev-archive/bubble/data/edgar_acquisition/documents/0001964789/000110465926019392/hut-20251231x10k.htm",
+    "quote": "American Bitcoin currently pledges Bitcoin to BITMAIN in connection with the purchase of mining equipment ... the Company recorded a corresponding financial liability to settle the Bitmain Purchase Agreement (ASIC miner supplier / vendor-financier to consolidated subsidiary American Bitcoin)"
+   }
+  ],
+  "lenders_or_agents": [
+   {
+    "name": "Two Prime Lending Limited",
+    "source_uri": "/Users/ted/Documents/dev-archive/bubble/data/edgar_acquisition/documents/0001964789/000110465926019392/hut-20251231x10k.htm",
+    "role": "lender",
+    "quote": "On August 25, 2025, we entered into a credit agreement with Two Prime Lending Limited (the \"Two Prime Credit Agreement\"). The Two Prime Credit Agreement provides for a revolving credit facility of up to $200 million. Amounts borrowed ... bear interest at a fixed rate equal to 7.99% per annum."
+   },
+   {
+    "name": "Coinbase Credit, Inc.",
+    "source_uri": "/Users/ted/Documents/dev-archive/bubble/data/edgar_acquisition/documents/0001964789/000110465926019392/hut-20251231x10k.htm",
+    "role": "lender",
+    "quote": "On June 16, 2025, we entered into a Third Amended and Restated Credit Agreement with Coinbase Credit, Inc. (\"Coinbase\") to ... amend and expand our Bitcoin-backed credit facility from $65.0 million to up to $130.0 million ... we currently pledge Bitcoin to Coinbase in connection with our Coinbase credit facility"
+   },
+   {
+    "name": "Coatue Tactical Solutions Lending Holdings AIV 3 LP",
+    "source_uri": "/Users/ted/Documents/dev-archive/bubble/data/edgar_acquisition/documents/0001964789/000110465926019392/hut-20251231x10k.htm",
+    "role": "lender",
+    "quote": "our outstanding convertible note issued to Coatue Tactical Solutions Lending Holdings AIV 3 LP ... the $150.0 million Coatue note ... Coatue Note (convertible note) June 28, 2024 June 28, 2029 8.00 %"
+   },
+   {
+    "name": "J.P. Morgan",
+    "source_uri": "/Users/ted/Documents/dev-archive/bubble/data/edgar_acquisition/documents/0001964789/000110465926019392/hut-20251231x10k.htm",
+    "role": "underwriter",
+    "quote": "J.P. Morgan and Goldman Sachs, who are expected to serve as loan underwriters for the project-level financing ... which is expected to be underwritten by J.P. Morgan, as lead left arranger, and Goldman Sachs, each anticipated to serve as a loan underwriter (River Bend / River Bend project-level financing)"
+   },
+   {
+    "name": "Goldman Sachs",
+    "source_uri": "/Users/ted/Documents/dev-archive/bubble/data/edgar_acquisition/documents/0001964789/000110465926019392/hut-20251231x10k.htm",
+    "role": "underwriter",
+    "quote": "J.P. Morgan and Goldman Sachs, who are expected to serve as loan underwriters for the project-level financing ... J.P. Morgan, as lead left arranger, and Goldman Sachs, each anticipated to serve as a loan underwriter"
+   },
+   {
+    "name": "TZRC LLC (TZRC Secured Promissory Note holder)",
+    "source_uri": "/Users/ted/Documents/dev-archive/bubble/data/edgar_acquisition/documents/0001964789/000110465926019392/hut-20251231x10k.htm",
+    "role": "lender",
+    "quote": "TZRC Secured Promissory Note December 6, 2022 April 8, 2027 15.25 % $ 49,589 (secured promissory note; TZRC is also an equity-method JV / property-management counterparty)"
+   }
+  ],
+  "strategic_investors": [
+   {
+    "name": "Google LLC",
+    "source_uri": "/Users/ted/Documents/dev-archive/bubble/data/edgar_acquisition/documents/0001964789/000110465925122052/hut-20251217x8k.htm",
+    "stake_or_amount": "Financial backstop for all rent and certain other obligations under the 15-year River Bend lease (base value ~$7.0B, up to $17.7B with renewals)",
+    "quote": "a financial backstop provided by Google LLC for all rent and certain other financial obligations under the lease agreement ... supported by a financial backstop from Google, which covers the lease payments and related pass-through obligations for the initial 15-year base term of the lease"
+   },
+   {
+    "name": "Coatue (Coatue Tactical Solutions Lending Holdings AIV 3 LP)",
+    "source_uri": "/Users/ted/Documents/dev-archive/bubble/data/edgar_acquisition/documents/0001964789/000110465926019392/hut-20251231x10k.htm",
+    "stake_or_amount": "$150.0M / $159.3M convertible note (8.00%), convertible into HUT common stock",
+    "quote": "we and American Bitcoin may incur ... We may also issue shares of our common stock upon the possible conversion of our outstanding convertible note issued to Coatue Tactical Solutions Lending Holdings AIV 3 LP ... the $150.0 million Coatue note (convertible note, 8.00%, matures June 28, 2029)"
+   },
+   {
+    "name": "Anthropic, PBC",
+    "source_uri": "/Users/ted/Documents/dev-archive/bubble/data/edgar_acquisition/documents/0001964789/000110465926019392/hut-20251231x10k.htm",
+    "stake_or_amount": "Strategic AI-infrastructure development partner (no equity stake disclosed); joint development of up to 1,050 MW additional capacity",
+    "quote": "In December 2025, we announced a strategic partnership with Anthropic, PBC (\"Anthropic\") and Fluidstack Ltd. (\"Fluidstack\") to develop AI data center infrastructure ... Hut 8 and Anthropic may jointly diligence and develop up to 1,050 MW of additional optional capacity"
+   }
+  ],
+  "unfound": [
+   "No Microsoft, Meta, OpenAI, or Amazon revenue-customer relationship disclosed (Hut 8 is currently ~100% Bitcoin-mining revenue; AI-cloud/hyperscaler customer revenue is prospective via the Fluidstack/Google River Bend lease).",
+   "No single-customer revenue-concentration percentage is quantified in the FY2025 10-K customer/risk-factor disclosure (Note 22 Concentrations covers only Bitcoin/mining-pool concentration, not a named-customer % of revenue).",
+   "No direct NVIDIA Corporation supply/purchase agreement named in prose (only NVIDIA H100/H200 GPU hardware referenced in the Highrise AI fleet); GPU procurement channel/reseller (e.g., Dell, Supermicro) not disclosed.",
+   "No equity stake by NVIDIA or Microsoft in Hut 8 found.",
+   "No indenture trustee or note-underwriter for a public bond/note offering found (financings are bank/credit-agreement and convertible-note structures, not an indentured public bond)."
+  ],
+  "confidence": 0.25
+ },
+ {
+  "entity": "CleanSpark, Inc. (CLSK), CIK 0000827876",
+  "top_customers": [
+   {
+    "name": "Foundry Digital",
+    "revenue_concentration_pct": 100,
+    "quote": "18. REVENUE AND VENDOR CONCENTRATIONS The Company had one mining pool operator (Foundry Digital) during the fiscal years ended September 30, 2025, 2024 and 2023. Revenues from Foundry Digital represented 100% of the Company's total revenues for each of those years, as all bitcoin mining rewards are received through the Foundry mining pool.",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/827876/000119312525297510/clsk-20250930.htm"
+   }
+  ],
+  "gpu_suppliers": [
+   {
+    "name": "Bitmain Technologies Delaware Limited",
+    "quote": "The Company had the following significant suppliers of bitcoin miners, with the percentage based on purchase amounts: ... Bitmain Technologies 96% [FY2025] 100% [FY2024] 75% [FY2023]. (Note: these are Bitcoin ASIC miners, not GPUs; CleanSpark is a Bitcoin miner, not a GPU-based neocloud.)",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/827876/000119312525297510/clsk-20250930.htm"
+   },
+   {
+    "name": "Canaan U.S. Inc",
+    "quote": "Canaan U.S. Inc 4% [FY2025] 0% 0% \u2014 significant supplier of bitcoin miners (ASICs, not GPUs).",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/827876/000119312525297510/clsk-20250930.htm"
+   },
+   {
+    "name": "Cryptech Solutions",
+    "quote": "Cryptech Solutions 0% 0% 25% [FY2023] \u2014 significant supplier of bitcoin miners (ASICs, not GPUs).",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/827876/000119312525297510/clsk-20250930.htm"
+   }
+  ],
+  "lenders_or_agents": [
+   {
+    "name": "Coinbase Credit, Inc.",
+    "role": "lender",
+    "quote": "On August 7, 2024, the Company signed a Master Loan Agreement (the '2024 Master Loan') with Coinbase Credit, Inc. ('Coinbase Credit' or the 'Lender') for a line of credit in which the Lender will lend the Company certain digital assets or cash.",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/827876/000119312525297510/clsk-20250930.htm"
+   },
+   {
+    "name": "Coinbase, Inc.",
+    "role": "collateral_agent",
+    "quote": "reliance on a third party, Coinbase, for custody of our bitcoin holdings; ... 2,384 bitcoin with a fair value of $271,932, held by Coinbase in connection with a line of credit. (Bitcoin custodian/collateral custodian.)",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/827876/000119312525297510/clsk-20250930.htm"
+   },
+   {
+    "name": "Two Prime",
+    "role": "lender",
+    "quote": "an undrawn line of credit with Two Prime ... As of September 30, 2025, the Company had not drawn against the Two Prime Master Loan and had no posted bitcoin collateral. (Two Prime Master Loan Agreement, dated September 19, 2025.)",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/827876/000119312525297510/clsk-20250930.htm"
+   },
+   {
+    "name": "Western Alliance Bank",
+    "role": "lender",
+    "quote": "On August 14, 2024, the Company entered into a credit agreement that provides for borrowings under a promissory note with Western Alliance Bank (the 'Western Alliance Bank Credit Agreement') ... the Company holds an interest rate swap agreement.",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/827876/000119312525297510/clsk-20250930.htm"
+   },
+   {
+    "name": "Trinity Capital Inc.",
+    "role": "lender",
+    "quote": "Master Equipment Financing Agreement by and between CleanSpark, Inc. and Trinity Capital Inc. dated as of April 22, 2022; ... Trinity master equipment financing.",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/827876/000119312525297510/clsk-20250930.htm"
+   },
+   {
+    "name": "U.S. Bank Trust Company, National Association",
+    "role": "trustee",
+    "quote": "Indenture, dated as of December 17, 2024, by and between CleanSpark, Inc. and U.S. Bank Trust Company, National Association, as trustee, relating to the 0.00% Convertible Senior Notes due 2030 ... [and] Indenture, dated as of November 13, 2025 ... relating to the 0.00% Convertible Senior Notes due 2032.",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/827876/000119312525297510/clsk-20250930.htm"
+   },
+   {
+    "name": "Cantor Fitzgerald & Co.",
+    "role": "underwriter",
+    "quote": "The notes were sold under a purchase agreement, dated as of December 12, 2024, entered into by and between the Company and Cantor Fitzgerald & Co., as representative of the several initial purchasers named therein (the 'Initial Purchasers').",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/827876/000095017024137362/clsk-20241217.htm"
+   }
+  ],
+  "strategic_investors": [],
+  "unfound": [
+   "strategic_investors: No equity/strategic investors (e.g., NVIDIA, Microsoft, or other AI-ecosystem players) disclosed in the FY2025 10-K or reviewed 8-Ks for CleanSpark. CleanSpark is a Bitcoin miner, not an AI neocloud; no AI-ecosystem equity holders identified.",
+   "gpu_suppliers (true GPUs): No NVIDIA/Dell/Supermicro GPU/server suppliers \u2014 CleanSpark buys Bitcoin ASIC miners (Bitmain, Canaan, Cryptech), not AI GPUs.",
+   "top_customers (AI offtakers): No Microsoft/OpenAI/Meta-type AI customers; sole customer is mining-pool operator Foundry Digital. (Note: CLSK is exploring AI/HPC data centers in Texas and a non-binding framework with Submer, but no contracted AI customers disclosed.)",
+   "admin_agent: No named administrative/collateral agent for a syndicated term loan/DDTL was found; CLSK's borrowings are bilateral (Coinbase, Western Alliance, Trinity, Two Prime). The GRIID senior secured term loan credit agreement is a loan CLSK MADE to GRIID (note receivable), not a borrowing \u2014 GRIID was subsequently acquired."
+  ],
+  "confidence": 0.25
+ },
+ {
+  "entity": "MARA Holdings, Inc. (CIK 0001507605)",
+  "top_customers": [
+   {
+    "name": "Unnamed single hosting-services customer",
+    "revenue_concentration_pct": null,
+    "quote": "As of December 31, 2025, only one customer remains associated with these hosting services. Colocation services revenue is recognized over time as the customer simultaneously receives and consumes the benefits of the Company's performance.",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1507605/000150760526000007/mara-20251231.htm"
+   }
+  ],
+  "gpu_suppliers": [
+   {
+    "name": "Unnamed Bitcoin mining equipment (ASIC) manufacturers/vendors",
+    "quote": "The Company contracts with Bitcoin mining equipment manufacturers to procure equipment necessary for the operation of its Bitcoin mining operations. These agreements typically require the Company to make advance payments to mining equipment vendors ... As of December 31, 2025 and 2024, such advances to mining equipment vendors totaled approximately $7.7 million",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1507605/000150760526000007/mara-20251231.htm"
+   },
+   {
+    "name": "Auradine, Inc.",
+    "quote": "The Company holds one seat on Auradine's board of directors. During the years ended December 31, 2025 and 2024, the Company advanced payments of $136.7 million and $84.5 million ... to Auradine. (Auradine is a US-based maker of Bitcoin mining hardware / AI-HPC chips and is both a supplier and an equity investee of MARA.)",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1507605/000150760526000007/mara-20251231.htm"
+   }
+  ],
+  "lenders_or_agents": [
+   {
+    "name": "U.S. Bank Trust Company, National Association",
+    "role": "trustee",
+    "quote": "an indenture (the \"Indenture\") between the Company and U.S. Bank Trust Company, National Association, as trustee (the \"Trustee\"). ... 4.4 Indenture, dated as of November 20, 2024 ... 4.6 Indenture, dated as of July 25, 2025, between the Company and U.S. Bank Trust Company, National Association, as trustee, relating to the 0.00% convertible senior notes",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1507605/000150760526000007/mara-20251231.htm"
+   },
+   {
+    "name": "U.S. Bank, National Association",
+    "role": "trustee",
+    "quote": "4.2 Indenture, dated as of November 18, 2021, between the Company and U.S. Bank, National Association, as trustee, relating to the 1.00% convertible senior notes",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1507605/000150760526000007/mara-20251231.htm"
+   },
+   {
+    "name": "Unnamed bitcoin-collateralized line-of-credit counterparties (Original Line of Credit = two counterparties; New Line of Credit = one counterparty)",
+    "role": "lender",
+    "quote": "In October 2024, the Company secured lines of credit (collectively, the \"Original Line of Credit\") with two counterparties for a total of $200.0 million ... In March 2025, the Company secured a second line of credit (the \"New Line of Credit\") ... with a new counterparty for a total of $150.0 million",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1507605/000150760526000007/mara-20251231.htm"
+   },
+   {
+    "name": "Barclays Capital Inc.",
+    "role": "underwriter",
+    "quote": "a new at-the-market (\"ATM\") offering program ... with Barclays Capital Inc., BMO Capital Markets Corp., BTIG, LLC, Cantor Fitzgerald & Co., Guggenheim Securities, LLC, H.C. Wainwright & Co., LLC and Mizuho Securities USA LLC acting as the sales agents (collectively, the \"Agents\") (equity ATM sales agents, not debt lenders)",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1507605/000150760526000007/mara-20251231.htm"
+   },
+   {
+    "name": "Cantor Fitzgerald & Co.",
+    "role": "underwriter",
+    "quote": "Barclays Capital Inc., BMO Capital Markets Corp., BTIG, LLC, Cantor Fitzgerald & Co., Guggenheim Securities, LLC, H.C. Wainwright & Co., LLC and Mizuho Securities USA LLC acting as the sales agents (collectively, the \"Agents\")",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1507605/000150760526000007/mara-20251231.htm"
+   },
+   {
+    "name": "Guggenheim Securities, LLC",
+    "role": "underwriter",
+    "quote": "Barclays Capital Inc., BMO Capital Markets Corp., BTIG, LLC, Cantor Fitzgerald & Co., Guggenheim Securities, LLC, H.C. Wainwright & Co., LLC and Mizuho Securities USA LLC acting as the sales agents",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1507605/000150760526000007/mara-20251231.htm"
+   }
+  ],
+  "strategic_investors": [
+   {
+    "name": "Auradine, Inc.",
+    "stake_or_amount": "$85.4 million carrying value of preferred stock as of Dec 31, 2025; +$20.0 million additional preferred purchased Feb 19, 2025 (MARA is the investor, holds one board seat)",
+    "quote": "As of December 31, 2025, the total carrying amount of the Company's investment in Auradine, Inc. (\"Auradine\") preferred stock was $85.4 million. ... the Company converted $1.2 million from its prior Auradine SAFE investment into preferred stock and purchased additional shares of Auradine preferred stock for a purchase price of $20.0 million.",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1507605/000150760526000007/mara-20251231.htm"
+   },
+   {
+    "name": "Starwood Digital Ventures",
+    "stake_or_amount": "AI/HPC joint venture; MARA retains up to 50% interest, contributes sites; Starwood leads EPC and secures hyperscale tenancy",
+    "quote": "we entered into a strategic agreement (the \"Strategic Agreement\") with Starwood Digital Ventures (\"Starwood\") to develop, finance and operate AI and HPC infrastructure on select power-rich sites within our existing portfolio. Under the Strategic Agreement, we will contribute certain sites to and retain up to a 50% ownership interest in a newly formed joint venture, while Starwood will lead engineering, procurement and construction activities, secure hyperscale tenancy and operate the assets.",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1507605/000150760526000007/mara-20251231.htm"
+   },
+   {
+    "name": "MPLX LP",
+    "stake_or_amount": "Letter of intent (not yet a binding investment) for lower-cost natural gas and power capacity",
+    "quote": "We announced a letter of intent with MPLX LP aimed at expanding our access to lower-cost natural gas and scalable power capacity to support potential power generation and compute infrastructure development.",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1507605/000150760526000007/mara-20251231.htm"
+   }
+  ],
+  "unfound": [
+   "No named GPU supplier (NVIDIA Corporation, Dell, Supermicro): MARA discloses only generic 'mining equipment manufacturers' and Auradine; no GPU OEM is named in the FY2025 10-K for its nascent AI/HPC inference deployment.",
+   "No neocloud-style customer concentration (Microsoft/OpenAI/Meta): MARA's revenue is Bitcoin mining sold via mining pools to the market; the 10-K contains no >10% revenue-customer concentration disclosure and no named anchor/hyperscale tenant (hyperscale tenancy to be secured by JV partner Starwood, tenant not yet named).",
+   "Line-of-credit lenders are not named in the 10-K (referred to only as 'two counterparties' / 'a new counterparty'); specific lender identities would require the underlying credit-agreement exhibits.",
+   "Convertible-note initial purchasers/underwriters are not enumerated in the FY2025 10-K (referred to as 'the initial purchasers'); names would be in the respective 8-K / purchase-agreement exhibits.",
+   "No NVIDIA Corporation or Microsoft Corporation equity/strategic investment in MARA was found in the reviewed FY2025 10-K."
+  ],
+  "confidence": 0.25
+ },
+ {
+  "entity": "Nebius Group N.V. (NBIS) \u2014 CIK 0001513845",
+  "top_customers": [
+   {
+    "name": "Microsoft Corporation",
+    "revenue_concentration_pct": null,
+    "quote": "Effective as of September 7, 2025, our wholly owned subsidiary, Nebius, Inc., entered into a commercial agreement with Microsoft Corp (\"Microsoft\"), pursuant to which we are providing Microsoft access to dedicated GPU infrastructure capacity in clusters at our new data center in Vineland, New Jersey over a five-year term... Microsoft has committed to pay the Group fees under the Microsoft Agreement estimated to be up to $17,392 [million]. The Microsoft GPU Services are being deployed in nine tranches during 2025 and 2026.",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1513845/000110465926052948/nbis-20251231x20f.htm"
+   },
+   {
+    "name": "Meta Platforms, Inc.",
+    "revenue_concentration_pct": null,
+    "quote": "On March 13, 2026, our wholly owned subsidiary, Nebius, Inc., entered into an Infrastructure Services Agreement with Meta Platforms, Inc. (\"Meta\"), pursuant to which we and Meta will enter into a series of orders, each for a duration of five years... we are providing Meta access to dedicated GPU infrastructure capacity clusters (each, a \"GPU Service\") over a five-year term and delivered in two tranches... We delivered the first tranche to Meta in November 2025 and the second in February 2026.",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1513845/000110465926052948/nbis-20251231x20f.htm"
+   },
+   {
+    "name": "Customer A (unnamed in filing)",
+    "revenue_concentration_pct": 25,
+    "quote": "The following customers accounted for 10% or more of the Company's revenue... Customer A * 27% 25% Customer B * * 15% Customer C * 11% * Customer D * * *  (years ended December 31, 2023, 2024, and 2025).",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1513845/000110465926052948/nbis-20251231x20f.htm"
+   },
+   {
+    "name": "Customer B (unnamed in filing)",
+    "revenue_concentration_pct": 15,
+    "quote": "Customer A * 27% 25% Customer B * * 15% Customer C * 11% * ... (2025 column shows Customer B at 15% of revenue).",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1513845/000110465926052948/nbis-20251231x20f.htm"
+   },
+   {
+    "name": "Customer D (unnamed in filing \u2014 accounts-receivable credit-risk concentration)",
+    "revenue_concentration_pct": null,
+    "quote": "As of December 31, 2024 and 2025, the Group's maximum exposure to credit risk related to significant customer concentrations, measured at the gross fair value of accounts receivable was $6[xx].6 (59%) attributable to Customer A in 2024 and $597.0 (83%) attributable to Customer D in 2025.",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1513845/000110465926052948/nbis-20251231x20f.htm"
+   }
+  ],
+  "gpu_suppliers": [
+   {
+    "name": "NVIDIA Corporation",
+    "quote": "We depend on Nvidia for the GPU chips we use and on a limited number of other suppliers for other key components in our infrastructure... a consistent track record of being one of the first-to-deploy the latest generation of NVIDIA GPU chips. Our portfolio includes NVIDIA GB300 NVL72, GB200 NVL72, HGX B200, HGX B300, HGX H100 and RTX PRO 6000.",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1513845/000110465926052948/nbis-20251231x20f.htm"
+   },
+   {
+    "name": "OEM partners (unnamed \u2014 e.g. Dell/Supermicro not named in filing)",
+    "quote": "Our collaborations with NVIDIA and OEM partners support our ability to consistently provide the latest and most advanced GPU technology available in the marketplace. Supplier Concentration: ... the Group's maximum exposure to credit risk related to significant supplier concentrations ... was attributable to one supplier in 2024 and to two suppliers in 2025.",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1513845/000110465926052948/nbis-20251231x20f.htm"
+   }
+  ],
+  "lenders_or_agents": [
+   {
+    "name": "U.S. Bank Trust Company, National Association",
+    "role": "trustee",
+    "quote": "Each series of notes was issued under a separate indenture with U.S. Bank Trust Company, National Association, serving as trustee.",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1513845/000110465926052948/nbis-20251231x20f.htm"
+   },
+   {
+    "name": "Goldman Sachs & Co. LLC",
+    "role": "underwriter",
+    "quote": "Goldman Sachs & Co. LLC  Morgan Stanley & Co. LLC  BofA Securities  Citigroup \u2014 The date of this prospectus supplement is September 10, 2025 (underwriters of the September 2025 follow-on public Class A share offering); also named as a Sales Agent under the November 12, 2025 equity distribution (ATM) agreement.",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1513845/000141057825002147/tm2525503-7_424b5.htm"
+   },
+   {
+    "name": "Morgan Stanley & Co. LLC",
+    "role": "underwriter",
+    "quote": "Goldman Sachs & Co. LLC  Morgan Stanley & Co. LLC  BofA Securities  Citigroup (September 10, 2025 prospectus supplement underwriters); also a Sales Agent under the equity distribution agreement dated November 12, 2025.",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1513845/000141057825002147/tm2525503-7_424b5.htm"
+   },
+   {
+    "name": "BofA Securities, Inc.",
+    "role": "underwriter",
+    "quote": "...equity distribution agreement (the \"Sales Agreement\") with Goldman Sachs & Co. LLC, Morgan Stanley & Co. LLC, BofA Securities, Inc. and Citigroup Global Markets Inc. (collectively, the \"Sales Agents\")... Goldman Sachs & Co. LLC  Morgan Stanley & Co. LLC  BofA Securities  Citigroup (Sept 2025 offering underwriters).",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1513845/000110465925110025/tm2530771-1_424b5.htm"
+   },
+   {
+    "name": "Citigroup Global Markets Inc.",
+    "role": "underwriter",
+    "quote": "...equity distribution agreement ... with Goldman Sachs & Co. LLC, Morgan Stanley & Co. LLC, BofA Securities, Inc. and Citigroup Global Markets Inc. (collectively, the \"Sales Agents\"). Citigroup also named among underwriters of the September 2025 Class A share offering.",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1513845/000110465925110025/tm2530771-1_424b5.htm"
+   }
+  ],
+  "strategic_investors": [
+   {
+    "name": "NVIDIA Corporation",
+    "stake_or_amount": "~$2.0 billion private placement (pre-funded Class A share purchase warrant for 21,065,936 Class A shares), March 11, 2026",
+    "quote": "On March 11, 2026, we entered into a securities purchase agreement with NVIDIA Corporation (\"NVIDIA\"), pursuant to which we sold, in a private placement for aggregate gross proceeds of approximately $2 billion, a pre-funded Class A shares purchase warrant (the \"Warrant\"), exercisable to purchase an aggregate of 21,065,936 Class A shares... to support the expansion of the Group's AI cloud infrastructure... NVIDIA Vera Rubin platform, with delivery expected to commence in early 2027.",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1513845/000110465926052948/nbis-20251231x20f.htm"
+   }
+  ],
+  "unfound": [
+   "Named identities of Customer A / B / C / D \u2014 the 20-F's customer-concentration table anonymizes the 10%+ customers (Customer A 27%/25%, Customer B 15%, Customer C 11%); they are NOT explicitly tied to Microsoft/Meta in the concentration disclosure.",
+   "Named identities of the 'two suppliers' in the 2025 supplier-concentration disclosure (only NVIDIA is named narratively as the GPU-chip supplier; Dell, Supermicro, and specific OEM partners are not named).",
+   "Term-loan / DDTL lenders, administrative agent, and collateral agent \u2014 none exist; Nebius is financed via senior unsecured convertible notes and equity (no secured term loan / revolver disclosed).",
+   "Initial purchasers / book-running managers of the June 2025, September 2025 and March 2026 convertible-notes issuances \u2014 the 20-F refers to Form 6-K summaries (e.g., file no. ...) for details; those 6-Ks were not present in local data/edgar_acquisition/ and were not fetched."
+  ],
+  "confidence": 0.25
+ },
+ {
+  "entity": "Core Scientific, Inc. (CORZ) \u2014 CIK 0001839341",
+  "top_customers": [
+   {
+    "name": "CoreWeave, Inc.",
+    "revenue_concentration_pct": 100,
+    "quote": "Currently our high-density colocation business is highly dependent on a single customer. One customer, CoreWeave, currently accounts for 100% of our Colocation segment revenue.",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1839341/000162828026013305/core-20251231.htm"
+   },
+   {
+    "name": "Colocation segment as share of total revenue (CoreWeave-driven)",
+    "revenue_concentration_pct": 20,
+    "quote": "Percentage of total revenue: Colocation revenue 20 % 5 % ... [Colocation revenue, which is 100% CoreWeave, was 20% of total 2025 revenue vs 5% in 2024]",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1839341/000162828026013305/core-20251231.htm"
+   },
+   {
+    "name": "Unnamed single bitcoin mining pool / hosted-mining customer",
+    "revenue_concentration_pct": 72,
+    "quote": "For the years ended December 31, 2025, 2024 and 2023, 72%, 80%, and 78%, respectively, of the Company's total revenue was generated from digital asset mining of bitcoin from one customer.",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1839341/000162828026013305/core-20251231.htm"
+   }
+  ],
+  "gpu_suppliers": [
+   {
+    "name": "Bitmain Technologies Limited",
+    "quote": "Historically, we have sourced substantially all of our miners from Bitmain Technologies Limited (\"Bitmain\"), one of the leading manufacturers of digital asset mining equipment.",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1839341/000162828026013305/core-20251231.htm"
+   },
+   {
+    "name": "Block, Inc.",
+    "quote": "In 2024 we entered into an agreement with Block, Inc. a technology company developing ASICs, to acquire 3 nm ASICs customized for digital asset mining.",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1839341/000162828026013305/core-20251231.htm"
+   }
+  ],
+  "lenders_or_agents": [
+   {
+    "name": "Wilmington Trust, National Association",
+    "role": "trustee",
+    "quote": "Secured Convertible Notes Indenture, dated as of January 23, 2024, by and among the Company, as issuer, the guarantors named therein and Wilmington Trust, National Association, as Trustee and Collateral Agent",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1839341/000162828026013305/core-20251231.htm"
+   },
+   {
+    "name": "Wilmington Trust, National Association",
+    "role": "collateral_agent",
+    "quote": "...the guarantors named therein and Wilmington Trust, National Association, as Trustee and Collateral Agent (secured convertible notes indenture dated January 23, 2024).",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1839341/000162828026013305/core-20251231.htm"
+   },
+   {
+    "name": "U.S. Bank Trust Company, National Association",
+    "role": "trustee",
+    "quote": "Indenture, dated as of August 19, 2024, by and between the Company and U.S. Bank Trust Company, National Association, as Trustee (... 3.00% Convertible Senior Notes due 2029); and Indenture, dated as of December 5, 2024, by and between the Company and U.S. Bank Trust Company, National Association, as Trustee (... 0.00% Convertible Senior Notes due 2031).",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1839341/000162828026013305/core-20251231.htm"
+   },
+   {
+    "name": "Computershare Trust Company, N.A.",
+    "role": "warrant_agent",
+    "quote": "the Company, Computershare Inc., a Delaware corporation and its affiliate, Computershare Trust Company, N.A., a federally chartered trust company, as Warrant Agent",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1839341/000162828026013305/core-20251231.htm"
+   }
+  ],
+  "strategic_investors": [
+   {
+    "name": "CoreWeave, Inc.",
+    "stake_or_amount": "Acquirer under terminated all-stock Merger Agreement (signed July 7, 2025; terminated Oct 30, 2025 after stockholder rejection). Remains the sole Colocation/HPC hosting customer (590 MW leased capacity).",
+    "quote": "On July 7, 2025, the Company entered into an Agreement and Plan of Merger (the \"Merger Agreement\") with CoreWeave, Inc. (\"CoreWeave\") pursuant to which CoreWeave would acquire the Company in an all-stock transaction... On October 30, 2025, the Company terminated the Merger Agreement... following Company stockholder rejection of the terms of the Merger Agreement.",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1839341/000162828026013305/core-20251231.htm"
+   }
+  ],
+  "unfound": [
+   "Named identity of the single bitcoin mining-pool customer generating 72%/80%/78% of revenue \u2014 disclosed only as 'one customer' in the FY2025 10-K, not named.",
+   "Named third-party digital asset service holding substantially all of the company's digital assets \u2014 referenced as 'one third-party digital asset service', not named in the 10-K.",
+   "NVIDIA Corporation, Microsoft Corporation, Dell, and Supermicro \u2014 NOT counterparties of CORZ. Core Scientific is a bitcoin miner / data-center colocation host (ASIC-based, not GPU); it does not buy NVIDIA/Dell/Supermicro GPUs/servers per the 10-K. GPU exposure is indirect via its customer CoreWeave.",
+   "Initial purchasers / underwriters of the 2029 and 2031 Convertible Notes \u2014 the 10-K references 'initial purchasers' discounts but does not name the banks; names would be in the relevant 8-K / purchase agreement exhibits not retrieved here.",
+   "DDTL / term-loan lenders \u2014 no active syndicated term loan with named lenders/administrative agent disclosed in the FY2025 10-K (prior Secured Notes due 2028 were paid in full Aug 19, 2024); capital structure is now convertible-notes-based.",
+   "Strategic AI-ecosystem equity investors (e.g., NVIDIA/Microsoft equity stakes) \u2014 none disclosed. The only Schedule 13D filer reviewed (BlackRock, Inc., 2023) is a passive institutional holder at ~1.3%, not a strategic AI investor."
+  ],
+  "confidence": 0.25
+ },
+ {
+  "entity": "Cipher Mining Inc. (CIFR) \u2014 CIK 0001819989 (now Cipher Digital Inc.)",
+  "top_customers": [
+   {
+    "name": "Fluidstack USA II Inc.",
+    "revenue_concentration_pct": null,
+    "quote": "In the third quarter of 2025, through our wholly-owned subsidiary Cipher Barber Lake LLC ... we entered into long-term HPC leases with Fluidstack USA II Inc. (\"Fluidstack\") to construct a data center at our Barber Lake site ... 244 MW of gross capacity will be allocated to Fluidstack in Barber Lake Phase I, and the remaining 56 MW will be allocated to Fluidstack in Barber Lake Phase II.",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1819989/000181998926000009/cifr-20251231.htm"
+   },
+   {
+    "name": "Amazon Web Services, Inc.",
+    "revenue_concentration_pct": null,
+    "quote": "Amazon Data Center Lease In October 2025, through our wholly-owned subsidiary Cipher Black Pearl LLC ... we entered into a 15-year lease agreement with Amazon Web Services, Inc. ... to deliver approximately 300 MW of turnkey data center capacity at the site, with phased delivery expected to commence in 2026.",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1819989/000181998926000009/cifr-20251231.htm"
+   },
+   {
+    "name": "Odessa Facility (bitcoin mining; ~74% of FY2025 revenue \u2014 not a named third-party customer)",
+    "revenue_concentration_pct": 74,
+    "quote": "The Odessa Facility was responsible for approximately 74% of the revenue we earned in the year ended December 31, 2025.",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1819989/000181998926000009/cifr-20251231.htm"
+   }
+  ],
+  "gpu_suppliers": [
+   {
+    "name": "Bitmain Technologies Delaware Limited (bitcoin-miner / hardware supplier; not a GPU/AI-server vendor \u2014 HPC tenants supply their own GPUs)",
+    "quote": "Future Sales and Purchase Agreement, dated as of December 16, 2023, by and between Cipher Mining Infrastructure LLC and Bitmain Technologies Delaware Limited",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1819989/000181998926000009/cifr-20251231.htm"
+   }
+  ],
+  "lenders_or_agents": [
+   {
+    "name": "Coinbase Credit, Inc.",
+    "role": "lender",
+    "quote": "We have a master loan agreement with Coinbase Credit, Inc. ... we currently have a secured line of credit up to $25.0 million (the \"Coinbase Overnight Credit Facility\") ... collateralized by bitcoin transferred to the lending platform.",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1819989/000181998926000009/cifr-20251231.htm"
+   },
+   {
+    "name": "U.S. Bank Trust Company, National Association",
+    "role": "trustee",
+    "quote": "The Notes were issued pursuant to, and are governed by, an indenture ... dated as of September 30, 2025, between the Company and U.S. Bank Trust Company, National Association, as trustee (the \"Trustee\") [0.00% Convertible Senior Notes due 2031].",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1819989/000119312525225645/d52925d8k.htm"
+   },
+   {
+    "name": "Wilmington Trust, National Association",
+    "role": "trustee",
+    "quote": "among Cipher Compute LLC, Cipher Barber Lake LLC, Cipher Songbird LLC, and Wilmington Trust, National Association, as trustee, relating to the 7.125% senior secured notes [due 2030]; ... among Black Pearl Compute LLC, Cipher Black Pearl LLC, 11786 Wink LLC, Black Pearl Holdings LLC, and Wilmington Trust, National Association, as trustee, relating to the 6.125% senior secured notes [due 2031].",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1819989/000181998926000009/cifr-20251231.htm"
+   },
+   {
+    "name": "Cantor Fitzgerald & Co.",
+    "role": "underwriter",
+    "quote": "Sales Agreement (the \"Sales Agreement\") with Cantor Fitzgerald & Co. [at-the-market equity sales agent].",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1819989/000181998926000009/cifr-20251231.htm"
+   }
+  ],
+  "strategic_investors": [
+   {
+    "name": "SoftBank Group Corp. (via Star Beacon LLC)",
+    "stake_or_amount": "$50 million PIPE; ~10.4 million shares (Jan 30, 2025)",
+    "quote": "Cipher Mining Announces $50 Million PIPE Investment from SoftBank Group \u2014 SoftBank to purchase approximately 10.4 million shares of Cipher common stock for $50 million ... a $50 million investment from SoftBank Group Corp. (TSE: 9984, \"SoftBank\").",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1819989/000119312525017265/d896808dex991.htm"
+   },
+   {
+    "name": "Google LLC",
+    "stake_or_amount": "Warrants to purchase 24,178,576 shares (Warrant Agreement Sept 24, 2025; A&R Nov 20, 2025); also Google backstop of Fluidstack HPC leases",
+    "quote": "the Company entered into the Google Warrant Agreement, pursuant to which the Company issued to Google warrants to purchase 24,178,576 shares (the \"Warrant Shares\") of the Company's Common Stock ... pursuant to which Google LLC (\"Google\") has agreed to backstop certain obligations of Fluidstack under our HPC leases with Fluidstack.",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1819989/000181998926000009/cifr-20251231.htm"
+   },
+   {
+    "name": "Bitfury Top HoldCo B.V. / Bitfury Holding B.V. (founding sponsor; \"the Investors\")",
+    "stake_or_amount": "~28.4% of common stock (98,747,588 shares aggregate, SC 13D/A Amendment No. 10, Nov 2024)",
+    "quote": "Bitfury Top HoldCo is the record holder of 43,91... AGGREGATE AMOUNT BENEFICIALLY OWNED BY EACH REPORTING PERSON 98,747,588 ... PERCENT OF CLASS ... 28.4% ; (\"Board Observer Agreement\") with Bitfury Holding and Bitfury Top HoldCo (together with Bitfury Holding, the \"Investors\").",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1819989/000112329224000334/bitfury13d.htm"
+   }
+  ],
+  "unfound": [
+   "Named GPU/AI-server OEM supplier for Cipher itself (NVIDIA/Dell/Supermicro) \u2014 not disclosed; HPC tenants (Fluidstack/Amazon) procure their own GPUs, Cipher delivers turnkey power/shell capacity",
+   "Revenue-concentration % attributable to a named HPC customer \u2014 HPC lease revenue is largely future; FY2025 revenue concentration is the Odessa bitcoin facility (~74%), not a third-party customer",
+   "Named initial purchasers/underwriters of the convertible and senior secured notes \u2014 referenced only as 'the initial purchasers' / 'representative of the initial purchasers' in the 8-Ks reviewed; individual bank names not captured"
+  ],
+  "confidence": 0.25
+ },
+ {
+  "entity": "Bitdeer Technologies Group (BTDR) \u2014 CIK 0001899123",
+  "top_customers": [],
+  "gpu_suppliers": [
+   {
+    "name": "NVIDIA Corporation",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1899123/000121390026049770/ea0282628-20f_bitdeer.htm",
+    "quote": "Master Agreement between Bitdeer and NVIDIA (incorporated herein by reference to Exhibit 99.2 to the Company's Current Report on Form 6-K (File No. 001-41687), furnished to the SEC on October 19, 2023). ... To support our AI cloud business, as of December 31, 2025, we had procured or placed the orders for the following equipment from certain suppliers, with a total purchase amount of approximately US$56.0 million. Equipment Type Quantity NVIDIA DGX H100 Server 31 NVIDIA H200 Server 3 NVIDIA B200 Server 4 NVIDIA GB200 NVL72 Server 8 NVIDIA B300 Server 16 NVIDIA GB300 NVL72 Server 2 ... Our AI infrastructure and AI cloud business also depends on a limited number of suppliers for critical infrastructure components, including GPUs and other specialized AI hardware. In particular, we rely on certain GPU suppliers and OEMs for the GPUs that power our AI cloud offerings."
+   }
+  ],
+  "lenders_or_agents": [
+   {
+    "name": "U.S. Bank Trust Company, National Association",
+    "role": "trustee",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1899123/000121390026049770/ea0282628-20f_bitdeer.htm",
+    "quote": "4.37 Indenture, dated November 17, 2025, by and between Bitdeer Technologies Group and U.S. Bank Trust Company, National Association ... 4.40 Indenture, dated February 24, 2026, by and between Bitdeer Technologies Group and U.S. Bank Trust Company, National Association"
+   },
+   {
+    "name": "Barclays Capital Inc.",
+    "role": "underwriter",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1899123/000121390026049770/ea0282628-20f_bitdeer.htm",
+    "quote": "Barclays Capital Inc. acted as the exclusive placement agent (the \"2026 Placement Agent\") in connection with the 2026 Equity Offering pursuant to that certain placement agency agreement dated as of February 19, 2026 ... Barclays Capital Inc. acted as the exclusive placement agent (the \"2025 Placement Agent\") in connection with the 2025 Equity Offering pursuant to that certain placement agency agreement dated as of November 12, 2025"
+   },
+   {
+    "name": "BIT Group (formerly Matrix Finance and Technologies Holding Group / \"Matrixport Group\")",
+    "role": "lender",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1899123/000121390026049770/ea0282628-20f_bitdeer.htm",
+    "quote": "BIT Assets Collateralized Loan In April 2025, we entered into a loan agreement with BIT Group for a financing facility of up to US$200.0 million (the \"BIT Assets Collateralized Loan\"). Loans drawn under the facility bear a variable interest rate equal to 9.0% plus a market-based reference rate ... The facility is collateralized by our SEALMINERs ... the total maximum financing facility was increased from US$200.0 million to US$400.0 million. (Note: related party \u2014 controlling person Jihan Wu is co-founder and chairman of BIT Group.)"
+   },
+   {
+    "name": "B. Riley Securities, Inc.",
+    "role": "underwriter",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1899123/000121390026049770/ea0282628-20f_bitdeer.htm",
+    "quote": "On January 3, 2025, we entered into an At Market Issuance Sales Agreement (the \"2025 At Market Issuance Sales Agreement\") with Barclays Capital Inc., Cantor Fitzgerald & Co., A.G.P./Alliance Global Partners, The Benchmark Company, LLC, B. Riley Securities, Inc., BTIG, LLC, Keefe, Bruyette & Woods, Inc., Needham & Company, LLC, Northland Securities, Inc., Rosenblatt Securities Inc., Roth Capital Partners, LLC and StockBlock Securities LLC"
+   },
+   {
+    "name": "Cantor Fitzgerald & Co.",
+    "role": "underwriter",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1899123/000121390026049770/ea0282628-20f_bitdeer.htm",
+    "quote": "On January 3, 2025, we entered into an At Market Issuance Sales Agreement ... with Barclays Capital Inc., Cantor Fitzgerald & Co., A.G.P./Alliance Global Partners, The Benchmark Company, LLC, B. Riley Securities, Inc., BTIG, LLC, Keefe, Bruyette & Woods, Inc., Needham & Company, LLC, Northland Securities, Inc., Rosenblatt Securities Inc., Roth Capital Partners, LLC and StockBlock Securities LLC"
+   },
+   {
+    "name": "B. Riley Principal Capital II, LLC",
+    "role": "lender",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1899123/000121390026049770/ea0282628-20f_bitdeer.htm",
+    "quote": "On August 8, 2023, we entered into the Equity Financing Purchase Agreement and the Equity Financing Registration Rights Agreement with B. Riley Principal Capital II ... we have the right to sell to B. Riley Principal Capital II, up to US$150,000,000 of our Class A ordinary shares"
+   }
+  ],
+  "strategic_investors": [
+   {
+    "name": "Tether International Limited (Tether)",
+    "stake_or_amount": "18,587,360 Class A ordinary shares plus a warrant for up to 5,000,000 shares (US$10.00 exercise price), private placement entered May 30, 2024",
+    "source_uri": "https://www.sec.gov/Archives/edgar/data/1899123/000121390026049770/ea0282628-20f_bitdeer.htm",
+    "quote": "On May 30, 2024, we entered into the Private Placement with Tether International Limited, a BVI company (\"Tether\"), pursuant to which we issued to Tether (i) 18,587,360 Class A ordinary shares, and (ii) a warrant to purchase up to 5,000,000 Class A ordinary shares (at an exercise price equivalent to US$10.00 per Class A ordinary share)."
+   }
+  ],
+  "unfound": [
+   "top_customers (named): Revenue concentration is disclosed only on an anonymized basis. The FY2025 20-F financial-statement note reports 'Customer B 16.65%, Customer C 15.81%, Customer D 12.20%, Customer E 10.28%' (and FY2023 'Customer A 19.05%') with no named identity. As an IFRS foreign private issuer (files Form 20-F, not 10-K), Bitdeer does not name its largest customers; no Microsoft/OpenAI/Meta-style named offtaker is disclosed. (Note: 'Sale of Mining Rigs and Accessories' was the second-largest revenue source at ~17.5% of total revenue for FY2025, but to unnamed third-party customers.)",
+   "gpu_suppliers (besides NVIDIA): No specific OEM/server vendor (e.g., Dell, Supermicro/Super Micro, HPE) is named in the FY2025 20-F; the filing references only 'NVIDIA' branded systems and generic 'certain GPU suppliers and OEMs'. Bitmain is the former parent (spun off 2021) and a listed competitor, not a current GPU supplier.",
+   "lenders_or_agents: Convertible-note initial purchasers/underwriters are not individually itemized in the 20-F text (described only as 'certain initial purchasers' / 'qualified institutional buyers'); no separate administrative agent or collateral agent is named for the convertible notes (U.S. Bank Trust Company, N.A. serves as indenture trustee).",
+   "strategic_investors: No NVIDIA, Microsoft, or other AI-ecosystem equity/strategic stake disclosed (NVIDIA relationship is a commercial Master Agreement / supplier, not an equity investor). Tether is the only disclosed strategic equity investor."
+  ],
+  "confidence": 0.25
+ }
+]

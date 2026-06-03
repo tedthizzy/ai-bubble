@@ -32,8 +32,8 @@ The important change is that ecosystem-scale conclusions are now blocked from be
 
 Latest verified evidence-gated report at this checkpoint:
 
-- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260603-0133.md`
-- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260603-0133.json`
+- Markdown: `data/reports/BURRY_REPORT_EvidenceGated_20260603-0146.md`
+- JSON: `data/reports/BURRY_REPORT_EvidenceGated_20260603-0146.json`
 - `high_confidence_final`: `false` (ecosystem-wide, BY DESIGN — see verdict below).
 - Current `master` checkpoint: `e72d74e` (single-agent; the prior two-agent
   Claude/Codex handoff queue was consolidated into `master` at `7638aa9` and the
@@ -291,8 +291,10 @@ The system does not yet satisfy the full vision:
   denominator yet). It DOES now state a scoped, source-backed AI-direct-core verdict
   (`bubble_dynamics_present` @ 0.67) — see the tiered verdict above.
 - It has not yet produced the airtight version: 1 of 3 separation-test mismatch legs
-  (realistic-util DSCR) is still illustrative, and the AI-direct GPU-SPV debt is not yet in the
-  capital-exposure graph, so contagion/who-bears-downside is qualitative.
+  (realistic-util DSCR) is still illustrative. Who-bears-downside is quantified (by facility
+  recourse) and contagion is mapped via SHARED-COUNTERPARTY hubs (NVIDIA = supplier AND investor
+  across the cluster — the filing-verified circular loop; shared customers Microsoft/Google;
+  shared lenders); only full multi-hop propagation through the capital-exposure graph remains.
 
 ## Current Command
 
