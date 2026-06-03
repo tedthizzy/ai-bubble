@@ -22,6 +22,7 @@ from bubble.analysis.compute_economics import (
     analyze_compute_economics,
     empty_compute_economics_batch,
 )
+from bubble.analysis.contagion_hubs import compute_contagion_hubs, load_contagion_edges
 from bubble.analysis.debt_census import aggregate_debt_census, load_debt_census
 from bubble.analysis.debt_service import analyze_debt_service
 from bubble.analysis.ecosystem_scope import scope_deals
@@ -2281,6 +2282,9 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:  #
     debt_census_aggregate = aggregate_debt_census(
         load_debt_census(Path("handoffs/ai_direct_debt_census_20260603.json"))
     )
+    contagion_hubs = compute_contagion_hubs(
+        load_contagion_edges(Path("handoffs/ai_direct_contagion_edges_20260603.json"))
+    )
     ai_direct_core_verdict = synthesize_core_verdict(
         cluster_dscr=mismatch_ratios.get("cluster_interest_coverage", {}),
         thesis_findings=thesis_findings,
@@ -2296,6 +2300,7 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:  #
             .get("status")
             == "source_backed"
         ),
+        contagion_hubs=contagion_hubs,
     )
     coverage_dict = coverage.to_dict()
     physical_capacity_dict = physical_capacity.to_dict()
@@ -3775,6 +3780,9 @@ Leading indicators:
 **Who bears the downside (by disclosed facility recourse):**
 {_bullets(f"{k}: ${round(v / 1e9, 1)}B" for k, v in sorted(((verdict.get("who_bears_downside_quantified", {}) or {}).get("by_recourse_class_usd", {}) or {}).items(), key=lambda kv: -kv[1]))}
 {(verdict.get("who_bears_downside_quantified", {}) or {}).get("note", "")}
+
+**Contagion hubs (counterparties shared across the cluster — where a shock propagates):**
+{_bullets(f"{h.get('counterparty')} ({h.get('category')}) — touches {h.get('issuer_count')} issuers: {', '.join(h.get('issuers', []))}" for h in (verdict.get("contagion_hubs", {}) or {}).get("top_contagion_hubs", []) or [])}
 
 **Top risks (affirmatively-held premises):**
 {_bullets(f"{r.get('premise')} [{r.get('tier')}/{r.get('verdict')}]: {r.get('finding')}" for r in verdict.get("top_risks", []))}

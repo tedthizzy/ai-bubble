@@ -72,11 +72,13 @@ def synthesize_core_verdict(
     timing_summary: dict[str, Any] | None = None,
     debt_census: dict[str, Any] | None = None,
     gpu_gap_source_backed: bool = False,
+    contagion_hubs: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Synthesize the scoped, tiered Burry verdict from verified evidence."""
 
     timing_summary = timing_summary or {}
     debt_census = debt_census or {}
+    contagion_hubs = contagion_hubs or {}
     bear = _finding(thesis_findings, "bear_case_against_bubble")
     bear_confidence = float(bear.get("confidence") or 0.0)
 
@@ -308,6 +310,15 @@ def synthesize_core_verdict(
             if census_backed
             else {"status": "qualitative_pending_census"}
         ),
+        "contagion_hubs": (
+            {
+                "top_contagion_hubs": contagion_hubs.get("top_contagion_hubs"),
+                "shared_hub_count": contagion_hubs.get("shared_hub_count"),
+                "note": contagion_hubs.get("note"),
+            }
+            if contagion_hubs.get("status") == "source_backed"
+            else {"status": "pending_source_backed_counterparty_edges"}
+        ),
         "crack_timing": crack_timing,
         "weakest_links": weakest_links,
         "top_risks": top_risks,
@@ -326,11 +337,13 @@ def synthesize_core_verdict(
             "2 of the 3 separation-test mismatch legs (realistic-utilization DSCR, GPU "
             "depreciation gap) are blocked/illustrative; the verdict rests mainly on the "
             "source-backed cluster interest-coverage leg.",
-            "Who-bears-downside is now QUANTIFIED by disclosed facility recourse from the census "
-            "(see who_bears_downside_quantified): the loss concentrates on parent equity "
-            "(full-recourse-secured + unsecured-at-parent), with GPU collateral the backstop for the "
-            "secured slice. Multi-hop CONTAGION is still qualitative -- the AI-direct GPU-SPV debt is "
-            "not yet edges in the capital-exposure graph (whose AI-infra mass is ~$5B of $408B).",
+            "Who-bears-downside is QUANTIFIED by disclosed facility recourse (see "
+            "who_bears_downside_quantified): the loss concentrates on parent equity "
+            "(full-recourse-secured + unsecured-at-parent), GPU collateral the backstop for the "
+            "secured slice. Contagion is mapped via SHARED-COUNTERPARTY hubs (see contagion_hubs -- "
+            "the common GPU supplier / anchor customers / lenders that propagate a shock across the "
+            "cluster simultaneously); full multi-hop propagation through the capital-exposure graph "
+            "is still pending (its AI-infra mass is ~$5B of $408B).",
             "Physical deliverability is read from the tracker construction-status proxy: the ISO "
             "interconnection queues are fully ingested but are GENERATION-side, so they are a weak "
             "lens for data-center LOAD deliverability (a true firm-vs-queue rate needs "
