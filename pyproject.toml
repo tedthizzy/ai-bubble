@@ -42,6 +42,9 @@ dependencies = [
     "openpyxl>=3.1",
     "python-dateutil>=2.9",
     "rich>=13.9",
+    # Statistical cluster discovery (unsupervised boundary detection)
+    "scikit-learn>=1.6",
+    "scipy>=1.14",
 ]
 
 [project.optional-dependencies]
@@ -153,6 +156,9 @@ module = [
     "pyvis.*",
     "duckdb.*",
     "polars.*",
+    "sklearn.*",
+    "scipy.*",
+    "ee.*",
 ]
 ignore_missing_imports = true
 

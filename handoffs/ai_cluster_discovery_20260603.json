@@ -1,0 +1,135 @@
+{
+  "status": "source_backed",
+  "n": 11,
+  "entities": [
+    "CoreWeave",
+    "IREN Limited",
+    "TeraWulf Inc.",
+    "Applied Digital Corporation",
+    "Hut 8 Corp.",
+    "CleanSpark",
+    "MARA Holdings",
+    "Nebius Group N.V.",
+    "Core Scientific",
+    "Cipher Mining Inc.",
+    "Bitdeer Technologies Group"
+  ],
+  "feature_names": [
+    "leverage_debt_to_revenue",
+    "ebitda_margin",
+    "net_margin",
+    "interest_coverage",
+    "cash_to_debt"
+  ],
+  "chosen_k": 4,
+  "chosen_k_silhouette": 0.375,
+  "k_selection": [
+    {
+      "k": 2,
+      "silhouette": 0.347,
+      "gmm_bic": 161.2
+    },
+    {
+      "k": 3,
+      "silhouette": 0.374,
+      "gmm_bic": 104.4
+    },
+    {
+      "k": 4,
+      "silhouette": 0.375,
+      "gmm_bic": 53.8
+    },
+    {
+      "k": 5,
+      "silhouette": 0.348,
+      "gmm_bic": 1.9
+    }
+  ],
+  "pca_explained_variance_ratio": [
+    0.524,
+    0.293,
+    0.161,
+    0.019,
+    0.003
+  ],
+  "bootstrap_stability": 0.927,
+  "clusters": [
+    {
+      "cluster": 0,
+      "label": "profitable_self_funding__high_leverage",
+      "size": 4,
+      "members": [
+        "CoreWeave",
+        "IREN Limited",
+        "CleanSpark",
+        "Bitdeer Technologies Group"
+      ],
+      "centroid": {
+        "leverage_debt_to_revenue": 2.811,
+        "ebitda_margin": 0.559,
+        "net_margin": 0.141,
+        "interest_coverage": 8.421,
+        "cash_to_debt": 0.267
+      }
+    },
+    {
+      "cluster": 1,
+      "label": "cash_flow_negative_fragile__high_leverage",
+      "size": 5,
+      "members": [
+        "Applied Digital Corporation",
+        "Hut 8 Corp.",
+        "MARA Holdings",
+        "Core Scientific",
+        "Cipher Mining Inc."
+      ],
+      "centroid": {
+        "leverage_debt_to_revenue": 5.626,
+        "ebitda_margin": -0.733,
+        "net_margin": -1.736,
+        "interest_coverage": -8.158,
+        "cash_to_debt": 0.162
+      }
+    },
+    {
+      "cluster": 2,
+      "label": "cash_flow_negative_fragile__high_leverage",
+      "size": 1,
+      "members": [
+        "TeraWulf Inc."
+      ],
+      "centroid": {
+        "leverage_debt_to_revenue": 30.697,
+        "ebitda_margin": -0.137,
+        "net_margin": -3.926,
+        "interest_coverage": -0.288,
+        "cash_to_debt": 0.632
+      }
+    },
+    {
+      "cluster": 3,
+      "label": "cash_flow_negative_fragile__high_leverage",
+      "size": 1,
+      "members": [
+        "Nebius Group N.V."
+      ],
+      "centroid": {
+        "leverage_debt_to_revenue": 7.791,
+        "ebitda_margin": -0.366,
+        "net_margin": 0.156,
+        "interest_coverage": -3.151,
+        "cash_to_debt": 0.891
+      }
+    }
+  ],
+  "fragile_cluster_label": "cash_flow_negative_fragile__high_leverage",
+  "fragile_cluster_members": [
+    "Applied Digital Corporation",
+    "Hut 8 Corp.",
+    "MARA Holdings",
+    "Core Scientific",
+    "Cipher Mining Inc."
+  ],
+  "discovery_read": "discovered_4_clusters (n=11, silhouette 0.37, bootstrap stability 0.927): the data splits the leveraged public issuers into 4 natural groups. The FRAGILE cluster ('cash_flow_negative_fragile__high_leverage', 5 members: Applied Digital Corporation, Hut 8 Corp., MARA Holdings, Core Scientific, Cipher Mining Inc.) carries the negative-margin / sub-1x-coverage signature the bubble thesis predicts -- this membership is DISCOVERED from the financials, then labelled, not hand-picked. Treat k as indicative given small n; the fragile cluster's separation is the load-bearing result.",
+  "note": "Unsupervised cluster DISCOVERY (StandardScaler -> PCA -> KMeans, k chosen by silhouette + GMM BIC, bootstrap stability) over scale-free financial features of the feature-complete public issuers. The clusters are discovered FIRST, then retro-labelled by centroid profile -- the boundary is data-driven, not asserted. Small-n: read k with the silhouette + stability, not as a precise count; private names / hyperscalers are excluded (no comparable financials), so this is the leveraged-public-issuer structure, not the whole ecosystem."
+}

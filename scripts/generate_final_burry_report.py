@@ -20,6 +20,7 @@ from bubble.analysis.cluster_boundary import (
     aggregate_cluster_boundary,
     load_cluster_boundary,
 )
+from bubble.analysis.cluster_discovery import discover_structure
 from bubble.analysis.cluster_dscr import IssuerFinancials, compute_cluster_interest_coverage
 from bubble.analysis.compute_economics import (
     ComputeEconomicsBatch,
@@ -1509,6 +1510,21 @@ def report_answer_metric_audits(  # noqa: PLR0912, PLR0915
                 unit="count",
             )
 
+        # Unsupervised cluster discovery (data-driven boundary, not asserted).
+        cdsc = m.get("cluster_discovery", {})
+        if cdsc.get("status") == "source_backed":
+            add(
+                "mismatch.cluster_discovery.fragile_cluster_size",
+                "Size of the DISCOVERED fragile (cash-flow-negative / sub-1x-coverage) sub-cluster from "
+                "unsupervised clustering of the public issuers' scale-free financials (StandardScaler -> "
+                "PCA -> KMeans, k by silhouette + GMM BIC, bootstrap-stability checked). Membership is "
+                "discovered then labelled, NOT hand-picked; at small n read with the silhouette + "
+                f"stability ({cdsc.get('bootstrap_stability')}).",
+                len(cdsc.get("fragile_cluster_members") or []),
+                [mismatch_artifact],
+                unit="count",
+            )
+
         # Named refinancing wall (specific near-term maturities from the census).
         rw = m.get("refi_wall", {})
         if rw.get("status") == "source_backed":
@@ -2750,6 +2766,11 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:  #
     )
     if cluster_boundary_aggregate.get("status") == "source_backed":
         mismatch_ratios["cluster_boundary"] = cluster_boundary_aggregate
+    cluster_discovery = discover_structure(
+        _load_csv_rows(Path("handoffs/fixtures/ai_direct_issuer_financials.csv"))
+    )
+    if cluster_discovery.get("status") == "source_backed":
+        mismatch_ratios["cluster_discovery"] = cluster_discovery
     refi_wall_aggregate = aggregate_refi_wall(
         load_debt_census_raw(Path("handoffs/ai_direct_debt_census_20260603.json"))
     )

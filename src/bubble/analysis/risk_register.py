@@ -55,6 +55,21 @@ def _breadth_risks(m: dict[str, Any]) -> list[dict[str, Any]]:
     """The lower-severity breadth-layer risks (supply, demand, downside incidence, ratepayer)."""
 
     out: list[dict[str, Any]] = []
+    sat = m.get("satellite_construction", {}) or {}
+    if sat.get("status") == "source_backed" and sat.get("active_construction_pct") is not None:
+        out.append(
+            _risk(
+                "R11",
+                "Physical overbuild gap: most announced AI data-center sites show no ground construction on satellite",
+                "physical_overbuild",
+                4,
+                f"Sentinel-2 change detection over {sat.get('site_count')} georeferenced AI sites: only "
+                f"{sat.get('active_construction_pct')}% show active construction; {sat.get('no_change_sites')} "
+                "show NO significant ground change -- announced capacity outrunning physical reality "
+                "(read with the tracker construction-status proxy; cloud/seasonal noise applies).",
+                "satellite_construction",
+            )
+        )
     eq = m.get("equipment_bottlenecks", {}) or {}
     if eq.get("status") == "source_backed" and eq.get("single_source_or_duopoly_chokepoints"):
         out.append(

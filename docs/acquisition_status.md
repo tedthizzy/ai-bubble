@@ -9,7 +9,7 @@ the scoped conclusion.
 
 ## Current Corpus
 
-- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260603-1608.md`
+- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260603-1633.md`
 - Evidence gate: ecosystem `high_confidence_final=false` / `bubble_confidence 0.25` (by design).
 - **Tiered verdict (`ai_direct_core_verdict`):** AI-direct core `bubble_dynamics_present` @ 0.67;
   ecosystem-wide `not_established_as_ecosystem_wide_bubble` (broad metric is mostly non-AI debt, so
@@ -61,6 +61,21 @@ the scoped conclusion.
   adversarial in-scope gate qualifies only 1 (Bit Digital) as genuine financed AI-infra; 5
   are crypto-only-marginal-AI (the verify pass corrected Bitdeer down + nulled a fabricated
   EBITDA). `cluster_is_bounded` — reinforces the scoped (not ecosystem-wide) verdict.
+- BROAD boundary sweep (36 candidates spanning public/private neoclouds, crypto converts, DC
+  developers, chips): 13 VERIFIED as financed_ai_infra_leveraged beyond the deep-8 — Crusoe,
+  Lambda, Nscale, Vultr (private neoclouds), Vantage/QTS/Sabey/Switch/Iron Mountain (SPV/ABS-
+  financed developers), Bitfarms/Bit Digital. So the financed cluster is ~20+, NOT 8-9; the
+  deep-8 are the publicly-primary-source-verifiable core. (Riot/CleanSpark/MARA confirmed
+  crypto-primary by their own 10-Ks.) Fixture: handoffs/ai_cluster_boundary_sweep_20260603.json.
+- UNSUPERVISED CLUSTER DISCOVERY (`cluster_discovery.py`, the data-driven boundary, not asserted):
+  StandardScaler -> PCA -> KMeans with k chosen empirically (silhouette + GMM BIC) + bootstrap
+  stability, over scale-free financials of the 11 census issuers. PCA: first 2 PCs explain 82% of
+  variance. Discovered split: a profitable-but-levered group (CoreWeave, IREN, CleanSpark, Bitdeer
+  — EBITDA-positive) vs a cash-flow-NEGATIVE-fragile group (Applied Digital, Hut 8, MARA, Core
+  Scientific, Cipher), with TeraWulf (30x leverage) and Nebius as outliers. The fragile cluster is
+  DISCOVERED then labelled, bootstrap-stability 0.93. HONEST: n=11 -> silhouette 0.375 (modest),
+  k=2/3/4 statistically close, so the *number* is uncertain; what's solid is the 2-axis structure
+  + the robust fragile sub-cluster. Next rigor step: expand n with the boundary-sweep additions.
 - Continuous-update harness (`bubble.ingestion.update_detector` + `scripts/check_for_updates.py`):
   diffs a fresh EDGAR submissions snapshot vs ingested accessions (189,737 found), prioritizes
   by form relevance, flags rerun. The report now also carries a Methodology/Assumptions/Limitations
@@ -97,7 +112,7 @@ the scoped conclusion.
   source-backed layers, each anchored to a computed/sourced number + backing layer +
   source-status tag. Top 2 are severity-5 (cash-flow fragility flipping negative by the
   adverse case; refinancing treadmill on negative carry); all 10 currently source_backed.
-- Evidence audit coverage: 546 claim audits now include analyzer-level capital,
+- Evidence audit coverage: 547 claim audits now include analyzer-level capital,
   compute, and debt-service audits, explicit row/artifact-backed audits for
   high-impact Burry-answer rollups, and aggregate hooks for pending review
   capital, pending AI-infra capital, pending compute, weak-link AI-infra,
