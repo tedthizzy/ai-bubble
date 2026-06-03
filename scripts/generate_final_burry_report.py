@@ -70,6 +70,10 @@ from bubble.ingestion.capital import (
     load_capital_evidence,
 )
 from bubble.ingestion.compute.loader import load_compute_economics, merge_compute_economics_batches
+from bubble.ingestion.satellite import (
+    aggregate_satellite_observations,
+    load_satellite_observations,
+)
 from bubble.models.base import HumanReviewStatus, Provenance, SourceType
 from bubble.quality.relevance_linkage import summarize_relevance_linkage
 from bubble.quality.risk_bearer_classification import summarize_risk_bearer_quality
@@ -1450,6 +1454,30 @@ def report_answer_metric_audits(  # noqa: PLR0912, PLR0915
                 unit="count",
             )
 
+        # Satellite construction-progress: Sentinel-2 change detection on announced sites.
+        sat = m.get("satellite_construction", {})
+        if sat.get("status") == "source_backed" and sat.get("active_construction_pct") is not None:
+            add(
+                "mismatch.satellite.active_construction_pct",
+                "Share of announced AI data-center mega-sites showing ACTIVE construction / built-up "
+                "change on Sentinel-2 before/after imagery (NDVI down + bare/built-up up). A primary, "
+                "non-filing physical check: a low rate means most announced capacity shows no ground "
+                "footprint yet -- the announced-but-not-built physical-mismatch signal. (Cloud/seasonal "
+                "noise applies; read with the tracker construction-status proxy.)",
+                sat.get("active_construction_pct"),
+                [mismatch_artifact],
+                unit="percent",
+            )
+            add(
+                "mismatch.satellite.no_change_sites",
+                "Count of satellite-observed AI mega-sites with NO significant ground change between "
+                "the before/after windows -- the high-capacity ones are the clearest stranding / "
+                "timeline-slippage tells.",
+                sat.get("no_change_sites"),
+                [mismatch_artifact],
+                unit="count",
+            )
+
         # Production Neo4j graph backend: the capital-exposure graph loaded + analyzed in-DB.
         n4 = m.get("neo4j_production_graph", {})
         load_block = n4.get("load") or {}
@@ -2650,6 +2678,11 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:  #
         mismatch_ratios["graph_systemic_centrality"] = graph_centrality
     if (neo4j_analytics.get("load") or {}).get("status") == "loaded":
         mismatch_ratios["neo4j_production_graph"] = neo4j_analytics
+    satellite_aggregate = aggregate_satellite_observations(
+        load_satellite_observations(Path("data/physical/satellite_observations.json"))
+    )
+    if satellite_aggregate.get("status") == "source_backed":
+        mismatch_ratios["satellite_construction"] = satellite_aggregate
     # Tiered Burry verdict synthesized from the verified evidence: source-backed
     # cluster cash-flow fragility + the adversarially stress-tested thesis
     # premises. Scoped to the AI-direct core; the ecosystem binary stays gated.

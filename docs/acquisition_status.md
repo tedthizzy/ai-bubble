@@ -9,7 +9,7 @@ the scoped conclusion.
 
 ## Current Corpus
 
-- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260603-1550.md`
+- Latest evidence-gated report: `data/reports/BURRY_REPORT_EvidenceGated_20260603-1608.md`
 - Evidence gate: ecosystem `high_confidence_final=false` / `bubble_confidence 0.25` (by design).
 - **Tiered verdict (`ai_direct_core_verdict`):** AI-direct core `bubble_dynamics_present` @ 0.67;
   ecosystem-wide `not_established_as_ecosystem_wide_bubble` (broad metric is mostly non-AI debt, so
@@ -79,6 +79,14 @@ the scoped conclusion.
   computed in Neo4j ($56.5B / 232 edges) cross-validates the in-code figure. The report surfaces
   `neo4j_production_graph`. (GDS plugin not installed on the local instance; the in-code weighted
   PageRank covers the GDS-algorithm side.)
+- SATELLITE (done): Sentinel-2 before/after change detection (`bubble.ingestion.satellite` +
+  `scripts/satellite_progress.py`, via Google Earth Engine) over ALL 762 georeferenced AI/data-center
+  sites, server-side batched (14 reduceRegions calls; trivial EECU). Result: only 110/762 (14.4%) show
+  ACTIVE construction/built-up change; 407/762 (53%) show NO significant ground change — a primary,
+  non-filing physical confirmation of the announced-but-not-built thesis (Microsoft Fairwater validated
+  the method with a strong NDVI −0.216 clearing signal; high-capacity no-change sites are the stranding
+  tells). Surfaced as `satellite_construction` + 2 claim audits. Read with the construction-status proxy
+  (cloud/seasonal noise applies).
 - Core verdict evidence basis now enumerates the 2 PRIMARY source-backed legs PLUS 11 corroborating
   source-backed layers (honest depth; confidence unchanged at 0.67).
 - Report now opens with a "Scoped Burry Conclusion": binary call (core
@@ -89,7 +97,7 @@ the scoped conclusion.
   source-backed layers, each anchored to a computed/sourced number + backing layer +
   source-status tag. Top 2 are severity-5 (cash-flow fragility flipping negative by the
   adverse case; refinancing treadmill on negative carry); all 10 currently source_backed.
-- Evidence audit coverage: 544 claim audits now include analyzer-level capital,
+- Evidence audit coverage: 546 claim audits now include analyzer-level capital,
   compute, and debt-service audits, explicit row/artifact-backed audits for
   high-impact Burry-answer rollups, and aggregate hooks for pending review
   capital, pending AI-infra capital, pending compute, weak-link AI-infra,
