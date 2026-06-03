@@ -56,6 +56,7 @@ from bubble.analysis.red_flag_scorecard import (
     aggregate_red_flag_scorecard,
     load_red_flag_scorecard,
 )
+from bubble.analysis.refi_wall import aggregate_refi_wall, load_debt_census_raw
 from bubble.analysis.risk_register import build_risk_register
 from bubble.analysis.scenario_stress import stress_cluster
 from bubble.analysis.source_coverage import build_source_coverage_report
@@ -1449,6 +1450,27 @@ def report_answer_metric_audits(  # noqa: PLR0912, PLR0915
                 unit="count",
             )
 
+        # Named refinancing wall (specific near-term maturities from the census).
+        rw = m.get("refi_wall", {})
+        if rw.get("status") == "source_backed":
+            add(
+                "mismatch.refi_wall.near_term_2025_2027_usd",
+                "Cluster debt maturing near-term (2025-2027) from the primary-sourced census, named at "
+                "the facility level -- the specific refinancing the negative-carry issuers must roll "
+                "(see near_term_named_facilities + most-exposed issuers for the entity detail).",
+                rw.get("near_term_2025_2027_usd"),
+                [mismatch_artifact],
+                unit="USD",
+            )
+            add(
+                "mismatch.refi_wall.peak_year_usd",
+                f"Largest single maturity-year wall (peak {rw.get('peak_maturity_year')}) in the dated "
+                "census facilities -- where the bulk of the refinancing risk concentrates.",
+                rw.get("peak_year_usd"),
+                [mismatch_artifact],
+                unit="USD",
+            )
+
         # Cluster-boundary test (is the financed-AI cluster bounded?).
         cb = m.get("cluster_boundary", {})
         if cb.get("status") == "source_backed":
@@ -2634,6 +2656,11 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:  #
     )
     if cluster_boundary_aggregate.get("status") == "source_backed":
         mismatch_ratios["cluster_boundary"] = cluster_boundary_aggregate
+    refi_wall_aggregate = aggregate_refi_wall(
+        load_debt_census_raw(Path("handoffs/ai_direct_debt_census_20260603.json"))
+    )
+    if refi_wall_aggregate.get("status") == "source_backed":
+        mismatch_ratios["refi_wall"] = refi_wall_aggregate
     utilization_debt_service_aggregate = aggregate_utilization_debt_service(
         load_utilization_debt_service(Path("handoffs/ai_utilization_debt_service_20260603.json"))
     )
@@ -2672,6 +2699,7 @@ def build_burry_report(data_dirs: list[str] | None = None) -> dict[str, Any]:  #
         entity_risk_ranking=entity_risk_ranking,
         contract_structure=contract_structure_aggregate,
         cluster_boundary=cluster_boundary_aggregate,
+        refi_wall=refi_wall_aggregate,
     )
     coverage_dict = coverage.to_dict()
     physical_capacity_dict = physical_capacity.to_dict()
@@ -4334,6 +4362,17 @@ blocked/illustrative, not yet proof: {"; ".join(verdict.get("evidence_basis", {}
 {_ct.get("maturity_profile", "")}
 - Peak maturity year: **{_ct.get("peak_maturity_year")}** | 2030-2033 share: **{_ct.get("pct_2030_2033")}%** | near-term 2025-2027: **{_ct.get("pct_near_term_2025_2027")}%**
 - Near-term refinancing pressure (timing engine): **{_ct.get("near_term_pressure_window")}**
+
+**Named refinancing wall (specific facilities, from the census):** {(
+    f"${round((_rw := _ct.get('named_refi_wall', {}) or {}).get('total_dated_debt_usd', 0) / 1e9, 1)}B dated debt; "
+    f"peak {_rw.get('peak_maturity_year')} (${round((_rw.get('peak_year_usd') or 0) / 1e9, 1)}B); near-term "
+    f"2025-2027 ${round((_rw.get('near_term_2025_2027_usd') or 0) / 1e9, 1)}B ({_rw.get('near_term_pct_of_dated_debt')}%). "
+    f"Most-exposed near-term: "
+    + ", ".join(f"{x.get('issuer')} (${round((x.get('near_term_maturities_usd') or 0) / 1e9, 2)}B)"
+                for x in (_rw.get('near_term_most_exposed_issuers') or [])[:4])
+) if (_ct.get('named_refi_wall', {}) or {}).get('total_dated_debt_usd') is not None
+    else 'pending source-backed refi-wall synthesis.'}
+{_bullets(f"{f.get('issuer')} — {f.get('facility')}: ${round((f.get('principal_usd') or 0) / 1e9, 2)}B due {f.get('maturity_year')}" for f in ((_ct.get('named_refi_wall', {}) or {}).get('near_term_named_facilities') or [])[:6])}
 
 Earlier triggers:
 {_bullets(_ct.get("earlier_triggers"))}

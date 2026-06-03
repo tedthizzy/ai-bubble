@@ -61,6 +61,23 @@ def _sentence_clip(text: str, limit: int) -> str:
     return (window[:cut] if cut > 0 else window).rstrip() + " ..."
 
 
+def _named_refi_wall_block(rw: dict[str, Any]) -> dict[str, Any]:
+    """Shape the named refinancing wall for crack_timing."""
+
+    if rw.get("status") != "source_backed":
+        return {"status": "pending_source_backed_refi_wall"}
+    return {
+        "total_dated_debt_usd": rw.get("total_dated_debt_usd"),
+        "peak_maturity_year": rw.get("peak_maturity_year"),
+        "peak_year_usd": rw.get("peak_year_usd"),
+        "near_term_2025_2027_usd": rw.get("near_term_2025_2027_usd"),
+        "near_term_pct_of_dated_debt": rw.get("near_term_pct_of_dated_debt"),
+        "near_term_most_exposed_issuers": rw.get("near_term_most_exposed_issuers"),
+        "near_term_named_facilities": rw.get("near_term_named_facilities"),
+        "wall_read": rw.get("wall_read"),
+    }
+
+
 def _forensic_red_flags_block(red_flag_scorecard: dict[str, Any]) -> dict[str, Any]:
     """Shape the per-issuer forensic red-flag scorecard for the verdict."""
 
@@ -150,6 +167,7 @@ def synthesize_core_verdict(
     entity_risk_ranking: dict[str, Any] | None = None,
     contract_structure: dict[str, Any] | None = None,
     cluster_boundary: dict[str, Any] | None = None,
+    refi_wall: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Synthesize the scoped, tiered Burry verdict from verified evidence."""
 
@@ -298,6 +316,7 @@ def synthesize_core_verdict(
 
     crack_timing = {
         "maturity_profile": crack_profile,
+        "named_refi_wall": _named_refi_wall_block(refi_wall or {}),
         "forward_scenarios": forward_scenarios,
         "peak_maturity_year": str(debt_census.get("peak_maturity_year") or "").lstrip("y") or None,
         "pct_2030_2033": debt_census.get("wall_2030_2033_pct_of_scheduled"),
