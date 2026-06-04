@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Burry Forensic Explorer — variants</title>
+<style>
+  :root { color-scheme: dark; }
+  body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+         background:#0b0e14; color:#e6edf3; }
+  .wrap { max-width: 920px; margin: 0 auto; padding: 48px 24px 80px; }
+  h1 { font-size: 28px; margin:0 0 6px; }
+  .sub { color:#9aa7b4; margin:0 0 4px; }
+  .verdict { margin:18px 0 28px; padding:14px 16px; border:1px solid #243; border-radius:10px;
+             background:#0e1622; font-size:14px; line-height:1.5; }
+  .verdict b { color:#ffd166; }
+  .grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  a.card { display:block; text-decoration:none; color:inherit; border:1px solid #233; border-radius:12px;
+           padding:18px 18px 16px; background:#111824; transition:.15s; }
+  a.card:hover { border-color:#3a6; transform:translateY(-2px); background:#131c2a; }
+  .card h2 { margin:0 0 6px; font-size:18px; }
+  .card p { margin:0; color:#9aa7b4; font-size:13px; line-height:1.45; }
+  .tag { display:inline-block; font-size:11px; color:#7fd1a3; border:1px solid #2a4; border-radius:999px;
+         padding:1px 8px; margin-bottom:8px; }
+  .foot { margin-top:30px; color:#6b7785; font-size:12px; line-height:1.6; }
+  code { background:#0e1622; padding:1px 6px; border-radius:5px; color:#cbd5e1; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Burry Forensic Explorer</h1>
+  <p class="sub">Interactive views of the AI / data-center / financing bubble analysis — four variants, one verified dataset.</p>
+  <div class="verdict">
+    <b>Bubble dynamics present @ 0.67</b> in the financed compute cluster · <b>Ecosystem: not_established @ 0.25</b> (by design) ·
+    <b>high-confidence-final: FALSE</b><br />
+    Bounded (~4%), not ecosystem-wide. Every view surfaces the red-team honesty fixes (1.35x is a masking artifact;
+    the cascade $ is a gross upper bound; 2 of the first-principles tipping conditions cleanly met).
+  </div>
+  <div class="grid">
+    <a class="card" href="cascade_hero.html">
+      <span class="tag">hero · vis-network</span>
+      <h2>① Contagion Cascade</h2>
+      <p>Click OpenAI → watch the ~$25B route through CoreWeave to lenders, NVIDIA's equity, and on to pensions/households.</p>
+    </a>
+    <a class="card" href="analyst_explorer.html">
+      <span class="tag">analyst · Cytoscape</span>
+      <h2>② Analyst Explorer</h2>
+      <p>Filter by financed core / circular financing / downside routing / power chokepoints. Click any node for forensic detail.</p>
+    </a>
+    <a class="card" href="immersive_3d.html">
+      <span class="tag">immersive · 3D</span>
+      <h2>③ Immersive 3D</h2>
+      <p>3D force graph with particle flows along the cascade path. The "wow" view — honesty chrome still on.</p>
+    </a>
+    <a class="card" href="forensic_dashboard.html">
+      <span class="tag">story · dashboard</span>
+      <h2>④ Forensic Dashboard</h2>
+      <p>Verdict gauges, the fragility simulator (sliders), the refinancing wall, and an embedded contagion graph.</p>
+    </a>
+  </div>
+  <p class="foot">
+    Served locally. Source data: <code>viz/burry_viz_data.json</code> (built from the hardened evidence-gated report).
+    These are self-contained files — you can also just double-click any <code>.html</code> in <code>viz/</code>.
+  </p>
+</div>
+</body>
+</html>

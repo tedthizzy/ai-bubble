@@ -1,0 +1,773 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Burry · AI-infra contagion (3D)</title>
+<script src="https://unpkg.com/three@0.150.1/build/three.min.js"></script>
+<script src="https://unpkg.com/3d-force-graph@1.73.4/dist/3d-force-graph.min.js"></script>
+<style>
+  :root { color-scheme: dark; }
+  html,body { margin:0; height:100%; background:#05070c; overflow:hidden;
+              font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif; color:#e6edf3; }
+  #g { position:fixed; inset:0; }
+  .ov { position:fixed; z-index:5; }
+  #brand { top:16px; left:18px; }
+  #brand .m { font-weight:700; letter-spacing:.14em; font-size:12px; color:#8b98a5; }
+  #brand .chips { margin-top:7px; display:flex; gap:6px; }
+  .chip { font-size:11px; padding:2px 8px; border-radius:999px; border:1px solid #233; background:#0c1420; }
+  .chip b { color:#ffd166; } .chip.r b { color:#f0883e; } .chip.g { color:#7d8893; }
+  #info { top:16px; right:18px; width:26px; height:26px; border-radius:50%; border:1px solid #2a3a4a;
+          background:#0c1420; color:#9aa7b4; font-size:13px; cursor:pointer; }
+  #panel { top:52px; right:18px; width:330px; max-height:72vh; overflow:auto; display:none;
+           border:1px solid #233; border-radius:10px; background:rgba(10,18,29,.95); padding:12px 14px; font-size:12px; line-height:1.5; }
+  #panel h4 { margin:0 0 8px; font-size:11px; letter-spacing:.08em; color:#7d8893; text-transform:uppercase; }
+  #panel li { margin:0 0 7px; color:#b9c4cf; }
+  #cc { left:18px; bottom:18px; display:flex; align-items:center; gap:12px; }
+  #play { font-size:13px; padding:8px 14px; border-radius:8px; border:1px solid #2a5; background:#0e2018;
+          color:#7fd1a3; cursor:pointer; font-weight:600; }
+  #play:hover { background:#11281c; }
+  #ccline { font-size:12px; color:#9aa7b4; opacity:0; transition:.3s; }
+  #ccline b { color:#f0883e; }
+  #card { right:18px; bottom:18px; width:280px; display:none; border:1px solid #2a3a4a; border-radius:10px;
+          background:rgba(10,18,29,.95); padding:12px 14px; }
+  #card .nm { font-weight:700; font-size:15px; } #card .ty { font-size:11px; color:#7d8893; margin:1px 0 7px; }
+  #card .nt { font-size:12px; color:#b9c4cf; line-height:1.45; } #card .usd { margin-top:7px; font-size:12px; color:#ffd166; }
+  .scale { position:fixed; left:18px; top:66px; font-size:10px; color:#6b7785; z-index:5; }
+  .scale i { display:inline-block; width:42px; height:6px; border-radius:3px; vertical-align:middle; margin:0 6px;
+             background:linear-gradient(90deg,#3fb950,#d29922,#f85149); }
+</style>
+</head>
+<body>
+<div id="g"></div>
+<div class="ov" id="brand">
+  <div class="m">BURRY · AI-INFRA</div>
+  <div class="chips">
+    <span class="chip">core <b id="c1">0.67</b></span>
+    <span class="chip r">ecosystem <b id="c2">0.25</b></span>
+    <span class="chip g">not final</span>
+  </div>
+</div>
+<div class="scale">safe <i></i> fragile</div>
+<button class="ov" id="info" title="forensic honesty">i</button>
+<div class="ov" id="panel"></div>
+<div class="ov" id="cc">
+  <button id="play">▶ Cascade</button>
+  <div id="ccline"></div>
+</div>
+<div class="ov" id="card"></div>
+<script>
+const DATA = {
+  "meta": {
+    "generated_from": "BURRY_REPORT_EvidenceGated_20260603-2312",
+    "headline": "Is the AI / data-center / financing boom a bubble?",
+    "answer": "Yes -- in the financed compute cluster. Bounded, not ecosystem-wide.",
+    "core_verdict": "bubble_dynamics_present",
+    "core_confidence": 0.67,
+    "ecosystem_verdict": "not_established_as_ecosystem_wide_bubble",
+    "ecosystem_confidence": 0.25,
+    "high_confidence_final": false,
+    "fragility_conditions_met": 2,
+    "fragility_met_dimensions": [
+      "asset_liability_duration_mismatch",
+      "customer_concentration"
+    ],
+    "committed_core_usd": 25775000000,
+    "committed_incl_infra_usd": 29725000000,
+    "original_inflated_basis_usd": 1451858410389,
+    "over_count_removed_pct": 98.0,
+    "cascade_debt_at_risk_usd": 25149000000.0,
+    "issuers_breaching_base": "7 of 11",
+    "indicators_flashing": "4 of 7",
+    "crack_window": "2025-Q3..2027-Q3 (engine peak ~2026-Q2)",
+    "cluster_share_pct": 4.3,
+    "ai_modularity": 0.7574,
+    "honest_caveats": [
+      "Aggregate EBITDA/interest coverage ~1.35x is a CoreWeave/CleanSpark masking artifact -- NEGATIVE ex-CoreWeave; a majority (7/11) of issuers breach at the zero-shock base.",
+      "The cascade $ is a GROSS UPPER BOUND: CoreWeave's ENTIRE debt, not apportioned to OpenAI's revenue share (Microsoft is the larger ~67% customer).",
+      "2 of the first-principles tipping conditions are cleanly met (duration + concentration); execution/satellite is MAGNITUDE-ONLY (the 'un-built' proxy is confounded).",
+      "Committed AI-cluster debt is ~$26-30B after stripping ~98% over-count -- NOT the trillion-dollar headline aggregate.",
+      "The cluster stays ~4% of the universe even at the ~2x capture-recapture true size -- bounded, not ecosystem-wide.",
+      "Ecosystem evidence gate held at 0.25 by design; high-confidence-final = False."
+    ]
+  },
+  "nodes": [
+    {
+      "id": "CoreWeave",
+      "label": "CoreWeave",
+      "type": "issuer",
+      "fragility": 0.95,
+      "usd": 3100000000.0,
+      "note": "Financing chokepoint. 67% of revenue from Microsoft; loss-making; ~0.30x DSCR; $3.1B DDTL 5.0. All GPUs are NVIDIA; NVIDIA also holds $2B equity (circular).",
+      "redteam": "financing chokepoint"
+    },
+    {
+      "id": "TeraWulf",
+      "label": "TeraWulf",
+      "type": "issuer",
+      "fragility": 0.85,
+      "usd": 5230000000.0,
+      "note": "$3.2B 7.75% senior secured notes (2030) + convertibles; loss-making."
+    },
+    {
+      "id": "IREN",
+      "label": "IREN",
+      "type": "issuer",
+      "fragility": 0.7,
+      "usd": 5150000000.0,
+      "note": "Convertible-heavy ($3B 2033 + 2032/2031); NVIDIA equity investee."
+    },
+    {
+      "id": "Applied Digital",
+      "label": "Applied Digital",
+      "type": "issuer",
+      "fragility": 0.8,
+      "usd": 4500000000.0,
+      "note": "ComputeCo $2.35B + ComputeCo2 $2.15B senior secured notes; NVIDIA PIPE."
+    },
+    {
+      "id": "Hut 8",
+      "label": "Hut 8",
+      "type": "issuer",
+      "fragility": 0.65,
+      "usd": 3250000000.0,
+      "note": "$3.25B 6.192% senior secured notes (2042); Google/Anthropic ties."
+    },
+    {
+      "id": "MARA Holdings",
+      "label": "MARA Holdings",
+      "type": "issuer",
+      "fragility": 0.6,
+      "usd": 1950000000.0,
+      "note": "Convertibles 2030/2032; crypto-to-AI pivot."
+    },
+    {
+      "id": "CleanSpark",
+      "label": "CleanSpark",
+      "type": "issuer",
+      "fragility": 0.45,
+      "usd": 1150000000.0,
+      "note": "Only non-loss-making cluster issuer in the census (+$667M EBITDA)."
+    },
+    {
+      "id": "Galaxy Digital",
+      "label": "Galaxy Digital",
+      "type": "issuer",
+      "fragility": 0.55,
+      "usd": 1400000000.0,
+      "note": "Galaxy Helios I $1.4B Deutsche Bank term loan (AI data center)."
+    },
+    {
+      "id": "Nebius",
+      "label": "Nebius",
+      "type": "issuer",
+      "fragility": 0.7,
+      "usd": 2000000000.0,
+      "note": "NVIDIA equity investee (~$2B); 20-F earmarks proceeds for NVIDIA Vera Rubin."
+    },
+    {
+      "id": "Core Scientific",
+      "label": "Core Scientific",
+      "type": "issuer",
+      "fragility": 0.75,
+      "usd": 1000000000.0,
+      "note": "Being acquired by CoreWeave; $1B term loan."
+    },
+    {
+      "id": "Cipher Mining",
+      "label": "Cipher Mining",
+      "type": "issuer",
+      "fragility": 0.6,
+      "usd": 500000000.0,
+      "note": "SoftBank PIPE; Google warrants."
+    },
+    {
+      "id": "Bit Digital",
+      "label": "Bit Digital",
+      "type": "issuer",
+      "fragility": 0.5,
+      "usd": 50000000.0,
+      "note": "Galaxy currency loan (initial $50M draw)."
+    },
+    {
+      "id": "NVIDIA",
+      "label": "NVIDIA",
+      "type": "supplier_investor",
+      "fragility": 0.3,
+      "usd": 6000000000.0,
+      "note": "Dominant GPU SUPPLIER and filing-verified EQUITY INVESTOR in its own customers (CoreWeave $2B, Nebius ~$2B, Applied Digital). Vendor round-trip / Lucent-Nortel tell."
+    },
+    {
+      "id": "OpenAI",
+      "label": "OpenAI",
+      "type": "fragile_offtaker",
+      "fragility": 0.9,
+      "usd": 18400000000.0,
+      "note": "FRAGILE demand leg: 56% of CoreWeave's named take-or-pay backlog; capital-markets-dependent (funded by Microsoft $13B + NVIDIA $100B LOI + SoftBank), not payable from operations."
+    },
+    {
+      "id": "Microsoft",
+      "label": "Microsoft",
+      "type": "durable_offtaker",
+      "fragility": 0.1,
+      "usd": 13000000000.0,
+      "note": "Durable hyperscaler (huge FCF); 67% of CoreWeave revenue; $13B into OpenAI."
+    },
+    {
+      "id": "Meta",
+      "label": "Meta",
+      "type": "durable_offtaker",
+      "fragility": 0.1,
+      "usd": 14200000000.0,
+      "note": "Durable hyperscaler; $14.2B take-or-pay to CoreWeave through 2031."
+    },
+    {
+      "id": "Morgan Stanley",
+      "label": "Morgan Stanley",
+      "type": "lender",
+      "fragility": 0.4,
+      "usd": 4000000000.0,
+      "note": "Initial purchaser / agent across cluster notes (Core Scientific TL etc.)."
+    },
+    {
+      "id": "Magnetar",
+      "label": "Magnetar",
+      "type": "lender",
+      "fragility": 0.55,
+      "usd": 3000000000.0,
+      "note": "Private-credit lender to CoreWeave (DDTL structures)."
+    },
+    {
+      "id": "Blackstone",
+      "label": "Blackstone",
+      "type": "lender",
+      "fragility": 0.5,
+      "usd": 3000000000.0,
+      "note": "Private-credit anchor to CoreWeave."
+    },
+    {
+      "id": "Wilmington Trust",
+      "label": "Wilmington Trust",
+      "type": "lender",
+      "fragility": 0.3,
+      "usd": 2000000000.0,
+      "note": "Trustee/collateral agent across the cluster's secured notes."
+    },
+    {
+      "id": "Goldman Sachs",
+      "label": "Goldman Sachs",
+      "type": "lender",
+      "fragility": 0.35,
+      "usd": 2000000000.0,
+      "note": "Agent / initial purchaser (SpaceX bridge, others)."
+    },
+    {
+      "id": "Coatue",
+      "label": "Coatue",
+      "type": "lender",
+      "fragility": 0.45,
+      "usd": 1000000000.0,
+      "note": "Convertible-note holder (Hut 8)."
+    },
+    {
+      "id": "Apollo / Athene",
+      "label": "Apollo / Athene",
+      "type": "end_holder",
+      "fragility": 0.5,
+      "usd": 4000000000.0,
+      "note": "Insurer / private-credit funder -- routes loss to policyholders."
+    },
+    {
+      "id": "Pension funds",
+      "label": "Pension funds",
+      "type": "end_holder",
+      "fragility": 0.4,
+      "usd": 3000000000.0,
+      "note": "Ultimate downside bearer via private-credit + index exposure."
+    },
+    {
+      "id": "Households / index",
+      "label": "Households / index",
+      "type": "end_holder",
+      "fragility": 0.3,
+      "usd": 3000000000.0,
+      "note": "Insurance policyholders + retirees + index investors."
+    },
+    {
+      "id": "Amazon Energy",
+      "label": "Amazon Energy",
+      "type": "energy_chokepoint",
+      "fragility": 0.2,
+      "usd": 5000000000.0,
+      "note": "Top betweenness chokepoint in the AI subgraph -- power is the binding constraint."
+    },
+    {
+      "id": "Microsoft Energy",
+      "label": "Microsoft Energy",
+      "type": "energy_chokepoint",
+      "fragility": 0.2,
+      "usd": 4000000000.0,
+      "note": "2nd betweenness chokepoint -- hyperscaler power procurement."
+    },
+    {
+      "id": "Shell Energy",
+      "label": "Shell Energy",
+      "type": "energy_chokepoint",
+      "fragility": 0.25,
+      "usd": 3000000000.0,
+      "note": "Power-market intermediary; structural chokepoint across the full graph."
+    }
+  ],
+  "edges": [
+    {
+      "from": "NVIDIA",
+      "to": "CoreWeave",
+      "type": "equity_investment",
+      "usd": 2000000000.0,
+      "tier": "filing_verified",
+      "note": "$2B Class A, Jan 2026 (CRWV 10-K)"
+    },
+    {
+      "from": "CoreWeave",
+      "to": "NVIDIA",
+      "type": "gpu_purchase",
+      "usd": null,
+      "tier": "filing_verified",
+      "note": "all GPUs are NVIDIA (CRWV 10-K)"
+    },
+    {
+      "from": "NVIDIA",
+      "to": "Nebius",
+      "type": "equity_investment",
+      "usd": 2000000000.0,
+      "tier": "filing_verified",
+      "note": "~$2B Mar 2026; proceeds fund NVIDIA Vera Rubin (NBIS 20-F)"
+    },
+    {
+      "from": "Nebius",
+      "to": "NVIDIA",
+      "type": "gpu_purchase",
+      "usd": null,
+      "tier": "filing_verified",
+      "note": "proceeds earmarked for NVIDIA hardware"
+    },
+    {
+      "from": "NVIDIA",
+      "to": "Applied Digital",
+      "type": "equity_investment",
+      "usd": null,
+      "tier": "filing_verified",
+      "note": "Sep 2024 PIPE (APLD 10-K)"
+    },
+    {
+      "from": "NVIDIA",
+      "to": "OpenAI",
+      "type": "framework_commitment",
+      "usd": 100000000000.0,
+      "tier": "press_reported",
+      "note": "~$100B LOI, NON-BINDING, $0 funded; absent from NVIDIA 10-Q"
+    },
+    {
+      "from": "OpenAI",
+      "to": "CoreWeave",
+      "type": "purchase_commitment",
+      "usd": 18400000000.0,
+      "tier": "filing_verified",
+      "note": "$6.5B + $11.9B take-or-pay (CRWV 10-K)"
+    },
+    {
+      "from": "Meta",
+      "to": "CoreWeave",
+      "type": "purchase_commitment",
+      "usd": 14200000000.0,
+      "tier": "filing_verified",
+      "note": "$14.2B through 2031 (CRWV 10-K)"
+    },
+    {
+      "from": "Microsoft",
+      "to": "CoreWeave",
+      "type": "customer_revenue",
+      "usd": null,
+      "tier": "filing_verified",
+      "note": "67% of CoreWeave revenue (CRWV 10-K)"
+    },
+    {
+      "from": "Microsoft",
+      "to": "OpenAI",
+      "type": "equity_investment",
+      "usd": 13000000000.0,
+      "tier": "filing_verified",
+      "note": "$13B funding commitment, $11.8B funded (MSFT 10-Q)"
+    },
+    {
+      "from": "CoreWeave",
+      "to": "Morgan Stanley",
+      "type": "lender",
+      "usd": null,
+      "tier": "filing_verified",
+      "note": "agent/initial purchaser"
+    },
+    {
+      "from": "CoreWeave",
+      "to": "Magnetar",
+      "type": "lender",
+      "usd": null,
+      "tier": "filing_verified",
+      "note": "DDTL private credit"
+    },
+    {
+      "from": "CoreWeave",
+      "to": "Blackstone",
+      "type": "lender",
+      "usd": null,
+      "tier": "filing_verified",
+      "note": "private-credit anchor"
+    },
+    {
+      "from": "CoreWeave",
+      "to": "Wilmington Trust",
+      "type": "lender",
+      "usd": null,
+      "tier": "filing_verified",
+      "note": "trustee/collateral agent"
+    },
+    {
+      "from": "TeraWulf",
+      "to": "Morgan Stanley",
+      "type": "lender",
+      "usd": null,
+      "tier": "filing_verified",
+      "note": ""
+    },
+    {
+      "from": "TeraWulf",
+      "to": "Wilmington Trust",
+      "type": "lender",
+      "usd": null,
+      "tier": "filing_verified",
+      "note": ""
+    },
+    {
+      "from": "Applied Digital",
+      "to": "Wilmington Trust",
+      "type": "lender",
+      "usd": null,
+      "tier": "filing_verified",
+      "note": ""
+    },
+    {
+      "from": "Hut 8",
+      "to": "Coatue",
+      "type": "lender",
+      "usd": null,
+      "tier": "filing_verified",
+      "note": ""
+    },
+    {
+      "from": "Hut 8",
+      "to": "Goldman Sachs",
+      "type": "lender",
+      "usd": null,
+      "tier": "filing_verified",
+      "note": ""
+    },
+    {
+      "from": "Galaxy Digital",
+      "to": "Goldman Sachs",
+      "type": "lender",
+      "usd": null,
+      "tier": "filing_verified",
+      "note": ""
+    },
+    {
+      "from": "Core Scientific",
+      "to": "Morgan Stanley",
+      "type": "lender",
+      "usd": null,
+      "tier": "filing_verified",
+      "note": ""
+    },
+    {
+      "from": "Magnetar",
+      "to": "Apollo / Athene",
+      "type": "private_credit_funding",
+      "usd": null,
+      "tier": "source_backed",
+      "note": "private-credit funded materially by insurance/pension"
+    },
+    {
+      "from": "Blackstone",
+      "to": "Apollo / Athene",
+      "type": "private_credit_funding",
+      "usd": null,
+      "tier": "source_backed",
+      "note": ""
+    },
+    {
+      "from": "Apollo / Athene",
+      "to": "Households / index",
+      "type": "policyholder_exposure",
+      "usd": null,
+      "tier": "source_backed",
+      "note": "loss routes to policyholders/retirees"
+    },
+    {
+      "from": "Apollo / Athene",
+      "to": "Pension funds",
+      "type": "policyholder_exposure",
+      "usd": null,
+      "tier": "source_backed",
+      "note": ""
+    },
+    {
+      "from": "Morgan Stanley",
+      "to": "Pension funds",
+      "type": "syndication",
+      "usd": null,
+      "tier": "source_backed",
+      "note": ""
+    },
+    {
+      "from": "Amazon Energy",
+      "to": "CoreWeave",
+      "type": "power_procurement",
+      "usd": null,
+      "tier": "source_backed",
+      "note": "GDS chokepoint"
+    },
+    {
+      "from": "Microsoft Energy",
+      "to": "CoreWeave",
+      "type": "power_procurement",
+      "usd": null,
+      "tier": "source_backed",
+      "note": ""
+    },
+    {
+      "from": "Shell Energy",
+      "to": "TeraWulf",
+      "type": "power_procurement",
+      "usd": null,
+      "tier": "source_backed",
+      "note": ""
+    },
+    {
+      "from": "Amazon Energy",
+      "to": "Applied Digital",
+      "type": "power_procurement",
+      "usd": null,
+      "tier": "source_backed",
+      "note": ""
+    }
+  ],
+  "cascade": {
+    "trigger": "OpenAI",
+    "trigger_note": "Fragile demand leg withdraws: OpenAI is 56% of CoreWeave's named backlog and is capital-markets-dependent (not payable from operations).",
+    "honest_label": "GROSS UPPER BOUND -- this is CoreWeave's ENTIRE debt, NOT apportioned to OpenAI's revenue share. Microsoft (~67%) is the larger customer. Read as contagion SURFACE, not expected loss.",
+    "hops": [
+      {
+        "hop": 1,
+        "nodes": [
+          "CoreWeave"
+        ],
+        "usd": 25149000000.0,
+        "label": "Directly hit: CoreWeave's full debt at risk"
+      },
+      {
+        "hop": 2,
+        "nodes": [
+          "Morgan Stanley",
+          "Magnetar",
+          "Blackstone",
+          "Wilmington Trust",
+          "NVIDIA"
+        ],
+        "label": "Lenders + NVIDIA's $2B equity stake exposed"
+      },
+      {
+        "hop": 3,
+        "nodes": [
+          "Apollo / Athene",
+          "Pension funds",
+          "Households / index"
+        ],
+        "label": "Private-credit funding routes the loss to policyholders / retirees"
+      }
+    ]
+  },
+  "fragility": {
+    "met": [
+      "duration: debt to 2030 outlives ~24mo GPU economic life",
+      "concentration: a single customer is >50% of revenue (CoreWeave 67%)"
+    ],
+    "magnitude_only": [
+      "execution/satellite: 'no-change' conflates un-built with already-built (confounded)"
+    ],
+    "no_binary": [
+      "recourse: mostly parent-equity, not SPV fire-sale",
+      "leveraged-tail size: small share of the universe"
+    ],
+    "dimensions": [
+      {
+        "question": "Does the debt mature AFTER the GPU collateral is economically dead?",
+        "dimension": "asset_liability_duration_mismatch",
+        "measured": "peak debt horizon ~48mo vs ~24mo GPU economic life",
+        "first_principles_condition": "debt_horizon_months > gpu_economic_life_months",
+        "condition_met": true,
+        "source_status": "source_backed",
+        "interpretation": "Met: the collateral is economically worthless ~24mo before the debt matures, so a secured lender cannot be made whole on the GPUs -- the defining structural mismatch."
+      },
+      {
+        "question": "Does the loss ring-fence to SPV creditors, or reach parent equity?",
+        "dimension": "loss_incidence_recourse",
+        "measured": "9.1% of contract-verified facilities non-recourse; 72.7% full-recourse-to-parent",
+        "first_principles_condition": null,
+        "condition_met": null,
+        "source_status": "source_backed",
+        "interpretation": "No principled cutoff. The structural fact: the debt is MOSTLY parent-recourse, so the loss is absorbed by parent EQUITY, not ring-fenced into an SPV-illiquidity cascade. This CONTRADICTS the framework's pessimistic guess and is itself the finding -- the channel is equity wipeout, not SPV fire-sale contagion."
+      },
+      {
+        "question": "Is any issuer's single-customer dependence at an EXISTENTIAL (>50%) level?",
+        "dimension": "customer_concentration",
+        "measured": "100.0% of issuers carry >35% single-customer concentration; max disclosed ~67.0% (CoreWeave/Microsoft)",
+        "first_principles_condition": "max_single_customer_revenue_pct > 50%",
+        "condition_met": true,
+        "source_status": "source_backed",
+        "interpretation": "Existential concentration present: at least one issuer derives the MAJORITY of revenue from one customer (CoreWeave ~67% Microsoft) -- losing that customer removes most revenue against fixed debt service."
+      },
+      {
+        "question": "Does the MAJORITY of announced capacity show no physical construction?",
+        "dimension": "execution_mismatch_physical",
+        "measured": "53.4% of 762 satellite-observed sites show NO change",
+        "first_principles_condition": null,
+        "condition_met": null,
+        "source_status": "source_backed",
+        "interpretation": "53.4% of observed sites show no inter-period change on Sentinel-2. This is a CONFOUNDED proxy, NOT proof of un-built capacity: 'no change' includes sites that are already built/operational (nothing left to change) as well as never-started ones, and carries cloud/seasonal noise. Read as a flag to pair with the construction-status proxy and permit/queue evidence -- it does not by itself meet a >50%-un-built tipping line, so it is reported as magnitude, not a satisfied condition."
+      },
+      {
+        "question": "Is the leveraged tail large enough to be a SYSTEMIC (vs contained) risk?",
+        "dimension": "leveraged_tail_size",
+        "measured": "4.3% of 649 classified AI-infra entities are financed_ai_infra_leveraged",
+        "first_principles_condition": null,
+        "condition_met": null,
+        "source_status": "source_backed",
+        "interpretation": "No principled cutoff for 'systemic'. The magnitude: the leveraged tail is a SMALL share of the classified AI-infra universe, and the broad debt metric is dominated by non-AI debt -- so the loss is CONTAINED to a small, specific cluster rather than an ecosystem-wide tail. This contradicts the framework's pessimistic guess and reinforces the scoped (not ecosystem-wide) verdict."
+      }
+    ]
+  },
+  "refi_wall": {
+    "by_year": {
+      "y2025": 0.0,
+      "y2026": 6665769000.0,
+      "y2027": 7725070000.0,
+      "y2028": 4739899000.0,
+      "y2029": 5300834000.0,
+      "y2030": 10296438000.0,
+      "y2031": 4869199000.0,
+      "y2032": 3993400000.0,
+      "y2033": 1150000000.0,
+      "y2034_plus": 5542401000.0
+    },
+    "peak_year": "2030",
+    "near_term_window": "2025-Q3..2027-Q3 (engine peak ~2026-Q2)"
+  },
+  "chokepoints": {
+    "power": [
+      "Amazon Energy",
+      "Microsoft Energy",
+      "Shell Energy"
+    ],
+    "financing": [
+      "CoreWeave"
+    ]
+  },
+  "legend": {
+    "node_types": {
+      "issuer": "financed AI-compute issuer (the cluster)",
+      "supplier_investor": "NVIDIA -- supplier AND equity investor (circular)",
+      "fragile_offtaker": "capital-markets-dependent demand (OpenAI)",
+      "durable_offtaker": "hyperscaler demand (durable FCF)",
+      "lender": "lender / agent / trustee",
+      "end_holder": "ultimate downside bearer (insurer/pension/household)",
+      "energy_chokepoint": "power-procurement intermediary (GDS structural chokepoint)"
+    },
+    "fragility": "node color: green(safe)->red(fragile); size: exposure/committed debt",
+    "edge_tiers": {
+      "filing_verified": "solid",
+      "press_reported": "dashed (NOT binding)",
+      "source_backed": "solid (aggregate)"
+    }
+  }
+};
+
+function frgColor(f){ f=Math.max(0,Math.min(1,f||0));
+  const a=[63,185,80], b=[210,153,34], c=[248,81,73];
+  const lo = f<0.5 ? a : b, hi = f<0.5 ? b : c, t = f<0.5 ? f/0.5 : (f-0.5)/0.5;
+  return 'rgb('+lo.map((x,i)=>Math.round(x+(hi[i]-x)*t)).join(',')+')'; }
+
+const nodes = DATA.nodes.map(n => ({ id:n.id, label:n.label||n.id, type:n.type, frg:n.fragility||0,
+  usd:n.usd||0, note:(n.note||'').split(/[.;]/)[0].trim(), col:frgColor(n.fragility) }));
+const links = DATA.edges.map(e => ({ source:e.from, target:e.to, type:e.type, usd:e.usd,
+  tier:e.tier, press:(e.tier==='press_reported') }));
+
+const casc = new Set([DATA.cascade.trigger]);
+(DATA.cascade.hops||[]).forEach(h => (h.nodes||[]).forEach(n => casc.add(n)));
+const lid = l => (l.source && l.source.id) ? l.source.id : l.source;
+const ltd = l => (l.target && l.target.id) ? l.target.id : l.target;
+const isCasc = l => casc.has(lid(l)) && casc.has(ltd(l));
+
+const G = ForceGraph3D()(document.getElementById('g'))
+  .backgroundColor('#05070c')
+  .graphData({ nodes, links })
+  .nodeLabel(n => n.label)
+  .nodeColor(n => n.col)
+  .nodeVal(n => Math.max(1.2, Math.sqrt((n.usd||0)/1e9)*1.7))
+  .nodeOpacity(0.95)
+  .linkColor(l => l.press ? '#6e3b3b' : '#33425a')
+  .linkWidth(l => l.press ? 0.3 : 0.6)
+  .linkDirectionalParticles(0)
+  .linkDirectionalParticleWidth(2.2)
+  .onNodeClick(n => { showCard(n); const d=1.35;
+     G.cameraPosition({ x:n.x*d, y:n.y*d, z:n.z*d }, n, 800); })
+  .onBackgroundClick(() => { document.getElementById('card').style.display='none'; });
+G.d3Force('charge').strength(-140);
+
+const card = document.getElementById('card');
+function showCard(n){
+  card.innerHTML = '<div class="nm" style="color:'+n.col+'">'+n.label+'</div>'+
+    '<div class="ty">'+(DATA.legend.node_types[n.type]||n.type)+'</div>'+
+    '<div class="nt">'+(n.note||'')+'</div>'+
+    (n.usd?'<div class="usd">$'+(n.usd/1e9).toFixed(1)+'B</div>':'');
+  card.style.display='block';
+}
+
+const ccline = document.getElementById('ccline');
+const dbn = (DATA.meta.cascade_debt_at_risk_usd||0)/1e9;
+let on = false;
+document.getElementById('play').onclick = () => {
+  on = !on;
+  if(on){
+    G.linkDirectionalParticles(l => isCasc(l) ? 4 : 0).linkDirectionalParticleSpeed(0.012)
+     .linkColor(l => isCasc(l) ? '#f0883e' : (l.press?'#6e3b3b':'#1f2a3a'))
+     .linkWidth(l => isCasc(l) ? 1.4 : (l.press?0.3:0.5));
+    ccline.style.opacity = 1;
+    ccline.innerHTML = 'OpenAI → CoreWeave → lenders → households · <b>$'+dbn.toFixed(1)+'B at risk</b> (gross upper bound)';
+  } else {
+    G.linkDirectionalParticles(0).linkColor(l=>l.press?'#6e3b3b':'#33425a').linkWidth(l=>l.press?0.3:0.6);
+    ccline.style.opacity = 0;
+  }
+};
+
+const m = DATA.meta;
+document.getElementById('c1').textContent = m.core_confidence;
+document.getElementById('c2').textContent = m.ecosystem_confidence;
+const panel = document.getElementById('panel');
+panel.innerHTML = '<h4>Forensic honesty · red-teamed</h4><ul style="margin:0;padding-left:16px">'+
+  (m.honest_caveats||[]).map(c=>'<li>'+c+'</li>').join('')+'</ul>';
+document.getElementById('info').onclick = () => {
+  panel.style.display = panel.style.display==='block' ? 'none' : 'block';
+};
+window.addEventListener('resize', ()=> G.width(window.innerWidth).height(window.innerHeight));
+</script>
+</body>
+</html>
