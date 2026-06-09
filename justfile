@@ -95,6 +95,12 @@ source-coverage *FLAGS:
 source-invariants *FLAGS:
     uv run python scripts/audit_source_invariants.py {{FLAGS}}
 
+# One-command refresh of the live source catalog (recommended for "update to today")
+update-catalog:
+    uv run python scripts/build_source_catalog.py --resolve-dynamic-public-sources --output data/source_catalogs/source_catalog.csv
+    @echo "Catalog refreshed to current public sources. Run 'just source-acquire data/source_catalogs/source_catalog.csv' to fetch any new artifacts, then re-run reports/coverage as needed."
+    @echo "For EDGAR filing deltas on tracked CIKs: fetch submissions JSONs and use 'uv run python scripts/check_for_updates.py --snapshot <snapshot.json>' (see script help and README)."
+
 # Build source-backed entity universe and expanded EDGAR CIK candidates.
 entity-universe *FLAGS:
     uv run python scripts/build_entity_universe.py {{FLAGS}}

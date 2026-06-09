@@ -371,6 +371,17 @@ Live public source listings can be resolved into concrete artifact URLs at catal
 just source-catalog --resolve-dynamic-public-sources --output data/source_catalogs/source_catalog.csv
 ```
 
+Or even simpler for day-to-day:
+```bash
+just update-catalog
+```
+(This is the recommended "easy one command" to bring the acquisition targets current.)
+
+Then typically:
+```bash
+just source-acquire data/source_catalogs/source_catalog.csv
+```
+
 Coverage reporting separates queued catalog targets from acquired artifacts, so the report can say how many filings, entities, projects, source-backed deals, and source-backed contract tranches are actually covered while also showing how much acquisition work is waiting. Derived graph node/edge outputs are reported through graph summaries and are not folded back into raw source coverage counts.
 
 Acquisition is parallel by default. `source-acquire` uses a bounded worker pool (`--max-workers`, default 64), per-domain concurrency gates, retries with exponential backoff, and resume mode so existing raw artifacts are parsed without redownloading. SEC-hosted URLs require `EDGAR_IDENTITY` and are capped below the SEC's published 10 requests/second fair-access limit by default (`--sec-requests-per-second 8`; see SEC Developer Resources: https://www.sec.gov/about/developer-resources).
