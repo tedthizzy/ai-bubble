@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="104" viewBox="0 0 860 104">
+ <rect x="1" y="1" width="858" height="102" rx="12" fill="#0c1420" stroke="#223344"/>
+ <text x="24" y="32" font-family="ui-sans-serif,system-ui,sans-serif" font-size="15" font-weight="700" fill="#e6edf3">AI BUBBLE<tspan fill="#5d6a77" font-weight="400"> · evidence-gated map · 7,708 entities · 62,939 deals</tspan></text>
+ <text x="24" y="58" font-family="ui-sans-serif,system-ui,sans-serif" font-size="12.5" fill="#9aa7b4">verified core <tspan fill="#ffd166" font-weight="600">$25.8B</tspan> vs headline claimed <tspan fill="#ffd166" font-weight="600">$1.45T</tspan> (~98% over-count) · bubble <tspan fill="#ffd166">0.67</tspan> · ecosystem <tspan fill="#f0883e">0.25</tspan> · not final</text>
+ <text x="24" y="84" font-family="ui-sans-serif,system-ui,sans-serif" font-size="13" font-weight="600"><tspan fill="#f85149">IREN -8.7%</tspan><tspan fill="#39414c">&#160;&#160;&#160;</tspan><tspan fill="#3fb950">GLXY +7.1%</tspan><tspan fill="#39414c">&#160;&#160;&#160;</tspan><tspan fill="#f85149">HUT -5.8%</tspan><tspan fill="#39414c">&#160;&#160;&#160;</tspan><tspan fill="#3fb950">BX +5.3%</tspan><tspan fill="#39414c">&#160;&#160;&#160;</tspan></text>
+ <text x="836" y="84" text-anchor="end" font-family="ui-sans-serif,system-ui,sans-serif" font-size="11" fill="#6b7785">live · 03:20 UTC · 10 Jun 2026</text>
+</svg>

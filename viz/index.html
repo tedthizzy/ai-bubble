@@ -251,6 +251,7 @@ function playCascade(){
   const dbn = (meta.cascade_debt_at_risk_usd||0)/1e9;
   let step = 0;
   ccline.style.opacity=1; ccline.innerHTML = caps[0]; refresh();
+  G.zoomToFit(900, 100, n => casc.has(n.id)); // frame the contagion path
   cascadeTimer = setInterval(()=>{
     step++;
     if(step <= hops.length){
@@ -385,8 +386,24 @@ function boot(DATA){
     .onBackgroundClick(() => { document.getElementById('card').style.display='none';
       sel=null; if(!cascadeOn) refresh(); });
   G.d3Force('charge').strength(n => n.field ? -10 : -120);
-  G.d3Force('link').distance(l => l.field ? 30 : 70).strength(l => l.field ? 0.06 : 0.5);
+  // field-link strength is degree-normalized: a hub with 100 raw deals must not feel
+  // 100x the pull, or the core constellation gets stretched across the whole galaxy
+  G.d3Force('link').distance(l => l.field ? 36 : 50).strength(l => {
+    if(!l.field) return 0.85;
+    const da = (byId[lid(l)]||{nlinks:[]}).nlinks.length || 1;
+    const db = (byId[ltd(l)]||{nlinks:[]}).nlinks.length || 1;
+    return 0.5 / Math.max(1, Math.min(da, db));
+  });
   G.d3AlphaDecay(0.03).d3VelocityDecay(0.42);
+  // gentle origin-gravity on core nodes only, so the verified constellation stays
+  // coherent at convergence instead of scattering into its counterparties' clusters
+  G.d3Force('coreGravity', (() => {
+    let ns = [];
+    const f = a => ns.forEach(n => { if(!n.field){
+      n.vx -= n.x*0.03*a; n.vy -= n.y*0.03*a; n.vz -= n.z*0.03*a; } });
+    f.initialize = arr => { ns = arr; };
+    return f;
+  })());
   // land the camera on the verified core constellation ONCE; any user input cancels
   // auto-framing forever so it can never fight wheel-zoom or drags
   let autoCam = true;

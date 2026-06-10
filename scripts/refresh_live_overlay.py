@@ -169,6 +169,51 @@ def _edgar_counts() -> dict[str, dict[str, int]]:
     return out
 
 
+def _banner_svg(quotes: dict[str, dict[str, Any]]) -> str:
+    """Self-rendering status banner, embedded in the GitHub profile README via Pages."""
+    meta: dict[str, Any] = {}
+    field: dict[str, Any] = {}
+    try:
+        graph = json.loads((ROOT / "viz" / "graph_data.json").read_text())
+        meta = graph.get("meta") or {}
+        field = graph.get("field") or {}
+    except Exception:
+        pass
+    core_b = (meta.get("committed_core_usd") or 0) / 1e9
+    headline_t = (meta.get("original_inflated_basis_usd") or 0) / 1e12
+    cut = meta.get("over_count_removed_pct") or 0
+    ents = field.get("entities") or 0
+    deals = field.get("deals") or 0
+    stamp = datetime.now(UTC).strftime("%H:%M UTC · %d %b %Y")
+    movers = sorted(
+        ((nid, q) for nid, q in quotes.items() if isinstance(q.get("chg_pct"), int | float)),
+        key=lambda kv: -abs(kv[1]["chg_pct"]),
+    )[:4]
+    tspans = "".join(
+        f'<tspan fill="{"#3fb950" if q["chg_pct"] >= 0 else "#f85149"}">'
+        f"{q['sym']} {'+' if q['chg_pct'] >= 0 else ''}{q['chg_pct']:.1f}%</tspan>"
+        f'<tspan fill="#39414c">&#160;&#160;&#160;</tspan>'
+        for _nid, q in movers
+    )
+    font = "ui-sans-serif,system-ui,sans-serif"
+    return (
+        '<svg xmlns="http://www.w3.org/2000/svg" width="860" height="104" viewBox="0 0 860 104">\n'
+        ' <rect x="1" y="1" width="858" height="102" rx="12" fill="#0c1420" stroke="#223344"/>\n'
+        f' <text x="24" y="32" font-family="{font}" font-size="15" font-weight="700" fill="#e6edf3">'
+        f'AI BUBBLE<tspan fill="#5d6a77" font-weight="400"> · evidence-gated map · '
+        f"{ents:,} entities · {deals:,} deals</tspan></text>\n"
+        f' <text x="24" y="58" font-family="{font}" font-size="12.5" fill="#9aa7b4">'
+        f'verified core <tspan fill="#ffd166" font-weight="600">${core_b:.1f}B</tspan> '
+        f'vs headline claimed <tspan fill="#ffd166" font-weight="600">${headline_t:.2f}T</tspan> '
+        f"(~{cut:.0f}% over-count) · bubble <tspan fill=\"#ffd166\">{meta.get('core_confidence')}</tspan> "
+        f"· ecosystem <tspan fill=\"#f0883e\">{meta.get('ecosystem_confidence')}</tspan> · not final</text>\n"
+        f' <text x="24" y="84" font-family="{font}" font-size="13" font-weight="600">{tspans}</text>\n'
+        f' <text x="836" y="84" text-anchor="end" font-family="{font}" font-size="11" fill="#6b7785">'
+        f"live · {stamp}</text>\n"
+        "</svg>\n"
+    )
+
+
 def main() -> int:
     quotes = _quotes()
     edgar = _edgar_counts()
@@ -181,7 +226,8 @@ def main() -> int:
         "edgar": edgar,
     }
     OUT.write_text(json.dumps(payload, indent=1, sort_keys=True) + "\n")
-    print(f"wrote {OUT.relative_to(ROOT)}: {len(quotes)} quotes, {len(edgar)} filing counts")
+    (ROOT / "viz" / "banner.svg").write_text(_banner_svg(quotes))
+    print(f"wrote {OUT.relative_to(ROOT)} + viz/banner.svg: {len(quotes)} quotes, {len(edgar)} filing counts")
     return 0
 
 
