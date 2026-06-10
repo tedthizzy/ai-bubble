@@ -4,6 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Burry · AI-infra contagion (3D)</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='16'%20height='16'%3E%3Ccircle%20cx='8'%20cy='8'%20r='6'%20fill='none'%20stroke='%23f0883e'%20stroke-width='2.5'/%3E%3C/svg%3E">
 <script src="https://unpkg.com/three@0.150.1/build/three.min.js"></script>
 <script src="https://unpkg.com/3d-force-graph@1.73.4/dist/3d-force-graph.min.js"></script>
 <style>
@@ -29,10 +30,18 @@
   #play:hover { background:#11281c; }
   #ccline { font-size:12px; color:#9aa7b4; opacity:0; transition:.3s; }
   #ccline b { color:#f0883e; }
-  #card { right:18px; bottom:18px; width:280px; display:none; border:1px solid #2a3a4a; border-radius:10px;
+  #card { right:18px; bottom:18px; width:300px; display:none; border:1px solid #2a3a4a; border-radius:10px;
           background:rgba(10,18,29,.95); padding:12px 14px; }
   #card .nm { font-weight:700; font-size:15px; } #card .ty { font-size:11px; color:#7d8893; margin:1px 0 7px; }
   #card .nt { font-size:12px; color:#b9c4cf; line-height:1.45; } #card .usd { margin-top:7px; font-size:12px; color:#ffd166; }
+  #card .pl { margin-top:6px; font-size:12px; font-weight:600; }
+  #card .pl.up { color:#3fb950; } #card .pl.dn { color:#f85149; }
+  #card .fl { margin-top:3px; font-size:11px; color:#9aa7b4; }
+  #card .cps { margin-top:9px; display:flex; flex-wrap:wrap; gap:5px; }
+  #card .cpc { font-size:10.5px; padding:2px 7px; border-radius:999px; border:1px solid #2a3a4a;
+               background:#0c1420; color:#9aa7b4; cursor:pointer; font-family:inherit; }
+  #card .cpc:hover { border-color:#3a6; color:#cfe3d8; }
+  .chip.lv b { color:#9aa7b4; font-weight:600; }
   .scale { position:fixed; left:18px; top:66px; font-size:10px; color:#6b7785; z-index:5; }
   .scale i { display:inline-block; width:42px; height:6px; border-radius:3px; vertical-align:middle; margin:0 6px;
              background:linear-gradient(90deg,#3fb950,#d29922,#f85149); }
@@ -46,6 +55,7 @@
     <span class="chip">core <b id="c1">0.67</b></span>
     <span class="chip r">ecosystem <b id="c2">0.25</b></span>
     <span class="chip g">not final</span>
+    <span class="chip lv" id="livechip" style="display:none"><span id="ld" style="color:#3fb950">●</span> <b id="lt"></b></span>
   </div>
 </div>
 <div class="scale">safe <i></i> fragile</div>
@@ -57,7 +67,7 @@
 </div>
 <div class="ov" id="card"></div>
 <script>
-const DATA = {
+const EMBEDDED = {
   "meta": {
     "generated_from": "BURRY_REPORT_EvidenceGated_20260603-2312",
     "headline": "Is the AI / data-center / financing boom a bubble?",
@@ -704,70 +714,190 @@ function frgColor(f){ f=Math.max(0,Math.min(1,f||0));
   const a=[63,185,80], b=[210,153,34], c=[248,81,73];
   const lo = f<0.5 ? a : b, hi = f<0.5 ? b : c, t = f<0.5 ? f/0.5 : (f-0.5)/0.5;
   return 'rgb('+lo.map((x,i)=>Math.round(x+(hi[i]-x)*t)).join(',')+')'; }
+function dimOf(rgb){ return rgb.replace('rgb(','rgba(').replace(')',',0.14)'); }
+function hiOf(rgb){ const m=rgb.match(/\d+/g).map(Number);
+  return 'rgb('+m.map(x=>Math.round(x+(255-x)*0.45)).join(',')+')'; }
 
-const nodes = DATA.nodes.map(n => ({ id:n.id, label:n.label||n.id, type:n.type, frg:n.fragility||0,
-  usd:n.usd||0, note:(n.note||'').split(/[.;]/)[0].trim(), col:frgColor(n.fragility) }));
-const links = DATA.edges.map(e => ({ source:e.from, target:e.to, type:e.type, usd:e.usd,
-  tier:e.tier, press:(e.tier==='press_reported') }));
-
-const casc = new Set([DATA.cascade.trigger]);
-(DATA.cascade.hops||[]).forEach(h => (h.nodes||[]).forEach(n => casc.add(n)));
 const lid = l => (l.source && l.source.id) ? l.source.id : l.source;
 const ltd = l => (l.target && l.target.id) ? l.target.id : l.target;
-const isCasc = l => casc.has(lid(l)) && casc.has(ltd(l));
 
-const G = ForceGraph3D()(document.getElementById('g'))
-  .backgroundColor('#05070c')
-  .graphData({ nodes, links })
-  .nodeLabel(n => n.label)
-  .nodeColor(n => n.col)
-  .nodeVal(n => Math.max(1.2, Math.sqrt((n.usd||0)/1e9)*1.7))
-  .nodeOpacity(0.95)
-  .linkColor(l => l.press ? '#6e3b3b' : '#33425a')
-  .linkWidth(l => l.press ? 0.3 : 0.6)
-  .linkDirectionalParticles(0)
-  .linkDirectionalParticleWidth(2.2)
-  .onNodeClick(n => { showCard(n); const d=1.35;
-     G.cameraPosition({ x:n.x*d, y:n.y*d, z:n.z*d }, n, 800); })
-  .onBackgroundClick(() => { document.getElementById('card').style.display='none'; });
-G.d3Force('charge').strength(-140);
+let G=null, meta=null, types={}, byId={}, casc=null, hops=[], trig='';
+let cascadeOn=false, cascadeTimer=null, revealed=null;
+let sel=null; const hov={node:null, nodes:new Set(), links:new Set()};
+let live=null, pulseOn=false, pulseTimer=null;
 
-const card = document.getElementById('card');
+function activeSets(){ if(hov.node) return hov; if(sel) return sel; return null; }
+function nodeCol(n){
+  if(cascadeOn) return (revealed && revealed.has(n.id)) ? n.col : n.colDim;
+  const a = activeSets();
+  if(a) return a.nodes.has(n) ? (hov.node===n ? n.colHi : n.col) : n.colDim;
+  return (pulseOn && n.liveChg!=null && Math.abs(n.liveChg)>=2) ? n.colHi : n.col;
+}
+function cascL(l){ return cascadeOn && revealed && revealed.has(lid(l)) && revealed.has(ltd(l))
+  && casc.has(lid(l)) && casc.has(ltd(l)); }
+function linkCol(l){
+  if(cascadeOn) return cascL(l) ? '#f0883e' : (l.press ? '#3a2326' : '#141c28');
+  const a = activeSets();
+  if(!a) return l.press ? '#6e3b3b' : '#33425a';
+  if(sel && !hov.node && sel.top.has(l)) return '#ffd166';
+  return a.links.has(l) ? (l.press ? '#d88f8f' : '#9fb4d8') : (l.press ? '#3a2326' : '#1a2330');
+}
+function linkW(l){
+  if(cascadeOn) return cascL(l) ? 1.6 : 0.25;
+  const a = activeSets();
+  if(!a) return l.press ? 0.3 : 0.6;
+  if(sel && !hov.node && sel.top.has(l)) return 2.6;
+  return a.links.has(l) ? 1.8 : 0.2;
+}
+function linkP(l){ return cascL(l) ? 4 : 0; }
+function refresh(){ G.nodeColor(G.nodeColor()).linkColor(G.linkColor())
+  .linkWidth(G.linkWidth()).linkDirectionalParticles(G.linkDirectionalParticles()); }
+
+function onHover(n){
+  if(cascadeOn) return;
+  if((!n && !hov.nodes.size) || (n && hov.node===n)) return;
+  hov.node = n||null; hov.nodes.clear(); hov.links.clear();
+  if(n){ hov.nodes.add(n); n.neighbors.forEach(x=>hov.nodes.add(x)); n.nlinks.forEach(x=>hov.links.add(x)); }
+  document.body.style.cursor = n ? 'pointer' : '';
+  refresh();
+}
+
+function focusNode(n){
+  showCard(n);
+  const dist=130, r=Math.hypot(n.x||0, n.y||0, n.z||0);
+  const p = r>1 ? { x:n.x*(1+dist/r), y:n.y*(1+dist/r), z:n.z*(1+dist/r) } : { x:0, y:0, z:dist };
+  G.cameraPosition(p, n, 900);
+  if(!cascadeOn){
+    const top = n.nlinks.slice().sort((x,y)=>(y.usd||0)-(x.usd||0)).slice(0,3);
+    sel = { node:n, nodes:new Set([n, ...n.neighbors]), links:new Set(n.nlinks), top:new Set(top) };
+    refresh();
+  }
+}
+
 function showCard(n){
+  const card = document.getElementById('card');
+  const q = (live && live.quotes) ? live.quotes[n.id] : null;
+  const f8 = (live && live.edgar) ? live.edgar[n.id] : null;
+  const seen = new Set();
+  const pairs = n.nlinks.map((l,k)=>({ o:n.neighbors[k], usd:l.usd }))
+    .sort((a,b)=>(b.usd||0)-(a.usd||0))
+    .filter(p => seen.has(p.o.id) ? false : seen.add(p.o.id))
+    .slice(0,5);
   card.innerHTML = '<div class="nm" style="color:'+n.col+'">'+n.label+'</div>'+
-    '<div class="ty">'+(DATA.legend.node_types[n.type]||n.type)+'</div>'+
+    '<div class="ty">'+(types[n.type]||n.type)+'</div>'+
     '<div class="nt">'+(n.note||'')+'</div>'+
-    (n.usd?'<div class="usd">$'+(n.usd/1e9).toFixed(1)+'B</div>':'');
+    (n.usd ? '<div class="usd">$'+(n.usd/1e9).toFixed(1)+'B</div>' : '')+
+    ((q && typeof q.chg_pct==='number') ? '<div class="pl '+(q.chg_pct<0?'dn':'up')+'">'+q.sym+
+      ' $'+(+q.close).toFixed(2)+' · '+(q.chg_pct>=0?'+':'')+q.chg_pct.toFixed(1)+'%</div>' : '')+
+    ((f8 && f8.new_8k_7d) ? '<div class="fl">'+f8.new_8k_7d+' new 8-K · 7d</div>' : '')+
+    (pairs.length ? '<div class="cps">'+pairs.map(p =>
+      '<button class="cpc" data-id="'+p.o.id+'">'+p.o.label+
+      (p.usd ? ' · $'+(p.usd/1e9).toFixed(1)+'B' : '')+'</button>').join('')+'</div>' : '');
   card.style.display='block';
 }
 
-const ccline = document.getElementById('ccline');
-const dbn = (DATA.meta.cascade_debt_at_risk_usd||0)/1e9;
-let on = false;
-document.getElementById('play').onclick = () => {
-  on = !on;
-  if(on){
-    G.linkDirectionalParticles(l => isCasc(l) ? 4 : 0).linkDirectionalParticleSpeed(0.012)
-     .linkColor(l => isCasc(l) ? '#f0883e' : (l.press?'#6e3b3b':'#1f2a3a'))
-     .linkWidth(l => isCasc(l) ? 1.4 : (l.press?0.3:0.5));
-    ccline.style.opacity = 1;
-    ccline.innerHTML = 'OpenAI → CoreWeave → lenders → households · <b>$'+dbn.toFixed(1)+'B at risk</b> (gross upper bound)';
-  } else {
-    G.linkDirectionalParticles(0).linkColor(l=>l.press?'#6e3b3b':'#33425a').linkWidth(l=>l.press?0.3:0.6);
-    ccline.style.opacity = 0;
-  }
-};
+function shortList(ids){ const ns=ids.map(i=>byId[i]?byId[i].label:i);
+  return ns.length<=2 ? ns.join(' · ') : ns[0]+' +'+(ns.length-1); }
 
-const m = DATA.meta;
-document.getElementById('c1').textContent = m.core_confidence;
-document.getElementById('c2').textContent = m.ecosystem_confidence;
-const panel = document.getElementById('panel');
-panel.innerHTML = '<h4>Forensic honesty · red-teamed</h4><ul style="margin:0;padding-left:16px">'+
-  (m.honest_caveats||[]).map(c=>'<li>'+c+'</li>').join('')+'</ul>';
-document.getElementById('info').onclick = () => {
-  panel.style.display = panel.style.display==='block' ? 'none' : 'block';
-};
-window.addEventListener('resize', ()=> G.width(window.innerWidth).height(window.innerHeight));
+function playCascade(){
+  const btn = document.getElementById('play'), ccline = document.getElementById('ccline');
+  if(cascadeOn){
+    cascadeOn=false; if(cascadeTimer){ clearInterval(cascadeTimer); cascadeTimer=null; }
+    revealed=null; btn.textContent='▶ Cascade'; ccline.style.opacity=0; refresh(); return;
+  }
+  cascadeOn=true; sel=null; hov.node=null; hov.nodes.clear(); hov.links.clear();
+  btn.textContent='⏹ Cascade';
+  revealed = new Set([trig]);
+  const caps = [ trig+' withdraws' ].concat(hops.map(h =>
+    h.hop+' · '+(h.usd ? '$'+(h.usd/1e9).toFixed(1)+'B · ' : '')+shortList(h.nodes||[])));
+  const dbn = (meta.cascade_debt_at_risk_usd||0)/1e9;
+  let step = 0;
+  ccline.style.opacity=1; ccline.innerHTML = caps[0]; refresh();
+  cascadeTimer = setInterval(()=>{
+    step++;
+    if(step <= hops.length){
+      (hops[step-1].nodes||[]).forEach(id=>revealed.add(id));
+      ccline.innerHTML = caps[step]; refresh();
+    } else {
+      clearInterval(cascadeTimer); cascadeTimer=null;
+      ccline.innerHTML = trig+' → CoreWeave → lenders → households · <b>$'+dbn.toFixed(1)+'B at risk</b> (gross upper bound)';
+    }
+  }, 1200);
+}
+
+function applyLive(lv){
+  live = lv || {}; let movers = 0;
+  Object.keys(byId).forEach(id => { const q = live.quotes && live.quotes[id];
+    byId[id].liveChg = (q && typeof q.chg_pct==='number') ? q.chg_pct : null;
+    if(byId[id].liveChg!=null && Math.abs(byId[id].liveChg)>=2) movers++; });
+  const t = Date.parse(live.generated_utc||'');
+  if(!isNaN(t)){
+    document.getElementById('lt').textContent = (live.generated_utc||'').slice(11,16)+'Z';
+    document.getElementById('ld').style.color = (Date.now()-t) < 150*60000 ? '#3fb950' : '#6b7785';
+    document.getElementById('livechip').style.display='';
+  }
+  if(movers && !pulseTimer) pulseTimer = setInterval(()=>{ pulseOn=!pulseOn;
+    if(!cascadeOn && !hov.node && !sel) G.nodeColor(G.nodeColor()); }, 900);
+}
+
+function boot(DATA){
+  meta = DATA.meta; types = (DATA.legend||{}).node_types || {};
+  const nodes = DATA.nodes.map(n => { const col = frgColor(n.fragility);
+    return { id:n.id, label:n.label||n.id, type:n.type, frg:n.fragility||0, usd:n.usd||0,
+      note:(n.note||'').split(/[.;]/)[0].trim(), col, colDim:dimOf(col), colHi:hiOf(col),
+      val:Math.max(1.2, Math.sqrt((n.usd||0)/1e9)*1.7), neighbors:[], nlinks:[] }; });
+  byId = {}; nodes.forEach(n => byId[n.id]=n);
+  const links = DATA.edges.map(e => ({ source:e.from, target:e.to, type:e.type, usd:e.usd,
+    tier:e.tier, press:(e.tier==='press_reported') }));
+  links.forEach(l => { const a=byId[l.source], b=byId[l.target]; if(!a||!b) return;
+    a.neighbors.push(b); b.neighbors.push(a); a.nlinks.push(l); b.nlinks.push(l); });
+
+  trig = DATA.cascade.trigger;
+  casc = new Set([trig]);
+  (DATA.cascade.hops||[]).forEach(h => (h.nodes||[]).forEach(n => casc.add(n)));
+  hops = DATA.cascade.hops || [];
+
+  G = ForceGraph3D()(document.getElementById('g'))
+    .backgroundColor('#05070c')
+    .warmupTicks(120)
+    .graphData({ nodes, links })
+    .nodeLabel(n => n.label)
+    .nodeColor(nodeCol)
+    .nodeVal(n => n.val)
+    .nodeOpacity(0.95)
+    .linkColor(linkCol)
+    .linkWidth(linkW)
+    .linkDirectionalParticles(linkP)
+    .linkDirectionalParticleWidth(2.2)
+    .linkDirectionalParticleSpeed(0.012)
+    .onNodeHover(onHover)
+    .onNodeClick(focusNode)
+    .onBackgroundClick(() => { document.getElementById('card').style.display='none';
+      sel=null; if(!cascadeOn) refresh(); });
+  G.d3Force('charge').strength(-140);
+
+  document.getElementById('c1').textContent = meta.core_confidence;
+  document.getElementById('c2').textContent = meta.ecosystem_confidence;
+  const panel = document.getElementById('panel');
+  panel.innerHTML = '<h4>Forensic honesty · red-teamed</h4><ul style="margin:0;padding-left:16px">'+
+    (meta.honest_caveats||[]).map(c=>'<li>'+c+'</li>').join('')+'</ul>';
+  document.getElementById('info').onclick = () => {
+    panel.style.display = panel.style.display==='block' ? 'none' : 'block';
+  };
+  document.getElementById('play').onclick = playCascade;
+  document.getElementById('card').addEventListener('click', e => {
+    const id = e.target && e.target.getAttribute && e.target.getAttribute('data-id');
+    if (id && byId[id]) focusNode(byId[id]);
+  });
+  window.addEventListener('resize', ()=> G.width(window.innerWidth).height(window.innerHeight));
+  fetch('live.json?v='+Date.now()).then(r => r.ok ? r.json() : Promise.reject())
+    .then(applyLive).catch(()=>{});
+}
+
+// Async-load the committed dataset (hourly-refreshable on GitHub Pages);
+// the embedded copy keeps the file self-contained for file:// opens.
+fetch('burry_viz_data.json?v='+Date.now()).then(r => r.ok ? r.json() : Promise.reject())
+  .then(boot).catch(() => boot(EMBEDDED));
 </script>
 </body>
 </html>

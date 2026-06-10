@@ -37,11 +37,13 @@ secrets/
 .DS_Store
 
 # Project-specific (bubble forensic system)
-data/
+data/*
 !data/.gitkeep
+!data/published/
 raw_filings/
 *.pdf
 *.html
+!viz/*.html
 logs/
 *.log
 *.jsonl
@@ -81,3 +83,7 @@ TODO
 .codex/
 to-claude-from-codex.md
 to-codex-from-claude.md
+to-claude-from-grok.md
+to-grok-from-claude.md
+# macOS Finder duplicate strays
+* 2.py

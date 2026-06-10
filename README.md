@@ -1,10 +1,29 @@
-# bubble
+# ai-bubble
 
-**Michael Burry-Style Forensic Mapping of the AI / Data Center / Financing Ecosystem**
+**Michael Burry-style, evidence-gated forensics on the AI / data-center / financing boom.**
 
-> Every node, edge, cash flow, risk, assumption, and hidden interconnection captured with full provenance, cross-referenced, and stress-tested. Maximum skepticism. Maximum rigor.
+> **Is it a bubble? Yes — in the financed compute cluster. Bounded (~4% of the classified universe), not ecosystem-wide.**
+> Core verdict `bubble_dynamics_present` @ **0.67** · ecosystem verdict `not_established` @ **0.25** (held there by design) · high-confidence-final: **false**
 
-This system is deliberately engineered in the direction of a forensic analyst who assumes every optimistic projection is a potential liability until proven otherwise.
+## ▶ [Live interactive explorer](https://tedthizzy.github.io/ai-bubble/)
+
+[![The OpenAI → CoreWeave contagion cascade, hop by hop](docs/assets/hero_cascade.png)](https://tedthizzy.github.io/ai-bubble/immersive_3d.html)
+
+**Hover** an entity to light up its exposure neighborhood · **click** for its top-3 exposures + counterparty chips · **▶ Cascade** plays the contagion path hop by hop. A keyless market/filings overlay refreshes **hourly** via GitHub Actions (live prices on the public tickers, new-8-K counts); the adjudicated verdicts only change when the forensic engine re-runs. Four views, one verified dataset: [3D immersive](https://tedthizzy.github.io/ai-bubble/immersive_3d.html) · [cascade hero](https://tedthizzy.github.io/ai-bubble/cascade_hero.html) · [analyst explorer](https://tedthizzy.github.io/ai-bubble/analyst_explorer.html) · [dashboard](https://tedthizzy.github.io/ai-bubble/forensic_dashboard.html).
+
+**What the engine found** (every figure evidence-gated, red-teamed, with the over-count stripped):
+
+- **$25.8B committed core debt** ($29.7B incl. infra) in the financed AI-compute cluster — after stripping **~98% over-count** from the $1.45T inflated headline basis
+- The flagship cascade (OpenAI demand leg → CoreWeave → lenders → pensions/households) routes **$25.1B as a GROSS UPPER BOUND** — CoreWeave's entire debt, deliberately NOT apportioned to OpenAI's revenue share
+- **2 of 5** first-principles fragility conditions cleanly met: GPU-collateral duration mismatch + existential customer concentration (CoreWeave ~67% Microsoft)
+- Crack window **2025-Q3..2027-Q3** (engine peak ~2026-Q2); refi wall peaks 2030
+- Honest caveats are first-class — the **"i"** button in every view: the 1.35x coverage ratio is a masking artifact (negative ex-CoreWeave); the satellite "un-built" proxy is confounded; the ecosystem gate is deliberately capped at 0.25
+
+**What's in this repo:** the full forensic engine (`src/bubble/`), the evidence-gated report it produced (`data/published/`), the interactive viz + its verified dataset (`viz/`), worker-verified handoff datasets (`handoffs/`), and the test suite. The ~40GB raw EDGAR corpus is **not** committed — it is re-fetchable public SEC data via `scripts/`, and every claim in the report carries source provenance.
+
+---
+
+This system is deliberately engineered in the direction of a forensic analyst who assumes every optimistic projection is a potential liability until proven otherwise. Maximum skepticism. Maximum rigor.
 
 ## VISION: The Complete "Burry Report" System
 
@@ -132,7 +151,7 @@ Full details in the approved implementation plan (`~/.grok/sessions/.../plan.md`
 
 ```bash
 # 1. Clone / enter the repo
-cd /Users/ted/Documents/dev-archive/bubble
+cd ai-bubble
 
 # 2. Install uv (if not present) + Python deps
 curl -LsSf https://astral.sh/uv/install.sh | sh

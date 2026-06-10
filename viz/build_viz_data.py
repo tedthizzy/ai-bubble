@@ -25,10 +25,12 @@ ROOT = Path(__file__).resolve().parent.parent
 
 
 def _latest_report() -> dict[str, Any]:
-    path = max(
-        glob.glob(str(ROOT / "data/reports/BURRY_REPORT_EvidenceGated_*.json")),
-        key=os.path.getmtime,
+    # data/reports/ is the local engine output (gitignored); data/published/ is the
+    # committed copy so a public clone can regenerate the viz dataset.
+    candidates = glob.glob(str(ROOT / "data/reports/BURRY_REPORT_EvidenceGated_*.json")) or glob.glob(
+        str(ROOT / "data/published/BURRY_REPORT_EvidenceGated_*.json")
     )
+    path = max(candidates, key=os.path.basename)  # filename timestamps sort; clone mtimes do not
     return json.loads(Path(path).read_text()), os.path.basename(path).replace(".json", "")
 
 
