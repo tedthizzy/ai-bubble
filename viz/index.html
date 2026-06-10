@@ -129,6 +129,9 @@ function linkCol(l){
   return a.links.has(l) ? l.rcolHi : '#16202e';
 }
 function linkW(l){
+  // field links stay width 0 in EVERY state: >0 turns a link into a cylinder mesh,
+  // and 9.6k cylinders kill the frame rate (1px GL lines are the starfield look anyway)
+  if(l.field) return 0;
   if(cascadeOn) return cascL(l) ? Math.max(1.8, l.wBase*1.2) : 0.25;
   const a = activeSets();
   if(!a) return l.wBase;
@@ -384,10 +387,14 @@ function boot(DATA){
   G.d3Force('charge').strength(n => n.field ? -10 : -120);
   G.d3Force('link').distance(l => l.field ? 30 : 70).strength(l => l.field ? 0.06 : 0.5);
   G.d3AlphaDecay(0.03).d3VelocityDecay(0.42);
-  // land the camera on the verified core constellation; the field stays as backdrop
-  setTimeout(() => G.zoomToFit(800, 120, n => !n.field), 2200);
+  // land the camera on the verified core constellation ONCE; any user input cancels
+  // auto-framing forever so it can never fight wheel-zoom or drags
+  let autoCam = true;
+  ['wheel','pointerdown','touchstart'].forEach(ev =>
+    document.getElementById('g').addEventListener(ev, () => { autoCam = false; }, { passive: true }));
+  setTimeout(() => { if(autoCam) G.zoomToFit(800, 120, n => !n.field); }, 2200);
   G.onEngineStop(() => {
-    if(!cascadeOn && !sel && !hov.node) G.zoomToFit(1000, 90, n => !n.field);
+    if(autoCam){ autoCam = false; G.zoomToFit(1000, 90, n => !n.field); }
   });
 
   fillChips();
