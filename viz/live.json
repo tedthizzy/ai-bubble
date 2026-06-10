@@ -1,138 +1,138 @@
 {
  "edgar": {},
- "generated_utc": "2026-06-10T03:23:20Z",
+ "generated_utc": "2026-06-10T05:46:54Z",
  "quotes": {
   "Apollo / Athene": {
-   "chg_pct": 4.02,
-   "close": 132.6999969482422,
+   "chg_pct": -0.36,
+   "close": 127.56999969482422,
    "date": "2026-06-09",
-   "prev_close": 127.56999969482422,
+   "prev_close": 128.02999877929688,
    "sym": "APO"
   },
   "Applied Digital": {
-   "chg_pct": 2.36,
-   "close": 41.90999984741211,
+   "chg_pct": 3.34,
+   "close": 40.94499969482422,
    "date": "2026-06-09",
-   "prev_close": 40.94499969482422,
+   "prev_close": 39.619998931884766,
    "sym": "APLD"
   },
   "Bit Digital": {
-   "chg_pct": -1.12,
-   "close": 1.7599999904632568,
+   "chg_pct": 8.54,
+   "close": 1.7799999713897705,
    "date": "2026-06-09",
-   "prev_close": 1.7799999713897705,
+   "prev_close": 1.6399999856948853,
    "sym": "BTBT"
   },
   "Blackstone": {
-   "chg_pct": 5.34,
-   "close": 120.29000091552734,
+   "chg_pct": -1.01,
+   "close": 114.19000244140625,
    "date": "2026-06-09",
-   "prev_close": 114.19000244140625,
+   "prev_close": 115.3499984741211,
    "sym": "BX"
   },
   "Cipher Mining": {
-   "chg_pct": -5.17,
-   "close": 23.03499984741211,
+   "chg_pct": 8.2,
+   "close": 24.290000915527344,
    "date": "2026-06-09",
-   "prev_close": 24.290000915527344,
+   "prev_close": 22.450000762939453,
    "sym": "CIFR"
   },
   "CleanSpark": {
-   "chg_pct": -3.33,
-   "close": 15.970000267028809,
+   "chg_pct": 5.97,
+   "close": 16.520000457763672,
    "date": "2026-06-09",
-   "prev_close": 16.520000457763672,
+   "prev_close": 15.59000015258789,
    "sym": "CLSK"
   },
   "Core Scientific": {
-   "chg_pct": -0.52,
-   "close": 27.010000228881836,
+   "chg_pct": 5.03,
+   "close": 27.149999618530273,
    "date": "2026-06-09",
-   "prev_close": 27.149999618530273,
+   "prev_close": 25.850000381469727,
    "sym": "CORZ"
   },
   "CoreWeave": {
-   "chg_pct": -3.83,
-   "close": 98.44999694824219,
+   "chg_pct": 1.97,
+   "close": 102.37000274658203,
    "date": "2026-06-09",
-   "prev_close": 102.37000274658203,
+   "prev_close": 100.38999938964844,
    "sym": "CRWV"
   },
   "Galaxy Digital": {
-   "chg_pct": 7.11,
-   "close": 32.68000030517578,
+   "chg_pct": 21.36,
+   "close": 30.510000228881836,
    "date": "2026-06-09",
-   "prev_close": 30.510000228881836,
+   "prev_close": 25.139999389648438,
    "sym": "GLXY"
   },
   "Goldman Sachs": {
-   "chg_pct": -1.24,
-   "close": 1032.010009765625,
+   "chg_pct": 0.61,
+   "close": 1045.0,
    "date": "2026-06-09",
-   "prev_close": 1045.0,
+   "prev_close": 1038.6800537109375,
    "sym": "GS"
   },
   "Hut 8": {
-   "chg_pct": -5.81,
-   "close": 112.6500015258789,
+   "chg_pct": 6.56,
+   "close": 119.5999984741211,
    "date": "2026-06-09",
-   "prev_close": 119.5999984741211,
+   "prev_close": 112.23999786376953,
    "sym": "HUT"
   },
   "IREN": {
-   "chg_pct": -8.73,
-   "close": 54.02000045776367,
+   "chg_pct": 8.91,
+   "close": 59.189998626708984,
    "date": "2026-06-09",
-   "prev_close": 59.189998626708984,
+   "prev_close": 54.349998474121094,
    "sym": "IREN"
   },
   "MARA Holdings": {
-   "chg_pct": -3.41,
-   "close": 13.3100004196167,
+   "chg_pct": 11.85,
+   "close": 13.779999732971191,
    "date": "2026-06-09",
-   "prev_close": 13.779999732971191,
+   "prev_close": 12.319999694824219,
    "sym": "MARA"
   },
   "Meta": {
-   "chg_pct": -0.14,
-   "close": 584.5900268554688,
+   "chg_pct": -1.28,
+   "close": 585.3900146484375,
    "date": "2026-06-09",
-   "prev_close": 585.3900146484375,
+   "prev_close": 593.0,
    "sym": "META"
   },
   "Microsoft": {
-   "chg_pct": -2.02,
-   "close": 403.4100036621094,
+   "chg_pct": -1.18,
+   "close": 411.739990234375,
    "date": "2026-06-09",
-   "prev_close": 411.739990234375,
+   "prev_close": 416.6700134277344,
    "sym": "MSFT"
   },
   "Morgan Stanley": {
-   "chg_pct": -0.94,
-   "close": 210.25,
+   "chg_pct": 0.15,
+   "close": 212.24000549316406,
    "date": "2026-06-09",
-   "prev_close": 212.24000549316406,
+   "prev_close": 211.92999267578125,
    "sym": "MS"
   },
   "NVIDIA": {
-   "chg_pct": -0.22,
-   "close": 208.19000244140625,
+   "chg_pct": 1.73,
+   "close": 208.63999938964844,
    "date": "2026-06-09",
-   "prev_close": 208.63999938964844,
+   "prev_close": 205.10000610351562,
    "sym": "NVDA"
   },
   "Nebius": {
-   "chg_pct": 0.97,
-   "close": 220.1199951171875,
+   "chg_pct": -4.31,
+   "close": 218.0,
    "date": "2026-06-09",
-   "prev_close": 218.0,
+   "prev_close": 227.80999755859375,
    "sym": "NBIS"
   },
   "TeraWulf": {
-   "chg_pct": -2.17,
-   "close": 25.299999237060547,
+   "chg_pct": 7.75,
+   "close": 25.860000610351562,
    "date": "2026-06-09",
-   "prev_close": 25.860000610351562,
+   "prev_close": 24.0,
    "sym": "WULF"
   }
  }
