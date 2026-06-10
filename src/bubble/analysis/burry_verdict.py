@@ -685,7 +685,9 @@ def synthesize_core_verdict(
                 "named_borrower_spv_facilities": (contract_structure or {}).get(
                     "named_borrower_spv_facilities"
                 ),
-                "who_bears_downside_read": (contract_structure or {}).get("who_bears_downside_read"),
+                "who_bears_downside_read": (contract_structure or {}).get(
+                    "who_bears_downside_read"
+                ),
             }
             if (contract_structure or {}).get("status") == "source_backed"
             else {"status": "pending_source_backed_contract_structure"}

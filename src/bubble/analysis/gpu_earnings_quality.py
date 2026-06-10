@@ -84,9 +84,7 @@ def aggregate_gpu_earnings_quality(
             understatement = round(da * (life / economic_life_years - 1), 2)
             method = "da_life_ratio_upper_bound"
         elif compute_ppe and compute_ppe > 0 and life and life > economic_life_years:
-            understatement = round(
-                compute_ppe / economic_life_years - compute_ppe / life, 2
-            )
+            understatement = round(compute_ppe / economic_life_years - compute_ppe / life, 2)
             method = "net_compute_ppe"
         if understatement and understatement > 0:
             total_understatement += understatement
@@ -100,7 +98,12 @@ def aggregate_gpu_earnings_quality(
         if tam and tam > 0 and realized is not None:
             capture_pct = round(100 * realized / tam, 3)
             tam_realism.append(
-                {"issuer": issuer, "tam_usd": tam, "realized_usd": realized, "capture_pct": capture_pct}
+                {
+                    "issuer": issuer,
+                    "tam_usd": tam,
+                    "realized_usd": realized,
+                    "capture_pct": capture_pct,
+                }
             )
 
         per_issuer.append(
@@ -115,7 +118,7 @@ def aggregate_gpu_earnings_quality(
             }
         )
 
-    per_issuer.sort(key=lambda r: (r["annual_da_understatement_usd"] or 0), reverse=True)
+    per_issuer.sort(key=lambda r: r["annual_da_understatement_usd"] or 0, reverse=True)
 
     return {
         "status": "source_backed",
@@ -141,9 +144,7 @@ def aggregate_gpu_earnings_quality(
     }
 
 
-def _read(
-    n: int, understatement: float, tam_realism: list[dict[str, Any]], life: float
-) -> str:
+def _read(n: int, understatement: float, tam_realism: list[dict[str, Any]], life: float) -> str:
     if n == 0:
         return (
             "indeterminate: no issuer disclosed both a compute-PP&E book value and a useful life "

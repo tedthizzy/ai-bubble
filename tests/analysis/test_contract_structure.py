@@ -5,8 +5,18 @@ from __future__ import annotations
 from bubble.analysis.contract_structure import aggregate_contract_structure
 
 
-def _fac(name, recourse, *, verdict="filing_verified", spv=None, guarantors=None,
-         bankruptcy_remote=None, gpu=None, principal=None, scope=None):
+def _fac(
+    name,
+    recourse,
+    *,
+    verdict="filing_verified",
+    spv=None,
+    guarantors=None,
+    bankruptcy_remote=None,
+    gpu=None,
+    principal=None,
+    scope=None,
+):
     return {
         "facility_name": name,
         "recourse": recourse,
@@ -53,8 +63,14 @@ def test_parent_equity_read_and_principal() -> None:
             _rec(
                 "CoreWeave",
                 [
-                    _fac("DDTL 1", "full_recourse_to_parent", guarantors=["CoreWeave Inc"],
-                         principal=1_000_000_000, gpu="yes", scope="parent guaranty, no cap"),
+                    _fac(
+                        "DDTL 1",
+                        "full_recourse_to_parent",
+                        guarantors=["CoreWeave Inc"],
+                        principal=1_000_000_000,
+                        gpu="yes",
+                        scope="parent guaranty, no cap",
+                    ),
                     _fac("DDTL 2", "full_recourse_to_parent", principal=500_000_000),
                 ],
             )
@@ -75,7 +91,9 @@ def test_ring_fenced_read() -> None:
                 "SPVco",
                 [
                     _fac("F1", "non_recourse", bankruptcy_remote="yes", spv="SPVco Financing LLC"),
-                    _fac("F2", "non_recourse", bankruptcy_remote="yes", spv="SPVco Financing II LLC"),
+                    _fac(
+                        "F2", "non_recourse", bankruptcy_remote="yes", spv="SPVco Financing II LLC"
+                    ),
                 ],
             )
         ]

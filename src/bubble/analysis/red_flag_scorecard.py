@@ -134,8 +134,7 @@ def aggregate_red_flag_scorecard(records: list[dict[str, Any]]) -> dict[str, Any
         "issuer_count": len(usable),
         "issuers_with_serious_accounting_flag": sorted(set(serious_flag_issuers)),
         "highest_risk_issuers": [
-            {"issuer": r["issuer"], "red_flag_score": r["red_flag_score"]}
-            for r in per_issuer[:5]
+            {"issuer": r["issuer"], "red_flag_score": r["red_flag_score"]} for r in per_issuer[:5]
         ],
         "most_common_flags": dict(sorted(flag_frequency.items(), key=lambda kv: -kv[1])),
         "total_present_flags": total_present_flags,

@@ -303,9 +303,7 @@ def test_capital_structure_tracks_unmapped_downside_bearer_identity_gaps() -> No
     assert metrics.unmapped_downside_bearer_mention_count == 2
     assert metrics.unmapped_downside_bearer_usd == 200_000_000
     downside_audit = next(
-        audit
-        for audit in metrics.claim_audits
-        if audit["claim_id"] == "capital.downside_bearers"
+        audit for audit in metrics.claim_audits if audit["claim_id"] == "capital.downside_bearers"
     )
     assert downside_audit["value"]["unmapped_downside_bearer_mention_count"] == 2
 

@@ -101,7 +101,9 @@ def _retro_label(centroid: dict[str, float]) -> str:
         base = "profitable_self_funding"
     else:
         base = "thin_margin_levered"
-    lev_tag = "high_leverage" if lev > 2.0 else ("moderate_leverage" if lev > 0.75 else "low_leverage")
+    lev_tag = (
+        "high_leverage" if lev > 2.0 else ("moderate_leverage" if lev > 0.75 else "low_leverage")
+    )
     return f"{base}__{lev_tag}"
 
 
@@ -130,7 +132,9 @@ def discover_structure(
     for k in ks:
         labels = KMeans(n_clusters=k, n_init=25, random_state=random_state).fit_predict(xs)
         sil = float(silhouette_score(xs, labels)) if len(set(labels)) > 1 else -1.0
-        gmm = GaussianMixture(n_components=k, covariance_type="diag", random_state=random_state).fit(xs)
+        gmm = GaussianMixture(
+            n_components=k, covariance_type="diag", random_state=random_state
+        ).fit(xs)
         per_k.append({"k": k, "silhouette": round(sil, 3), "gmm_bic": round(float(gmm.bic(xs)), 1)})
         if sil > best_sil:
             best_sil, best_k = sil, k
@@ -160,7 +164,9 @@ def discover_structure(
     with np.errstate(invalid="ignore", divide="ignore"):
         coassign = np.where(counts > 0, agree / counts, np.nan)
     mask = ~np.eye(n, dtype=bool)
-    stability = float(np.nanmean(np.abs((coassign[mask] > 0.5).astype(float) - base_co[mask].astype(float))))
+    stability = float(
+        np.nanmean(np.abs((coassign[mask] > 0.5).astype(float) - base_co[mask].astype(float)))
+    )
     stability_score = round(1.0 - stability, 3)  # 1 = perfectly stable
 
     # Cluster centroids in ORIGINAL feature units + retro-labels.
@@ -183,7 +189,8 @@ def discover_structure(
 
     # The fragile cluster: most negative ebitda margin / lowest coverage.
     fragile = min(
-        clusters, key=lambda cl: (cl["centroid"]["ebitda_margin"], cl["centroid"]["interest_coverage"])
+        clusters,
+        key=lambda cl: (cl["centroid"]["ebitda_margin"], cl["centroid"]["interest_coverage"]),
     )
 
     return {

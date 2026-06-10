@@ -46,9 +46,7 @@ def _stress_issuer(issuer: dict[str, Any], scenario: dict[str, Any]) -> dict[str
     stressed_ebitda = ebitda - miss * revenue - depr_accel * 0.05 * revenue
     # Rate shock reprices debt at refinancing: interest rises by shock/avg-rate.
     stressed_interest = interest * (1 + rate_shock_bps / _AVG_RATE_BPS)
-    coverage = (
-        round(stressed_ebitda / stressed_interest, 2) if stressed_interest > 0 else None
-    )
+    coverage = round(stressed_ebitda / stressed_interest, 2) if stressed_interest > 0 else None
     return {
         "entity": str(issuer.get("entity") or "").split(",")[0].split("(")[0].strip(),
         "stressed_ebitda_usd": round(stressed_ebitda, 2),

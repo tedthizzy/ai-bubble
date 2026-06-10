@@ -10,7 +10,12 @@ def test_blocks_empty() -> None:
 
 
 def test_coverage_below_one_flashes() -> None:
-    m = {"cluster_interest_coverage": {"status": "source_backed", "cluster_ebitda_interest_coverage": 0.9}}
+    m = {
+        "cluster_interest_coverage": {
+            "status": "source_backed",
+            "cluster_ebitda_interest_coverage": 0.9,
+        }
+    }
     out = build_leading_indicator_monitor(m)
     assert out["status"] == "source_backed"
     cov = next(i for i in out["indicators"] if i["key"] == "cluster_interest_coverage")
@@ -19,7 +24,12 @@ def test_coverage_below_one_flashes() -> None:
 
 
 def test_coverage_above_one_does_not_flash() -> None:
-    m = {"cluster_interest_coverage": {"status": "source_backed", "cluster_ebitda_interest_coverage": 1.4}}
+    m = {
+        "cluster_interest_coverage": {
+            "status": "source_backed",
+            "cluster_ebitda_interest_coverage": 1.4,
+        }
+    }
     out = build_leading_indicator_monitor(m)
     cov = next(i for i in out["indicators"] if i["key"] == "cluster_interest_coverage")
     assert cov["currently_flashing"] is False

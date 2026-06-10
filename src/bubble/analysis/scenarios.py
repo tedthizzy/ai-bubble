@@ -32,7 +32,12 @@ class ScenarioEngine:
         # Base can be overridden from real debt_service / payback analysis
         self.base_dscr = base_dscr
 
-    def run(self, entity_id: str | None = None, scenario: str = "adverse", base_dscr: float | None = None) -> StressResult:
+    def run(
+        self,
+        entity_id: str | None = None,
+        scenario: str = "adverse",
+        base_dscr: float | None = None,
+    ) -> StressResult:
         paths: list[dict[str, Any]] = []
         if self.graph and hasattr(self.graph, "get_contagion_paths") and entity_id:
             try:
@@ -41,10 +46,30 @@ class ScenarioEngine:
                 paths = []
 
         params = {
-            "base": {"utilization_miss": 0.0, "rate_shock": 0.0, "delay_months": 0, "depr_acceleration": 0.0},
-            "adverse": {"utilization_miss": 0.25, "rate_shock": 200, "delay_months": 9, "depr_acceleration": 0.5},
-            "severe": {"utilization_miss": 0.40, "rate_shock": 300, "delay_months": 18, "depr_acceleration": 1.0},
-            "tail": {"utilization_miss": 0.55, "rate_shock": 400, "delay_months": 30, "depr_acceleration": 2.0},
+            "base": {
+                "utilization_miss": 0.0,
+                "rate_shock": 0.0,
+                "delay_months": 0,
+                "depr_acceleration": 0.0,
+            },
+            "adverse": {
+                "utilization_miss": 0.25,
+                "rate_shock": 200,
+                "delay_months": 9,
+                "depr_acceleration": 0.5,
+            },
+            "severe": {
+                "utilization_miss": 0.40,
+                "rate_shock": 300,
+                "delay_months": 18,
+                "depr_acceleration": 1.0,
+            },
+            "tail": {
+                "utilization_miss": 0.55,
+                "rate_shock": 400,
+                "delay_months": 30,
+                "depr_acceleration": 2.0,
+            },
         }.get(scenario, {})
 
         effective_base = base_dscr if base_dscr is not None else self.base_dscr
@@ -65,9 +90,13 @@ class ScenarioEngine:
 
         red_flags = []
         if miss > 0.20:
-            red_flags.append(f"Utilization shortfall of {int(miss * 100)}% (realistic AI infra range) modeled")
+            red_flags.append(
+                f"Utilization shortfall of {int(miss * 100)}% (realistic AI infra range) modeled"
+            )
         if depr_accel > 0.5:
-            red_flags.append("GPU economic life compression (H100->Blackwell style obsolescence) modeled")
+            red_flags.append(
+                "GPU economic life compression (H100->Blackwell style obsolescence) modeled"
+            )
         if params.get("delay_months", 0) > 12:
             red_flags.append("Major construction/power delay risk modeled")
 
@@ -88,5 +117,10 @@ class ScenarioEngine:
             notes=notes,
         )
 
-    def run_full_suite(self, entity_id: str | None = None, base_dscr: float | None = None) -> dict[str, StressResult]:
-        return {s: self.run(entity_id, s, base_dscr=base_dscr) for s in ["base", "adverse", "severe", "tail"]}
+    def run_full_suite(
+        self, entity_id: str | None = None, base_dscr: float | None = None
+    ) -> dict[str, StressResult]:
+        return {
+            s: self.run(entity_id, s, base_dscr=base_dscr)
+            for s in ["base", "adverse", "severe", "tail"]
+        }

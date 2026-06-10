@@ -22,8 +22,7 @@ REL_TYPE = "EXPOSED_TO"
 
 # Schema: unique entity id + lookup indexes.
 SCHEMA_CYPHER: tuple[str, ...] = (
-    f"CREATE CONSTRAINT entity_id IF NOT EXISTS "
-    f"FOR (n:{NODE_LABEL}) REQUIRE n.node_id IS UNIQUE",
+    f"CREATE CONSTRAINT entity_id IF NOT EXISTS FOR (n:{NODE_LABEL}) REQUIRE n.node_id IS UNIQUE",
     f"CREATE INDEX entity_name IF NOT EXISTS FOR (n:{NODE_LABEL}) ON (n.name)",
     f"CREATE INDEX entity_exposure IF NOT EXISTS FOR (n:{NODE_LABEL}) ON (n.exposure_usd)",
 )
@@ -92,8 +91,10 @@ def valid_node(row: dict[str, Any]) -> bool:
 
 
 def valid_edge(row: dict[str, Any]) -> bool:
-    return bool(row.get("source_id")) and bool(row.get("target_id")) and (
-        row.get("source_id") != row.get("target_id")
+    return (
+        bool(row.get("source_id"))
+        and bool(row.get("target_id"))
+        and (row.get("source_id") != row.get("target_id"))
     )
 
 

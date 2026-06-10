@@ -281,10 +281,7 @@ def test_semantic_gate_keeps_notes_due_negative_control_committed():
         unit="USD",
         evidence=[_provenance(SourceType.SEC_EDGAR, confidence=0.9)],
         high_impact=True,
-        semantic_text=(
-            "Senior notes due 2030 in an aggregate principal amount of "
-            "$1.0 billion."
-        ),
+        semantic_text=("Senior notes due 2030 in an aggregate principal amount of $1.0 billion."),
     )
 
     assert audit.semantic_bucket == SemanticEvidenceBucket.COMMITTED_DEBT
@@ -302,8 +299,7 @@ def test_semantic_gate_caps_equity_or_mortgage_production_claim():
         evidence=[_provenance(SourceType.SEC_EDGAR, confidence=0.92)],
         high_impact=True,
         semantic_text=(
-            "The bonds convert into Shares of Alibaba Health Information "
-            "Technology Limited."
+            "The bonds convert into Shares of Alibaba Health Information Technology Limited."
         ),
     )
     production_audit = gate.audit_claim(

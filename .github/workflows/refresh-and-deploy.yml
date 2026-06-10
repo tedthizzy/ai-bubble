@@ -1,5 +1,8 @@
 name: refresh-and-deploy
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
+
 on:
   schedule:
     - cron: "7 * * * *" # hourly (GitHub cron is best-effort; minutes of drift are normal)

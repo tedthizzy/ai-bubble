@@ -186,7 +186,9 @@ def classify_claim_with_context(
     cp = (counterparty or "").strip().lower()
     if any(marker in sub for marker in NON_DEBT_SUBCATEGORIES):
         return {"bucket": "non_debt_miscategorized", "is_committed_debt": False}
-    debt_cp = any(role in cp for role in ("lender", "agent", "bank", "trustee", "noteholder", "n.a"))
+    debt_cp = any(
+        role in cp for role in ("lender", "agent", "bank", "trustee", "noteholder", "n.a")
+    )
     if any(marker in sub for marker in DEBT_SUBCATEGORIES) or debt_cp:
         return {"bucket": "committed_debt", "is_committed_debt": True}
     return base

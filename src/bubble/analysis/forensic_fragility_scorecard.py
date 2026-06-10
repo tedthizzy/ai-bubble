@@ -28,7 +28,9 @@ from __future__ import annotations
 from typing import Any
 
 _DATE_YEAR = 2026
-_GPU_ECONOMIC_LIFE_MONTHS = 24  # ~2yr, from deployed-fleet rental-yield compression (source-backed).
+_GPU_ECONOMIC_LIFE_MONTHS = (
+    24  # ~2yr, from deployed-fleet rental-yield compression (source-backed).
+)
 _EXISTENTIAL_CONCENTRATION_PCT = 50.0  # losing a >50% customer removes the majority of revenue.
 
 
@@ -38,7 +40,9 @@ def _num(value: Any) -> float | None:
     return None
 
 
-def score_fragility(m: dict[str, Any], *, debt_census: dict[str, Any] | None = None) -> dict[str, Any]:
+def score_fragility(
+    m: dict[str, Any], *, debt_census: dict[str, Any] | None = None
+) -> dict[str, Any]:
     """Measure the 5 fragility questions; apply first-principles tipping lines where defensible."""
 
     census = debt_census or {}
@@ -97,8 +101,12 @@ def score_fragility(m: dict[str, Any], *, debt_census: dict[str, Any] | None = N
     common = rf.get("most_common_flags", {}) or {}
     issuer_n = _num(rf.get("issuer_count"))
     if issuer_n:
-        conc_prevalence = round(100 * float(common.get("customer_concentration_over_35pct", 0)) / issuer_n, 1)
-        max_conc = _num(m.get("_max_single_customer_pct"))  # known: CoreWeave ~67% (passed if available)
+        conc_prevalence = round(
+            100 * float(common.get("customer_concentration_over_35pct", 0)) / issuer_n, 1
+        )
+        max_conc = _num(
+            m.get("_max_single_customer_pct")
+        )  # known: CoreWeave ~67% (passed if available)
         existential = max_conc is not None and max_conc > _EXISTENTIAL_CONCENTRATION_PCT
         dims.append(
             {

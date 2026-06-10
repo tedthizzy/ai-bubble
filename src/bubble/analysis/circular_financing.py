@@ -86,7 +86,9 @@ def _cycle_key(cycle: list[dict[str, Any]]) -> tuple[Any, ...]:
     return tuple((e["from"], e["to"], e.get("flow_type")) for e in cycle)
 
 
-def find_money_cycles(edges: list[dict[str, Any]], *, max_len: int = 4) -> list[list[dict[str, Any]]]:
+def find_money_cycles(
+    edges: list[dict[str, Any]], *, max_len: int = 4
+) -> list[list[dict[str, Any]]]:
     """Enumerate simple directed cycles (payer->payee) once each, up to max_len edges."""
 
     nodes = sorted({e["from"] for e in edges} | {e["to"] for e in edges})

@@ -36,8 +36,12 @@ def test_fuses_flags_and_financials_and_ranks() -> None:
         ]
     )
     financials = [
-        {"entity": "Weakco, Inc.", "ebitda_usd": -500_000_000, "total_debt_usd": 6_000_000_000,
-         "net_income_usd": -800_000_000},
+        {
+            "entity": "Weakco, Inc.",
+            "ebitda_usd": -500_000_000,
+            "total_debt_usd": 6_000_000_000,
+            "net_income_usd": -800_000_000,
+        },
         {"entity": "Midco", "ebitda_usd": 200_000_000, "total_debt_usd": 1_000_000_000},
     ]
     out = build_entity_risk_ranking(scorecard, financials)

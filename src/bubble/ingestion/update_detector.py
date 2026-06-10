@@ -96,9 +96,7 @@ def detect_filing_updates(
         "top_new_filings": deltas[:25],
         "rerun_reason": (
             f"{len(high_signal)} new high-signal filing(s) (relevance >= {_RERUN_THRESHOLD}): "
-            + ", ".join(
-                f"{d['cik']}/{d['form']}" for d in high_signal[:8]
-            )
+            + ", ".join(f"{d['cik']}/{d['form']}" for d in high_signal[:8])
             if rerun
             else "no new high-signal filings since last ingest; re-run not warranted"
         ),

@@ -83,7 +83,9 @@ def test_simulate_timing_wall_fix_applies_mega_guard_then_dedup() -> None:
         _sig("Equinix", 19.5e9, quarter="2026-Q1"),
         _sig("Equinix", 19.5e9, quarter="2026-Q1"),
         # a clean distinct AI obligation.
-        _sig("CoreWeave", 8e9, quarter="2026-Q3", ecosystem_relevance="direct", relevance_tags="ai"),
+        _sig(
+            "CoreWeave", 8e9, quarter="2026-Q3", ecosystem_relevance="direct", relevance_tags="ai"
+        ),
     ]
 
     s = simulate_timing_wall_fix(rows, mega_threshold=50e9)

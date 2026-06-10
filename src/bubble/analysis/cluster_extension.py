@@ -66,7 +66,7 @@ def aggregate_cluster_extension(records: list[dict[str, Any]]) -> dict[str, Any]
             }
         )
 
-    members.sort(key=lambda m: (m["recourse_debt_usd"] or 0), reverse=True)
+    members.sort(key=lambda m: m["recourse_debt_usd"] or 0, reverse=True)
     return {
         "status": "source_backed",
         "member_count": len(confirmed),
@@ -87,7 +87,8 @@ def aggregate_cluster_extension(records: list[dict[str, Any]]) -> dict[str, Any]
 
 def _read(n: int, recourse: float, associated: float, members: list[dict[str, Any]]) -> str:
     top = ", ".join(
-        f"{m['name']} (${round((m['recourse_debt_usd'] or 0) / 1e9, 2)}B recourse)" for m in members[:4]
+        f"{m['name']} (${round((m['recourse_debt_usd'] or 0) / 1e9, 2)}B recourse)"
+        for m in members[:4]
     )
     return (
         f"cluster_extends_by_{n}_verified_members: adds ~${round(recourse / 1e9, 1)}B of RECOURSE debt "

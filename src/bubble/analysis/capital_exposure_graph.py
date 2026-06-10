@@ -1732,8 +1732,7 @@ def _tranche_relevance_tags(tranche: Any) -> tuple[str, ...]:
 
 def _has_actionable_deal_collateral(deal: Deal) -> bool:
     return any(
-        _is_actionable_collateral_description(str(description))
-        for description in deal.collateral
+        _is_actionable_collateral_description(str(description)) for description in deal.collateral
     )
 
 
@@ -1795,8 +1794,7 @@ def _is_actionable_collateral_description(description: str) -> bool:
     if "senior secured" not in clean:
         return False
     return any(
-        token in clean
-        for token in ("facility", "loan", "notes", "obligations", "borrowings")
+        token in clean for token in ("facility", "loan", "notes", "obligations", "borrowings")
     )
 
 
@@ -2180,9 +2178,7 @@ def _ai_infra_ppa_offtaker_concentrations(
             {
                 "node_id": edge.target_id,
                 "name": edge.target_name,
-                "roles": node_by_id[edge.target_id].roles
-                if edge.target_id in node_by_id
-                else (),
+                "roles": node_by_id[edge.target_id].roles if edge.target_id in node_by_id else (),
                 "ppa_edge_count": 0,
                 "distinct_power_suppliers": set(),
                 "ppa_capacity_mw": 0.0,
@@ -2322,9 +2318,7 @@ def _ai_infra_ppa_offtaker_family_concentrations(
             {
                 "node_id": edge.target_id,
                 "name": edge.target_name,
-                "roles": node_by_id[edge.target_id].roles
-                if edge.target_id in node_by_id
-                else (),
+                "roles": node_by_id[edge.target_id].roles if edge.target_id in node_by_id else (),
                 "ppa_edge_count": 0,
                 "ppa_capacity_mw": 0.0,
                 "source_uris": set(),

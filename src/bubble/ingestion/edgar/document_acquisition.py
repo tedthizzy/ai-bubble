@@ -1556,9 +1556,9 @@ def _insufficient_notional_signal(
     if unique_terms & strong_terms:
         return False
 
-    if _looks_like_shelf_capacity_context(context) or _looks_like_non_specific_commitment_snapshot_context(
+    if _looks_like_shelf_capacity_context(
         context
-    ):
+    ) or _looks_like_non_specific_commitment_snapshot_context(context):
         return False
 
     if any(
@@ -2216,8 +2216,7 @@ def _is_actionable_collateral_context(context: str) -> bool:
     if "senior secured" not in lowered:
         return False
     return any(
-        token in lowered
-        for token in ("facility", "loan", "notes", "obligations", "borrowings")
+        token in lowered for token in ("facility", "loan", "notes", "obligations", "borrowings")
     )
 
 

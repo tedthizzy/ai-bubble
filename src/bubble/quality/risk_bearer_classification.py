@@ -162,7 +162,12 @@ def summarize_risk_bearer_quality(bearers: list[dict[str, Any]]) -> dict[str, An
     an amount (``exposure_usd``/``notional_usd``/``amount_usd``).
     """
 
-    totals: dict[str, float] = {"risk_principal": 0.0, "intermediary": 0.0, "artifact": 0.0, "unknown": 0.0}
+    totals: dict[str, float] = {
+        "risk_principal": 0.0,
+        "intermediary": 0.0,
+        "artifact": 0.0,
+        "unknown": 0.0,
+    }
     counts: dict[str, int] = {"risk_principal": 0, "intermediary": 0, "artifact": 0, "unknown": 0}
     needs_weighting_usd = 0.0
     for bearer in bearers:

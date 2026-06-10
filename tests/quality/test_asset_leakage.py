@@ -11,9 +11,13 @@ from bubble.quality.asset_leakage import quote_is_asset_side, summarize_asset_le
 
 
 def test_high_confidence_markers_flag_asset_figures() -> None:
-    assert quote_is_asset_side("HBT Financial had total assets of $6.8 billion, total loans of $4.7 billion")
+    assert quote_is_asset_side(
+        "HBT Financial had total assets of $6.8 billion, total loans of $4.7 billion"
+    )
     assert quote_is_asset_side("Servicing portfolio UPB of $733.6 billion at year end")
-    assert quote_is_asset_side("Loans eligible for repurchase / Financing capacity across multiple banks")
+    assert quote_is_asset_side(
+        "Loans eligible for repurchase / Financing capacity across multiple banks"
+    )
 
 
 def test_boilerplate_and_real_debt_are_not_flagged() -> None:

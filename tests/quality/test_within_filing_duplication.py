@@ -20,8 +20,16 @@ from bubble.quality.within_filing_duplication import (
 
 def test_same_entity_amount_accession_repeated_is_excess() -> None:
     rows = [
-        {"entity": "AMAZON COM INC", "amount_usd": 6_000_000_000, "accession": "000110465926027729"},
-        {"entity": "AMAZON COM INC", "amount_usd": 6_000_000_000, "accession": "000110465926027729"},
+        {
+            "entity": "AMAZON COM INC",
+            "amount_usd": 6_000_000_000,
+            "accession": "000110465926027729",
+        },
+        {
+            "entity": "AMAZON COM INC",
+            "amount_usd": 6_000_000_000,
+            "accession": "000110465926027729",
+        },
         {"entity": "FORD MOTOR CO", "amount_usd": 4_000_000_000, "accession": "000003799626000079"},
         {"entity": "FORD MOTOR CO", "amount_usd": 4_000_000_000, "accession": "000003799626000079"},
         {"entity": "FORD MOTOR CO", "amount_usd": 4_000_000_000, "accession": "000003799626000079"},

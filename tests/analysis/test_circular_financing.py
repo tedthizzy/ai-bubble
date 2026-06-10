@@ -37,7 +37,14 @@ def test_detects_filing_verified_reciprocal_2_cycle() -> None:
 def test_press_only_edge_keeps_loop_out_of_filing_verified_bucket() -> None:
     # Macro 3-loop NVIDIA -> OpenAI -> CoreWeave -> NVIDIA, NVIDIA->OpenAI is press only.
     edges = [
-        _edge("NVIDIA", "OpenAI", "framework_commitment", tier="press_reported", amount=100_000_000_000, binding=False),
+        _edge(
+            "NVIDIA",
+            "OpenAI",
+            "framework_commitment",
+            tier="press_reported",
+            amount=100_000_000_000,
+            binding=False,
+        ),
         _edge("OpenAI", "CoreWeave", "purchase_commitment", amount=18_400_000_000),
         _edge("CoreWeave", "NVIDIA", "gpu_purchase"),
     ]

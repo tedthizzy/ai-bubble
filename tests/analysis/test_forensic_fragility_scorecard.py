@@ -70,5 +70,7 @@ def test_no_borrowed_thresholds_for_recourse_and_tail() -> None:
 
 def test_duration_not_met_when_debt_short() -> None:
     out = score_fragility({"refi_wall": {"peak_maturity_year": 2027}})  # 12mo < 24mo GPU life
-    dur = next(d for d in out["dimensions"] if d["dimension"] == "asset_liability_duration_mismatch")
+    dur = next(
+        d for d in out["dimensions"] if d["dimension"] == "asset_liability_duration_mismatch"
+    )
     assert dur["condition_met"] is False

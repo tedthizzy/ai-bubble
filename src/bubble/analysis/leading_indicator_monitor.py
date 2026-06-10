@@ -109,7 +109,9 @@ def _satellite_stall(m: dict[str, Any]) -> dict[str, Any]:
     site_n = _num(sat.get("site_count"))
     no_change = _num(sat.get("no_change_sites"))
     backed = sat.get("status") == "source_backed" and bool(site_n)
-    pct = round(100 * no_change / site_n, 1) if backed and no_change is not None and site_n else None
+    pct = (
+        round(100 * no_change / site_n, 1) if backed and no_change is not None and site_n else None
+    )
     return {
         "key": "satellite_construction_stall",
         "indicator": "Satellite construction-stall rate",

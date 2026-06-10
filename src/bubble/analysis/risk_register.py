@@ -238,8 +238,12 @@ def build_risk_register(
         circ = m.get("circular_financing", {}) or {}
         circ_hub = circ.get("reciprocal_hub") or {}
         circ_clause = ""
-        if circ.get("status") == "source_backed" and circ_hub.get("filing_verified_round_trip_count"):
-            cap_b = round(float(circ_hub.get("filing_verified_reciprocal_capital_usd") or 0) / 1e9, 1)
+        if circ.get("status") == "source_backed" and circ_hub.get(
+            "filing_verified_round_trip_count"
+        ):
+            cap_b = round(
+                float(circ_hub.get("filing_verified_reciprocal_capital_usd") or 0) / 1e9, 1
+            )
             circ_clause = (
                 f" Round-trip quantified: NVIDIA is a filing-verified equity investor in "
                 f"{circ_hub.get('filing_verified_investee_count')} of its own GPU-cloud customers "

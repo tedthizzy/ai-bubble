@@ -39,4 +39,6 @@ def test_short_collateral_identifiers_pass() -> None:
 
 def test_overlong_name_is_flagged_and_empty_is_safe() -> None:
     assert is_prose_collateral_name("x" * 130) is True
-    assert is_prose_collateral_name("") is False  # empty -> not prose (a separate missing-name case)
+    assert (
+        is_prose_collateral_name("") is False
+    )  # empty -> not prose (a separate missing-name case)

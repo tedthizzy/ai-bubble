@@ -663,8 +663,7 @@ def _extract_economic_commitment_terms(
                 "double_count_caveat": term.double_count_caveat,
                 "source_quote": term.quote,
                 "page_or_section": (
-                    f"{row.get('form', '')} {row.get('accession_number', '')} "
-                    "economic commitment"
+                    f"{row.get('form', '')} {row.get('accession_number', '')} economic commitment"
                 ),
                 **source,
             }

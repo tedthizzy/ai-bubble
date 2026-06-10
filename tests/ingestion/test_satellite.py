@@ -16,7 +16,7 @@ def test_band_indices() -> None:
 
 def test_active_construction_signal() -> None:
     before = {"B8": 0.40, "B4": 0.05, "B11": 0.10, "B2": 0.03}  # vegetated
-    after = {"B8": 0.20, "B4": 0.25, "B11": 0.35, "B2": 0.20}   # cleared / bare-built
+    after = {"B8": 0.20, "B4": 0.25, "B11": 0.35, "B2": 0.20}  # cleared / bare-built
     out = sat.classify_construction(before, after)
     assert out["construction_signal"] == "active_construction_or_clearing"
     assert out["ndvi_delta"] < -0.1
@@ -42,7 +42,11 @@ def _obs(site, signal, mw=0, ndvi_delta=0.0):
     return {
         "site": site,
         "capacity_mw": mw,
-        "classification": {"construction_signal": signal, "ndvi_delta": ndvi_delta, "ndbi_delta": 0.0},
+        "classification": {
+            "construction_signal": signal,
+            "ndvi_delta": ndvi_delta,
+            "ndbi_delta": 0.0,
+        },
     }
 
 

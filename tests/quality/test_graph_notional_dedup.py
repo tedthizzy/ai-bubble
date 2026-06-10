@@ -49,7 +49,10 @@ def test_per_relationship_breakdown_and_zero_safe() -> None:
     s = summarize_graph_notional(edges)
     assert round(s["deduped_notional_usd"]) == 10_000_000_000
     assert s["by_relationship"]["SECURED_BY_COLLATERAL"]["edges"] == 2
-    assert round(s["by_relationship"]["SECURED_BY_COLLATERAL"]["deduped_notional_usd"]) == 10_000_000_000
+    assert (
+        round(s["by_relationship"]["SECURED_BY_COLLATERAL"]["deduped_notional_usd"])
+        == 10_000_000_000
+    )
     # empty input is safe
     empty = summarize_graph_notional([])
     assert empty["raw_notional_usd"] == 0

@@ -663,9 +663,7 @@ def _best_row_snippet(row: dict[str, str], text: str, snippet_chars: int) -> str
     return candidates[0] if candidates else ""
 
 
-def _row_snippet_candidates(
-    row: dict[str, str], text: str, snippet_chars: int
-) -> list[str]:
+def _row_snippet_candidates(row: dict[str, str], text: str, snippet_chars: int) -> list[str]:
     base = _best_snippet(text, _query_terms(row), snippet_chars)
     candidates = [base] if base else []
     role_candidate = _best_snippet(text, _counterparty_role_query_terms(row), snippet_chars)

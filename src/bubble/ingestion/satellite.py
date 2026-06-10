@@ -114,8 +114,8 @@ def aggregate_satellite_observations(records: list[dict[str, Any]]) -> dict[str,
         elif sig == "no_significant_change":
             no_change.append(row)
 
-    active.sort(key=lambda x: (x.get("capacity_mw") or 0), reverse=True)
-    no_change.sort(key=lambda x: (x.get("capacity_mw") or 0), reverse=True)
+    active.sort(key=lambda x: x.get("capacity_mw") or 0, reverse=True)
+    no_change.sort(key=lambda x: x.get("capacity_mw") or 0, reverse=True)
     total = len(usable)
     active_pct = round(100 * len(active) / total, 1) if total else None
 

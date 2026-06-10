@@ -51,6 +51,8 @@ def test_builds_named_wall_and_near_term() -> None:
 
 
 def test_year_string_and_range_parsing() -> None:
-    out = aggregate_refi_wall([_stack("Y", [_fac("F", "due 2026", 100), _fac("G", "2027-2028", 50)])])
+    out = aggregate_refi_wall(
+        [_stack("Y", [_fac("F", "due 2026", 100), _fac("G", "2027-2028", 50)])]
+    )
     years = {r["year"] for r in out["wall_by_year"]}
     assert 2026 in years and 2027 in years

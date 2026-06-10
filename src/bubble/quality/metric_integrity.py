@@ -90,10 +90,14 @@ def summarize_metric_integrity(
     si_hashes = {(r.get("content_hash") or "").strip() for r in si_groups.values()}
     si_hashes.discard("")
     snapshot_dup = sum(
-        _amount(r) for r in snap_groups.values() if (r.get("content_hash") or "").strip() in si_hashes
+        _amount(r)
+        for r in snap_groups.values()
+        if (r.get("content_hash") or "").strip() in si_hashes
     )
 
-    base = sum(_amount(r) for r in si_groups.values()) + sum(_amount(r) for r in snap_groups.values())
+    base = sum(_amount(r) for r in si_groups.values()) + sum(
+        _amount(r) for r in snap_groups.values()
+    )
     implied = mega_gross + crossfiling_excess + snapshot_dup
     return {
         "approved_source_instrument_groups": len(si_groups),

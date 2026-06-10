@@ -426,10 +426,7 @@ def test_timing_summary_splits_historical_and_forward_refinancing_wall(
     assert batch.summary.capital_refinancing_usd_2024_2030 == 18_000_000_000
     assert batch.summary.capital_refinancing_historical_to_as_of_usd == 5_000_000_000
     assert batch.summary.capital_refinancing_forward_from_as_of_usd == 13_000_000_000
-    assert (
-        batch.summary.ai_infra_capital_refinancing_historical_to_as_of_usd
-        == 5_000_000_000
-    )
+    assert batch.summary.ai_infra_capital_refinancing_historical_to_as_of_usd == 5_000_000_000
     assert batch.summary.ai_infra_capital_refinancing_forward_from_as_of_usd == 7_000_000_000
     assert batch.summary.forward_peak_refinancing_quarter == "2026-Q2"
     assert batch.summary.forward_peak_refinancing_usd == 7_000_000_000

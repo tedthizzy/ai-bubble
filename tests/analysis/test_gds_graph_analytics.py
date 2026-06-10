@@ -11,9 +11,21 @@ _PAYLOAD = {
         "node_count": 5102,
         "relationship_count": 7617,
         "top_betweenness_chokepoints": [
-            {"name": "Shell Energy North America (US), L.P.", "roles": ["seller"], "betweenness": 593947.7},
-            {"name": "Morgan Stanley Capital Group Inc.", "roles": ["buyer"], "betweenness": 550515.5},
-            {"name": "PACIFIC GAS AND ELECTRIC COMPANY", "roles": ["seller"], "betweenness": 416940.7},
+            {
+                "name": "Shell Energy North America (US), L.P.",
+                "roles": ["seller"],
+                "betweenness": 593947.7,
+            },
+            {
+                "name": "Morgan Stanley Capital Group Inc.",
+                "roles": ["buyer"],
+                "betweenness": 550515.5,
+            },
+            {
+                "name": "PACIFIC GAS AND ELECTRIC COMPANY",
+                "roles": ["seller"],
+                "betweenness": 416940.7,
+            },
         ],
         "top_pagerank_systemic": [
             {"name": "JPMORGAN CHASE BANK, N.A.", "roles": ["lender"], "pagerank": 2.95},

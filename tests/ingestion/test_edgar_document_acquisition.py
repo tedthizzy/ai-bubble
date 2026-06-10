@@ -712,10 +712,7 @@ def test_deal_candidate_marks_maximum_aggregate_offering_amount_as_shelf_capacit
             "filing_url": "https://www.sec.gov/Archives/edgar/data/123/000000000026000014/filing-fees.htm",
             "relevance_score": "150",
         },
-        (
-            "FILING FEES TABLE. The maximum aggregate amount of those offerings is "
-            "$5,000,000,000."
-        ),
+        ("FILING FEES TABLE. The maximum aggregate amount of those offerings is $5,000,000,000."),
         "hash",
         tmp_path / "filing-fees.htm",
     )

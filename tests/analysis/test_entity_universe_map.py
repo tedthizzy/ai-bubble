@@ -11,7 +11,10 @@ def _e(name, bucket, filer="yes_sec", debt="some"):
 
 def test_blocks_empty() -> None:
     assert aggregate_entity_universe({})["status"] == "blocked_no_classified_entities"
-    assert aggregate_entity_universe({"all_entities": []})["status"] == "blocked_no_classified_entities"
+    assert (
+        aggregate_entity_universe({"all_entities": []})["status"]
+        == "blocked_no_classified_entities"
+    )
 
 
 def test_composition_and_confirmed() -> None:

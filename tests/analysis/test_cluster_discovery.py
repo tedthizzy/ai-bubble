@@ -46,12 +46,8 @@ def test_discover_blocks_small_n() -> None:
 
 def test_discover_separable_two_groups() -> None:
     # Group 1: healthy (high margin, low leverage). Group 2: fragile (negative margin, high leverage).
-    healthy = [
-        _issuer(f"H{i}", 1000, 350 + i * 10, 200, 300, 20, 400) for i in range(5)
-    ]
-    fragile = [
-        _issuer(f"F{i}", 1000, -150 - i * 10, -250, 3000, 250, 50) for i in range(5)
-    ]
+    healthy = [_issuer(f"H{i}", 1000, 350 + i * 10, 200, 300, 20, 400) for i in range(5)]
+    fragile = [_issuer(f"F{i}", 1000, -150 - i * 10, -250, 3000, 250, 50) for i in range(5)]
     out = cd.discover_structure(healthy + fragile, bootstrap=30)
     assert out["status"] == "source_backed"
     assert out["n"] == 10

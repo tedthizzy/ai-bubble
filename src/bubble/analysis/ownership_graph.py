@@ -306,15 +306,21 @@ def _edge_from_row(row: Mapping[str, str]) -> OwnershipEdge | None:
             "Relationship_RelationshipQuantifiers_RelationshipQuantifier_MeasurementMethod",
         ),
         quantifier_amount=_optional_float(
-            _first(row, "Relationship_RelationshipQuantifiers_RelationshipQuantifier_QuantifierAmount")
+            _first(
+                row, "Relationship_RelationshipQuantifiers_RelationshipQuantifier_QuantifierAmount"
+            )
         ),
         quantifier_units=_first(
             row,
             "Relationship_RelationshipQuantifiers_RelationshipQuantifier_QuantifierUnits",
         ),
         validation_sources=_first(row, "Registration_ValidationSources", "validation_sources"),
-        validation_documents=_first(row, "Registration_ValidationDocuments", "validation_documents"),
-        validation_reference=_first(row, "Registration_ValidationReference", "validation_reference"),
+        validation_documents=_first(
+            row, "Registration_ValidationDocuments", "validation_documents"
+        ),
+        validation_reference=_first(
+            row, "Registration_ValidationReference", "validation_reference"
+        ),
         source_uri=_first(row, "source_uri"),
         retrieved_at=_first(row, "retrieved_at"),
         content_hash=_first(row, "content_hash"),

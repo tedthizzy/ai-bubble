@@ -533,8 +533,7 @@ class CapitalStructureAnalyzer:
             self.evidence_gate.audit_claim(
                 claim_id="capital.notional_review_required.distinct_notional",
                 claim=(
-                    "Distinct high-notional pending-adjudication debt-like "
-                    "extraction candidates"
+                    "Distinct high-notional pending-adjudication debt-like extraction candidates"
                 ),
                 value=round(notional_review_required_distinct_usd, 2),
                 unit="USD",

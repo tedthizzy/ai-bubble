@@ -102,7 +102,7 @@ def aggregate_private_credit_funding(records: list[dict[str, Any]]) -> dict[str,
             }
         )
 
-    per_lender.sort(key=lambda r: (r["insurance_funded_share_pct"] or 0), reverse=True)
+    per_lender.sort(key=lambda r: r["insurance_funded_share_pct"] or 0, reverse=True)
     median_ins = _median(insurance_shares)
 
     return {
@@ -115,9 +115,7 @@ def aggregate_private_credit_funding(records: list[dict[str, Any]]) -> dict[str,
         "filing_verified_sources": filing_verified_sources,
         "total_kept_sources": total_kept_sources,
         "per_lender": per_lender,
-        "debt_side_downside_read": _read(
-            lenders_with_household_funding, len(usable), median_ins
-        ),
+        "debt_side_downside_read": _read(lenders_with_household_funding, len(usable), median_ins),
         "note": (
             "Debt-side leg of who-bears-downside: how the private-credit lenders that hold the "
             "cluster's DDTL/SPV paper are themselves FUNDED (insurance/annuity + pension share of "

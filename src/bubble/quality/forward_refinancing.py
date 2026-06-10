@@ -55,7 +55,7 @@ def split_maturity_wall(
     forward_total = sum(forward.values())
     ordered = sorted(forward.items(), key=lambda kv: _quarter_tuple(kv[0]) or (0, 0))
     near_term = sum(v for _, v in ordered[:near_term_quarters])
-    peak_quarter, peak_amount = (max(forward.items(), key=lambda kv: kv[1]) if forward else ("", 0.0))
+    peak_quarter, peak_amount = max(forward.items(), key=lambda kv: kv[1]) if forward else ("", 0.0)
     return {
         "total_usd": round(total, 2),
         "historical_usd": round(historical, 2),

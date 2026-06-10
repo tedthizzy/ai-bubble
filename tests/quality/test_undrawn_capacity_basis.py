@@ -98,6 +98,14 @@ def test_non_committed_debt_basis_unions_both_classes() -> None:
     # undrawn capacity
     assert is_non_committed_debt_basis("availability under that revolving credit agreement") is True
     # shelf/resale
-    assert is_non_committed_debt_basis("the selling securityholders may offer these securities") is True
+    assert (
+        is_non_committed_debt_basis("the selling securityholders may offer these securities")
+        is True
+    )
     # real committed debt -> False
-    assert is_non_committed_debt_basis("$2,000,000,000 aggregate principal amount of senior notes due 2031") is False
+    assert (
+        is_non_committed_debt_basis(
+            "$2,000,000,000 aggregate principal amount of senior notes due 2031"
+        )
+        is False
+    )

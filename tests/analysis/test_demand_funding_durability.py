@@ -10,9 +10,21 @@ def _commit(offtaker, amount):
 
 
 PROFILE = {
-    "OpenAI": {"funding_class": "capital_markets_dependent", "basis": "loss-making", "evidence_source_uri": "x"},
-    "Meta": {"funding_class": "self_funding", "basis": "hyperscaler FCF", "evidence_source_uri": "y"},
-    "Microsoft": {"funding_class": "self_funding", "basis": "hyperscaler FCF", "evidence_source_uri": "z"},
+    "OpenAI": {
+        "funding_class": "capital_markets_dependent",
+        "basis": "loss-making",
+        "evidence_source_uri": "x",
+    },
+    "Meta": {
+        "funding_class": "self_funding",
+        "basis": "hyperscaler FCF",
+        "evidence_source_uri": "y",
+    },
+    "Microsoft": {
+        "funding_class": "self_funding",
+        "basis": "hyperscaler FCF",
+        "evidence_source_uri": "z",
+    },
 }
 
 

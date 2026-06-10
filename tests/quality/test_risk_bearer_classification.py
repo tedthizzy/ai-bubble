@@ -26,7 +26,9 @@ def test_pure_trustee_and_agent_are_not_risk_principals() -> None:
 
 
 def test_statute_and_fragment_names_are_artifacts() -> None:
-    statute = classify_risk_bearer(["indenture_trustee", "trustee"], "Trust Indenture Act of 1939 or res")
+    statute = classify_risk_bearer(
+        ["indenture_trustee", "trustee"], "Trust Indenture Act of 1939 or res"
+    )
     assert statute["bucket"] == "artifact"
     assert statute["is_risk_principal"] is False
     fragment = classify_risk_bearer(["lender"], "the lenders party hereto and JPMorgan")
@@ -64,8 +66,16 @@ def test_negative_controls_real_lender_and_guarantor_remain_principals() -> None
 
 def test_summary_quantifies_misattributed_exposure() -> None:
     bearers = [
-        {"name": "JPMORGAN CHASE BANK, N.A.", "roles": ["administrative_agent", "lender"], "exposure_usd": 592.9e9},
-        {"name": "WILMINGTON TRUST, N.A.", "roles": ["indenture_trustee", "trustee"], "exposure_usd": 111.5e9},
+        {
+            "name": "JPMORGAN CHASE BANK, N.A.",
+            "roles": ["administrative_agent", "lender"],
+            "exposure_usd": 592.9e9,
+        },
+        {
+            "name": "WILMINGTON TRUST, N.A.",
+            "roles": ["indenture_trustee", "trustee"],
+            "exposure_usd": 111.5e9,
+        },
         {"name": "Trust Indenture Act of 1939", "roles": ["trustee"], "exposure_usd": 52.2e9},
         {"name": "Apollo Credit", "roles": ["lender"], "exposure_usd": 10.0e9},
     ]
@@ -81,9 +91,17 @@ def test_summary_quantifies_misattributed_exposure() -> None:
 
 def test_graph_artifact_edges_are_flagged() -> None:
     edges = [
-        {"source_id": "entity:fulton-financial", "target_id": "entity:trust-indenture-act-of-1939", "notional_usd": 52.2e9},
+        {
+            "source_id": "entity:fulton-financial",
+            "target_id": "entity:trust-indenture-act-of-1939",
+            "notional_usd": 52.2e9,
+        },
         {"source_id": "entity:coreweave", "target_id": "entity:apollo-credit", "notional_usd": 8e9},
-        {"source_id": "entity:at-t", "target_id": "entity:parent-company-the-lenders", "notional_usd": 12.75e9},
+        {
+            "source_id": "entity:at-t",
+            "target_id": "entity:parent-company-the-lenders",
+            "notional_usd": 12.75e9,
+        },
     ]
     s = summarize_graph_artifact_edges(edges)
     assert s["total_edges"] == 3

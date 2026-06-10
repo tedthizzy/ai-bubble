@@ -111,7 +111,10 @@ def aggregate_contract_structure(records: list[dict[str, Any]]) -> dict[str, Any
                 gpu_collateralized += 1
             if f.get("guarantors"):
                 parent_guaranteed += 1
-            if f.get("borrower_spv") and str(f.get("borrower_spv")).lower() not in ("parent", "none"):
+            if f.get("borrower_spv") and str(f.get("borrower_spv")).lower() not in (
+                "parent",
+                "none",
+            ):
                 spv_named += 1
             scope = str(f.get("guarantee_scope") or "").strip()
             if scope and len(example_guarantees) < 6:

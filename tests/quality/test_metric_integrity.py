@@ -23,15 +23,36 @@ def test_summary_quantifies_three_overcount_signals() -> None:
         # Root cause 1: a >$50B mega single-obligation group.
         _row("source-instrument:hashes:aaa:amount:60", 60e9, entity="PennyMac"),
         # Root cause 2a: same obligation (entity+amount+quote) across two filings -> excess once.
-        _row("source-instrument:hashes:bbb:amount:5", 5e9, entity="TeraWulf", evidence_quote="same note"),
-        _row("source-instrument:hashes:ccc:amount:5", 5e9, entity="TeraWulf", evidence_quote="same note"),
+        _row(
+            "source-instrument:hashes:bbb:amount:5",
+            5e9,
+            entity="TeraWulf",
+            evidence_quote="same note",
+        ),
+        _row(
+            "source-instrument:hashes:ccc:amount:5",
+            5e9,
+            entity="TeraWulf",
+            evidence_quote="same note",
+        ),
         # A distinct $5B obligation for TeraWulf (different quote) -> NOT excess.
-        _row("source-instrument:hashes:ddd:amount:5", 5e9, entity="TeraWulf", evidence_quote="other note"),
+        _row(
+            "source-instrument:hashes:ddd:amount:5",
+            5e9,
+            entity="TeraWulf",
+            evidence_quote="other note",
+        ),
         # Root cause 2b: aggregate snapshot sharing a content_hash with a source-instrument group.
         _row("source-instrument:hashes:eee:amount:4", 4e9, entity="Marathon", content_hash="H1"),
-        _row("aggregate-obligation-snapshot:marathon:cap", 4e9, entity="Marathon", content_hash="H1"),
+        _row(
+            "aggregate-obligation-snapshot:marathon:cap", 4e9, entity="Marathon", content_hash="H1"
+        ),
         # A non-approved row is ignored entirely.
-        _row("source-instrument:hashes:zzz:amount:9", 9e9, metric_use_status="needs_deeper_extraction"),
+        _row(
+            "source-instrument:hashes:zzz:amount:9",
+            9e9,
+            metric_use_status="needs_deeper_extraction",
+        ),
     ]
 
     s = summarize_metric_integrity(rows, mega_threshold=50e9)

@@ -844,9 +844,7 @@ def _summary(signals: list[TimingSignal], quarters: list[TimingQuarter]) -> Timi
             round(forward_peak.capital_refinancing_usd, 2) if forward_peak else 0.0
         ),
         forward_peak_ai_infra_refinancing_usd=(
-            round(forward_ai_peak.ai_infra_capital_refinancing_usd, 2)
-            if forward_ai_peak
-            else 0.0
+            round(forward_ai_peak.ai_infra_capital_refinancing_usd, 2) if forward_ai_peak else 0.0
         ),
         physical_capacity_mw_2024_2030=round(
             sum(signal.capacity_mw for signal in signals if signal.category == "physical"),
@@ -978,8 +976,7 @@ def _merge_signal_provenance(
     duplicates: list[TimingSignal],
 ) -> TimingSignal:
     source_uris = _ordered_unique(
-        [representative.source_uri]
-        + [uri for signal in duplicates for uri in signal.source_uris]
+        [representative.source_uri] + [uri for signal in duplicates for uri in signal.source_uris]
     )
     content_hashes = _ordered_unique(
         [representative.content_hash]

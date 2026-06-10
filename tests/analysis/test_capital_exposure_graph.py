@@ -164,9 +164,7 @@ def test_capital_exposure_graph_recovers_real_entities_from_artifact_fragments()
         ],
         counterparty_roles={
             "borrower": ["MiniMed Group, Inc."],
-            "lender": [
-                "into the Company, with the Company surviving the Merger and continuing"
-            ],
+            "lender": ["into the Company, with the Company surviving the Merger and continuing"],
         },
         notional_amount_usd=500_000_000,
         provenance=_provenance("sec:minimed-fragment"),
@@ -550,16 +548,13 @@ def test_capital_exposure_graph_adds_ai_gated_bearer_and_obligor_rankings() -> N
 
     assert graph.summary.top_risk_bearers[0]["name"] == "WML"
     assert graph.summary.top_ai_infra_risk_bearers[0]["name"] == "Apollo Credit"
-    assert graph.summary.top_ai_infra_risk_bearers[0][
-        "ai_infra_relevant_exposure_usd"
-    ] == 1_500_000_000
+    assert (
+        graph.summary.top_ai_infra_risk_bearers[0]["ai_infra_relevant_exposure_usd"]
+        == 1_500_000_000
+    )
     assert graph.summary.top_ai_infra_obligors[0]["name"] == "CoreWeave SPV"
-    assert graph.summary.top_ai_infra_obligors[0][
-        "ai_infra_relevant_exposure_usd"
-    ] == 1_500_000_000
-    assert {row["name"] for row in graph.summary.top_ai_infra_risk_bearers} == {
-        "Apollo Credit"
-    }
+    assert graph.summary.top_ai_infra_obligors[0]["ai_infra_relevant_exposure_usd"] == 1_500_000_000
+    assert {row["name"] for row in graph.summary.top_ai_infra_risk_bearers} == {"Apollo Credit"}
 
 
 def test_capital_exposure_graph_does_not_tag_xai_octagon_fund_as_ai_infra() -> None:

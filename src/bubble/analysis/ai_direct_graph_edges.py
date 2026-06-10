@@ -48,6 +48,7 @@ def _canon(name: str) -> str:
 
     return _canonical_counterparty(name) or str(name or "").strip()
 
+
 # Funding language => the named party is a risk-bearing lender (edge target),
 # not merely an administrative agent (which alone produces no exposure edge).
 _LENDER_ROLE = re.compile(r"lend|arrang|bookrun|financ|noteholder|purchaser|credit", re.I)
@@ -126,9 +127,8 @@ def _debt_deals(issuer: str, total_debt: float, contagion: dict[str, Any]) -> li
     funders = [
         la
         for la in lenders_or_agents
-        if _LENDER_ROLE.search(str(la.get("role") or "")) or not _PURE_AGENT_ROLE.search(
-            str(la.get("role") or "")
-        )
+        if _LENDER_ROLE.search(str(la.get("role") or ""))
+        or not _PURE_AGENT_ROLE.search(str(la.get("role") or ""))
     ]
     if not funders and lenders_or_agents:
         funders = lenders_or_agents[:1]  # fall back to the named agent as lead
@@ -179,7 +179,9 @@ def _supplier_deals(issuer: str, contagion: dict[str, Any]) -> list[Deal]:
                 title=f"{issuer} GPU/compute supply dependency (AI data-center)",
                 parties=[issuer, name],
                 key_terms={"cluster": "ai_direct_financed_core", "edge": "gpu_supplier_dependency"},
-                provenance=_provenance(str(sup.get("source_uri") or ""), str(sup.get("quote") or "")),
+                provenance=_provenance(
+                    str(sup.get("source_uri") or ""), str(sup.get("quote") or "")
+                ),
                 confidence=0.85,
             )
         )
@@ -207,7 +209,9 @@ def _investor_deals(issuer: str, contagion: dict[str, Any]) -> list[Deal]:
                     "edge": "strategic_investor",
                     "stake_or_amount": str(inv.get("stake_or_amount") or "")[:200],
                 },
-                provenance=_provenance(str(inv.get("source_uri") or ""), str(inv.get("quote") or "")),
+                provenance=_provenance(
+                    str(inv.get("source_uri") or ""), str(inv.get("quote") or "")
+                ),
                 confidence=0.85,
             )
         )

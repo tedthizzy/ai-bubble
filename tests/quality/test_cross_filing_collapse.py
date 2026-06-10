@@ -19,8 +19,12 @@ def _row(entity: str, amount: float, accession: str, quote: str) -> dict[str, ob
 
 def test_same_instrument_across_two_filings_collapses() -> None:
     rows = [
-        _row("Hut 8 Corp.", 3_250_000_000, "acc1", "Announces Pricing of $3.25 Billion 6.192% notes"),
-        _row("Hut 8 Corp.", 3_250_000_000, "acc2", "6.192% Senior Secured Notes due 2042 Indenture"),
+        _row(
+            "Hut 8 Corp.", 3_250_000_000, "acc1", "Announces Pricing of $3.25 Billion 6.192% notes"
+        ),
+        _row(
+            "Hut 8 Corp.", 3_250_000_000, "acc2", "6.192% Senior Secured Notes due 2042 Indenture"
+        ),
     ]
     out = summarize_cross_filing_collapse(rows)
     assert out["collapsed_group_count"] == 1
@@ -43,10 +47,17 @@ def test_member_with_empty_descriptor_does_not_collapse() -> None:
     rows = [
         _row("Acme", 1_000_000_000, "acc1", "5.000% senior notes due 2030"),
         _row("Acme", 1_000_000_000, "acc2", "5.000% senior notes due 2030"),
-        _row("Acme", 1_000_000_000, "acc3", "the Company entered into a material definitive agreement"),
+        _row(
+            "Acme",
+            1_000_000_000,
+            "acc3",
+            "the Company entered into a material definitive agreement",
+        ),
     ]
     out = summarize_cross_filing_collapse(rows)
-    assert out["collapsed_group_count"] == 0  # one member has no coupon/maturity -> strict rule abstains
+    assert (
+        out["collapsed_group_count"] == 0
+    )  # one member has no coupon/maturity -> strict rule abstains
 
 
 def test_distinct_fingerprints_do_not_collapse() -> None:

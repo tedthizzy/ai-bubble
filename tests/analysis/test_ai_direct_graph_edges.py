@@ -24,26 +24,69 @@ _CONTAGION = [
     {
         "entity": "CoreWeave, Inc. (CRWV) — CIK 0001769628",
         "top_customers": [
-            {"name": "Microsoft Corporation", "revenue_concentration_pct": 67, "quote": "q", "source_uri": "sec:crwv"},
-            {"name": "OpenAI OpCo, LLC", "revenue_concentration_pct": None, "quote": "q", "source_uri": "sec:crwv"},
+            {
+                "name": "Microsoft Corporation",
+                "revenue_concentration_pct": 67,
+                "quote": "q",
+                "source_uri": "sec:crwv",
+            },
+            {
+                "name": "OpenAI OpCo, LLC",
+                "revenue_concentration_pct": None,
+                "quote": "q",
+                "source_uri": "sec:crwv",
+            },
         ],
         "gpu_suppliers": [
             {"name": "NVIDIA Corporation", "quote": "q", "source_uri": "sec:crwv"},
-            {"name": "Three unnamed suppliers (names not disclosed in 10-K)", "quote": "q", "source_uri": "sec:crwv"},
+            {
+                "name": "Three unnamed suppliers (names not disclosed in 10-K)",
+                "quote": "q",
+                "source_uri": "sec:crwv",
+            },
         ],
         "lenders_or_agents": [
-            {"name": "Morgan Stanley Senior Funding, Inc.", "role": "admin_agent and lead arranger", "quote": "q", "source_uri": "sec:crwv"},
-            {"name": "Goldman Sachs Bank USA", "role": "lender", "quote": "q", "source_uri": "sec:crwv"},
+            {
+                "name": "Morgan Stanley Senior Funding, Inc.",
+                "role": "admin_agent and lead arranger",
+                "quote": "q",
+                "source_uri": "sec:crwv",
+            },
+            {
+                "name": "Goldman Sachs Bank USA",
+                "role": "lender",
+                "quote": "q",
+                "source_uri": "sec:crwv",
+            },
         ],
         "strategic_investors": [
-            {"name": "NVIDIA Corporation", "stake_or_amount": "$2 billion equity investment", "quote": "q", "source_uri": "sec:crwv"},
+            {
+                "name": "NVIDIA Corporation",
+                "stake_or_amount": "$2 billion equity investment",
+                "quote": "q",
+                "source_uri": "sec:crwv",
+            },
         ],
     },
     {
         "entity": "Nebius Group N.V. (NBIS)",
-        "top_customers": [{"name": "Microsoft Corporation", "revenue_concentration_pct": 40, "quote": "q", "source_uri": "sec:nbis"}],
+        "top_customers": [
+            {
+                "name": "Microsoft Corporation",
+                "revenue_concentration_pct": 40,
+                "quote": "q",
+                "source_uri": "sec:nbis",
+            }
+        ],
         "gpu_suppliers": [{"name": "NVIDIA Corporation", "quote": "q", "source_uri": "sec:nbis"}],
-        "lenders_or_agents": [{"name": "Goldman Sachs Bank USA", "role": "lender", "quote": "q", "source_uri": "sec:nbis"}],
+        "lenders_or_agents": [
+            {
+                "name": "Goldman Sachs Bank USA",
+                "role": "lender",
+                "quote": "q",
+                "source_uri": "sec:nbis",
+            }
+        ],
         "strategic_investors": [],
     },
 ]
@@ -56,7 +99,9 @@ def test_builds_source_backed_cluster_deals() -> None:
     assert all(d.provenance.source_uri for d in deals)
     # Debt notional attributed once per issuer (lead arranger only).
     lead_debt = [
-        d for d in deals if d.source_deal_id and d.source_deal_id.startswith("ai-direct-debt:CoreWeave")
+        d
+        for d in deals
+        if d.source_deal_id and d.source_deal_id.startswith("ai-direct-debt:CoreWeave")
     ]
     notional_bearing = [d for d in lead_debt if (d.notional_amount_usd or 0) > 0]
     assert len(notional_bearing) == 1

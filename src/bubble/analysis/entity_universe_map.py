@@ -47,10 +47,12 @@ def aggregate_entity_universe(payload: dict[str, Any]) -> dict[str, Any]:
     debt_counts: dict[str, int] = {}
     for e in entities:
         by_bucket[str(e.get("bucket"))] = by_bucket.get(str(e.get("bucket")), 0) + 1
-        filer_counts[str(e.get("public_filer"))] = filer_counts.get(str(e.get("public_filer")), 0) + 1
-        debt_counts[str(e.get("has_ai_infra_debt"))] = debt_counts.get(
-            str(e.get("has_ai_infra_debt")), 0
-        ) + 1
+        filer_counts[str(e.get("public_filer"))] = (
+            filer_counts.get(str(e.get("public_filer")), 0) + 1
+        )
+        debt_counts[str(e.get("has_ai_infra_debt"))] = (
+            debt_counts.get(str(e.get("has_ai_infra_debt")), 0) + 1
+        )
 
     confirmed = list(payload.get("confirmed_financed") or [])
     provisional_financed = by_bucket.get(_FINANCED, 0)

@@ -15,9 +15,10 @@ from bubble.quality.claim_semantics import (
 
 
 def test_committed_debt_quotes_pass() -> None:
-    assert classify_claim_semantics(
-        "$5 billion senior unsecured revolving credit agreement"
-    )["bucket"] == "committed_debt"
+    assert (
+        classify_claim_semantics("$5 billion senior unsecured revolving credit agreement")["bucket"]
+        == "committed_debt"
+    )
     assert classify_claim_semantics(
         "$730 million aggregate principal amount of first lien notes due 2031"
     )["is_committed_debt"]
@@ -25,17 +26,26 @@ def test_committed_debt_quotes_pass() -> None:
 
 def test_asset_capacity_and_boilerplate_quotes_are_not_committed_debt() -> None:
     # Truist "loans held for investment" — an asset.
-    assert classify_claim_semantics(
-        "consolidated loans and leases held for investment of $329.2 billion"
-    )["bucket"] == "asset_or_capacity"
+    assert (
+        classify_claim_semantics(
+            "consolidated loans and leases held for investment of $329.2 billion"
+        )["bucket"]
+        == "asset_or_capacity"
+    )
     # PennyMac webcast boilerplate.
-    assert classify_claim_semantics(
-        "The webcast can be accessed at pfsi.pennymac.com and a replay will be available"
-    )["bucket"] == "boilerplate_only"
+    assert (
+        classify_claim_semantics(
+            "The webcast can be accessed at pfsi.pennymac.com and a replay will be available"
+        )["bucket"]
+        == "boilerplate_only"
+    )
     # Asset wins even when the quote also mentions notes (servicing deck).
-    assert classify_claim_semantics(
-        "Servicing portfolio UPB of $733.6 billion; non-Agency subordinate notes"
-    )["bucket"] == "asset_or_capacity"
+    assert (
+        classify_claim_semantics(
+            "Servicing portfolio UPB of $733.6 billion; non-Agency subordinate notes"
+        )["bucket"]
+        == "asset_or_capacity"
+    )
 
 
 def test_gate_caps_quote_backed_but_semantically_wrong_claims() -> None:
@@ -56,22 +66,34 @@ def test_gate_caps_quote_backed_but_semantically_wrong_claims() -> None:
 
 def test_context_enrichment_resolves_indeterminate() -> None:
     # Terse quote (indeterminate alone) + debt subcategory -> committed_debt.
-    assert classify_claim_with_context(
-        "the obligations referred to in clauses (i) through (iv)",
-        subcategory="contract_tranche_terms",
-    )["bucket"] == "committed_debt"
+    assert (
+        classify_claim_with_context(
+            "the obligations referred to in clauses (i) through (iv)",
+            subcategory="contract_tranche_terms",
+        )["bucket"]
+        == "committed_debt"
+    )
     # Debt counterparty resolves it too.
-    assert classify_claim_with_context("terse fragment", counterparty="JPMorgan, as Administrative Agent")[
-        "bucket"
-    ] == "committed_debt"
+    assert (
+        classify_claim_with_context(
+            "terse fragment", counterparty="JPMorgan, as Administrative Agent"
+        )["bucket"]
+        == "committed_debt"
+    )
     # A non-debt subcategory (interconnection queue) -> flagged mis-categorized.
-    assert classify_claim_with_context(
-        "Developer/Interconnection Customer | Project Name", subcategory="queue_project_match"
-    )["bucket"] == "non_debt_miscategorized"
+    assert (
+        classify_claim_with_context(
+            "Developer/Interconnection Customer | Project Name", subcategory="queue_project_match"
+        )["bucket"]
+        == "non_debt_miscategorized"
+    )
     # An affirmative asset quote is NOT rescued by a debt subcategory.
-    assert classify_claim_with_context(
-        "total loans of $4.7 billion held for investment", subcategory="contract_tranche_terms"
-    )["bucket"] == "asset_or_capacity"
+    assert (
+        classify_claim_with_context(
+            "total loans of $4.7 billion held for investment", subcategory="contract_tranche_terms"
+        )["bucket"]
+        == "asset_or_capacity"
+    )
 
 
 def test_collateral_guarantee_lender_language_resolves_to_committed_debt() -> None:
@@ -84,24 +106,40 @@ def test_collateral_guarantee_lender_language_resolves_to_committed_debt() -> No
     ):
         assert classify_claim_semantics(q)["bucket"] == "committed_debt"
     # Asset language still wins over a co-occurring lender word.
-    assert classify_claim_semantics(
-        "servicing portfolio UPB of $733B; lenders to the trust"
-    )["bucket"] == "asset_or_capacity"
+    assert (
+        classify_claim_semantics("servicing portfolio UPB of $733B; lenders to the trust")["bucket"]
+        == "asset_or_capacity"
+    )
 
 
 def test_equity_and_mortgage_production_are_flagged_not_committed_debt() -> None:
     # Equity / mortgage-production primary subject -> equity_or_production (block).
-    assert classify_claim_semantics("convert into Shares of Alibaba Health Information")["bucket"] == "equity_or_production"
-    assert classify_claim_semantics("Mortgage closed loan production for the year ended")["bucket"] == "equity_or_production"
-    assert classify_claim_semantics("any shares of our common stock sold will be sold")["bucket"] == "equity_or_production"
+    assert (
+        classify_claim_semantics("convert into Shares of Alibaba Health Information")["bucket"]
+        == "equity_or_production"
+    )
+    assert (
+        classify_claim_semantics("Mortgage closed loan production for the year ended")["bucket"]
+        == "equity_or_production"
+    )
+    assert (
+        classify_claim_semantics("any shares of our common stock sold will be sold")["bucket"]
+        == "equity_or_production"
+    )
     # A convertible NOTE is debt, not equity, despite mentioning shares.
-    assert classify_claim_semantics(
-        "convertible senior notes convertible into shares at a conversion price"
-    )["bucket"] == "committed_debt"
+    assert (
+        classify_claim_semantics(
+            "convertible senior notes convertible into shares at a conversion price"
+        )["bucket"]
+        == "committed_debt"
+    )
     # A real credit agreement with an incidental 'shares' word stays committed_debt.
-    assert classify_claim_semantics(
-        "entered into a $5 billion revolving credit agreement; proceeds may fund share repurchase"
-    )["bucket"] == "committed_debt"
+    assert (
+        classify_claim_semantics(
+            "entered into a $5 billion revolving credit agreement; proceeds may fund share repurchase"
+        )["bucket"]
+        == "committed_debt"
+    )
 
 
 def test_quarterly_earnings_results_snippets_are_boilerplate_not_committed_debt() -> None:

@@ -57,12 +57,18 @@ def test_routes_to_households_read() -> None:
             ),
             _rec(
                 "Blue Owl",
-                sources=[_source("insurance_annuity_balance_sheet", share=30), _source("pension", share=20)],
+                sources=[
+                    _source("insurance_annuity_balance_sheet", share=30),
+                    _source("pension", share=20),
+                ],
                 ins_share=30,
             ),
             _rec(
                 "Sixth Street",
-                sources=[_source("sovereign_wealth", share=40), _source("endowment_or_foundation", share=30)],
+                sources=[
+                    _source("sovereign_wealth", share=40),
+                    _source("endowment_or_foundation", share=30),
+                ],
             ),
         ]
     )

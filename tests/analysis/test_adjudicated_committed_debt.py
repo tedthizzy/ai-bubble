@@ -10,9 +10,16 @@ _PAYLOAD = {
     "summary": {
         "row_count": 76,
         "committed_count": 39,
-        "by_decision": {"committed_ai_debt": 19, "partial_committed": 20, "exclude_aggregate_or_capacity": 17},
+        "by_decision": {
+            "committed_ai_debt": 19,
+            "partial_committed": 20,
+            "exclude_aggregate_or_capacity": 17,
+        },
     },
-    "adversarial_verification": {"refuted_count": 0, "by_verdict": {"confirmed": 36, "corrected": 3}},
+    "adversarial_verification": {
+        "refuted_count": 0,
+        "by_verdict": {"confirmed": 36, "corrected": 3},
+    },
     "deduped_distinct_instruments": {
         "instrument_count": 19,
         "core_cluster_committed_usd": 25_775_000_000,
@@ -21,8 +28,18 @@ _PAYLOAD = {
         "distinct_committed_ex_questionable_usd": 29_725_000_000,
         "distinct_committed_all_usd": 49_725_000_000,
         "instruments": [
-            {"instrument": "SpaceX bridge", "issuer": "SpaceX", "committed_usd": 20_000_000_000, "ai_class": "questionable_linkage"},
-            {"instrument": "CoreWeave DDTL", "issuer": "CoreWeave", "committed_usd": 3_100_000_000, "ai_class": "core_cluster"},
+            {
+                "instrument": "SpaceX bridge",
+                "issuer": "SpaceX",
+                "committed_usd": 20_000_000_000,
+                "ai_class": "questionable_linkage",
+            },
+            {
+                "instrument": "CoreWeave DDTL",
+                "issuer": "CoreWeave",
+                "committed_usd": 3_100_000_000,
+                "ai_class": "core_cluster",
+            },
         ],
         "caveat": "IREN residual uncertainty; SpaceX excluded from headline.",
     },

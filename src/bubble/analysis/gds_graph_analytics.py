@@ -62,7 +62,9 @@ def _summarize_graph(g: dict[str, Any]) -> dict[str, Any]:
         "top_systemic_by_pagerank": (g.get("top_pagerank_systemic") or [])[:8],
         "community_count": louvain.get("community_count"),
         "modularity": modularity,
-        "strongly_modular": bool(isinstance(modularity, (int, float)) and modularity > _STRONG_MODULARITY),
+        "strongly_modular": bool(
+            isinstance(modularity, (int, float)) and modularity > _STRONG_MODULARITY
+        ),
     }
 
 

@@ -7,8 +7,13 @@ from bubble.graph import neo4j_loader as nl
 
 def test_node_row_shaping() -> None:
     row = nl.node_row(
-        {"node_id": " e1 ", "name": "CoreWeave", "roles": "borrower", "exposure_usd": "1.5e9",
-         "deal_count": "3"}
+        {
+            "node_id": " e1 ",
+            "name": "CoreWeave",
+            "roles": "borrower",
+            "exposure_usd": "1.5e9",
+            "deal_count": "3",
+        }
     )
     assert row == {
         "node_id": "e1",
