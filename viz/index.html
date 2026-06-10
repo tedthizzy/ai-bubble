@@ -3,69 +3,437 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Burry Forensic Explorer — variants</title>
+<title>AI Bubble — financed-compute contagion map</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='16'%20height='16'%3E%3Ccircle%20cx='8'%20cy='8'%20r='6'%20fill='none'%20stroke='%23f0883e'%20stroke-width='2.5'/%3E%3C/svg%3E">
+<script src="https://unpkg.com/three@0.150.1/build/three.min.js"></script>
+<script src="https://unpkg.com/3d-force-graph@1.73.4/dist/3d-force-graph.min.js"></script>
+<script src="https://unpkg.com/three-spritetext@1.8.2/dist/three-spritetext.min.js"></script>
 <style>
   :root { color-scheme: dark; }
-  body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-         background:#0b0e14; color:#e6edf3; }
-  .wrap { max-width: 920px; margin: 0 auto; padding: 48px 24px 80px; }
-  h1 { font-size: 28px; margin:0 0 6px; }
-  .sub { color:#9aa7b4; margin:0 0 4px; }
-  .verdict { margin:18px 0 28px; padding:14px 16px; border:1px solid #243; border-radius:10px;
-             background:#0e1622; font-size:14px; line-height:1.5; }
-  .verdict b { color:#ffd166; }
-  .grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
-  a.card { display:block; text-decoration:none; color:inherit; border:1px solid #233; border-radius:12px;
-           padding:18px 18px 16px; background:#111824; transition:.15s; }
-  a.card:hover { border-color:#3a6; transform:translateY(-2px); background:#131c2a; }
-  .card h2 { margin:0 0 6px; font-size:18px; }
-  .card p { margin:0; color:#9aa7b4; font-size:13px; line-height:1.45; }
-  .tag { display:inline-block; font-size:11px; color:#7fd1a3; border:1px solid #2a4; border-radius:999px;
-         padding:1px 8px; margin-bottom:8px; }
-  .foot { margin-top:30px; color:#6b7785; font-size:12px; line-height:1.6; }
-  code { background:#0e1622; padding:1px 6px; border-radius:5px; color:#cbd5e1; }
+  html,body { margin:0; height:100%; background:#05070c; overflow:hidden;
+              font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif; color:#e6edf3; }
+  #g { position:fixed; inset:0; }
+  .ov { position:fixed; z-index:5; }
+  #brand { top:14px; left:18px; max-width:66vw; }
+  #brand .m { font-weight:700; letter-spacing:.14em; font-size:12px; color:#9aa7b4; }
+  #brand .s { font-size:10.5px; color:#5d6a77; margin-top:2px; letter-spacing:.04em; }
+  #brand .chips { margin-top:8px; display:flex; gap:6px; flex-wrap:wrap; }
+  .chip { font-size:11px; padding:2px 8px; border-radius:999px; border:1px solid #233; background:#0c1420; cursor:default; }
+  .chip b { color:#ffd166; } .chip.r b { color:#f0883e; }
+  .chip.lv b { color:#9aa7b4; font-weight:600; }
+  .scale { position:fixed; left:18px; top:96px; font-size:10px; color:#6b7785; z-index:5; }
+  .scale i { display:inline-block; width:42px; height:6px; border-radius:3px; vertical-align:middle; margin:0 6px;
+             background:linear-gradient(90deg,#3fb950,#d29922,#f85149); }
+  #info { top:16px; right:18px; width:26px; height:26px; border-radius:50%; border:1px solid #2a3a4a;
+          background:#0c1420; color:#9aa7b4; font-size:13px; cursor:pointer; }
+  #panel { top:52px; right:18px; width:330px; max-height:72vh; overflow:auto; display:none;
+           border:1px solid #233; border-radius:10px; background:rgba(10,18,29,.95); padding:12px 14px; font-size:12px; line-height:1.5; }
+  #panel h4 { margin:0 0 8px; font-size:11px; letter-spacing:.08em; color:#7d8893; text-transform:uppercase; }
+  #panel li { margin:0 0 7px; color:#b9c4cf; }
+  #cc { left:18px; bottom:18px; display:flex; align-items:center; gap:10px; }
+  .btn { font-size:13px; padding:8px 14px; border-radius:8px; cursor:pointer; font-weight:600; }
+  #play { border:1px solid #2a5; background:#0e2018; color:#7fd1a3; }
+  #play:hover { background:#11281c; }
+  #deals { border:1px solid #5a3434; background:#1c1012; color:#e3a0a0; }
+  #deals:hover { background:#241317; }
+  #ccline { font-size:12px; color:#9aa7b4; opacity:0; transition:.3s; }
+  #ccline b { color:#f0883e; }
+  #dpanel { left:18px; bottom:64px; width:340px; max-height:46vh; overflow:auto; display:none;
+            border:1px solid #4a2d2d; border-radius:10px; background:rgba(22,13,15,.96); padding:10px 12px; }
+  #dpanel h4 { margin:0 0 6px; font-size:11px; letter-spacing:.08em; color:#b98; text-transform:uppercase; }
+  .deal { padding:7px 8px; border-radius:8px; cursor:pointer; }
+  .deal:hover { background:#241419; }
+  .deal .dl { font-size:12.5px; color:#dfe6ec; } .deal .dl b { color:#ffd166; }
+  .deal .dwhy { font-size:10.5px; color:#9aa7b4; margin-top:2px; line-height:1.35; }
+  #card { right:18px; bottom:18px; width:300px; display:none; border:1px solid #2a3a4a; border-radius:10px;
+          background:rgba(10,18,29,.95); padding:12px 14px; }
+  #card .nm { font-weight:700; font-size:15px; } #card .ty { font-size:11px; color:#7d8893; margin:1px 0 7px; }
+  #card .nt { font-size:12px; color:#b9c4cf; line-height:1.45; } #card .usd { margin-top:7px; font-size:12px; color:#ffd166; }
+  #card .pl { margin-top:6px; font-size:12px; font-weight:600; }
+  #card .pl.up { color:#3fb950; } #card .pl.dn { color:#f85149; }
+  #card .fl { margin-top:3px; font-size:11px; color:#9aa7b4; }
+  #card .cps { margin-top:9px; display:flex; flex-wrap:wrap; gap:5px; }
+  #card .cpc { font-size:10.5px; padding:2px 7px; border-radius:999px; border:1px solid #2a3a4a;
+               background:#0c1420; color:#9aa7b4; cursor:pointer; font-family:inherit; }
+  #card .cpc:hover { border-color:#3a6; color:#cfe3d8; }
+  #card .bdg { font-size:10px; padding:1px 7px; border-radius:999px; border:1px solid #345; color:#9aa7b4;
+               display:inline-block; margin:1px 4px 6px 0; }
+  #card .bdg.ok { color:#7fd1a3; border-color:#2a4; } #card .bdg.warn { color:#f0883e; border-color:#a55; }
 </style>
 </head>
 <body>
-<div class="wrap">
-  <h1>Burry Forensic Explorer</h1>
-  <p class="sub">Interactive views of the AI / data-center / financing bubble analysis — four variants, one verified dataset.</p>
-  <div class="verdict">
-    <b>Bubble dynamics present @ 0.67</b> in the financed compute cluster · <b>Ecosystem: not_established @ 0.25</b> (by design) ·
-    <b>high-confidence-final: FALSE</b><br />
-    Bounded (~4%), not ecosystem-wide. Every view surfaces the red-team honesty fixes (1.35x is a masking artifact;
-    the cascade $ is a gross upper bound; 2 of the first-principles tipping conditions cleanly met).
+<div id="g"></div>
+<div class="ov" id="brand">
+  <div class="m">AI BUBBLE</div>
+  <div class="s">financed compute · who owes whom · evidence-gated</div>
+  <div class="chips">
+    <span class="chip" id="c_core">core debt <b id="m1"></b></span>
+    <span class="chip" id="c_head">headline <b id="m2"></b> · <span id="m2b"></span> over-count cut</span>
+    <span class="chip" id="c_cl">cluster <b id="m3"></b> of universe</span>
+    <span class="chip r" id="c_conf">bubble <b id="m4"></b> · ecosystem <b id="m5"></b> · not final</span>
+    <span class="chip" id="c_crack">crack <b id="m6"></b></span>
+    <span class="chip" id="c_field" style="display:none">field <b id="m7"></b> entities · <b id="m8"></b> deals</span>
+    <span class="chip lv" id="livechip" style="display:none"><span id="ld" style="color:#3fb950">●</span> <b id="lt"></b></span>
   </div>
-  <div class="grid">
-    <a class="card" href="cascade_hero.html">
-      <span class="tag">hero · vis-network</span>
-      <h2>① Contagion Cascade</h2>
-      <p>Click OpenAI → watch the ~$25B route through CoreWeave to lenders, NVIDIA's equity, and on to pensions/households.</p>
-    </a>
-    <a class="card" href="analyst_explorer.html">
-      <span class="tag">analyst · Cytoscape</span>
-      <h2>② Analyst Explorer</h2>
-      <p>Filter by financed core / circular financing / downside routing / power chokepoints. Click any node for forensic detail.</p>
-    </a>
-    <a class="card" href="immersive_3d.html">
-      <span class="tag">immersive · 3D</span>
-      <h2>③ Immersive 3D</h2>
-      <p>Hover = exposure neighborhood · click = top-3 exposures + counterparty chips · ▶ = hop-by-hop cascade. Live price overlay, refreshed hourly.</p>
-    </a>
-    <a class="card" href="forensic_dashboard.html">
-      <span class="tag">story · dashboard</span>
-      <h2>④ Forensic Dashboard</h2>
-      <p>Verdict gauges, the fragility simulator (sliders), the refinancing wall, and an embedded contagion graph.</p>
-    </a>
-  </div>
-  <p class="foot">
-    Source data: <code>viz/burry_viz_data.json</code>, built from the hardened evidence-gated report
-    (committed in <code>data/published/</code>). A keyless market/filings overlay (<code>live.json</code>)
-    refreshes hourly via GitHub Actions; the adjudicated verdicts only change when the engine re-runs.
-    Self-contained files — they also work by double-clicking any <code>.html</code>.
-    Source: <a href="https://github.com/tedthizzy/ai-bubble" style="color:#7fd1a3">github.com/tedthizzy/ai-bubble</a>.
-  </p>
 </div>
+<div class="scale">safe <i></i> fragile · size = $ · width = deal size · color = deal risk · faint = raw extracted field</div>
+<button class="ov" id="info" title="honest caveats">i</button>
+<div class="ov" id="panel"></div>
+<div class="ov" id="dpanel"></div>
+<div class="ov" id="cc">
+  <button class="btn" id="play">▶ Cascade</button>
+  <button class="btn" id="deals">⚠ Deals</button>
+  <div id="ccline"></div>
+</div>
+<div class="ov" id="card"></div>
+<script>
+const EMBEDDED = {"meta":{"generated_from":"BURRY_REPORT_EvidenceGated_20260603-2312","headline":"Is the AI / data-center / financing boom a bubble?","answer":"Yes -- in the financed compute cluster. Bounded, not ecosystem-wide.","core_verdict":"bubble_dynamics_present","core_confidence":0.67,"ecosystem_verdict":"not_established_as_ecosystem_wide_bubble","ecosystem_confidence":0.25,"high_confidence_final":false,"fragility_conditions_met":2,"fragility_met_dimensions":["asset_liability_duration_mismatch","customer_concentration"],"committed_core_usd":25775000000,"committed_incl_infra_usd":29725000000,"original_inflated_basis_usd":1451858410389,"over_count_removed_pct":98.0,"cascade_debt_at_risk_usd":25149000000.0,"issuers_breaching_base":"7 of 11","indicators_flashing":"4 of 7","crack_window":"2025-Q3..2027-Q3 (engine peak ~2026-Q2)","cluster_share_pct":4.3,"ai_modularity":0.7574,"honest_caveats":["Aggregate EBITDA/interest coverage ~1.35x is a CoreWeave/CleanSpark masking artifact -- NEGATIVE ex-CoreWeave; a majority (7/11) of issuers breach at the zero-shock base.","The cascade $ is a GROSS UPPER BOUND: CoreWeave's ENTIRE debt, not apportioned to OpenAI's revenue share (Microsoft is the larger ~67% customer).","2 of the first-principles tipping conditions are cleanly met (duration + concentration); execution/satellite is MAGNITUDE-ONLY (the 'un-built' proxy is confounded).","Committed AI-cluster debt is ~$26-30B after stripping ~98% over-count -- NOT the trillion-dollar headline aggregate.","The cluster stays ~4% of the universe even at the ~2x capture-recapture true size -- bounded, not ecosystem-wide.","Ecosystem evidence gate held at 0.25 by design; high-confidence-final = False."]},"nodes":[{"id":"CoreWeave","label":"CoreWeave","type":"issuer","fragility":0.95,"usd":3100000000.0,"note":"Financing chokepoint. 67% of revenue from Microsoft; loss-making; ~0.30x DSCR; $3.1B DDTL 5.0. All GPUs are NVIDIA; NVIDIA also holds $2B equity (circular).","redteam":"financing chokepoint"},{"id":"TeraWulf","label":"TeraWulf","type":"issuer","fragility":0.85,"usd":5230000000.0,"note":"$3.2B 7.75% senior secured notes (2030) + convertibles; loss-making."},{"id":"IREN","label":"IREN","type":"issuer","fragility":0.7,"usd":5150000000.0,"note":"Convertible-heavy ($3B 2033 + 2032/2031); NVIDIA equity investee."},{"id":"Applied Digital","label":"Applied Digital","type":"issuer","fragility":0.8,"usd":4500000000.0,"note":"ComputeCo $2.35B + ComputeCo2 $2.15B senior secured notes; NVIDIA PIPE."},{"id":"Hut 8","label":"Hut 8","type":"issuer","fragility":0.65,"usd":3250000000.0,"note":"$3.25B 6.192% senior secured notes (2042); Google/Anthropic ties."},{"id":"MARA Holdings","label":"MARA Holdings","type":"issuer","fragility":0.6,"usd":1950000000.0,"note":"Convertibles 2030/2032; crypto-to-AI pivot."},{"id":"CleanSpark","label":"CleanSpark","type":"issuer","fragility":0.45,"usd":1150000000.0,"note":"Only non-loss-making cluster issuer in the census (+$667M EBITDA)."},{"id":"Galaxy Digital","label":"Galaxy Digital","type":"issuer","fragility":0.55,"usd":1400000000.0,"note":"Galaxy Helios I $1.4B Deutsche Bank term loan (AI data center)."},{"id":"Nebius","label":"Nebius","type":"issuer","fragility":0.7,"usd":2000000000.0,"note":"NVIDIA equity investee (~$2B); 20-F earmarks proceeds for NVIDIA Vera Rubin."},{"id":"Core Scientific","label":"Core Scientific","type":"issuer","fragility":0.75,"usd":1000000000.0,"note":"Being acquired by CoreWeave; $1B term loan."},{"id":"Cipher Mining","label":"Cipher Mining","type":"issuer","fragility":0.6,"usd":500000000.0,"note":"SoftBank PIPE; Google warrants."},{"id":"Bit Digital","label":"Bit Digital","type":"issuer","fragility":0.5,"usd":50000000.0,"note":"Galaxy currency loan (initial $50M draw)."},{"id":"NVIDIA","label":"NVIDIA","type":"supplier_investor","fragility":0.3,"usd":6000000000.0,"note":"Dominant GPU SUPPLIER and filing-verified EQUITY INVESTOR in its own customers (CoreWeave $2B, Nebius ~$2B, Applied Digital). Vendor round-trip / Lucent-Nortel tell."},{"id":"OpenAI","label":"OpenAI","type":"fragile_offtaker","fragility":0.9,"usd":18400000000.0,"note":"FRAGILE demand leg: 56% of CoreWeave's named take-or-pay backlog; capital-markets-dependent (funded by Microsoft $13B + NVIDIA $100B LOI + SoftBank), not payable from operations."},{"id":"Microsoft","label":"Microsoft","type":"durable_offtaker","fragility":0.1,"usd":13000000000.0,"note":"Durable hyperscaler (huge FCF); 67% of CoreWeave revenue; $13B into OpenAI."},{"id":"Meta","label":"Meta","type":"durable_offtaker","fragility":0.1,"usd":14200000000.0,"note":"Durable hyperscaler; $14.2B take-or-pay to CoreWeave through 2031."},{"id":"Morgan Stanley","label":"Morgan Stanley","type":"lender","fragility":0.4,"usd":4000000000.0,"note":"Initial purchaser / agent across cluster notes (Core Scientific TL etc.)."},{"id":"Magnetar","label":"Magnetar","type":"lender","fragility":0.55,"usd":3000000000.0,"note":"Private-credit lender to CoreWeave (DDTL structures)."},{"id":"Blackstone","label":"Blackstone","type":"lender","fragility":0.5,"usd":3000000000.0,"note":"Private-credit anchor to CoreWeave."},{"id":"Wilmington Trust","label":"Wilmington Trust","type":"lender","fragility":0.3,"usd":2000000000.0,"note":"Trustee/collateral agent across the cluster's secured notes."},{"id":"Goldman Sachs","label":"Goldman Sachs","type":"lender","fragility":0.35,"usd":2000000000.0,"note":"Agent / initial purchaser (SpaceX bridge, others)."},{"id":"Coatue","label":"Coatue","type":"lender","fragility":0.45,"usd":1000000000.0,"note":"Convertible-note holder (Hut 8)."},{"id":"Apollo / Athene","label":"Apollo / Athene","type":"end_holder","fragility":0.5,"usd":4000000000.0,"note":"Insurer / private-credit funder -- routes loss to policyholders."},{"id":"Pension funds","label":"Pension funds","type":"end_holder","fragility":0.4,"usd":3000000000.0,"note":"Ultimate downside bearer via private-credit + index exposure."},{"id":"Households / index","label":"Households / index","type":"end_holder","fragility":0.3,"usd":3000000000.0,"note":"Insurance policyholders + retirees + index investors."},{"id":"Amazon Energy","label":"Amazon Energy","type":"energy_chokepoint","fragility":0.2,"usd":5000000000.0,"note":"Top betweenness chokepoint in the AI subgraph -- power is the binding constraint."},{"id":"Microsoft Energy","label":"Microsoft Energy","type":"energy_chokepoint","fragility":0.2,"usd":4000000000.0,"note":"2nd betweenness chokepoint -- hyperscaler power procurement."},{"id":"Shell Energy","label":"Shell Energy","type":"energy_chokepoint","fragility":0.25,"usd":3000000000.0,"note":"Power-market intermediary; structural chokepoint across the full graph."}],"edges":[{"from":"NVIDIA","to":"CoreWeave","type":"equity_investment","usd":2000000000.0,"tier":"filing_verified","note":"$2B Class A, Jan 2026 (CRWV 10-K)"},{"from":"CoreWeave","to":"NVIDIA","type":"gpu_purchase","usd":null,"tier":"filing_verified","note":"all GPUs are NVIDIA (CRWV 10-K)"},{"from":"NVIDIA","to":"Nebius","type":"equity_investment","usd":2000000000.0,"tier":"filing_verified","note":"~$2B Mar 2026; proceeds fund NVIDIA Vera Rubin (NBIS 20-F)"},{"from":"Nebius","to":"NVIDIA","type":"gpu_purchase","usd":null,"tier":"filing_verified","note":"proceeds earmarked for NVIDIA hardware"},{"from":"NVIDIA","to":"Applied Digital","type":"equity_investment","usd":null,"tier":"filing_verified","note":"Sep 2024 PIPE (APLD 10-K)"},{"from":"NVIDIA","to":"OpenAI","type":"framework_commitment","usd":100000000000.0,"tier":"press_reported","note":"~$100B LOI, NON-BINDING, $0 funded; absent from NVIDIA 10-Q"},{"from":"OpenAI","to":"CoreWeave","type":"purchase_commitment","usd":18400000000.0,"tier":"filing_verified","note":"$6.5B + $11.9B take-or-pay (CRWV 10-K)"},{"from":"Meta","to":"CoreWeave","type":"purchase_commitment","usd":14200000000.0,"tier":"filing_verified","note":"$14.2B through 2031 (CRWV 10-K)"},{"from":"Microsoft","to":"CoreWeave","type":"customer_revenue","usd":null,"tier":"filing_verified","note":"67% of CoreWeave revenue (CRWV 10-K)"},{"from":"Microsoft","to":"OpenAI","type":"equity_investment","usd":13000000000.0,"tier":"filing_verified","note":"$13B funding commitment, $11.8B funded (MSFT 10-Q)"},{"from":"CoreWeave","to":"Morgan Stanley","type":"lender","usd":null,"tier":"filing_verified","note":"agent/initial purchaser"},{"from":"CoreWeave","to":"Magnetar","type":"lender","usd":null,"tier":"filing_verified","note":"DDTL private credit"},{"from":"CoreWeave","to":"Blackstone","type":"lender","usd":null,"tier":"filing_verified","note":"private-credit anchor"},{"from":"CoreWeave","to":"Wilmington Trust","type":"lender","usd":null,"tier":"filing_verified","note":"trustee/collateral agent"},{"from":"TeraWulf","to":"Morgan Stanley","type":"lender","usd":null,"tier":"filing_verified","note":""},{"from":"TeraWulf","to":"Wilmington Trust","type":"lender","usd":null,"tier":"filing_verified","note":""},{"from":"Applied Digital","to":"Wilmington Trust","type":"lender","usd":null,"tier":"filing_verified","note":""},{"from":"Hut 8","to":"Coatue","type":"lender","usd":null,"tier":"filing_verified","note":""},{"from":"Hut 8","to":"Goldman Sachs","type":"lender","usd":null,"tier":"filing_verified","note":""},{"from":"Galaxy Digital","to":"Goldman Sachs","type":"lender","usd":null,"tier":"filing_verified","note":""},{"from":"Core Scientific","to":"Morgan Stanley","type":"lender","usd":null,"tier":"filing_verified","note":""},{"from":"Magnetar","to":"Apollo / Athene","type":"private_credit_funding","usd":null,"tier":"source_backed","note":"private-credit funded materially by insurance/pension"},{"from":"Blackstone","to":"Apollo / Athene","type":"private_credit_funding","usd":null,"tier":"source_backed","note":""},{"from":"Apollo / Athene","to":"Households / index","type":"policyholder_exposure","usd":null,"tier":"source_backed","note":"loss routes to policyholders/retirees"},{"from":"Apollo / Athene","to":"Pension funds","type":"policyholder_exposure","usd":null,"tier":"source_backed","note":""},{"from":"Morgan Stanley","to":"Pension funds","type":"syndication","usd":null,"tier":"source_backed","note":""},{"from":"Amazon Energy","to":"CoreWeave","type":"power_procurement","usd":null,"tier":"source_backed","note":"GDS chokepoint"},{"from":"Microsoft Energy","to":"CoreWeave","type":"power_procurement","usd":null,"tier":"source_backed","note":""},{"from":"Shell Energy","to":"TeraWulf","type":"power_procurement","usd":null,"tier":"source_backed","note":""},{"from":"Amazon Energy","to":"Applied Digital","type":"power_procurement","usd":null,"tier":"source_backed","note":""}],"cascade":{"trigger":"OpenAI","trigger_note":"Fragile demand leg withdraws: OpenAI is 56% of CoreWeave's named backlog and is capital-markets-dependent (not payable from operations).","honest_label":"GROSS UPPER BOUND -- this is CoreWeave's ENTIRE debt, NOT apportioned to OpenAI's revenue share. Microsoft (~67%) is the larger customer. Read as contagion SURFACE, not expected loss.","hops":[{"hop":1,"nodes":["CoreWeave"],"usd":25149000000.0,"label":"Directly hit: CoreWeave's full debt at risk"},{"hop":2,"nodes":["Morgan Stanley","Magnetar","Blackstone","Wilmington Trust","NVIDIA"],"label":"Lenders + NVIDIA's $2B equity stake exposed"},{"hop":3,"nodes":["Apollo / Athene","Pension funds","Households / index"],"label":"Private-credit funding routes the loss to policyholders / retirees"}]},"fragility":{"met":["duration: debt to 2030 outlives ~24mo GPU economic life","concentration: a single customer is >50% of revenue (CoreWeave 67%)"],"magnitude_only":["execution/satellite: 'no-change' conflates un-built with already-built (confounded)"],"no_binary":["recourse: mostly parent-equity, not SPV fire-sale","leveraged-tail size: small share of the universe"],"dimensions":[{"question":"Does the debt mature AFTER the GPU collateral is economically dead?","dimension":"asset_liability_duration_mismatch","measured":"peak debt horizon ~48mo vs ~24mo GPU economic life","first_principles_condition":"debt_horizon_months > gpu_economic_life_months","condition_met":true,"source_status":"source_backed","interpretation":"Met: the collateral is economically worthless ~24mo before the debt matures, so a secured lender cannot be made whole on the GPUs -- the defining structural mismatch."},{"question":"Does the loss ring-fence to SPV creditors, or reach parent equity?","dimension":"loss_incidence_recourse","measured":"9.1% of contract-verified facilities non-recourse; 72.7% full-recourse-to-parent","first_principles_condition":null,"condition_met":null,"source_status":"source_backed","interpretation":"No principled cutoff. The structural fact: the debt is MOSTLY parent-recourse, so the loss is absorbed by parent EQUITY, not ring-fenced into an SPV-illiquidity cascade. This CONTRADICTS the framework's pessimistic guess and is itself the finding -- the channel is equity wipeout, not SPV fire-sale contagion."},{"question":"Is any issuer's single-customer dependence at an EXISTENTIAL (>50%) level?","dimension":"customer_concentration","measured":"100.0% of issuers carry >35% single-customer concentration; max disclosed ~67.0% (CoreWeave/Microsoft)","first_principles_condition":"max_single_customer_revenue_pct > 50%","condition_met":true,"source_status":"source_backed","interpretation":"Existential concentration present: at least one issuer derives the MAJORITY of revenue from one customer (CoreWeave ~67% Microsoft) -- losing that customer removes most revenue against fixed debt service."},{"question":"Does the MAJORITY of announced capacity show no physical construction?","dimension":"execution_mismatch_physical","measured":"53.4% of 762 satellite-observed sites show NO change","first_principles_condition":null,"condition_met":null,"source_status":"source_backed","interpretation":"53.4% of observed sites show no inter-period change on Sentinel-2. This is a CONFOUNDED proxy, NOT proof of un-built capacity: 'no change' includes sites that are already built/operational (nothing left to change) as well as never-started ones, and carries cloud/seasonal noise. Read as a flag to pair with the construction-status proxy and permit/queue evidence -- it does not by itself meet a >50%-un-built tipping line, so it is reported as magnitude, not a satisfied condition."},{"question":"Is the leveraged tail large enough to be a SYSTEMIC (vs contained) risk?","dimension":"leveraged_tail_size","measured":"4.3% of 649 classified AI-infra entities are financed_ai_infra_leveraged","first_principles_condition":null,"condition_met":null,"source_status":"source_backed","interpretation":"No principled cutoff for 'systemic'. The magnitude: the leveraged tail is a SMALL share of the classified AI-infra universe, and the broad debt metric is dominated by non-AI debt -- so the loss is CONTAINED to a small, specific cluster rather than an ecosystem-wide tail. This contradicts the framework's pessimistic guess and reinforces the scoped (not ecosystem-wide) verdict."}]},"refi_wall":{"by_year":{"y2025":0.0,"y2026":6665769000.0,"y2027":7725070000.0,"y2028":4739899000.0,"y2029":5300834000.0,"y2030":10296438000.0,"y2031":4869199000.0,"y2032":3993400000.0,"y2033":1150000000.0,"y2034_plus":5542401000.0},"peak_year":"2030","near_term_window":"2025-Q3..2027-Q3 (engine peak ~2026-Q2)"},"chokepoints":{"power":["Amazon Energy","Microsoft Energy","Shell Energy"],"financing":["CoreWeave"]},"legend":{"node_types":{"issuer":"financed AI-compute issuer (the cluster)","supplier_investor":"NVIDIA -- supplier AND equity investor (circular)","fragile_offtaker":"capital-markets-dependent demand (OpenAI)","durable_offtaker":"hyperscaler demand (durable FCF)","lender":"lender / agent / trustee","end_holder":"ultimate downside bearer (insurer/pension/household)","energy_chokepoint":"power-procurement intermediary (GDS structural chokepoint)"},"fragility":"node color: green(safe)->red(fragile); size: exposure/committed debt","edge_tiers":{"filing_verified":"solid","press_reported":"dashed (NOT binding)","source_backed":"solid (aggregate)"}}}; // embedded core layer (field arrives via graph_data.json fetch)
+
+function frgColor(f){ f=Math.max(0,Math.min(1,f||0));
+  const a=[63,185,80], b=[210,153,34], c=[248,81,73];
+  const lo = f<0.5 ? a : b, hi = f<0.5 ? b : c, t = f<0.5 ? f/0.5 : (f-0.5)/0.5;
+  return 'rgb('+lo.map((x,i)=>Math.round(x+(hi[i]-x)*t)).join(',')+')'; }
+function mix(c1,c2,t){ return 'rgb('+c1.map((x,i)=>Math.round(x+(c2[i]-x)*t)).join(',')+')'; }
+function dimOf(rgb){ return rgb.replace('rgb(','rgba(').replace(')',',0.14)'); }
+function hiOf(rgb){ const m=rgb.match(/\d+/g).map(Number);
+  return 'rgb('+m.map(x=>Math.round(x+(255-x)*0.45)).join(',')+')'; }
+const riskColor = r => mix([51,66,90],[178,76,86], Math.max(0,Math.min(1,r)));
+const esc = s => String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
+const fmtB = x => x>=1e12 ? (x/1e12).toFixed(1)+'T' : x>=1e9 ? (x/1e9).toFixed(1)+'B' : (x/1e6).toFixed(0)+'M';
+function otherEnd(n,l){ const s=(l.source&&l.source.id)?l.source:byId[l.source];
+  const t=(l.target&&l.target.id)?l.target:byId[l.target];
+  return (s&&s.id)===n.id ? t : s; }
+
+const lid = l => (l.source && l.source.id) ? l.source.id : l.source;
+const ltd = l => (l.target && l.target.id) ? l.target.id : l.target;
+
+let G=null, meta=null, types={}, byId={}, casc=null, hops=[], trig='', deals=[];
+let cascadeOn=false, cascadeTimer=null, revealed=null;
+let sel=null; const hov={node:null, nodes:new Set(), links:new Set()};
+let live=null, pulseOn=false, pulseTimer=null;
+
+function activeSets(){ if(hov.node) return hov; if(sel) return sel; return null; }
+function nodeCol(n){
+  if(cascadeOn) return (revealed && revealed.has(n.id)) ? n.col : n.colDim;
+  const a = activeSets();
+  if(a) return a.nodes.has(n) ? (hov.node===n ? n.colHi : n.col) : n.colDim;
+  return (pulseOn && n.liveChg!=null && Math.abs(n.liveChg)>=2) ? n.colHi : n.col;
+}
+function cascL(l){ return cascadeOn && revealed && revealed.has(lid(l)) && revealed.has(ltd(l))
+  && casc.has(lid(l)) && casc.has(ltd(l)); }
+function linkCol(l){
+  if(cascadeOn) return cascL(l) ? '#f0883e' : '#141c28';
+  const a = activeSets();
+  if(!a) return l.rcol;
+  if(sel && !hov.node && sel.top.has(l)) return '#ffd166';
+  return a.links.has(l) ? l.rcolHi : '#16202e';
+}
+function linkW(l){
+  if(cascadeOn) return cascL(l) ? Math.max(1.8, l.wBase*1.2) : 0.25;
+  const a = activeSets();
+  if(!a) return l.wBase;
+  if(sel && !hov.node && sel.top.has(l)) return Math.max(2.6, l.wBase*1.4);
+  return a.links.has(l) ? Math.max(1.2, l.wBase*1.25) : 0.2;
+}
+function linkP(l){ return cascL(l) ? 4 : 0; }
+function refresh(){ G.nodeColor(G.nodeColor()).linkColor(G.linkColor())
+  .linkWidth(G.linkWidth()).linkDirectionalParticles(G.linkDirectionalParticles()); }
+
+function onHover(n){
+  if(cascadeOn) return;
+  if((!n && !hov.nodes.size) || (n && hov.node===n)) return;
+  hov.node = n||null; hov.nodes.clear(); hov.links.clear();
+  if(n){ hov.nodes.add(n); n.neighbors.forEach(x=>hov.nodes.add(x)); n.nlinks.forEach(x=>hov.links.add(x)); }
+  document.body.style.cursor = n ? 'pointer' : '';
+  refresh();
+}
+
+function camTo(pt, dist){
+  const r = Math.hypot(pt.x||0, pt.y||0, pt.z||0);
+  const p = r>1 ? { x:pt.x*(1+dist/r), y:pt.y*(1+dist/r), z:pt.z*(1+dist/r) } : { x:0, y:0, z:dist };
+  G.cameraPosition(p, pt, 900);
+}
+
+function focusNode(n){
+  showCard(n);
+  camTo(n, 130);
+  if(!cascadeOn){
+    const vl = n.nlinks.filter(l=>!l.field);
+    const top = (vl.length?vl:n.nlinks).slice().sort((x,y)=>(y.usd||0)-(x.usd||0)).slice(0,3);
+    sel = { node:n, nodes:new Set([n, ...n.neighbors]), links:new Set(n.nlinks), top:new Set(top) };
+    refresh();
+  }
+}
+
+function focusDeal(l){
+  dealCard(l);
+  const a = l.source, b = l.target;
+  if(a && a.id && b && b.id){
+    camTo({ x:(a.x+b.x)/2, y:(a.y+b.y)/2, z:(a.z+b.z)/2 }, 150);
+    if(!cascadeOn){
+      sel = { node:null, nodes:new Set([a,b]), links:new Set([l]), top:new Set([l]) };
+      refresh();
+    }
+  }
+}
+
+function showCard(n){
+  const card = document.getElementById('card');
+  const q = (live && live.quotes) ? live.quotes[n.id] : null;
+  const f8 = (live && live.edgar) ? live.edgar[n.id] : null;
+  const seen = new Set();
+  const mk = ls => ls.map(l => ({ o: otherEnd(n,l), usd:l.usd, fl:l.field }))
+    .filter(p => p.o && (seen.has(p.o.id) ? false : seen.add(p.o.id))).slice(0,5);
+  const byUsd = (a,b) => (b.usd||0)-(a.usd||0);
+  const vp = mk(n.nlinks.filter(l=>!l.field).sort(byUsd));
+  const fp = mk(n.nlinks.filter(l=>l.field).sort(byUsd).slice(0,5));
+  const chipsHtml = [...vp, ...(vp.length<5?fp.slice(0,5-vp.length):[])].map(p =>
+    '<button class="cpc" data-id="'+esc(p.o.id)+'">'+esc(p.o.label.length>30?p.o.label.slice(0,29)+'…':p.o.label)+
+    (p.usd ? ' · $'+fmtB(p.usd)+(p.fl?' raw':'') : '')+'</button>').join('');
+  card.innerHTML = '<div class="nm" style="color:'+(n.field?'#8fa8c4':n.col)+'">'+esc(n.label)+'</div>'+
+    '<div class="ty">'+(n.field ? 'extracted party · raw layer' : (types[n.type]||n.type))+'</div>'+
+    (n.note ? '<div class="nt">'+n.note+'</div>' : '')+
+    (n.usd ? '<div class="usd">$'+(n.usd/1e9).toFixed(1)+'B committed</div>' : '')+
+    (n.fieldDeals ? '<div class="fl">field: '+n.fieldDeals+' deals · $'+fmtB(n.fieldUsd||0)+' raw (unadjudicated)</div>' : '')+
+    ((q && typeof q.chg_pct==='number') ? '<div class="pl '+(q.chg_pct<0?'dn':'up')+'">'+q.sym+
+      ' $'+(+q.close).toFixed(2)+' · '+(q.chg_pct>=0?'+':'')+q.chg_pct.toFixed(1)+'%</div>' : '')+
+    ((f8 && f8.new_8k_7d) ? '<div class="fl">'+f8.new_8k_7d+' new 8-K · 7d</div>' : '')+
+    (chipsHtml ? '<div class="cps">'+chipsHtml+'</div>' : '');
+  card.style.display='block';
+}
+
+function dealTags(l){
+  const t=[];
+  if(l.press) t.push('non-binding · press-only');
+  if(l.circ) t.push('circular / vendor round-trip');
+  const a=byId[lid(l)], b=byId[ltd(l)];
+  if(a && b && a.frg>0.7 && b.frg>0.7) t.push('fragile both ends');
+  else if(a && b && Math.max(a.frg,b.frg)>0.8) t.push('fragile counterparty');
+  return t;
+}
+
+function dealCard(l){
+  const card = document.getElementById('card');
+  const bdg = l.field ? '<span class="bdg">raw extracted · unadjudicated</span>'
+            : l.tier==='filing_verified' ? '<span class="bdg ok">filing-verified</span>'
+            : l.press ? '<span class="bdg warn">press-only · non-binding</span>'
+            : '<span class="bdg">source-backed</span>';
+  const usdLine = !l.usd ? '' : l.field
+    ? '<div class="usd">$'+fmtB(l.usd)+' raw · '+(l.nd||1)+' deal'+((l.nd||1)>1?'s':'')+'</div>'
+    : '<div class="usd">$'+(l.usd/1e9).toFixed(1)+'B</div>';
+  card.innerHTML = '<div class="nm">'+esc(l.flabel)+' → '+esc(l.tlabel)+'</div>'+
+    '<div class="ty">'+(l.field ? 'collapsed deal link · obligor → risk-bearer' : l.type.replace(/_/g,' '))+'</div>'+
+    bdg + dealTags(l).map(t=>'<span class="bdg warn">'+t+'</span>').join('')+
+    usdLine+
+    (l.note ? '<div class="nt">'+l.note+'</div>' : '')+
+    '<div class="cps"><button class="cpc" data-id="'+esc(lid(l))+'">'+esc(l.flabel)+'</button>'+
+    '<button class="cpc" data-id="'+esc(ltd(l))+'">'+esc(l.tlabel)+'</button></div>';
+  card.style.display='block';
+}
+
+function shortList(ids){ const ns=ids.map(i=>byId[i]?byId[i].label:i);
+  return ns.length<=2 ? ns.join(' · ') : ns[0]+' +'+(ns.length-1); }
+
+function playCascade(){
+  const btn = document.getElementById('play'), ccline = document.getElementById('ccline');
+  if(cascadeOn){
+    cascadeOn=false; if(cascadeTimer){ clearInterval(cascadeTimer); cascadeTimer=null; }
+    revealed=null; btn.textContent='▶ Cascade'; ccline.style.opacity=0; refresh(); return;
+  }
+  cascadeOn=true; sel=null; hov.node=null; hov.nodes.clear(); hov.links.clear();
+  btn.textContent='⏹ Cascade';
+  revealed = new Set([trig]);
+  const caps = [ trig+' withdraws' ].concat(hops.map(h =>
+    h.hop+' · '+(h.usd ? '$'+(h.usd/1e9).toFixed(1)+'B · ' : '')+shortList(h.nodes||[])));
+  const dbn = (meta.cascade_debt_at_risk_usd||0)/1e9;
+  let step = 0;
+  ccline.style.opacity=1; ccline.innerHTML = caps[0]; refresh();
+  cascadeTimer = setInterval(()=>{
+    step++;
+    if(step <= hops.length){
+      (hops[step-1].nodes||[]).forEach(id=>revealed.add(id));
+      ccline.innerHTML = caps[step]; refresh();
+    } else {
+      clearInterval(cascadeTimer); cascadeTimer=null;
+      ccline.innerHTML = trig+' → CoreWeave → lenders → households · <b>$'+dbn.toFixed(1)+'B at risk</b> (gross upper bound)';
+    }
+  }, 1200);
+}
+
+function applyLive(lv){
+  live = lv || {}; let movers = 0;
+  Object.keys(byId).forEach(id => { const q = live.quotes && live.quotes[id];
+    byId[id].liveChg = (q && typeof q.chg_pct==='number') ? q.chg_pct : null;
+    if(byId[id].liveChg!=null && Math.abs(byId[id].liveChg)>=2) movers++; });
+  const t = Date.parse(live.generated_utc||'');
+  if(!isNaN(t)){
+    document.getElementById('lt').textContent = (live.generated_utc||'').slice(11,16)+'Z';
+    document.getElementById('ld').style.color = (Date.now()-t) < 150*60000 ? '#3fb950' : '#6b7785';
+    document.getElementById('livechip').style.display='';
+  }
+  if(movers && !pulseTimer) pulseTimer = setInterval(()=>{ pulseOn=!pulseOn;
+    if(!cascadeOn && !hov.node && !sel) G.nodeColor(G.nodeColor()); }, 900);
+}
+
+function fillChips(){
+  const $ = id => document.getElementById(id);
+  $('m1').textContent = '$'+((meta.committed_core_usd||0)/1e9).toFixed(1)+'B';
+  $('m2').textContent = '$'+((meta.original_inflated_basis_usd||0)/1e12).toFixed(2)+'T';
+  $('m2b').textContent = (meta.over_count_removed_pct||0).toFixed(0)+'%';
+  $('m3').textContent = '≈'+(meta.cluster_share_pct||0).toFixed(1)+'%';
+  $('m4').textContent = meta.core_confidence;
+  $('m5').textContent = meta.ecosystem_confidence;
+  $('m6').textContent = (meta.crack_window||'').split(' ')[0].replace('..','–');
+  $('c_core').title = 'Adjudicated committed debt of the financed AI-compute cluster ($'+
+    ((meta.committed_incl_infra_usd||0)/1e9).toFixed(1)+'B including infra) — evidence-gated, not the headline aggregate';
+  $('c_head').title = 'The inflated headline basis before adjudication — ~'+
+    (meta.over_count_removed_pct||0).toFixed(0)+'% was over-count (duplicates, non-binding frameworks, non-AI debt)';
+  $('c_cl').title = 'The leveraged cluster stays a small share of the classified AI-infra universe — bounded, not ecosystem-wide';
+  $('c_conf').title = 'Core verdict: bubble dynamics present @ '+meta.core_confidence+
+    ' confidence (financed compute cluster). Ecosystem-wide: NOT established @ '+meta.ecosystem_confidence+
+    ' — held there by design. Not a final high-confidence verdict.';
+  $('c_crack').title = meta.crack_window||'';
+}
+
+function boot(DATA){
+  meta = DATA.meta; types = (DATA.legend||{}).node_types || {};
+  const nodes = DATA.nodes.map(n => { const col = frgColor(n.fragility);
+    return { id:n.id, label:n.label||n.id, type:n.type, frg:n.fragility||0, usd:n.usd||0,
+      note:(n.note||'').split(/[.;]/)[0].trim(), col, colDim:dimOf(col), colHi:hiOf(col),
+      val:Math.max(1.2, Math.sqrt((n.usd||0)/1e9)*1.7), neighbors:[], nlinks:[] }; });
+  byId = {}; nodes.forEach(n => byId[n.id]=n);
+  const links = DATA.edges.map(e => {
+    const a=byId[e.from]||{}, b=byId[e.to]||{};
+    const press = e.tier==='press_reported';
+    const circ = e.type==='gpu_purchase' ||
+      (e.from==='NVIDIA' && (e.type==='equity_investment' || e.type==='framework_commitment'));
+    const risk = Math.min(1, 0.5*(((a.frg||0)+(b.frg||0))/2) + 0.35*(press?1:0) + 0.15*(circ?1:0));
+    const rc = riskColor(risk);
+    return { source:e.from, target:e.to, type:e.type, usd:e.usd, tier:e.tier, note:e.note||'',
+      press, circ, risk, flabel:a.label||e.from, tlabel:b.label||e.to,
+      rcol:rc, rcolHi:hiOf(rc),
+      wBase: press ? 0.6 : Math.min(3.2, Math.max(0.5, Math.sqrt((e.usd||0)/1e9)*0.45)) };
+  });
+  // FIELD merge: the full extracted contract universe rendered faint behind the core.
+  // Matched core entities anchor into the field; raw notionals stay labeled as raw.
+  const fld = DATA.field;
+  if (fld && fld.nodes && fld.links){
+    const fIds = fld.nodes.map((r,i)=> (r[3] && byId[r[3]]) ? r[3] : ('f'+i));
+    fld.nodes.forEach((r,i)=>{
+      const cid = r[3];
+      if (cid && byId[cid]){ byId[cid].fieldUsd=r[1]||0; byId[cid].fieldDeals=r[2]||0; return; }
+      const fn = { id:'f'+i, label:r[0]||'(unnamed party)', type:'field_entity', frg:0, usd:0,
+        fieldUsd:r[1]||0, fieldDeals:r[2]||0, field:true, note:'',
+        col:'rgba(72,92,120,0.45)', colDim:'rgba(72,92,120,0.06)', colHi:'#7d9cc0',
+        val:Math.max(0.08, Math.min(0.5, Math.log10(1+(r[1]||0))/20)), neighbors:[], nlinks:[] };
+      nodes.push(fn); byId[fn.id]=fn;
+    });
+    fld.links.forEach(r=>{
+      const a=fIds[r[0]], b=fIds[r[1]];
+      if(a===b || !byId[a] || !byId[b]) return;
+      links.push({ source:a, target:b, usd:r[2]||null, nd:r[3]||1, type:'deals',
+        tier:'raw_extracted', note:'', press:false, circ:false, risk:0, field:true,
+        flabel:byId[a].label, tlabel:byId[b].label,
+        rcol:'rgba(96,118,148,0.10)', rcolHi:'rgba(150,175,205,0.6)', wBase:0.25 });
+    });
+  }
+
+  links.forEach(l => { const a=byId[l.source], b=byId[l.target]; if(!a||!b) return;
+    a.neighbors.push(b); b.neighbors.push(a); a.nlinks.push(l); b.nlinks.push(l); });
+
+  trig = DATA.cascade.trigger;
+  casc = new Set([trig]);
+  (DATA.cascade.hops||[]).forEach(h => (h.nodes||[]).forEach(n => casc.add(n)));
+  hops = DATA.cascade.hops || [];
+
+  // always-on labels: the biggest entities + the cascade trigger and first hop
+  const labeled = new Set(nodes.slice().sort((a,b)=>b.usd-a.usd).slice(0,8).map(n=>n.id));
+  labeled.add(trig); (hops[0] && hops[0].nodes || []).forEach(id=>labeled.add(id));
+
+  G = ForceGraph3D()(document.getElementById('g'))
+    .backgroundColor('#05070c')
+    .warmupTicks(0)
+    .cooldownTicks(300)
+    .cooldownTime(8000)
+    .graphData({ nodes, links })
+    .nodeLabel(n => esc(n.label))
+    .nodeColor(nodeCol)
+    .nodeVal(n => n.val)
+    .nodeOpacity(0.95)
+    .nodeThreeObjectExtend(true)
+    .nodeThreeObject(n => {
+      if (typeof SpriteText === 'undefined' || !labeled.has(n.id)) return undefined;
+      const s = new SpriteText(n.label, 4.5, '#c9d4df');
+      s.material.depthWrite = false;
+      s.position.y = Math.cbrt(n.val)*4 + 6;
+      return s;
+    })
+    .linkColor(linkCol)
+    .linkWidth(linkW)
+    .linkLabel(l => esc(l.flabel)+' → '+esc(l.tlabel)+' · '+(l.field
+      ? (l.nd||1)+' deal'+((l.nd||1)>1?'s':'')+(l.usd ? ' · $'+fmtB(l.usd)+' raw' : '')
+      : l.type.replace(/_/g,' ')+(l.usd ? ' · $'+(l.usd/1e9).toFixed(1)+'B' : '')))
+    .linkDirectionalParticles(linkP)
+    .linkDirectionalParticleWidth(2.2)
+    .linkDirectionalParticleSpeed(0.012)
+    .onNodeHover(onHover)
+    .onNodeClick(focusNode)
+    .onLinkClick(focusDeal)
+    .onBackgroundClick(() => { document.getElementById('card').style.display='none';
+      sel=null; if(!cascadeOn) refresh(); });
+  G.d3Force('charge').strength(n => n.field ? -10 : -120);
+  G.d3Force('link').distance(l => l.field ? 30 : 70).strength(l => l.field ? 0.06 : 0.5);
+  G.d3AlphaDecay(0.03).d3VelocityDecay(0.42);
+  // land the camera on the verified core constellation; the field stays as backdrop
+  setTimeout(() => G.zoomToFit(800, 120, n => !n.field), 2200);
+  G.onEngineStop(() => {
+    if(!cascadeOn && !sel && !hov.node) G.zoomToFit(1000, 90, n => !n.field);
+  });
+
+  fillChips();
+  if (fld && fld.entities){
+    document.getElementById('m7').textContent = (fld.entities||0).toLocaleString('en-US');
+    document.getElementById('m8').textContent = (fld.deals||0).toLocaleString('en-US');
+    const fc = document.getElementById('c_field');
+    fc.style.display=''; fc.title = fld.note||'';
+  }
+  const caveats = (meta.honest_caveats||[]).concat(fld && fld.note ? [fld.note] : []);
+  const panel = document.getElementById('panel');
+  panel.innerHTML = '<h4>Honest caveats · red-teamed</h4><ul style="margin:0;padding-left:16px">'+
+    caveats.map(c=>'<li>'+c+'</li>').join('')+'</ul>';
+  document.getElementById('info').onclick = () => {
+    panel.style.display = panel.style.display==='block' ? 'none' : 'block';
+  };
+  document.getElementById('play').onclick = playCascade;
+
+  // riskiest-deals panel: risk desc, then size desc — derived from fragility, binding tier, circularity
+  deals = links.filter(l=>!l.field).sort((x,y)=> (y.risk-x.risk) || ((y.usd||0)-(x.usd||0))).slice(0,7);
+  const dp = document.getElementById('dpanel');
+  dp.innerHTML = '<h4>riskiest deals</h4>'+deals.map((l,i) =>
+    '<div class="deal" data-i="'+i+'"><div class="dl">'+(l.usd?'<b>$'+(l.usd/1e9).toFixed(1)+'B</b> ':'')+
+    l.flabel+' → '+l.tlabel+'</div><div class="dwhy">'+
+    [...dealTags(l), (l.note||'').split(/[.;(]/)[0].trim()].filter(Boolean).join(' · ')+'</div></div>').join('');
+  dp.addEventListener('click', e => {
+    const row = e.target.closest('.deal');
+    if(row && deals[+row.dataset.i]) focusDeal(deals[+row.dataset.i]);
+  });
+  document.getElementById('deals').onclick = () => {
+    dp.style.display = dp.style.display==='block' ? 'none' : 'block';
+  };
+
+  document.getElementById('card').addEventListener('click', e => {
+    const id = e.target && e.target.getAttribute && e.target.getAttribute('data-id');
+    if (id && byId[id]) focusNode(byId[id]);
+  });
+  window.addEventListener('resize', ()=> G.width(window.innerWidth).height(window.innerHeight));
+  fetch('live.json?v='+Date.now()).then(r => r.ok ? r.json() : Promise.reject())
+    .then(applyLive).catch(()=>{});
+}
+
+// Async-load the committed dataset (hourly-refreshable on GitHub Pages);
+// the embedded copy keeps the file self-contained for file:// opens.
+fetch('graph_data.json?v='+Date.now()).then(r => r.ok ? r.json() : Promise.reject())
+  .then(boot).catch(() => boot(EMBEDDED));
+</script>
 </body>
 </html>

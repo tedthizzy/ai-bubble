@@ -1,15 +1,17 @@
 # ai-bubble
 
-**Michael Burry-style, evidence-gated forensics on the AI / data-center / financing boom.**
+**Evidence-gated forensics on the AI / data-center / financing boom — the full extracted universe and the verified core, on one interactive map.**
 
 > **Is it a bubble? Yes — in the financed compute cluster. Bounded (~4% of the classified universe), not ecosystem-wide.**
 > Core verdict `bubble_dynamics_present` @ **0.67** · ecosystem verdict `not_established` @ **0.25** (held there by design) · high-confidence-final: **false**
 
 ## ▶ [Live interactive explorer](https://tedthizzy.github.io/ai-bubble/)
 
-[![The OpenAI → CoreWeave contagion cascade, hop by hop](docs/assets/hero_cascade.png)](https://tedthizzy.github.io/ai-bubble/immersive_3d.html)
+[![The full extracted universe — 7,708 entities and 62,939 deals — with the verified core highlighted](docs/assets/hero_universe.png)](https://tedthizzy.github.io/ai-bubble/)
 
-**Hover** an entity to light up its exposure neighborhood · **click** for its top-3 exposures + counterparty chips · **▶ Cascade** plays the contagion path hop by hop. A keyless market/filings overlay refreshes **hourly** via GitHub Actions (live prices on the public tickers, new-8-K counts); the adjudicated verdicts only change when the forensic engine re-runs. Four views, one verified dataset: [3D immersive](https://tedthizzy.github.io/ai-bubble/immersive_3d.html) · [cascade hero](https://tedthizzy.github.io/ai-bubble/cascade_hero.html) · [analyst explorer](https://tedthizzy.github.io/ai-bubble/analyst_explorer.html) · [dashboard](https://tedthizzy.github.io/ai-bubble/forensic_dashboard.html).
+One map, two layers. The faint **field** is the entire extracted contract universe from the source corpus — **7,708 entities, 62,939 deals** — at its RAW, unadjudicated notionals (the same inflated basis the adjudication stripped ~98% from). The bright **core** is what survived evidence-gating. **Hover** any entity to light up its exposure neighborhood · **click** for its top-3 exposures + counterparty chips · **⚠ Deals** ranks the riskiest deals (fragility × binding-tier × circularity) · **▶ Cascade** plays the contagion path hop by hop. A keyless market overlay refreshes **hourly** via GitHub Actions (live prices on the public tickers); the adjudicated verdicts only change when the forensic engine re-runs.
+
+[![The OpenAI → CoreWeave contagion cascade cutting through the raw field](docs/assets/hero_cascade.png)](https://tedthizzy.github.io/ai-bubble/)
 
 **What the engine found** (every figure evidence-gated, red-teamed, with the over-count stripped):
 

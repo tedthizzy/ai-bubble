@@ -4,7 +4,9 @@
 Single source of truth: pulls the honest, red-team-hardened scalars live from the
 latest evidence-gated report, and lays out the scoped financed-core graph (the
 ~4% cluster + its suppliers/investors/offtakers/lenders/end-holders + the energy
-chokepoints) with primary-source-verified amounts. Writes viz/burry_viz_data.json.
+chokepoints) with primary-source-verified amounts, PLUS the full extracted contract
+universe as a background "field" layer (raw, unadjudicated -- labeled as such).
+Writes viz/graph_data.json.
 
 The red-team fixes are first-class here so the visuals cannot paper over them:
 coverage 1.35x is a masking artifact (negative ex-CoreWeave); the cascade $ is a
@@ -220,6 +222,129 @@ refi = {
     "near_term_window": ct.get("near_term_pressure_window"),
 }
 
+# ---- FIELD: the full extracted contract universe (RAW, unadjudicated) ------------------
+# Background layer: every extracted entity and deal from the source corpus, collapsed
+# deal-by-deal from obligor -> risk-bearer. Notionals here are the RAW inflated basis
+# (the same basis adjudication stripped ~98% from); the viz labels them as such.
+CORE_ENTITY_PATTERNS: dict[str, list[str]] = {
+    "CoreWeave": ["coreweave"],
+    "TeraWulf": ["terawulf"],
+    "IREN": ["iren l"],
+    "Applied Digital": ["applied digital"],
+    "Hut 8": ["hut 8"],
+    "MARA Holdings": ["mara holdings", "marathon digital"],
+    "CleanSpark": ["cleanspark"],
+    "Galaxy Digital": ["galaxy digital", "galaxy helios"],
+    "Nebius": ["nebius"],
+    "Core Scientific": ["core scientific"],
+    "Cipher Mining": ["cipher mining"],
+    "Bit Digital": ["bit digital"],
+    "NVIDIA": ["nvidia"],
+    "OpenAI": ["openai", "open ai"],
+    "Microsoft": ["microsoft corp"],
+    "Microsoft Energy": ["microsoft energy"],
+    "Amazon Energy": ["amazon energy"],
+    "Shell Energy": ["shell energy"],
+    "Meta": ["meta platforms"],
+    "Morgan Stanley": ["morgan stanley"],
+    "Magnetar": ["magnetar"],
+    "Blackstone": ["blackstone"],
+    "Wilmington Trust": ["wilmington trust"],
+    "Goldman Sachs": ["goldman sachs"],
+    "Coatue": ["coatue"],
+    "Apollo / Athene": ["apollo global", "athene"],
+}
+
+
+def _build_field() -> dict[str, Any]:
+    import csv
+    from collections import defaultdict
+
+    nodes_csv = ROOT / "data/reports/capital_contract_nodes.csv"
+    edges_csv = ROOT / "data/reports/capital_contract_edges.csv"
+    if not (nodes_csv.exists() and edges_csv.exists()):
+        prev = ROOT / "viz" / "graph_data.json"
+        if prev.exists():
+            old = json.loads(prev.read_text()).get("field")
+            if old:
+                print("  field: source CSVs absent; preserved existing field layer")
+                return old
+        print("  field: source CSVs absent; emitting core-only dataset")
+        return {}
+
+    ent_name: dict[str, str] = {}
+    with nodes_csv.open() as fh:
+        for row in csv.DictReader(fh):
+            if row["node_type"] == "entity":
+                ent_name[row["node_id"]] = " ".join((row.get("name") or "").split())[:90]
+
+    obligors: dict[str, list[tuple[str, float]]] = defaultdict(list)
+    bearers: dict[str, list[tuple[str, float]]] = defaultdict(list)
+    deal_usd: dict[str, float] = {}
+    ent_deals: dict[str, set[str]] = defaultdict(set)
+    with edges_csv.open() as fh:
+        for row in csv.DictReader(fh):
+            rel = row["relationship_type"]
+            if rel not in ("OBLIGATED_UNDER_DEAL", "DEAL_RISK_BEARER"):
+                continue
+            deal = row["deal_id"]
+            try:
+                usd = float(row["notional_usd"] or 0)
+            except ValueError:
+                usd = 0.0
+            deal_usd[deal] = max(deal_usd.get(deal, 0.0), usd)
+            ent = row["source_id"] if rel == "OBLIGATED_UNDER_DEAL" else row["target_id"]
+            (obligors if rel == "OBLIGATED_UNDER_DEAL" else bearers)[deal].append((ent, usd))
+            if ent in ent_name:
+                ent_deals[ent].add(deal)
+
+    pair: dict[tuple[str, str], list[float]] = {}
+    all_deals = set(obligors) | set(bearers)
+    for deal in all_deals:
+        du = deal_usd.get(deal, 0.0)
+        obs = sorted(obligors.get(deal, ()), key=lambda x: -x[1])[:4]
+        brs = sorted(bearers.get(deal, ()), key=lambda x: -x[1])[:4]
+        for s, _su in obs:
+            for t, _tu in brs:
+                if s == t or s not in ent_name or t not in ent_name:
+                    continue
+                key = (s, t) if s < t else (t, s)
+                acc = pair.setdefault(key, [0.0, 0])
+                acc[0] += du
+                acc[1] += 1
+
+    lower_names = {eid: name.lower() for eid, name in ent_name.items()}
+    ent_usd = {eid: sum(deal_usd.get(d, 0.0) for d in ds) for eid, ds in ent_deals.items()}
+    core_of: dict[str, str] = {}
+    for core_id, pats in CORE_ENTITY_PATTERNS.items():
+        hits = [eid for eid, nm in lower_names.items() if any(p in nm for p in pats)]
+        if hits:
+            core_of[max(hits, key=lambda eid: ent_usd.get(eid, 0.0))] = core_id
+
+    ids = sorted(ent_name)
+    idx = {eid: i for i, eid in enumerate(ids)}
+    f_nodes = [
+        [ent_name[eid], round(ent_usd.get(eid, 0.0)), len(ent_deals.get(eid, ())),
+         core_of.get(eid, 0)]
+        for eid in ids
+    ]
+    f_links = [[idx[a], idx[b], round(v[0]), v[1]] for (a, b), v in pair.items()]
+    return {
+        "entities": len(ids),
+        "deals": len(all_deals),
+        "matched_core": len(core_of),
+        "nodes": f_nodes,
+        "links": f_links,
+        "note": (
+            "Background field = the FULL extracted contract graph from the source corpus: "
+            f"{len(ids):,} entities, {len(all_deals):,} deals collapsed obligor->risk-bearer "
+            "(top-4 parties per side). Field notionals are RAW and UNADJUDICATED -- the same "
+            "inflated basis the adjudication stripped ~98% from. Read field sizes as claimed "
+            "paper, not verified debt; the bright core is what survived evidence-gating."
+        ),
+    }
+
+
 out = {
     "meta": meta,
     "nodes": nodes,
@@ -227,6 +352,7 @@ out = {
     "cascade": cascade,
     "fragility": fragility,
     "refi_wall": refi,
+    "field": _build_field(),
     "chokepoints": {
         "power": ["Amazon Energy", "Microsoft Energy", "Shell Energy"],
         "financing": ["CoreWeave"],
@@ -247,9 +373,13 @@ out = {
     },
 }
 
-(ROOT / "viz" / "burry_viz_data.json").write_text(json.dumps(out, indent=2))
-print(f"wrote viz/burry_viz_data.json from {report_name}")
-print(f"  nodes={len(nodes)} edges={len(edges)} | core_conf={meta['core_confidence']} "
-      f"eco_conf={meta['ecosystem_confidence']} | cascade=${(meta['cascade_debt_at_risk_usd'] or 0)/1e9:.1f}B")
+(ROOT / "viz" / "graph_data.json").write_text(json.dumps(out, separators=(",", ":")))
+print(f"wrote viz/graph_data.json from {report_name}")
+fld = out["field"] or {}
+print(f"  core nodes={len(nodes)} edges={len(edges)} | field entities={fld.get('entities', 0)} "
+      f"deals={fld.get('deals', 0)} links={len(fld.get('links') or [])} "
+      f"core-matched={fld.get('matched_core', 0)}")
+print(f"  core_conf={meta['core_confidence']} eco_conf={meta['ecosystem_confidence']} "
+      f"| cascade=${(meta['cascade_debt_at_risk_usd'] or 0)/1e9:.1f}B")
 print(f"  committed core=${(meta['committed_core_usd'] or 0)/1e9:.1f}B incl=${(meta['committed_incl_infra_usd'] or 0)/1e9:.1f}B "
       f"over-count={meta['over_count_removed_pct']}% fragility_met={meta['fragility_conditions_met']}")

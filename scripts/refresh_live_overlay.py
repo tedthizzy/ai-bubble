@@ -7,7 +7,7 @@ Keyless public sources only (safe to run from GitHub Actions on a schedule):
 - SEC EDGAR submissions API for new 8-K counts (trailing 7 days) per cluster issuer;
   CIKs are resolved at runtime from SEC's own company_tickers.json (nothing hardcoded)
 
-The adjudicated forensic numbers in viz/burry_viz_data.json do NOT change here;
+The adjudicated forensic numbers in viz/graph_data.json do NOT change here;
 this overlay only adds freshness (prices, day moves, new filings) on top of the
 evidence-gated verdicts. If every source fails, the existing live.json is left
 untouched so the page never shows a falsely-advanced timestamp.
@@ -32,7 +32,7 @@ UA = {"User-Agent": "ai-bubble-live-overlay/1.0 (+https://github.com/tedthizzy/a
 # SEC fair-access policy wants a declared tool with a contact in the User-Agent.
 SEC_UA = {"User-Agent": "ai-bubble tedthizzy@users.noreply.github.com"}
 
-# node id (must match viz/burry_viz_data.json) -> (stooq symbol, yahoo symbol)
+# node id (must match viz/graph_data.json core nodes) -> (stooq symbol, yahoo symbol)
 TICKERS: dict[str, tuple[str, str]] = {
     "CoreWeave": ("crwv.us", "CRWV"),
     "TeraWulf": ("wulf.us", "WULF"),
