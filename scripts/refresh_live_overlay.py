@@ -77,6 +77,13 @@ EDGAR_TICKERS: dict[str, str] = {
     "Bit Digital": "BTBT",
 }
 
+# Adjacency-extension tickers (analysis/spacex_adjacency.md) -- NOT cluster nodes; quoted
+# into a separate live.json block so nothing conflates them with the adjudicated map.
+ADJACENT_TICKERS: dict[str, tuple[str, str]] = {
+    "SpaceX": ("spcx.us", "SPCX"),  # listed 2026-06-12 (xAI merged in 2026-02)
+    "Alphabet": ("googl.us", "GOOGL"),  # ~5% SpaceX holder AND $920M/mo compute customer
+}
+
 # FRED daily series (keyless CSV endpoint) -- the systemic leg of the marginal-buyer dial
 FRED_SERIES: dict[str, str] = {
     "hy_oas": "BAMLH0A0HYM2",  # ICE BofA US High Yield OAS, %
@@ -162,9 +169,9 @@ def _fetch_quote(stooq_sym: str, yahoo_sym: str) -> dict[str, Any] | None:
     return None
 
 
-def _quotes() -> dict[str, dict[str, Any]]:
+def _quotes_for(tickers: dict[str, tuple[str, str]]) -> dict[str, dict[str, Any]]:
     out: dict[str, dict[str, Any]] = {}
-    for node_id, (stooq_sym, yahoo_sym) in TICKERS.items():
+    for node_id, (stooq_sym, yahoo_sym) in tickers.items():
         quote = _fetch_quote(stooq_sym, yahoo_sym)
         if quote and quote["prev_close"]:
             quote["sym"] = yahoo_sym
@@ -173,6 +180,10 @@ def _quotes() -> dict[str, dict[str, Any]]:
             out[node_id] = quote
         time.sleep(0.25)
     return out
+
+
+def _quotes() -> dict[str, dict[str, Any]]:
+    return _quotes_for(TICKERS)
 
 
 def _edgar_ciks() -> dict[str, str]:
@@ -432,6 +443,7 @@ def main() -> int:
     edgar = _edgar_counts()
     credit = _credit()
     bdc = _bdc()
+    adjacent = _quotes_for(ADJACENT_TICKERS)
     latest_deal = _issuance_latest(credit)
     if not quotes and not edgar and not credit and not bdc:
         print("live overlay: every source failed; leaving existing live.json untouched")
@@ -442,6 +454,7 @@ def main() -> int:
         "edgar": edgar,
         "credit": credit,
         "bdc": bdc,
+        "adjacent": adjacent,
         "issuance_latest": latest_deal,
         "signals": _signals(credit, bdc, latest_deal),
     }
@@ -449,7 +462,8 @@ def main() -> int:
     (ROOT / "viz" / "banner.svg").write_text(_banner_svg(quotes, credit, bdc, latest_deal))
     print(
         f"wrote {OUT.relative_to(ROOT)} + viz/banner.svg: {len(quotes)} quotes, "
-        f"{len(edgar)} filing counts, {len(credit)} credit series, {len(bdc)} BDC marks"
+        f"{len(edgar)} filing counts, {len(credit)} credit series, {len(bdc)} BDC marks, "
+        f"{len(adjacent)} adjacent"
     )
     return 0
 
