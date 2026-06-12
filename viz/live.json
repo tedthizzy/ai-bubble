@@ -1,4 +1,20 @@
 {
+ "adjacent": {
+  "Alphabet": {
+   "chg_pct": 0.53,
+   "close": 359.67999267578125,
+   "date": "2026-06-12",
+   "prev_close": 357.7699890136719,
+   "sym": "GOOGL"
+  },
+  "SpaceX": {
+   "chg_pct": 19.22,
+   "close": 160.9499969482422,
+   "date": "2026-06-12",
+   "prev_close": 135.0,
+   "sym": "SPCX"
+  }
+ },
  "bdc": {
   "ARCC": {
    "close": 19.260000228881836,
@@ -48,7 +64,7 @@
   }
  },
  "edgar": {},
- "generated_utc": "2026-06-12T22:01:11Z",
+ "generated_utc": "2026-06-12T22:06:47Z",
  "issuance_latest": {
   "amount_usd": 900000000,
   "coupon_pct": 7.5,
