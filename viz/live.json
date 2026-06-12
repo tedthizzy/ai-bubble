@@ -1,6 +1,66 @@
 {
+ "bdc": {
+  "ARCC": {
+   "close": 19.260000228881836,
+   "date": "2026-06-12",
+   "discount_pct": 1.7,
+   "nav": 19.59,
+   "nav_asof": "2026-03-31"
+  },
+  "BXSL": {
+   "close": 23.850000381469727,
+   "date": "2026-06-12",
+   "discount_pct": 9.2,
+   "nav": 26.26,
+   "nav_asof": "2026-03-31"
+  },
+  "FSK": {
+   "close": 11.0600004196167,
+   "date": "2026-06-12",
+   "discount_pct": 41.3,
+   "nav": 18.83,
+   "nav_asof": "2026-03-31"
+  },
+  "OBDC": {
+   "close": 11.180000305175781,
+   "date": "2026-06-12",
+   "discount_pct": 22.4,
+   "nav": 14.41,
+   "nav_asof": "2026-03-31"
+  }
+ },
+ "credit": {
+  "ccc_minus_hy_pp": 6.78,
+  "ccc_oas": {
+   "date": "2026-06-11",
+   "value": 9.56,
+   "ytd_chg": 0.68
+  },
+  "hy_oas": {
+   "date": "2026-06-11",
+   "value": 2.78,
+   "ytd_chg": -0.05
+  },
+  "ust5y": {
+   "date": "2026-06-11",
+   "value": 4.18,
+   "ytd_chg": 0.44
+  }
+ },
  "edgar": {},
- "generated_utc": "2026-06-12T20:23:37Z",
+ "generated_utc": "2026-06-12T21:45:36Z",
+ "issuance_latest": {
+  "amount_usd": 900000000,
+  "coupon_pct": 7.5,
+  "date": "2026-06-02",
+  "issuer": "Elk Grove Village Property LLC (CoreWeave-linked data-center SPV)",
+  "maturity": "~2031",
+  "pricing": "par; SPV-level secured paper printing INSIDE the parent's 9.75% corporate level",
+  "source": "https://finance.yahoo.com/markets/stocks/articles/coreweave-crwv-subsidiary-raises-900-011330653.html",
+  "spread_vs_5y_bp": 332,
+  "tenor_yrs": 5,
+  "tier": "press_reported"
+ },
  "quotes": {
   "Apollo / Athene": {
    "chg_pct": -0.02,
@@ -135,5 +195,28 @@
    "prev_close": 25.350000381469727,
    "sym": "WULF"
   }
- }
+ },
+ "signals": [
+  {
+   "desc": "latest carded cluster print (Elk Grove Village Property LLC (CoreWeave-linked data-center SPV) 2026-06-02) ~332bp over 5y UST; <=600bp = window open (contra), >=800bp = cracking (confirming)",
+   "id": "S1_new_issue_spread",
+   "status": "contra",
+   "value_bp": 332
+  },
+  {
+   "ccc_minus_hy_pp": 6.78,
+   "ccc_oas": 9.56,
+   "desc": "CCC OAS YTD change +0.68pp; >=1.5pp = tail repricing (confirming), back <=0pp = contra",
+   "id": "S2_ccc_divergence",
+   "status": "neutral",
+   "ytd_chg_pp": 0.68
+  },
+  {
+   "desc": "worst top-4 BDC discount to reported NAV: FSK 41.3%; >=30% = funding-chain stress (confirming), all <10% = marginal-buyer stress killed (contra)",
+   "id": "S3_bdc_discounts",
+   "status": "confirming",
+   "worst": "FSK",
+   "worst_discount_pct": 41.3
+  }
+ ]
 }
