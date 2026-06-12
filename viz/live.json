@@ -1,136 +1,136 @@
 {
  "edgar": {},
- "generated_utc": "2026-06-12T13:39:43Z",
+ "generated_utc": "2026-06-12T17:13:28Z",
  "quotes": {
   "Apollo / Athene": {
-   "chg_pct": 0.14,
-   "close": 134.09500122070312,
+   "chg_pct": 1.3,
+   "close": 135.64500427246094,
    "date": "2026-06-12",
    "prev_close": 133.91000366210938,
    "sym": "APO"
   },
   "Applied Digital": {
-   "chg_pct": 4.34,
-   "close": 43.27000045776367,
+   "chg_pct": 6.15,
+   "close": 44.02000045776367,
    "date": "2026-06-12",
    "prev_close": 41.470001220703125,
    "sym": "APLD"
   },
   "Bit Digital": {
-   "chg_pct": 0.58,
-   "close": 1.7400000095367432,
+   "chg_pct": 2.6,
+   "close": 1.774999976158142,
    "date": "2026-06-12",
    "prev_close": 1.7300000190734863,
    "sym": "BTBT"
   },
   "Blackstone": {
-   "chg_pct": 0.75,
-   "close": 121.79000091552734,
+   "chg_pct": 2.1,
+   "close": 123.41999816894531,
    "date": "2026-06-12",
    "prev_close": 120.87999725341797,
    "sym": "BX"
   },
   "Cipher Mining": {
-   "chg_pct": 8.0,
-   "close": 24.440000534057617,
+   "chg_pct": 10.96,
+   "close": 25.11009979248047,
    "date": "2026-06-12",
    "prev_close": 22.6299991607666,
    "sym": "CIFR"
   },
   "CleanSpark": {
-   "chg_pct": 1.61,
-   "close": 16.43000030517578,
+   "chg_pct": 1.42,
+   "close": 16.399999618530273,
    "date": "2026-06-12",
    "prev_close": 16.170000076293945,
    "sym": "CLSK"
   },
   "Core Scientific": {
-   "chg_pct": 3.56,
-   "close": 28.190000534057617,
+   "chg_pct": 3.2,
+   "close": 28.09000015258789,
    "date": "2026-06-12",
    "prev_close": 27.219999313354492,
    "sym": "CORZ"
   },
   "CoreWeave": {
-   "chg_pct": 3.23,
-   "close": 98.83000183105469,
+   "chg_pct": 9.09,
+   "close": 104.44000244140625,
    "date": "2026-06-12",
    "prev_close": 95.73999786376953,
    "sym": "CRWV"
   },
   "Galaxy Digital": {
-   "chg_pct": 0.53,
-   "close": 33.44499969482422,
+   "chg_pct": 0.39,
+   "close": 33.400001525878906,
    "date": "2026-06-12",
    "prev_close": 33.27000045776367,
    "sym": "GLXY"
   },
   "Goldman Sachs": {
-   "chg_pct": 1.76,
-   "close": 1053.885009765625,
+   "chg_pct": 2.76,
+   "close": 1064.2550048828125,
    "date": "2026-06-12",
    "prev_close": 1035.6400146484375,
    "sym": "GS"
   },
   "Hut 8": {
-   "chg_pct": 2.02,
-   "close": 118.65499877929688,
+   "chg_pct": 3.61,
+   "close": 120.51180267333984,
    "date": "2026-06-12",
    "prev_close": 116.30999755859375,
    "sym": "HUT"
   },
   "IREN": {
-   "chg_pct": 3.32,
-   "close": 58.59000015258789,
+   "chg_pct": 7.07,
+   "close": 60.720001220703125,
    "date": "2026-06-12",
    "prev_close": 56.709999084472656,
    "sym": "IREN"
   },
   "MARA Holdings": {
-   "chg_pct": 2.5,
-   "close": 13.949999809265137,
+   "chg_pct": 2.94,
+   "close": 14.010100364685059,
    "date": "2026-06-12",
    "prev_close": 13.609999656677246,
    "sym": "MARA"
   },
   "Meta": {
-   "chg_pct": 0.47,
-   "close": 571.0800170898438,
+   "chg_pct": 0.05,
+   "close": 568.72998046875,
    "date": "2026-06-12",
    "prev_close": 568.4299926757812,
    "sym": "META"
   },
   "Microsoft": {
-   "chg_pct": -1.42,
-   "close": 384.79998779296875,
+   "chg_pct": -0.63,
+   "close": 387.8900146484375,
    "date": "2026-06-12",
    "prev_close": 390.3399963378906,
    "sym": "MSFT"
   },
   "Morgan Stanley": {
-   "chg_pct": 1.46,
-   "close": 215.77000427246094,
+   "chg_pct": 0.78,
+   "close": 214.32000732421875,
    "date": "2026-06-12",
    "prev_close": 212.66000366210938,
    "sym": "MS"
   },
   "NVIDIA": {
-   "chg_pct": 0.47,
-   "close": 205.8251953125,
+   "chg_pct": -0.02,
+   "close": 204.83140563964844,
    "date": "2026-06-12",
    "prev_close": 204.8699951171875,
    "sym": "NVDA"
   },
   "Nebius": {
-   "chg_pct": 2.5,
-   "close": 227.8000030517578,
+   "chg_pct": 6.81,
+   "close": 237.375,
    "date": "2026-06-12",
    "prev_close": 222.24000549316406,
    "sym": "NBIS"
   },
   "TeraWulf": {
-   "chg_pct": 3.04,
-   "close": 26.1200008392334,
+   "chg_pct": 3.77,
+   "close": 26.30500030517578,
    "date": "2026-06-12",
    "prev_close": 25.350000381469727,
    "sym": "WULF"
