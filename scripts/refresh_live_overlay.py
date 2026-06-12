@@ -6,6 +6,11 @@ Keyless public sources only (safe to run from GitHub Actions on a schedule):
   (Yahoo chart API as a per-ticker fallback)
 - SEC EDGAR submissions API for new 8-K counts (trailing 7 days) per cluster issuer;
   CIKs are resolved at runtime from SEC's own company_tickers.json (nothing hardcoded)
+- FRED CSV endpoint (keyless) for the credit dial: HY OAS, CCC OAS, 5y UST
+- Listed-BDC closes vs hand-carded reported quarterly NAVs (the marginal-buyer
+  discount series) and hand-carded cluster new-issue prints
+  (analysis/issuance_cards.json) -> auto-evaluation of the pre-registered thesis
+  signals defined in analysis/preregistered_signals.md
 
 The adjudicated forensic numbers in viz/graph_data.json do NOT change here;
 this overlay only adds freshness (prices, day moves, new filings) on top of the
@@ -72,6 +77,37 @@ EDGAR_TICKERS: dict[str, str] = {
     "Bit Digital": "BTBT",
 }
 
+# FRED daily series (keyless CSV endpoint) -- the systemic leg of the marginal-buyer dial
+FRED_SERIES: dict[str, str] = {
+    "hy_oas": "BAMLH0A0HYM2",  # ICE BofA US High Yield OAS, %
+    "ccc_oas": "BAMLH0A3HYC",  # ICE BofA CCC & Lower OAS, %
+    "ust5y": "DGS5",  # 5-Year Treasury constant maturity, %
+}
+
+# Listed-BDC marginal-buyer proxies: live close vs last REPORTED quarterly NAV.
+# NAVs are hand-carded each quarter from the issuers' Q results (sources + re-carding
+# protocol: analysis/preregistered_signals.md). Discount = 1 - close/NAV.
+BDC_TICKERS: dict[str, tuple[str, str]] = {
+    "OBDC": ("obdc.us", "OBDC"),
+    "ARCC": ("arcc.us", "ARCC"),
+    "BXSL": ("bxsl.us", "BXSL"),
+    "FSK": ("fsk.us", "FSK"),
+}
+BDC_NAV: dict[str, tuple[float, str]] = {
+    "OBDC": (14.41, "2026-03-31"),
+    "ARCC": (19.59, "2026-03-31"),
+    "BXSL": (26.26, "2026-03-31"),
+    "FSK": (18.83, "2026-03-31"),
+}
+
+# Pre-registered signal thresholds (registered 2026-06-12; derivations and the compound
+# kill criteria live in analysis/preregistered_signals.md -- change them THERE first).
+SPREAD_OPEN_BP = 600  # cluster prints cleared ~350-575bp at registration: window open at/below
+SPREAD_CRACK_BP = 800  # pre-distress warning band (ICE distress convention ~1000bp OAS)
+CCC_WIDEN_PP = 1.5  # ~2x the CCC YTD divergence observed at registration (+0.71pp)
+BDC_STRESS_PCT = 30.0  # exceeds the worst top-4 discount seen this cycle at registration (~23%)
+BDC_CALM_PCT = 10.0  # normal-times BDC discounts run 0-10%
+
 
 def _get(url: str, timeout: float = 20.0, headers: dict[str, str] | None = None) -> str:
     req = urllib.request.Request(url, headers=headers or UA)
@@ -115,17 +151,21 @@ def _yahoo(sym: str) -> dict[str, Any] | None:
     return {"close": float(closes[-1]), "prev_close": float(closes[-2]), "date": date}
 
 
+def _fetch_quote(stooq_sym: str, yahoo_sym: str) -> dict[str, Any] | None:
+    for fetch, sym in ((_stooq, stooq_sym), (_yahoo, yahoo_sym)):
+        try:
+            quote = fetch(sym)
+        except Exception:
+            quote = None
+        if quote:
+            return quote
+    return None
+
+
 def _quotes() -> dict[str, dict[str, Any]]:
     out: dict[str, dict[str, Any]] = {}
     for node_id, (stooq_sym, yahoo_sym) in TICKERS.items():
-        quote = None
-        for fetch, sym in ((_stooq, stooq_sym), (_yahoo, yahoo_sym)):
-            try:
-                quote = fetch(sym)
-            except Exception:
-                quote = None
-            if quote:
-                break
+        quote = _fetch_quote(stooq_sym, yahoo_sym)
         if quote and quote["prev_close"]:
             quote["sym"] = yahoo_sym
             chg = (quote["close"] - quote["prev_close"]) / quote["prev_close"] * 100.0
@@ -169,7 +209,159 @@ def _edgar_counts() -> dict[str, dict[str, int]]:
     return out
 
 
-def _banner_svg(quotes: dict[str, dict[str, Any]]) -> str:
+def _fred(series_id: str) -> dict[str, Any] | None:
+    """Latest + YTD change of a FRED daily series (keyless CSV endpoint).
+
+    The request is bounded to the year-to-date window via `cosd` -- unbounded pulls of
+    long series (e.g. DGS5, daily since 1962) time out server-side.
+    """
+    start = f"{datetime.now(UTC).year}-01-01"
+    url = f"https://fred.stlouisfed.org/graph/fredgraph.csv?id={series_id}&cosd={start}"
+    rows = list(csv.reader(io.StringIO(_get(url))))
+    vals = [(r[0], float(r[1])) for r in rows[1:] if len(r) >= 2 and r[1] not in (".", "")]
+    if not vals:
+        return None
+    last_date, last = vals[-1]
+    return {"value": last, "date": last_date, "ytd_chg": round(last - vals[0][1], 2)}
+
+
+def _credit() -> dict[str, Any]:
+    """HY/CCC OAS + 5y UST -- is the credit market pricing ANY of the measured fragility?"""
+    out: dict[str, Any] = {}
+    for key, sid in FRED_SERIES.items():
+        try:
+            point = _fred(sid)
+        except Exception:
+            point = None
+        if point:
+            out[key] = point
+        time.sleep(0.2)
+    if "hy_oas" in out and "ccc_oas" in out:
+        out["ccc_minus_hy_pp"] = round(out["ccc_oas"]["value"] - out["hy_oas"]["value"], 2)
+    return out
+
+
+def _bdc() -> dict[str, dict[str, Any]]:
+    """Listed BDC closes vs last reported quarterly NAV -> live funding-chain discount series."""
+    out: dict[str, dict[str, Any]] = {}
+    for sym, (stooq_sym, yahoo_sym) in BDC_TICKERS.items():
+        quote = _fetch_quote(stooq_sym, yahoo_sym)
+        nav, nav_asof = BDC_NAV[sym]
+        if quote and quote.get("close"):
+            out[sym] = {
+                "close": quote["close"],
+                "date": quote.get("date", ""),
+                "nav": nav,
+                "nav_asof": nav_asof,
+                "discount_pct": round((1.0 - quote["close"] / nav) * 100.0, 1),
+            }
+        time.sleep(0.25)
+    return out
+
+
+def _issuance_latest(credit: dict[str, Any]) -> dict[str, Any] | None:
+    """Most recent hand-carded cluster new-issue print, + spread vs 5y UST if available."""
+    path = ROOT / "analysis" / "issuance_cards.json"
+    try:
+        deals = json.loads(path.read_text())["deals"]
+    except Exception:
+        return None
+    if not deals:
+        return None
+    latest = max(deals, key=lambda d: d.get("date", ""))
+    ust = (credit.get("ust5y") or {}).get("value")
+    if ust is not None and latest.get("coupon_pct") is not None:
+        latest = {**latest, "spread_vs_5y_bp": round((latest["coupon_pct"] - ust) * 100)}
+    return latest
+
+
+def _signals(
+    credit: dict[str, Any],
+    bdc: dict[str, dict[str, Any]],
+    latest_deal: dict[str, Any] | None,
+) -> list[dict[str, Any]]:
+    """Auto-evaluable components of the pre-registered thesis signals.
+
+    status: 'confirming' = marginal-buyer-crack evidence; 'contra' = funding-window-open
+    evidence (the timing-kill direction); 'neutral' = between thresholds. These evaluate
+    COMPONENTS only -- the compound confirm/kill criteria (with dates) are defined in
+    analysis/preregistered_signals.md and adjudicated there, not here.
+    """
+    sigs: list[dict[str, Any]] = []
+    spread = (latest_deal or {}).get("spread_vs_5y_bp")
+    if latest_deal is not None and spread is not None:
+        if spread >= SPREAD_CRACK_BP:
+            status = "confirming"
+        elif spread <= SPREAD_OPEN_BP:
+            status = "contra"
+        else:
+            status = "neutral"
+        sigs.append(
+            {
+                "id": "S1_new_issue_spread",
+                "status": status,
+                "value_bp": spread,
+                "desc": (
+                    f"latest carded cluster print ({latest_deal.get('issuer', '?')} "
+                    f"{latest_deal.get('date', '?')}) ~{spread}bp over 5y UST; "
+                    f"<={SPREAD_OPEN_BP}bp = window open (contra), "
+                    f">={SPREAD_CRACK_BP}bp = cracking (confirming)"
+                ),
+            }
+        )
+    ccc = credit.get("ccc_oas") or {}
+    ytd = ccc.get("ytd_chg")
+    if ytd is not None:
+        if ytd >= CCC_WIDEN_PP:
+            status = "confirming"
+        elif ytd <= 0:
+            status = "contra"
+        else:
+            status = "neutral"
+        sigs.append(
+            {
+                "id": "S2_ccc_divergence",
+                "status": status,
+                "ccc_oas": ccc.get("value"),
+                "ytd_chg_pp": ytd,
+                "ccc_minus_hy_pp": credit.get("ccc_minus_hy_pp"),
+                "desc": (
+                    f"CCC OAS YTD change {ytd:+.2f}pp; >={CCC_WIDEN_PP}pp = tail repricing "
+                    "(confirming), back <=0pp = contra"
+                ),
+            }
+        )
+    if bdc:
+        worst_sym, worst = max(bdc.items(), key=lambda kv: kv[1]["discount_pct"])
+        worst_disc = worst["discount_pct"]
+        if worst_disc >= BDC_STRESS_PCT:
+            status = "confirming"
+        elif worst_disc < BDC_CALM_PCT:
+            status = "contra"
+        else:
+            status = "neutral"
+        sigs.append(
+            {
+                "id": "S3_bdc_discounts",
+                "status": status,
+                "worst": worst_sym,
+                "worst_discount_pct": worst_disc,
+                "desc": (
+                    f"worst top-4 BDC discount to reported NAV: {worst_sym} {worst_disc:.1f}%; "
+                    f">={BDC_STRESS_PCT:.0f}% = funding-chain stress (confirming), "
+                    f"all <{BDC_CALM_PCT:.0f}% = marginal-buyer stress killed (contra)"
+                ),
+            }
+        )
+    return sigs
+
+
+def _banner_svg(
+    quotes: dict[str, dict[str, Any]],
+    credit: dict[str, Any] | None = None,
+    bdc: dict[str, dict[str, Any]] | None = None,
+    latest_deal: dict[str, Any] | None = None,
+) -> str:
     """Self-rendering status banner, embedded in the GitHub profile README via Pages."""
     meta: dict[str, Any] = {}
     field: dict[str, Any] = {}
@@ -196,9 +388,29 @@ def _banner_svg(quotes: dict[str, dict[str, Any]]) -> str:
         for _nid, q in movers
     )
     font = "ui-sans-serif,system-ui,sans-serif"
+    dial_bits: list[str] = []
+    hy = ((credit or {}).get("hy_oas") or {}).get("value")
+    ccc = (credit or {}).get("ccc_oas") or {}
+    if hy is not None:
+        dial_bits.append(f"HY {hy:.2f}%")
+    if ccc.get("value") is not None:
+        ytd = ccc.get("ytd_chg")
+        suffix = f" ({'+' if ytd >= 0 else ''}{round(ytd * 100)}bp YTD)" if ytd is not None else ""
+        dial_bits.append(f"CCC {ccc['value']:.2f}%{suffix}")
+    if bdc:
+        worst_sym, worst = max(bdc.items(), key=lambda kv: kv[1]["discount_pct"])
+        dial_bits.append(f"{worst_sym} \u2212{worst['discount_pct']:.0f}% NAV")
+    if latest_deal and latest_deal.get("spread_vs_5y_bp") is not None:
+        dial_bits.append(f"latest print +{latest_deal['spread_vs_5y_bp']}bp")
+    dial = (
+        f' <text x="24" y="106" font-family="{font}" font-size="12" fill="#9aa7b4">'
+        f'<tspan fill="#5d6a77">credit dial</tspan>  {" · ".join(dial_bits)}</text>\n'
+        if dial_bits
+        else ""
+    )
     return (
-        '<svg xmlns="http://www.w3.org/2000/svg" width="860" height="104" viewBox="0 0 860 104">\n'
-        ' <rect x="1" y="1" width="858" height="102" rx="12" fill="#0c1420" stroke="#223344"/>\n'
+        '<svg xmlns="http://www.w3.org/2000/svg" width="860" height="126" viewBox="0 0 860 126">\n'
+        ' <rect x="1" y="1" width="858" height="124" rx="12" fill="#0c1420" stroke="#223344"/>\n'
         f' <text x="24" y="32" font-family="{font}" font-size="15" font-weight="700" fill="#e6edf3">'
         f'AI BUBBLE<tspan fill="#5d6a77" font-weight="400"> · evidence-gated map · '
         f"{ents:,} entities · {deals:,} deals</tspan></text>\n"
@@ -208,7 +420,8 @@ def _banner_svg(quotes: dict[str, dict[str, Any]]) -> str:
         f"(~{cut:.0f}% over-count) · bubble <tspan fill=\"#ffd166\">{meta.get('core_confidence')}</tspan> "
         f"· ecosystem <tspan fill=\"#f0883e\">{meta.get('ecosystem_confidence')}</tspan> · not final</text>\n"
         f' <text x="24" y="84" font-family="{font}" font-size="13" font-weight="600">{tspans}</text>\n'
-        f' <text x="836" y="84" text-anchor="end" font-family="{font}" font-size="11" fill="#6b7785">'
+        f"{dial}"
+        f' <text x="836" y="106" text-anchor="end" font-family="{font}" font-size="11" fill="#6b7785">'
         f"live · {stamp}</text>\n"
         "</svg>\n"
     )
@@ -217,17 +430,27 @@ def _banner_svg(quotes: dict[str, dict[str, Any]]) -> str:
 def main() -> int:
     quotes = _quotes()
     edgar = _edgar_counts()
-    if not quotes and not edgar:
+    credit = _credit()
+    bdc = _bdc()
+    latest_deal = _issuance_latest(credit)
+    if not quotes and not edgar and not credit and not bdc:
         print("live overlay: every source failed; leaving existing live.json untouched")
         return 0
     payload = {
         "generated_utc": datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "quotes": quotes,
         "edgar": edgar,
+        "credit": credit,
+        "bdc": bdc,
+        "issuance_latest": latest_deal,
+        "signals": _signals(credit, bdc, latest_deal),
     }
     OUT.write_text(json.dumps(payload, indent=1, sort_keys=True) + "\n")
-    (ROOT / "viz" / "banner.svg").write_text(_banner_svg(quotes))
-    print(f"wrote {OUT.relative_to(ROOT)} + viz/banner.svg: {len(quotes)} quotes, {len(edgar)} filing counts")
+    (ROOT / "viz" / "banner.svg").write_text(_banner_svg(quotes, credit, bdc, latest_deal))
+    print(
+        f"wrote {OUT.relative_to(ROOT)} + viz/banner.svg: {len(quotes)} quotes, "
+        f"{len(edgar)} filing counts, {len(credit)} credit series, {len(bdc)} BDC marks"
+    )
     return 0
 
 

@@ -74,6 +74,7 @@
     <span class="chip" id="c_crack">crack <b id="m6"></b></span>
     <span class="chip" id="c_field" style="display:none">field <b id="m7"></b> entities · <b id="m8"></b> deals</span>
     <span class="chip lv" id="livechip" style="display:none"><span id="ld" style="color:#3fb950">●</span> <b id="lt"></b></span>
+    <span class="chip" id="creditchip" style="display:none" title="marginal-buyer dial — HY/CCC OAS (FRED) · worst top-4 BDC discount to last reported NAV · latest carded cluster new-issue print vs 5y UST. Market observables, NOT adjudicated evidence; thresholds pre-registered in analysis/preregistered_signals.md">credit <b id="cd1"></b></span>
   </div>
 </div>
 <div class="scale">safe <i></i> fragile · size = $ · width = deal size · color = deal risk · faint = raw extracted field</div>
@@ -275,6 +276,22 @@ function applyLive(lv){
     document.getElementById('ld').style.color = (Date.now()-t) < 150*60000 ? '#3fb950' : '#6b7785';
     document.getElementById('livechip').style.display='';
   }
+  const cr = live.credit||{}, bdcs = live.bdc||{};
+  const hy = cr.hy_oas && cr.hy_oas.value, ccc = cr.ccc_oas && cr.ccc_oas.value;
+  if(hy!=null || ccc!=null){
+    const bits = [];
+    if(hy!=null) bits.push('HY '+hy.toFixed(2)+'%');
+    if(ccc!=null){ const y = cr.ccc_oas.ytd_chg;
+      bits.push('CCC '+ccc.toFixed(2)+'%'+(typeof y==='number' ? ' ('+(y>=0?'+':'')+Math.round(y*100)+'bp YTD)' : '')); }
+    const ds = Object.entries(bdcs).filter(([,b])=>typeof b.discount_pct==='number');
+    if(ds.length){ const w = ds.reduce((a,b)=> b[1].discount_pct>a[1].discount_pct?b:a);
+      bits.push(w[0]+' −'+w[1].discount_pct.toFixed(0)+'% NAV'); }
+    const il = live.issuance_latest;
+    if(il && typeof il.spread_vs_5y_bp==='number') bits.push('print +'+il.spread_vs_5y_bp+'bp');
+    const cd = document.getElementById('cd1'); cd.textContent = bits.join(' · ');
+    if((live.signals||[]).some(s=>s.status==='confirming')) cd.style.color = '#f0883e';
+    document.getElementById('creditchip').style.display='';
+  }
   if(movers && !pulseTimer) pulseTimer = setInterval(()=>{ pulseOn=!pulseOn;
     if(!cascadeOn && !hov.node && !sel) G.nodeColor(G.nodeColor()); }, 900);
 }
@@ -421,7 +438,8 @@ function boot(DATA){
     const fc = document.getElementById('c_field');
     fc.style.display=''; fc.title = fld.note||'';
   }
-  const caveats = (meta.honest_caveats||[]).concat(fld && fld.note ? [fld.note] : []);
+  const caveats = (meta.honest_caveats||[]).concat(fld && fld.note ? [fld.note] : [])
+    .concat(['The credit chip (HY/CCC OAS, BDC discounts to reported NAV, latest carded new-issue print) is a market-observables overlay -- press/market tier, NOT adjudicated evidence. Its thresholds are pre-registered, and the steelman bull case + thesis kill criteria live in analysis/ in the repo.']);
   const panel = document.getElementById('panel');
   panel.innerHTML = '<h4>Honest caveats · red-teamed</h4><ul style="margin:0;padding-left:16px">'+
     caveats.map(c=>'<li>'+c+'</li>').join('')+'</ul>';

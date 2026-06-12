@@ -21,7 +21,13 @@ One map, two layers. The faint **field** is the entire extracted contract univer
 - Crack window **2025-Q3..2027-Q3** (engine peak ~2026-Q2); refi wall peaks 2030
 - Honest caveats are first-class — the **"i"** button in every view: the 1.35x coverage ratio is a masking artifact (negative ex-CoreWeave); the satellite "un-built" proxy is confounded; the ecosystem gate is deliberately capped at 0.25
 
-**What's in this repo:** the full forensic engine (`src/bubble/`), the evidence-gated report it produced (`data/published/`), the interactive viz + its verified dataset (`viz/`), worker-verified handoff datasets (`handoffs/`), and the test suite. The ~40GB raw EDGAR corpus is **not** committed — it is re-fetchable public SEC data via `scripts/`, and every claim in the report carries source provenance.
+**The market-facing layer** (added June 2026 — the forensics above measure reality; this measures what the market *believes*, and the gap is the thesis):
+
+- [What the market prices vs. what we measured](analysis/expectations_vs_measured.md) — cluster equity has partially converged (CRWV ≈ −47% off peak, elevated short interest), cluster **primary credit prices essentially none of the measured fragility** (9.75% '31 paper at par, 3x books, ABS compressing), while the **funding chain's own investors are converging first** (top-4 BDC discounts to reported NAV up to ~41%, widespread private-credit redemptions)
+- [The steelman bull case](analysis/bull_case.md) — the ideological Turing test: the strongest case that the cluster survives, written to be signable by a smart bull
+- [Pre-registered signals](analysis/preregistered_signals.md) — dated confirm/kill criteria, **including the conditions under which our own timing is wrong**; the quantitative components auto-evaluate hourly into the explorer's **credit** chip and the banner's credit dial
+
+**What's in this repo:** the full forensic engine (`src/bubble/`), the evidence-gated report it produced (`data/published/`), the interactive viz + its verified dataset (`viz/`), worker-verified handoff datasets (`handoffs/`), the market-facing layer (`analysis/`), and the test suite. The ~40GB raw EDGAR corpus is **not** committed — it is re-fetchable public SEC data via `scripts/`, and every claim in the report carries source provenance.
 
 ---
 
