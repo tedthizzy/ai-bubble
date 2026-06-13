@@ -81,4 +81,13 @@ Actually *testing* the "cheap open-work" sources walked several of them INTO the
 
 **Revised honest score:** the truly **keyless-free *autonomous* tier is essentially EXHAUSTED** — EDGAR + FDIC + GDELT *were* that tier, and they are done/running. **Everything remaining requires an operator-provided resource:** a free API key the human registers (FRED, PatentsView — the cheapest unlock), payment (PACER, NAIC, customs, ratings, transcripts), or directed effort against anti-bot/fragmentation (FERC, WARN, deeds). This is the real boundary, now *probe-verified* rather than asserted: "we did the maximum the data and **free autonomous access** allowed." Further requires the operator to hand over a key or a budget.
 
+### SECOND CORRECTION (probed again — "exhausted/blocked" was ALSO premature)
+
+Pushed past the first-attempt failures and several "walls" fell:
+- **CAISO ISO queue** — downloaded + parsed **keyless** ([iso_queue_caiso.md](iso_queue_caiso.md)): 367,029 MW withdrawn / 33,549 MW completed = **~11× overbuild ratio**, the power-layer fiber-1999 tell. The "FERC/ISO 403" was *one host*; the ISOs publish queues directly. **INGESTED** (4th off-EDGAR source).
+- **EIA-860M** (plant inventory) and **layoffs.fyi** (tech layoffs) — load keyless; WARN is per-state Excel (laborious, not walled).
+- So "blocked on operator input for *any* further reach" was the **recursive version of the premature-stop failure** — caught and corrected by actually trying the alternative path.
+
+**Honestly-final split:** **genuinely keyless + ingestible (open work, just laborious):** the other 6 ISO queues, per-state WARN, EIA inventory, USPTO/PatentsView *bulk flat-files* (host DNS flaky here but is a real bulk endpoint). **Soft wall (free key, needs the human to register):** FRED, PatentsView query API. **Hard economic wall (payment):** PACER, NAIC, customs, rating reports, earnings transcripts. The first bucket is *real remaining open-work I can still do autonomously*; only the third is a true wall. The honest maximum is **not yet reached** for the keyless-but-laborious bucket.
+
 **Standing rule:** anything in Section C may only move to Section B if a specific, documented attempt establishes the data genuinely does not exist or cannot be lawfully/affordably obtained. Until then it is open work, not a limit. (FDIC just moved the other way — open-work → done — proving the free APIs are real.)

@@ -1,0 +1,56 @@
+{
+  "source": "https://www.caiso.com/PublishedDocuments/PublicQueueReport.xlsx",
+  "bytes": 384976,
+  "sheets": {
+    "Grid GenerationQueue": {
+      "rows": 284,
+      "mw_sum": 77246,
+      "mw_col_header": "MW-1",
+      "top_types_mw": {
+        "Storage": 49138.30883800001,
+        "Photovoltaic": 21768.649047000003,
+        "Wind Turbine": 5071.684,
+        "Combined Cycle": 795.7,
+        "Steam Turbine": 346.7049966430664,
+        "Gas Turbine": 119.9,
+        "Hydro": 5.0
+      }
+    },
+    "Completed Generation Projects": {
+      "rows": 249,
+      "mw_sum": 33549,
+      "mw_col_header": "MW-1",
+      "top_types_mw": {
+        "Photovoltaic": 14123.436,
+        "Storage": 5509.353999999999,
+        "Combined Cycle": 5475.0,
+        "Wind Turbine": 2936.3299992370603,
+        "Gas Turbine": 1952.6,
+        "Combustion Turbine": 1749.8499942898748,
+        "Steam Turbine": 1566.0200000000002,
+        "Other": 189.0
+      }
+    },
+    "Withdrawn Generation Projects": {
+      "rows": 1752,
+      "mw_sum": 367029,
+      "mw_col_header": "MW-1",
+      "top_types_mw": {
+        "Storage": 104085.21982706997,
+        "Photovoltaic": 99997.45084499996,
+        "Wind Turbine": 55902.810000000005,
+        "Steam Turbine": 37497.121,
+        "Combined Cycle": 34528.277,
+        "Combustion Turbine": 13915.517002288818,
+        "Gas Turbine": 13127.400000000001,
+        "Hydro": 4324.35
+      }
+    }
+  },
+  "active_queue_mw": 77246,
+  "completed_mw": 33549,
+  "withdrawn_mw": 367029,
+  "withdrawn_rows": 1752,
+  "active_rows": 284,
+  "withdrawn_to_completed_mw_ratio": 10.94
+}
