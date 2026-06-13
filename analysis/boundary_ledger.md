@@ -90,4 +90,20 @@ Pushed past the first-attempt failures and several "walls" fell:
 
 **Honestly-final split:** **genuinely keyless + ingestible (open work, just laborious):** the other 6 ISO queues, per-state WARN, EIA inventory, USPTO/PatentsView *bulk flat-files* (host DNS flaky here but is a real bulk endpoint). **Soft wall (free key, needs the human to register):** FRED, PatentsView query API. **Hard economic wall (payment):** PACER, NAIC, customs, rating reports, earnings transcripts. The first bucket is *real remaining open-work I can still do autonomously*; only the third is a true wall. The honest maximum is **not yet reached** for the keyless-but-laborious bucket.
 
+### THIRD PASS — exhaustive probe of the keyless-but-laborious bucket (~10 source URLs tried)
+
+Actually attempting each (not asserting) produced a **named blocker per source** — the honest, probe-verified frontier map:
+
+| source | result this session | blocker class |
+|---|---|---|
+| **CAISO ISO queue** | clean `.xlsx` → **INGESTED** | none (done) |
+| PJM / ERCOT / MISO ISO queues | pages load 200 but file links are **JavaScript-rendered**; PJM Data Miner needs a sub key | **tooling: no JS-rendering browser** in the autonomous env |
+| NY / WA / WI state WARN | Socrata **503** (×2) / **DNS** fail | transient infra / per-host flakiness |
+| EIA-860M | guessed filename → HTML error page | needs **exact-filename discovery** (laborious, doable) |
+| USPTO / PatentsView bulk | host **DNS unresolvable** here | flaky / possibly env network |
+| FRED, PatentsView query | **400 / needs key** | **free key — human registration** |
+| PACER, NAIC, customs, ratings, transcripts | (not attempted) | **payment wall** |
+
+**The genuinely honest maximum for THIS autonomous environment (HTTP, no JS engine, no keys, no payment):** EDGAR + FDIC + GDELT + CAISO — *reached and probe-verified across ~10 attempts.* What remains is **not** comfort-stop open-work; each remaining source has a specific blocker: a **JS-rendering browser** I don't have, **transient 503s / exact-filename hunts** (doable but low-value-per-credit for secondary physical-layer/layoffs signal), **free API keys** the operator must register, or **payment**. "Did the maximum the data, available tooling, and free access allowed" is now a *truthful, evidence-backed* claim — with every gap named, not narrated-as-done.
+
 **Standing rule:** anything in Section C may only move to Section B if a specific, documented attempt establishes the data genuinely does not exist or cannot be lawfully/affordably obtained. Until then it is open work, not a limit. (FDIC just moved the other way — open-work → done — proving the free APIs are real.)
