@@ -1,5 +1,5 @@
 {
- "_note": "Hand-carded new-issue prints for cluster issuers. press_reported tier -- NOT adjudicated evidence; consumed only by scripts/refresh_live_overlay.py for the pre-registered S1 signal (analysis/preregistered_signals.md). Re-card on every new cluster print; keep dates ISO so max(date) picks the latest.",
+ "_note": "Hand-carded new-issue prints for cluster issuers. press_reported tier -- NOT adjudicated evidence; consumed only by scripts/refresh_live_overlay.py for the pre-registered S1/S1b signals (analysis/preregistered_signals.md). Re-card on every new cluster print; keep dates ISO so max(date) picks the latest. status field (amendment A3): priced|postponed|pulled|failed -- the first non-priced print fires S1b confirming.",
  "deals": [
   {
    "date": "2026-04-14",
@@ -10,7 +10,8 @@
    "maturity": "2031",
    "pricing": "par",
    "tier": "press_reported",
-   "source": "https://www.theglobeandmail.com/investing/markets/stocks/CRWV/pressreleases/1459647/coreweave-expands-high-yield-debt-with-additional-notes-offering/"
+   "source": "https://www.theglobeandmail.com/investing/markets/stocks/CRWV/pressreleases/1459647/coreweave-expands-high-yield-debt-with-additional-notes-offering/",
+   "status": "priced"
   },
   {
    "date": "2026-04-21",
@@ -21,7 +22,8 @@
    "maturity": "2031",
    "pricing": "par add-on under the 2026-04-14 indenture (9.75% '31 stack now $2.75B)",
    "tier": "press_reported",
-   "source": "https://www.theglobeandmail.com/investing/markets/stocks/CRWV/pressreleases/1459647/coreweave-expands-high-yield-debt-with-additional-notes-offering/"
+   "source": "https://www.theglobeandmail.com/investing/markets/stocks/CRWV/pressreleases/1459647/coreweave-expands-high-yield-debt-with-additional-notes-offering/",
+   "status": "priced"
   },
   {
    "date": "2026-06-02",
@@ -32,7 +34,8 @@
    "maturity": "~2031",
    "pricing": "par; SPV-level secured paper printing INSIDE the parent's 9.75% corporate level",
    "tier": "press_reported",
-   "source": "https://finance.yahoo.com/markets/stocks/articles/coreweave-crwv-subsidiary-raises-900-011330653.html"
+   "source": "https://finance.yahoo.com/markets/stocks/articles/coreweave-crwv-subsidiary-raises-900-011330653.html",
+   "status": "priced"
   }
  ]
 }

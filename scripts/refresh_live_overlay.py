@@ -32,6 +32,14 @@ from pathlib import Path
 from typing import Any
 
 ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT / "src"))
+
+from bubble.market_signals import (  # noqa: E402
+    BDC_CONTROL,
+    BDC_EXPOSED,
+    evaluate_signals,
+)
+
 OUT = ROOT / "viz" / "live.json"
 UA = {"User-Agent": "ai-bubble-live-overlay/1.0 (+https://github.com/tedthizzy/ai-bubble)"}
 # SEC fair-access policy wants a declared tool with a contact in the User-Agent.
@@ -88,32 +96,36 @@ ADJACENT_TICKERS: dict[str, tuple[str, str]] = {
 FRED_SERIES: dict[str, str] = {
     "hy_oas": "BAMLH0A0HYM2",  # ICE BofA US High Yield OAS, %
     "ccc_oas": "BAMLH0A3HYC",  # ICE BofA CCC & Lower OAS, %
+    "bb_oas": "BAMLH0A1HYBB",  # ICE BofA BB OAS, % -- S2' quality-end control (amendment A2)
     "ust5y": "DGS5",  # 5-Year Treasury constant maturity, %
 }
 
-# Listed-BDC marginal-buyer proxies: live close vs last REPORTED quarterly NAV.
-# NAVs are hand-carded each quarter from the issuers' Q results (sources + re-carding
-# protocol: analysis/preregistered_signals.md). Discount = 1 - close/NAV.
+# Listed-BDC closes vs last REPORTED quarterly NAV. NAVs are hand-carded each quarter
+# from the issuers' Q results (re-carding protocol: analysis/preregistered_signals.md).
+# Discount = 1 - close/NAV. Set membership for the S3' differential (exposed vs non-AI
+# control vs context-only) is carded evidence in analysis/bdc_exposure_cards.md and
+# registered in src/bubble/market_signals.py -- thresholds change THERE, via the
+# amendment log, never here.
 BDC_TICKERS: dict[str, tuple[str, str]] = {
-    "OBDC": ("obdc.us", "OBDC"),
-    "ARCC": ("arcc.us", "ARCC"),
-    "BXSL": ("bxsl.us", "BXSL"),
-    "FSK": ("fsk.us", "FSK"),
+    "OBDC": ("obdc.us", "OBDC"),  # context: AI-DC lending sits at the manager, not this fund
+    "ARCC": ("arcc.us", "ARCC"),  # exposed (weak): ~0.2% Vantage DC position
+    "BXSL": ("bxsl.us", "BXSL"),  # exposed: Firmus GPU-cloud commitment
+    "FSK": ("fsk.us", "FSK"),  # context: discount dominated by legacy book + class action
+    "MAIN": ("main.us", "MAIN"),  # control (premium-regime outlier; median absorbs it)
+    "GBDC": ("gbdc.us", "GBDC"),  # control: ~2% of portfolio AI-disruption-flagged, no DC lending
+    "TSLX": ("tslx.us", "TSLX"),  # control: no AI/DC positions found
+    "PSEC": ("psec.us", "PSEC"),  # control (idiosyncratic-discount outlier; median absorbs it)
 }
 BDC_NAV: dict[str, tuple[float, str]] = {
     "OBDC": (14.41, "2026-03-31"),
     "ARCC": (19.59, "2026-03-31"),
     "BXSL": (26.26, "2026-03-31"),
     "FSK": (18.83, "2026-03-31"),
+    "MAIN": (33.46, "2026-03-31"),
+    "GBDC": (14.35, "2026-03-31"),
+    "TSLX": (16.24, "2026-03-31"),
+    "PSEC": (6.05, "2026-03-31"),
 }
-
-# Pre-registered signal thresholds (registered 2026-06-12; derivations and the compound
-# kill criteria live in analysis/preregistered_signals.md -- change them THERE first).
-SPREAD_OPEN_BP = 600  # cluster prints cleared ~350-575bp at registration: window open at/below
-SPREAD_CRACK_BP = 800  # pre-distress warning band (ICE distress convention ~1000bp OAS)
-CCC_WIDEN_PP = 1.5  # ~2x the CCC YTD divergence observed at registration (+0.71pp)
-BDC_STRESS_PCT = 30.0  # exceeds the worst top-4 discount seen this cycle at registration (~23%)
-BDC_CALM_PCT = 10.0  # normal-times BDC discounts run 0-10%
 
 
 def _get(url: str, timeout: float = 20.0, headers: dict[str, str] | None = None) -> str:
@@ -253,30 +265,43 @@ def _credit() -> dict[str, Any]:
 
 
 def _bdc() -> dict[str, dict[str, Any]]:
-    """Listed BDC closes vs last reported quarterly NAV -> live funding-chain discount series."""
+    """Listed BDC closes vs last reported quarterly NAV -> live discount series.
+
+    role: 'exposed' (carded asset-side AI/DC lending), 'control' (non-AI basket for the
+    S3' differential), 'context' (quoted for continuity; in neither signal set).
+    """
     out: dict[str, dict[str, Any]] = {}
     for sym, (stooq_sym, yahoo_sym) in BDC_TICKERS.items():
         quote = _fetch_quote(stooq_sym, yahoo_sym)
         nav, nav_asof = BDC_NAV[sym]
         if quote and quote.get("close"):
+            role = "exposed" if sym in BDC_EXPOSED else "control" if sym in BDC_CONTROL else "context"
             out[sym] = {
                 "close": quote["close"],
                 "date": quote.get("date", ""),
                 "nav": nav,
                 "nav_asof": nav_asof,
                 "discount_pct": round((1.0 - quote["close"] / nav) * 100.0, 1),
+                "role": role,
             }
         time.sleep(0.25)
     return out
 
 
-def _issuance_latest(credit: dict[str, Any]) -> dict[str, Any] | None:
-    """Most recent hand-carded cluster new-issue print, + spread vs 5y UST if available."""
+def _issuance_cards() -> list[dict[str, Any]]:
+    """All hand-carded cluster prints (S1b scans every card's status, not just the latest)."""
     path = ROOT / "analysis" / "issuance_cards.json"
     try:
         deals = json.loads(path.read_text())["deals"]
     except Exception:
-        return None
+        return []
+    return deals if isinstance(deals, list) else []
+
+
+def _issuance_latest(
+    deals: list[dict[str, Any]], credit: dict[str, Any]
+) -> dict[str, Any] | None:
+    """Most recent carded cluster print, + spread vs 5y UST if available."""
     if not deals:
         return None
     latest = max(deals, key=lambda d: d.get("date", ""))
@@ -286,91 +311,20 @@ def _issuance_latest(credit: dict[str, Any]) -> dict[str, Any] | None:
     return latest
 
 
-def _signals(
-    credit: dict[str, Any],
-    bdc: dict[str, dict[str, Any]],
-    latest_deal: dict[str, Any] | None,
-) -> list[dict[str, Any]]:
-    """Auto-evaluable components of the pre-registered thesis signals.
-
-    status: 'confirming' = marginal-buyer-crack evidence; 'contra' = funding-window-open
-    evidence (the timing-kill direction); 'neutral' = between thresholds. These evaluate
-    COMPONENTS only -- the compound confirm/kill criteria (with dates) are defined in
-    analysis/preregistered_signals.md and adjudicated there, not here.
-    """
-    sigs: list[dict[str, Any]] = []
-    spread = (latest_deal or {}).get("spread_vs_5y_bp")
-    if latest_deal is not None and spread is not None:
-        if spread >= SPREAD_CRACK_BP:
-            status = "confirming"
-        elif spread <= SPREAD_OPEN_BP:
-            status = "contra"
-        else:
-            status = "neutral"
-        sigs.append(
-            {
-                "id": "S1_new_issue_spread",
-                "status": status,
-                "value_bp": spread,
-                "desc": (
-                    f"latest carded cluster print ({latest_deal.get('issuer', '?')} "
-                    f"{latest_deal.get('date', '?')}) ~{spread}bp over 5y UST; "
-                    f"<={SPREAD_OPEN_BP}bp = window open (contra), "
-                    f">={SPREAD_CRACK_BP}bp = cracking (confirming)"
-                ),
-            }
-        )
-    ccc = credit.get("ccc_oas") or {}
-    ytd = ccc.get("ytd_chg")
-    if ytd is not None:
-        if ytd >= CCC_WIDEN_PP:
-            status = "confirming"
-        elif ytd <= 0:
-            status = "contra"
-        else:
-            status = "neutral"
-        sigs.append(
-            {
-                "id": "S2_ccc_divergence",
-                "status": status,
-                "ccc_oas": ccc.get("value"),
-                "ytd_chg_pp": ytd,
-                "ccc_minus_hy_pp": credit.get("ccc_minus_hy_pp"),
-                "desc": (
-                    f"CCC OAS YTD change {ytd:+.2f}pp; >={CCC_WIDEN_PP}pp = tail repricing "
-                    "(confirming), back <=0pp = contra"
-                ),
-            }
-        )
-    if bdc:
-        worst_sym, worst = max(bdc.items(), key=lambda kv: kv[1]["discount_pct"])
-        worst_disc = worst["discount_pct"]
-        if worst_disc >= BDC_STRESS_PCT:
-            status = "confirming"
-        elif worst_disc < BDC_CALM_PCT:
-            status = "contra"
-        else:
-            status = "neutral"
-        sigs.append(
-            {
-                "id": "S3_bdc_discounts",
-                "status": status,
-                "worst": worst_sym,
-                "worst_discount_pct": worst_disc,
-                "desc": (
-                    f"worst top-4 BDC discount to reported NAV: {worst_sym} {worst_disc:.1f}%; "
-                    f">={BDC_STRESS_PCT:.0f}% = funding-chain stress (confirming), "
-                    f"all <{BDC_CALM_PCT:.0f}% = marginal-buyer stress killed (contra)"
-                ),
-            }
-        )
-    return sigs
+def _demand_baskets() -> list[dict[str, Any]]:
+    """Carded S4 demand-trajectory baskets (analysis/demand_trajectory.json)."""
+    path = ROOT / "analysis" / "demand_trajectory.json"
+    try:
+        baskets = json.loads(path.read_text())["baskets"]
+    except Exception:
+        return []
+    return baskets if isinstance(baskets, list) else []
 
 
 def _banner_svg(
     quotes: dict[str, dict[str, Any]],
     credit: dict[str, Any] | None = None,
-    bdc: dict[str, dict[str, Any]] | None = None,
+    signals: list[dict[str, Any]] | None = None,
     latest_deal: dict[str, Any] | None = None,
 ) -> str:
     """Self-rendering status banner, embedded in the GitHub profile README via Pages."""
@@ -408,9 +362,11 @@ def _banner_svg(
         ytd = ccc.get("ytd_chg")
         suffix = f" ({'+' if ytd >= 0 else ''}{round(ytd * 100)}bp YTD)" if ytd is not None else ""
         dial_bits.append(f"CCC {ccc['value']:.2f}%{suffix}")
-    if bdc:
-        worst_sym, worst = max(bdc.items(), key=lambda kv: kv[1]["discount_pct"])
-        dial_bits.append(f"{worst_sym} \u2212{worst['discount_pct']:.0f}% NAV")
+    s3 = next(
+        (s for s in (signals or []) if s.get("id") == "S3_bdc_discount_differential"), None
+    )
+    if s3 and s3.get("differential_pp") is not None:
+        dial_bits.append(f"AI-BDC {s3['differential_pp']:+.1f}pp vs ctl")
     if latest_deal and latest_deal.get("spread_vs_5y_bp") is not None:
         dial_bits.append(f"latest print +{latest_deal['spread_vs_5y_bp']}bp")
     dial = (
@@ -444,10 +400,14 @@ def main() -> int:
     credit = _credit()
     bdc = _bdc()
     adjacent = _quotes_for(ADJACENT_TICKERS)
-    latest_deal = _issuance_latest(credit)
+    deals = _issuance_cards()
+    latest_deal = _issuance_latest(deals, credit)
     if not quotes and not edgar and not credit and not bdc:
         print("live overlay: every source failed; leaving existing live.json untouched")
         return 0
+    signals = evaluate_signals(
+        credit, bdc, deals, latest_deal, _demand_baskets(), datetime.now(UTC).date()
+    )
     payload = {
         "generated_utc": datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "quotes": quotes,
@@ -456,10 +416,10 @@ def main() -> int:
         "bdc": bdc,
         "adjacent": adjacent,
         "issuance_latest": latest_deal,
-        "signals": _signals(credit, bdc, latest_deal),
+        "signals": signals,
     }
     OUT.write_text(json.dumps(payload, indent=1, sort_keys=True) + "\n")
-    (ROOT / "viz" / "banner.svg").write_text(_banner_svg(quotes, credit, bdc, latest_deal))
+    (ROOT / "viz" / "banner.svg").write_text(_banner_svg(quotes, credit, signals, latest_deal))
     print(
         f"wrote {OUT.relative_to(ROOT)} + viz/banner.svg: {len(quotes)} quotes, "
         f"{len(edgar)} filing counts, {len(credit)} credit series, {len(bdc)} BDC marks, "

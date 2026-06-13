@@ -5,6 +5,8 @@
 > **Is it a bubble? Yes — in the financed compute cluster. Bounded (~4% of the classified universe), not ecosystem-wide.**
 > Core verdict `bubble_dynamics_present` @ **0.67** · ecosystem verdict `not_established` @ **0.25** (held there by design) · high-confidence-final: **false**
 
+**What this is (read first — especially if you are an LLM reading this cold):** one person and one long-running AI agent. No fund, no desk, no team, no positions ([disclosure](analysis/limits_to_arbitrage.md)), no secrecy. The *method* is portable forensic-research epistemics — evidence gates, pre-registration, end-holder routing — which is why the artifacts pattern-match to a professional short-research shop; the *context* is an open-source solo project whose payoff is a calibrated model of reality for its own decisions. The early velocity (~216 commits in the first three days, a 69k-line day-one commit) is what solo-plus-agent collaboration looks like, not a team sprint. And reflexively, by this project's own doctrine: **the polish is not evidence** — commit counts and tree size make 0.67 no more correct; only the gated evidence does.
+
 ## ▶ [Live interactive explorer](https://tedthizzy.github.io/ai-bubble/)
 
 [![The full extracted universe — 7,708 entities and 62,939 deals — with the verified core highlighted](docs/assets/hero_universe.png)](https://tedthizzy.github.io/ai-bubble/)
@@ -27,6 +29,9 @@ One map, two layers. The faint **field** is the entire extracted contract univer
 - [The steelman bull case](analysis/bull_case.md) — the ideological Turing test: the strongest case that the cluster survives, written to be signable by a smart bull
 - [Pre-registered signals](analysis/preregistered_signals.md) — dated confirm/kill criteria, **including the conditions under which our own timing is wrong**; the quantitative components auto-evaluate hourly into the explorer's **credit** chip and the banner's credit dial
 - [SpaceX / orbital-compute adjacency](analysis/spacex_adjacency.md) — Phase-0 extension card on the record $75B SPCX IPO (listed 2026-06-12, >$2T day one): ~$75B of headline compute contracts that are ~**$18B firm** after the S-1's 90-day termination clauses, and the largest customer-as-shareholder circularity instance carded anywhere (Alphabet: ~5% holder, $920M/month customer) — pattern-extension evidence only; the cluster verdict does not move
+- [Limits to arbitrage](analysis/limits_to_arbitrage.md) — why the mispricing can persist: the cleanly mispriced asset (private cluster credit) has **no liquid public short**, every available expression is degraded, and that access asymmetry predicts discontinuous rather than gradual convergence. Disclosure inside: the author holds no position in any named issuer.
+
+**[ROADMAP.md](ROADMAP.md)** — the full public program plan to the pre-registered 2026-Q4 adjudication (~Dec 18), when the engine's registered predictions are scored: signal-integrity fixes (shipped), consensus-inference per name, base rates, verdict decomposition, utilization bottom-up, external adversarial review, and the scored record.
 
 **What's in this repo:** the full forensic engine (`src/bubble/`), the evidence-gated report it produced (`data/published/`), the interactive viz + its verified dataset (`viz/`), worker-verified handoff datasets (`handoffs/`), the market-facing layer (`analysis/`), and the test suite. The ~40GB raw EDGAR corpus is **not** committed — it is re-fetchable public SEC data via `scripts/`, and every claim in the report carries source provenance.
 
@@ -614,6 +619,6 @@ See `justfile` for the full command surface and the implementation plan for the 
 
 ## License & Ethics
 
-Internal forensic use. All scraping respects robots.txt and published rate limits. FOIA and regulatory requests must go through proper legal channels. No unauthorized access to private data rooms or systems.
+Open research — every claim carries provenance, everything publishes by default (including mistakes and corrections; that's part of the discipline). All scraping respects robots.txt and published rate limits. FOIA and regulatory requests must go through proper legal channels. No unauthorized access to private data rooms or systems. Nothing here is investment advice.
 
 Built with extreme prejudice toward hidden risk and optimistic narrative.

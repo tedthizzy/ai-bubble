@@ -27,6 +27,16 @@ A truth claim is not a thesis. The thesis is the **gap** between what we measure
 
 One honest correction this layer forces on our own presentation: the crack window's engine peak (~2026-Q2) is **not confirmed at the issuer-credit layer** — the funding window is demonstrably open (S1 below is *contra*). The deterioration is one layer up, at fund flows. Upside reflexivity is live: the open window is actively refinancing the wall. Whether it stays open is exactly what the pre-registered signals track.
 
+## Correction (2026-06-12, registration day — attribution at layer 3)
+
+Carding each listed BDC's actual book ([bdc_exposure_cards.md](bdc_exposure_cards.md)) corrects the layer-3 row above, and the correction **weakens the layer-3 evidence as written**:
+
+- **FSK's −41% is not AI attribution.** Its discount is dominated by legacy-book credit deterioration, a securities class action, and a years-long pre-AI discount; its internal review rates 86% of the book low-AI-risk. **OBDC's −22% is mostly sector beta** (spread marks, dividend reset) — Blue Owl's AI-DC lending sits at the *manager* level in other vehicles, not in the listed fund. The original reading of the dispersion ("stress concentrating where the weakest assets sit") was right about *discrimination* but wrong to imply the weakness being discriminated was AI exposure.
+- The only defensibly AI/DC-exposed listed BDC, **BXSL, trades at just −9%**; the corrected, pre-registered measure (S3′: worst exposed minus non-AI control median) read **+7.5pp = neutral** on the day it was registered — not confirming.
+- The structural reason the proxy is weak: **direct neocloud lending sits in private funds** (Blackstone, Blue Owl, Apollo, PIMCO, BlackRock vehicles), which have no daily price. The listed-BDC series is a window onto the private-credit *sector's* funding conditions (redemptions, marks, dividend resets — that part stands, with the Morningstar/Mercer redemption evidence), not onto AI-credit marks specifically.
+
+What survives of layer 3: private-credit redemption pressure and semiliquid gating are real and sector-wide, CCC is diverging from flat HY and flat BB, and the marginal buyer of cluster paper is funded from exactly the vehicles experiencing redemptions. What does not survive: citing FSK/OBDC discounts as AI-specific convergence. The thesis keeps the mechanism and loses a talking point — which is the trade this project always takes.
+
 ## How this resolves
 
 Dated confirm/kill criteria — including the conditions under which **we** are wrong — are in [preregistered_signals.md](preregistered_signals.md). The strongest case for the other side is in [bull_case.md](bull_case.md). The quantitative components evaluate automatically every hour; current status is in `viz/live.json` (`signals`).

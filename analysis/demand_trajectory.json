@@ -1,0 +1,72 @@
+{
+ "_note": "Pre-registered S4 demand-trajectory basket (amendment A5, 2026-06-12, analysis/preregistered_signals.md). The signal adjudicates GROWTH, not LEVEL: composition is fixed at registration so a hostile reader disputes the trajectory, not the baseline. Company-stated run-rate prints only -- no analyst estimates, no interpolation. Known level double-counts (Microsoft's AI figure includes Azure-OpenAI consumption and cloud-resold Anthropic API) bias the LEVEL, and growth too if the double-counted component compounds faster -- carded as a caveat, not silently netted. Re-card on every new company print; additions to composition only via the amendment log.",
+ "basket_definition": {
+  "components": [
+   "OpenAI annualized revenue (company-stated)",
+   "Anthropic run-rate revenue (company-stated)",
+   "Microsoft AI business ARR (company-disclosed)"
+  ],
+  "exclusions": "Google/Alphabet excluded: no company-disclosed AI revenue run-rate exists as of 2026-06 (Q1-2026 earnings disclose cloud growth and backlog but no AI-attributed dollar figure).",
+  "semantics": "S4 = trailing YoY growth of the basket total vs the bull's required path; thresholds registered in src/bubble/market_signals.py and analysis/preregistered_signals.md."
+ },
+ "baskets": [
+  {
+   "as_of": "2025-07-01",
+   "retro_carded": true,
+   "total_usd_b": 30.6,
+   "caveats": "Baseline carded retroactively on 2026-06-12 (the thresholds are ex-ante; the baseline is sourced measurement of the past). Anthropic mid-2025 print has the weakest sourcing in the file; Microsoft mid-2025 is IMPLIED from the company's own +123% YoY statement, not a disclosure.",
+   "components": [
+    {
+     "entity": "OpenAI",
+     "value_usd_b": 10.0,
+     "print_date": "2025-06-09",
+     "tier": "press_of_company_statement",
+     "source": "https://www.cnbc.com/2025/06/09/openai-hits-10-billion-in-annualized-revenue-fueled-by-chatgpt-growth.html"
+    },
+    {
+     "entity": "Anthropic",
+     "value_usd_b": 4.0,
+     "print_date": "2025-07",
+     "tier": "press_aggregation (weakest in file)",
+     "source": "https://www.wheresyoured.at/howmuchmoney/"
+    },
+    {
+     "entity": "Microsoft AI",
+     "value_usd_b": 16.6,
+     "print_date": "2025-04 (implied)",
+     "tier": "implied_from_company_statement ($37B at +123% YoY, FY26Q3 call)",
+     "source": "https://www.microsoft.com/en-us/investor/events/fy-2026/earnings-fy-2026-q3"
+    }
+   ]
+  },
+  {
+   "as_of": "2026-06-12",
+   "retro_carded": false,
+   "total_usd_b": 108.0,
+   "caveats": "All three are company-self-reported, unaudited run-rates. Anthropic's $9B(end-2025)->$47B(May-2026) slope is the least independently verifiable datum in the basket. OpenAI 'past $25B' June S-1 coverage is journalistic synthesis; the $2B/month (=$24B annualized) March company statement is used instead.",
+   "components": [
+    {
+     "entity": "OpenAI",
+     "value_usd_b": 24.0,
+     "print_date": "2026-03-31",
+     "tier": "company_statement ($2B/month at the $122B round close)",
+     "source": "https://openai.com/index/accelerating-the-next-phase-ai/"
+    },
+    {
+     "entity": "Anthropic",
+     "value_usd_b": 47.0,
+     "print_date": "2026-05-28",
+     "tier": "company_statement (Series H announcement)",
+     "source": "https://www.anthropic.com/news/series-h"
+    },
+    {
+     "entity": "Microsoft AI",
+     "value_usd_b": 37.0,
+     "print_date": "2026-04-29",
+     "tier": "company_statement (FY26Q3 earnings call, Nadella)",
+     "source": "https://www.microsoft.com/en-us/investor/events/fy-2026/earnings-fy-2026-q3"
+    }
+   ]
+  }
+ ]
+}
