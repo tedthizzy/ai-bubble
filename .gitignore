@@ -94,3 +94,4 @@ analysis/deepdive_waves/
 analysis/economy_wide_fragility_map.full.json
 analysis/full_targets_remaining.json
 analysis/phase3_targets_compact.json
+scripts/workflows/*.generated.js

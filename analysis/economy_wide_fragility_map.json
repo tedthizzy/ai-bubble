@@ -3,9 +3,9 @@
   "method": "sector-agnostic forensic signature scan (analysis/total_ecosystem_dive.md \u00a72/\u00a79)",
   "deal_rows_scanned": 62952,
   "tranche_rows_scanned": 10051,
-  "entities_scored": 2091,
+  "entities_scored": 2007,
   "entities_touched": 9289,
-  "junk_names_skipped": 18,
+  "junk_names_skipped": 412,
   "per_deal_notional_ceiling_usd": 100000000000.0,
   "quality_excluded_rows": 14,
   "ai_cluster_top_rank": 14,
@@ -5621,7 +5621,7 @@
       }
     }
   ],
-  "canary_count": 1078,
+  "canary_count": 1024,
   "top_canaries": [
     {
       "entity": "Perfect Moment Ltd.",
@@ -7364,35 +7364,6 @@
       "canary_score": 0.2853
     },
     {
-      "entity": "Revolving Credit Maturity Date so long",
-      "cik": "",
-      "ticker": "",
-      "ai_tagged": false,
-      "debt_notional_usd": 3880000000.0,
-      "debt_deal_count": 2,
-      "near_term_notional_usd": 0.0,
-      "max_coupon": 0.0225,
-      "spv_flags": 2,
-      "nonrecourse_flags": 2,
-      "related_party_flags": 0,
-      "concentration_flags": 0,
-      "distinct_counterparties": 4,
-      "counterparty_hhi": 0.4397,
-      "circular": false,
-      "source_uri_count": 2,
-      "composite": 0.2421,
-      "signatures": {
-        "leverage": 0.3442,
-        "refi": 0.0,
-        "carry": 0.0,
-        "hidden": 1.0,
-        "concentration": 0.2199,
-        "circular": 0.0,
-        "distress": 0.0
-      },
-      "canary_score": 0.283
-    },
-    {
       "entity": "WW INTERNATIONAL, INC.",
       "cik": "0000105319",
       "ticker": "WW",
@@ -8522,6 +8493,35 @@
         "distress": 0.0
       },
       "canary_score": 0.2532
+    },
+    {
+      "entity": "PYXUS INTERNATIONAL, INC.",
+      "cik": "0000939930",
+      "ticker": "PYYX",
+      "ai_tagged": false,
+      "debt_notional_usd": 267613388.0,
+      "debt_deal_count": 5,
+      "near_term_notional_usd": 0.0,
+      "max_coupon": 0.1,
+      "spv_flags": 0,
+      "nonrecourse_flags": 1,
+      "related_party_flags": 0,
+      "concentration_flags": 0,
+      "distinct_counterparties": 7,
+      "counterparty_hhi": 0.4304,
+      "circular": false,
+      "source_uri_count": 13,
+      "composite": 0.1179,
+      "signatures": {
+        "leverage": 0.0515,
+        "refi": 0.0,
+        "carry": 0.5,
+        "hidden": 0.0769,
+        "concentration": 0.2152,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "canary_score": 0.2515
     }
   ],
   "quality_excluded": [

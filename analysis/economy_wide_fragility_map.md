@@ -2,11 +2,11 @@
 
 > **⚓ Frame — read first (reanchor):** this repo is a **general forensic engine for financial fragility & mispricing across the _whole economy_** — hidden / mismatched / circular leverage and valuation-run-ahead-of-cash-flow, found with **no sector prior**. **AI / data-center is _case zero_, not the object** (the method is sector- and era-agnostic — cf. fiber 1999, shale 2014). **Operating mode: maximum exhaustiveness — broad AND deep, uncapped, ≥ $1M-substance floor, US-primary (international by connectedness-to-core × data-accessibility); acting resource-constrained is NEVER correct; the only stop is physics (data that doesn't publicly exist → estimate it from proxies).** Full scope & doctrine: [total_ecosystem_dive.md](total_ecosystem_dive.md) · [README](../README.md).
 
-**As of 2026-06-13.** Output of the **sector-agnostic** forensic signature scan (`scripts/economy_wide_signature_scan.py`) over the enumerated substrate: **62,952 deal rows** + **10,051 tranche rows**, **2,091 entities scored** on the eight §2 signatures with **no AI filter**. The epicenter is an *output*, not an assumption. Machine-readable: [economy_wide_fragility_map.json](economy_wide_fragility_map.json).
+**As of 2026-06-13.** Output of the **sector-agnostic** forensic signature scan (`scripts/economy_wide_signature_scan.py`) over the enumerated substrate: **62,952 deal rows** + **10,051 tranche rows**, **2,007 entities scored** on the eight §2 signatures with **no AI filter**. The epicenter is an *output*, not an assumption. Machine-readable: [economy_wide_fragility_map.json](economy_wide_fragility_map.json).
 
 ## Headline
 
-- The **AI / data-center cluster is mid-pack**: its highest-ranked entity is **#14** of 2,091; only **2 AI-tagged names appear in the top 50**. Case zero is real but is *not* the economy's primary fragility concentration.
+- The **AI / data-center cluster is mid-pack**: its highest-ranked entity is **#14** of 2,007; only **2 AI-tagged names appear in the top 50**. Case zero is real but is *not* the economy's primary fragility concentration.
 - The top of the map is dominated by **leveraged, credit-sensitive, rate-exposed balance sheets**: mortgage REITs, midstream/LNG, distressed telecom, levered specialty pharma, payments/fintech, CRE/REITs and BDC private credit — sectors with no AI dependence.
 
 ## Method (pre-registered)
