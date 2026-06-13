@@ -60,6 +60,22 @@ The coverage stress (7/11 breaching) is concentrated in the *secured-debt* names
 
 **6. BDC self-disclosure.** **BXSL's 10-K** explicitly names the risk: *"growing concern about the sustainability of the private credit industry, particularly due to its significant exposure to the expanding technology sector, which includes artificial intelligence infra[structure]."* **ARCC's 10-K** confirms the *"Retained Vantage Data Centers"* position — the one named DC exposure behind its weak S3′ "exposed" membership.
 
+## 2026-06-13 · CoreWeave exhibit dive (credit agreement, indenture, customer contracts) — the gettability split
+
+Opened the actual filed exhibits to the CoreWeave 10-K + 424B4 to chase the "omniscient wishlist" (the private terms that govern *timing*). The result is a clean three-way split between what filings give up and what they redact:
+
+**Gotten at filing tier:**
+- **Customer concentration:** 77% top-two customers (FY2024), 67% Microsoft (FY2025) — verbatim.
+- **Take-or-pay *structure*:** *"The vast majority of our revenue today is from multi-year committed contracts… on a take-or-pay basis"* (424B4). Confirmed.
+- **The covenant *exists*:** the **Fourth Amendment to the Parent Credit Agreement** (EX-10.14) defines a **"Consolidated Leverage Ratio" = Total Debt / Consolidated EBITDA** financial covenant.
+- **A lender stepped back from governance:** EX-10.33 (Nov 6 2025) — **Magnetar terminated its board-nomination right** (CW Opportunity 2 / Magnetar funds). A private-credit anchor relinquishing its board seat is a small but real governance signal.
+
+**Redacted / not disclosed even in the exhibit (genuinely private):**
+- **The covenant *level* and current headroom:** EX-10.14 is stamped *"CERTAIN CONFIDENTIAL INFORMATION… MARKED [redacted]"* — the actual Consolidated-Leverage-Ratio threshold and CoreWeave's distance from it are confidential. **The single most timing-relevant number — covenant headroom — is not gettable from EDGAR.**
+- **The OpenAI/Microsoft contract *cancellation conditions*:** the 424B4 discloses that *"some of our customer contracts are on-demand… permit the customer to terminate… with limited notice"* but **does not** state whether the *specific* OpenAI/Microsoft take-or-pay contracts have MAC outs, termination-for-convenience, or — decisively — whether CoreWeave's right to payment survives a customer's own funding failure. The master service agreements are not filed in quotable form. **Whether the 56%-OpenAI backlog is firm-through-bankruptcy is genuinely dark.**
+
+**Implication for the information edge:** EDGAR comprehensively resolves the *structure* (who owes whom, concentration, leverage magnitude, the take-or-pay framework). It does **not** resolve the two variables that most govern *timing* — covenant headroom and customer-contract cancellability — which are redacted or undisclosed. Those are obtainable only via scuttlebutt (a lender, a counterparty source), not filings. See [information_edge_map.md](information_edge_map.md) for the full wishlist-by-wishlist gettability map.
+
 ## Queue (remaining filing-tier deepening)
 
 - Read each auditor's report paragraph to make the "zero going-concern qualifications" claim airtight.
