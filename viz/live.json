@@ -21,31 +21,72 @@
    "date": "2026-06-12",
    "discount_pct": 1.7,
    "nav": 19.59,
-   "nav_asof": "2026-03-31"
+   "nav_asof": "2026-03-31",
+   "role": "exposed"
   },
   "BXSL": {
    "close": 23.850000381469727,
    "date": "2026-06-12",
    "discount_pct": 9.2,
    "nav": 26.26,
-   "nav_asof": "2026-03-31"
+   "nav_asof": "2026-03-31",
+   "role": "exposed"
   },
   "FSK": {
    "close": 11.0600004196167,
    "date": "2026-06-12",
    "discount_pct": 41.3,
    "nav": 18.83,
-   "nav_asof": "2026-03-31"
+   "nav_asof": "2026-03-31",
+   "role": "context"
+  },
+  "GBDC": {
+   "close": 13.289999961853027,
+   "date": "2026-06-12",
+   "discount_pct": 7.4,
+   "nav": 14.35,
+   "nav_asof": "2026-03-31",
+   "role": "control"
+  },
+  "MAIN": {
+   "close": 52.02000045776367,
+   "date": "2026-06-12",
+   "discount_pct": -55.5,
+   "nav": 33.46,
+   "nav_asof": "2026-03-31",
+   "role": "control"
   },
   "OBDC": {
    "close": 11.180000305175781,
    "date": "2026-06-12",
    "discount_pct": 22.4,
    "nav": 14.41,
-   "nav_asof": "2026-03-31"
+   "nav_asof": "2026-03-31",
+   "role": "context"
+  },
+  "PSEC": {
+   "close": 2.309999942779541,
+   "date": "2026-06-12",
+   "discount_pct": 61.8,
+   "nav": 6.05,
+   "nav_asof": "2026-03-31",
+   "role": "control"
+  },
+  "TSLX": {
+   "close": 16.899999618530273,
+   "date": "2026-06-12",
+   "discount_pct": -4.1,
+   "nav": 16.24,
+   "nav_asof": "2026-03-31",
+   "role": "control"
   }
  },
  "credit": {
+  "bb_oas": {
+   "date": "2026-06-11",
+   "value": 1.69,
+   "ytd_chg": -0.02
+  },
   "ccc_minus_hy_pp": 6.78,
   "ccc_oas": {
    "date": "2026-06-11",
@@ -64,7 +105,7 @@
   }
  },
  "edgar": {},
- "generated_utc": "2026-06-13T01:33:51Z",
+ "generated_utc": "2026-06-13T01:41:46Z",
  "issuance_latest": {
   "amount_usd": 900000000,
   "coupon_pct": 7.5,
@@ -74,6 +115,7 @@
   "pricing": "par; SPV-level secured paper printing INSIDE the parent's 9.75% corporate level",
   "source": "https://finance.yahoo.com/markets/stocks/articles/coreweave-crwv-subsidiary-raises-900-011330653.html",
   "spread_vs_5y_bp": 332,
+  "status": "priced",
   "tenor_yrs": 5,
   "tier": "press_reported"
  },
@@ -214,25 +256,44 @@
  },
  "signals": [
   {
-   "desc": "latest carded cluster print (Elk Grove Village Property LLC (CoreWeave-linked data-center SPV) 2026-06-02) ~332bp over 5y UST; <=600bp = window open (contra), >=800bp = cracking (confirming)",
+   "desc": "latest carded cluster print (Elk Grove Village Property LLC (CoreWeave-linked data-center SPV) 2026-06-02) ~332bp over 5y UST; <=600bp = window open (contra), >=800bp = cracking (confirming); >45d old = stale, never contra",
    "id": "S1_new_issue_spread",
+   "print_age_days": 11,
    "status": "contra",
    "value_bp": 332
   },
   {
-   "ccc_minus_hy_pp": 6.78,
-   "ccc_oas": 9.56,
-   "desc": "CCC OAS YTD change +0.68pp; >=1.5pp = tail repricing (confirming), back <=0pp = contra",
-   "id": "S2_ccc_divergence",
-   "status": "neutral",
-   "ytd_chg_pp": 0.68
+   "desc": "any carded cluster print postponed/pulled/failed = confirming event (issuance windows historically gap shut rather than taper); all prints priced = neutral",
+   "event": null,
+   "id": "S1b_failed_print",
+   "status": "neutral"
   },
   {
-   "desc": "worst top-4 BDC discount to reported NAV: FSK 41.3%; >=30% = funding-chain stress (confirming), all <10% = marginal-buyer stress killed (contra)",
-   "id": "S3_bdc_discounts",
-   "status": "confirming",
-   "worst": "FSK",
-   "worst_discount_pct": 41.3
+   "bb_ytd_chg_pp": -0.02,
+   "ccc_minus_hy_ytd_pp": 0.73,
+   "ccc_oas": 9.56,
+   "desc": "(CCC-HY) OAS differential +0.73pp YTD; >=1.5pp = tail-specific repricing (confirming), <=0pp = contra",
+   "id": "S2_ccc_divergence",
+   "market_wide_flag": false,
+   "status": "neutral"
+  },
+  {
+   "control_median_pct": 1.7,
+   "desc": "worst AI-exposed BDC discount (BXSL 9.2%) minus non-AI control median (1.7%) = +7.5pp; >=15pp = exposure-specific stress (confirming), <=5pp = inside normal sector dispersion (contra)",
+   "differential_pp": 7.5,
+   "id": "S3_bdc_discount_differential",
+   "status": "neutral",
+   "worst": "BXSL",
+   "worst_discount_pct": 9.2
+  },
+  {
+   "base_as_of": "2025-07-01",
+   "desc": "carded AI end-demand basket +252.9% YoY ($31B -> $108B); <50%/yr = demand leg cannot close the capex equation (confirming), >=100%/yr = bull path intact (contra)",
+   "id": "S4_demand_trajectory",
+   "latest_as_of": "2026-06-12",
+   "latest_total_usd_b": 108.0,
+   "status": "contra",
+   "yoy_growth_pct": 252.9
   }
  ]
 }
