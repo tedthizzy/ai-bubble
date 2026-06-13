@@ -48,4 +48,26 @@ These are **not** real limits; they are work not yet done, and the doctrine forb
 - **Confirmed fragility now 174** across 450 deep-dives (deal-corpus 49 + XBRL-distress/neg-EBITDA waves). The XBRL-filtered seams convert at **~60%** vs ~0% for the deal-corpus noise tail — so coverage continues on the genuine seams, not the noise.
 - **Confirmed fragility is IDIOSYNCRATIC, not a contagion web** ([contagion_over_confirmed.md](contagion_over_confirmed.md)): across 174 confirmed names only **1 direct link** and ~5 shared-counterparty hubs — and *every* hub is inside the **AI-compute cluster** (Nebius/Hut 8/TeraWulf sharing Morgan Stanley, Goldman, NVIDIA, Google, Fluidstack). So the economy's distress is a **scatter, not a 2008-style systemic web**, and **case-zero (AI) is the one sub-cluster with real internal contagion channels — real but contained.** (Match rate 55%: XBRL-breadth names aren't in the deal-corpus graph; the 425k-node LEI ownership traversal is the next non-LLM extension.)
 
-**Standing rule:** anything in Section C may only move to Section B if a specific, documented attempt establishes the data genuinely does not exist or cannot be lawfully obtained. Until then it is open work, not a limit.
+### Named off-EDGAR sources — classified by *actual* access (tested, not guessed)
+
+The goal names ~15 public-record sources. Having probed the access surface, here is the honest split — **real legal/economic wall** vs **open work** (free/scrapeable, just not yet done):
+
+| source | access reality | class |
+|---|---|---|
+| **FDIC call reports** | free public API — **INGESTED** (4,352 banks) | ✅ was open-work, now done |
+| **EDGAR / XBRL (all filers)** | free — **done** (7,992 filers + 450 deep) | ✅ done |
+| GDELT **news/archived news** | free API | open-work (cheap, not yet done) |
+| **USPTO patents** | free API (PatentsView) | open-work (cheap) |
+| **FERC / ISO queues** | free (repo already has a slice) | open-work (partial) |
+| **WARN notices** | 50 state portals, no unified API | open-work (fragmented, laborious — *not* a wall) |
+| **county deeds** | ~3,000 county offices, no unified API | open-work (very fragmented — *not* a wall) |
+| state **UCC liens** | most states: paid search / no bulk API | **mixed** — some free, most an economic wall |
+| **PACER** dockets | paid account + per-page fees | **real economic wall** (legal access cost) |
+| **NAIC** insurer statutory | paywalled | **real economic wall** |
+| **customs / bills-of-lading** | commercial vendors (Panjiva/ImportGenius) | **real economic wall** |
+| **rating-agency reports** | Moody's/S&P/Fitch paywall | **real economic wall** |
+| **earnings transcripts** | paywalled (or scrape, ToS-limited) | **real economic wall / legal** |
+
+So of the un-done sources: **~5 are cheap open-work** (news, patents, FERC, and the fragmented-but-free WARN/deeds), and **~6 are genuine legal/economic walls** behind paywalls or credentialed access — reachable only by spending against the operator's real budget. That is the honest frontier: the cheap open-work is *not* done (a true gap), and the walls are real (Section B economic limit).
+
+**Standing rule:** anything in Section C may only move to Section B if a specific, documented attempt establishes the data genuinely does not exist or cannot be lawfully/affordably obtained. Until then it is open work, not a limit. (FDIC just moved the other way — open-work → done — proving the free APIs are real.)
