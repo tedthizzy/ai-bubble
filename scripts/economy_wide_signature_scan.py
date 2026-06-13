@@ -95,6 +95,26 @@ JUNK_RE = re.compile(
     r"branch \d+ test|cid )\b",
     re.IGNORECASE,
 )
+# Syndicated-loan / credit-agreement BOILERPLATE fragments that the entity-resolution
+# layer misparses as companies (confirmed by Phase-3 agents: "Closing Date, each other
+# Lender (if any)", "Bank of America and JPMCB and each other Lender", "Power of Attorney.
+# Borrower", etc.). These are clause scraps, not entities — drop them before scoring.
+JUNK_FRAGMENT_RE = re.compile(
+    r"\b(each other lender|if any|hereby|hereto|hereunder|party hereto|loan part(y|ies)|"
+    r"whereas|in witness|witnesseth|power of attorney|closing date|effective date|"
+    r"restatement date|signing date|maturity date|bid rate|letter of credit|"
+    r"revolving termination|competitive bid|perfection certificate|further assurances|"
+    r"majority lenders|permitted hedging|excess cash flow|wholly owned subsidiary|"
+    r"restricted subsidiary|administrative agent|borrower hereby|existing borrower|"
+    r"additional borrower|original borrower|resigning borrower|intermediate company|"
+    r"designated disbursement|internal revenue code|relevant taxing|equipment indebtedness|"
+    r"indebtedness owing|appointment of the borrower|nomination of|the company is a party|"
+    r"so long as|measured at|in each case|borrowing request|interest period|"
+    r"on (january|february|march|april|may|june|july|august|september|october|november|"
+    r"december)|^section \d|^article \d|^on the |^among others|^others |^inc\b|^l ?p\b|"
+    r"competitive bid quote|absolute bid rate|term sofr bid)\b",
+    re.IGNORECASE,
+)
 
 # Obligor (risk-bearing) vs creditor (capital-providing) role taxonomy.
 OBLIGOR_ROLES = {
@@ -476,7 +496,12 @@ def main() -> None:
     ranked = []
     junk_skipped = 0
     for s in scores.values():
-        if s.norm in JUNK_NAMES or len(s.norm) < 3 or JUNK_RE.search(s.name):
+        if (
+            s.norm in JUNK_NAMES
+            or len(s.norm) < 3
+            or JUNK_RE.search(s.name)
+            or JUNK_FRAGMENT_RE.search(s.name)
+        ):
             junk_skipped += 1
             continue
         c = composite(s)
