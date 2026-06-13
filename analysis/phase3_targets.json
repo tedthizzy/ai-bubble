@@ -1,0 +1,3918 @@
+{
+  "as_of": "2026-06-13",
+  "source": "analysis/economy_wide_fragility_map.json",
+  "selection": {
+    "inclusion_composite": 0.3,
+    "canary_composite": 0.33,
+    "canary_max_debt_usd": 5000000000.0,
+    "beam_min_debt_usd": 20000000000.0,
+    "note": "canary-over-beam: small high-signature names weighted up, never dropped"
+  },
+  "counts": {
+    "total": 143,
+    "canary_universe_total": 1078,
+    "canary": 49,
+    "beam": 57,
+    "mid": 37,
+    "banks_separate_track": 8
+  },
+  "targets": [
+    {
+      "entity": "Perfect Moment Ltd.",
+      "cik": "",
+      "ticker": "",
+      "sector": "Other / unclassified",
+      "tier": "canary",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.2977,
+      "canary_score": 0.6133,
+      "ai_tagged": false,
+      "debt_notional_usd": 137089960.0,
+      "near_term_notional_usd": 10000000.0,
+      "max_coupon": 0.15,
+      "source_uri_count": 55,
+      "signatures": {
+        "leverage": 0.0279,
+        "refi": 0.0003,
+        "carry": 1.0,
+        "hidden": 0.0182,
+        "concentration": 0.9916,
+        "circular": 0.3,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "distressed-priced tranche(s) up to 15.0%",
+        "counterparty concentration (HHI 0.99)",
+        "related-party / circular financing flagged"
+      ]
+    },
+    {
+      "entity": "NEXTNRG, INC.",
+      "cik": "",
+      "ticker": "",
+      "sector": "Other / unclassified",
+      "tier": "canary",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.2698,
+      "canary_score": 0.5764,
+      "ai_tagged": false,
+      "debt_notional_usd": 144600888.0,
+      "near_term_notional_usd": 20524444.0,
+      "max_coupon": 0.18,
+      "source_uri_count": 159,
+      "signatures": {
+        "leverage": 0.0293,
+        "refi": 0.0013,
+        "carry": 1.0,
+        "hidden": 0.0,
+        "concentration": 0.776,
+        "circular": 0.3,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "distressed-priced tranche(s) up to 18.0%",
+        "counterparty concentration (HHI 0.78)",
+        "related-party / circular financing flagged"
+      ]
+    },
+    {
+      "entity": "Hyperscale Data, Inc.",
+      "cik": "0000896493",
+      "ticker": "GPUS",
+      "sector": "Data center / AI infra",
+      "tier": "canary",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.2714,
+      "canary_score": 0.5609,
+      "ai_tagged": true,
+      "debt_notional_usd": 327584766.0,
+      "near_term_notional_usd": 179758899.0,
+      "max_coupon": 0.15,
+      "source_uri_count": 100,
+      "signatures": {
+        "leverage": 0.0615,
+        "refi": 0.0394,
+        "carry": 1.0,
+        "hidden": 0.0,
+        "concentration": 0.6729,
+        "circular": 0.3,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "distressed-priced tranche(s) up to 15.0%",
+        "counterparty concentration (HHI 0.67)",
+        "related-party / circular financing flagged"
+      ]
+    },
+    {
+      "entity": "Workhorse Group Inc.",
+      "cik": "",
+      "ticker": "",
+      "sector": "Other / unclassified",
+      "tier": "canary",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.2615,
+      "canary_score": 0.54,
+      "ai_tagged": false,
+      "debt_notional_usd": 392300000.0,
+      "near_term_notional_usd": 218500000.0,
+      "max_coupon": 0.2,
+      "source_uri_count": 14,
+      "signatures": {
+        "leverage": 0.0719,
+        "refi": 0.0478,
+        "carry": 1.0,
+        "hidden": 0.25,
+        "concentration": 0.5169,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "distressed-priced tranche(s) up to 20.0%",
+        "counterparty concentration (HHI 0.52)"
+      ]
+    },
+    {
+      "entity": "Energy Vault Holdings, Inc.",
+      "cik": "",
+      "ticker": "",
+      "sector": "Power / utility",
+      "tier": "canary",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.2598,
+      "canary_score": 0.5256,
+      "ai_tagged": false,
+      "debt_notional_usd": 1433500000.0,
+      "near_term_notional_usd": 406500000.0,
+      "max_coupon": 0.18,
+      "source_uri_count": 33,
+      "signatures": {
+        "leverage": 0.1931,
+        "refi": 0.042,
+        "carry": 1.0,
+        "hidden": 0.2121,
+        "concentration": 0.0835,
+        "circular": 0.3,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "distressed-priced tranche(s) up to 18.0%",
+        "related-party / circular financing flagged"
+      ]
+    },
+    {
+      "entity": "EASTMAN KODAK COMPANY",
+      "cik": "0000031235",
+      "ticker": "KODK",
+      "sector": "Other / unclassified",
+      "tier": "canary",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.2771,
+      "canary_score": 0.5223,
+      "ai_tagged": false,
+      "debt_notional_usd": 1275000000.0,
+      "near_term_notional_usd": 0.0,
+      "max_coupon": 0.125,
+      "source_uri_count": 2,
+      "signatures": {
+        "leverage": 0.1785,
+        "refi": 0.0,
+        "carry": 0.75,
+        "hidden": 0.75,
+        "concentration": 0.2322,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "distressed-priced tranche(s) up to 12.5%",
+        "structured/ring-fenced (1 SPV/non-recourse flags)"
+      ]
+    },
+    {
+      "entity": "Hilton Grand Vacations Inc.",
+      "cik": "0001674168",
+      "ticker": "HGV",
+      "sector": "Other / unclassified",
+      "tier": "canary",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.2554,
+      "canary_score": 0.4948,
+      "ai_tagged": false,
+      "debt_notional_usd": 2272800000.0,
+      "near_term_notional_usd": 0.0,
+      "max_coupon": 0.151,
+      "source_uri_count": 7,
+      "signatures": {
+        "leverage": 0.2575,
+        "refi": 0.0,
+        "carry": 1.0,
+        "hidden": 0.2857,
+        "concentration": 0.1561,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "distressed-priced tranche(s) up to 15.1%"
+      ]
+    },
+    {
+      "entity": "NEXPOINT DIVERSIFIED REAL ESTATE TRUST",
+      "cik": "0001356115",
+      "ticker": "NXDT",
+      "sector": "Other / unclassified",
+      "tier": "canary",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.2025,
+      "canary_score": 0.485,
+      "ai_tagged": false,
+      "debt_notional_usd": 146469557.0,
+      "near_term_notional_usd": 0.0,
+      "max_coupon": 0.14,
+      "source_uri_count": 6,
+      "signatures": {
+        "leverage": 0.0297,
+        "refi": 0.0,
+        "carry": 0.9,
+        "hidden": 0.5,
+        "concentration": 0.0,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "distressed-priced tranche(s) up to 14.0%",
+        "structured/ring-fenced (0 SPV/non-recourse flags)"
+      ]
+    },
+    {
+      "entity": "VerifyMe, Inc.",
+      "cik": "0001104038",
+      "ticker": "VRME",
+      "sector": "Other / unclassified",
+      "tier": "canary",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.1809,
+      "canary_score": 0.4709,
+      "ai_tagged": false,
+      "debt_notional_usd": 57800000.0,
+      "near_term_notional_usd": 40000000.0,
+      "max_coupon": 0.16,
+      "source_uri_count": 23,
+      "signatures": {
+        "leverage": 0.0122,
+        "refi": 0.0118,
+        "carry": 1.0,
+        "hidden": 0.0435,
+        "concentration": 0.0,
+        "circular": 0.3,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "distressed-priced tranche(s) up to 16.0%",
+        "related-party / circular financing flagged"
+      ]
+    },
+    {
+      "entity": "HIGH STREET CAPITAL PARTNERS, LLC",
+      "cik": "",
+      "ticker": "",
+      "sector": "Other / unclassified",
+      "tier": "canary",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.198,
+      "canary_score": 0.4625,
+      "ai_tagged": false,
+      "debt_notional_usd": 200364584.0,
+      "near_term_notional_usd": 200364584.0,
+      "max_coupon": 0.2,
+      "source_uri_count": 1,
+      "signatures": {
+        "leverage": 0.0397,
+        "refi": 0.0793,
+        "carry": 1.0,
+        "hidden": 0.25,
+        "concentration": 0.0,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "distressed-priced tranche(s) up to 20.0%"
+      ]
+    },
+    {
+      "entity": "Celularity Inc",
+      "cik": "0001752828",
+      "ticker": "CELU",
+      "sector": "Other / unclassified",
+      "tier": "canary",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.1735,
+      "canary_score": 0.46,
+      "ai_tagged": false,
+      "debt_notional_usd": 64858912.0,
+      "near_term_notional_usd": 21212230.0,
+      "max_coupon": 0.15,
+      "source_uri_count": 41,
+      "signatures": {
+        "leverage": 0.0136,
+        "refi": 0.003,
+        "carry": 1.0,
+        "hidden": 0.0,
+        "concentration": 0.0,
+        "circular": 0.3,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "distressed-priced tranche(s) up to 15.0%",
+        "related-party / circular financing flagged"
+      ]
+    },
+    {
+      "entity": "Gold.com, Inc.",
+      "cik": "0001591588",
+      "ticker": "GOLD",
+      "sector": "Other / unclassified",
+      "tier": "canary",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.1971,
+      "canary_score": 0.4556,
+      "ai_tagged": false,
+      "debt_notional_usd": 723500000.0,
+      "near_term_notional_usd": 0.0,
+      "max_coupon": 0.15,
+      "source_uri_count": 8,
+      "signatures": {
+        "leverage": 0.1182,
+        "refi": 0.0,
+        "carry": 1.0,
+        "hidden": 0.2222,
+        "concentration": 0.0,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "distressed-priced tranche(s) up to 15.0%"
+      ]
+    },
+    {
+      "entity": "Canopy Growth Corp",
+      "cik": "",
+      "ticker": "",
+      "sector": "Other / unclassified",
+      "tier": "canary",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.2453,
+      "canary_score": 0.4383,
+      "ai_tagged": false,
+      "debt_notional_usd": 2429782191.0,
+      "near_term_notional_usd": 926114584.0,
+      "max_coupon": 0.2,
+      "source_uri_count": 32,
+      "signatures": {
+        "leverage": 0.2676,
+        "refi": 0.1085,
+        "carry": 1.0,
+        "hidden": 0.0625,
+        "concentration": 0.1513,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "distressed-priced tranche(s) up to 20.0%"
+      ]
+    },
+    {
+      "entity": "Foxx Development Holdings Inc.",
+      "cik": "",
+      "ticker": "",
+      "sector": "Other / unclassified",
+      "tier": "canary",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.1564,
+      "canary_score": 0.42,
+      "ai_tagged": false,
+      "debt_notional_usd": 9000000.0,
+      "near_term_notional_usd": 0.0,
+      "max_coupon": 0.14,
+      "source_uri_count": 16,
+      "signatures": {
+        "leverage": 0.0019,
+        "refi": 0.0,
+        "carry": 0.9,
+        "hidden": 0.0,
+        "concentration": 0.0,
+        "circular": 0.3,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "distressed-priced tranche(s) up to 14.0%",
+        "related-party / circular financing flagged"
+      ]
+    },
+    {
+      "entity": "SunPower Inc.",
+      "cik": "",
+      "ticker": "",
+      "sector": "Other / unclassified",
+      "tier": "canary",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.2151,
+      "canary_score": 0.4021,
+      "ai_tagged": false,
+      "debt_notional_usd": 626075000.0,
+      "near_term_notional_usd": 164000000.0,
+      "max_coupon": 0.12,
+      "source_uri_count": 60,
+      "signatures": {
+        "leverage": 0.1056,
+        "refi": 0.0173,
+        "carry": 0.7,
+        "hidden": 0.1148,
+        "concentration": 0.6227,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "distressed-priced tranche(s) up to 12.0%",
+        "counterparty concentration (HHI 0.62)"
+      ]
+    },
+    {
+      "entity": "Royal Energy, Inc.",
+      "cik": "",
+      "ticker": "",
+      "sector": "Power / utility",
+      "tier": "canary",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.1404,
+      "canary_score": 0.4,
+      "ai_tagged": false,
+      "debt_notional_usd": 3000000.0,
+      "near_term_notional_usd": 3000000.0,
+      "max_coupon": 0.18,
+      "source_uri_count": 1,
+      "signatures": {
+        "leverage": 0.0007,
+        "refi": 0.0013,
+        "carry": 1.0,
+        "hidden": 0.0,
+        "concentration": 0.0,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "distressed-priced tranche(s) up to 18.0%"
+      ]
+    },
+    {
+      "entity": "Royale Energy, Inc.",
+      "cik": "",
+      "ticker": "",
+      "sector": "Power / utility",
+      "tier": "canary",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.1404,
+      "canary_score": 0.4,
+      "ai_tagged": false,
+      "debt_notional_usd": 5820424.0,
+      "near_term_notional_usd": 3000000.0,
+      "max_coupon": 0.18,
+      "source_uri_count": 2,
+      "signatures": {
+        "leverage": 0.0013,
+        "refi": 0.0007,
+        "carry": 1.0,
+        "hidden": 0.0,
+        "concentration": 0.0,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "distressed-priced tranche(s) up to 18.0%"
+      ]
+    },
+    {
+      "entity": "BTCS Inc.",
+      "cik": "",
+      "ticker": "",
+      "sector": "Other / unclassified",
+      "tier": "canary",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.1427,
+      "canary_score": 0.4,
+      "ai_tagged": false,
+      "debt_notional_usd": 57860526.0,
+      "near_term_notional_usd": 0.0,
+      "max_coupon": 0.18,
+      "source_uri_count": 16,
+      "signatures": {
+        "leverage": 0.0122,
+        "refi": 0.0,
+        "carry": 1.0,
+        "hidden": 0.0,
+        "concentration": 0.0,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "distressed-priced tranche(s) up to 18.0%"
+      ]
+    },
+    {
+      "entity": "TORONTO-DOMINION BANK",
+      "cik": "0000947263",
+      "ticker": "TD",
+      "sector": "Power / utility",
+      "tier": "canary",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.145,
+      "canary_score": 0.4,
+      "ai_tagged": false,
+      "debt_notional_usd": 110089000.0,
+      "near_term_notional_usd": 2756000.0,
+      "max_coupon": 0.1905,
+      "source_uri_count": 188,
+      "signatures": {
+        "leverage": 0.0227,
+        "refi": 0.0,
+        "carry": 1.0,
+        "hidden": 0.0,
+        "concentration": 0.0,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "distressed-priced tranche(s) up to 19.1%"
+      ]
+    },
+    {
+      "entity": "WESTERN ASSET HIGH INCOME FUND II INC.",
+      "cik": "0001058239",
+      "ticker": "HIX",
+      "sector": "Other / unclassified",
+      "tier": "canary",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.16,
+      "canary_score": 0.4,
+      "ai_tagged": false,
+      "debt_notional_usd": 520000000.0,
+      "near_term_notional_usd": 0.0,
+      "max_coupon": 0.2,
+      "source_uri_count": 2,
+      "signatures": {
+        "leverage": 0.0909,
+        "refi": 0.0,
+        "carry": 1.0,
+        "hidden": 0.0,
+        "concentration": 0.0,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "distressed-priced tranche(s) up to 20.0%"
+      ]
+    },
+    {
+      "entity": "Southland Holdings, Inc.",
+      "cik": "",
+      "ticker": "",
+      "sector": "Other / unclassified",
+      "tier": "canary",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.1711,
+      "canary_score": 0.4,
+      "ai_tagged": false,
+      "debt_notional_usd": 781713000.0,
+      "near_term_notional_usd": 197100000.0,
+      "max_coupon": 0.18,
+      "source_uri_count": 31,
+      "signatures": {
+        "leverage": 0.1254,
+        "refi": 0.0197,
+        "carry": 1.0,
+        "hidden": 0.0,
+        "concentration": 0.0,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "distressed-priced tranche(s) up to 18.0%"
+      ]
+    },
+    {
+      "entity": "CALAMOS CONVERTIBLE & HIGH INCOME FUND",
+      "cik": "0001222719",
+      "ticker": "CHY",
+      "sector": "Other / unclassified",
+      "tier": "canary",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.1807,
+      "canary_score": 0.4,
+      "ai_tagged": false,
+      "debt_notional_usd": 1343600000.0,
+      "near_term_notional_usd": 0.0,
+      "max_coupon": 0.2,
+      "source_uri_count": 2,
+      "signatures": {
+        "leverage": 0.1849,
+        "refi": 0.0,
+        "carry": 1.0,
+        "hidden": 0.0,
+        "concentration": 0.0,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "distressed-priced tranche(s) up to 20.0%"
+      ]
+    },
+    {
+      "entity": "BANK OF NOVA SCOTIA",
+      "cik": "0000009631",
+      "ticker": "BNS",
+      "sector": "Bank / depository",
+      "tier": "canary",
+      "off_corporate_leverage_axis": true,
+      "composite": 0.1817,
+      "canary_score": 0.3952,
+      "ai_tagged": false,
+      "debt_notional_usd": 1472850000.0,
+      "near_term_notional_usd": 40084000.0,
+      "max_coupon": 0.1488,
+      "source_uri_count": 220,
+      "signatures": {
+        "leverage": 0.1966,
+        "refi": 0.0005,
+        "carry": 0.988,
+        "hidden": 0.0,
+        "concentration": 0.0,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "distressed-priced tranche(s) up to 14.9%"
+      ]
+    },
+    {
+      "entity": "NET-ZERO NORTH HOLDCO, LLC",
+      "cik": "",
+      "ticker": "",
+      "sector": "Other / unclassified",
+      "tier": "canary",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.168,
+      "canary_score": 0.3915,
+      "ai_tagged": false,
+      "debt_notional_usd": 105000000.0,
+      "near_term_notional_usd": 0.0,
+      "max_coupon": 0.115,
+      "source_uri_count": 1,
+      "signatures": {
+        "leverage": 0.0217,
+        "refi": 0.0,
+        "carry": 0.65,
+        "hidden": 0.25,
+        "concentration": 0.06,
+        "circular": 0.3,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "distressed-priced tranche(s) up to 11.5%",
+        "related-party / circular financing flagged"
+      ]
+    },
+    {
+      "entity": "PROG Holdings, Inc.",
+      "cik": "0001808834",
+      "ticker": "PRG",
+      "sector": "Other / unclassified",
+      "tier": "canary",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.1824,
+      "canary_score": 0.3886,
+      "ai_tagged": false,
+      "debt_notional_usd": 642354320.0,
+      "near_term_notional_usd": 112075000.0,
+      "max_coupon": 0.129,
+      "source_uri_count": 21,
+      "signatures": {
+        "leverage": 0.1077,
+        "refi": 0.008,
+        "carry": 0.79,
+        "hidden": 0.1905,
+        "concentration": 0.1667,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "distressed-priced tranche(s) up to 12.9%"
+      ]
+    },
+    {
+      "entity": "Gevo, Inc.",
+      "cik": "0001392380",
+      "ticker": "GEVO",
+      "sector": "Other / unclassified",
+      "tier": "canary",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.159,
+      "canary_score": 0.3693,
+      "ai_tagged": false,
+      "debt_notional_usd": 198000000.0,
+      "near_term_notional_usd": 0.0,
+      "max_coupon": 0.115,
+      "source_uri_count": 6,
+      "signatures": {
+        "leverage": 0.0392,
+        "refi": 0.0,
+        "carry": 0.65,
+        "hidden": 0.1667,
+        "concentration": 0.0505,
+        "circular": 0.3,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "distressed-priced tranche(s) up to 11.5%",
+        "related-party / circular financing flagged"
+      ]
+    },
+    {
+      "entity": "EASTMAN KODAK CO",
+      "cik": "",
+      "ticker": "",
+      "sector": "Other / unclassified",
+      "tier": "canary",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.2073,
+      "canary_score": 0.3646,
+      "ai_tagged": false,
+      "debt_notional_usd": 2337000000.0,
+      "near_term_notional_usd": 0.0,
+      "max_coupon": 0.125,
+      "source_uri_count": 26,
+      "signatures": {
+        "leverage": 0.2617,
+        "refi": 0.0,
+        "carry": 0.75,
+        "hidden": 0.1154,
+        "concentration": 0.2383,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "distressed-priced tranche(s) up to 12.5%"
+      ]
+    },
+    {
+      "entity": "ContextLogic Holdings Inc.",
+      "cik": "",
+      "ticker": "",
+      "sector": "Other / unclassified",
+      "tier": "canary",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.2198,
+      "canary_score": 0.3628,
+      "ai_tagged": false,
+      "debt_notional_usd": 2383100000.0,
+      "near_term_notional_usd": 0.0,
+      "max_coupon": 0.1,
+      "source_uri_count": 29,
+      "signatures": {
+        "leverage": 0.2647,
+        "refi": 0.0,
+        "carry": 0.5,
+        "hidden": 0.3448,
+        "concentration": 0.1104,
+        "circular": 0.3,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "distressed-priced tranche(s) up to 10.0%",
+        "structured/ring-fenced (0 SPV/non-recourse flags)",
+        "related-party / circular financing flagged"
+      ]
+    },
+    {
+      "entity": "SEACOR Marine Foreign Holdings Inc.",
+      "cik": "",
+      "ticker": "",
+      "sector": "Other / unclassified",
+      "tier": "canary",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.128,
+      "canary_score": 0.36,
+      "ai_tagged": false,
+      "debt_notional_usd": 43307246.0,
+      "near_term_notional_usd": 0.0,
+      "max_coupon": 0.14,
+      "source_uri_count": 3,
+      "signatures": {
+        "leverage": 0.0092,
+        "refi": 0.0,
+        "carry": 0.9,
+        "hidden": 0.0,
+        "concentration": 0.0,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "distressed-priced tranche(s) up to 14.0%"
+      ]
+    },
+    {
+      "entity": "SEACOR Marine Holdings Inc.",
+      "cik": "0001690334",
+      "ticker": "SMHI",
+      "sector": "Other / unclassified",
+      "tier": "canary",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.1775,
+      "canary_score": 0.36,
+      "ai_tagged": false,
+      "debt_notional_usd": 1566307246.0,
+      "near_term_notional_usd": 391000000.0,
+      "max_coupon": 0.14,
+      "source_uri_count": 20,
+      "signatures": {
+        "leverage": 0.2047,
+        "refi": 0.0358,
+        "carry": 0.9,
+        "hidden": 0.0,
+        "concentration": 0.0,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "distressed-priced tranche(s) up to 14.0%"
+      ]
+    },
+    {
+      "entity": "HVF III",
+      "cik": "",
+      "ticker": "",
+      "sector": "Other / unclassified",
+      "tier": "canary",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.1999,
+      "canary_score": 0.3587,
+      "ai_tagged": false,
+      "debt_notional_usd": 1081421000.0,
+      "near_term_notional_usd": 0.0,
+      "max_coupon": 0.0928,
+      "source_uri_count": 3,
+      "signatures": {
+        "leverage": 0.1592,
+        "refi": 0.0,
+        "carry": 0.428,
+        "hidden": 0.75,
+        "concentration": 0.0,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "distressed-priced tranche(s) up to 9.3%",
+        "structured/ring-fenced (3 SPV/non-recourse flags)"
+      ]
+    },
+    {
+      "entity": "RAPID MICRO BIOSYSTEMS, INC.",
+      "cik": "",
+      "ticker": "",
+      "sector": "Other / unclassified",
+      "tier": "canary",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.1649,
+      "canary_score": 0.3521,
+      "ai_tagged": false,
+      "debt_notional_usd": 465000000.0,
+      "near_term_notional_usd": 0.0,
+      "max_coupon": 0.115,
+      "source_uri_count": 6,
+      "signatures": {
+        "leverage": 0.0829,
+        "refi": 0.0,
+        "carry": 0.65,
+        "hidden": 0.0,
+        "concentration": 0.2142,
+        "circular": 0.3,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "distressed-priced tranche(s) up to 11.5%",
+        "related-party / circular financing flagged"
+      ]
+    },
+    {
+      "entity": "Shift4 Payments, LLC",
+      "cik": "0001794669",
+      "ticker": "FOUR",
+      "sector": "Payments / fintech",
+      "tier": "canary",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.2744,
+      "canary_score": 0.3481,
+      "ai_tagged": false,
+      "debt_notional_usd": 3000000000.0,
+      "near_term_notional_usd": 1100000000.0,
+      "max_coupon": 0.0675,
+      "source_uri_count": 4,
+      "signatures": {
+        "leverage": 0.301,
+        "refi": 0.1181,
+        "carry": 0.175,
+        "hidden": 1.0,
+        "concentration": 0.1872,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "structured/ring-fenced (2 SPV/non-recourse flags)"
+      ]
+    },
+    {
+      "entity": "Lexmark, as US holdings, Lexmark International, Inc.",
+      "cik": "",
+      "ticker": "",
+      "sector": "Other / unclassified",
+      "tier": "canary",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.1601,
+      "canary_score": 0.345,
+      "ai_tagged": false,
+      "debt_notional_usd": 250000000.0,
+      "near_term_notional_usd": 250000000.0,
+      "max_coupon": 0.13,
+      "source_uri_count": 1,
+      "signatures": {
+        "leverage": 0.0485,
+        "refi": 0.0969,
+        "carry": 0.8,
+        "hidden": 0.0,
+        "concentration": 0.1667,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "distressed-priced tranche(s) up to 13.0%"
+      ]
+    },
+    {
+      "entity": "Xerox Holdings Corporation, as holdings, Xerox Corporation",
+      "cik": "",
+      "ticker": "",
+      "sector": "Other / unclassified",
+      "tier": "canary",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.1601,
+      "canary_score": 0.345,
+      "ai_tagged": false,
+      "debt_notional_usd": 250000000.0,
+      "near_term_notional_usd": 250000000.0,
+      "max_coupon": 0.13,
+      "source_uri_count": 1,
+      "signatures": {
+        "leverage": 0.0485,
+        "refi": 0.0969,
+        "carry": 0.8,
+        "hidden": 0.0,
+        "concentration": 0.1667,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "distressed-priced tranche(s) up to 13.0%"
+      ]
+    },
+    {
+      "entity": "Western New England Bancorp, Inc.",
+      "cik": "0001157647",
+      "ticker": "WNEB",
+      "sector": "Bank / depository",
+      "tier": "canary",
+      "off_corporate_leverage_axis": true,
+      "composite": 0.141,
+      "canary_score": 0.344,
+      "ai_tagged": false,
+      "debt_notional_usd": 177200000.0,
+      "near_term_notional_usd": 177200000.0,
+      "max_coupon": 0.136,
+      "source_uri_count": 2,
+      "signatures": {
+        "leverage": 0.0354,
+        "refi": 0.0709,
+        "carry": 0.86,
+        "hidden": 0.0,
+        "concentration": 0.0,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "distressed-priced tranche(s) up to 13.6%"
+      ]
+    },
+    {
+      "entity": "CORPORATION",
+      "cik": "",
+      "ticker": "",
+      "sector": "Other / unclassified",
+      "tier": "canary",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.2193,
+      "canary_score": 0.3386,
+      "ai_tagged": false,
+      "debt_notional_usd": 1137000000.0,
+      "near_term_notional_usd": 701000000.0,
+      "max_coupon": 0.09875,
+      "source_uri_count": 7,
+      "signatures": {
+        "leverage": 0.1649,
+        "refi": 0.1422,
+        "carry": 0.4875,
+        "hidden": 0.4286,
+        "concentration": 0.243,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "distressed-priced tranche(s) up to 9.9%",
+        "structured/ring-fenced (1 SPV/non-recourse flags)"
+      ]
+    },
+    {
+      "entity": "Humacyte, Inc.",
+      "cik": "0001818382",
+      "ticker": "HUMA",
+      "sector": "Other / unclassified",
+      "tier": "canary",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.1634,
+      "canary_score": 0.3351,
+      "ai_tagged": false,
+      "debt_notional_usd": 293912500.0,
+      "near_term_notional_usd": 0.0,
+      "max_coupon": 0.115,
+      "source_uri_count": 24,
+      "signatures": {
+        "leverage": 0.056,
+        "refi": 0.0,
+        "carry": 0.65,
+        "hidden": 0.0,
+        "concentration": 0.5006,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "distressed-priced tranche(s) up to 11.5%",
+        "counterparty concentration (HHI 0.50)"
+      ]
+    },
+    {
+      "entity": "HOVNANIAN ENTERPRISES INC",
+      "cik": "0000357294",
+      "ticker": "HOV",
+      "sector": "Other / unclassified",
+      "tier": "canary",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.1999,
+      "canary_score": 0.3348,
+      "ai_tagged": false,
+      "debt_notional_usd": 1237500000.0,
+      "near_term_notional_usd": 0.0,
+      "max_coupon": 0.08375,
+      "source_uri_count": 13,
+      "signatures": {
+        "leverage": 0.1749,
+        "refi": 0.0,
+        "carry": 0.3375,
+        "hidden": 0.4615,
+        "concentration": 0.1629,
+        "circular": 0.3,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "structured/ring-fenced (0 SPV/non-recourse flags)",
+        "related-party / circular financing flagged"
+      ]
+    },
+    {
+      "entity": "Exodus Movement, Inc.",
+      "cik": "0001821534",
+      "ticker": "EXOD",
+      "sector": "Other / unclassified",
+      "tier": "canary",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.1875,
+      "canary_score": 0.3346,
+      "ai_tagged": false,
+      "debt_notional_usd": 425000000.0,
+      "near_term_notional_usd": 0.0,
+      "max_coupon": 0.09,
+      "source_uri_count": 17,
+      "signatures": {
+        "leverage": 0.0769,
+        "refi": 0.0,
+        "carry": 0.4,
+        "hidden": 0.1176,
+        "concentration": 0.5679,
+        "circular": 0.3,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "distressed-priced tranche(s) up to 9.0%",
+        "counterparty concentration (HHI 0.57)",
+        "related-party / circular financing flagged"
+      ]
+    },
+    {
+      "entity": "GEVO OPERATING HOLDINGS, LLC",
+      "cik": "",
+      "ticker": "",
+      "sector": "Other / unclassified",
+      "tier": "canary",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.138,
+      "canary_score": 0.3315,
+      "ai_tagged": false,
+      "debt_notional_usd": 105000000.0,
+      "near_term_notional_usd": 0.0,
+      "max_coupon": 0.115,
+      "source_uri_count": 1,
+      "signatures": {
+        "leverage": 0.0217,
+        "refi": 0.0,
+        "carry": 0.65,
+        "hidden": 0.25,
+        "concentration": 0.06,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "distressed-priced tranche(s) up to 11.5%"
+      ]
+    },
+    {
+      "entity": "TREX CO INC",
+      "cik": "",
+      "ticker": "",
+      "sector": "Other / unclassified",
+      "tier": "canary",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.2422,
+      "canary_score": 0.3308,
+      "ai_tagged": false,
+      "debt_notional_usd": 705000000.0,
+      "near_term_notional_usd": 0.0,
+      "max_coupon": 0.01,
+      "source_uri_count": 4,
+      "signatures": {
+        "leverage": 0.1159,
+        "refi": 0.0,
+        "carry": 0.0,
+        "hidden": 0.5,
+        "concentration": 0.9721,
+        "circular": 0.3,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "structured/ring-fenced (1 SPV/non-recourse flags)",
+        "counterparty concentration (HHI 0.97)",
+        "related-party / circular financing flagged"
+      ]
+    },
+    {
+      "entity": "Babcock & Wilcox Enterprises, Inc.",
+      "cik": "0001630805",
+      "ticker": "BW",
+      "sector": "Other / unclassified",
+      "tier": "canary",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.2251,
+      "canary_score": 0.33,
+      "ai_tagged": false,
+      "debt_notional_usd": 755200000.0,
+      "near_term_notional_usd": 260700000.0,
+      "max_coupon": 0.08,
+      "source_uri_count": 42,
+      "signatures": {
+        "leverage": 0.1222,
+        "refi": 0.0347,
+        "carry": 0.3,
+        "hidden": 0.0,
+        "concentration": 1.0,
+        "circular": 0.3,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "counterparty concentration (HHI 1.00)",
+        "related-party / circular financing flagged"
+      ]
+    },
+    {
+      "entity": "Borr Drilling Ltd",
+      "cik": "",
+      "ticker": "",
+      "sector": "Other / unclassified",
+      "tier": "canary",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.163,
+      "canary_score": 0.325,
+      "ai_tagged": false,
+      "debt_notional_usd": 200000000.0,
+      "near_term_notional_usd": 200000000.0,
+      "max_coupon": 0.1,
+      "source_uri_count": 3,
+      "signatures": {
+        "leverage": 0.0396,
+        "refi": 0.0792,
+        "carry": 0.5,
+        "hidden": 0.5,
+        "concentration": 0.0,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "distressed-priced tranche(s) up to 10.0%",
+        "structured/ring-fenced (0 SPV/non-recourse flags)"
+      ]
+    },
+    {
+      "entity": "CSB Bancorp, Inc.",
+      "cik": "0000880417",
+      "ticker": "CSBB",
+      "sector": "Bank / depository",
+      "tier": "canary",
+      "off_corporate_leverage_axis": true,
+      "composite": 0.1253,
+      "canary_score": 0.32,
+      "ai_tagged": false,
+      "debt_notional_usd": 322000000.0,
+      "near_term_notional_usd": 0.0,
+      "max_coupon": 0.13,
+      "source_uri_count": 8,
+      "signatures": {
+        "leverage": 0.0606,
+        "refi": 0.0,
+        "carry": 0.8,
+        "hidden": 0.0,
+        "concentration": 0.0,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "distressed-priced tranche(s) up to 13.0%"
+      ]
+    },
+    {
+      "entity": "BRC Group Holdings, Inc.",
+      "cik": "",
+      "ticker": "",
+      "sector": "Other / unclassified",
+      "tier": "canary",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.1726,
+      "canary_score": 0.3167,
+      "ai_tagged": false,
+      "debt_notional_usd": 1101850000.0,
+      "near_term_notional_usd": 583000000.0,
+      "max_coupon": 0.1233,
+      "source_uri_count": 74,
+      "signatures": {
+        "leverage": 0.1613,
+        "refi": 0.1055,
+        "carry": 0.733,
+        "hidden": 0.0541,
+        "concentration": 0.0663,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "distressed-priced tranche(s) up to 12.3%"
+      ]
+    },
+    {
+      "entity": "Polaris Inc.",
+      "cik": "0000931015",
+      "ticker": "PII",
+      "sector": "Other / unclassified",
+      "tier": "canary",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.2491,
+      "canary_score": 0.316,
+      "ai_tagged": false,
+      "debt_notional_usd": 1500000000.0,
+      "near_term_notional_usd": 1000000000.0,
+      "max_coupon": 0.0626,
+      "source_uri_count": 7,
+      "signatures": {
+        "leverage": 0.199,
+        "refi": 0.2007,
+        "carry": 0.126,
+        "hidden": 0.7143,
+        "concentration": 0.18,
+        "circular": 0.3,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "structured/ring-fenced (3 SPV/non-recourse flags)",
+        "related-party / circular financing flagged"
+      ]
+    },
+    {
+      "entity": "Knife River Corporation",
+      "cik": "",
+      "ticker": "",
+      "sector": "Other / unclassified",
+      "tier": "canary",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.1914,
+      "canary_score": 0.3152,
+      "ai_tagged": false,
+      "debt_notional_usd": 1025000000.0,
+      "near_term_notional_usd": 0.0,
+      "max_coupon": 0.0775,
+      "source_uri_count": 3,
+      "signatures": {
+        "leverage": 0.1532,
+        "refi": 0.0,
+        "carry": 0.275,
+        "hidden": 0.75,
+        "concentration": 0.1181,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "structured/ring-fenced (2 SPV/non-recourse flags)"
+      ]
+    },
+    {
+      "entity": "Commercial Vehicle Group, Inc.",
+      "cik": "0001290900",
+      "ticker": "CVGI",
+      "sector": "Other / unclassified",
+      "tier": "canary",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.1806,
+      "canary_score": 0.3134,
+      "ai_tagged": false,
+      "debt_notional_usd": 511000000.0,
+      "near_term_notional_usd": 355000000.0,
+      "max_coupon": 0.0875,
+      "source_uri_count": 20,
+      "signatures": {
+        "leverage": 0.0896,
+        "refi": 0.0917,
+        "carry": 0.375,
+        "hidden": 0.3478,
+        "concentration": 0.1097,
+        "circular": 0.3,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "structured/ring-fenced (0 SPV/non-recourse flags)",
+        "related-party / circular financing flagged"
+      ]
+    },
+    {
+      "entity": "SPACE EXPLORATION TECHNOLOGIES CORP",
+      "cik": "",
+      "ticker": "",
+      "sector": "Aerospace / space / defense",
+      "tier": "beam",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.4891,
+      "ai_tagged": false,
+      "debt_notional_usd": 45515999854.0,
+      "near_term_notional_usd": 40000000000.0,
+      "max_coupon": 0.0675,
+      "source_uri_count": 7,
+      "signatures": {
+        "leverage": 0.8338,
+        "refi": 0.8788,
+        "carry": 0.175,
+        "hidden": 0.7778,
+        "concentration": 0.1174,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "large debt footprint ($46B gross)",
+        "front-loaded refi wall ($40B due <=2027)",
+        "structured/ring-fenced (4 SPV/non-recourse flags)"
+      ]
+    },
+    {
+      "entity": "PennyMac Mortgage Investment Trust",
+      "cik": "0001464423",
+      "ticker": "PMT",
+      "sector": "Mortgage REIT",
+      "tier": "beam",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.475,
+      "ai_tagged": false,
+      "debt_notional_usd": 53198000000.0,
+      "near_term_notional_usd": 33885000000.0,
+      "max_coupon": 0.113,
+      "source_uri_count": 19,
+      "signatures": {
+        "leverage": 0.867,
+        "refi": 0.637,
+        "carry": 0.63,
+        "hidden": 0.3158,
+        "concentration": 0.0597,
+        "circular": 0.3,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "large debt footprint ($53B gross)",
+        "front-loaded refi wall ($34B due <=2027)",
+        "distressed-priced tranche(s) up to 11.3%",
+        "structured/ring-fenced (0 SPV/non-recourse flags)",
+        "related-party / circular financing flagged"
+      ]
+    },
+    {
+      "entity": "ENBRIDGE INC",
+      "cik": "0000895728",
+      "ticker": "ENB",
+      "sector": "Midstream / pipeline",
+      "tier": "beam",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.4598,
+      "ai_tagged": false,
+      "debt_notional_usd": 54700000000.0,
+      "near_term_notional_usd": 26650000000.0,
+      "max_coupon": 0.07375,
+      "source_uri_count": 35,
+      "signatures": {
+        "leverage": 0.8729,
+        "refi": 0.4872,
+        "carry": 0.2375,
+        "hidden": 0.4,
+        "concentration": 0.5067,
+        "circular": 0.3,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "large debt footprint ($55B gross)",
+        "structured/ring-fenced (0 SPV/non-recourse flags)",
+        "counterparty concentration (HHI 0.51)",
+        "related-party / circular financing flagged"
+      ]
+    },
+    {
+      "entity": "EQUINIX INC",
+      "cik": "",
+      "ticker": "",
+      "sector": "Data center / AI infra",
+      "tier": "beam",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.4555,
+      "ai_tagged": false,
+      "debt_notional_usd": 76300001225.0,
+      "near_term_notional_usd": 50950000000.0,
+      "max_coupon": 0.0475,
+      "source_uri_count": 55,
+      "signatures": {
+        "leverage": 0.9441,
+        "refi": 0.6678,
+        "carry": 0.0,
+        "hidden": 0.0,
+        "concentration": 0.8134,
+        "circular": 0.3,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "large debt footprint ($76B gross)",
+        "front-loaded refi wall ($51B due <=2027)",
+        "counterparty concentration (HHI 0.81)",
+        "related-party / circular financing flagged"
+      ]
+    },
+    {
+      "entity": "BREAD FINANCIAL HOLDINGS, INC.",
+      "cik": "0001101215",
+      "ticker": "BFH",
+      "sector": "Payments / fintech",
+      "tier": "beam",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.4518,
+      "ai_tagged": false,
+      "debt_notional_usd": 77078940000.0,
+      "near_term_notional_usd": 38728690000.0,
+      "max_coupon": 0.12,
+      "source_uri_count": 34,
+      "signatures": {
+        "leverage": 0.9463,
+        "refi": 0.5025,
+        "carry": 0.7,
+        "hidden": 0.0,
+        "concentration": 0.2093,
+        "circular": 0.3,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "large debt footprint ($77B gross)",
+        "front-loaded refi wall ($39B due <=2027)",
+        "distressed-priced tranche(s) up to 12.0%",
+        "related-party / circular financing flagged"
+      ]
+    },
+    {
+      "entity": "SIMMONS FIRST NATIONAL CORP",
+      "cik": "",
+      "ticker": "",
+      "sector": "Bank / depository",
+      "tier": "beam",
+      "off_corporate_leverage_axis": true,
+      "composite": 0.4355,
+      "ai_tagged": false,
+      "debt_notional_usd": 52900000000.0,
+      "near_term_notional_usd": 35400000000.0,
+      "max_coupon": 0.139,
+      "source_uri_count": 3,
+      "signatures": {
+        "leverage": 0.8658,
+        "refi": 0.6692,
+        "carry": 0.89,
+        "hidden": 0.0,
+        "concentration": 0.0,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "large debt footprint ($53B gross)",
+        "front-loaded refi wall ($35B due <=2027)",
+        "distressed-priced tranche(s) up to 13.9%"
+      ]
+    },
+    {
+      "entity": "Ameris Bancorp",
+      "cik": "0000351569",
+      "ticker": "ABCB",
+      "sector": "Bank / depository",
+      "tier": "beam",
+      "off_corporate_leverage_axis": true,
+      "composite": 0.4331,
+      "ai_tagged": false,
+      "debt_notional_usd": 126103000000.0,
+      "near_term_notional_usd": 103723000000.0,
+      "max_coupon": 0.0822,
+      "source_uri_count": 6,
+      "signatures": {
+        "leverage": 1.0,
+        "refi": 0.8225,
+        "carry": 0.322,
+        "hidden": 0.0,
+        "concentration": 0.1667,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "large debt footprint ($126B gross)",
+        "front-loaded refi wall ($104B due <=2027)"
+      ]
+    },
+    {
+      "entity": "NextDecade Corp",
+      "cik": "",
+      "ticker": "",
+      "sector": "LNG / gas export",
+      "tier": "beam",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.42,
+      "ai_tagged": false,
+      "debt_notional_usd": 28852969265.0,
+      "near_term_notional_usd": 4839000000.0,
+      "max_coupon": 0.13,
+      "source_uri_count": 56,
+      "signatures": {
+        "leverage": 0.7375,
+        "refi": 0.1285,
+        "carry": 0.8,
+        "hidden": 0.5536,
+        "concentration": 0.1261,
+        "circular": 0.3,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "large debt footprint ($29B gross)",
+        "distressed-priced tranche(s) up to 13.0%",
+        "structured/ring-fenced (8 SPV/non-recourse flags)",
+        "related-party / circular financing flagged"
+      ]
+    },
+    {
+      "entity": "NAVIENT CORP",
+      "cik": "",
+      "ticker": "",
+      "sector": "Payments / fintech",
+      "tier": "beam",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.4195,
+      "ai_tagged": false,
+      "debt_notional_usd": 157278000000.0,
+      "near_term_notional_usd": 15963000000.0,
+      "max_coupon": 0.09375,
+      "source_uri_count": 29,
+      "signatures": {
+        "leverage": 1.0,
+        "refi": 0.1015,
+        "carry": 0.4375,
+        "hidden": 0.0,
+        "concentration": 1.0,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "large debt footprint ($157B gross)",
+        "distressed-priced tranche(s) up to 9.4%",
+        "counterparty concentration (HHI 1.00)"
+      ]
+    },
+    {
+      "entity": "Bausch Health Companies Inc.",
+      "cik": "0000885590",
+      "ticker": "BHC",
+      "sector": "Specialty pharma / healthcare",
+      "tier": "beam",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.414,
+      "ai_tagged": false,
+      "debt_notional_usd": 32291958000.0,
+      "near_term_notional_usd": 17515708000.0,
+      "max_coupon": 0.11,
+      "source_uri_count": 16,
+      "signatures": {
+        "leverage": 0.7612,
+        "refi": 0.5424,
+        "carry": 0.6,
+        "hidden": 0.125,
+        "concentration": 0.1449,
+        "circular": 0.3,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "large debt footprint ($32B gross)",
+        "front-loaded refi wall ($18B due <=2027)",
+        "distressed-priced tranche(s) up to 11.0%",
+        "related-party / circular financing flagged"
+      ]
+    },
+    {
+      "entity": "Hut 8 Corp.",
+      "cik": "0001964789",
+      "ticker": "HUT",
+      "sector": "Data center / AI infra",
+      "tier": "beam",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.4132,
+      "ai_tagged": true,
+      "debt_notional_usd": 25977000000.0,
+      "near_term_notional_usd": 20630000000.0,
+      "max_coupon": 0.09,
+      "source_uri_count": 27,
+      "signatures": {
+        "leverage": 0.7155,
+        "refi": 0.7942,
+        "carry": 0.4,
+        "hidden": 0.0714,
+        "concentration": 0.1407,
+        "circular": 0.3,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "large debt footprint ($26B gross)",
+        "front-loaded refi wall ($21B due <=2027)",
+        "distressed-priced tranche(s) up to 9.0%",
+        "related-party / circular financing flagged"
+      ]
+    },
+    {
+      "entity": "X Holdings Corp., as holdings, X Corp.",
+      "cik": "",
+      "ticker": "",
+      "sector": "Other / unclassified",
+      "tier": "beam",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.4104,
+      "ai_tagged": false,
+      "debt_notional_usd": 20000000000.0,
+      "near_term_notional_usd": 20000000000.0,
+      "max_coupon": 0.02,
+      "source_uri_count": 1,
+      "signatures": {
+        "leverage": 0.6611,
+        "refi": 1.0,
+        "carry": 0.0,
+        "hidden": 0.5,
+        "concentration": 0.125,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "front-loaded refi wall ($20B due <=2027)",
+        "structured/ring-fenced (1 SPV/non-recourse flags)"
+      ]
+    },
+    {
+      "entity": "X.AI Corp, as holdings, X.AI LLC",
+      "cik": "",
+      "ticker": "",
+      "sector": "Data center / AI infra",
+      "tier": "beam",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.4104,
+      "ai_tagged": true,
+      "debt_notional_usd": 20000000000.0,
+      "near_term_notional_usd": 20000000000.0,
+      "max_coupon": 0.02,
+      "source_uri_count": 1,
+      "signatures": {
+        "leverage": 0.6611,
+        "refi": 1.0,
+        "carry": 0.0,
+        "hidden": 0.5,
+        "concentration": 0.125,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "front-loaded refi wall ($20B due <=2027)",
+        "structured/ring-fenced (1 SPV/non-recourse flags)"
+      ]
+    },
+    {
+      "entity": "BYLINE BANCORP, INC.",
+      "cik": "0001702750",
+      "ticker": "BY",
+      "sector": "Bank / depository",
+      "tier": "beam",
+      "off_corporate_leverage_axis": true,
+      "composite": 0.4078,
+      "ai_tagged": false,
+      "debt_notional_usd": 24159600000.0,
+      "near_term_notional_usd": 15984600000.0,
+      "max_coupon": 0.06875,
+      "source_uri_count": 17,
+      "signatures": {
+        "leverage": 0.7004,
+        "refi": 0.6616,
+        "carry": 0.1875,
+        "hidden": 0.0,
+        "concentration": 0.9027,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "large debt footprint ($24B gross)",
+        "front-loaded refi wall ($16B due <=2027)",
+        "counterparty concentration (HHI 0.90)"
+      ]
+    },
+    {
+      "entity": "Lumen Technologies, Inc.",
+      "cik": "0000018926",
+      "ticker": "LUMN",
+      "sector": "Telecom",
+      "tier": "beam",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.3895,
+      "ai_tagged": false,
+      "debt_notional_usd": 91185188000.0,
+      "near_term_notional_usd": 26788611000.0,
+      "max_coupon": 0.1075,
+      "source_uri_count": 135,
+      "signatures": {
+        "leverage": 0.9823,
+        "refi": 0.2938,
+        "carry": 0.575,
+        "hidden": 0.029,
+        "concentration": 0.0499,
+        "circular": 0.3,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "large debt footprint ($91B gross)",
+        "distressed-priced tranche(s) up to 10.8%",
+        "related-party / circular financing flagged"
+      ]
+    },
+    {
+      "entity": "WELLTOWER INC.",
+      "cik": "0000766704",
+      "ticker": "WELL",
+      "sector": "REIT / CRE (equity)",
+      "tier": "beam",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.3813,
+      "ai_tagged": false,
+      "debt_notional_usd": 31457000000.0,
+      "near_term_notional_usd": 18250000000.0,
+      "max_coupon": 0.05125,
+      "source_uri_count": 21,
+      "signatures": {
+        "leverage": 0.7557,
+        "refi": 0.5802,
+        "carry": 0.0125,
+        "hidden": 0.0476,
+        "concentration": 0.6013,
+        "circular": 0.3,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "large debt footprint ($31B gross)",
+        "front-loaded refi wall ($18B due <=2027)",
+        "counterparty concentration (HHI 0.60)",
+        "related-party / circular financing flagged"
+      ]
+    },
+    {
+      "entity": "MFA FINANCIAL, INC.",
+      "cik": "0001055160",
+      "ticker": "MFA",
+      "sector": "Mortgage REIT",
+      "tier": "beam",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.3759,
+      "ai_tagged": false,
+      "debt_notional_usd": 54119000000.0,
+      "near_term_notional_usd": 15700000000.0,
+      "max_coupon": 0.102,
+      "source_uri_count": 19,
+      "signatures": {
+        "leverage": 0.8707,
+        "refi": 0.2901,
+        "carry": 0.52,
+        "hidden": 0.2632,
+        "concentration": 0.1875,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "large debt footprint ($54B gross)",
+        "distressed-priced tranche(s) up to 10.2%"
+      ]
+    },
+    {
+      "entity": "Alibaba Group Holding Ltd",
+      "cik": "",
+      "ticker": "",
+      "sector": "Other / unclassified",
+      "tier": "beam",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.3752,
+      "ai_tagged": false,
+      "debt_notional_usd": 48883000000.0,
+      "near_term_notional_usd": 12023000000.0,
+      "max_coupon": 0.0525,
+      "source_uri_count": 7,
+      "signatures": {
+        "leverage": 0.849,
+        "refi": 0.246,
+        "carry": 0.025,
+        "hidden": 0.8571,
+        "concentration": 0.1719,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "large debt footprint ($49B gross)",
+        "structured/ring-fenced (0 SPV/non-recourse flags)"
+      ]
+    },
+    {
+      "entity": "Encore Inc.",
+      "cik": "",
+      "ticker": "",
+      "sector": "Other / unclassified",
+      "tier": "beam",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.3727,
+      "ai_tagged": false,
+      "debt_notional_usd": 42600000000.0,
+      "near_term_notional_usd": 40000000000.0,
+      "max_coupon": 0.02,
+      "source_uri_count": 6,
+      "signatures": {
+        "leverage": 0.8197,
+        "refi": 0.939,
+        "carry": 0.0,
+        "hidden": 0.1667,
+        "concentration": 0.0,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "large debt footprint ($43B gross)",
+        "front-loaded refi wall ($40B due <=2027)"
+      ]
+    },
+    {
+      "entity": "OMNICOM GROUP INC.",
+      "cik": "0000029989",
+      "ticker": "OMC",
+      "sector": "Media / advertising",
+      "tier": "beam",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.3726,
+      "ai_tagged": false,
+      "debt_notional_usd": 27511859000.0,
+      "near_term_notional_usd": 18776859000.0,
+      "max_coupon": 0.053,
+      "source_uri_count": 29,
+      "signatures": {
+        "leverage": 0.7275,
+        "refi": 0.6825,
+        "carry": 0.03,
+        "hidden": 0.3125,
+        "concentration": 0.0982,
+        "circular": 0.3,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "large debt footprint ($28B gross)",
+        "front-loaded refi wall ($19B due <=2027)",
+        "structured/ring-fenced (0 SPV/non-recourse flags)",
+        "related-party / circular financing flagged"
+      ]
+    },
+    {
+      "entity": "AT&T INC.",
+      "cik": "0000732717",
+      "ticker": "T",
+      "sector": "Telecom",
+      "tier": "beam",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.3591,
+      "ai_tagged": false,
+      "debt_notional_usd": 111605000000.0,
+      "near_term_notional_usd": 58055000000.0,
+      "max_coupon": 0.0525,
+      "source_uri_count": 45,
+      "signatures": {
+        "leverage": 1.0,
+        "refi": 0.5202,
+        "carry": 0.025,
+        "hidden": 0.0,
+        "concentration": 0.1,
+        "circular": 0.3,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "large debt footprint ($112B gross)",
+        "front-loaded refi wall ($58B due <=2027)",
+        "related-party / circular financing flagged"
+      ]
+    },
+    {
+      "entity": "SM Energy Co",
+      "cik": "",
+      "ticker": "",
+      "sector": "Power / utility",
+      "tier": "beam",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.3499,
+      "ai_tagged": false,
+      "debt_notional_usd": 23160626026.0,
+      "near_term_notional_usd": 15201626026.0,
+      "max_coupon": 0.08375,
+      "source_uri_count": 31,
+      "signatures": {
+        "leverage": 0.6916,
+        "refi": 0.6564,
+        "carry": 0.3375,
+        "hidden": 0.0645,
+        "concentration": 0.1944,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "front-loaded refi wall ($15B due <=2027)"
+      ]
+    },
+    {
+      "entity": "WYNN RESORTS LTD",
+      "cik": "",
+      "ticker": "",
+      "sector": "Gaming / leisure / lodging",
+      "tier": "beam",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.349,
+      "ai_tagged": false,
+      "debt_notional_usd": 43659000000.0,
+      "near_term_notional_usd": 0.0,
+      "max_coupon": 0.0675,
+      "source_uri_count": 21,
+      "signatures": {
+        "leverage": 0.825,
+        "refi": 0.0,
+        "carry": 0.175,
+        "hidden": 0.0,
+        "concentration": 0.9419,
+        "circular": 0.3,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "large debt footprint ($44B gross)",
+        "counterparty concentration (HHI 0.94)",
+        "related-party / circular financing flagged"
+      ]
+    },
+    {
+      "entity": "Keurig Dr Pepper Inc.",
+      "cik": "0001418135",
+      "ticker": "KDP",
+      "sector": "Consumer / staples / retail",
+      "tier": "beam",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.3481,
+      "ai_tagged": false,
+      "debt_notional_usd": 43700000000.0,
+      "near_term_notional_usd": 21400000000.0,
+      "max_coupon": 0.055,
+      "source_uri_count": 32,
+      "signatures": {
+        "leverage": 0.8252,
+        "refi": 0.4897,
+        "carry": 0.05,
+        "hidden": 0.1622,
+        "concentration": 0.1561,
+        "circular": 0.3,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "large debt footprint ($44B gross)",
+        "related-party / circular financing flagged"
+      ]
+    },
+    {
+      "entity": "ENTERPRISE FINANCIAL SERVICES CORP",
+      "cik": "0001025835",
+      "ticker": "EFSC",
+      "sector": "Other / unclassified",
+      "tier": "beam",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.3417,
+      "ai_tagged": false,
+      "debt_notional_usd": 23300000000.0,
+      "near_term_notional_usd": 23300000000.0,
+      "max_coupon": 0.0566,
+      "source_uri_count": 5,
+      "signatures": {
+        "leverage": 0.6928,
+        "refi": 1.0,
+        "carry": 0.066,
+        "hidden": 0.0,
+        "concentration": 0.0,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "front-loaded refi wall ($23B due <=2027)"
+      ]
+    },
+    {
+      "entity": "Eaton Corp plc",
+      "cik": "",
+      "ticker": "",
+      "sector": "Industrial / materials / other infra",
+      "tier": "beam",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.3406,
+      "ai_tagged": false,
+      "debt_notional_usd": 52542840000.0,
+      "near_term_notional_usd": 28500000000.0,
+      "max_coupon": 0.0545,
+      "source_uri_count": 50,
+      "signatures": {
+        "leverage": 0.8644,
+        "refi": 0.5424,
+        "carry": 0.045,
+        "hidden": 0.02,
+        "concentration": 0.114,
+        "circular": 0.3,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "large debt footprint ($53B gross)",
+        "front-loaded refi wall ($28B due <=2027)",
+        "related-party / circular financing flagged"
+      ]
+    },
+    {
+      "entity": "AMCOR PLC",
+      "cik": "",
+      "ticker": "",
+      "sector": "Consumer / staples / retail",
+      "tier": "beam",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.3388,
+      "ai_tagged": false,
+      "debt_notional_usd": 93653000000.0,
+      "near_term_notional_usd": 32618000000.0,
+      "max_coupon": 0.0545,
+      "source_uri_count": 156,
+      "signatures": {
+        "leverage": 0.9881,
+        "refi": 0.3483,
+        "carry": 0.045,
+        "hidden": 0.0,
+        "concentration": 0.1868,
+        "circular": 0.3,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "large debt footprint ($94B gross)",
+        "related-party / circular financing flagged"
+      ]
+    },
+    {
+      "entity": "ARES CAPITAL CORP",
+      "cik": "",
+      "ticker": "",
+      "sector": "BDC / private credit",
+      "tier": "beam",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.3379,
+      "ai_tagged": false,
+      "debt_notional_usd": 54754800000.0,
+      "near_term_notional_usd": 2070000000.0,
+      "max_coupon": 0.0555,
+      "source_uri_count": 44,
+      "signatures": {
+        "leverage": 0.8731,
+        "refi": 0.0184,
+        "carry": 0.055,
+        "hidden": 0.6591,
+        "concentration": 0.1044,
+        "circular": 0.3,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "large debt footprint ($55B gross)",
+        "structured/ring-fenced (12 SPV/non-recourse flags)",
+        "related-party / circular financing flagged"
+      ]
+    },
+    {
+      "entity": "American Water Works Company, Inc.",
+      "cik": "0001410636",
+      "ticker": "AWK",
+      "sector": "Other / unclassified",
+      "tier": "beam",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.3374,
+      "ai_tagged": false,
+      "debt_notional_usd": 21253000000.0,
+      "near_term_notional_usd": 18465000000.0,
+      "max_coupon": 0.052,
+      "source_uri_count": 15,
+      "signatures": {
+        "leverage": 0.6737,
+        "refi": 0.8688,
+        "carry": 0.02,
+        "hidden": 0.0,
+        "concentration": 0.0,
+        "circular": 0.3,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "front-loaded refi wall ($18B due <=2027)",
+        "related-party / circular financing flagged"
+      ]
+    },
+    {
+      "entity": "AGREE REALTY CORP",
+      "cik": "",
+      "ticker": "",
+      "sector": "REIT / CRE (equity)",
+      "tier": "beam",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.3367,
+      "ai_tagged": false,
+      "debt_notional_usd": 22851113092.0,
+      "near_term_notional_usd": 15431113092.0,
+      "max_coupon": 0.0575,
+      "source_uri_count": 21,
+      "signatures": {
+        "leverage": 0.6888,
+        "refi": 0.6753,
+        "carry": 0.075,
+        "hidden": 0.1905,
+        "concentration": 0.2203,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "front-loaded refi wall ($15B due <=2027)"
+      ]
+    },
+    {
+      "entity": "General Motors Co",
+      "cik": "",
+      "ticker": "",
+      "sector": "Other / unclassified",
+      "tier": "beam",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.3362,
+      "ai_tagged": false,
+      "debt_notional_usd": 78255000000.0,
+      "near_term_notional_usd": 33500000000.0,
+      "max_coupon": null,
+      "source_uri_count": 29,
+      "signatures": {
+        "leverage": 0.9495,
+        "refi": 0.4281,
+        "carry": 0.0,
+        "hidden": 0.0,
+        "concentration": 0.1685,
+        "circular": 0.3,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "large debt footprint ($78B gross)",
+        "related-party / circular financing flagged"
+      ]
+    },
+    {
+      "entity": "Energy Transfer LP",
+      "cik": "0001276187",
+      "ticker": "ET",
+      "sector": "Midstream / pipeline",
+      "tier": "beam",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.3362,
+      "ai_tagged": false,
+      "debt_notional_usd": 47200000000.0,
+      "near_term_notional_usd": 17390000000.0,
+      "max_coupon": 0.08,
+      "source_uri_count": 22,
+      "signatures": {
+        "leverage": 0.8415,
+        "refi": 0.3684,
+        "carry": 0.3,
+        "hidden": 0.1818,
+        "concentration": 0.1443,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "large debt footprint ($47B gross)"
+      ]
+    },
+    {
+      "entity": "Entergy Louisiana, LLC",
+      "cik": "0001348952",
+      "ticker": "ELC",
+      "sector": "Power / utility",
+      "tier": "beam",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.3342,
+      "ai_tagged": false,
+      "debt_notional_usd": 67494500000.0,
+      "near_term_notional_usd": 11064000000.0,
+      "max_coupon": 0.0875,
+      "source_uri_count": 60,
+      "signatures": {
+        "leverage": 0.9178,
+        "refi": 0.1639,
+        "carry": 0.375,
+        "hidden": 0.0,
+        "concentration": 0.1694,
+        "circular": 0.3,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "large debt footprint ($67B gross)",
+        "related-party / circular financing flagged"
+      ]
+    },
+    {
+      "entity": "NRG ENERGY, INC.",
+      "cik": "0001013871",
+      "ticker": "NRG",
+      "sector": "Power / utility",
+      "tier": "beam",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.3311,
+      "ai_tagged": false,
+      "debt_notional_usd": 86501511723.0,
+      "near_term_notional_usd": 14776955530.0,
+      "max_coupon": 0.074,
+      "source_uri_count": 85,
+      "signatures": {
+        "leverage": 0.971,
+        "refi": 0.1708,
+        "carry": 0.24,
+        "hidden": 0.1059,
+        "concentration": 0.069,
+        "circular": 0.3,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "large debt footprint ($87B gross)",
+        "related-party / circular financing flagged"
+      ]
+    },
+    {
+      "entity": "Goldman Sachs BDC, Inc.",
+      "cik": "0001572694",
+      "ticker": "GSBD",
+      "sector": "BDC / private credit",
+      "tier": "beam",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.3307,
+      "ai_tagged": false,
+      "debt_notional_usd": 22596400000.0,
+      "near_term_notional_usd": 10134200000.0,
+      "max_coupon": 0.06375,
+      "source_uri_count": 28,
+      "signatures": {
+        "leverage": 0.6864,
+        "refi": 0.4485,
+        "carry": 0.1375,
+        "hidden": 0.4375,
+        "concentration": 0.154,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "structured/ring-fenced (6 SPV/non-recourse flags)"
+      ]
+    },
+    {
+      "entity": "FIFTH THIRD BANCORP",
+      "cik": "0000035527",
+      "ticker": "FITB",
+      "sector": "Bank / depository",
+      "tier": "beam",
+      "off_corporate_leverage_axis": true,
+      "composite": 0.3298,
+      "ai_tagged": false,
+      "debt_notional_usd": 22000000000.0,
+      "near_term_notional_usd": 22000000000.0,
+      "max_coupon": 0.04,
+      "source_uri_count": 4,
+      "signatures": {
+        "leverage": 0.6809,
+        "refi": 1.0,
+        "carry": 0.0,
+        "hidden": 0.0,
+        "concentration": 0.0,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "front-loaded refi wall ($22B due <=2027)"
+      ]
+    },
+    {
+      "entity": "COLUMBUS MCKINNON CORP",
+      "cik": "",
+      "ticker": "",
+      "sector": "Other / unclassified",
+      "tier": "beam",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.3284,
+      "ai_tagged": false,
+      "debt_notional_usd": 21267600000.0,
+      "near_term_notional_usd": 9397600000.0,
+      "max_coupon": 0.076,
+      "source_uri_count": 24,
+      "signatures": {
+        "leverage": 0.6738,
+        "refi": 0.4419,
+        "carry": 0.26,
+        "hidden": 0.0417,
+        "concentration": 0.2368,
+        "circular": 0.3,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "related-party / circular financing flagged"
+      ]
+    },
+    {
+      "entity": "Applied Digital Corp.",
+      "cik": "",
+      "ticker": "",
+      "sector": "Data center / AI infra",
+      "tier": "beam",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.3271,
+      "ai_tagged": true,
+      "debt_notional_usd": 26751249998.0,
+      "near_term_notional_usd": 9296000000.0,
+      "max_coupon": 0.0925,
+      "source_uri_count": 156,
+      "signatures": {
+        "leverage": 0.7216,
+        "refi": 0.3475,
+        "carry": 0.425,
+        "hidden": 0.0577,
+        "concentration": 0.0684,
+        "circular": 0.3,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "large debt footprint ($27B gross)",
+        "distressed-priced tranche(s) up to 9.2%",
+        "related-party / circular financing flagged"
+      ]
+    },
+    {
+      "entity": "Meta Platforms, Inc.",
+      "cik": "0001326801",
+      "ticker": "META",
+      "sector": "Other / unclassified",
+      "tier": "beam",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.3249,
+      "ai_tagged": false,
+      "debt_notional_usd": 29000000000.0,
+      "near_term_notional_usd": 16500000000.0,
+      "max_coupon": 0.04875,
+      "source_uri_count": 15,
+      "signatures": {
+        "leverage": 0.7386,
+        "refi": 0.569,
+        "carry": 0.0,
+        "hidden": 0.0,
+        "concentration": 0.25,
+        "circular": 0.3,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "large debt footprint ($29B gross)",
+        "front-loaded refi wall ($16B due <=2027)",
+        "related-party / circular financing flagged"
+      ]
+    },
+    {
+      "entity": "SIMON PROPERTY GROUP INC.",
+      "cik": "0001063761",
+      "ticker": "SPG",
+      "sector": "REIT / CRE (equity)",
+      "tier": "beam",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.3248,
+      "ai_tagged": false,
+      "debt_notional_usd": 20002500000.0,
+      "near_term_notional_usd": 6500000000.0,
+      "max_coupon": 0.06,
+      "source_uri_count": 6,
+      "signatures": {
+        "leverage": 0.6611,
+        "refi": 0.2844,
+        "carry": 0.1,
+        "hidden": 0.6667,
+        "concentration": 0.1735,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "structured/ring-fenced (0 SPV/non-recourse flags)"
+      ]
+    },
+    {
+      "entity": "RENASANT CORP",
+      "cik": "",
+      "ticker": "",
+      "sector": "Other / unclassified",
+      "tier": "beam",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.3229,
+      "ai_tagged": false,
+      "debt_notional_usd": 40730000000.0,
+      "near_term_notional_usd": 22100000000.0,
+      "max_coupon": 0.0625,
+      "source_uri_count": 5,
+      "signatures": {
+        "leverage": 0.8102,
+        "refi": 0.5426,
+        "carry": 0.125,
+        "hidden": 0.0,
+        "concentration": 0.246,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "large debt footprint ($41B gross)",
+        "front-loaded refi wall ($22B due <=2027)"
+      ]
+    },
+    {
+      "entity": "ANTERO RESOURCES Corp",
+      "cik": "",
+      "ticker": "",
+      "sector": "Oil & gas E&P",
+      "tier": "beam",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.3156,
+      "ai_tagged": false,
+      "debt_notional_usd": 20175000000.0,
+      "near_term_notional_usd": 9050000000.0,
+      "max_coupon": 0.07625,
+      "source_uri_count": 26,
+      "signatures": {
+        "leverage": 0.6629,
+        "refi": 0.4486,
+        "carry": 0.2625,
+        "hidden": 0.0769,
+        "concentration": 0.0956,
+        "circular": 0.3,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "related-party / circular financing flagged"
+      ]
+    },
+    {
+      "entity": "ENTERPRISE PRODUCTS PARTNERS L.P.",
+      "cik": "0001061219",
+      "ticker": "EPD",
+      "sector": "Midstream / pipeline",
+      "tier": "beam",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.3138,
+      "ai_tagged": false,
+      "debt_notional_usd": 86550000000.0,
+      "near_term_notional_usd": 7100000000.0,
+      "max_coupon": 0.052,
+      "source_uri_count": 18,
+      "signatures": {
+        "leverage": 0.9711,
+        "refi": 0.0745,
+        "carry": 0.02,
+        "hidden": 0.2222,
+        "concentration": 0.1901,
+        "circular": 0.3,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "large debt footprint ($87B gross)",
+        "related-party / circular financing flagged"
+      ]
+    },
+    {
+      "entity": "FULTON FINANCIAL CORP",
+      "cik": "",
+      "ticker": "",
+      "sector": "Other / unclassified",
+      "tier": "beam",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.3132,
+      "ai_tagged": false,
+      "debt_notional_usd": 53081500000.0,
+      "near_term_notional_usd": 26400000000.0,
+      "max_coupon": 0.0595,
+      "source_uri_count": 14,
+      "signatures": {
+        "leverage": 0.8665,
+        "refi": 0.4973,
+        "carry": 0.095,
+        "hidden": 0.0,
+        "concentration": 0.1648,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "large debt footprint ($53B gross)"
+      ]
+    },
+    {
+      "entity": "PepsiCo, Inc.",
+      "cik": "0000077476",
+      "ticker": "PEP",
+      "sector": "Consumer / staples / retail",
+      "tier": "beam",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.3096,
+      "ai_tagged": false,
+      "debt_notional_usd": 51156000000.0,
+      "near_term_notional_usd": 18957000000.0,
+      "max_coupon": 0.043,
+      "source_uri_count": 106,
+      "signatures": {
+        "leverage": 0.8587,
+        "refi": 0.3706,
+        "carry": 0.0,
+        "hidden": 0.0748,
+        "concentration": 0.1127,
+        "circular": 0.3,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "large debt footprint ($51B gross)",
+        "related-party / circular financing flagged"
+      ]
+    },
+    {
+      "entity": "T-Mobile US, Inc.",
+      "cik": "0001283699",
+      "ticker": "TMUS",
+      "sector": "Telecom",
+      "tier": "beam",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.3067,
+      "ai_tagged": false,
+      "debt_notional_usd": 48850000000.0,
+      "near_term_notional_usd": 13350000000.0,
+      "max_coupon": 0.0585,
+      "source_uri_count": 22,
+      "signatures": {
+        "leverage": 0.8488,
+        "refi": 0.2733,
+        "carry": 0.085,
+        "hidden": 0.2727,
+        "concentration": 0.1722,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "large debt footprint ($49B gross)"
+      ]
+    },
+    {
+      "entity": "MGM RESORTS INTERNATIONAL",
+      "cik": "0000789570",
+      "ticker": "MGM",
+      "sector": "Gaming / leisure / lodging",
+      "tier": "beam",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.305,
+      "ai_tagged": false,
+      "debt_notional_usd": 99235000000.0,
+      "near_term_notional_usd": 23400000000.0,
+      "max_coupon": 0.02,
+      "source_uri_count": 33,
+      "signatures": {
+        "leverage": 1.0,
+        "refi": 0.2358,
+        "carry": 0.0,
+        "hidden": 0.1212,
+        "concentration": 0.2136,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "large debt footprint ($99B gross)"
+      ]
+    },
+    {
+      "entity": "BRISTOL MYERS SQUIBB CO",
+      "cik": "",
+      "ticker": "",
+      "sector": "Other / unclassified",
+      "tier": "beam",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.3035,
+      "ai_tagged": false,
+      "debt_notional_usd": 21653560000.0,
+      "near_term_notional_usd": 15250000000.0,
+      "max_coupon": 0.04581,
+      "source_uri_count": 15,
+      "signatures": {
+        "leverage": 0.6776,
+        "refi": 0.7043,
+        "carry": 0.0,
+        "hidden": 0.0,
+        "concentration": 0.2307,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "front-loaded refi wall ($15B due <=2027)"
+      ]
+    },
+    {
+      "entity": "Pfizer Investment Enterprises Pte. Ltd. and its successors",
+      "cik": "",
+      "ticker": "",
+      "sector": "Other / unclassified",
+      "tier": "beam",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.3031,
+      "ai_tagged": false,
+      "debt_notional_usd": 56000000000.0,
+      "near_term_notional_usd": 28000000000.0,
+      "max_coupon": 0.03875,
+      "source_uri_count": 2,
+      "signatures": {
+        "leverage": 0.8779,
+        "refi": 0.5,
+        "carry": 0.0,
+        "hidden": 0.0,
+        "concentration": 0.1667,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "large debt footprint ($56B gross)",
+        "front-loaded refi wall ($28B due <=2027)"
+      ]
+    },
+    {
+      "entity": "Pfizer Netherlands International Finance B.V. and its successors",
+      "cik": "",
+      "ticker": "",
+      "sector": "Other / unclassified",
+      "tier": "beam",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.3031,
+      "ai_tagged": false,
+      "debt_notional_usd": 56000000000.0,
+      "near_term_notional_usd": 28000000000.0,
+      "max_coupon": 0.03875,
+      "source_uri_count": 2,
+      "signatures": {
+        "leverage": 0.8779,
+        "refi": 0.5,
+        "carry": 0.0,
+        "hidden": 0.0,
+        "concentration": 0.1667,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "large debt footprint ($56B gross)",
+        "front-loaded refi wall ($28B due <=2027)"
+      ]
+    },
+    {
+      "entity": "ORACLE CORP",
+      "cik": "",
+      "ticker": "",
+      "sector": "Other / unclassified",
+      "tier": "beam",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.3025,
+      "ai_tagged": false,
+      "debt_notional_usd": 112610000000.0,
+      "near_term_notional_usd": 10750000000.0,
+      "max_coupon": 0.048,
+      "source_uri_count": 52,
+      "signatures": {
+        "leverage": 1.0,
+        "refi": 0.0955,
+        "carry": 0.0,
+        "hidden": 0.0385,
+        "concentration": 0.2495,
+        "circular": 0.3,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "large debt footprint ($113B gross)",
+        "related-party / circular financing flagged"
+      ]
+    },
+    {
+      "entity": "PFIZER INC",
+      "cik": "",
+      "ticker": "",
+      "sector": "Other / unclassified",
+      "tier": "beam",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.3024,
+      "ai_tagged": false,
+      "debt_notional_usd": 57000000000.0,
+      "near_term_notional_usd": 28000000000.0,
+      "max_coupon": 0.03875,
+      "source_uri_count": 6,
+      "signatures": {
+        "leverage": 0.8817,
+        "refi": 0.4912,
+        "carry": 0.0,
+        "hidden": 0.0,
+        "concentration": 0.1667,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "large debt footprint ($57B gross)"
+      ]
+    },
+    {
+      "entity": "FEDEX CORP",
+      "cik": "",
+      "ticker": "",
+      "sector": "Other / unclassified",
+      "tier": "beam",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.302,
+      "ai_tagged": false,
+      "debt_notional_usd": 27701936000.0,
+      "near_term_notional_usd": 18126936000.0,
+      "max_coupon": 0.0525,
+      "source_uri_count": 30,
+      "signatures": {
+        "leverage": 0.729,
+        "refi": 0.6544,
+        "carry": 0.025,
+        "hidden": 0.0333,
+        "concentration": 0.1307,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "large debt footprint ($28B gross)",
+        "front-loaded refi wall ($18B due <=2027)"
+      ]
+    },
+    {
+      "entity": "Global Net Lease, Inc.",
+      "cik": "0001526113",
+      "ticker": "GNL",
+      "sector": "Other / unclassified",
+      "tier": "beam",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.3011,
+      "ai_tagged": false,
+      "debt_notional_usd": 38556368608.0,
+      "near_term_notional_usd": 14591068608.0,
+      "max_coupon": 0.043,
+      "source_uri_count": 30,
+      "signatures": {
+        "leverage": 0.7986,
+        "refi": 0.3784,
+        "carry": 0.0,
+        "hidden": 0.2,
+        "concentration": 0.244,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "large debt footprint ($39B gross)"
+      ]
+    },
+    {
+      "entity": "BROWN & BROWN, INC.",
+      "cik": "0000079282",
+      "ticker": "BRO",
+      "sector": "Other / unclassified",
+      "tier": "beam",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.3005,
+      "ai_tagged": false,
+      "debt_notional_usd": 32189650000.0,
+      "near_term_notional_usd": 374000000.0,
+      "max_coupon": 0.0575,
+      "source_uri_count": 24,
+      "signatures": {
+        "leverage": 0.7605,
+        "refi": 0.0016,
+        "carry": 0.075,
+        "hidden": 0.0,
+        "concentration": 0.7704,
+        "circular": 0.3,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "large debt footprint ($32B gross)",
+        "counterparty concentration (HHI 0.77)",
+        "related-party / circular financing flagged"
+      ]
+    },
+    {
+      "entity": "CENTERPOINT ENERGY, INC.",
+      "cik": "0001130310",
+      "ticker": "CNP",
+      "sector": "Power / utility",
+      "tier": "beam",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.3002,
+      "ai_tagged": false,
+      "debt_notional_usd": 53886700000.0,
+      "near_term_notional_usd": 8920000000.0,
+      "max_coupon": 0.0695,
+      "source_uri_count": 115,
+      "signatures": {
+        "leverage": 0.8697,
+        "refi": 0.165,
+        "carry": 0.195,
+        "hidden": 0.0756,
+        "concentration": 0.0942,
+        "circular": 0.3,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "large debt footprint ($54B gross)",
+        "related-party / circular financing flagged"
+      ]
+    },
+    {
+      "entity": "Venture Global, Inc.",
+      "cik": "0002007855",
+      "ticker": "VG",
+      "sector": "LNG / gas export",
+      "tier": "beam",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.2823,
+      "ai_tagged": false,
+      "debt_notional_usd": 50823000000.0,
+      "near_term_notional_usd": 0.0,
+      "max_coupon": 0.0775,
+      "source_uri_count": 27,
+      "signatures": {
+        "leverage": 0.8573,
+        "refi": 0.0,
+        "carry": 0.275,
+        "hidden": 0.1111,
+        "concentration": 0.0802,
+        "circular": 0.3,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "large debt footprint ($51B gross)",
+        "related-party / circular financing flagged"
+      ]
+    },
+    {
+      "entity": "LAS VEGAS SANDS CORP",
+      "cik": "0001300514",
+      "ticker": "LVS",
+      "sector": "Gaming / leisure / lodging",
+      "tier": "mid",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.4452,
+      "ai_tagged": false,
+      "debt_notional_usd": 16530000000.0,
+      "near_term_notional_usd": 13130000000.0,
+      "max_coupon": 0.2,
+      "source_uri_count": 11,
+      "signatures": {
+        "leverage": 0.6219,
+        "refi": 0.7943,
+        "carry": 1.0,
+        "hidden": 0.1818,
+        "concentration": 0.0,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "front-loaded refi wall ($13B due <=2027)",
+        "distressed-priced tranche(s) up to 20.0%"
+      ]
+    },
+    {
+      "entity": "EQUITY RESIDENTIAL",
+      "cik": "0000906107",
+      "ticker": "EQR",
+      "sector": "REIT / CRE (equity)",
+      "tier": "mid",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.428,
+      "ai_tagged": false,
+      "debt_notional_usd": 15000000000.0,
+      "near_term_notional_usd": 11000000000.0,
+      "max_coupon": 0.161,
+      "source_uri_count": 14,
+      "signatures": {
+        "leverage": 0.6021,
+        "refi": 0.7333,
+        "carry": 1.0,
+        "hidden": 0.0714,
+        "concentration": 0.1125,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "front-loaded refi wall ($11B due <=2027)",
+        "distressed-priced tranche(s) up to 16.1%"
+      ]
+    },
+    {
+      "entity": "UNIVEST FINANCIAL Corp",
+      "cik": "",
+      "ticker": "",
+      "sector": "Other / unclassified",
+      "tier": "mid",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.4238,
+      "ai_tagged": false,
+      "debt_notional_usd": 8040000000.0,
+      "near_term_notional_usd": 7990000000.0,
+      "max_coupon": 0.07,
+      "source_uri_count": 7,
+      "signatures": {
+        "leverage": 0.4781,
+        "refi": 0.9478,
+        "carry": 0.2,
+        "hidden": 0.0,
+        "concentration": 1.0,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "front-loaded refi wall ($8B due <=2027)",
+        "counterparty concentration (HHI 1.00)"
+      ]
+    },
+    {
+      "entity": "Kennedy-Wilson Holdings, Inc.",
+      "cik": "0001408100",
+      "ticker": "KW",
+      "sector": "REIT / CRE (equity)",
+      "tier": "mid",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.3993,
+      "ai_tagged": false,
+      "debt_notional_usd": 16496000000.0,
+      "near_term_notional_usd": 12446000000.0,
+      "max_coupon": 0.073,
+      "source_uri_count": 21,
+      "signatures": {
+        "leverage": 0.6215,
+        "refi": 0.7545,
+        "carry": 0.23,
+        "hidden": 0.5238,
+        "concentration": 0.1771,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "front-loaded refi wall ($12B due <=2027)",
+        "structured/ring-fenced (3 SPV/non-recourse flags)"
+      ]
+    },
+    {
+      "entity": "KDP",
+      "cik": "",
+      "ticker": "",
+      "sector": "Other / unclassified",
+      "tier": "mid",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.3937,
+      "ai_tagged": false,
+      "debt_notional_usd": 18400000000.0,
+      "near_term_notional_usd": 18400000000.0,
+      "max_coupon": 0.055,
+      "source_uri_count": 2,
+      "signatures": {
+        "leverage": 0.6439,
+        "refi": 1.0,
+        "carry": 0.05,
+        "hidden": 0.25,
+        "concentration": 0.25,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "front-loaded refi wall ($18B due <=2027)"
+      ]
+    },
+    {
+      "entity": "PUBLIC SERVICE ENTERPRISE GROUP INC",
+      "cik": "",
+      "ticker": "",
+      "sector": "Power / utility",
+      "tier": "mid",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.3815,
+      "ai_tagged": false,
+      "debt_notional_usd": 11400000000.0,
+      "near_term_notional_usd": 11400000000.0,
+      "max_coupon": 0.0575,
+      "source_uri_count": 13,
+      "signatures": {
+        "leverage": 0.5467,
+        "refi": 1.0,
+        "carry": 0.075,
+        "hidden": 0.0769,
+        "concentration": 0.25,
+        "circular": 0.3,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "front-loaded refi wall ($11B due <=2027)",
+        "related-party / circular financing flagged"
+      ]
+    },
+    {
+      "entity": "PayPal Holdings, Inc.",
+      "cik": "",
+      "ticker": "",
+      "sector": "Payments / fintech",
+      "tier": "mid",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.3697,
+      "ai_tagged": false,
+      "debt_notional_usd": 9155000000.0,
+      "near_term_notional_usd": 1000000000.0,
+      "max_coupon": 0.2,
+      "source_uri_count": 28,
+      "signatures": {
+        "leverage": 0.5033,
+        "refi": 0.0329,
+        "carry": 1.0,
+        "hidden": 0.1071,
+        "concentration": 0.5673,
+        "circular": 0.3,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "distressed-priced tranche(s) up to 20.0%",
+        "counterparty concentration (HHI 0.57)",
+        "related-party / circular financing flagged"
+      ]
+    },
+    {
+      "entity": "HEALTHPEAK PROPERTIES, INC.",
+      "cik": "0000765880",
+      "ticker": "DOC",
+      "sector": "REIT / CRE (equity)",
+      "tier": "mid",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.361,
+      "ai_tagged": false,
+      "debt_notional_usd": 17619000000.0,
+      "near_term_notional_usd": 9000000000.0,
+      "max_coupon": 0.09,
+      "source_uri_count": 22,
+      "signatures": {
+        "leverage": 0.635,
+        "refi": 0.5108,
+        "carry": 0.4,
+        "hidden": 0.4545,
+        "concentration": 0.0809,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "front-loaded refi wall ($9B due <=2027)",
+        "distressed-priced tranche(s) up to 9.0%",
+        "structured/ring-fenced (2 SPV/non-recourse flags)"
+      ]
+    },
+    {
+      "entity": "Marina Bay Sands Pte. Ltd.",
+      "cik": "",
+      "ticker": "",
+      "sector": "Gaming / leisure / lodging",
+      "tier": "mid",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.3548,
+      "ai_tagged": false,
+      "debt_notional_usd": 5800000000.0,
+      "near_term_notional_usd": 2900000000.0,
+      "max_coupon": 0.2,
+      "source_uri_count": 2,
+      "signatures": {
+        "leverage": 0.4163,
+        "refi": 0.2955,
+        "carry": 1.0,
+        "hidden": 0.5,
+        "concentration": 0.0,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "distressed-priced tranche(s) up to 20.0%",
+        "structured/ring-fenced (0 SPV/non-recourse flags)"
+      ]
+    },
+    {
+      "entity": "NIKE, INC.",
+      "cik": "",
+      "ticker": "",
+      "sector": "Consumer / staples / retail",
+      "tier": "mid",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.354,
+      "ai_tagged": false,
+      "debt_notional_usd": 6500000000.0,
+      "near_term_notional_usd": 5000000000.0,
+      "max_coupon": 0.00595,
+      "source_uri_count": 22,
+      "signatures": {
+        "leverage": 0.4375,
+        "refi": 0.5986,
+        "carry": 0.0,
+        "hidden": 0.0,
+        "concentration": 1.0,
+        "circular": 0.3,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "front-loaded refi wall ($5B due <=2027)",
+        "counterparty concentration (HHI 1.00)",
+        "related-party / circular financing flagged"
+      ]
+    },
+    {
+      "entity": "CONOCOPHILLIPS",
+      "cik": "",
+      "ticker": "",
+      "sector": "Other / unclassified",
+      "tier": "mid",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.3484,
+      "ai_tagged": false,
+      "debt_notional_usd": 18460142000.0,
+      "near_term_notional_usd": 8040000000.0,
+      "max_coupon": null,
+      "source_uri_count": 28,
+      "signatures": {
+        "leverage": 0.6446,
+        "refi": 0.4164,
+        "carry": 0.0,
+        "hidden": 0.0,
+        "concentration": 0.8473,
+        "circular": 0.3,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "counterparty concentration (HHI 0.85)",
+        "related-party / circular financing flagged"
+      ]
+    },
+    {
+      "entity": "ADAMAS TRUST, INC.",
+      "cik": "0001273685",
+      "ticker": "ADAM",
+      "sector": "Other / unclassified",
+      "tier": "mid",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.3392,
+      "ai_tagged": false,
+      "debt_notional_usd": 6176258203.0,
+      "near_term_notional_usd": 272500000.0,
+      "max_coupon": 0.09875,
+      "source_uri_count": 35,
+      "signatures": {
+        "leverage": 0.4279,
+        "refi": 0.0046,
+        "carry": 0.4875,
+        "hidden": 0.4,
+        "concentration": 1.0,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "distressed-priced tranche(s) up to 9.9%",
+        "structured/ring-fenced (0 SPV/non-recourse flags)",
+        "counterparty concentration (HHI 1.00)"
+      ]
+    },
+    {
+      "entity": "EQT Corp",
+      "cik": "",
+      "ticker": "",
+      "sector": "Other / unclassified",
+      "tier": "mid",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.3327,
+      "ai_tagged": false,
+      "debt_notional_usd": 10885000000.0,
+      "near_term_notional_usd": 10850000000.0,
+      "max_coupon": 0.075,
+      "source_uri_count": 8,
+      "signatures": {
+        "leverage": 0.5375,
+        "refi": 0.9968,
+        "carry": 0.25,
+        "hidden": 0.0,
+        "concentration": 0.0,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "front-loaded refi wall ($11B due <=2027)"
+      ]
+    },
+    {
+      "entity": "Sabre Corp",
+      "cik": "",
+      "ticker": "",
+      "sector": "Other / unclassified",
+      "tier": "mid",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.3289,
+      "ai_tagged": false,
+      "debt_notional_usd": 15884353833.0,
+      "near_term_notional_usd": 8116114000.0,
+      "max_coupon": 0.1125,
+      "source_uri_count": 25,
+      "signatures": {
+        "leverage": 0.6137,
+        "refi": 0.4904,
+        "carry": 0.625,
+        "hidden": 0.08,
+        "concentration": 0.0578,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "distressed-priced tranche(s) up to 11.2%"
+      ]
+    },
+    {
+      "entity": "MiniMed Group, Inc.",
+      "cik": "",
+      "ticker": "",
+      "sector": "Other / unclassified",
+      "tier": "mid",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.3219,
+      "ai_tagged": false,
+      "debt_notional_usd": 18501000000.0,
+      "near_term_notional_usd": 18000000000.0,
+      "max_coupon": 0.02,
+      "source_uri_count": 29,
+      "signatures": {
+        "leverage": 0.645,
+        "refi": 0.9729,
+        "carry": 0.0,
+        "hidden": 0.0345,
+        "concentration": 0.0,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "front-loaded refi wall ($18B due <=2027)"
+      ]
+    },
+    {
+      "entity": "Sabre GLBL Inc.",
+      "cik": "",
+      "ticker": "",
+      "sector": "Other / unclassified",
+      "tier": "mid",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.3194,
+      "ai_tagged": false,
+      "debt_notional_usd": 5353239833.0,
+      "near_term_notional_usd": 4265000000.0,
+      "max_coupon": 0.08625,
+      "source_uri_count": 4,
+      "signatures": {
+        "leverage": 0.4015,
+        "refi": 0.5747,
+        "carry": 0.3625,
+        "hidden": 0.5,
+        "concentration": 0.0575,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "front-loaded refi wall ($4B due <=2027)",
+        "structured/ring-fenced (2 SPV/non-recourse flags)"
+      ]
+    },
+    {
+      "entity": "Bain Capital Specialty Finance, Inc.",
+      "cik": "0001655050",
+      "ticker": "BCSF",
+      "sector": "Other / unclassified",
+      "tier": "mid",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.3186,
+      "ai_tagged": false,
+      "debt_notional_usd": 11251400000.0,
+      "near_term_notional_usd": 4154000000.0,
+      "max_coupon": 0.0595,
+      "source_uri_count": 42,
+      "signatures": {
+        "leverage": 0.5441,
+        "refi": 0.2629,
+        "carry": 0.095,
+        "hidden": 0.4419,
+        "concentration": 0.6369,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "structured/ring-fenced (7 SPV/non-recourse flags)",
+        "counterparty concentration (HHI 0.64)"
+      ]
+    },
+    {
+      "entity": "Getty Images Holdings, Inc.",
+      "cik": "",
+      "ticker": "",
+      "sector": "Other / unclassified",
+      "tier": "mid",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.3175,
+      "ai_tagged": false,
+      "debt_notional_usd": 3060000000.0,
+      "near_term_notional_usd": 3060000000.0,
+      "max_coupon": 0.14,
+      "source_uri_count": 3,
+      "signatures": {
+        "leverage": 0.3043,
+        "refi": 0.6085,
+        "carry": 0.9,
+        "hidden": 0.0,
+        "concentration": 0.125,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "front-loaded refi wall ($3B due <=2027)",
+        "distressed-priced tranche(s) up to 14.0%"
+      ]
+    },
+    {
+      "entity": "AMC ENTERTAINMENT HOLDINGS, INC.",
+      "cik": "0001411579",
+      "ticker": "AMC",
+      "sector": "Other / unclassified",
+      "tier": "mid",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.3153,
+      "ai_tagged": false,
+      "debt_notional_usd": 13991809562.0,
+      "near_term_notional_usd": 4180200000.0,
+      "max_coupon": 0.1275,
+      "source_uri_count": 44,
+      "signatures": {
+        "leverage": 0.5879,
+        "refi": 0.2134,
+        "carry": 0.775,
+        "hidden": 0.0,
+        "concentration": 0.0752,
+        "circular": 0.3,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "distressed-priced tranche(s) up to 12.8%",
+        "related-party / circular financing flagged"
+      ]
+    },
+    {
+      "entity": "ARBOR REALTY TRUST INC",
+      "cik": "0001253986",
+      "ticker": "ABR",
+      "sector": "Mortgage REIT",
+      "tier": "mid",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.3116,
+      "ai_tagged": false,
+      "debt_notional_usd": 7935819887.0,
+      "near_term_notional_usd": 900000000.0,
+      "max_coupon": 0.085,
+      "source_uri_count": 13,
+      "signatures": {
+        "leverage": 0.4756,
+        "refi": 0.0316,
+        "carry": 0.35,
+        "hidden": 0.2308,
+        "concentration": 1.0,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "counterparty concentration (HHI 1.00)"
+      ]
+    },
+    {
+      "entity": "Cannae Holdings, Inc.",
+      "cik": "",
+      "ticker": "",
+      "sector": "Other / unclassified",
+      "tier": "mid",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.3115,
+      "ai_tagged": false,
+      "debt_notional_usd": 16047100000.0,
+      "near_term_notional_usd": 7062200000.0,
+      "max_coupon": 0.08,
+      "source_uri_count": 9,
+      "signatures": {
+        "leverage": 0.6158,
+        "refi": 0.3989,
+        "carry": 0.3,
+        "hidden": 0.4444,
+        "concentration": 0.0,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "structured/ring-fenced (3 SPV/non-recourse flags)"
+      ]
+    },
+    {
+      "entity": "Zscaler, Inc.",
+      "cik": "0001713683",
+      "ticker": "ZS",
+      "sector": "Other / unclassified",
+      "tier": "mid",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.3109,
+      "ai_tagged": false,
+      "debt_notional_usd": 8301000000.0,
+      "near_term_notional_usd": 8301000000.0,
+      "max_coupon": null,
+      "source_uri_count": 10,
+      "signatures": {
+        "leverage": 0.4843,
+        "refi": 0.9685,
+        "carry": 0.0,
+        "hidden": 0.0,
+        "concentration": 0.25,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "front-loaded refi wall ($8B due <=2027)"
+      ]
+    },
+    {
+      "entity": "HEALTHPEAK OP, LLC",
+      "cik": "",
+      "ticker": "",
+      "sector": "REIT / CRE (equity)",
+      "tier": "mid",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.3103,
+      "ai_tagged": false,
+      "debt_notional_usd": 7251000000.0,
+      "near_term_notional_usd": 3500000000.0,
+      "max_coupon": 0.02,
+      "source_uri_count": 4,
+      "signatures": {
+        "leverage": 0.4583,
+        "refi": 0.3153,
+        "carry": 0.0,
+        "hidden": 1.0,
+        "concentration": 0.1061,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "structured/ring-fenced (2 SPV/non-recourse flags)"
+      ]
+    },
+    {
+      "entity": "Brixmor Property Group Inc.",
+      "cik": "0001581068",
+      "ticker": "BRX",
+      "sector": "REIT / CRE (equity)",
+      "tier": "mid",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.31,
+      "ai_tagged": false,
+      "debt_notional_usd": 11350000000.0,
+      "near_term_notional_usd": 5700000000.0,
+      "max_coupon": 0.07,
+      "source_uri_count": 27,
+      "signatures": {
+        "leverage": 0.5458,
+        "refi": 0.4149,
+        "carry": 0.2,
+        "hidden": 0.2593,
+        "concentration": 0.1741,
+        "circular": 0.3,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "related-party / circular financing flagged"
+      ]
+    },
+    {
+      "entity": "Cheniere Energy Partners, L.P.",
+      "cik": "0001383650",
+      "ticker": "CQP",
+      "sector": "LNG / gas export",
+      "tier": "mid",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.3078,
+      "ai_tagged": false,
+      "debt_notional_usd": 10603800000.0,
+      "near_term_notional_usd": 5851800000.0,
+      "max_coupon": 0.0605,
+      "source_uri_count": 20,
+      "signatures": {
+        "leverage": 0.5323,
+        "refi": 0.4612,
+        "carry": 0.105,
+        "hidden": 0.3,
+        "concentration": 0.1746,
+        "circular": 0.3,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "structured/ring-fenced (3 SPV/non-recourse flags)",
+        "related-party / circular financing flagged"
+      ]
+    },
+    {
+      "entity": "BANK OF HAWAII CORP",
+      "cik": "",
+      "ticker": "",
+      "sector": "Bank / depository",
+      "tier": "mid",
+      "off_corporate_leverage_axis": true,
+      "composite": 0.3077,
+      "ai_tagged": false,
+      "debt_notional_usd": 13507100000.0,
+      "near_term_notional_usd": 13503200000.0,
+      "max_coupon": null,
+      "source_uri_count": 3,
+      "signatures": {
+        "leverage": 0.5808,
+        "refi": 0.9997,
+        "carry": 0.0,
+        "hidden": 0.0,
+        "concentration": 0.0,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "front-loaded refi wall ($14B due <=2027)"
+      ]
+    },
+    {
+      "entity": "Gaming & Leisure Properties, Inc.",
+      "cik": "",
+      "ticker": "",
+      "sector": "REIT / CRE (equity)",
+      "tier": "mid",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.3067,
+      "ai_tagged": false,
+      "debt_notional_usd": 8216100000.0,
+      "near_term_notional_usd": 2651500000.0,
+      "max_coupon": 0.125,
+      "source_uri_count": 19,
+      "signatures": {
+        "leverage": 0.4823,
+        "refi": 0.1815,
+        "carry": 0.75,
+        "hidden": 0.3158,
+        "concentration": 0.1562,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "distressed-priced tranche(s) up to 12.5%",
+        "structured/ring-fenced (1 SPV/non-recourse flags)"
+      ]
+    },
+    {
+      "entity": "BLACKSTONE MORTGAGE TRUST, INC.",
+      "cik": "0001061630",
+      "ticker": "BXMT",
+      "sector": "Mortgage REIT",
+      "tier": "mid",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.3032,
+      "ai_tagged": false,
+      "debt_notional_usd": 5759847200.0,
+      "near_term_notional_usd": 2509847200.0,
+      "max_coupon": 0.0625,
+      "source_uri_count": 21,
+      "signatures": {
+        "leverage": 0.415,
+        "refi": 0.2376,
+        "carry": 0.125,
+        "hidden": 0.7619,
+        "concentration": 0.1249,
+        "circular": 0.3,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "structured/ring-fenced (7 SPV/non-recourse flags)",
+        "related-party / circular financing flagged"
+      ]
+    },
+    {
+      "entity": "Liberty Global Ltd.",
+      "cik": "0001570585",
+      "ticker": "LBTYA",
+      "sector": "Other / unclassified",
+      "tier": "mid",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.3022,
+      "ai_tagged": false,
+      "debt_notional_usd": 16565000000.0,
+      "near_term_notional_usd": 8500000000.0,
+      "max_coupon": 0.075,
+      "source_uri_count": 7,
+      "signatures": {
+        "leverage": 0.6223,
+        "refi": 0.5017,
+        "carry": 0.25,
+        "hidden": 0.2857,
+        "concentration": 0.0,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "front-loaded refi wall ($8B due <=2027)"
+      ]
+    },
+    {
+      "entity": "GOLUB CAPITAL BDC, Inc.",
+      "cik": "0001476765",
+      "ticker": "GBDC",
+      "sector": "BDC / private credit",
+      "tier": "mid",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.2986,
+      "ai_tagged": false,
+      "debt_notional_usd": 13322500000.0,
+      "near_term_notional_usd": 750000000.0,
+      "max_coupon": 0.0705,
+      "source_uri_count": 26,
+      "signatures": {
+        "leverage": 0.578,
+        "refi": 0.0137,
+        "carry": 0.205,
+        "hidden": 0.4828,
+        "concentration": 0.6054,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "structured/ring-fenced (9 SPV/non-recourse flags)",
+        "counterparty concentration (HHI 0.61)"
+      ]
+    },
+    {
+      "entity": "BHP Group Ltd",
+      "cik": "",
+      "ticker": "",
+      "sector": "Industrial / materials / other infra",
+      "tier": "mid",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.2954,
+      "ai_tagged": false,
+      "debt_notional_usd": 6694000000.0,
+      "near_term_notional_usd": 2953000000.0,
+      "max_coupon": 0.0575,
+      "source_uri_count": 4,
+      "signatures": {
+        "leverage": 0.4431,
+        "refi": 0.2633,
+        "carry": 0.075,
+        "hidden": 1.0,
+        "concentration": 0.0,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "structured/ring-fenced (0 SPV/non-recourse flags)"
+      ]
+    },
+    {
+      "entity": "Substitution of BHP Billiton Finance (USA) Limited",
+      "cik": "",
+      "ticker": "",
+      "sector": "Industrial / materials / other infra",
+      "tier": "mid",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.2954,
+      "ai_tagged": false,
+      "debt_notional_usd": 6694000000.0,
+      "near_term_notional_usd": 2953000000.0,
+      "max_coupon": 0.0575,
+      "source_uri_count": 4,
+      "signatures": {
+        "leverage": 0.4431,
+        "refi": 0.2633,
+        "carry": 0.075,
+        "hidden": 1.0,
+        "concentration": 0.0,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "structured/ring-fenced (0 SPV/non-recourse flags)"
+      ]
+    },
+    {
+      "entity": "Bausch & Lomb Corp",
+      "cik": "",
+      "ticker": "",
+      "sector": "Specialty pharma / healthcare",
+      "tier": "mid",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.2805,
+      "ai_tagged": false,
+      "debt_notional_usd": 13429250000.0,
+      "near_term_notional_usd": 0.0,
+      "max_coupon": 0.0275,
+      "source_uri_count": 9,
+      "signatures": {
+        "leverage": 0.5796,
+        "refi": 0.0,
+        "carry": 0.0,
+        "hidden": 0.4444,
+        "concentration": 0.5068,
+        "circular": 0.3,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "structured/ring-fenced (2 SPV/non-recourse flags)",
+        "counterparty concentration (HHI 0.51)",
+        "related-party / circular financing flagged"
+      ]
+    },
+    {
+      "entity": "Sarepta Therapeutics, Inc.",
+      "cik": "",
+      "ticker": "",
+      "sector": "Specialty pharma / healthcare",
+      "tier": "mid",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.2727,
+      "ai_tagged": false,
+      "debt_notional_usd": 6659000000.0,
+      "near_term_notional_usd": 5327400000.0,
+      "max_coupon": 0.04875,
+      "source_uri_count": 8,
+      "signatures": {
+        "leverage": 0.4421,
+        "refi": 0.641,
+        "carry": 0.0,
+        "hidden": 0.0,
+        "concentration": 0.5007,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "front-loaded refi wall ($5B due <=2027)",
+        "counterparty concentration (HHI 0.50)"
+      ]
+    },
+    {
+      "entity": "McGraw-Hill Global Education Intermediate Holdings, LLC, as holdings, McGraw Hill LLC",
+      "cik": "",
+      "ticker": "",
+      "sector": "Media / advertising",
+      "tier": "mid",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.267,
+      "ai_tagged": false,
+      "debt_notional_usd": 11040264910.0,
+      "near_term_notional_usd": 0.0,
+      "max_coupon": 0.01,
+      "source_uri_count": 12,
+      "signatures": {
+        "leverage": 0.5403,
+        "refi": 0.0,
+        "carry": 0.0,
+        "hidden": 1.0,
+        "concentration": 0.0674,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "structured/ring-fenced (12 SPV/non-recourse flags)"
+      ]
+    },
+    {
+      "entity": "Permian Resources Corp",
+      "cik": "",
+      "ticker": "",
+      "sector": "Oil & gas E&P",
+      "tier": "mid",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.2548,
+      "ai_tagged": false,
+      "debt_notional_usd": 11470000000.0,
+      "near_term_notional_usd": 0.0,
+      "max_coupon": 0.11,
+      "source_uri_count": 9,
+      "signatures": {
+        "leverage": 0.5479,
+        "refi": 0.0,
+        "carry": 0.6,
+        "hidden": 0.2222,
+        "concentration": 0.16,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "distressed-priced tranche(s) up to 11.0%"
+      ]
+    },
+    {
+      "entity": "Versant Media Group, Inc.",
+      "cik": "0002067876",
+      "ticker": "VSNT",
+      "sector": "Media / advertising",
+      "tier": "mid",
+      "off_corporate_leverage_axis": false,
+      "composite": 0.2466,
+      "ai_tagged": false,
+      "debt_notional_usd": 8000000000.0,
+      "near_term_notional_usd": 1000000000.0,
+      "max_coupon": 0.067,
+      "source_uri_count": 5,
+      "signatures": {
+        "leverage": 0.4771,
+        "refi": 0.0376,
+        "carry": 0.17,
+        "hidden": 0.6667,
+        "concentration": 0.148,
+        "circular": 0.0,
+        "distress": 0.0
+      },
+      "seed_hypotheses": [
+        "structured/ring-fenced (2 SPV/non-recourse flags)"
+      ]
+    }
+  ]
+}
