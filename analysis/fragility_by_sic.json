@@ -1,0 +1,408 @@
+{
+  "as_of": "2026-06-13",
+  "entities_with_cik": 140,
+  "entities_sic_resolved": 131,
+  "groups": [
+    {
+      "sic_division": "46 Pipelines (non-gas)",
+      "n": 1,
+      "mean_composite": 0.4598,
+      "max_composite": 0.4598,
+      "sum_debt_usd": 54700000000.0,
+      "top": [
+        "ENBRIDGE INC (0.460)"
+      ]
+    },
+    {
+      "sic_division": "70 Hotels/lodging",
+      "n": 3,
+      "mean_composite": 0.3352,
+      "max_composite": 0.4452,
+      "sum_debt_usd": 118037800000.0,
+      "top": [
+        "LAS VEGAS SANDS CORP (0.445)",
+        "MGM RESORTS INTERNATIONAL (0.305)",
+        "Hilton Grand Vacations Inc. (0.255)"
+      ]
+    },
+    {
+      "sic_division": "20 Food",
+      "n": 2,
+      "mean_composite": 0.3288,
+      "max_composite": 0.3481,
+      "sum_debt_usd": 94856000000.0,
+      "top": [
+        "Keurig Dr Pepper Inc. (0.348)",
+        "PepsiCo, Inc. (0.310)"
+      ]
+    },
+    {
+      "sic_division": "65 Real estate",
+      "n": 2,
+      "mean_composite": 0.3266,
+      "max_composite": 0.3993,
+      "sum_debt_usd": 26602000000.0,
+      "top": [
+        "Kennedy-Wilson Holdings, Inc. (0.399)",
+        "Urban Edge Properties (0.254)"
+      ]
+    },
+    {
+      "sic_division": "78 Motion pictures",
+      "n": 1,
+      "mean_composite": 0.3153,
+      "max_composite": 0.3153,
+      "sum_debt_usd": 13991809562.0,
+      "top": [
+        "AMC ENTERTAINMENT HOLDINGS, INC. (0.315)"
+      ]
+    },
+    {
+      "sic_division": "48 Communications",
+      "n": 6,
+      "mean_composite": 0.315,
+      "max_composite": 0.3895,
+      "sum_debt_usd": 293236998000.0,
+      "top": [
+        "Lumen Technologies, Inc. (0.390)",
+        "AT&T INC. (0.359)",
+        "T-Mobile US, Inc. (0.307)",
+        "Liberty Global Ltd. (0.302)",
+        "Uniti Group Inc. (0.286)",
+        "Versant Media Group, Inc. (0.247)"
+      ]
+    },
+    {
+      "sic_division": "67 Holding/investment (incl REITs/BDCs)",
+      "n": 20,
+      "mean_composite": 0.3007,
+      "max_composite": 0.475,
+      "sum_debt_usd": 373203887550.0,
+      "top": [
+        "PennyMac Mortgage Investment Trust (0.475)",
+        "EQUITY RESIDENTIAL (0.428)",
+        "WELLTOWER INC. (0.381)",
+        "MFA FINANCIAL, INC. (0.376)",
+        "HEALTHPEAK PROPERTIES, INC. (0.361)",
+        "ADAMAS TRUST, INC. (0.339)"
+      ]
+    },
+    {
+      "sic_division": "64 Insurance agents",
+      "n": 1,
+      "mean_composite": 0.3005,
+      "max_composite": 0.3005,
+      "sum_debt_usd": 32189650000.0,
+      "top": [
+        "BROWN & BROWN, INC. (0.300)"
+      ]
+    },
+    {
+      "sic_division": "29 Petroleum refining",
+      "n": 1,
+      "mean_composite": 0.2985,
+      "max_composite": 0.2985,
+      "sum_debt_usd": 54274462000.0,
+      "top": [
+        "Sunoco LP (0.298)"
+      ]
+    },
+    {
+      "sic_division": "49 Utilities (electric/gas/sanitary)",
+      "n": 16,
+      "mean_composite": 0.2957,
+      "max_composite": 0.3374,
+      "sum_debt_usd": 592481824921.0,
+      "top": [
+        "American Water Works Company, Inc. (0.337)",
+        "Energy Transfer LP (0.336)",
+        "Entergy Louisiana, LLC (0.334)",
+        "NRG ENERGY, INC. (0.331)",
+        "ENTERPRISE PRODUCTS PARTNERS L.P. (0.314)",
+        "Cheniere Energy Partners, L.P. (0.308)"
+      ]
+    },
+    {
+      "sic_division": "61 Nondepository credit",
+      "n": 6,
+      "mean_composite": 0.2823,
+      "max_composite": 0.4518,
+      "sum_debt_usd": 109617815900.0,
+      "top": [
+        "BREAD FINANCIAL HOLDINGS, INC. (0.452)",
+        "Hut 8 Corp. (0.413)",
+        "Bit Digital, Inc (0.286)",
+        "Exodus Movement, Inc. (0.188)",
+        "VerifyMe, Inc. (0.181)",
+        "WhiteFiber, Inc. (0.174)"
+      ]
+    },
+    {
+      "sic_division": "73 Business services/software",
+      "n": 14,
+      "mean_composite": 0.2676,
+      "max_composite": 0.3726,
+      "sum_debt_usd": 266751788320.0,
+      "top": [
+        "OMNICOM GROUP INC. (0.373)",
+        "Meta Platforms, Inc. (0.325)",
+        "Zscaler, Inc. (0.311)",
+        "UNITED RENTALS, INC. (0.288)",
+        "Clear Channel Outdoor Holdings, In (0.281)",
+        "INTUIT INC. (0.280)"
+      ]
+    },
+    {
+      "sic_division": "63 Insurance carriers",
+      "n": 1,
+      "mean_composite": 0.2669,
+      "max_composite": 0.2669,
+      "sum_debt_usd": 11801000000.0,
+      "top": [
+        "Athene Holding Ltd. (0.267)"
+      ]
+    },
+    {
+      "sic_division": "60 Depository banks",
+      "n": 15,
+      "mean_composite": 0.2644,
+      "max_composite": 0.4331,
+      "sum_debt_usd": 273071939000.0,
+      "top": [
+        "Ameris Bancorp (0.433)",
+        "BYLINE BANCORP, INC. (0.408)",
+        "ENTERPRISE FINANCIAL SERVICES CORP (0.342)",
+        "FIFTH THIRD BANCORP (0.330)",
+        "Pinnacle Financial Partners, Inc. (0.295)",
+        "ConnectOne Bancorp, Inc. (0.279)"
+      ]
+    },
+    {
+      "sic_division": "38 Instruments",
+      "n": 2,
+      "mean_composite": 0.2637,
+      "max_composite": 0.2771,
+      "sum_debt_usd": 7689370000.0,
+      "top": [
+        "EASTMAN KODAK COMPANY (0.277)",
+        "BAXTER INTERNATIONAL INC (0.250)"
+      ]
+    },
+    {
+      "sic_division": "26 Paper",
+      "n": 1,
+      "mean_composite": 0.2591,
+      "max_composite": 0.2591,
+      "sum_debt_usd": 8916900000.0,
+      "top": [
+        "MERCER INTERNATIONAL INC. (0.259)"
+      ]
+    },
+    {
+      "sic_division": "51 Wholesale nondurable",
+      "n": 1,
+      "mean_composite": 0.2521,
+      "max_composite": 0.2521,
+      "sum_debt_usd": 7164000000.0,
+      "top": [
+        "CHS Inc. (0.252)"
+      ]
+    },
+    {
+      "sic_division": "55 Auto dealers",
+      "n": 1,
+      "mean_composite": 0.2513,
+      "max_composite": 0.2513,
+      "sum_debt_usd": 6050000000.0,
+      "top": [
+        "LITHIA MOTORS INC (0.251)"
+      ]
+    },
+    {
+      "sic_division": "27 Printing/publishing",
+      "n": 1,
+      "mean_composite": 0.2478,
+      "max_composite": 0.2478,
+      "sum_debt_usd": 14145264910.0,
+      "top": [
+        "McGraw Hill, Inc. (0.248)"
+      ]
+    },
+    {
+      "sic_division": "62 Securities/brokers",
+      "n": 4,
+      "mean_composite": 0.2438,
+      "max_composite": 0.2694,
+      "sum_debt_usd": 45523650000.0,
+      "top": [
+        "KKR & Co. Inc. (0.269)",
+        "Victory Capital Holdings, Inc. (0.259)",
+        "Apollo Global Management, Inc. (0.258)",
+        "HOULIHAN LOKEY, INC. (0.189)"
+      ]
+    },
+    {
+      "sic_division": "(no SIC)",
+      "n": 9,
+      "mean_composite": 0.2419,
+      "max_composite": 0.3307,
+      "sum_debt_usd": 170709622373.0,
+      "top": [
+        "Goldman Sachs BDC, Inc. (0.331)",
+        "Bain Capital Specialty Finance, In (0.319)",
+        "GOLUB CAPITAL BDC, Inc. (0.299)",
+        "Morgan Stanley Direct Lending Fund (0.278)",
+        "BLACKROCK FLOATING RATE INCOME STR (0.255)",
+        "Blackstone Secured Lending Fund (0.250)"
+      ]
+    },
+    {
+      "sic_division": "37 Transportation equipment",
+      "n": 3,
+      "mean_composite": 0.2337,
+      "max_composite": 0.2715,
+      "sum_debt_usd": 32201000000.0,
+      "top": [
+        "HONEYWELL INTERNATIONAL INC (0.272)",
+        "Polaris Inc. (0.249)",
+        "Commercial Vehicle Group, Inc. (0.181)"
+      ]
+    },
+    {
+      "sic_division": "35 Machinery/computers",
+      "n": 4,
+      "mean_composite": 0.2335,
+      "max_composite": 0.2714,
+      "sum_debt_usd": 24188384764.0,
+      "top": [
+        "Hyperscale Data, Inc. (0.271)",
+        "LENNOX INTERNATIONAL INC (0.249)",
+        "ITT INC. (0.246)",
+        "TPI COMPOSITES, INC (0.168)"
+      ]
+    },
+    {
+      "sic_division": "28 Chemicals/pharma",
+      "n": 7,
+      "mean_composite": 0.2273,
+      "max_composite": 0.414,
+      "sum_debt_usd": 43947461219.0,
+      "top": [
+        "Bausch Health Companies Inc. (0.414)",
+        "Merck & Co., Inc. (0.247)",
+        "Alvotech (0.240)",
+        "AMNEAL PHARMACEUTICALS LLC (0.193)",
+        "Celularity Inc (0.173)",
+        "Humacyte, Inc. (0.163)"
+      ]
+    },
+    {
+      "sic_division": "34 Fabricated metals",
+      "n": 1,
+      "mean_composite": 0.2251,
+      "max_composite": 0.2251,
+      "sum_debt_usd": 755200000.0,
+      "top": [
+        "Babcock & Wilcox Enterprises, Inc. (0.225)"
+      ]
+    },
+    {
+      "sic_division": "36 Electronics",
+      "n": 4,
+      "mean_composite": 0.2221,
+      "max_composite": 0.2964,
+      "sum_debt_usd": 17362230384.0,
+      "top": [
+        "WOLFSPEED, INC. (0.296)",
+        "JABIL INC (0.251)",
+        "Sanmina Corporation (0.189)",
+        "ChargePoint Holdings, Inc. (0.152)"
+      ]
+    },
+    {
+      "sic_division": "13 Oil & gas extraction",
+      "n": 1,
+      "mean_composite": 0.2204,
+      "max_composite": 0.2204,
+      "sum_debt_usd": 2743259000.0,
+      "top": [
+        "W&T OFFSHORE INC (0.220)"
+      ]
+    },
+    {
+      "sic_division": "22 Textiles",
+      "n": 1,
+      "mean_composite": 0.2203,
+      "max_composite": 0.2203,
+      "sum_debt_usd": 1505000000.0,
+      "top": [
+        "MOHAWK INDUSTRIES INC (0.220)"
+      ]
+    },
+    {
+      "sic_division": "44 Water transport",
+      "n": 4,
+      "mean_composite": 0.2093,
+      "max_composite": 0.2762,
+      "sum_debt_usd": 72305602101.0,
+      "top": [
+        "ROYAL CARIBBEAN CRUISES LTD. (0.276)",
+        "DHT Holdings, Inc. (0.203)",
+        "Castor Maritime Inc. (0.180)",
+        "SEACOR Marine Holdings Inc. (0.177)"
+      ]
+    },
+    {
+      "sic_division": "15 Construction",
+      "n": 1,
+      "mean_composite": 0.1999,
+      "max_composite": 0.1999,
+      "sum_debt_usd": 1237500000.0,
+      "top": [
+        "HOVNANIAN ENTERPRISES INC (0.200)"
+      ]
+    },
+    {
+      "sic_division": "50 Wholesale durable",
+      "n": 1,
+      "mean_composite": 0.1971,
+      "max_composite": 0.1971,
+      "sum_debt_usd": 723500000.0,
+      "top": [
+        "Gold.com, Inc. (0.197)"
+      ]
+    },
+    {
+      "sic_division": "45 Air transport",
+      "n": 2,
+      "mean_composite": 0.1912,
+      "max_composite": 0.2715,
+      "sum_debt_usd": 12069930000.0,
+      "top": [
+        "American Airlines Group Inc. (0.272)",
+        "AIR T INC (0.111)"
+      ]
+    },
+    {
+      "sic_division": "72 Personal services",
+      "n": 1,
+      "mean_composite": 0.1596,
+      "max_composite": 0.1596,
+      "sum_debt_usd": 1888033118.0,
+      "top": [
+        "WW INTERNATIONAL, INC. (0.160)"
+      ]
+    },
+    {
+      "sic_division": "01 Agriculture",
+      "n": 2,
+      "mean_composite": 0.1121,
+      "max_composite": 0.1146,
+      "sum_debt_usd": 65800000.0,
+      "top": [
+        "iANTHUS CAPITAL HOLDINGS, INC. (0.115)",
+        "Grown Rogue International Inc. (0.110)"
+      ]
+    }
+  ]
+}
