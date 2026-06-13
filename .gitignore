@@ -88,3 +88,9 @@ to-claude-from-grok.md
 to-grok-from-claude.md
 # macOS Finder duplicate strays
 * 2.py
+scripts/workflows/phase3_run.generated.js
+scripts/workflows/wave_*.generated.js
+analysis/deepdive_waves/
+analysis/economy_wide_fragility_map.full.json
+analysis/full_targets_remaining.json
+analysis/phase3_targets_compact.json

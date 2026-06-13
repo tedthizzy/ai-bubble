@@ -561,6 +561,10 @@ def main() -> None:
         "quality_excluded": sorted(quality_log, key=lambda q: -(q["notional_usd"] or 0))[:50],
     }
     OUT_JSON.write_text(json.dumps(summary, indent=2))
+    # full ranked set (every scored entity) — the complete deep-dive frontier, not just top_200
+    (ROOT / "analysis" / "economy_wide_fragility_map.full.json").write_text(
+        json.dumps({"as_of": summary["as_of"], "entities": len(ranked), "all_ranked": ranked})
+    )
     write_markdown(summary, ranked)
     print(f"wrote {OUT_JSON.relative_to(ROOT)} + {OUT_MD.relative_to(ROOT)}")
     print(f"  AI cluster top rank: {top_ai_rank}  |  entities scored: {len(ranked):,}")
