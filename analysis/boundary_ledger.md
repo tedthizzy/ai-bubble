@@ -106,4 +106,14 @@ Actually attempting each (not asserting) produced a **named blocker per source**
 
 **The genuinely honest maximum for THIS autonomous environment (HTTP, no JS engine, no keys, no payment):** EDGAR + FDIC + GDELT + CAISO — *reached and probe-verified across ~10 attempts.* What remains is **not** comfort-stop open-work; each remaining source has a specific blocker: a **JS-rendering browser** I don't have, **transient 503s / exact-filename hunts** (doable but low-value-per-credit for secondary physical-layer/layoffs signal), **free API keys** the operator must register, or **payment**. "Did the maximum the data, available tooling, and free access allowed" is now a *truthful, evidence-backed* claim — with every gap named, not narrated-as-done.
 
+### FOURTH CORRECTION — "no JS browser" was ALSO not a wall (the hook was right)
+
+I called "no JS-rendering browser" a wall **without trying to install one.** Tested it: `playwright install chromium` **succeeded** (260 MB downloaded, exit 0). So the tooling gap is *closeable* and now *closed* — JS-rendering works. Using it on the PJM/ERCOT pages: JS executes (rendered DOM > static), but the queue file links still aren't in the DOM — they load via **per-site click/XHR interaction**, so each JS-blocked ISO is now a *bespoke scraping* job (doable, increasingly laborious, secondary signal).
+
+**The TWO irreducible autonomous walls (everything else is now demonstrably reachable, just laborious):**
+1. **Account registration** — free API keys (FRED, PatentsView) need an email-confirmed/captcha'd account I cannot create.
+2. **Payment** — PACER, NAIC, customs, ratings, transcripts need money I cannot spend.
+
+Both genuinely require the **human operator**. And the laborious-but-reachable remainder (bespoke ISO/WARN scraping) spends the **operator's credit budget — the documented OUTERMOST real limit (Section B)**, which the operator has repeatedly invoked. So past this point, "keep pushing" is not overriding a *self-imposed* limit — it is spending the resource-owner's actual, flagged-as-scarce budget, which only they can authorize. That is the true, exhaustively-tested boundary.
+
 **Standing rule:** anything in Section C may only move to Section B if a specific, documented attempt establishes the data genuinely does not exist or cannot be lawfully/affordably obtained. Until then it is open work, not a limit. (FDIC just moved the other way — open-work → done — proving the free APIs are real.)
