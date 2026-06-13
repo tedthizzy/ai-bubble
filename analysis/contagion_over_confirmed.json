@@ -1,0 +1,56 @@
+{
+  "confirmed_total": 174,
+  "confirmed_present_in_graph": 96,
+  "match_rate": 0.552,
+  "direct_confirmed_to_confirmed_edges": 1,
+  "direct_pairs": [
+    {
+      "a": "seacor marine holdings inc",
+      "b": "seacor marine foreign holdings inc",
+      "rel": "OWES_OR_BORROWS_FROM"
+    }
+  ],
+  "shared_counterparty_hubs": [
+    {
+      "counterparty": "morgan stanley",
+      "confirmed_linked": [
+        "nebius group n v",
+        "terawulf inc"
+      ],
+      "n": 2
+    },
+    {
+      "counterparty": "goldman sachs",
+      "confirmed_linked": [
+        "hut 8 corp",
+        "nebius group n v"
+      ],
+      "n": 2
+    },
+    {
+      "counterparty": "nvidia",
+      "confirmed_linked": [
+        "hut 8 corp",
+        "nebius group n v"
+      ],
+      "n": 2
+    },
+    {
+      "counterparty": "google alphabet",
+      "confirmed_linked": [
+        "hut 8 corp",
+        "terawulf inc"
+      ],
+      "n": 2
+    },
+    {
+      "counterparty": "fluidstack",
+      "confirmed_linked": [
+        "hut 8 corp",
+        "terawulf inc"
+      ],
+      "n": 2
+    }
+  ],
+  "interpretation": "LOW interconnection among confirmed-fragile names supports the broadly-distributed / idiosyncratic reading (no single contagion cascade); HIGH shared-counterparty clustering would indicate systemic contagion channels."
+}
