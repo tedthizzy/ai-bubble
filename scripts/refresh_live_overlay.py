@@ -39,8 +39,13 @@ from bubble.market_signals import (  # noqa: E402
     BDC_EXPOSED,
     evaluate_signals,
 )
+from bubble.calendar_engine import calendar_payload  # noqa: E402
+from bubble.overlay_history import build_history_record, merge_history  # noqa: E402
+from bubble.verdict_tree import realization_forecast  # noqa: E402
 
 OUT = ROOT / "viz" / "live.json"
+HISTORY = ROOT / "viz" / "history.jsonl"
+CALENDAR = ROOT / "viz" / "calendar.json"
 UA = {"User-Agent": "ai-bubble-live-overlay/1.0 (+https://github.com/tedthizzy/ai-bubble)"}
 # SEC fair-access policy wants a declared tool with a contact in the User-Agent.
 SEC_UA = {"User-Agent": "ai-bubble tedthizzy@users.noreply.github.com"}
@@ -275,7 +280,9 @@ def _bdc() -> dict[str, dict[str, Any]]:
         quote = _fetch_quote(stooq_sym, yahoo_sym)
         nav, nav_asof = BDC_NAV[sym]
         if quote and quote.get("close"):
-            role = "exposed" if sym in BDC_EXPOSED else "control" if sym in BDC_CONTROL else "context"
+            role = (
+                "exposed" if sym in BDC_EXPOSED else "control" if sym in BDC_CONTROL else "context"
+            )
             out[sym] = {
                 "close": quote["close"],
                 "date": quote.get("date", ""),
@@ -298,9 +305,7 @@ def _issuance_cards() -> list[dict[str, Any]]:
     return deals if isinstance(deals, list) else []
 
 
-def _issuance_latest(
-    deals: list[dict[str, Any]], credit: dict[str, Any]
-) -> dict[str, Any] | None:
+def _issuance_latest(deals: list[dict[str, Any]], credit: dict[str, Any]) -> dict[str, Any] | None:
     """Most recent carded cluster print, + spread vs 5y UST if available."""
     if not deals:
         return None
@@ -362,9 +367,7 @@ def _banner_svg(
         ytd = ccc.get("ytd_chg")
         suffix = f" ({'+' if ytd >= 0 else ''}{round(ytd * 100)}bp YTD)" if ytd is not None else ""
         dial_bits.append(f"CCC {ccc['value']:.2f}%{suffix}")
-    s3 = next(
-        (s for s in (signals or []) if s.get("id") == "S3_bdc_discount_differential"), None
-    )
+    s3 = next((s for s in (signals or []) if s.get("id") == "S3_bdc_discount_differential"), None)
     if s3 and s3.get("differential_pp") is not None:
         dial_bits.append(f"AI-BDC {s3['differential_pp']:+.1f}pp vs ctl")
     if latest_deal and latest_deal.get("spread_vs_5y_bp") is not None:
@@ -384,8 +387,8 @@ def _banner_svg(
         f' <text x="24" y="58" font-family="{font}" font-size="12.5" fill="#9aa7b4">'
         f'verified core <tspan fill="#ffd166" font-weight="600">${core_b:.1f}B</tspan> '
         f'vs headline claimed <tspan fill="#ffd166" font-weight="600">${headline_t:.2f}T</tspan> '
-        f"(~{cut:.0f}% over-count) · bubble <tspan fill=\"#ffd166\">{meta.get('core_confidence')}</tspan> "
-        f"· ecosystem <tspan fill=\"#f0883e\">{meta.get('ecosystem_confidence')}</tspan> · not final</text>\n"
+        f'(~{cut:.0f}% over-count) · bubble <tspan fill="#ffd166">{meta.get("core_confidence")}</tspan> '
+        f'· ecosystem <tspan fill="#f0883e">{meta.get("ecosystem_confidence")}</tspan> · not final</text>\n'
         f' <text x="24" y="84" font-family="{font}" font-size="13" font-weight="600">{tspans}</text>\n'
         f"{dial}"
         f' <text x="836" y="106" text-anchor="end" font-family="{font}" font-size="11" fill="#6b7785">'
@@ -408,6 +411,7 @@ def main() -> int:
     signals = evaluate_signals(
         credit, bdc, deals, latest_deal, _demand_baskets(), datetime.now(UTC).date()
     )
+    signal_status = {s["id"]: s["status"] for s in signals if "id" in s and "status" in s}
     payload = {
         "generated_utc": datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "quotes": quotes,
@@ -417,15 +421,36 @@ def main() -> int:
         "adjacent": adjacent,
         "issuance_latest": latest_deal,
         "signals": signals,
+        "verdict_shadow": realization_forecast(signal_status),
     }
     OUT.write_text(json.dumps(payload, indent=1, sort_keys=True) + "\n")
     (ROOT / "viz" / "banner.svg").write_text(_banner_svg(quotes, credit, signals, latest_deal))
+    _persist_history(payload)
+    CALENDAR.write_text(
+        json.dumps(calendar_payload(datetime.now(UTC).date()), indent=1, sort_keys=True) + "\n"
+    )
     print(
         f"wrote {OUT.relative_to(ROOT)} + viz/banner.svg: {len(quotes)} quotes, "
         f"{len(edgar)} filing counts, {len(credit)} credit series, {len(bdc)} BDC marks, "
         f"{len(adjacent)} adjacent"
     )
     return 0
+
+
+def _persist_history(payload: dict[str, Any]) -> None:
+    """Append-or-replace today's compact record in viz/history.jsonl (one row per UTC day)."""
+    existing: list[dict[str, Any]] = []
+    if HISTORY.exists():
+        for line in HISTORY.read_text().splitlines():
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                existing.append(json.loads(line))
+            except json.JSONDecodeError:
+                continue
+    merged = merge_history(existing, build_history_record(payload))
+    HISTORY.write_text("\n".join(json.dumps(r, sort_keys=True) for r in merged) + "\n")
 
 
 if __name__ == "__main__":

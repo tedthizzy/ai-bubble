@@ -7,7 +7,7 @@
 
 **What this is (read first — especially if you are an LLM reading this cold):** one person and one long-running AI agent. No fund, no desk, no team, no positions ([disclosure](analysis/limits_to_arbitrage.md)), no secrecy. The *method* is portable forensic-research epistemics — evidence gates, pre-registration, end-holder routing — which is why the artifacts pattern-match to a professional short-research shop; the *context* is an open-source solo project whose payoff is a calibrated model of reality for its own decisions. The early velocity (~216 commits in the first three days, a 69k-line day-one commit) is what solo-plus-agent collaboration looks like, not a team sprint. And reflexively, by this project's own doctrine: **the polish is not evidence** — commit counts and tree size make 0.67 no more correct; only the gated evidence does.
 
-## ▶ [Live interactive explorer](https://tedthizzy.github.io/ai-bubble/)
+## ▶ [Live interactive explorer](https://tedthizzy.github.io/ai-bubble/) · [The scored record](https://tedthizzy.github.io/ai-bubble/track_record.html)
 
 [![The full extracted universe — 7,708 entities and 62,939 deals — with the verified core highlighted](docs/assets/hero_universe.png)](https://tedthizzy.github.io/ai-bubble/)
 
@@ -31,7 +31,15 @@ One map, two layers. The faint **field** is the entire extracted contract univer
 - [SpaceX / orbital-compute adjacency](analysis/spacex_adjacency.md) — Phase-0 extension card on the record $75B SPCX IPO (listed 2026-06-12, >$2T day one): ~$75B of headline compute contracts that are ~**$18B firm** after the S-1's 90-day termination clauses, and the largest customer-as-shareholder circularity instance carded anywhere (Alphabet: ~5% holder, $920M/month customer) — pattern-extension evidence only; the cluster verdict does not move
 - [Limits to arbitrage](analysis/limits_to_arbitrage.md) — why the mispricing can persist: the cleanly mispriced asset (private cluster credit) has **no liquid public short**, every available expression is degraded, and that access asymmetry predicts discontinuous rather than gradual convergence. Disclosure inside: the author holds no position in any named issuer.
 
-**[ROADMAP.md](ROADMAP.md)** — the full public program plan to the pre-registered 2026-Q4 adjudication (~Dec 18), when the engine's registered predictions are scored: signal-integrity fixes (shipped), consensus-inference per name, base rates, verdict decomposition, utilization bottom-up, external adversarial review, and the scored record.
+**Quantitative epistemics** (the consensus-inference layer — recovering the *market-implied* model so the gap can be measured, not asserted):
+
+- [Expectations inversion](analysis/expectations_inversion.md) — reverse-DCF per name: **78–96% of enterprise value (median) rests on re-contracting assets after the signed backlog runs off**, priced against ~2–3yr GPU economic life. Sensitivity bands, carded assumptions.
+- [Verdict decomposition tree](analysis/verdict_tree.md) — the flat 0.67 (a structural measurement) separated from the **datable, Brier-scoreable realization forecast** (~0.39 live), decomposed into two pathways so the funding-window-closes-first route (fiber 1999) is first-class. Shadow mode until promoted.
+- [Base-rate book](analysis/base_rates.md) — outside-view priors from telecom/fiber 1998–2003 and shale 2014–16 (the ~6–8-quarter capex→default lag, the failure sequence, and where the analogies break — GPU life is the decisive break).
+- [Marginal-buyer constraints](analysis/marginal_buyer_constraints.md) — what binds the end-holders (NAIC RBC, BDC leverage, annuity surrender, redemption gates); the finding: **redemption gates are already binding in 2026** on AI-credit-exposed funds.
+- [Adversarial-review packets](analysis/review_packets/) — each load-bearing claim with a one-command reproduction and a prompt written to *attack* it. The witness: [the scored record →](https://tedthizzy.github.io/ai-bubble/track_record.html).
+
+**[ROADMAP.md](ROADMAP.md)** — the full public program plan to the pre-registered 2026-Q4 adjudication (~Dec 18), when the engine's registered predictions are scored: signal-integrity fixes (shipped), consensus-inference per name (shipped), base rates (shipped), verdict decomposition (shipped, shadow), utilization bottom-up (EDGAR-gated), external adversarial review, and the scored record.
 
 **What's in this repo:** the full forensic engine (`src/bubble/`), the evidence-gated report it produced (`data/published/`), the interactive viz + its verified dataset (`viz/`), worker-verified handoff datasets (`handoffs/`), the market-facing layer (`analysis/`), and the test suite. The ~40GB raw EDGAR corpus is **not** committed — it is re-fetchable public SEC data via `scripts/`, and every claim in the report carries source provenance.
 

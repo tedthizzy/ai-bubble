@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ai-bubble · scored record</title>
+<style>
+  :root { color-scheme: dark; }
+  body { margin:0; background:#0c1420; color:#e6edf3;
+    font-family:ui-sans-serif,system-ui,-apple-system,sans-serif; line-height:1.5; }
+  .wrap { max-width:920px; margin:0 auto; padding:28px 20px 80px; }
+  h1 { font-size:21px; margin:0 0 4px; }
+  h2 { font-size:15px; color:#9aa7b4; text-transform:uppercase; letter-spacing:.04em;
+    margin:34px 0 12px; border-bottom:1px solid #223344; padding-bottom:6px; }
+  .sub { color:#6b7785; font-size:13px; margin:0 0 8px; }
+  a { color:#58a6ff; text-decoration:none; } a:hover { text-decoration:underline; }
+  .card { background:#0f1a28; border:1px solid #223344; border-radius:10px; padding:14px 16px;
+    margin:10px 0; }
+  table { border-collapse:collapse; width:100%; font-size:13.5px; }
+  th,td { text-align:left; padding:7px 9px; border-bottom:1px solid #1b2838; vertical-align:top; }
+  th { color:#9aa7b4; font-weight:600; }
+  .pill { display:inline-block; padding:1px 8px; border-radius:999px; font-size:12px;
+    font-weight:600; }
+  .confirming { background:#3a1d1d; color:#f0883e; }
+  .contra { background:#16301f; color:#3fb950; }
+  .neutral { background:#1b2838; color:#9aa7b4; }
+  .stale, .insufficient_data, .insufficient_history { background:#2a2333; color:#b08cff; }
+  .big { font-size:30px; font-weight:700; }
+  .muted { color:#6b7785; font-size:12.5px; }
+  .barwrap { background:#16202e; border-radius:6px; height:10px; overflow:hidden; max-width:360px; }
+  .bar { height:100%; background:linear-gradient(90deg,#3fb950,#f0883e); }
+  .ev { display:flex; gap:10px; padding:6px 0; border-bottom:1px solid #1b2838; font-size:13.5px; }
+  .ev b { color:#e6edf3; } .days { color:#6b7785; min-width:64px; }
+  code { background:#16202e; padding:1px 5px; border-radius:4px; font-size:12.5px; }
+  .err { color:#f85149; font-size:13px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>The scored record</h1>
+  <p class="sub">The calibration ledger for <a href="./index.html">ai-bubble</a> — pre-registered
+  signals, the shadow realization forecast, the forced-truth calendar, and the Brier track that
+  scores them. Pre-registration only confers credibility if it is witnessed; this is the witness.
+  <a href="https://github.com/tedthizzy/ai-bubble/blob/main/analysis/preregistered_signals.md">Registration & semantics →</a></p>
+  <p class="muted" id="stamp"></p>
+
+  <h2>Pre-registered signals — current state</h2>
+  <p class="sub">confirming = marginal-buyer cracking · contra = funding window open · neutral =
+  between thresholds · stale / insufficient = the honest non-answer. Auto-evaluated from keyless
+  public sources; compound criteria are human-adjudicated against these.</p>
+  <div id="signals" class="card">loading…</div>
+
+  <h2>Verdict tree — shadow forecast</h2>
+  <p class="sub">P(a realized cluster distress event within the crack window). Runs <b>beside</b>
+  the gated structural verdict (0.67), not instead of it — a different quantity (a datable
+  forecast vs a structural confidence). Two pathways, noisy-OR combined, so the funding-window-
+  closes-first route (fiber 1999) is first-class.
+  <a href="https://github.com/tedthizzy/ai-bubble/blob/main/analysis/verdict_tree.md">How it decomposes →</a></p>
+  <div id="verdict" class="card">loading…</div>
+
+  <h2>Brier track</h2>
+  <div id="brier" class="card">loading…</div>
+
+  <h2>Forced-truth calendar</h2>
+  <p class="sub">The dates that confirm, kill, or re-card a claim. The system fires these as
+  tickets; nothing rests on memory.</p>
+  <div id="calendar" class="card">loading…</div>
+
+  <h2>Expectations inversion — what the price is paying for</h2>
+  <p class="sub">The market-implied model recovered by reverse-DCF (sensitivity bands).
+  <a href="https://github.com/tedthizzy/ai-bubble/blob/main/analysis/expectations_inversion.md">Method →</a></p>
+  <div id="expectations" class="card">loading…</div>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const esc = s => String(s==null?'':s).replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+async function getJSON(u){ const r = await fetch(u+'?cb='+Date.now()); if(!r.ok) throw new Error(u); return r.json(); }
+async function getJSONL(u){ const r = await fetch(u+'?cb='+Date.now()); if(!r.ok) throw new Error(u);
+  return (await r.text()).trim().split('\n').filter(Boolean).map(l=>JSON.parse(l)); }
+
+function pill(status){ return `<span class="pill ${esc(status)}">${esc(status)}</span>`; }
+
+(async function(){
+  let live={}, hist=[], cal=null, exp=null;
+  try { live = await getJSON('./live.json'); } catch(e){}
+  try { hist = await getJSONL('./history.jsonl'); } catch(e){}
+  try { cal = await getJSON('./calendar.json'); } catch(e){}
+  try { exp = await getJSON('./expectations.json'); } catch(e){}
+
+  $('stamp').textContent = 'overlay generated ' + (live.generated_utc||'—') +
+    ' · history depth ' + hist.length + ' day(s)';
+
+  // --- signals ---
+  const sigs = live.signals||[];
+  if(sigs.length){
+    let rows = sigs.map(s=>{
+      const days = hist.filter(h=>h.signal_status && h.signal_status[s.id]).length;
+      return `<tr><td><code>${esc(s.id)}</code></td><td>${pill(s.status)}</td>
+        <td class="muted">${esc(s.desc||'')}</td></tr>`;
+    }).join('');
+    $('signals').innerHTML = `<table><tr><th>signal</th><th>state</th><th>definition</th></tr>${rows}</table>`;
+  } else $('signals').innerHTML = '<span class="err">no signals in live.json yet</span>';
+
+  // --- verdict shadow ---
+  const v = live.verdict_shadow;
+  if(v){
+    const pct = (v.p_real*100).toFixed(0);
+    $('verdict').innerHTML = `
+      <div class="big">${pct}% <span class="muted" style="font-size:14px">P_real (shadow)</span></div>
+      <div class="barwrap" style="margin:8px 0 12px"><div class="bar" style="width:${pct}%"></div></div>
+      <table>
+        <tr><th>pathway</th><th>probability</th></tr>
+        <tr><td>A · operations-first (op-distress → window closes → event)</td><td>${(v.pathway_operations_first*100).toFixed(0)}%</td></tr>
+        <tr><td>B · funding-first (window closes first → event) <span class="muted">— the fiber-1999 route</span></td><td>${(v.pathway_funding_first*100).toFixed(0)}%</td></tr>
+      </table>
+      <p class="muted" style="margin-top:10px">Structural verdict unchanged at
+      <b>${v.structural_confidence_unchanged}</b> (measured, not a forecast). ${esc(v.note||'')}</p>`;
+  } else $('verdict').innerHTML = '<span class="muted">shadow forecast appears after the next overlay refresh.</span>';
+
+  // --- brier ---
+  // Nothing resolves until 2026-Q4; render the standing benchmark honestly.
+  $('brier').innerHTML = `<div class="muted">No predictions have resolved yet — the first
+    resolution is the <b>2026-Q4 TIMING-KILL adjudication</b> (~Dec 18). A 0.5-on-everything
+    forecaster scores 0.25 (the coin-flip benchmark the shadow tree must beat to earn promotion
+    out of shadow mode). This panel fills as the calendar resolves.</div>`;
+
+  // --- calendar ---
+  if(cal && cal.upcoming){
+    const rows = (cal.upcoming.length?cal.upcoming:cal.all.filter(e=>e.days_until>=0).slice(0,4))
+      .map(e=>`<div class="ev"><span class="days">${e.days_until}d</span>
+        <span><b>${esc(e.label)}</b> <span class="muted">[${esc(e.kind)}]</span><br>
+        <span class="muted">${esc(e.why)}</span></span></div>`).join('');
+    $('calendar').innerHTML = rows || '<span class="muted">calendar exhausted</span>';
+  } else $('calendar').innerHTML = '<span class="muted">calendar appears after the next refresh.</span>';
+
+  // --- expectations ---
+  if(exp && exp.results){
+    const rows = exp.results.map(r=>{
+      const m=r.implied_revenue_multiple, s=r.renewal_dependent_share;
+      const mt = m.low===null||m.low===1e309?'n/a':`${m.low.toFixed(1)}–${m.high.toFixed(1)}x`;
+      const st = `${(s.low*100).toFixed(0)}–${(s.high*100).toFixed(0)}%`;
+      return `<tr><td><b>${esc(r.ticker)}</b> ${esc(r.name)}</td><td>$${r.ev_usd_b.toFixed(1)}B</td>
+        <td>${mt}</td><td>${st}</td></tr>`;
+    }).join('');
+    $('expectations').innerHTML = `<table>
+      <tr><th>name</th><th>EV</th><th>implied rev multiple</th><th>renewal-dependent share of EV</th></tr>
+      ${rows}</table>
+      <p class="muted" style="margin-top:10px">Renewal-dependent share = the fraction of today's
+      price that rests on re-contracting the assets after the signed backlog runs off — priced
+      against ~2–3yr GPU economic life. As of ${esc(exp.as_of)}.</p>`;
+  } else $('expectations').innerHTML = '<span class="muted">run scripts/build_expectations_inversion.py to populate.</span>';
+})();
+</script>
+</body>
+</html>

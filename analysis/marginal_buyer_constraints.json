@@ -1,0 +1,95 @@
+{
+ "_note": "Marginal-buyer constraint cards (WS1.4): the regulatory/structural rules that bind the institutions whose forced selling or buying-strike transmits AI-DC credit stress. Compiled 2026-06-12 from web research; tiers: statute|agency|press|estimate. These complete the funding map into a timing mechanism and feed the verdict tree's funding-first pathway (src/bubble/verdict_tree.py, pathway B) and signals S2/S3. Prose + full cites: analysis/marginal_buyer_constraints.md. sec.gov not fetched; some figures corroborated via secondary sources (flagged).",
+ "chain": "AI-DC SPV/neocloud debt -> private-credit originators (Blackstone, Blue Owl, Apollo, PIMCO, BlackRock, Ares) -> rated notes/ABS/CLO tranches -> held by life-insurer general accounts (~$2.5T annuities), BDCs (~$407B private-credit investments), and semi-liquid funds; affiliated-structure leverage up to ~12:1, ~$95B committed bank lines.",
+ "scale_anchor": {
+  "private_credit_to_ai": "~$0 -> >$200B (~8% of all private credit); $40B+ originated 2025; projected $300-600B by 2030",
+  "data_center_financing": "Morgan Stanley: private credit could supply >half of ~$1.5T DC financing through 2028",
+  "tier": "agency (BIS Bulletin 120); press (FT)"
+ },
+ "constraints": {
+  "1_insurer_rbc": {
+   "buyer_class": "life insurers (end-holders via rated notes/CLO/ABS)",
+   "binding_constraint": "NAIC C-1 RBC charge steps up nonlinearly as designation worsens",
+   "trigger_levels": {
+    "NAIC_1A_Aaa_pct": 0.16,
+    "NAIC_2C_Baa3_IG_floor_pct": 2.17,
+    "NAIC_3_BB_pct_range": [3.15, 6.02],
+    "NAIC_4_B_pct_range": [7.39, 12.43],
+    "NAIC_5_Caa_pct_range": [16.94, 30.0],
+    "NAIC_6_pct": 30.0,
+    "clo_residual_equity_flat_pct": 45.0,
+    "proposed_clo_thickness_cliff": "Baa3 tranche 2.73% -> 12.52% if <=4% of CLO capital (not adopted Spring 2026; ~end-2027)"
+   },
+   "mechanical_consequence": "No automatic forced sale: SSAP 26R holds at amortized cost up to NAIC 5 (mark only at NAIC 6). The bite is the higher RBC charge, measured at year-end -> first insurer move is a BUYERS' STRIKE, not forced selling, until a downgrade hits the nonlinear cliff.",
+   "speed": "slowest, largest balance sheet, highest severity if the cliff is hit",
+   "tier": "statute (NAIC factors, SSAP 26R); agency (Milliman, Academy, IMF GFSR via Institutional Investor)"
+  },
+  "2_bdc_leverage": {
+   "buyer_class": "business development companies",
+   "binding_constraint": "150% asset-coverage minimum = 2:1 debt:equity (ICA s61(a)/s18, 2018 SBCAA); but bank facilities/borrowing bases bind FAR earlier",
+   "trigger_levels": {
+    "statutory_floor": "150% coverage = 2.0x debt:equity",
+    "nav_decline_to_breach_from_1.0x": "~25%",
+    "nav_decline_to_breach_from_1.2x": "~18%",
+    "nav_decline_to_breach_from_1.4x": "~12.5%",
+    "borrowing_base_bite": "5-10% mark declines already force paydowns/dividend pressure long before statutory breach",
+    "current_posture_jun2026": "8 rated non-traded BDCs avg 0.85x leverage; severe-stress 1.39x, still < 2.0x"
+   },
+   "mechanical_consequence": "Below the floor: cannot issue new debt, cannot pay certain distributions, must delever (sell assets) or raise equity, risks RIC tax status. The real edge is the continuous >=150% bank covenant + advance-rate haircuts -> a redemption wave + AI-collateral marks converts into forced delevering here.",
+   "speed": "second; the first place a mark-down becomes a forced sale",
+   "tier": "statute (SBCAA, s18); estimate (breach % derivations); agency (KBRA, Fitch)"
+  },
+  "3_annuity_surrender": {
+   "buyer_class": "annuity / life-insurer liability side",
+   "binding_constraint": "surrenderable liabilities can run faster than illiquid private credit can be sold (disintermediation)",
+   "trigger_levels": {
+    "surrender_charge_period_yrs": "7-10 (e.g. 7/6/5/4/3/2/1%)",
+    "penalty_free_withdrawal_pct_yr": 10,
+    "withdrawable_share_of_liabilities_pct": 55,
+    "liquid_buffer_pct_of_assets": 6,
+    "surrender_protected_share_pct": 50,
+    "annuity_surrenders_2024": "+16.3% to $484.4B (NAIC)"
+   },
+   "mechanical_consequence": "A rate/confidence shock -> surrender wave -> insurer must sell long-duration/illiquid bonds at depressed value. Surrender charges + MVA deliberately slow this -> the deepest channel but the last to break.",
+   "speed": "slowest, deepest tail",
+   "tier": "agency (Fed FEDS Notes, AM Best); statute (NAIC); estimate (surrender-protected inverse)"
+  },
+  "4_semiliquid_gates": {
+   "buyer_class": "non-traded BDCs / interval funds (semi-liquid)",
+   "binding_constraint": "quarterly redemption gate (typically 5% of NAV/qtr, ~20%/yr) with mandatory proration when exceeded",
+   "trigger_levels": {
+    "nontraded_bdc_quarterly_cap_pct": 5,
+    "interval_fund_offer_range_pct": [5, 25],
+    "unfilled_remainder": "NOT carried over; holders re-tender next quarter"
+   },
+   "gates_actually_hit_2026": {
+    "BCRED_Q1_2026": "7.9% of NAV (~$3.7B) requested; board upsized to 7%, sponsor covered last ~0.9% -> 100% met",
+    "BCRED_Q2_2026": "~10% of shares (2x cap); held 5% -> first BCRED gate; ~50% prorated (derived)",
+    "BlueOwl_OTIC_Q1_2026": "40.7% of shares requested vs 5% cap -> ~12% prorated",
+    "BlueOwl_OCIC_Q1_2026": "21.9% requested vs 5% cap -> ~23% prorated",
+    "Apollo_ADS_Q1_2026": "$1.6B = 11.2% requested vs 5% -> ~45% filled",
+    "Ares_ASIF_Q1_2026": "11.6% requested vs 5% -> 43.1% filled",
+    "BREIT_Nov_2022_precedent": "gated from Dec 2022 -> ~43% of requests"
+   },
+   "mechanical_consequence": "Requests above the cap are prorated; the unfilled remainder forces re-tender, eroding confidence. FSB (May 2026): meeting requests at the limit 'may also have stimulated further redemption pressures' -- gates RATION and SIGNAL stress, they do not dissipate it.",
+   "speed": "fastest; ALREADY BINDING in 2026 on AI-credit-exposed vehicles",
+   "tier": "statute (Rule 23c-3); press (PitchBook, Reuters, CNBC, AltsWire); agency (FSB, IMF GFSR)"
+  }
+ },
+ "first_transmission_channel": {
+  "answer": "semi-liquid-fund redemption gates -- and they are already binding in 2026 (Apollo 45%, Ares 43.1%, Blue Owl OTIC 40.7% requested, BCRED first gate Q2-2026), explicitly amid 'AI fears'",
+  "ordering": [
+   "1. fund redemption gates (fastest, live now): retail flight -> proration -> re-tender -> confidence erosion; procyclical per FSB",
+   "2. BDC bank-facility/borrowing-base tightening (second, mark-driven): 5-10% marks force paydowns -- where a mark-down becomes a forced sale",
+   "3. insurer RBC downgrade cliff (slower, largest balance sheet, highest severity): buyers' strike first, then the nonlinear cliff if downgraded",
+   "4. annuity surrender/disintermediation (slowest, deepest tail): 55% withdrawable vs ~6% liquid buffer, but surrender charges slow it"
+  ],
+  "coupling_risk": "the same managers (Apollo, Blackstone, Blue Owl, Ares) run the gated funds, the BDCs, AND the insurers' affiliated asset management -- so stress starting as retail redemptions + bank-line tightening lands on the same balance sheets holding the rated-note AI-DC paper, at ~12:1 affiliated leverage."
+ },
+ "flagged_inferences": [
+  "BCRED Q2 ~50% fill and Blue Owl per-fund fill %s are arithmetic inferences (cap/request), not printed rates",
+  "BDC breach-% table is a derivation from the s18 formula (exact, but not printed together anywhere)",
+  "IMF/FSOC figures via secondary sources (PDF 403 / NatLawReview); re-check verbatim before direct public quotation",
+  "NAIC-1 old base factor: ~0.40% pretax / 0.30% after-tax (avoid the pretax/after-tax confusion)"
+ ]
+}

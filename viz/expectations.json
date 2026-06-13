@@ -1,0 +1,122 @@
+{
+ "as_of": "2026-06-12",
+ "results": [
+  {
+   "annual_backlog_vs_current_revenue_x": 1.99,
+   "backlog_tenor_years": 4.0,
+   "backlog_usd_b": 99.4,
+   "current_annualized_revenue_usd_b": 12.5,
+   "ev_usd_b": 87.74,
+   "implied_revenue_multiple": {
+    "high": 5.15,
+    "low": 1.2,
+    "median": 2.25
+   },
+   "is_landlord": false,
+   "name": "CoreWeave",
+   "notes": "GPU cloud. $35.15B debt (post-quarter DDTL 4.0 + converts) inside a $87.7B EV. Backlog is the entire bull case: large, take-or-pay-weighted, but concentrated (OpenAI is the fragile demand leg).",
+   "renewal_dependent_share": {
+    "high": 0.879,
+    "low": 0.686,
+    "median": 0.785
+   },
+   "revenue_basis": "FY2026 company revenue guidance midpoint ($12-13B); Q1-2026 run-rate ~$8.3B (Q1 $2.078B x4). Using the midpoint UNDERSTATES the multiple vs the trailing run-rate; on the Q1 run-rate the implied multiples rise ~50%.",
+   "sources": {
+    "ev_financials": "https://stockanalysis.com/stocks/crwv/statistics/",
+    "revenue_backlog_capacity": "https://www.theglobeandmail.com/investing/markets/stocks/CRWV/pressreleases/1808417/"
+   },
+   "ticker": "CRWV"
+  },
+  {
+   "annual_backlog_vs_current_revenue_x": 1.26,
+   "backlog_tenor_years": 5.0,
+   "backlog_usd_b": 12.0,
+   "current_annualized_revenue_usd_b": 1.9,
+   "ev_usd_b": 59.71,
+   "implied_revenue_multiple": {
+    "high": 23.05,
+    "low": 5.39,
+    "median": 10.06
+   },
+   "is_landlord": false,
+   "name": "Nebius",
+   "notes": "Cleanest balance sheet of the four (essentially net cash). Q1 GAAP net income is inflated by a noncash ClickHouse mark -- ignored. Backlog is the most conservatively carded (committed only).",
+   "renewal_dependent_share": {
+    "high": 0.98,
+    "low": 0.947,
+    "median": 0.964
+   },
+   "revenue_basis": "Nebius AI ARR run-rate $1.9B (Q1-2026). FY2026 guide is $3.0-3.4B and exit ARR $7-9B; using the current ARR OVERSTATES the multiple vs the forward guide (on $3.2B the multiples roughly halve).",
+   "sources": {
+    "ev_financials": "https://stockanalysis.com/stocks/nbis/statistics/",
+    "revenue_backlog_capacity": "https://www.fool.com/earnings/call-transcripts/2026/05/13/nebius-nbis-q1-2026-earnings-transcript/"
+   },
+   "ticker": "NBIS"
+  },
+  {
+   "annual_backlog_vs_current_revenue_x": 0.85,
+   "backlog_tenor_years": 5.0,
+   "backlog_usd_b": 13.1,
+   "current_annualized_revenue_usd_b": 3.1,
+   "ev_usd_b": 23.43,
+   "implied_revenue_multiple": {
+    "high": 5.54,
+    "low": 1.3,
+    "median": 2.42
+   },
+   "is_landlord": false,
+   "name": "IREN",
+   "notes": "GPU cloud mid-transition from Bitcoin. ~$3.7-3.96B converts; net-debt sign is ambiguous across sources (modest net cash to mild net debt). NVIDIA warrant (30M @ $70) is dilution overhang. The revenue series is the trap -- do not annualize the falling reported quarter.",
+   "renewal_dependent_share": {
+    "high": 0.944,
+    "low": 0.852,
+    "median": 0.899
+   },
+   "revenue_basis": "Contracted AI-cloud ARR $3.1B used as the forward run-rate. Reported revenue is FALLING ($144.8M fiscal Q3, from $184.7M) as legacy Bitcoin mining winds down faster than AI cloud ramps, so a trailing-quarter annualization (~$0.58B) would badly misstate the forward business -- contracted ARR is the honest basis.",
+   "sources": {
+    "ev_financials": "https://stockanalysis.com/stocks/iren/statistics/",
+    "revenue_backlog_capacity": "https://iren.gcs-web.com/news-releases/news-release-details/iren-secures-97bn-ai-cloud-contract-microsoft"
+   },
+   "ticker": "IREN"
+  },
+  {
+   "annual_backlog_vs_current_revenue_x": 2.61,
+   "backlog_tenor_years": 12.0,
+   "backlog_usd_b": 16.0,
+   "current_annualized_revenue_usd_b": 0.51,
+   "ev_usd_b": 13.3,
+   "implied_revenue_multiple": {
+    "high": 19.12,
+    "low": 4.47,
+    "median": 8.35
+   },
+   "is_landlord": true,
+   "name": "Applied Digital",
+   "notes": "Different model: a data-center LANDLORD. Long leases mean the contracted backlog covers more of its (smaller) EV -> lower renewal dependence than the GPU clouds. BUT ~$11B of the $16B backlog is CoreWeave, so CRWV counterparty risk is embedded here -- a neocloud leasing from a landlord whose backlog is another neocloud (recursion).",
+   "renewal_dependent_share": {
+    "high": 0.918,
+    "low": 0.761,
+    "median": 0.845
+   },
+   "revenue_basis": "Fiscal Q3-2026 revenue $126.6M annualized (x4 = $0.51B). A landlord ramping capacity; lease revenue steps up as buildings deliver.",
+   "sources": {
+    "ev_financials": "https://stockanalysis.com/stocks/apld/statistics/",
+    "revenue_backlog_capacity": "https://www.stocktitan.net/news/APLD/applied-digital-reports-fiscal-third-quarter-2026-29zuud06n6m3.html"
+   },
+   "ticker": "APLD"
+  }
+ ],
+ "scenario_grid": {
+  "discount_rates": [
+   0.1,
+   0.12,
+   0.15
+  ],
+  "fcf_margins": [
+   0.15,
+   0.25,
+   0.35
+  ],
+  "terminal_growth": 0.04
+ }
+}

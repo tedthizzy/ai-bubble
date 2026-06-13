@@ -4,8 +4,11 @@ env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
 
 on:
-  schedule:
-    - cron: "7 * * * *" # hourly (GitHub cron is best-effort; minutes of drift are normal)
+  # Hourly schedule DISABLED 2026-06-12 (Ted) — re-enable by uncommenting the cron.
+  # The overlay still refreshes + deploys on every push to main and on manual dispatch,
+  # so live.json / history.jsonl / calendar.json stay current without the hourly churn.
+  # schedule:
+  #   - cron: "7 * * * *" # hourly (GitHub cron is best-effort; minutes of drift are normal)
   push:
     branches: [main]
   workflow_dispatch: {}
@@ -30,10 +33,10 @@ jobs:
 
       - name: Commit refreshed overlay
         run: |
-          if ! git diff --quiet -- viz/live.json viz/banner.svg; then
+          if ! git diff --quiet -- viz/live.json viz/banner.svg viz/history.jsonl viz/calendar.json; then
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add viz/live.json viz/banner.svg
+            git add viz/live.json viz/banner.svg viz/history.jsonl viz/calendar.json
             git commit -m "chore: hourly live overlay refresh"
             git push
           fi

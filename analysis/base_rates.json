@@ -1,0 +1,48 @@
+{
+ "_note": "Outside-view priors from the two closest prior episodes of debt-financed infrastructure overbuild, for disciplining the verdict tree (src/bubble/verdict_tree.py) and the crack-window timing. Compiled 2026-06-12 from web research; every figure carries a tier. These are ANALOGIES with documented breaks (see analogy_breaks) -- they bound a prior, they do not determine the verdict. Primary cites in analysis/base_rates.md.",
+ "episodes": {
+  "telecom_fiber_clec_1998_2003": {
+   "capex_peak": "2000",
+   "first_major_default": "2001-01 (NorthPoint); 2001-04-18 (Winstar)",
+   "peak_default_year": "2002",
+   "capex_peak_to_default_peak_quarters": 8,
+   "equity_peak_to_default_peak_quarters": 9,
+   "trough_recovery_rate_pct": 23,
+   "senior_unsecured_low_cents": 20,
+   "overbuild_stat": "~2.7% of laid fiber lit in 2002 (WSJ-attributed); ~95%+ dark",
+   "demand_vs_projection": "built for ~7-10x the realized demand curve ('doubling every 100 days' myth vs ~annual doubling)",
+   "tier": "mixed: Moody's default study [agency]; Odlyzko traffic [academic]; WSJ lit-fiber [estimate]"
+  },
+  "shale_ep_2014_2016": {
+   "capex_peak": "2014-H2 (oil peaked 2014-06)",
+   "first_major_default": "2015-07-15 (Sabine)",
+   "peak_default_year": "2016",
+   "capex_peak_to_default_peak_quarters": 7,
+   "equity_peak_to_default_peak_quarters": 8,
+   "trough_recovery_rate_pct": 21,
+   "senior_unsecured_low_cents": 6,
+   "default_count_2016": 70,
+   "default_debt_2016_usd_b": 56.8,
+   "tier": "Moody's E&P recovery special comment [agency]; Haynes & Boone monitor [agency-tracker]"
+  }
+ },
+ "transferable_priors": {
+  "capex_peak_to_default_peak_quarters": {"low": 6, "central": 7, "high": 8, "note": "both episodes landed 6-8 quarters despite very different assets; AI capex peak debated, ~2025-2026"},
+  "equity_peak_to_default_peak_quarters": {"low": 8, "central": 9, "high": 11, "note": "equities rolled over well before realized credit losses peaked"},
+  "trough_blended_recovery_rate_pct": {"low": 6, "central": 21, "high": 23, "note": "low-20s blended; single-digit cents senior unsecured at the trough"},
+  "failure_sequence": [
+   "equity rolls over first (months to ~2yr before realized credit-loss peak)",
+   "most-levered, no/negative-cash-flow fringe defaults first (CLECs 2001; high-cost independents 2015)",
+   "merchant/overbuild players and fraud-inflated big-caps follow (2002; 2016)",
+   "well-capitalized incumbents survive and absorb (RBOCs; oil majors, mostly next cycle)"
+  ]
+ },
+ "analogy_breaks": {
+  "asset_life_is_the_big_one": "Fiber had ~20-25yr life and near-zero marginal cost once lit, so the overbuild waited underground and the NEXT cycle's demand absorbed it (dark fiber powered the cloud era). GPUs have ~2-3yr economic life and high power/opex -- AI overbuild DEPRECIATES into obsolescence rather than waiting profitably. The severity prior on PHYSICAL-ASSET recovery should be WORSE-tailed than telecom, even if the timing lag transfers.",
+  "who_holds_the_debt": "Telecom losses sat in public HY bonds + bank/vendor financing (price-transparent, fast to mark). AI leans on private credit, BDCs, insurance/annuity balance sheets, SPV/lease structures, and hyperscaler self-funding -- less price-transparent, slower to mark; could lengthen the lag and dampen the visible default wave.",
+  "demand_is_real_this_time": "Telecom's '100-days' demand curve was fabricated. AI demand is real and growing fast; the open question is price/margin and financing-chain circularity, not whether traffic exists. The break is in KIND: phantom demand vs real demand at possibly-unrecoverable unit economics.",
+  "shale_trigger_was_exogenous": "Shale's bust was triggered by an exogenous commodity-price collapse (OPEC). An AI bust would be ENDOGENOUS (demand/margin/financing disappointment) -- no clean external trigger to time against.",
+  "incumbent_absorption_rhymes": "Hyperscalers (MSFT/GOOG/AMZN/META/NVDA) as deep-balance-sheet incumbents absorbing the levered neocloud fringe is the strongest single transferable pattern -- it matches both episodes' stage 4.",
+  "split_the_recovery": "Do NOT apply one blended recovery number to AI. GPU-specific recovery could be worse than either analog (rapidly depreciating, power-hungry, possibly obsolete); the datacenter shell + power interconnect could recover better (long-lived, supply-constrained)."
+ }
+}
