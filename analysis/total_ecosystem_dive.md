@@ -4,6 +4,18 @@
 
 **AI-compute is a finding, not the frame.** It is the current brightest *known* concentration and the case that validated the method — but the same engine's fingerprints are already in this repo's [base-rate book](base_rates.md): **fiber/telecom (1999), shale (2014).** The method is sector- and era-agnostic; "is the AI-compute cluster a bubble?" was one query against a general detector. This is the generalization.
 
+## Progress ledger (live — updated as the dive runs)
+
+**As of 2026-06-13 (~midday).** Execution started this morning on Ted's go; the storage gate (≈54 GiB free, since enlarged) is cleared. This section is the live status so a context-lost agent knows what is done vs pending. **Everything below is a PRELIMINARY first pass, not a verified conclusion** — see the caveat at the end.
+
+- **✅ Phase 1 — sector-agnostic signature scan** (`scripts/economy_wide_signature_scan.py` → [economy_wide_fragility_map.md](economy_wide_fragility_map.md)). 2,091 entities scored on the 8 §2 signatures, NO AI filter. **Headline: AI's top entity ranks #14; only 3 AI names in the top 50.** Plus a **canary lens** (1,078 small-debt, high-non-size-signal names — the fails-first tail).
+- **✅ Phase 2 — sector classification** ([fragility_by_sector.md](fragility_by_sector.md)) + **SIC ground-truthing** ([fragility_by_sic.md](fragility_by_sic.md), 131/140 CIKs resolved from data.sec.gov). **Finding: no single epicenter** — fragility is broadly distributed; largest concentrations are SIC 67 (REITs/mortgage-REITs/BDCs, $373B), SIC 48 telecom, SIC 49 utilities. Banks reclassified off the corporate-leverage axis.
+- **🔄 Phase 3 — deep-agent fan-out** (`scripts/build_phase3_targets.py` → 143 targets; `scripts/workflows/phase3_deep_dive.workflow.js`; findings extractor `scripts/extract_phase3_findings.py` → [phase3_findings.md](phase3_findings.md), [phase3_plan.md](phase3_plan.md)). Per-target forensic profile + adversarial refutation. **Interim: ~half of verified flags refuted as data artifacts / stale signals — the scan is high-recall, low-precision; the verification layer is what makes it trustworthy.** Confirmed already-distressed canaries: Celularity, Perfect Moment, SunPower, Hyperscale Data, NextNRG, Humacyte, Southland.
+- **⏳ Phase 4 — synthesis + forward projection** (`PENDING`): the concise current-state read + base-rate-anchored timing, written once Phase 3 completes and the surviving theses are EDGAR-confirmed locally.
+- **⏳ Queued refinements** (cleared by storage, not yet run): XBRL net-debt/EBITDA join (notional → true leverage), Form-4/8-K/NT **distress §2.8 extraction** (the one unpopulated signature), deepening past the first 143 into the canary tail.
+
+> **Caveat (binding for anyone reading the results):** nothing here is filing-verified *by the orchestrator* yet — the per-entity claims are the deep agents' work, pending local EDGAR confirmation. The ~47% artifact rate in Phase 1 means the "confirmed" set also likely contains residual errors. This is a high-quality **direction-setter**, not a proven verdict. Calibrate accordingly.
+
 ## Operating principle (binding — see the README's Operating Doctrine)
 
 > **Broad AND deep. Not shallow. Uncapped. No sector prior. Limited only by physics.**
