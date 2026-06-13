@@ -22,6 +22,7 @@ The pattern (named so it stays visible): **mistake the edge of comfort or sessio
 | limit | kind | what it caps | what it does NOT cap |
 |---|---|---|---|
 | **API concurrency / throughput rate-limit** (2026-06-13: 5 stacked waves ≈ 80 concurrent agents → mass failure) | infrastructure | **Speed** — sustainable parallelism ≈ 16 concurrent agents | **Scope** — same coverage reachable serially over more wall-clock |
+| **Hard session / usage cap** (2026-06-13: "You've hit your session limit · resets 1pm CT") | account/usage | **Total agent budget per period** — full coverage of ~1,800 deep-dives + verification spans multiple sessions/days | **Scope** — work is durable (cached, committed); resumes next window. Single paced waves work fine *within* the budget; it was the daily cap, not concurrency, that stopped the run |
 | **Data-existence floor** for DARK items (private marks, redacted covenants, real occupancy, side letters) | physics | What can be *known* | What can be *estimated from proxies* (with a bounded error band) |
 | **The future** (does the refi window crack; demand realization) | epistemic | Point prediction | A sharpenable probability distribution |
 | **Adversarially concealed info** (the bubble hides in what the record omits) | structural | Completeness of the *visible* record | The fact that the record is biased — which itself can be flagged |
@@ -37,5 +38,12 @@ These are **not** real limits; they are work not yet done, and the doctrine forb
 - **Off-EDGAR sources** not yet ingested: state UCC, PACER, county deeds, customs/bills-of-lading, NAIC statutory, FERC/ISO queues, patents, WARN, rating reports, transcripts, archived news.
 - **Multi-decade history** per entity (currently mostly latest-period).
 - The **unified cross-source graph + full contagion traversal** at economy scale.
+
+## D. Method findings forced by the work (every instrument is biased — verification stays load-bearing)
+
+- **The deal-corpus signature scan is size-biased** — big IG names trip leverage/refi (size proxies); ~44% of its top-flag refutations were healthy giants. Tail precision degrades: deep-diving the lower-composite tail (96 profiles beyond the first 143) produced **0 new confirmed fragility** — all artifacts/IG-healthy. Grinding the noise tail wastes the capped agent budget.
+- **The XBRL ratio scan (all 7,992 filers) removes the size-bias but adds a sector-bias** — for **financials** (banks/insurers/mortgage-REITs/brokers) EBITDA/interest is meaningless (interest is the operating cost), and **EBITDA-trough** names (e.g. Estée Lauder) blow up the ratio spuriously. Raw "266 distressed" → ~84 genuine after filtering financials + net-cash + trough.
+- **So the efficient architecture is: breadth-scan → filter each instrument's known bias → deep-verify only the *genuine* candidates.** The XBRL-distress set surfaced real names the deal corpus missed entirely (Starz, Lionsgate, Finance of America, loanDepot, Peloton, Cresco, Battalion Oil) and cross-validated one it caught (Xerox). Two biased breadth instruments + adversarial deep-verify > either scan alone.
+- **Confirmed-fragility set is stable at ~49** across 239 deep-dives; the marginal yield of more *deal-corpus* tail is ≈0, but the *XBRL-distress* tail is still yielding new genuine names — coverage continues there, not in the noise.
 
 **Standing rule:** anything in Section C may only move to Section B if a specific, documented attempt establishes the data genuinely does not exist or cannot be lawfully obtained. Until then it is open work, not a limit.

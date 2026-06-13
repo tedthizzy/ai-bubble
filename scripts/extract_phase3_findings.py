@@ -73,6 +73,8 @@ def parse_agent(fp: str) -> dict | None:
 def main() -> None:
     wd = sys.argv[1] if len(sys.argv) > 1 else ""
     files = sorted(glob.glob(f"{wd}/agent-*.jsonl"))
+    if not files:  # aggregate across all workflow subdirs
+        files = sorted(glob.glob(f"{wd}/**/agent-*.jsonl", recursive=True))
     if not files:
         print(f"no agent transcripts found under {wd!r}")
         return
