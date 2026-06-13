@@ -1,8 +1,6 @@
 # EDGAR access remediation (WS2.1)
 
-**2026-06-12.** SEC EDGAR 403-blocks this build environment's IPs (both the local machine and the GitHub Actions runner) regardless of a correct `User-Agent`. That blocks exhibit-level verification (utilization bottom-up, waterfall depth, the SpaceX S-1 terms, the BDC schedules of investments) — the only work that can *move* the verdict. This documents the four compliant fetch paths, in priority order. **No path uses User-Agent spoofing or any evasion** — the block is by policy from these IPs, and the remediation is to fetch from a compliant network, not to defeat the control.
-
-The single [TED] action is standing up path (a); everything downstream is already built and agent-runnable once any path is live.
+**2026-06-12; corrected 2026-06-13.** Earlier this card claimed both the local machine and the GitHub Actions runner are 403-blocked from EDGAR. **That was wrong for the local environment — direct testing on 2026-06-13 showed all EDGAR endpoints (`data.sec.gov`, `www.sec.gov`, `efts.sec.gov`) return HTTP 200 from the local research box** with a compliant `User-Agent`. The local environment *is* a working egress path; the first exhibit verification (the SpaceX 424B4 — see `analysis/spacex_adjacency.md`) was done from it. **Only the GitHub Actions runner IP is blocked** (the hourly overlay's EDGAR filing-count step returns 0 every run). So exhibit-level verification — utilization bottom-up, waterfall depth, the SpaceX terms, the BDC schedules — is **not blocked**; it runs locally now. This card remains useful for (i) automating it on a cron and (ii) the runner case. **No path uses User-Agent spoofing or any evasion.**
 
 ## The four paths (priority order)
 
