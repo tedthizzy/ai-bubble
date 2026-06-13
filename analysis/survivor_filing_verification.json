@@ -1,0 +1,218 @@
+{
+  "checked": 9,
+  "filing_verified_distress": 9,
+  "no_signal": 0,
+  "agent_reliability_on_spotcheck": 1.0,
+  "results": [
+    {
+      "entity": "Bausch Health Companies Inc. (Specialty pharma / healthcare, tier beam)\\nTHESIS: The scan's headline ($32.29B gross / $18B due <=2027 / 11% coupon / circular financing) is materially STALE and partially a consolidation/refi artifact. Reality as of Q1 2026: consolidated total debt is ~$20.4-20.8B (long-term debt and other = $20.764B at 3/31/2026), NOT $32B. Of that, ~$4.6B is BLCO debt that is consolidated for accounting (88% stake) but is non-recourse to the BHC stub (BLCO has its own credit agreement and was designated an unrestricted subsidiary in Nov 2022). The recourse RemainCo debt is roughly $15-16B. The $32B figure double-counts pre-refinancing principal and/or BLCO debt \u2014 a real data artifact. The '$18B refi wall <=2027' is largely RESOLVED: two 2025 refinancings totaling ~$9.6B (including a $4.0-4.4B 10.00% notes-due-2032 issue and a $1.6B Dec-2025 exchange) pushed maturities out so that <$700M remains through 2027; the wall now sits in 2028-2032. The 11.0% coupon is REAL but being retired \u2014 the ~$1.77B 11.00% Senior Secured Notes due 2028 were exchanged into new 10.00% notes due 2032. The 'circular/related-party' flag maps to the legitimate ~$2.2B intercompany note and 88% BLCO ownership structure, not fraudulent circular financing. So three of four seed hypotheses are downgraded. THE GENUINE FRAGILITY THAT REMAINS: (1) Leverage is still ~6.5x net debt/EBITDA (~$20B net debt vs ~$3.1B consolidated adj. EBITDA; stub EBITDA ~$2.7B), deep junk (Moody's Caa2, S&P CCC/CCC+). (2) Coupons on new money are ~10% \u2014 refinancing is happening at distressed rates, so each term-out raises cash interest (interest expense rose to $1.604B in 2025, +$216M YoY) and erodes the very FCF used to deleverage. (3) The earnings engine has a hard structural deadline: Xifaxan (largest product, ~$1.6-2B revenue, Salix segment) faces authorized/settled generic entry from Teva/Sun/Sandoz in Jan 2028, and the Phase 3 RED-C trial to expand the label FAILED in Jan 2026, removing the key offset. A $1.4B impairment was booked in Q1 2026. So this is a real, slow-moving deleveraging-vs-patent-cliff race, not an imminent default. Solvency depends on (a) continued refi access at ~10%, and (b) monetizing the BLCO stake (worth multiples of the stub's market cap) before the 2028 Xifaxan cliff bites. NOT an imminent canary; it is a chronically-stressed, already-distressed-rated credit whose fragility is correctly real but whose magnitude was overstated ~1.6x by the scan.\\nSEVERITY CLAIMED: moderate\\nDISTRESS INDICATORS CLAIMED: Deep speculative-grade ratings: Moody's Caa2 CFR, S&P CCC/CCC+, negative-leaning outlook; New-money refinancing executed at ~10.00% coupons (distressed pricing); prior 11.00% 2028 notes outstanding; S&P had previously rated 'SD' (selective default) on a past exchange \u2014 history of distressed-exchange treatment; $1.4B impairment booked Q1 2026; Xifaxan label-expansion Phase 3 (RED-C) FAILED Jan 2026 \u2014 removes key patent-cliff offset; Settled generic Xifaxan entry Jan 2028 threatens largest revenue/EBITDA contributor; Interest expense rose to $1.604B in 2025 (+$216M YoY), outpacing some op-cash improvement; Net debt/EBITDA ~6.5x \u2014 covenant headroom and refi optionality remain the swing factors; Chronic overhang since Valeant-era; equity trades as event-driven/levered option on BLCO monetization\\n\\nAttack it: are the cash flows actually adequate? Is the high coupon a one-off / penalty / mis-extraction? Already refinanced or covenant-cured? Is the leverage matched by hard assets or stable contracted revenue? Is the flagged signal a data artifact? Only if real fragility survives, say so and state the residual risk and revised severity.\"},\"uuid\":\"98c219b4-0731-4b90-bf48-03dd0b49e004\",\"timestamp\":\"2026-06-13T15:34:49.463Z\",\"userType\":\"external\",\"entrypoint\":\"cli\",\"cwd\":\"/Users/ted/Documents/dev-archive/bubble\",\"sessionId\":\"862580a4-8ada-4f38-b784-70b24abf985f\",\"version\":\"2.1.177\",\"gitBranch\":\"main\",\"slug\":\"foamy-wobbling-cloud\"}",
+      "cik": "0000885590",
+      "agent_severity": "already-distressed",
+      "agent_tier": "press_reported",
+      "recent_forms": [
+        "SD:2026-06-01",
+        "4:2026-05-26",
+        "4:2026-05-26",
+        "4:2026-05-26",
+        "4:2026-05-26",
+        "4:2026-05-26"
+      ],
+      "late_filing_NT": false,
+      "distress_terms_in_filings": {
+        "10-K 2026-02-19": [
+          "going_concern",
+          "default",
+          "bankruptcy",
+          "impairment"
+        ]
+      },
+      "orchestrator_verdict": "filing_verified_distress"
+    },
+    {
+      "entity": "Hyperscale Data, Inc. (Data center / AI infra, tier canary)\\nTHESIS: This is a genuine canary and it is ALREADY DISTRESSED, not mispriced-pending-discovery. The FY2025 10-K (filed Apr 2026, auditor Marcum LLP) carries an explicit going-concern qualification citing a \\\"significant working capital deficiency\\\" and recurring losses. The economy-wide scan's framing is directionally right but the magnitudes are artifacts: actual interest-bearing debt is ~$105M (not $0.33B) \u2014 Notes payable $91.2M + related-party NP $0.9M + convertible notes $13.4M at 3/31/26. The \\\"$0.33B gross\\\" figure almost certainly double-counts gross facility issuances and rolled/converted/repaid tranches across the year (the company churned dozens of short-dated notes \u2014 e.g., $51.2M gross notes-payable proceeds AND $57.3M repayments in 2025 alone). The real fragility is structural and self-evident: (1) Going concern + $767M accumulated deficit at 3/31/26, growing ~$32M PER QUARTER. (2) Cash burn: $62.5M used in operations FY2025 vs only $13.1M unrestricted cash at year-end ($36.2M restricted is largely pledged Bitcoin collateral) \u2014 a sub-3-month operating runway absent continuous capital raising. (3) Survival is 100% dilution-funded: $156.3M of financing inflows in 2025 ($125M common-stock sales + $32.4M Series B preferred + convertibles), and the share count exploded from 323M to 370M Class A shares in a SINGLE quarter (Q1 2026), authorized Class A raised from 500M to 2.5 BILLION shares on 4/16/26 \u2014 classic death-spiral mechanics with VWAP/floor-price convertibles. (4) The flagship $68.75M AGREE construction loan (~65-75% of notes payable) is in technical default: required April 2026 principal payments and ~$2M interest reserves remained UNFUNDED as of the Q1 filing (lenders have granted forbearance/waivers but not waived the default). (5) Preferred stack is a permanent cash drain: 13.00% Series D and 10.00% Series E perpetual preferreds plus a 9.5% Series H ($100M facility with Ault & Co.); $8.6M preferred dividends paid in 2025, $2.5M in Q1 2026, against negative operating cash flow. The max-coupon 15% signature is real (15% term notes \\\"in default,\\\" SJC 15% convertible, and effective rates up to 36-77% once OID/forbearance fees are amortized \u2014 the 12% Ault term note carries a 77% EFFECTIVE rate), confirming distressed-priced paper. Coverage is deeply negative; this entity does not generate cash to service obligations and is solvent only quarter-to-quarter via equity issuance into a falling stock.\\nSEVERITY CLAIMED: already-distressed\\nDISTRESS INDICATORS CLAIMED: Going-concern qualification in FY2025 10-K (Marcum LLP) \u2014 'significant working capital deficiency,' recurring losses, substantial doubt; AGREE $68.75M construction loan in technical default; required Apr-2026 principal payments and ~$2M interest reserves UNFUNDED as of Q1-2026 filing (forbearance only, default not waived); Multiple notes labeled 'in default' across periods (15% term notes, ROI promissory/convertible 18-36%, TurnOnGreen officer notes 14% past due); Accumulated deficit $767.0M at 3/31/26, growing ~$32M per quarter; Operating cash burn $62.5M FY2025 vs $13.1M unrestricted cash \u2014 survival entirely dilution-dependent; Hyper-dilution: Class A shares 323M\u2192370M in one quarter; authorized raised 500M\u21922.5B (4/16/26); 137.6M shares sold under ATM by 5/15/26; death-spiral VWAP/floor-price convertibles; 1-for-35 reverse split (Nov 2024) \u2014 chronic sub-compliance pattern; NYSE American continued-listing deficiency; listing extension granted to June 18, 2026 (re-compliance later announced but on a $6M-equity razor's edge); Distressed effective borrowing rates up to 36-77% once OID/forbearance fees amortized; 13% Series D + 9.5% Series H preferred dividends draining cash; Serial subsidiary failures: AVLP Chapter 7 liquidation (3/28/26), Eco Pack UK insolvency (4/16/25), ROI subsidiary bankruptcy \u2014 gains booked on deconsolidation flatter results; Repeated late filings (NT 10-K, NT 10-Q) signaling reporting/control strain; Pervasive related-party financing reliance on Ault & Company / Milton Ault III (guarantees, $100M Series H, demand notes) \u2014 circular-financing risk\\n\\nAttack it: are the cash flows actually adequate? Is the high coupon a one-off / penalty / mis-extraction? Already refinanced or covenant-cured? Is the leverage matched by hard assets or stable contracted revenue? Is the flagged signal a data artifact? Only if real fragility survives, say so and state the residual risk and revised severity.\"},\"uuid\":\"e089cbd2-a7e5-4ab9-a977-37df23d3cda8\",\"timestamp\":\"2026-06-13T15:21:19.691Z\",\"userType\":\"external\",\"entrypoint\":\"cli\",\"cwd\":\"/Users/ted/Documents/dev-archive/bubble\",\"sessionId\":\"862580a4-8ada-4f38-b784-70b24abf985f\",\"version\":\"2.1.177\",\"gitBranch\":\"main\",\"slug\":\"foamy-wobbling-cloud\"}",
+      "cik": "0000896493",
+      "agent_severity": "already-distressed",
+      "agent_tier": "filing_verified",
+      "recent_forms": [
+        "4:2026-06-12",
+        "SCHEDULE 13D/A:2026-06-12",
+        "4:2026-06-12",
+        "424B5:2026-06-11",
+        "8-K:2026-06-11",
+        "SC TO-I/A:2026-06-10"
+      ],
+      "late_filing_NT": true,
+      "distress_terms_in_filings": {},
+      "orchestrator_verdict": "filing_verified_distress"
+    },
+    {
+      "entity": "Humacyte, Inc. (NASDAQ: HUMA; CIK 0001818382)",
+      "cik": "0001818382",
+      "agent_severity": "already-distressed",
+      "agent_tier": "press_reported",
+      "recent_forms": [
+        "4:2026-06-12",
+        "4:2026-06-12",
+        "4:2026-06-12",
+        "4:2026-06-12",
+        "4:2026-06-12",
+        "4:2026-06-12"
+      ],
+      "late_filing_NT": false,
+      "distress_terms_in_filings": {
+        "10-K 2026-03-27": [
+          "going_concern",
+          "default",
+          "impairment"
+        ]
+      },
+      "orchestrator_verdict": "filing_verified_distress"
+    },
+    {
+      "entity": "Celularity Inc (Other / unclassified, tier canary)\\nTHESIS: CONFIRMED FRAGILE \u2014 a genuine canary, but the economy-wide scan MIS-SIZED it and MIS-LABELED the mechanism. The scan's \\\"gross debt ~$0.06B / leverage 0.01\\\" is a data artifact: the scraper caught only the small senior-secured / convertible promissory-note tranches ($2.0M-$8.4M each) and missed the structural distress. The real picture at 12/31/2025 (FY2025 10-K, filing-verified): total liabilities $145.4M vs total assets $107.3M = stockholders' DEFICIT of -$38.1M (vs +$8.8M positive equity a year earlier); working-capital deficit of -$68.4M; cash of only $6.2M against a FY2025 net loss of $91.7M and net cash used in operations of $13.3M; accumulated deficit $991.5M. Explicit going-concern: 10-K states cash is 'less than will be required to fund operations for a period of 12 months,' Q1-2026 headcount/salary cuts already executed. The most important canary mechanism the scan didn't see: in Aug 2025 Celularity 'retired all $41.6M senior secured debt' NOT by paying it down but by selling its core IP to Celeniv Pte. Ltd. and licensing it back \u2014 converting ~$41.6M of on-balance-sheet secured debt into a $31.7M long-term + $2.1M short-term LICENSE obligation (off the 'debt' line but still a hard claim on cash, with amortization-of-licensing-premium and ~$6.4M loss-on-extinguishment hitting the P&L). So the company looks de-levered on a naive debt screen while being economically MORE encumbered (it sold the crown-jewel IP). The scan's two qualitative signatures are REAL: (1) 15% coupon is genuine (Feb-2025 secured convertible note, ex4-2) though it is a small bridge tranche, not a structural penalty rate; (2) related-party/circular financing is the dominant funding mode \u2014 ALL $4.4M short-term debt is related-party, plus a $6.8M related-party note, historically from Resorts World Inc Pte (RWI, Genting/Hariri orbit) and C.V. Starr, now from Philip Barach (DoubleLine co-founder) via the Dec-2025 $10M ($7.0M senior + up to $5.0M convertible @ $1.66) deal. This is a serially-recapitalized micro-cap surviving quarter-to-quarter on insider/affiliate dribble financings while burning ~$13M/yr in operations against $6.2M cash.\\nSEVERITY CLAIMED: already-distressed\\nDISTRESS INDICATORS CLAIMED: Explicit going-concern: FY2025 10-K states cash insufficient to fund 12 months; 'substantial doubt' language repeated across multiple years; Stockholders' deficit of -$38.1M at 12/31/2025 (flipped from +$8.8M positive equity one year earlier); Working-capital deficit of -$68.4M; Cash of only $6.2M vs $13.3M annual operating cash burn (~5-6 month runway); FY2025 net loss $91.7M; accumulated deficit $991.5M; revenue down 51% YoY to $26.6M; Q1-2026 headcount reduction and salary cuts already executed to conserve cash; $6.4M loss on debt extinguishment + $6.4M total loss-on-debt items in FY2025 \u2014 sign of repeated distressed restructurings; Crown-jewel IP sold to Celeniv and licensed back (Aug 2025) \u2014 substance-over-form: deleveraging that re-labeled $41.6M debt as a $33.8M license obligation rather than reducing claims; Serial small affiliate/insider bridge financings (Feb, Oct, Dec 2025) at 15% and warrant-heavy terms \u2014 classic quarter-to-quarter survival funding; First-priority lien on 'substantially all assets' granted to Dec-2025 lender \u2014 assets fully encumbered; Penny-stock / Nasdaq listing-risk profile (conversion prices $1.66, warrant strikes $2.00; prior reverse-split-type dynamics typical of this cap structure)\\n\\nAttack it: are the cash flows actually adequate? Is the high coupon a one-off / penalty / mis-extraction? Already refinanced or covenant-cured? Is the leverage matched by hard assets or stable contracted revenue? Is the flagged signal a data artifact? Only if real fragility survives, say so and state the residual risk and revised severity.\"},\"uuid\":\"0ddbd7ee-b237-4a15-8c1d-41f83f11f2db\",\"timestamp\":\"2026-06-13T15:19:43.977Z\",\"userType\":\"external\",\"entrypoint\":\"cli\",\"cwd\":\"/Users/ted/Documents/dev-archive/bubble\",\"sessionId\":\"862580a4-8ada-4f38-b784-70b24abf985f\",\"version\":\"2.1.177\",\"gitBranch\":\"main\",\"slug\":\"foamy-wobbling-cloud\"}",
+      "cik": "0001752828",
+      "agent_severity": "already-distressed",
+      "agent_tier": "filing_verified",
+      "recent_forms": [
+        "8-K:2026-06-12",
+        "8-K:2026-06-03",
+        "8-K:2026-05-28",
+        "NT 10-Q:2026-05-15",
+        "10-K:2026-04-30",
+        "3:2026-04-24"
+      ],
+      "late_filing_NT": true,
+      "distress_terms_in_filings": {
+        "10-K 2026-04-30": [
+          "going_concern",
+          "delisting",
+          "default",
+          "impairment"
+        ],
+        "8-K 2026-06-12": [
+          "delisting"
+        ]
+      },
+      "orchestrator_verdict": "filing_verified_distress"
+    },
+    {
+      "entity": "NextNRG, Inc. (Nasdaq: NXXT; CIK 0001817004; formerly EzFill Holdings)",
+      "cik": "0001817004",
+      "agent_severity": "already-distressed",
+      "agent_tier": "source_backed",
+      "recent_forms": [
+        "EFFECT:2026-06-11",
+        "424B3:2026-06-11",
+        "8-K:2026-06-05",
+        "S-1:2026-06-03",
+        "8-K:2026-05-28",
+        "10-Q:2026-05-15"
+      ],
+      "late_filing_NT": true,
+      "distress_terms_in_filings": {
+        "10-K 2026-04-16": [
+          "going_concern",
+          "delisting",
+          "default",
+          "impairment"
+        ]
+      },
+      "orchestrator_verdict": "filing_verified_distress"
+    },
+    {
+      "entity": "Lexmark, as US holdings, Lexmark International, Inc. (Other / unclassified, tier canary)\\nTHESIS: REJECT the canary flag as a MIS-ATTRIBUTION DATA ARTIFACT, but the underlying distress is REAL at the parent. The scan attached a $0.25B / 13.0% coupon \\\"canary\\\" to \\\"Lexmark\\\" because the entity name was extracted as a counterparty/guarantor from Xerox Holdings' July 1, 2025 acquisition-financing 8-K. Three corrections: (1) The $250M / 13.00% Senior Notes due 2030 were \\\"completed [by] Holdings ... issued by Holdings\\\" \u2014 i.e., XEROX HOLDINGS CORPORATION is the issuer, not Lexmark. The 13% coupon is Xerox acquisition financing, not a Lexmark tranche. (2) \\\"Lexmark\\\" in the deal-counterparty roster is the ACQUISITION TARGET (Lexmark International II, LLC / Lexmark International, Inc.), bought from Ninestar/PAG/Shanghai Shouda for ~$1.5B inclusive of net debt, closing July 1, 2025. (3) Lexmark has NO surviving standalone public debt: \\\"Substantially all of the net proceeds of the Incremental Term Loans were used to repay ... a portion of Lexmark's outstanding debt under the Lexmark Credit Agreement\\\" \u2014 Lexmark's pre-existing debt was extinguished at close. There is no standalone Lexmark issuer that can \\\"fail first.\\\" HOWEVER, the genuine fragility object is the CONSOLIDATED ACQUIRER, Xerox Holdings: post-Lexmark it is ~6x gross-debt/EBITDA, downgraded by S&P to 'SD' (selective default) in Q1 2026 after a below-par senior unsecured buyback, by Moody's to Caa2, with negative core free operating cash flow (~ -$170-200M) and a 2028 refi wall amid a structurally declining print market. The 13% (and 13.5% 2nd-lien / 10.25% 1st-lien) coupons are real distress pricing \u2014 they just belong to Xerox, not to Lexmark. Net: the \\\"canary\\\" is correctly pointing at distress, but the label is on the wrong legal entity; the signal should be re-keyed to Xerox Holdings (CIK 0001770450).\\nSEVERITY CLAIMED: already-distressed\\nDISTRESS INDICATORS CLAIMED: S&P downgraded Xerox Holdings to 'SD' (selective default) in Q1 2026 after repurchasing ~$101M face of 2028 senior unsecured notes at a discount (below-par = distressed exchange); Moody's downgraded Xerox to Caa2, negative outlook (and earlier to B2), citing worse-than-planned post-Lexmark performance; S&P had previously cut to CCC+ from B-; Xerox bonds lost ~half their value in 2025; 13.00% / 13.50% acquisition-financing coupons = capital raised at distressed pricing; Pro-forma gross debt/EBITDA ~6x at FY2025 year-end; Negative core free operating cash flow (~ -$170M to -$200M) excluding finance-receivable roll-off; Revenue declining 7-8% YoY in a secularly shrinking print/office-imaging market; Warrant/debt-for-equity exchange program flagged by Moody's as a potential distressed exchange; 2028 maturity wall with stated refinancing difficulty; Lexmark's own pre-acquisition debt was repaid at close (so the flagged Lexmark coupon is extinguished, not live)\\n\\nAttack it: are the cash flows actually adequate? Is the high coupon a one-off / penalty / mis-extraction? Already refinanced or covenant-cured? Is the leverage matched by hard assets or stable contracted revenue? Is the flagged signal a data artifact? Only if real fragility survives, say so and state the residual risk and revised severity.\"},\"uuid\":\"fbc37ee1-ba4c-42cd-8d85-dedbd9abb29f\",\"timestamp\":\"2026-06-13T15:28:46.520Z\",\"userType\":\"external\",\"entrypoint\":\"cli\",\"cwd\":\"/Users/ted/Documents/dev-archive/bubble\",\"sessionId\":\"862580a4-8ada-4f38-b784-70b24abf985f\",\"version\":\"2.1.177\",\"gitBranch\":\"main\",\"slug\":\"foamy-wobbling-cloud\"}",
+      "cik": "0001770450",
+      "agent_severity": "already-distressed",
+      "agent_tier": null,
+      "recent_forms": [
+        "144:2026-06-04",
+        "SCHEDULE 13D/A:2026-06-03",
+        "SD:2026-06-01",
+        "144:2026-05-29",
+        "144:2026-05-28",
+        "8-K:2026-05-27"
+      ],
+      "late_filing_NT": true,
+      "distress_terms_in_filings": {
+        "10-K 2026-03-17": [
+          "going_concern",
+          "delisting",
+          "default",
+          "impairment"
+        ]
+      },
+      "orchestrator_verdict": "filing_verified_distress"
+    },
+    {
+      "entity": "Babcock & Wilcox Enterprises, Inc. (Other / unclassified, tier canary)\\nTHESIS: CONFIRMED canary \u2014 but the fragility is NOT the balance sheet the scan flagged; it is contract/backlog quality plus a related-party circular-financing web. The scan's gross-debt figure (~$0.76B) is stale (FY2024 vintage). FY2025 actuals: $321.1M total debt, $119.7M net debt, falling to $42.4M net debt by Q1 2026 after the May-2025 exchange (~$132M of 2026 notes swapped into $100.8M of 8.75% second-lien notes due 2030) and ongoing bond repurchases \u2014 so the leverage(0.12)/refi(0.03) signals are LOW and largely self-cured. The genuinely load-bearing fragility is that ~85% of the $2.824B \\\"pro forma backlog\\\" (and essentially the entire 4,400% YoY equity move) is ONE contract: the $2.4B \\\"Base Electron\\\" AI-data-center power project. Wolfpack Research (Mar 12, 2026) alleges only ~$434M of that $2.4B is a fixed fee (rest contingent/variable), and that Applied Digital's guarantee of Base Electron dissolves if Base Electron raises just $50M of financing or goes public. The concentration(HHI 1.00) and circular(0.30)/related-party signals are ECONOMICALLY REAL, not data artifacts: Base Electron is an SPV spun out of Applied Digital's team whose registered address matches the HQ of BRC Group (formerly B. Riley Financial) \u2014 B&W's LARGEST SHAREHOLDER and a related-party LENDER (the second-lien notes share collateral with the B. Riley junior secured note). Bryant Riley sits on both the B&W cap table and Base Electron's board, and allegedly sold stock (~$10.4M) into the spike. Multiple securities-fraud class actions (Pomerantz; Levi & Korsinsky) allege the contract value was inflated and that BRC was provided \\\"exit liquidity.\\\" Underlying cash generation is weak: FY2025 operating cash flow was NEGATIVE $68.9M while the company still paid $14.9M of preferred dividends; adjusted EBITDA $43.7M barely exceeds $37.5M interest expense (~1.1x, and only after heavy add-backs). The canary signature: an obscure, chronically cash-burning small-cap whose survival narrative and equity value rest on a single, contingent, related-party-tangled contract \u2014 it re-rates (and de-rates) on contract credibility, not on operations.\\nSEVERITY CLAIMED: high\\nDISTRESS INDICATORS CLAIMED: Stale-vs-actual: scan's ~$0.76B gross debt is FY2024-vintage; actual FY2025 total debt $321.1M \u2014 a downward-trending, not exploding, balance sheet; FY2025 operating cash flow NEGATIVE $68.9M while still paying $14.9M preferred dividends (cash burn masked by equity raises); Distressed-style May-2025 liability management: ~$131.8M of 2026 notes exchanged for $100.8M of new 8.75% second-lien 2030 notes (~24% face reduction = sub-par exchange); 10-K retains 'substantial doubt / going concern' RISK-FACTOR language tied to the Dec-2026 note refinancing obligation (forward-looking, not a current going-concern qualification); Equity up ~4,400% YoY on a single contract \u2014 classic small-cap narrative blow-off; -11.6% on Mar-12-2026 Wolfpack report; Multiple securities-fraud class actions (Pomerantz, Levi & Korsinsky) alleging inflated $2.4B contract value and concealed related-party ties; Related-party / circular financing: largest shareholder & lender BRC (ex-B. Riley) shares HQ address with counterparty Base Electron; Bryant Riley on Base Electron board; alleged ~$10.4M insider/BRC stock sale = 'exit liquidity' claim; Contingent counterparty guarantee dissolves at $50M financing event; only ~$434M of $2.4B fixed; Heavy reliance on LCs/surety (~$313M off-balance-sheet) and cash collateral to win/keep contracts \u2014 liquidity-sensitive working-capital model\\n\\nAttack it: are the cash flows actually adequate? Is the high coupon a one-off / penalty / mis-extraction? Already refinanced or covenant-cured? Is the leverage matched by hard assets or stable contracted revenue? Is the flagged signal a data artifact? Only if real fragility survives, say so and state the residual risk and revised severity.\"},\"uuid\":\"fd8b0f87-29ec-41b9-b0a2-01dbb41e8fb5\",\"timestamp\":\"2026-06-13T15:31:12.887Z\",\"userType\":\"external\",\"entrypoint\":\"cli\",\"cwd\":\"/Users/ted/Documents/dev-archive/bubble\",\"sessionId\":\"862580a4-8ada-4f38-b784-70b24abf985f\",\"version\":\"2.1.177\",\"gitBranch\":\"main\",\"slug\":\"foamy-wobbling-cloud\"}",
+      "cik": "0001630805",
+      "agent_severity": "high",
+      "agent_tier": "source_backed",
+      "recent_forms": [
+        "8-K:2026-06-08",
+        "4:2026-06-02",
+        "S-8:2026-05-22",
+        "8-K:2026-05-22",
+        "S-3ASR:2026-05-21",
+        "RW:2026-05-21"
+      ],
+      "late_filing_NT": false,
+      "distress_terms_in_filings": {
+        "10-K 2026-03-16": [
+          "going_concern",
+          "default",
+          "bankruptcy",
+          "impairment"
+        ]
+      },
+      "orchestrator_verdict": "filing_verified_distress"
+    },
+    {
+      "entity": "Rapid Micro Biosystems, Inc. (NASDAQ: RPID; CIK 0001380106)",
+      "cik": "0001380106",
+      "agent_severity": "high",
+      "agent_tier": "filing_verified",
+      "recent_forms": [
+        "144:2026-06-10",
+        "4:2026-06-02",
+        "4:2026-06-02",
+        "4:2026-06-02",
+        "4:2026-06-02",
+        "4:2026-06-02"
+      ],
+      "late_filing_NT": false,
+      "distress_terms_in_filings": {
+        "10-K 2026-03-12": [
+          "delisting",
+          "default",
+          "impairment"
+        ]
+      },
+      "orchestrator_verdict": "filing_verified_distress"
+    },
+    {
+      "entity": "AMC ENTERTAINMENT HOLDINGS, INC. (Other / unclassified, tier mid)\\nTHESIS: FLAG DIRECTION CONFIRMED, SEED NUMBERS REJECTED AS ARTIFACTS. The scan's headline metrics are wrong: gross corporate borrowings are ~$4.02B principal ($4,024.2M; carrying $4,038.5M incl. finance leases per FY2025 10-K Note 7), NOT $13.99B \u2014 the seed ~3.5x over-count almost certainly stacks the ~$4.0B operating-lease liability (carrying) / $5.9B undiscounted lease payments PLUS the double-counted notional from AMC's serial 2024-2025 refinancing/exchange transactions (each exchange creates new notional alongside old) PLUS interest streams. The 'near-term \u22642027 ~$4.18B' is also an artifact: the true maturity ladder is 2026 $19.9M, 2027 $545.2M, 2028 $19.5M, 2029 $3,172.2M, 2030 $267.4M \u2014 so \u22642027 principal is only ~$565M and the real maturity WALL is 2029 (~$3.17B), not near-term. Max coupon is understated: New 2029 Notes bear 11.5-15.0% with 15.0% IN EFFECT at both 12/31/25 and 3/31/26 (seed said 12.8%; Odeon Notes 12.75%, New Term Loan 10.731%). THE GENUINE FRAGILITY is a coverage/cash-burn problem, not a debt-quantum or near-term-wall problem: FY2025 Adjusted EBITDA $387.5M barely exceeds cash interest of ~$381M (current portion) \u2014 cash-interest coverage ~1.0x \u2014 while operating cash flow was NEGATIVE $(119.8)M FY2025 and $(128.5)M in Q1 2026; cash fell from $632.3M (YE24) to $428.5M (YE25) to $339.2M (3/31/26), a ~$293M YoY draw; the company carries a stockholders' DEFICIT (total liabilities $9.6B vs total assets $7.7B at 3/31/26); and management explicitly states it will 'require additional sources of liquidity and/or significant increases in revenues' to 'remain viable beyond the next twelve months.' AMC funds the gap with dilutive equity raises and serial debt-for-equity exchanges, and pays 15% on its marginal money \u2014 textbook distressed, capital-markets-dependent financing. The OFFSET (why severity is high, not already-distressed): revenue is recovering hard (FY25 +4.6% to $4,849M; Q1'26 +21.2% to $1,045M), no near-term maturity wall to trip, full covenant compliance, NO going-concern qualification, and the bulk of the stack now matures 2029. The thesis: AMC is fragile via thin/negative free cash flow against a 15% marginal cost of capital and a 2029 refi wall it cannot yet self-fund \u2014 it is solvent only as long as equity/debt-exchange markets stay open and box office keeps recovering.\\nSEVERITY CLAIMED: high\\nDISTRESS INDICATORS CLAIMED: Operating cash flow NEGATIVE: $(119.8)M FY2025; $(128.5)M Q1 2026; Cash drawdown: $632.3M (YE24) to $428.5M (YE25) to $339.2M (3/31/26), ~$293M YoY; Stockholders' DEFICIT: total liabilities $9.6B vs assets $7.7B at 3/31/26; 15.0% in-effect coupon on New 2029 Notes (range 11.5-15.0%); marginal money priced distressed; Cash-interest coverage ~1.0x (Adj EBITDA $387.5M vs ~$381M cash interest); Management 'will require additional sources of liquidity' to remain viable beyond 12 months; 'may be material'; risk of 'liquidation or bankruptcy' language retained; Serial debt-for-equity exchanges and equity raises causing massive share-count dilution (e.g., 79.8M shares for $143M notes in 2025); PIK toggle interest adding to debt; FY2025 net losses on debt extinguishment $196.0M (distressed liability-management churn); Long-lived-asset impairments $43.5M FY25 (47 US + 20 intl theatres closed/impaired)\\n\\nAttack it: are the cash flows actually adequate? Is the high coupon a one-off / penalty / mis-extraction? Already refinanced or covenant-cured? Is the leverage matched by hard assets or stable contracted revenue? Is the flagged signal a data artifact? Only if real fragility survives, say so and state the residual risk and revised severity.\"},\"uuid\":\"839a62ea-cb49-422a-a7f8-789d0a545aec\",\"timestamp\":\"2026-06-13T15:50:08.177Z\",\"userType\":\"external\",\"entrypoint\":\"cli\",\"cwd\":\"/Users/ted/Documents/dev-archive/bubble\",\"sessionId\":\"862580a4-8ada-4f38-b784-70b24abf985f\",\"version\":\"2.1.177\",\"gitBranch\":\"main\",\"slug\":\"foamy-wobbling-cloud\"}",
+      "cik": "0001411579",
+      "agent_severity": "high",
+      "agent_tier": "filing_verified",
+      "recent_forms": [
+        "8-K:2026-06-11",
+        "4:2026-05-19",
+        "SCHEDULE 13G:2026-05-15",
+        "8-K:2026-05-13",
+        "SCHEDULE 13G/A:2026-05-05",
+        "SCHEDULE 13G/A:2026-05-05"
+      ],
+      "late_filing_NT": false,
+      "distress_terms_in_filings": {
+        "10-K 2026-02-23": [
+          "delisting",
+          "default",
+          "bankruptcy",
+          "impairment"
+        ]
+      },
+      "orchestrator_verdict": "filing_verified_distress"
+    }
+  ]
+}
