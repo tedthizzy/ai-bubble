@@ -105,7 +105,7 @@
   }
  },
  "edgar": {},
- "generated_utc": "2026-06-13T01:41:46Z",
+ "generated_utc": "2026-06-13T02:26:33Z",
  "issuance_latest": {
   "amount_usd": 900000000,
   "coupon_pct": 7.5,
@@ -295,5 +295,58 @@
    "status": "contra",
    "yoy_growth_pct": 252.9
   }
- ]
+ ],
+ "verdict_shadow": {
+  "leaves": {
+   "event_given_both": {
+    "base_p": 0.8,
+    "label": "distress event | operationally distressed AND window closed",
+    "p": 0.8,
+    "prior": "incumbent-absorption stage 4 can pre-empt the event in a minority of cases",
+    "signals": []
+   },
+   "event_given_window_first": {
+    "base_p": 0.75,
+    "label": "distress event | the window closed first",
+    "p": 0.75,
+    "prior": "fiber CLECs: funding withdrawal converted thin operations into defaults quickly",
+    "signals": []
+   },
+   "op_distress": {
+    "base_p": 0.7,
+    "label": "operational distress (zero-shock coverage breach bites as cash) by 2027-Q3",
+    "p": 0.65,
+    "prior": "failure-sequence stage 2 (most-levered fringe bleeds first); telecom/shale both",
+    "signals": [
+     "S4_demand_trajectory"
+    ]
+   },
+   "window_closes_first": {
+    "base_p": 0.3,
+    "label": "funding window closes FIRST (private-credit redemptions / marginal-buyer strike)",
+    "p": 0.3,
+    "prior": "funding-structure break: private-credit marks/redemptions can move before spreads",
+    "signals": [
+     "S2_ccc_divergence",
+     "S3_bdc_discount_differential"
+    ]
+   },
+   "window_closes_given_op": {
+    "base_p": 0.45,
+    "label": "funding window closes on a stressed name | it is already operationally distressed",
+    "p": 0.4,
+    "prior": "capex-peak\u2192default lag ~6-8 quarters; access withdrawn from the fringe first",
+    "signals": [
+     "S1_new_issue_spread",
+     "S1b_failed_print"
+    ]
+   }
+  },
+  "note": "Shadow mode: this forecast runs ALONGSIDE the gated 0.67 structural confidence and does not replace it until promoted. p_real is the quantity the 2026-Q4 adjudication scores; the flat 0.67 is a structural measurement, not a forecast.",
+  "p_real": 0.3862,
+  "pathway_funding_first": 0.225,
+  "pathway_operations_first": 0.208,
+  "promoted": false,
+  "structural_confidence_unchanged": 0.67
+ }
 }
