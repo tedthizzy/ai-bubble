@@ -1,0 +1,1468 @@
+{
+  "repdte": "20260331",
+  "banks_scanned": 4352,
+  "flagged": 286,
+  "severity": {
+    "other_distress": 280,
+    "undercapitalized": 2,
+    "not_well_capitalized": 4
+  },
+  "top_flagged": [
+    {
+      "name": "BENEFICIAL STATE BANK",
+      "state": "CALIFORNIA",
+      "cert": 58490,
+      "assets_b": 1.97,
+      "rbc_ratio": 0,
+      "roa": -0.3442506925316247,
+      "npa_pct": 2.128631884742297,
+      "flags": [
+        "losing money (ROA -0.34%)"
+      ]
+    },
+    {
+      "name": "EREBOR BANK N A",
+      "state": "OHIO",
+      "cert": 59378,
+      "assets_b": 1.7,
+      "rbc_ratio": 0,
+      "roa": -1.4110345532046793,
+      "npa_pct": 0,
+      "flags": [
+        "losing money (ROA -1.41%)"
+      ]
+    },
+    {
+      "name": "MUTUALONE BANK",
+      "state": "MASSACHUSETTS",
+      "cert": 26395,
+      "assets_b": 1.26,
+      "rbc_ratio": 0,
+      "roa": 0.26458684405673794,
+      "npa_pct": 4.760855190654618,
+      "flags": [
+        "high nonperforming (4.8%)"
+      ]
+    },
+    {
+      "name": "BANK OF WASHINGTON",
+      "state": "MISSOURI",
+      "cert": 12627,
+      "assets_b": 1.18,
+      "rbc_ratio": 0,
+      "roa": 0.2155545456173276,
+      "npa_pct": 4.305603658448376,
+      "flags": [
+        "high nonperforming (4.3%)"
+      ]
+    },
+    {
+      "name": "FINWISE BANK",
+      "state": "UTAH",
+      "cert": 35323,
+      "assets_b": 0.89,
+      "rbc_ratio": 0,
+      "roa": 1.5407701589390352,
+      "npa_pct": 5.594409523948667,
+      "flags": [
+        "high nonperforming (5.6%)"
+      ]
+    },
+    {
+      "name": "MRV BANKS",
+      "state": "MISSOURI",
+      "cert": 58619,
+      "assets_b": 0.79,
+      "rbc_ratio": 0,
+      "roa": 1.6694537499186974,
+      "npa_pct": 6.084016830807696,
+      "flags": [
+        "high nonperforming (6.1%)"
+      ]
+    },
+    {
+      "name": "AXIOM BANK NATIONAL ASSN",
+      "state": "FLORIDA",
+      "cert": 31390,
+      "assets_b": 0.77,
+      "rbc_ratio": 0,
+      "roa": -0.0672502724021053,
+      "npa_pct": 0.9561251809766864,
+      "flags": [
+        "losing money (ROA -0.07%)"
+      ]
+    },
+    {
+      "name": "FIRST SOUTHERN BANK",
+      "state": "ALABAMA",
+      "cert": 29332,
+      "assets_b": 0.69,
+      "rbc_ratio": 0,
+      "roa": -4.341435775637918,
+      "npa_pct": 5.095866815557648,
+      "flags": [
+        "losing money (ROA -4.34%)",
+        "high nonperforming (5.1%)"
+      ]
+    },
+    {
+      "name": "BANK OF HOUSTON",
+      "state": "TEXAS",
+      "cert": 3178,
+      "assets_b": 0.69,
+      "rbc_ratio": 0,
+      "roa": -2.920138818476591,
+      "npa_pct": 0.11260456398550142,
+      "flags": [
+        "losing money (ROA -2.92%)"
+      ]
+    },
+    {
+      "name": "CROWN BANK",
+      "state": "NEW JERSEY",
+      "cert": 34259,
+      "assets_b": 0.64,
+      "rbc_ratio": 0,
+      "roa": 2.166380540934845,
+      "npa_pct": 7.082712751899056,
+      "flags": [
+        "high nonperforming (7.1%)"
+      ]
+    },
+    {
+      "name": "ONEUNITED BANK",
+      "state": "MASSACHUSETTS",
+      "cert": 23966,
+      "assets_b": 0.61,
+      "rbc_ratio": 0,
+      "roa": -1.0365121017602759,
+      "npa_pct": 0.12872992494585625,
+      "flags": [
+        "losing money (ROA -1.04%)"
+      ]
+    },
+    {
+      "name": "FIRST CHOICE BANK",
+      "state": "MISSISSIPPI",
+      "cert": 5006,
+      "assets_b": 0.56,
+      "rbc_ratio": 0,
+      "roa": -0.23676326744477152,
+      "npa_pct": 0.5433644568771577,
+      "flags": [
+        "losing money (ROA -0.24%)"
+      ]
+    },
+    {
+      "name": "HUNTINGTON FSB",
+      "state": "WEST VIRGINIA",
+      "cert": 27884,
+      "assets_b": 0.54,
+      "rbc_ratio": 0,
+      "roa": -0.4550750763954537,
+      "npa_pct": 0.15874636786453644,
+      "flags": [
+        "losing money (ROA -0.46%)"
+      ]
+    },
+    {
+      "name": "CITIZENS COMMUNITY BANK",
+      "state": "ILLINOIS",
+      "cert": 33753,
+      "assets_b": 0.54,
+      "rbc_ratio": 0,
+      "roa": 0.6164675289739738,
+      "npa_pct": 4.195408168002005,
+      "flags": [
+        "high nonperforming (4.2%)"
+      ]
+    },
+    {
+      "name": "BANK OF LAFAYETTE GEORGIA",
+      "state": "GEORGIA",
+      "cert": 9245,
+      "assets_b": 0.45,
+      "rbc_ratio": 0,
+      "roa": 0.923211915564762,
+      "npa_pct": 0.459926243670207,
+      "flags": [
+        "thin equity (3.8% of assets)"
+      ]
+    },
+    {
+      "name": "BANK OF FRANKEWING",
+      "state": "TENNESSEE",
+      "cert": 1484,
+      "assets_b": 0.43,
+      "rbc_ratio": 0,
+      "roa": 0.4997932673303315,
+      "npa_pct": 4.602299306152453,
+      "flags": [
+        "high nonperforming (4.6%)"
+      ]
+    },
+    {
+      "name": "EXCHANGE BANK",
+      "state": "GEORGIA",
+      "cert": 160,
+      "assets_b": 0.41,
+      "rbc_ratio": 0,
+      "roa": -3.2842483587695743,
+      "npa_pct": 0.07362028347429807,
+      "flags": [
+        "losing money (ROA -3.28%)"
+      ]
+    },
+    {
+      "name": "BALBOA THRIFT&LOAN ASSN",
+      "state": "CALIFORNIA",
+      "cert": 26704,
+      "assets_b": 0.41,
+      "rbc_ratio": 0,
+      "roa": -0.6028060818827904,
+      "npa_pct": 0.8801254871204138,
+      "flags": [
+        "losing money (ROA -0.60%)"
+      ]
+    },
+    {
+      "name": "COMMUNITY SAVINGS BANK",
+      "state": "ILLINOIS",
+      "cert": 28841,
+      "assets_b": 0.41,
+      "rbc_ratio": 0,
+      "roa": -0.3248444880397054,
+      "npa_pct": 0.12201306862867602,
+      "flags": [
+        "losing money (ROA -0.32%)"
+      ]
+    },
+    {
+      "name": "VARO BANK NATIONAL ASSN",
+      "state": "UTAH",
+      "cert": 59190,
+      "assets_b": 0.37,
+      "rbc_ratio": 0,
+      "roa": -24.675163734001373,
+      "npa_pct": 0.14294493280252224,
+      "flags": [
+        "losing money (ROA -24.68%)"
+      ]
+    },
+    {
+      "name": "EASTERN SAVINGS BANK FSB",
+      "state": "MARYLAND",
+      "cert": 32360,
+      "assets_b": 0.35,
+      "rbc_ratio": 0,
+      "roa": 2.360438779588755,
+      "npa_pct": 5.662626439525115,
+      "flags": [
+        "high nonperforming (5.7%)"
+      ]
+    },
+    {
+      "name": "PHENIX-GIRARD BANK",
+      "state": "ALABAMA",
+      "cert": 41,
+      "assets_b": 0.34,
+      "rbc_ratio": 0,
+      "roa": 0.8009890473454179,
+      "npa_pct": 0.09367000232720503,
+      "flags": [
+        "thin equity (2.0% of assets)"
+      ]
+    },
+    {
+      "name": "LAONA STATE BANK",
+      "state": "WISCONSIN",
+      "cert": 11601,
+      "assets_b": 0.29,
+      "rbc_ratio": 0,
+      "roa": -0.4458396817768143,
+      "npa_pct": 0.777671541639772,
+      "flags": [
+        "losing money (ROA -0.45%)"
+      ]
+    },
+    {
+      "name": "GATEWAY BANK FSB",
+      "state": "CALIFORNIA",
+      "cert": 33103,
+      "assets_b": 0.29,
+      "rbc_ratio": 0,
+      "roa": -0.48994873819918244,
+      "npa_pct": 2.5250410079223817,
+      "flags": [
+        "losing money (ROA -0.49%)"
+      ]
+    },
+    {
+      "name": "ONE WORLD BANK",
+      "state": "TEXAS",
+      "cert": 57901,
+      "assets_b": 0.29,
+      "rbc_ratio": 0,
+      "roa": -1.6191743623996218,
+      "npa_pct": 1.1248381339026354,
+      "flags": [
+        "losing money (ROA -1.62%)"
+      ]
+    },
+    {
+      "name": "NEW HORIZON BANK NA",
+      "state": "VIRGINIA",
+      "cert": 58857,
+      "assets_b": 0.28,
+      "rbc_ratio": 0,
+      "roa": -0.48020748587597284,
+      "npa_pct": 0.6862073049495214,
+      "flags": [
+        "losing money (ROA -0.48%)"
+      ]
+    },
+    {
+      "name": "PEOPLES TRUST&SAVINGS BANK",
+      "state": "INDIANA",
+      "cert": 13113,
+      "assets_b": 0.25,
+      "rbc_ratio": 0,
+      "roa": -0.10549764456220506,
+      "npa_pct": 1.7084484244264235,
+      "flags": [
+        "losing money (ROA -0.11%)"
+      ]
+    },
+    {
+      "name": "FIRST SECURITY BANK&TRUST CO",
+      "state": "OKLAHOMA",
+      "cert": 17001,
+      "assets_b": 0.25,
+      "rbc_ratio": 0,
+      "roa": 0.9304063967427824,
+      "npa_pct": 7.699258554059396,
+      "flags": [
+        "high nonperforming (7.7%)"
+      ]
+    },
+    {
+      "name": "FIRST BANK OF CENTRAL OHIO",
+      "state": "OHIO",
+      "cert": 59249,
+      "assets_b": 0.25,
+      "rbc_ratio": 0,
+      "roa": -0.19702224108794722,
+      "npa_pct": 0.6448152707858457,
+      "flags": [
+        "losing money (ROA -0.20%)"
+      ]
+    },
+    {
+      "name": "FIRST STATE BANK OF WYOMING",
+      "state": "MINNESOTA",
+      "cert": 1609,
+      "assets_b": 0.24,
+      "rbc_ratio": 0,
+      "roa": -0.20252492135558894,
+      "npa_pct": 0.10321303001569174,
+      "flags": [
+        "losing money (ROA -0.20%)"
+      ]
+    },
+    {
+      "name": "HIBERNIA BANK",
+      "state": "LOUISIANA",
+      "cert": 27752,
+      "assets_b": 0.24,
+      "rbc_ratio": 0,
+      "roa": -0.019567158155632283,
+      "npa_pct": 1.2065871812374058,
+      "flags": [
+        "losing money (ROA -0.02%)"
+      ]
+    },
+    {
+      "name": "TRIAD BANK NATIONAL ASSN",
+      "state": "OKLAHOMA",
+      "cert": 24677,
+      "assets_b": 0.21,
+      "rbc_ratio": 0,
+      "roa": 2.218752727378517,
+      "npa_pct": 5.383082538736591,
+      "flags": [
+        "high nonperforming (5.4%)"
+      ]
+    },
+    {
+      "name": "VIDALIA FEDERAL SAVINGS BANK",
+      "state": "GEORGIA",
+      "cert": 29772,
+      "assets_b": 0.21,
+      "rbc_ratio": 0,
+      "roa": -0.7289529857701532,
+      "npa_pct": 0.24576925777684153,
+      "flags": [
+        "losing money (ROA -0.73%)"
+      ]
+    },
+    {
+      "name": "FIRST&PEOPLES BANK&TRUST CO",
+      "state": "KENTUCKY",
+      "cert": 8122,
+      "assets_b": 0.21,
+      "rbc_ratio": 0,
+      "roa": -0.5623698496575467,
+      "npa_pct": 7.328214365918571,
+      "flags": [
+        "losing money (ROA -0.56%)",
+        "high nonperforming (7.3%)"
+      ]
+    },
+    {
+      "name": "FIRST ENTERPRISE BANK",
+      "state": "OKLAHOMA",
+      "cert": 4049,
+      "assets_b": 0.2,
+      "rbc_ratio": 0,
+      "roa": -1.2684347878861444,
+      "npa_pct": 5.737858426340698,
+      "flags": [
+        "losing money (ROA -1.27%)",
+        "high nonperforming (5.7%)"
+      ]
+    },
+    {
+      "name": "CITIZENS BANK&TRUST CO",
+      "state": "LOUISIANA",
+      "cert": 16417,
+      "assets_b": 0.19,
+      "rbc_ratio": 0,
+      "roa": 0.7686184084108814,
+      "npa_pct": 5.177428428885327,
+      "flags": [
+        "high nonperforming (5.2%)"
+      ]
+    },
+    {
+      "name": "CENTRAL FS&LA",
+      "state": "ILLINOIS",
+      "cert": 28425,
+      "assets_b": 0.19,
+      "rbc_ratio": 0,
+      "roa": -0.053771224122598396,
+      "npa_pct": 0.47816401595606906,
+      "flags": [
+        "losing money (ROA -0.05%)"
+      ]
+    },
+    {
+      "name": "UNITED REPUBLIC BANK",
+      "state": "NEBRASKA",
+      "cert": 58359,
+      "assets_b": 0.19,
+      "rbc_ratio": 0,
+      "roa": 0.04522735741176168,
+      "npa_pct": 5.868012689284431,
+      "flags": [
+        "high nonperforming (5.9%)"
+      ]
+    },
+    {
+      "name": "INTEGRO BANK",
+      "state": "ARIZONA",
+      "cert": 59283,
+      "assets_b": 0.19,
+      "rbc_ratio": 0,
+      "roa": -1.0005980648914061,
+      "npa_pct": 2.39751447415859,
+      "flags": [
+        "losing money (ROA -1.00%)"
+      ]
+    },
+    {
+      "name": "SOUTH LAFOURCHE B&T CO",
+      "state": "LOUISIANA",
+      "cert": 19755,
+      "assets_b": 0.18,
+      "rbc_ratio": 0,
+      "roa": 0.9120364814592583,
+      "npa_pct": 4.0306214485433385,
+      "flags": [
+        "high nonperforming (4.0%)"
+      ]
+    },
+    {
+      "name": "WALDEN MUTUAL BANK",
+      "state": "NEW HAMPSHIRE",
+      "cert": 59289,
+      "assets_b": 0.18,
+      "rbc_ratio": 0,
+      "roa": 0.006787522271557453,
+      "npa_pct": 5.913665108605994,
+      "flags": [
+        "high nonperforming (5.9%)"
+      ]
+    },
+    {
+      "name": "BEACH CITIES COMMERCIAL BANK",
+      "state": "CALIFORNIA",
+      "cert": 59290,
+      "assets_b": 0.18,
+      "rbc_ratio": 0,
+      "roa": -0.33852064252108793,
+      "npa_pct": 0,
+      "flags": [
+        "losing money (ROA -0.34%)"
+      ]
+    },
+    {
+      "name": "FIDELITY BANK OF TEXAS",
+      "state": "TEXAS",
+      "cert": 21455,
+      "assets_b": 0.17,
+      "rbc_ratio": 0,
+      "roa": -0.37961845863740545,
+      "npa_pct": 0.4317303680592088,
+      "flags": [
+        "losing money (ROA -0.38%)"
+      ]
+    },
+    {
+      "name": "FLINT HILLS BANK",
+      "state": "KANSAS",
+      "cert": 26340,
+      "assets_b": 0.17,
+      "rbc_ratio": 0,
+      "roa": -12.415564938936317,
+      "npa_pct": 0,
+      "flags": [
+        "losing money (ROA -12.42%)"
+      ]
+    },
+    {
+      "name": "HERITAGE BANK OF ST TAMMANY",
+      "state": "LOUISIANA",
+      "cert": 29577,
+      "assets_b": 0.17,
+      "rbc_ratio": 0,
+      "roa": -6.90648808769119,
+      "npa_pct": 0.8550214648494484,
+      "flags": [
+        "losing money (ROA -6.91%)"
+      ]
+    },
+    {
+      "name": "WESTMORELAND FS&LA",
+      "state": "PENNSYLVANIA",
+      "cert": 30551,
+      "assets_b": 0.17,
+      "rbc_ratio": 0,
+      "roa": -0.33130044362082783,
+      "npa_pct": 0.5598499151022929,
+      "flags": [
+        "losing money (ROA -0.33%)"
+      ]
+    },
+    {
+      "name": "FIRST BANK",
+      "state": "KANSAS",
+      "cert": 16473,
+      "assets_b": 0.16,
+      "rbc_ratio": 0,
+      "roa": 1.0141093474426808,
+      "npa_pct": 4.00917624655731,
+      "flags": [
+        "high nonperforming (4.0%)"
+      ]
+    },
+    {
+      "name": "BANK OF ESTES PARK",
+      "state": "COLORADO",
+      "cert": 19351,
+      "assets_b": 0.16,
+      "rbc_ratio": 0,
+      "roa": -0.19819402051181062,
+      "npa_pct": 0,
+      "flags": [
+        "losing money (ROA -0.20%)"
+      ]
+    },
+    {
+      "name": "ICON BUSINESS BANK",
+      "state": "CALIFORNIA",
+      "cert": 59314,
+      "assets_b": 0.16,
+      "rbc_ratio": 0,
+      "roa": -0.8799286045952559,
+      "npa_pct": 0.21831273618629354,
+      "flags": [
+        "losing money (ROA -0.88%)"
+      ]
+    },
+    {
+      "name": "FIRST NATIONAL BANK OF HUGO",
+      "state": "COLORADO",
+      "cert": 3029,
+      "assets_b": 0.15,
+      "rbc_ratio": 0,
+      "roa": -6.077905525610047,
+      "npa_pct": 0,
+      "flags": [
+        "losing money (ROA -6.08%)"
+      ]
+    },
+    {
+      "name": "IUKA STATE BANK",
+      "state": "ILLINOIS",
+      "cert": 11317,
+      "assets_b": 0.14,
+      "rbc_ratio": 0,
+      "roa": 0.8440393310844757,
+      "npa_pct": 6.69451459446761,
+      "flags": [
+        "high nonperforming (6.7%)"
+      ]
+    },
+    {
+      "name": "MONROE FS&LA",
+      "state": "OHIO",
+      "cert": 29578,
+      "assets_b": 0.14,
+      "rbc_ratio": 0,
+      "roa": -0.5306224847841253,
+      "npa_pct": 0.17507738420381808,
+      "flags": [
+        "losing money (ROA -0.53%)"
+      ]
+    },
+    {
+      "name": "STREATOR HOME SAVINGS BANK",
+      "state": "ILLINOIS",
+      "cert": 30357,
+      "assets_b": 0.14,
+      "rbc_ratio": 0,
+      "roa": -38.54308403623439,
+      "npa_pct": 0.35620697961298986,
+      "flags": [
+        "losing money (ROA -38.54%)"
+      ]
+    },
+    {
+      "name": "AGILITY BANK NATIONAL ASSN",
+      "state": "TEXAS",
+      "cert": 59239,
+      "assets_b": 0.14,
+      "rbc_ratio": 0,
+      "roa": -0.5482308255904235,
+      "npa_pct": 0.36326507932097907,
+      "flags": [
+        "losing money (ROA -0.55%)"
+      ]
+    },
+    {
+      "name": "BATTLE BANK NATIONAL ASSN",
+      "state": "MINNESOTA",
+      "cert": 9336,
+      "assets_b": 0.14,
+      "rbc_ratio": 0,
+      "roa": -8.752427431045328,
+      "npa_pct": 0,
+      "flags": [
+        "losing money (ROA -8.75%)"
+      ]
+    },
+    {
+      "name": "SOLON STATE BANK",
+      "state": "IOWA",
+      "cert": 232,
+      "assets_b": 0.13,
+      "rbc_ratio": 0,
+      "roa": 2.8205839242562294,
+      "npa_pct": 7.119015868256386,
+      "flags": [
+        "high nonperforming (7.1%)"
+      ]
+    },
+    {
+      "name": "CLEARPOINT FEDERAL B&T",
+      "state": "INDIANA",
+      "cert": 34748,
+      "assets_b": 0.13,
+      "rbc_ratio": 0,
+      "roa": -0.528027206825572,
+      "npa_pct": 0,
+      "flags": [
+        "losing money (ROA -0.53%)"
+      ]
+    },
+    {
+      "name": "SNB BANK NATIONAL ASSN",
+      "state": "OKLAHOMA",
+      "cert": 4196,
+      "assets_b": 0.13,
+      "rbc_ratio": 0,
+      "roa": 0.4619739573504435,
+      "npa_pct": 4.613608362455735,
+      "flags": [
+        "high nonperforming (4.6%)"
+      ]
+    },
+    {
+      "name": "RED RIVER STATE BANK",
+      "state": "MINNESOTA",
+      "cert": 15820,
+      "assets_b": 0.12,
+      "rbc_ratio": 0,
+      "roa": 2.0988208684661314,
+      "npa_pct": 7.031692133559705,
+      "flags": [
+        "high nonperforming (7.0%)"
+      ]
+    },
+    {
+      "name": "SPIRO STATE BANK",
+      "state": "OKLAHOMA",
+      "cert": 16908,
+      "assets_b": 0.12,
+      "rbc_ratio": 0,
+      "roa": -0.2835235303682887,
+      "npa_pct": 0.03812614074224296,
+      "flags": [
+        "losing money (ROA -0.28%)"
+      ]
+    },
+    {
+      "name": "PIONEER FS&LA",
+      "state": "MONTANA",
+      "cert": 29517,
+      "assets_b": 0.12,
+      "rbc_ratio": 0,
+      "roa": -0.7604939904442277,
+      "npa_pct": 0.04426592343634724,
+      "flags": [
+        "losing money (ROA -0.76%)"
+      ]
+    },
+    {
+      "name": "KEY COMMUNITY BANK",
+      "state": "MINNESOTA",
+      "cert": 34644,
+      "assets_b": 0.12,
+      "rbc_ratio": 0,
+      "roa": -1.8858212065006905,
+      "npa_pct": 2.79128762784986,
+      "flags": [
+        "losing money (ROA -1.89%)"
+      ]
+    },
+    {
+      "name": "HEADWATERS STATE BANK",
+      "state": "WISCONSIN",
+      "cert": 9035,
+      "assets_b": 0.12,
+      "rbc_ratio": 0,
+      "roa": 0.9010529157667386,
+      "npa_pct": 4.24775949705725,
+      "flags": [
+        "high nonperforming (4.2%)"
+      ]
+    },
+    {
+      "name": "NEIGHBORS BANK",
+      "state": "MISSOURI",
+      "cert": 16247,
+      "assets_b": 0.11,
+      "rbc_ratio": 0,
+      "roa": -4.063386714561204,
+      "npa_pct": 1.0757989259617924,
+      "flags": [
+        "losing money (ROA -4.06%)"
+      ]
+    },
+    {
+      "name": "LEGACY BANK",
+      "state": "CALIFORNIA",
+      "cert": 59204,
+      "assets_b": 0.11,
+      "rbc_ratio": 0,
+      "roa": -2.804326887456472,
+      "npa_pct": 1.2978975315729047,
+      "flags": [
+        "losing money (ROA -2.80%)"
+      ]
+    },
+    {
+      "name": "FIRST NB OF WILLIAMSON",
+      "state": "WEST VIRGINIA",
+      "cert": 6805,
+      "assets_b": 0.11,
+      "rbc_ratio": 0,
+      "roa": -0.18622134475950722,
+      "npa_pct": 2.536554410766695,
+      "flags": [
+        "losing money (ROA -0.19%)"
+      ]
+    },
+    {
+      "name": "LOCAL BANK",
+      "state": "ALABAMA",
+      "cert": 9614,
+      "assets_b": 0.11,
+      "rbc_ratio": 0,
+      "roa": -2.193920237984568,
+      "npa_pct": 1.34487893244307,
+      "flags": [
+        "losing money (ROA -2.19%)"
+      ]
+    },
+    {
+      "name": "UNITED ORIENT BANK",
+      "state": "NEW YORK",
+      "cert": 23373,
+      "assets_b": 0.1,
+      "rbc_ratio": 0,
+      "roa": -0.13300928619979754,
+      "npa_pct": 0.6624301944925861,
+      "flags": [
+        "losing money (ROA -0.13%)"
+      ]
+    },
+    {
+      "name": "STATE EXCHANGE BANK",
+      "state": "OKLAHOMA",
+      "cert": 13551,
+      "assets_b": 0.09,
+      "rbc_ratio": 0,
+      "roa": -0.029538669282948803,
+      "npa_pct": 3.5264243770830026,
+      "flags": [
+        "losing money (ROA -0.03%)"
+      ]
+    },
+    {
+      "name": "FLAT BRANCH BANK",
+      "state": "MISSOURI",
+      "cert": 15751,
+      "assets_b": 0.09,
+      "rbc_ratio": 0,
+      "roa": -2.5336132010130226,
+      "npa_pct": 0,
+      "flags": [
+        "losing money (ROA -2.53%)"
+      ]
+    },
+    {
+      "name": "BANK47",
+      "state": "ALABAMA",
+      "cert": 32968,
+      "assets_b": 0.09,
+      "rbc_ratio": 0,
+      "roa": -5.518400504219335,
+      "npa_pct": 0.4786266484765803,
+      "flags": [
+        "losing money (ROA -5.52%)"
+      ]
+    },
+    {
+      "name": "BANK OF EUFAULA",
+      "state": "OKLAHOMA",
+      "cert": 4094,
+      "assets_b": 0.09,
+      "rbc_ratio": 0,
+      "roa": -0.06321255220679535,
+      "npa_pct": 0.55246674642832,
+      "flags": [
+        "losing money (ROA -0.06%)"
+      ]
+    },
+    {
+      "name": "TRI-VALLEY BANK",
+      "state": "IOWA",
+      "cert": 12417,
+      "assets_b": 0.08,
+      "rbc_ratio": 0,
+      "roa": -0.19789734075448362,
+      "npa_pct": 2.4920127795527156,
+      "flags": [
+        "losing money (ROA -0.20%)"
+      ]
+    },
+    {
+      "name": "FIRST STATE BANK OF MICHIGAN",
+      "state": "MICHIGAN",
+      "cert": 12893,
+      "assets_b": 0.08,
+      "rbc_ratio": 0,
+      "roa": -1.3534890823026418,
+      "npa_pct": 0.6744734057901318,
+      "flags": [
+        "losing money (ROA -1.35%)"
+      ]
+    },
+    {
+      "name": "BANK OF ONTARIO",
+      "state": "WISCONSIN",
+      "cert": 21085,
+      "assets_b": 0.08,
+      "rbc_ratio": 0,
+      "roa": 0.9573273788228328,
+      "npa_pct": 7.1443645798418425,
+      "flags": [
+        "high nonperforming (7.1%)"
+      ]
+    },
+    {
+      "name": "CENTURY SAVINGS&LOAN ASSN",
+      "state": "COLORADO",
+      "cert": 28860,
+      "assets_b": 0.08,
+      "rbc_ratio": 0,
+      "roa": -0.04225900810184421,
+      "npa_pct": 0.2480767454442289,
+      "flags": [
+        "losing money (ROA -0.04%)"
+      ]
+    },
+    {
+      "name": "REDEMPTION BANK",
+      "state": "UTAH",
+      "cert": 21448,
+      "assets_b": 0.07,
+      "rbc_ratio": 0,
+      "roa": -1.2180030867201515,
+      "npa_pct": 0.8808174432563722,
+      "flags": [
+        "losing money (ROA -1.22%)"
+      ]
+    },
+    {
+      "name": "WASHITA VALLEY BANK",
+      "state": "OKLAHOMA",
+      "cert": 2308,
+      "assets_b": 0.07,
+      "rbc_ratio": 0,
+      "roa": 1.251946670718274,
+      "npa_pct": 5.417351391171303,
+      "flags": [
+        "high nonperforming (5.4%)"
+      ]
+    },
+    {
+      "name": "LIBERTY BANK OF NEW JERSEY",
+      "state": "NEW JERSEY",
+      "cert": 59369,
+      "assets_b": 0.07,
+      "rbc_ratio": 0,
+      "roa": -3.5695062183064676,
+      "npa_pct": 0,
+      "flags": [
+        "losing money (ROA -3.57%)"
+      ]
+    },
+    {
+      "name": "CITIZENS STB OF LULING",
+      "state": "TEXAS",
+      "cert": 10327,
+      "assets_b": 0.06,
+      "rbc_ratio": 0,
+      "roa": 0.49136179662031276,
+      "npa_pct": 5.868996727267033,
+      "flags": [
+        "high nonperforming (5.9%)"
+      ]
+    },
+    {
+      "name": "COMMERCE BANK TEXAS",
+      "state": "TEXAS",
+      "cert": 15346,
+      "assets_b": 0.06,
+      "rbc_ratio": 0,
+      "roa": -0.1639828146010298,
+      "npa_pct": 2.0693983385357315,
+      "flags": [
+        "losing money (ROA -0.16%)"
+      ]
+    },
+    {
+      "name": "GRANT COUNTY BANK",
+      "state": "OKLAHOMA",
+      "cert": 15778,
+      "assets_b": 0.06,
+      "rbc_ratio": 0,
+      "roa": -0.07209155627647111,
+      "npa_pct": 0.1045989810034754,
+      "flags": [
+        "losing money (ROA -0.07%)"
+      ]
+    },
+    {
+      "name": "PRODUCER BANK OF TEXAS",
+      "state": "TEXAS",
+      "cert": 18302,
+      "assets_b": 0.06,
+      "rbc_ratio": 0,
+      "roa": -1.3221715230122517,
+      "npa_pct": 0.6519445933560447,
+      "flags": [
+        "losing money (ROA -1.32%)"
+      ]
+    },
+    {
+      "name": "GN BANK",
+      "state": "ILLINOIS",
+      "cert": 29399,
+      "assets_b": 0.06,
+      "rbc_ratio": 0,
+      "roa": -0.7986773902417597,
+      "npa_pct": 4.611883280500691,
+      "flags": [
+        "losing money (ROA -0.80%)",
+        "high nonperforming (4.6%)"
+      ]
+    },
+    {
+      "name": "B2 BANK NATIONAL ASSN",
+      "state": "MINNESOTA",
+      "cert": 5105,
+      "assets_b": 0.06,
+      "rbc_ratio": 0,
+      "roa": -1.6805466261979878,
+      "npa_pct": 0.9163063818803641,
+      "flags": [
+        "losing money (ROA -1.68%)"
+      ]
+    },
+    {
+      "name": "ALTOS BANK",
+      "state": "CALIFORNIA",
+      "cert": 59339,
+      "assets_b": 0.06,
+      "rbc_ratio": 0,
+      "roa": -9.817674334848963,
+      "npa_pct": 0,
+      "flags": [
+        "losing money (ROA -9.82%)"
+      ]
+    },
+    {
+      "name": "LAMONT BANK OF ST JOHN",
+      "state": "WASHINGTON",
+      "cert": 8681,
+      "assets_b": 0.06,
+      "rbc_ratio": 0,
+      "roa": -12.764251908071461,
+      "npa_pct": 14.615370844447629,
+      "flags": [
+        "losing money (ROA -12.76%)",
+        "high nonperforming (14.6%)"
+      ]
+    },
+    {
+      "name": "BRIGHTON BANK",
+      "state": "TENNESSEE",
+      "cert": 9189,
+      "assets_b": 0.06,
+      "rbc_ratio": 0,
+      "roa": -1.6368656919107327,
+      "npa_pct": 0.04178019981834696,
+      "flags": [
+        "losing money (ROA -1.64%)"
+      ]
+    },
+    {
+      "name": "CAMP GROVE STATE BANK",
+      "state": "ILLINOIS",
+      "cert": 10471,
+      "assets_b": 0.05,
+      "rbc_ratio": 0,
+      "roa": -0.718668307625969,
+      "npa_pct": 0.029763012016816102,
+      "flags": [
+        "losing money (ROA -0.72%)"
+      ]
+    },
+    {
+      "name": "ROBERT LEE STATE BANK",
+      "state": "TEXAS",
+      "cert": 15442,
+      "assets_b": 0.05,
+      "rbc_ratio": 0,
+      "roa": -0.008810184573366811,
+      "npa_pct": 0.7032137726990116,
+      "flags": [
+        "losing money (ROA -0.01%)"
+      ]
+    },
+    {
+      "name": "TABLE GROVE STATE BANK",
+      "state": "ILLINOIS",
+      "cert": 16394,
+      "assets_b": 0.05,
+      "rbc_ratio": 0,
+      "roa": -0.4372365807258548,
+      "npa_pct": 0.15055202408832385,
+      "flags": [
+        "losing money (ROA -0.44%)"
+      ]
+    },
+    {
+      "name": "TARBORO SAVINGS BANK SSB",
+      "state": "NORTH CAROLINA",
+      "cert": 29061,
+      "assets_b": 0.05,
+      "rbc_ratio": 0,
+      "roa": -0.1896858328393598,
+      "npa_pct": 0.6505644333675414,
+      "flags": [
+        "losing money (ROA -0.19%)"
+      ]
+    },
+    {
+      "name": "RAYNE BUILDING&LOAN ASSN",
+      "state": "LOUISIANA",
+      "cert": 30447,
+      "assets_b": 0.05,
+      "rbc_ratio": 0,
+      "roa": -2.2414573323961835,
+      "npa_pct": 0.3244734592368073,
+      "flags": [
+        "losing money (ROA -2.24%)"
+      ]
+    },
+    {
+      "name": "GRANGER NATIONAL BANK",
+      "state": "TEXAS",
+      "cert": 3232,
+      "assets_b": 0.05,
+      "rbc_ratio": 0,
+      "roa": -0.6548303482684025,
+      "npa_pct": 0.11524628926818606,
+      "flags": [
+        "losing money (ROA -0.65%)"
+      ]
+    },
+    {
+      "name": "FORTUNA BANK",
+      "state": "OHIO",
+      "cert": 59330,
+      "assets_b": 0.05,
+      "rbc_ratio": 0,
+      "roa": -4.544222701601101,
+      "npa_pct": 0,
+      "flags": [
+        "losing money (ROA -4.54%)"
+      ]
+    },
+    {
+      "name": "AVANA BANK",
+      "state": "TEXAS",
+      "cert": 10704,
+      "assets_b": 0.04,
+      "rbc_ratio": 0,
+      "roa": -0.33063647521478845,
+      "npa_pct": 0,
+      "flags": [
+        "losing money (ROA -0.33%)"
+      ]
+    },
+    {
+      "name": "WASHITA STATE BANK",
+      "state": "OKLAHOMA",
+      "cert": 22430,
+      "assets_b": 0.04,
+      "rbc_ratio": 0,
+      "roa": -0.01831334126911455,
+      "npa_pct": 0.5865169565018942,
+      "flags": [
+        "losing money (ROA -0.02%)"
+      ]
+    },
+    {
+      "name": "BLACK MOUNTAIN SB SSB",
+      "state": "NORTH CAROLINA",
+      "cert": 27897,
+      "assets_b": 0.04,
+      "rbc_ratio": 0,
+      "roa": -0.22561957249791417,
+      "npa_pct": 0,
+      "flags": [
+        "losing money (ROA -0.23%)"
+      ]
+    },
+    {
+      "name": "KINGSTREE FS&LA",
+      "state": "SOUTH CAROLINA",
+      "cert": 29486,
+      "assets_b": 0.04,
+      "rbc_ratio": 0,
+      "roa": -0.5508182829299295,
+      "npa_pct": 1.977779528799937,
+      "flags": [
+        "losing money (ROA -0.55%)"
+      ]
+    },
+    {
+      "name": "VENTURA NATIONAL BANK&TRUST",
+      "state": "KANSAS",
+      "cert": 4683,
+      "assets_b": 0.04,
+      "rbc_ratio": 0,
+      "roa": -0.5547850208044383,
+      "npa_pct": 0.20115665074176514,
+      "flags": [
+        "losing money (ROA -0.55%)"
+      ]
+    },
+    {
+      "name": "FIVE RIVERS BANK",
+      "state": "NEW JERSEY",
+      "cert": 59345,
+      "assets_b": 0.04,
+      "rbc_ratio": 0,
+      "roa": -10.044206704452543,
+      "npa_pct": 0,
+      "flags": [
+        "losing money (ROA -10.04%)"
+      ]
+    },
+    {
+      "name": "HOPETON STATE BANK",
+      "state": "OKLAHOMA",
+      "cert": 12585,
+      "assets_b": 0.03,
+      "rbc_ratio": 0,
+      "roa": -0.8915209985035184,
+      "npa_pct": 0,
+      "flags": [
+        "losing money (ROA -0.89%)"
+      ]
+    },
+    {
+      "name": "FIRST PROGRESSIVE BANK",
+      "state": "ALABAMA",
+      "cert": 22549,
+      "assets_b": 0.03,
+      "rbc_ratio": 0,
+      "roa": -0.2583224417621281,
+      "npa_pct": 0.01836828409612735,
+      "flags": [
+        "losing money (ROA -0.26%)"
+      ]
+    },
+    {
+      "name": "HOME SAVINGS BANK FSB",
+      "state": "KENTUCKY",
+      "cert": 31723,
+      "assets_b": 0.03,
+      "rbc_ratio": 0,
+      "roa": -1.1285173361051302,
+      "npa_pct": 5.424589018425214,
+      "flags": [
+        "losing money (ROA -1.13%)",
+        "high nonperforming (5.4%)"
+      ]
+    },
+    {
+      "name": "BANK OF VICI",
+      "state": "OKLAHOMA",
+      "cert": 420,
+      "assets_b": 0.03,
+      "rbc_ratio": 0,
+      "roa": -0.7234581298607343,
+      "npa_pct": 1.1324206674657749,
+      "flags": [
+        "losing money (ROA -0.72%)"
+      ]
+    },
+    {
+      "name": "MEMBERS TRUST CO",
+      "state": "FLORIDA",
+      "cert": 57470,
+      "assets_b": 0.03,
+      "rbc_ratio": 0,
+      "roa": -0.8446141386092793,
+      "npa_pct": 0,
+      "flags": [
+        "losing money (ROA -0.84%)"
+      ]
+    },
+    {
+      "name": "GENERATIONS COMMUNITY BANK",
+      "state": "INDIANA",
+      "cert": 59365,
+      "assets_b": 0.03,
+      "rbc_ratio": 0,
+      "roa": -38.54034764590768,
+      "npa_pct": 0,
+      "flags": [
+        "losing money (ROA -38.54%)"
+      ]
+    },
+    {
+      "name": "BANK OF LUMBER CITY",
+      "state": "GEORGIA",
+      "cert": 16281,
+      "assets_b": 0.02,
+      "rbc_ratio": 0,
+      "roa": -1.8315617334423546,
+      "npa_pct": 0.27985464266321375,
+      "flags": [
+        "losing money (ROA -1.83%)"
+      ]
+    },
+    {
+      "name": "HERTFORD SAVINGS BANK SSB",
+      "state": "NORTH CAROLINA",
+      "cert": 31345,
+      "assets_b": 0.02,
+      "rbc_ratio": 0,
+      "roa": -0.3011670222110679,
+      "npa_pct": 0.16163793103448276,
+      "flags": [
+        "losing money (ROA -0.30%)"
+      ]
+    },
+    {
+      "name": "NEW FOUNDATION SAVINGS BANK",
+      "state": "OHIO",
+      "cert": 32306,
+      "assets_b": 0.02,
+      "rbc_ratio": 0,
+      "roa": -1.1949384212157934,
+      "npa_pct": 0.07988131918292822,
+      "flags": [
+        "losing money (ROA -1.19%)"
+      ]
+    },
+    {
+      "name": "HIGHTOWER TRUST CO NA",
+      "state": "TEXAS",
+      "cert": 59321,
+      "assets_b": 0.02,
+      "rbc_ratio": 0,
+      "roa": -4.188720050082522,
+      "npa_pct": 0,
+      "flags": [
+        "losing money (ROA -4.19%)"
+      ]
+    },
+    {
+      "name": "EQUITABLE SAVINGS&LOAN CO",
+      "state": "OHIO",
+      "cert": 29966,
+      "assets_b": 0.01,
+      "rbc_ratio": 0,
+      "roa": -3.07570532029174,
+      "npa_pct": 0.3658815458495312,
+      "flags": [
+        "losing money (ROA -3.08%)"
+      ]
+    },
+    {
+      "name": "BESSEMER TR CO OF CA NA",
+      "state": "CALIFORNIA",
+      "cert": 35413,
+      "assets_b": 0.01,
+      "rbc_ratio": 0,
+      "roa": -18.20352925567202,
+      "npa_pct": 0,
+      "flags": [
+        "losing money (ROA -18.20%)"
+      ]
+    },
+    {
+      "name": "INDEPENDENCE BANK",
+      "state": "RHODE ISLAND",
+      "cert": 57379,
+      "assets_b": 0.01,
+      "rbc_ratio": 0,
+      "roa": -0.11499209429351731,
+      "npa_pct": 0,
+      "flags": [
+        "losing money (ROA -0.11%)"
+      ]
+    },
+    {
+      "name": "BESSEMER TR CO OF NEVADA NA",
+      "state": "NEVADA",
+      "cert": 59346,
+      "assets_b": 0.01,
+      "rbc_ratio": 0,
+      "roa": -34.45484442195801,
+      "npa_pct": 0,
+      "flags": [
+        "losing money (ROA -34.45%)"
+      ]
+    },
+    {
+      "name": "ALVAREZ&MARSAL TRUST CO NA",
+      "state": "DELAWARE",
+      "cert": 59395,
+      "assets_b": 0.01,
+      "rbc_ratio": 0,
+      "roa": -13.777777777777779,
+      "npa_pct": 0,
+      "flags": [
+        "losing money (ROA -13.78%)"
+      ]
+    },
+    {
+      "name": "TIOGA-FRANKLIN SAVINGS BANK",
+      "state": "PENNSYLVANIA",
+      "cert": 33802,
+      "assets_b": 0.07,
+      "rbc_ratio": 5.900327684297288,
+      "roa": -1.1598197111934085,
+      "npa_pct": 6.543152649419127,
+      "flags": [
+        "undercapitalized (RBC 5.9%)",
+        "losing money (ROA -1.16%)",
+        "high nonperforming (6.5%)",
+        "thin equity (3.4% of assets)"
+      ]
+    },
+    {
+      "name": "SUMMIT NATIONAL BANK",
+      "state": "WYOMING",
+      "cert": 25054,
+      "assets_b": 0.07,
+      "rbc_ratio": 6.106809078771695,
+      "roa": -0.6285580382372807,
+      "npa_pct": 0.23071479122434538,
+      "flags": [
+        "undercapitalized (RBC 6.1%)",
+        "losing money (ROA -0.63%)",
+        "thin equity (2.3% of assets)"
+      ]
+    },
+    {
+      "name": "KENTLAND FS&LA",
+      "state": "INDIANA",
+      "cert": 28722,
+      "assets_b": 0.0,
+      "rbc_ratio": 8.21917808219178,
+      "roa": -4.697898995171604,
+      "npa_pct": 5.777310924369748,
+      "flags": [
+        "not well-capitalized (RBC 8.2%)",
+        "losing money (ROA -4.70%)",
+        "high nonperforming (5.8%)",
+        "thin equity (3.9% of assets)"
+      ]
+    },
+    {
+      "name": "CONNECT COMMUNITY BANK",
+      "state": "WASHINGTON",
+      "cert": 28266,
+      "assets_b": 0.07,
+      "rbc_ratio": 9.653556201823983,
+      "roa": -1.757588227875827,
+      "npa_pct": 0.14864262259638122,
+      "flags": [
+        "not well-capitalized (RBC 9.7%)",
+        "losing money (ROA -1.76%)",
+        "thin equity (4.0% of assets)"
+      ]
+    }
+  ]
+}
