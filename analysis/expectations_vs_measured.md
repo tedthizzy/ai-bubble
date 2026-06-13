@@ -1,5 +1,8 @@
 # What the market prices vs. what we measured
 
+> **⚓ Frame — read first (reanchor):** this repo is a **general forensic engine for financial fragility & mispricing across the _whole economy_** — hidden / mismatched / circular leverage and valuation-run-ahead-of-cash-flow, found with **no sector prior**. **AI / data-center is _case zero_, not the object** (the method is sector- and era-agnostic — cf. fiber 1999, shale 2014). **Operating mode: maximum exhaustiveness — broad AND deep, uncapped, ≥ $1M-substance floor, US-primary (international by connectedness-to-core × data-accessibility); acting resource-constrained is NEVER correct; the only stop is physics (data that doesn't publicly exist → estimate it from proxies).** Full scope & doctrine: [total_ecosystem_dive.md](total_ecosystem_dive.md) · [README](../README.md).
+
+
 **Layer:** market-observables (press/market tier — NOT adjudicated evidence; nothing here changes the gated verdict of `bubble_dynamics_present` @ 0.67 core / 0.25 ecosystem).
 **Registered:** 2026-06-12. Point-in-time levels below; the live components refresh hourly via `scripts/refresh_live_overlay.py` (the **credit** chip on the explorer, the credit dial on the banner).
 **Not investment advice.** This is a research artifact about the gap between measured fundamentals and priced beliefs.

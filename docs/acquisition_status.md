@@ -1,5 +1,8 @@
 # Acquisition Status
 
+> **⚓ Frame — read first (reanchor):** this repo is a **general forensic engine for financial fragility & mispricing across the _whole economy_** — hidden / mismatched / circular leverage and valuation-run-ahead-of-cash-flow, found with **no sector prior**. **AI / data-center is _case zero_, not the object** (the method is sector- and era-agnostic — cf. fiber 1999, shale 2014). **Operating mode: maximum exhaustiveness — broad AND deep, uncapped, ≥ $1M-substance floor, US-primary (international by connectedness-to-core × data-accessibility); acting resource-constrained is NEVER correct; the only stop is physics (data that doesn't publicly exist → estimate it from proxies).** Full scope & doctrine: [../analysis/total_ecosystem_dive.md](../analysis/total_ecosystem_dive.md) · [README](../README.md).
+
+
 Last updated: 2026-06-03 00:26 UTC.
 
 This file is the operational snapshot for the current evidence corpus. The report

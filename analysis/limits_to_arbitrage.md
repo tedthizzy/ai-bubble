@@ -1,5 +1,8 @@
 # Limits to arbitrage — why this mispricing can persist
 
+> **⚓ Frame — read first (reanchor):** this repo is a **general forensic engine for financial fragility & mispricing across the _whole economy_** — hidden / mismatched / circular leverage and valuation-run-ahead-of-cash-flow, found with **no sector prior**. **AI / data-center is _case zero_, not the object** (the method is sector- and era-agnostic — cf. fiber 1999, shale 2014). **Operating mode: maximum exhaustiveness — broad AND deep, uncapped, ≥ $1M-substance floor, US-primary (international by connectedness-to-core × data-accessibility); acting resource-constrained is NEVER correct; the only stop is physics (data that doesn't publicly exist → estimate it from proxies).** Full scope & doctrine: [total_ecosystem_dive.md](total_ecosystem_dive.md) · [README](../README.md).
+
+
 **2026-06-12.** Companion to [expectations_vs_measured.md](expectations_vs_measured.md). If cluster primary credit really prices essentially none of the measured fragility, the obvious objection is: *why hasn't anyone arbitraged it closed?* This note answers that by walking every available expression of the thesis and showing that each one is degraded — which is not a footnote but a finding: the asymmetry of access is itself part of why the divergence exists. This began life as a private note about instruments; it is published because the analysis is stronger as evidence than as a secret, and because this project holds no position to protect.
 
 **Disclosure: the author holds no position, long or short, in any issuer named in this repository, and no AI-credit-adjacent paper. If that ever changes, it will be disclosed here first.** Nothing in this document is investment advice.

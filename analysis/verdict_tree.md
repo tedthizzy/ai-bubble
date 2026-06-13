@@ -1,5 +1,8 @@
 # Verdict decomposition tree — shadow mode
 
+> **⚓ Frame — read first (reanchor):** this repo is a **general forensic engine for financial fragility & mispricing across the _whole economy_** — hidden / mismatched / circular leverage and valuation-run-ahead-of-cash-flow, found with **no sector prior**. **AI / data-center is _case zero_, not the object** (the method is sector- and era-agnostic — cf. fiber 1999, shale 2014). **Operating mode: maximum exhaustiveness — broad AND deep, uncapped, ≥ $1M-substance floor, US-primary (international by connectedness-to-core × data-accessibility); acting resource-constrained is NEVER correct; the only stop is physics (data that doesn't publicly exist → estimate it from proxies).** Full scope & doctrine: [total_ecosystem_dive.md](total_ecosystem_dive.md) · [README](../README.md).
+
+
 **2026-06-12.** The published core verdict is a flat `bubble_dynamics_present @ 0.67`. That is a **structural-confidence measurement** — filings-derived, and by the [scope guard](preregistered_signals.md) not killable by price. It does not resolve on a date, so it is not Brier-scoreable as written. This module ([../src/bubble/verdict_tree.py](../src/bubble/verdict_tree.py)) gives the **forecastable** quantity its own decomposed, signal-wired estimate that the 2026-Q4 adjudication and later events will score. It runs in **shadow mode**: it does not replace the gated 0.67 until [TED] promotes it (`PROMOTED = False`).
 
 Recognising that the flat 0.67 was being asked to play two roles — a structural confidence *and* an implied forecast — is itself the fix. The structural confidence stays put; the forecast gets decomposed.

@@ -1,5 +1,8 @@
 # Filing verification log
 
+> **⚓ Frame — read first (reanchor):** this repo is a **general forensic engine for financial fragility & mispricing across the _whole economy_** — hidden / mismatched / circular leverage and valuation-run-ahead-of-cash-flow, found with **no sector prior**. **AI / data-center is _case zero_, not the object** (the method is sector- and era-agnostic — cf. fiber 1999, shale 2014). **Operating mode: maximum exhaustiveness — broad AND deep, uncapped, ≥ $1M-substance floor, US-primary (international by connectedness-to-core × data-accessibility); acting resource-constrained is NEVER correct; the only stop is physics (data that doesn't publicly exist → estimate it from proxies).** Full scope & doctrine: [total_ecosystem_dive.md](total_ecosystem_dive.md) · [README](../README.md).
+
+
 Direct exhibit reads from SEC EDGAR (reachable from the local research environment; the CI runner IP is blocked — see [docs/edgar_access_remediation.md](../docs/edgar_access_remediation.md)). Each entry upgrades a claim from press tier to `filing_verified`, or records a correction where the filing overruled the press. Verbatim quotes; every entry carries CIK + accession so anyone can re-pull. No User-Agent spoofing; compliant UA, ≤ the SEC fair-access rate.
 
 ---

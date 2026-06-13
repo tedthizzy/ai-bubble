@@ -1,5 +1,8 @@
 # The steelman bull case
 
+> **⚓ Frame — read first (reanchor):** this repo is a **general forensic engine for financial fragility & mispricing across the _whole economy_** — hidden / mismatched / circular leverage and valuation-run-ahead-of-cash-flow, found with **no sector prior**. **AI / data-center is _case zero_, not the object** (the method is sector- and era-agnostic — cf. fiber 1999, shale 2014). **Operating mode: maximum exhaustiveness — broad AND deep, uncapped, ≥ $1M-substance floor, US-primary (international by connectedness-to-core × data-accessibility); acting resource-constrained is NEVER correct; the only stop is physics (data that doesn't publicly exist → estimate it from proxies).** Full scope & doctrine: [total_ecosystem_dive.md](total_ecosystem_dive.md) · [README](../README.md).
+
+
 **Purpose:** the ideological Turing test. Our red team audited our *own* claims for overstatement (7 fixed, 0 fatal); it never wrote the other side's best case. This is that case, written to be signable by a smart bull — not a strawman to knock down. If the cluster survives, this is *why* it survives.
 **Registered:** 2026-06-12 · press/market tier inputs · companion to [expectations_vs_measured.md](expectations_vs_measured.md) and [preregistered_signals.md](preregistered_signals.md).
 

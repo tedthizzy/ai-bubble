@@ -1,99 +1,96 @@
-# Total ecosystem dive — every entity, every dimension, one exhaustive pass
+# Total economic fragility dive — find mispricing and hidden leverage across the whole economy, no sector prior
 
-**2026-06-13.** A single, one-time, maximum-depth-and-breadth forensic profile of the **entire** AI / data-center / financing ecosystem — every entity, every relationship, every retrievable dimension, assembled once at full depth. Finding the earliest cracks (the small, obscure, private players that fail first) is *one output* of knowing everything, not the limiting purpose. This is not monitoring and not surveillance — the hourly overlay handles real-time if ever wanted. This is one maximal dive.
+**2026-06-13.** The object of this project is **not "AI."** AI/data-center was a useful *starting point* — case zero — but the actual instrument is a **general forensic engine for financial fragility and mispricing**: wherever in the economy capital and valuation have run ahead of the cash flows and physical reality that would justify them, financed with leverage that is hidden, mismatched, or circular, such that the price is wrong and no one has marked it yet. This plan points that engine at its true scope — **the entire economy** — and lets the fragility concentrations reveal *their own* location, rather than presupposing where they are.
+
+**AI-compute is a finding, not the frame.** It is the current brightest *known* concentration and the case that validated the method — but the same engine's fingerprints are already in this repo's [base-rate book](base_rates.md): **fiber/telecom (1999), shale (2014).** The method is sector- and era-agnostic; "is the AI-compute cluster a bubble?" was one query against a general detector. This is the generalization.
 
 ## Operating principle (binding — see the README's Operating Doctrine)
 
-> **Broad AND deep. Not shallow. Uncapped. Limited only by physics.**
+> **Broad AND deep. Not shallow. Uncapped. No sector prior. Limited only by physics.**
 
-- **Broad** = *every* entity in the ecosystem — no target number, no "top N." The repo's field already holds **7,708 entities / 62,939 deals**; that is the **floor**, not the goal. The true total (with the un-filed long tail of private neoclouds, financing SPVs, queue positions, and counterparties) is **unknown until enumerated and is an OUTPUT, not an input** — plausibly five figures. Any cap below the real total is the resource-constrained error this repo rejects.
-- **Deep** = every retrievable dimension for every entity, to the maximum each source allows — the obscure 50-person private SPV gets the same treatment as CoreWeave.
-- **Limited only by physics** = the single legitimate stop is that the data *does not publicly exist* (§7) — and even then we *estimate* it from proxies. Effort, volume, breadth, tedium, run time, and subagent count are **never** reasons to narrow, sample, or triage. Thousands of subagents and hundreds of hours for one pass is the expectation.
-- **A private entity that files nothing is still profiled in full** from the public-record exhaust it cannot avoid generating (UCC liens → its debt; customs → its hardware; power queues/permits → its buildout; courts → its disputes; job boards/WARN → its headcount; marketplaces/BGP → its utilization). No 10-K required.
+- **No presupposed core.** Do *not* scope by "exposed to CoreWeave" (presupposes the epicenter) or "touches AI" (presupposes the sector). Both bake in an answer. Scope by **economic substance**, scan by **forensic signature**, and let the epicenter be an *output*.
+- **Broad** = the whole economy. The repo's 7,708-entity field is a *floor*; the true total is an **output of enumeration**, plausibly **low millions** (every public company, debt issuer, fund, and materially-financed private/SPV globally).
+- **Deep** = every retrievable dimension for every in-scope entity, to the maximum each source allows — the obscure $1M-debt shell gets the same treatment as a mega-cap.
+- **Limited only by physics** = the single legitimate stop is that the data *does not publicly exist* (§7) — and even then we *estimate* it from proxies. Effort, volume, breadth, tedium, run time, subagent count: never reasons to narrow, sample, cap, or triage. Thousands of subagents and hundreds of hours for one pass is the expectation.
+- **One-time, not real-time.** A single exhaustive pass that captures the full history sitting in the record today. Continuous monitoring is the hourly overlay's job, out of scope here.
 
-## §1 — The entity universe (the rows): enumerate ALL, no cap
+## §0 — The scope floor (the one legitimate exclusion)
 
-Phase one is building the most complete entity list the public record allows — you cannot profile what you haven't found. Layers (per-layer magnitudes are **floors, not caps**):
+An entity is **in scope** if it has **economic substance ≥ $1M on *any* material financial dimension** — debt, financing raised, deal/contract value, assets, revenue, *or* committed capital — **and** leaves a retrievable public-record footprint.
 
-| layer | rough floor | mostly SEC-visible? | how to enumerate (incl. the dark tail) |
-|---|---|---|---|
-| Listed cluster issuers | ~12 | yes | have |
-| Private / long-tail neoclouds & GPU clouds | 100–300+ | no | DC trackers (DCD/Baxtel/Cloudscene/DataCenterMap/DataCenterHawk), GPU-marketplace provider lists, NVIDIA Cloud-Partner directories, VC round announcements, BGP/ASN registries |
-| Financing shells / SPVs | hundreds–thousands | rarely | UCC debtor names, state LLC registries, ABS-trust filings, credit-agreement borrower entities, **registered-agent reverse-lookups** |
-| Lenders / private-credit funds | 50–100+ | partly | BDC filings, Form D, LP-disclosure trails, press |
-| DC developers / landlords / REITs | 100–200+ | partly | trackers, permit + interconnection-queue applicants |
-| Demand leg (labs, hyperscalers, enterprise) | 20–50+ | mixed | known + customer disclosures |
-| End-holders (insurers/annuity/pension/Bermuda re) | 50–100+ | yes (statutory) | NAIC blanks, BMA, 13F |
-| Hardware & **chip supply chain** | 50+ | mixed | NVIDIA/AMD/Broadcom + TSMC, HBM (SK Hynix/Samsung/Micron), CoWoS/packaging, substrate, optics/networking |
-| ODM / cooling / electrical / **EPC construction** | 50–100+ | partly | SMCI/Dell/HPE/Lenovo, Vertiv, switchgear, the firms physically building the sites |
-| **Power**: utilities, IPPs, turbine/gen makers | 50+ | partly | ISO queues, PPAs, GE/Siemens turbine order books (lead times), gas suppliers |
-| **Service layer**: auditors, deal counsel, underwriters, trustees, collateral agents, RVI/surety insurers | 50–100+ | yes (in filings) | extracted from every deal's signature pages; **auditor/agent concentration is itself a risk dimension** |
-| **Key individuals** (execs, directors, founders) | thousands | partly | every filing's officers/directors; track **cross-entity overlaps and prior-failure history** |
-| Index/ETF/passive holders | 50+ | yes | 13F, ETF holdings |
+- **Relative size never excludes.** A $50M entity is small only next to the giants; it is firmly in. The $1M floor is the established repo materiality line (deals were always ≥$1M); it is *low on purpose*.
+- **Inclusive across dimensions** — a pre-revenue $1M-debt SPV with ~$0 revenue is **in** (it is exactly the obscure thing that detonates). The floor is never "revenue ≥ $1M," which would filter out the most interesting canaries.
+- **"Small" = strictly below $1M on every dimension.** Such an entity drops out only because it is *both* immaterial *and* record-less — physics, not judgment (the corner dentist that uses an AI tool: no $1M footprint, no financing record → out).
 
-## §2 — The dimensions (the columns): every attribute, every entity
+**Geographic scope: US-primary.** US entities are covered exhaustively. International entities are included **in proportion to (connectedness to the core economy / a flagged concentration) × (data accessibility)** — a materially-connected, reasonably-public foreign player (e.g. TSMC, SK Hynix, Bermuda reinsurers, foreign-domiciled neoclouds/SPVs) is **in**; a far-removed entity behind an obscure-language, low-disclosure regime is not worth the translation/extraction cost. This is **partly a physics limit, not a choice** — many jurisdictions publish minimal corporate disclosure, so the data simply doesn't exist to pull. A relevance-and-accessibility gradient, never a hard omission of "international."
 
-**A. Identity & structure** — legal name + all aliases, jurisdiction, registered agent, full parent/sub/SPV tree, CIK/ticker, ASN/IP. **B. Capital structure** — every instrument (notes/loans/DDTLs/converts/ABS/leases), coupon, maturity, seniority, collateral, covenant package, every amendment, **and who holds it** (reconstructed for privates from UCC-1s + lien releases). **C. Financials** — revenue/ARR, margins, EBITDA, net income, cash, burn, runway, capex, RPO/backlog (XBRL for public; triangulated for private). **D. Solvency** — interest coverage, DSCR, leverage, **covenant headroom + test schedule**. **E. Counterparty graph** — customers (+concentration %), suppliers, lenders, guarantors, anchor LPs; directed who-owes-whom edges. **F. Ownership & control** — holders, cap table, **board interlocks**, related-party deals, insider holdings. **G. Market signals** — equity, short interest, options skew, bond price (TRACE), secondary loan price, CDS, rating + outlook + watch. **H. Distress / leading indicators** — insider sales, late-filing notices (NT), covenant amendments/waivers, rating actions, **WARN layoffs**, non-payment suits + mechanic's liens, **UCC foreclosures/releases**, auditor changes, going-concern, dividend cuts, redemption gates, failed/pulled financings, down-rounds, **executive departures**. **I. Physical execution** — announced vs contracted vs operational MW, GPU counts, **interconnection-queue status + withdrawals**, permits, construction (satellite), PPAs, **metered power draw**. **J. Operational reality** — utilization, churn, **headcount trajectory (jobs)**, **chip-shipment flow (customs)**, **marketplace pricing + idle availability**, **BGP/peering footprint**.
+## §1 — Enumerate the substrate: every ≥$1M entity, economy-wide
 
-**Added for comprehensiveness:** **K. Relationship/network** — shared auditors / counsel / lenders / agents / **registered agents + addresses** (the cleanest SPV-detection signal), co-investment, board interlocks → one graph. **L. People** — executive/director rosters, backgrounds, **prior bankruptcies/failures**, inter-entity movement, departures. **M. IP** — patents, IP pledged as collateral. **N. Tax/subsidy** — state/local incentives, IRA credits, **subsidy dependence**. **O. Real estate/land** — ownership, ground leases, property liens. **P. Supply-chain position** — chip allocation, **HBM/CoWoS dependence**, equipment lead times, order backlogs. **Q. Hedges/derivatives** — power, rate, FX. **R. Legal/regulatory** — investigations, AG/SEC actions, regulatory dockets (beyond civil litigation). **S. Historical trajectory** — the **full multi-year filing history**, not just the latest — the *trend* (deteriorating coverage, lengthening DSO, rising PIK) is often the real signal. **T. Workforce/sentiment** — Glassdoor, employee reviews/departures, web/app traffic, API-usage proxies.
+Phase one builds the most complete economy-wide entity list the public record allows — no sector filter. Enumeration sources (the entity census, before any signature scan):
 
-## §3 — The sources (where each dimension lives)
+- **All SEC/EDGAR registrants** (every 10-K/Q/8-K/S-1/424B/Form-D/13F filer) — public companies + funds, economy-wide.
+- **All debt/credit issuers** — bond issuers (TRACE/EDGAR), syndicated-loan borrowers, ABS/CLO trusts, muni issuers.
+- **All UCC-1 debtors** (every secured borrower in every state) — the broadest census of *financed* private entities that exists.
+- **State corporate/LLC registries + registered-agent reverse-lookup** — the SPV/shell layer.
+- **Fund formation** (Form D, ADV, BDC/interval-fund filings) — the credit/PE/insurance vehicle layer.
+- **Regulated-entity rolls** — NAIC (insurers), bank call reports, FERC/ISO (power), REITs, etc.
+- **Court/PACER** (bankruptcy + commercial litigation parties), **property records** (material real-estate owners), **customs/bills-of-lading** (material importers).
+- Within any concentration the scan later flags, **decompose into roles** — issuer / SPV / lender / fund / end-holder / supplier / customer / counterparty — exactly as the AI-compute case did (see §8, case zero).
 
-EDGAR's **full** form taxonomy (10-K/Q, 8-K + their EX-10/EX-4 exhibits, **Form 4 insider sales, comment letters/CORRESP, 13D/G, 13F, Form D, NT late-filing, S-1/424B, XBRL, proxy DEF 14A**). Then the off-EDGAR surface where the long tail lives: **state UCC databases** (B/H/K), **state WARN portals** (H), **PACER + state courts** (H/E/R), **FERC + 7 ISO/RTO queues** (I/§1), **state PUC dockets, EPA/ICIS-Air, local building/zoning permits** (I), **customs/bills-of-lading** (J/C/P), **GPU marketplaces scraped** (J/G), **job boards/careers pages** (J/L/T), **BGP/peering/ASN/DNS** (J/A), **satellite (Sentinel/Planet)** (I), **DC trackers** (I/§1), **state corp registries + registered-agent reverse-lookup** (A/K/§1), **FINRA TRACE + loan-pricing** (G), **NAIC/BMA statutory** (E), **USPTO/patents** (M), **county property records** (O), **subsidy trackers (Good Jobs First) + lobbying (Senate LDA/OpenSecrets)** (N/R), **supply-chain trackers (TrendForce/DigiTimes)** (P), **turbine/equipment order trackers** (I/P), **short-seller/activist research archives** (all), **rating-agency full reports** (G), and **news/trade-press** (all).
+## §2 — The discovery engine: scan the substrate for the forensic SIGNATURES
 
-- **Realtime X / social, via Grok** (operator-invoked — Ted can call Grok, an AI with live X access): the *earliest* layer, where GPU brokers, data-center insiders, credit desks, and short-sellers post before any filing. Point it at (a) **early-distress rumors on the obscure long tail**, (b) **triangulating the DARK items** (rumored occupancy/marks/contract terms — §7), (c) **sentiment/positioning**. Everything from it is `rumor`-tier: a lead to corroborate against a hard source, never standalone evidence — but often *first*.
-- **Our own 54GB local corpus + the 18MB published report** — already-acquired EDGAR documents, the 252 debt docs, deal-level contagion paths, the materiality queue. **Mine what we already have before re-pulling.**
+This is what turns an atlas into an analysis. The epicenter is wherever these **cluster** — sector falls out as a result, not in as an assumption. The signatures (the engine's fragility conditions, generalized):
 
-## §4 — The unified data model
+1. **Leverage ahead of cash flow** — debt/EBITDA, interest coverage, negative carry (paying more on debt than the asset earns), capex-running-ahead-of-revenue.
+2. **Asset-liability *duration* mismatch** — debt outliving the economic life of the collateral it's secured on (the GPU-vs-debt finding, generalized to *any* short-lived-asset-financed-with-long-debt structure).
+3. **Circular / vendor financing** — a supplier funding its own customers' purchases (the NVIDIA/Lucent tell, generalized); round-tripping; investor-as-customer.
+4. **Concentration** — single-customer / single-funder / single-counterparty dependence above existential thresholds.
+5. **Valuation / narrative ahead of fundamentals** — price implying economics the cash flows don't support (expectations-inversion, generalized economy-wide).
+6. **Hidden / off-balance-sheet leverage** — SPVs, guarantees, lease structures, redemption-gated funds, mark-to-myth private credit.
+7. **Refinancing walls** — maturity stacks on assets that will be impaired before the debt comes due.
+8. **Distress leading indicators** — insider selling, covenant amendments/waivers, late filings, layoffs, non-payment litigation/liens, redemption gates, executive departures, rating actions.
 
-One graph (Neo4j-authoritative), schema **entity × dimension × source × timestamp**, every cell tiered (`filing`/`agency`/`market`/`triangulated`/`estimate`/`rumor`) with provenance. Each cell holds the **full history the source exposes**, pulled once — the canary is usually a historical delta already in the record (a lien filed-then-released, a queue position withdrawn, an insider sale). The relationship edges (K) make it traversable: any flagged entity instantly shows its blast radius.
+Every ≥$1M entity is scored on every signature; the **graph of where they co-occur** is the map of the economy's fragility concentrations. AI-compute is then one cluster on that map — validated as the epicenter, or *demoted* because the real stress concentration is elsewhere (private credit broadly, CRE, a levered corner nobody's named).
 
-## §5 — Rigor methodology (how we keep an exhaustive pile of data honest)
+## §3 — The dimensions (the columns): every attribute, every entity
 
-Breadth without rigor is just a bigger pile. The non-negotiable methods:
+The universal financial-forensic columns (sector-agnostic), filled for every in-scope entity:
 
-1. **Entity resolution** — the load-bearing hard problem. Match every alias of every entity across SEC/UCC/court/registry/press into one canonical node ("CoreWeave, Inc." = "CCAC VII Holdco" parent-link = "CoreWeave" UCC debtor = the CIK). Without this the graph fragments and the SPV tail stays invisible. Use name + address + registered agent + officers + filing cross-references; record match confidence; keep unresolved candidates rather than dropping them.
-2. **Conflict resolution** — explicit rules when sources disagree (e.g. stockanalysis $35B debt vs 10-K $21.6B): prefer the higher-tier source, **show both**, flag the delta and its likely cause (timing, definition). Never silently pick one.
-3. **Triangulation requirement** — any load-bearing claim needs **≥2 independent sources**; single-source facts are labeled provisional.
-4. **Coverage metrics** — measure completeness: for every entity, **% of dimensions filled** and at what tier; for every dimension, **% of entities covered**. "Exhaustive" must be a *measured number*, not an assertion — and the gaps become the next work, not a silent omission.
-5. **Uncertainty quantification** — every estimate (especially the §7 DARK derivations) ships a **range and method**, never a bare point.
-6. **Negative-space logging** — **absence is information.** A neocloud with *no* UCC liens, *no* queue position, *no* customs imports, or *no* filings is a finding (either truly tiny, or financed somewhere we can't see — itself a flag). Log the null explicitly; never leave "absence" indistinguishable from "not yet checked."
-7. **Pre-registration of estimate methods** — for each DARK derivation, commit the proxy set, the method, and the error band **before** computing, so the estimate isn't reverse-fit to a desired answer.
-8. **Adversarial red-team pass** — independent agents try to *refute* every load-bearing finding and every distress flag (the repo's existing discipline); a finding survives or it's downgraded.
-9. **Reproducibility** — every cell re-derivable from its cited source with a one-command rerun; same input → same output.
-10. **Bias awareness** — name what the method **systematically under-sees**: fully-private offshore SPVs with no US nexus, cash-financed players that file no liens, anything structured specifically to avoid public record. The streetlight effect is a known limitation, characterized rather than hidden.
-11. **Time-alignment** — as-of date every datum; never compare a Q1 mark to a June price without flagging the gap.
-12. **Base-rate anchoring** — every distress/timing estimate anchored to the historical base rates ([base_rates.md](base_rates.md)) so the inside view is checked against the outside view.
+**A. Identity & structure** (aliases, jurisdiction, registered agent, full parent/sub/SPV tree). **B. Capital structure** (every instrument — coupon, maturity, seniority, collateral, covenants, every amendment, *and who holds it*; reconstructed for privates from UCC-1s). **C. Financials** (revenue, margins, EBITDA, cash, burn, runway, capex, backlog/RPO; XBRL public, triangulated private). **D. Solvency** (coverage, leverage, covenant headroom + test schedule). **E. Counterparty graph** (customers/suppliers/lenders/guarantors/funders + concentration; directed who-owes-whom edges). **F. Ownership & control** (holders, cap table, **board interlocks**, related-party deals, insider holdings). **G. Market signals** (equity, short interest, options skew, bond/loan price, CDS, rating + outlook). **H. Distress / leading indicators** (signature §2.8 in full). **I. Physical execution** *(where applicable to the sector — capacity claimed vs built, permits, construction, metered throughput; data-center MW/GPU/power-queue is one sector's instantiation)*. **J. Operational reality** (utilization, churn, headcount trajectory, shipment flow, footprint). **K. Relationship/network** (shared auditors/counsel/lenders/agents/**registered agents+addresses** → SPV detection; co-investment; interlocks). **L. People** (rosters, backgrounds, **prior failures**, inter-entity movement, departures). **M. IP** (patents, IP pledged as collateral). **N. Tax/subsidy** (incentive dependence). **O. Real estate/land**. **P. Supply-chain position** (bottleneck dependence, lead times, order backlogs). **Q. Hedges/derivatives**. **R. Legal/regulatory** (investigations, AG/SEC actions, dockets). **S. Historical trajectory** (the **full multi-year** record — the *trend* is the signal). **T. Workforce/sentiment** (reviews, departures, traffic, usage proxies).
+
+## §4 — The sources (where each dimension lives)
+
+EDGAR's **full** taxonomy (10-K/Q, 8-K + EX-10/EX-4 exhibits, **Form 4 insider sales, comment letters, 13D/G, 13F, Form D, NT, S-1/424B, XBRL, DEF 14A**). Off-EDGAR (where the financed long tail lives): **state UCC databases**, **WARN portals**, **PACER + state courts**, **county property records**, **customs/bills-of-lading**, **FINRA TRACE + loan pricing**, **NAIC/BMA statutory + bank call reports**, **USPTO/patents**, **subsidy (Good Jobs First) + lobbying (Senate LDA)**, **state corp registries + registered-agent reverse-lookup**, **rating-agency reports**, **short-seller/activist archives**, **Glassdoor/workforce**, **web/app traffic**, **news/trade-press**. Sector-specific sources are added wherever a *physical-infrastructure* concentration is flagged (for data centers: FERC + the 7 ISO queues, EPA/local permits, GPU marketplaces, BGP/peering, satellite — these are *one sector's* physical layer, not the scope).
+
+- **Realtime X / social, via Grok** (operator-invoked — Ted can call Grok, an AI with live X access): the *earliest* layer, where brokers/insiders/credit-desks/short-sellers post before any filing. Point it at (a) early-distress rumors on the obscure long tail, (b) **triangulating the DARK items** (§7), (c) sentiment/positioning. Everything from it is `rumor`-tier — a lead to corroborate, never standalone evidence, but often *first*.
+- **Our own 54GB local corpus + the 18MB published report** — mine what we already have before re-pulling.
+
+## §5 — Rigor methodology (an exhaustive pile of data kept honest)
+
+1. **Entity resolution** — match every alias across SEC/UCC/court/registry/press into one canonical node (name + address + registered agent + officers + cross-refs; record match confidence; keep unresolved candidates, never drop). Without this the graph fragments and the SPV tail stays invisible. 2. **Conflict resolution** — explicit rules on source disagreement: prefer higher tier, **show both**, flag the delta + cause. 3. **Triangulation requirement** — ≥2 independent sources for any load-bearing claim. 4. **Coverage metrics** — % of dimensions filled per entity, % of entities per dimension; "exhaustive" must be *measured*, and the gaps become the next work. 5. **Uncertainty quantification** — every estimate ships a range + method. 6. **Negative-space logging** — **absence is information** (no liens, no queue, no filings = a finding); log the null, never confuse it with "not yet checked." 7. **Pre-registration of estimate methods** — commit the proxy set + method + band *before* computing. 8. **Adversarial red-team pass** — independent agents try to *refute* every load-bearing finding. 9. **Reproducibility** — every cell re-derivable from its cited source. 10. **Bias awareness** — name what the method systematically under-sees (fully-private offshore shells with no US nexus, cash-financed players that leave no record). 11. **Time-alignment** — as-of date everything. 12. **Base-rate anchoring** — every fragility/timing estimate checked against the historical outside view ([base_rates.md](base_rates.md)).
+
+## §6 — The unified data model
+
+One graph (Neo4j-authoritative), schema **entity × dimension × signature × source × timestamp**, every cell tiered (`filing`/`agency`/`market`/`triangulated`/`estimate`/`rumor`) with provenance and the full history each source exposes. The relationship edges (§3-K) make it traversable; the signature scores (§2) make it rankable. The output is **the map of the economy's fragility concentrations**, with each concentration decomposable into its roles and contagion paths.
 
 ## §7 — The DARK residual, and deriving it
 
-The only "physics" wall is data that doesn't publicly exist. From [information_edge_map.md](information_edge_map.md) the residual is four items — and **none is left blank; each is ESTIMATED from proxies** (tier `triangulated`/`estimate`, with a range and pre-registered method, §5.7):
-
-| DARK item | derive/estimate from |
-|---|---|
-| **Covenant headroom level** (redacted threshold) | implied DSCR/leverage from disclosed cash/debt/interest/EBITDA vs rating-agency-cited norms (~1.26x base DSCR on comparable deals); the *behavior* is the estimate — 3 amendments in 8 weeks + DSCR test postponed to 2027 + *unlimited* equity cures = "could not pass it now." |
-| **Contract cancellability** (survives funding failure?) | the **RPO-vs-headline gap is the firm-fraction estimate** (IREN $710M of ~$13B ⇒ ~95% soft); cross-read comparable contract descriptions (SpaceX "terminable after 3mo"; Moody's "non-terminable for convenience" on Meta — silence on OpenAI's is informative). |
-| **Real occupancy %** | **metered power draw ÷ installed capacity**; marketplace idle-availability; revenue ÷ revenue-per-occupied-MW; contracted-vs-operational MW gap; BGP/traffic footprint — triangulated to a band. |
-| **Private-debt marks** | **read-across from public BDC marks on comparable credits**; where CoreWeave's own **bonds/CDS** trade vs par; public DC-ABS spreads; secondary-loan quotes; redemption-gate behavior (gating ⇒ soft marks). |
+The only "physics" wall is data that doesn't publicly exist — and **none is left blank; each is estimated from proxies** (tier `triangulated`/`estimate`, pre-registered method + range, §5.7). The four recurring DARK classes (generalizing the AI-case examples): **redacted covenant levels** (reverse-engineer from disclosed cash/debt/interest vs comparable-deal norms; the *amendment behavior* is itself the estimate); **private-contract cancellability** (the disclosed-firm-fraction gap, e.g. GAAP RPO vs headline, is the estimate); **undisclosed real utilization/occupancy** (metered throughput ÷ capacity, marketplace idle-availability, revenue ÷ per-unit benchmark); **private-debt marks** (read-across from public-vehicle marks on comparable credits + where the issuer's own bonds/CDS trade vs par). See [information_edge_map.md](information_edge_map.md).
 
 ## §8 — Architecture: one massive parallel pass
 
-- **Acquisition:** one resilient, polite, rate-limited connector per source (§3); politeness rate-limits are the *only* throttle (etiquette/physics, not budget). No UA-spoofing; FOIA/robots respected.
-- **Per-entity deep agents on EVERY enumerated entity** (floor 7,708 + the SPV/queue layers), thousands of subagents in parallel, each assembling its target's full profile across every source. Run time and subagent count are not constraints.
+- **Acquisition:** one resilient, polite, rate-limited connector per source (§4); politeness rate-limits are the *only* throttle (etiquette/physics, not budget). No UA-spoofing; FOIA/robots respected.
+- **Per-entity deep agents on EVERY in-scope entity** (the full ≥$1M economy-wide substrate), thousands of subagents in parallel, each assembling its target's full profile + signature scores. Run time and subagent count are not constraints.
 - **Entity-resolution + graph-build** continuously as profiles land (§5.1).
-- **Anomaly + contagion pass** over the assembled matrix → ranked findings (where the first cracks already are), each red-teamed (§5.8) and base-rate-anchored (§5.12).
-- **Provenance/coverage gate** — every cell tiered; coverage measured (§5.4); the DARK estimates labeled (§7).
+- **Signature scan + concentration detection + contagion traversal** over the assembled matrix → the ranked map of fragility concentrations, each red-teamed (§5.8) and base-rate-anchored (§5.12). **This is where the epicenter reveals itself — AI-compute confirmed or demoted against everything else.**
+- **Provenance/coverage gate** — every cell tiered; coverage measured; DARK estimates labeled.
+
+**Case zero (the worked template):** the AI/data-center cluster is the first concentration profiled to depth — its decomposition (levered operators → SPVs → lenders → funds → insurers/end-holders, with the circular NVIDIA financing and the OpenAI/Microsoft demand legs) is the *template* for how any flagged concentration on the economy-wide map gets taken apart. The night's work ([filing_verifications.md](filing_verifications.md), [information_edge_map.md](information_edge_map.md)) is that template, executed once.
 
 ## §9 — Sequencing (latency-to-first-signal, NOT triage — everything gets built)
 
-1. **Mine the local corpus + full EDGAR taxonomy** (cheap, already-have / one connector) → seed the graph.
-2. **Enumerate the full long-tail universe** (§1) — can't profile the unlisted.
-3. **The earliest broad distress detectors across all entities** — UCC liens, WARN, queue withdrawals, non-payment litigation/mechanic's liens, customs stoppages, marketplace fire-sales, insider sales, executive departures.
-4. **Per-entity deep agents across the whole population** (§8), continuously until coverage saturates.
-5. **Physical layer** (satellite, permits, metered power) + **market layer** (TRACE, CDS, secondary marks) + **service/people/supply-chain/IP/tax/RE layers** (§2 K–T).
-6. **Grok realtime-X rumor sweep** + the **§7 DARK estimates**.
-7. **Entity resolution → graph → anomaly + contagion + red-team pass** → the ranked output.
+1. **Mine the local corpus + full EDGAR taxonomy** → seed the graph. 2. **Enumerate the ≥$1M economy-wide substrate** (§1). 3. **Run the cheapest broad signatures across the whole substrate first** — leverage, negative carry, concentration, circular financing, the distress leading-indicators (§2) — to get an early fragility map. 4. **Per-entity deep agents across the whole substrate** (§8), continuously until coverage saturates. 5. **The remaining dimensions + sector-specific physical/market layers** wherever concentrations flag. 6. **Grok rumor sweep + the §7 DARK estimates.** 7. **Entity resolution → graph → signature scan → contagion + red-team pass → the ranked output:** *where the economy's fragility actually is.*
 
 ## §10 — Scale
 
-The full ecosystem (floor 7,708, true total an output of §1) × ~**60 dimensions (A–T)** × ~**25 sources** (incl. Grok + own corpus + the §7 estimates) × the **history each exposes** = the full matrix, in one exhaustive pass, governed by §5 and bounded only by §7. Large, finite, uncapped. This activates at full depth the WS5 "scale-out" that [ROADMAP.md](../ROADMAP.md) gated — now ungated, uncapped, rigor-governed, and pointed at the whole ecosystem rather than the dozen visible beams.
+The whole economy (floor 7,708, true total an output of §1 — plausibly **low millions** of ≥$1M-footprint entities) × ~**60 dimensions (A–T)** × **8 signature scores (§2)** × ~**25 sources** (incl. Grok + own corpus + the §7 estimates) × the history each exposes = the full matrix, in one exhaustive pass, governed by §5, bounded only by §7 (data that doesn't exist) and §0 (the $1M substance floor). Large, finite, uncapped, no sector prior. This is the engine the repo was always building — pointed, finally, at everything.

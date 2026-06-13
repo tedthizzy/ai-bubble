@@ -1,5 +1,8 @@
 # Pre-registered thesis signals — confirm/kill criteria
 
+> **⚓ Frame — read first (reanchor):** this repo is a **general forensic engine for financial fragility & mispricing across the _whole economy_** — hidden / mismatched / circular leverage and valuation-run-ahead-of-cash-flow, found with **no sector prior**. **AI / data-center is _case zero_, not the object** (the method is sector- and era-agnostic — cf. fiber 1999, shale 2014). **Operating mode: maximum exhaustiveness — broad AND deep, uncapped, ≥ $1M-substance floor, US-primary (international by connectedness-to-core × data-accessibility); acting resource-constrained is NEVER correct; the only stop is physics (data that doesn't publicly exist → estimate it from proxies).** Full scope & doctrine: [total_ecosystem_dive.md](total_ecosystem_dive.md) · [README](../README.md).
+
+
 **Registered: 2026-06-12.** These are the dated, observable conditions under which the market-facing thesis (see [expectations_vs_measured.md](expectations_vs_measured.md)) is **confirmed** or **killed** — including the conditions under which *our own timing is wrong*. Registration discipline: thresholds are set *before* outcomes are known and may not be silently edited. Amendments are append-only in the log at the bottom, with reasons.
 
 **Scope guard:** these signals govern the *market-facing thesis* (mispricing + timing). The engine's adjudicated balance-sheet measurements (coverage breaches, duration mismatch, maturity wall, who-holds) are filings-derived facts and are not killable by price action — only by corrected filings or corrected extraction.

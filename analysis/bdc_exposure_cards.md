@@ -1,5 +1,8 @@
 # BDC AI/DC exposure cards — the S3′ set membership evidence
 
+> **⚓ Frame — read first (reanchor):** this repo is a **general forensic engine for financial fragility & mispricing across the _whole economy_** — hidden / mismatched / circular leverage and valuation-run-ahead-of-cash-flow, found with **no sector prior**. **AI / data-center is _case zero_, not the object** (the method is sector- and era-agnostic — cf. fiber 1999, shale 2014). **Operating mode: maximum exhaustiveness — broad AND deep, uncapped, ≥ $1M-substance floor, US-primary (international by connectedness-to-core × data-accessibility); acting resource-constrained is NEVER correct; the only stop is physics (data that doesn't publicly exist → estimate it from proxies).** Full scope & doctrine: [total_ecosystem_dive.md](total_ecosystem_dive.md) · [README](../README.md).
+
+
 **Carded 2026-06-12** for amendment A1 ([preregistered_signals.md](preregistered_signals.md)): the original S3 treated "top-4 listed BDC" discounts as an AI-funding-chain proxy and fired confirming on registration day via FSK −41%. Carding each book shows that was an **attribution error** — and the corrected signal reads *neutral*, not confirming. Sources are press, transcripts, and company IR (press_reported tier; schedule-of-investments exhibit verification pending EDGAR access).
 
 ## The headline finding

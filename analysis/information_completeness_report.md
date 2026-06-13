@@ -1,5 +1,8 @@
 # Information-completeness report — the overnight deep dive
 
+> **⚓ Frame — read first (reanchor):** this repo is a **general forensic engine for financial fragility & mispricing across the _whole economy_** — hidden / mismatched / circular leverage and valuation-run-ahead-of-cash-flow, found with **no sector prior**. **AI / data-center is _case zero_, not the object** (the method is sector- and era-agnostic — cf. fiber 1999, shale 2014). **Operating mode: maximum exhaustiveness — broad AND deep, uncapped, ≥ $1M-substance floor, US-primary (international by connectedness-to-core × data-accessibility); acting resource-constrained is NEVER correct; the only stop is physics (data that doesn't publicly exist → estimate it from proxies).** Full scope & doctrine: [total_ecosystem_dive.md](total_ecosystem_dive.md) · [README](../README.md).
+
+
 **2026-06-13, autonomous run.** Ted asked: *if you were omniscient, what would you want to know — and can a persistent, internet-connected agent actually get it?* This is the capstone after working the question to exhaustion: a full EDGAR exhibit dive across the cluster + a six-thread scuttlebutt sweep, all committed incrementally (commits `10e4c81` → `1e07324`, with `5a952fe` the highest-value find). Companion: [information_edge_map.md](information_edge_map.md) (the item-by-item FILING/SCUTTLEBUTT/DARK map) and [filing_verifications.md](filing_verifications.md) (verbatim provenance).
 
 ## The answer in one line
