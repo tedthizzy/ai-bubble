@@ -50,6 +50,8 @@ CONCENTRATION_HHI_FLAG = 0.5  # single-counterparty Herfindahl >= 0.5 = existent
 MIN_COUNTERPARTIES_FOR_HHI = (
     3  # below this, HHI is a data-sparsity artifact, not real concentration
 )
+CANARY_MIN_DEBT = 1e6  # the $1M substance floor (analysis/total_ecosystem_dive.md §0)
+CANARY_MAX_DEBT = 5e9  # "small but material" ceiling for the fails-first canary lens
 
 # Generic placeholders that are entity-resolution failures, not real entities.
 JUNK_NAMES = {
@@ -507,6 +509,31 @@ def main() -> None:
     ai_ranks = [(i + 1, r) for i, r in enumerate(ranked) if r["ai_tagged"]]
     top_ai_rank = ai_ranks[0][0] if ai_ranks else None
 
+    # CANARY lens (Ted's explicit priority: small obscure players that fail first matter
+    # MORE than the giants). The size-biased composite buries them, so rank SMALL-debt
+    # entities purely on the NON-size signatures (distressed coupon, ring-fencing,
+    # related-party, concentration). >= $1M floor, < $5B = small but material.
+    def canary_score(r: dict) -> float:
+        s = r["signatures"]
+        return round(
+            0.40 * s["carry"]
+            + 0.25 * s["hidden"]
+            + 0.20 * s["circular"]
+            + 0.15 * s["concentration"],
+            4,
+        )
+
+    canaries = []
+    for r in ranked:
+        debt = r["debt_notional_usd"]
+        if not (CANARY_MIN_DEBT < debt < CANARY_MAX_DEBT):
+            continue
+        cs = canary_score(r)
+        if cs <= 0:
+            continue
+        canaries.append({**r, "canary_score": cs})
+    canaries.sort(key=lambda r: (r["canary_score"], -r["debt_notional_usd"]), reverse=True)
+
     summary = {
         "as_of": "2026-06-13",
         "method": "sector-agnostic forensic signature scan (analysis/total_ecosystem_dive.md §2/§9)",
@@ -529,6 +556,8 @@ def main() -> None:
             "distress": 0.10,
         },
         "top_200": ranked[:200],
+        "canary_count": len(canaries),
+        "top_canaries": canaries[:100],
         "quality_excluded": sorted(quality_log, key=lambda q: -(q["notional_usd"] or 0))[:50],
     }
     OUT_JSON.write_text(json.dumps(summary, indent=2))
