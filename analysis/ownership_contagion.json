@@ -1,0 +1,16 @@
+{
+  "confirmed_total": 174,
+  "confirmed_matched_to_lei": 50,
+  "confirmed_with_parent_chain": 6,
+  "shared_ultimate_owner_clusters": [
+    {
+      "ultimate_owner": "SEACOR MARINE HOLDINGS INC.",
+      "confirmed_names": [
+        "seacor marine foreign holdings inc",
+        "seacor marine holdings inc"
+      ],
+      "n": 2
+    }
+  ],
+  "interpretation": "Shared ultimate owners among confirmed-fragile names = common-owner contagion (one sponsor's stress hits several). Few/none = the distress is independently held, reinforcing the idiosyncratic-scatter reading."
+}
