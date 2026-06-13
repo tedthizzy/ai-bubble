@@ -1,0 +1,785 @@
+{
+ "entities": [
+  {
+   "ticker": "CRWV",
+   "cik": "0001769628",
+   "role": "cluster_issuer",
+   "filings": {
+    "10-K": {
+     "date": "2026-03-02",
+     "accession": "0001769628-26-000104",
+     "chars": 632807,
+     "facts": {
+      "customer_concentration": [
+       "affected. \u2022 A substantial portion of our revenue is driven by a limited number of our customers, and the loss of, or a significant reduction in, spending from one or a few of our top customers would adversely affect our business, operating results, financial condition, and prospects. \u2022 Our operations require substantial and growing capital expenditures, and we will req",
+       "prospects. \u00a0 A substantial portion of our revenue is driven by a limited number of our customers, and the loss of, or a significant reduction in, spending from one or a few of our top customers would adversely affect our business, operating results, financial condition, and prospects. A substantial portion of our revenue is driven by a limited number of customers. We re"
+      ],
+      "rpo_backlog": [
+       "es; \u2022 beliefs and objectives for future operations; \u2022 our ability to successfully retain and expand usage of our existing customers and attract new customers; \u2022 the percentages of remaining performance obligations that we expect to recognize as revenue over respective future periods; \u2022 our ability to realize and the expected timing for the benefits and impacts of our acquisitions of Weight",
+       "s, including leading enterprises, AI labs, and technology companies deploying AI at scale across a variety of use cases. Customers generally access our platform through multi-year committed contracts, under which they purchase a specified amount of capacity on a take-or-pay basis over the contract term. A number of our customers have expanded their initial commitments over tim"
+      ],
+      "take_or_pay": [
+       "to support the sourcing and deployment of infrastructure components used in our platform. We primarily finance our infrastructure development through asset-level debt supported by take-or-pay customer contracts, supplemented by corporate-level equity and debt financing. 5 Table of Contents We serve a range of customers, including leading enterprises, AI labs, and techn",
+       "scale across a variety of use cases. Customers generally access our platform through multi-year committed contracts, under which they purchase a specified amount of capacity on a take-or-pay basis over the contract term. A number of our customers have expanded their initial commitments over time by contracting for additional capacity as their AI workloads have grown."
+      ],
+      "covenant_liquidity": [
+       "liers at higher than market rates; \u2022\u00a0\u00a0\u00a0\u00a0reliance on our suppliers to keep up with technological advancements at the same pace as our business and customer demands, including their ability to continue to deliver next generation components that are substantially better than the prior generation; \u2022\u00a0\u00a0\u00a0\u00a0consolidation among suppliers in our industry, which may harm our ability to ne",
+       "rsely affect our business and the value of our Class A common stock. If we are unable to obtain adequate financing or financing on terms satisfactory to us when we require it, our ability to continue to support our business growth and to respond to business challenges could be significantly impaired and our business may be adversely affected, requiring us to delay, reduce, or"
+      ],
+      "net_loss": [
+       "18 \u00a0 Loss before income taxes ( 1,215 ) ( 744 ) ( 558 ) Provision for (benefit from) income taxes ( 48 ) 119 \u00a0 36 \u00a0 Net loss and comprehensive loss $ ( 1,167 ) $ ( 863 ) $ ( 594 ) Net loss attributable to common stockholders, basic $ ( 1,196 ) $ ( 937 ) $ ( 594 ) Net loss attributable to common stockholders, diluted $ ( 1,223 ) $ ( 937 ) $ ( 594 ) Net loss per share attributable",
+       "income taxes ( 48 ) 119 \u00a0 36 \u00a0 Net loss and comprehensive loss $ ( 1,167 ) $ ( 863 ) $ ( 594 ) Net loss attributable to common stockholders, basic $ ( 1,196 ) $ ( 937 ) $ ( 594 ) Net loss attributable to common stockholders, diluted $ ( 1,223 ) $ ( 937 ) $ ( 594 ) Net loss per share attributable to common stockholders, basic $ ( 2.75 ) $ ( 4.30 ) $ ( 3.09 ) Net loss per share a"
+      ],
+      "debt_instrument": [
+       "rest and principal payments. As of December 31, 2025, our total indebtedness was $21.6 billion and we had $3.7 billion of undrawn availability under our Revolving Credit Facility, DDTL 2.1 Facility and DDTL 3.0 Facility. In July 2023, CoreWeave Compute Acquisition Co. II, LLC, our direct, wholly owned subsidiary, entered into the DDTL 1.0 Facility providing for",
+       "ments. As of December 31, 2025, our total indebtedness was $21.6 billion and we had $3.7 billion of undrawn availability under our Revolving Credit Facility, DDTL 2.1 Facility and DDTL 3.0 Facility. In July 2023, CoreWeave Compute Acquisition Co. II, LLC, our direct, wholly owned subsidiary, entered into the DDTL 1.0 Facility providing for up to $2.3\u00a0billion in"
+      ],
+      "depreciation_life": [
+       "entails cycling out older components of our infrastructure and replacing them with the latest technology available. This requires us to make certain estimates with respect to the useful life of the components of our infrastructure and to maximize the value of the components of our infrastructure, including our GPUs, to the fullest extent possible. We cannot guarantee",
+       "be accurate or that our attempts at maximizing value will be successful. Any changes to the significant assumptions underlying our estimates or to the estimates of our components' useful lives, or any inability to redeploy components of our existing infrastructure to extend past their contracted life could significantly affect our business, operating results, financial"
+      ]
+     }
+    },
+    "10-Q": {
+     "date": "2026-05-08",
+     "accession": "0001769628-26-000222",
+     "chars": 435428,
+     "facts": {
+      "customer_concentration": [
+       "ed contracts and on-demand services. Revenue recognized related to customer commitments, including revenue from delivering capacity prior to commitment start dates, represented 98 % of total revenue for the three months ended March\u00a031, 2026 and 2025. 13 Table of Contents Significant Customers The following customers accounted for 10% or more of the Company's revenue for the p",
+       "affected. \u2022 A substantial portion of our revenue is driven by a limited number of our customers, and the loss of, or a significant reduction in, spending from one or a few of our top customers would adversely affect our business, operating results, financial condition, and prospects. \u2022 Our operations require substantial and growing capital expenditures, and we will req"
+      ],
+      "rpo_backlog": [
+       "es; \u2022 beliefs and objectives for future operations; \u2022 our ability to successfully retain and expand usage of our existing customers and attract new customers; \u2022 the percentages of remaining performance obligations that we expect to recognize as revenue over respective future periods; \u2022 our ability to develop and introduce new products and solutions and bring them to market in a timely mann",
+       "consolidated financial statements. 2. Revenue Disaggregation of Revenue The Company primarily generates its revenue through providing cloud computing services, which include both committed contracts and on-demand services. Revenue recognized related to customer commitments, including revenue from delivering capacity prior to commitment start dates, represented 98 % of total r"
+      ],
+      "take_or_pay": [
+       "ss model and we are continuing to scale our operations and evolve our go-to-market strategy. We currently sell access to our platform either through committed contracts, which are take-or-pay, or on-demand, which are pay-as-you-go. Committed contracts generally have a predetermined term and start either on a fixed date or when we deliver the capacity specified in the c",
+       "s accounted for 98% of our revenue. There is no guarantee that in the future customers will continue to be willing to enter into, and that the industry will continue to support, a take-or-pay model, and any move towards a pay-as-you-go and other consumption-based models will impact our ability to forecast our expected cash flows and operating results, impact our margin"
+      ],
+      "covenant_liquidity": [
+       "h these requirements. The outstanding loan amounts are prepayable at any time, from time to time, at the Company's option, and are required to be prepaid upon the occurrence of an event of default or change in control as defined in the credit agreement, or with the proceeds of certain asset dispositions or incurrences of indebtedness. Obligations outstanding under the DDTL",
+       "uppliers at higher than market rates; \u2022 reliance on our suppliers to keep up with technological advancements at the same pace as our business and customer demands, including their ability to continue to deliver next generation components that are substantially better than the prior generation; \u2022 consolidation among suppliers in our industry, which may harm our ability to negot"
+      ],
+      "net_loss": [
+       "s before income taxes ( 656 ) ( 269 ) Provision for income taxes 84 \u00a0 46 \u00a0 Net loss ( 740 ) ( 315 ) Other comprehensive income 5 \u00a0 \u2014 \u00a0 Total comprehensive loss $ ( 735 ) $ ( 315 ) Net loss attributable to common stockholders, basic $ ( 740 ) $ ( 343 ) Net loss attributable to common stockholders, diluted $ ( 740 ) $ ( 370 ) Net loss per share attributable to common stockholders,",
+       "Net loss ( 740 ) ( 315 ) Other comprehensive income 5 \u00a0 \u2014 \u00a0 Total comprehensive loss $ ( 735 ) $ ( 315 ) Net loss attributable to common stockholders, basic $ ( 740 ) $ ( 343 ) Net loss attributable to common stockholders, diluted $ ( 740 ) $ ( 370 ) Net loss per share attributable to common stockholders, basic $ ( 1.40 ) $ ( 1.40 ) Net loss per share attributable to common s"
+      ],
+      "debt_instrument": [
+       "potential loss. 23 Table of Contents 10. Debt The total debt obligations are as follows (dollars in millions): Maturities Effective Interest Rates March 31, 2026 December 31, 2025 DDTL 1.0 Facility March 2028 15 % $ 1,438 \u00a0 $ 1,553 \u00a0 DDTL 2.0 Facility August 2030 11 % 4,425 \u00a0 5,037 \u00a0 DDTL 2.1 Facility March 2031 9 % 3,000 \u00a0 2,741 \u00a0 DDTL 3.0 Facility August 2030",
+       "l debt obligations are as follows (dollars in millions): Maturities Effective Interest Rates March 31, 2026 December 31, 2025 DDTL 1.0 Facility March 2028 15 % $ 1,438 \u00a0 $ 1,553 \u00a0 DDTL 2.0 Facility August 2030 11 % 4,425 \u00a0 5,037 \u00a0 DDTL 2.1 Facility March 2031 9 % 3,000 \u00a0 2,741 \u00a0 DDTL 3.0 Facility August 2030 9 % 1,700 \u00a0 340 \u00a0 DDTL 4.0 Facility (1) March 2032 7 %"
+      ],
+      "depreciation_life": [
+       "orted in the condensed consolidated financial statements and the accompanying notes. Actual results could differ materially from these estimates. Significant estimates include the useful lives assigned to property and equipment; the fair value of lease assets; the discount rates used for operating and finance leases; accounting for income taxes, including the valuation",
+       "prior to the IPO; the fair value of financial assets and liabilities; valuation of acquired intangible assets; and the assessment of recoverability of intangible assets and their estimated useful lives. Assumptions are reviewed regularly to ensure they remain relevant and reasonable, particularly in areas of high subjectivity. The Company bases its estimates on historical"
+      ]
+     }
+    }
+   }
+  },
+  {
+   "ticker": "WULF",
+   "cik": "0001083301",
+   "role": "cluster_issuer",
+   "filings": {
+    "10-K": {
+     "date": "2026-02-27",
+     "accession": "0001083301-26-000031",
+     "chars": 492573,
+     "facts": {
+      "rpo_backlog": [
+       "ractual escalators, and renewal and contraction options. Certain projects benefit from investment\u2011grade credit support, materially strengthening the risk profile and durability of contracted revenues. \u2022 Scalable, Multi\u2011Phase Development \u2013 Each campus is designed for modular expansion. Initial phases deliver near\u2011term contracted capacity, while subsequent phases are developed",
+       "Lease benefits from credit support from Google, which provides financial support for Fluidstack\u2019s obligations under the sublease, materially strengthening the risk profile of our contracted revenues and facilitating third-party financing. Infrastructure First Growth Model Across all campuses, TeraWulf prioritizes reuse of existing industrial and energy infrastructure, accele"
+      ],
+      "going_concern": [
+       "bitcoin blockchain stops using SHA-256 for solving blocks. This would result in a material adverse effect on our business and could potentially impact our ability to continue as a going concern. Our reliance on third-party miners may subject our operations to increased risk of design flaws. The performance and reliability of our miners and our technology is critical to o"
+      ],
+      "covenant_liquidity": [
+       "right to terminate the applicable lease. Such termination event would not trigger the backstop. In addition, backstop arrangements are only triggered upon a payment or insolvency event of default under the applicable lease. There are other events of default or termination events that may result in the termination of a lease without triggering the applicable backstop. In ad",
+       "itcoin\u2019s value or if the bitcoin blockchain stops using SHA-256 for solving blocks. This would result in a material adverse effect on our business and could potentially impact our ability to continue as a going concern. Our reliance on third-party miners may subject our operations to increased risk of design flaws. The performance and reliability of our miners and our technolo"
+      ],
+      "net_loss": [
+       "uisition of Beowulf E&D) that cannot be used as a source of taxable income to support the realization of deferred tax assets when a full valuation allowance is in place. Equity in net loss of investee, net of tax for the year ended December\u00a031, 2025 was $4.1 million which represents TeraWulf\u2019s proportional share of net loss of the Abernathy Joint Venture which was form",
+       "valuation allowance is in place. Equity in net loss of investee, net of tax for the year ended December\u00a031, 2025 was $4.1 million which represents TeraWulf\u2019s proportional share of net loss of the Abernathy Joint Venture which was formed in October 2025 and has not yet commenced operations. The $3.4 million equity in net income of investee, net of tax for the year ended"
+      ],
+      "debt_instrument": [
+       "of interest expense recognized in the year ended December 31, 2024, primarily related to the borrowings under the Loan, Guaranty and Security Agreement with Wilmington Trust (the \u201cTerm Loans\u201d), which were fully repaid in July 2024 ahead of maturity. Change in fair value of warrant and derivative liabilities during the year ended December\u00a031, 2025 was $429.8 million r",
+       "accounted for separately as a derivative liability. Loss on extinguishment of debt during the year ended December\u00a031, 2024 was $6.3 million related to voluntary prepayment of the Term Loans in February and July 2024, reflecting $1.3 million of prepayment fees and the derecognition of unamortized debt discount of $5.0 million associated with the principal repaid. No"
+      ],
+      "depreciation_life": [
+       "re recorded as property, plant, and equipment in the consolidated balance sheets. Depreciation of property, plant, and equipment is calculated using the straight-line method, with estimated useful lives of four years for miners and five years for computer equipment. During the year ended December\u00a031, 2025, the Company recorded accelerated depreciation expense of $19.6 milli",
+       "cember\u00a031, 2025, the Company recorded accelerated depreciation expense of $19.6 million related to a certain miner building and related miners of which the Company shortened their useful lives based on expected shutdown of operations for purposes of supporting the HPC operations. During the year ended December\u00a031, 2024, the Company recorded accelerated depreciation expe"
+      ]
+     }
+    },
+    "10-Q": {
+     "date": "2026-05-08",
+     "accession": "0001083301-26-000092",
+     "chars": 289928,
+     "facts": {
+      "rpo_backlog": [
+       "-term data center leases, generally ranging from 10 to 25 years, and in certain cases benefit from investment-grade credit support, enhancing the durability and finance ability of contracted revenues. These arrangements are expected to provide long-term revenue visibility and support project-level financing as the platform scales. This infrastructure-first approach enables Te",
+       "ors and options for term contraction. Lease obligations are supported by investment-grade credit enhancement provided by Google, materially strengthening the credit profile of the contracted revenues and facilitating third-party debt financing. Management believes the Abernathy Joint Venture reflects the extension of the Company\u2019s commercial relationship with Fluidstack, supp"
+      ],
+      "covenant_liquidity": [
+       "1 Capped Calls was recorded as a reduction to additional paid-in capital on the consolidated balance sheet. The indenture includes customary covenants and events of default. If an event of default occurs and is continuing, the trustee or holders of at least 25 % of the outstanding principal amount may declare the 2031 Convertible Notes immediately due and payable. 2032 Conv",
+       "ransactions involving the Company and certain de-listing events with respect to the Company\u2019s Common Stock. The indenture includes customary covenants and events of default. If an event of default occurs and is continuing, the trustee or holders of at least 25% of the outstanding principal amount may declare the 2032 Convertible Notes immediately due and payable. The Compan"
+      ],
+      "net_loss": [
+       "( 162,142 ) ( 59,628 ) Interest expense ( 67,071 ) ( 4,049 ) Change in fair value of warrants ( 216,325 ) \u2014 \u00a0 Interest income 29,411 \u00a0 2,259 \u00a0 Loss before income tax and equity in net loss of investee ( 416,127 ) ( 61,418 ) Income tax provision ( 28 ) \u2014 \u00a0 Equity in net loss of investee, net of tax ( 11,548 ) \u2014 \u00a0 Net loss ( 427,703 ) ( 61,418 ) Less: net loss attributab",
+       "arrants ( 216,325 ) \u2014 \u00a0 Interest income 29,411 \u00a0 2,259 \u00a0 Loss before income tax and equity in net loss of investee ( 416,127 ) ( 61,418 ) Income tax provision ( 28 ) \u2014 \u00a0 Equity in net loss of investee, net of tax ( 11,548 ) \u2014 \u00a0 Net loss ( 427,703 ) ( 61,418 ) Less: net loss attributable to noncontrolling interests ( 69 ) \u2014 \u00a0 Net loss attributable to TeraWulf Inc $ ( 42"
+      ],
+      "debt_instrument": [
+       "tober 22, 2025, the Company, through its wholly owned subsidiary Wulf Compute LLC (\u201cWulf Compute\u201d), completed a private offering of $ 3,200.0 million aggregate principal amount of 7.75 % Senior Secured Notes due 2030 (the \u201c2030 Secured Notes\u201d). The 2030 Secured Notes have a maturity date of October 15, 2030. The net proceeds of the 2030 Secured Notes are being used to fi",
+       "TERAWULF INC. AND SUBSIDIARIES NOTES TO CONDENSED CONSOLIDATED FINANCIAL STATEMENTS (unaudited) 2030 Convertible Notes In October 2024, the Company completed a private offering of 2.75 % Convertible Senior Notes due 2030 (the \u201c2030 Convertible Notes\u201d). The 2030 Convertible Notes, which are unsecured, were sold under a purchase agreement entered into by and between the Company"
+      ],
+      "depreciation_life": [
+       "ets acquired and liabilities assumed in business combinations and asset acquisitions, fair value of contingent consideration issued in a business combination, the establishment of useful lives for property, plant and equipment and intangible assets, the fair value of equity securities or warrants to purchase the Company\u2019s Common Stock issued individually or as a compone",
+       "Property, Plant and Equipment Property, plant and equipment are recorded at cost, net of accumulated depreciation. Depreciation is computed using the straight-line method over the estimated useful lives of the assets (generally 2 to 5 years for computer equipment and 4 years for miners, 2 to 14 years for electrical equipment, 5 to 20 years for building and improvements, 2 y"
+      ]
+     }
+    }
+   }
+  },
+  {
+   "ticker": "IREN",
+   "cik": "0001878848",
+   "role": "cluster_issuer",
+   "filings": {
+    "10-K": {
+     "date": "2025-08-28",
+     "accession": "0001878848-25-000063",
+     "chars": 798095,
+     "facts": {
+      "customer_concentration": [
+       "arly as it relates to our strategy to expand into markets for HPC and AI services; \u2022 our ability to establish and maintain a customer base for our HPC and AI services business and customer concentration; 3 Table of Contents \u2022 our ability to manage counterparty risk (including credit risk) associated with any current or future customers, including customers of our HPC and AI servi",
+       "ng stream of revenue from that business or whether we can provide the right combination of HPC and AI services. \u25cf Our HPC and AI services have and may continue to have significant customer concentration, and we are exposed to counterparty credit risk with respect to our customers. Risks Related to Regulations and Regulatory Frameworks \u25cf The regulatory environment regarding digita"
+      ],
+      "going_concern": [
+       "re based on hardware that is strictly limited to mining digital assets based on SHA-256 algorithm. Such events could have a material adverse effect on our ability to continue as a going concern or to pursue our business strategy at all, which could have a material adverse effect on our business, prospects, financial condition and operating results. There is a risk of add",
+       "turn in their market price, as well as the market price of many technology stocks, including ours. Such events could have a material adverse effect on our ability to continue as a going concern or to pursue our strategy at all, which could have a material adverse effect on our business, prospects or operations and potentially the value of any Bitcoin or any other digital"
+      ],
+      "covenant_liquidity": [
+       "d adversely impact our financial condition, cash flows and results of operations; \u2022 our ability to successfully execute on our growth strategies and operating plans, including our ability to continue to develop our existing data center sites, design and deploy direct-to-chip liquid cooling systems, and diversify and expand into the market for high-performance computing (\u201cHPC\u201d)",
+       "on-recourse special purpose vehicles of the Company, as lessees, such leases are guaranteed by IREN Limited. As a result, if the cash flows generated by the leased equipment are insufficient to fund payments under the applicable equipment lease (for example, because of insufficient or variable demand for our HPC and AI services), the relevant lessee\u2019s ability to satisfy oblig"
+      ],
+      "net_loss": [
+       "2018, our operating expenses in some historical periods have exceeded our revenue, and we have incurred significant operating losses and net losses as a result. While we achieved net income of $86.9 million for the fiscal year ended June 30, 2025, we have historically incurred net losses, including a net loss of $28.9 million and $171.8 million for the fiscal years ende",
+       "ing losses and net losses as a result. While we achieved net income of $86.9 million for the fiscal year ended June 30, 2025, we have historically incurred net losses, including a net loss of $28.9 million and $171.8 million for the fiscal years ended June 30, 2024 and 2023, respectively. Our growth strategy includes expanding and diversifying our revenue sources into"
+      ],
+      "debt_instrument": [
+       "principal amount of outstanding indebtedness (consisting of $400 million aggregate principal amount of 3.5% convertible senior notes and $500 million aggregate principal amount of 3.25% convertible senior notes due 2029 issued in December 2024 and June 2025, respectively), and approximately $144.1 million of trade and other payables. We have also entered into equipment leasi",
+       "f outstanding indebtedness (consisting of $400 million aggregate principal amount of 3.5% convertible senior notes and $500 million aggregate principal amount of 3.25% convertible senior notes due 2029 issued in December 2024 and June 2025, respectively), and approximately $144.1 million of trade and other payables. We have also entered into equipment leasing arrangements with r"
+      ],
+      "depreciation_life": [
+       "ectations with respect to the ongoing profitability, viability, operability, security, popularity and public perceptions of the Bitcoin network; \u2022 expectations with respect to the useful life and obsolescence of hardware (including hardware for Bitcoin mining and any current or future HPC and AI services we offer); \u2022 delays, increases in costs or reductions in the supp",
+       "with GAAP, which are the most comparable GAAP financial measures. For example, we expect depreciation of our fixed assets will be a large recurring expense over the course of the useful life of our ass ets, and that stock based compensation is an important part of compensating certain employees, officers and directors. Total net electricity costs, \u201cNet electricity cos"
+      ]
+     }
+    },
+    "10-Q": {
+     "date": "2026-05-08",
+     "accession": "0001878848-26-000026",
+     "chars": 235477,
+     "facts": {
+      "customer_concentration": [
+       "ces business and potentially diversify into markets for other HPC and AI services; \u2022 our ability to establish and maintain a customer base for our HPC and AI services business and customer concentration; \u2022 our ability to manage counterparty risk (including credit risk) associated with any current or future customers, including customers of our HPC and AI services and other counte"
+      ],
+      "rpo_backlog": [
+       "ectively. For the three and nine months ended March 31, 2025, revenue recognized from deferred revenue at the beginning of the period was $ 1,610,000 and $ 480,000 , respectively. Remaining Performance Obligations (\u201cRPO\u201d) As of March\u00a031, 2026, the Group had $ 710,272,000 of unsatisfied RPO, of which $ 307,950,000 is expected to be recognized over the initial 12 months ending March\u00a031, 2027",
+       "ths ended March 31, 2025, revenue recognized from deferred revenue at the beginning of the period was $ 1,610,000 and $ 480,000 , respectively. Remaining Performance Obligations (\u201cRPO\u201d) As of March\u00a031, 2026, the Group had $ 710,272,000 of unsatisfied RPO, of which $ 307,950,000 is expected to be recognized over the initial 12 months ending March\u00a031, 2027, $ 265"
+      ],
+      "covenant_liquidity": [
+       "nts, restrictions or guarantees, and our ability to service our debt obligations; \u2022 our ability to successfully execute on our growth strategies and operating plans, including our ability to continue to develop our existing data center sites, design and deploy direct-to-chip liquid cooling systems, provide software, and operate and expand our high-performance computing (\u201cHPC\u201d)"
+      ],
+      "debt_instrument": [
+       "periods. The Group early adopted ASU 2024-04 on July 1, 2025, using the prospective transition approach. As a result of our adoption, the Group accounted for the repurchase of the 3.25 % Convertible Senior Notes due 2030 (the \u201c2030 Convertible Notes\u201d) and 3.50 % Convertible Senior Notes due 2029 (the \u201c2029 Convertible Notes\u201d), as an induced conversion. Refer to Note 16 Conver",
+       "early adopted ASU 2024-04 on July 1, 2025, using the prospective transition approach. As a result of our adoption, the Group accounted for the repurchase of the 3.25 % Convertible Senior Notes due 2030 (the \u201c2030 Convertible Notes\u201d) and 3.50 % Convertible Senior Notes due 2029 (the \u201c2029 Convertible Notes\u201d), as an induced conversion. Refer to Note 16 Convertible notes payable fo"
+      ],
+      "depreciation_life": [
+       "o new geographies for data centers such as Australia and Europe; \u2022 our ability to remain competitive in dynamic and rapidly evolving industries; \u2022 expectations with respect to the useful life and obsolescence of hardware (including GPUs, hardware for Bitcoin mining and any current or future HPC and AI services we offer) and the related impairment charges we may incur u",
+       "significant accounting estimates inherent in the preparation of the Group\u2019s Unaudited Condensed Consolidated Financial Statements include estimates associated with determining the useful lives and recoverability of long-lived assets, valuation of derivatives and financial assets classified under Level 3 of the fair value hierarchy, stock-based compensation, legal accrua"
+      ]
+     }
+    }
+   }
+  },
+  {
+   "ticker": "APLD",
+   "cik": "0001144879",
+   "role": "cluster_issuer",
+   "filings": {
+    "10-K": {
+     "date": "2025-07-30",
+     "accession": "0001144879-25-000021",
+     "chars": 516093,
+     "facts": {
+      "customer_concentration": [
+       "enewable energy and entry into agreements with renewable energy providers will increase and accelerate the buildout of renewable energy infrastructures. Customers We have material customer concentration in our Data Center Hosting Business. We currently serve one crypto mining customer with a remaining contract term of two and a half years. We also have material customer concentra",
+       "omer concentration in our Data Center Hosting Business. We currently serve one crypto mining customer with a remaining contract term of two and a half years. We also have material customer concentration in our HPC Hosting Business. We currently have one customer in this business segment, which is a party to two fifteen-year term leases with us. Corporate Information Our executive"
+      ],
+      "going_concern": [
+       "enting future revenue generation by us or rendering our operations obsolete. Such actions could severely impact our ability to continue to operate and our ability to continue as a going concern or to pursue our strategy at all, which would have a material adverse effect on our business, prospects or operations. Our business depends upon the demand for data centers. We ar",
+       "tiny could be applicable to our customers and impact their ability to successfully operate. Such circumstances could have a material adverse effect on our ability to continue as a going concern or to pursue our strategy at all, which could have a material adverse effect on our business, prospects or operations. 27 The development and acceptance of competing blockchain pl"
+      ],
+      "covenant_liquidity": [
+       "income levels and consumer spending trends; \u2022 our ability to timely and successfully build new hosting facilities with the appropriate contractual margins and efficiencies; \u2022 our ability to continue to grow sales in our hosting business; \u2022 volatility of cryptoasset prices; and \u2022 uncertainties of cryptoasset regulation policy. The foregoing does not represent an exhaustive lis",
+       "ctors. The rate at which we will be able to or choose to deleverage is uncertain. Failure to meet our debt service obligations or comply with our debt covenants could result in an event of default under the applicable indebtedness. We may be unable to cure, or obtain a waiver of, an event of default or otherwise amend our debt agreements to prevent an event of default there"
+      ],
+      "net_loss": [
+       "102 96 (523) Net loss from continuing operations (158,335) (74,376) (44,488) Net loss from discontinued operations (72,730) (75,295) (1,118) Net loss (231,065) (149,671) (45,606) Net loss attributable to noncontrolling interest \u2014 (397) (960) Preferred dividends (2,615) \u2014 \u2014 Net loss attributable to common stockholders $ (233,680) $ (149,274) $ (44,646) Net loss attributable to c",
+       "continued operations (72,730) (75,295) (1,118) Net loss (231,065) (149,671) (45,606) Net loss attributable to noncontrolling interest \u2014 (397) (960) Preferred dividends (2,615) \u2014 \u2014 Net loss attributable to common stockholders $ (233,680) $ (149,274) $ (44,646) Net loss attributable to common stockholders Continuing operations $ (160,950) $ (73,979) $ (43,528) Discontinued operati"
+      ],
+      "debt_instrument": [
+       "our redemption obligations. The Convertible Notes may adversely affect the market price of our common stock. The market price of our common stock is likely to be influenced by our 2.75% Convertible Senior Notes due 2030 (the \u201cConvertible Notes\u201d). For example, the market price of our common stock could become more volatile and could be depressed by investors\u2019 anticipation of",
+       "igations. The Convertible Notes may adversely affect the market price of our common stock. The market price of our common stock is likely to be influenced by our 2.75% Convertible Senior Notes due 2030 (the \u201cConvertible Notes\u201d). For example, the market price of our common stock could become more volatile and could be depressed by investors\u2019 anticipation of the potential resale i"
+      ],
+      "depreciation_life": [
+       "0,920 \u00a0 $ 31,688 \u00a0 Property and Equipment Property and equipment are stated at cost less accumulated depreciation. Depreciation is computed using the straight-line method over the estimated useful lives of the assets (see \"Note 3 - Property and Equipment\"). Once an asset is identified for retirement or disposition, the related cost and accumulated depreciation or amortizati",
+       "recorded in association with our leases. Leasehold improvements and assets recorded in association with our leases are amortized over the shorter of the expected lease term or the estimated useful life of the asset. Construction in progress represents assets received but not placed into service as of May\u00a031, 2025. Impairment or Disposal of Long-Lived Assets Our long-lived a"
+      ]
+     }
+    },
+    "10-Q": {
+     "date": "2026-04-08",
+     "accession": "0001144879-26-000030",
+     "chars": 314995,
+     "facts": {
+      "customer_concentration": [
+       "ty colocation centers and providing our customers with Company-owned equipment to generate revenue. As of February 28, 2026, this business segment had one customer and generated 14% of total revenue for the fiscal quarter ended February 28, 2026. As previously disclosed, during the fourth quarter of fiscal year 2025, we determined that the Cloud Services Business, which opera"
+      ],
+      "covenant_liquidity": [
+       "uncommitted, discretionary basis (with no specified maximum borrowing limit for any Additional Loans or Rollover Loans). The Loan shall bear interest at 8.0 % per annum, unless an Event of Default (as defined therein) has occurred and is continuing, in which case, the Secured Obligations (as defined therein) shall bear interest at the sum of 8.0 % per annum plus an addition",
+       "ome levels and consumer spending trends; \u2022 our ability to timely and successfully build new data center facilities with the appropriate contractual margins and efficiencies; \u2022 our ability to continue to grow sales in our hosting business; \u2022 volatility of cryptoasset prices; and \u2022 uncertainties of cryptoasset regulation policy; and \u2022 our ability to keep up with the use and cont"
+      ],
+      "net_loss": [
+       "before income tax expense ( 70,558 ) ( 35,438 ) ( 101,911 ) ( 178,410 ) Income tax (benefit) expense ( 2 ) 117 \u00a0 21 \u00a0 118 \u00a0 Net loss ( 70,556 ) ( 35,555 ) ( 101,932 ) ( 178,528 ) Net loss attributable to redeemable noncontrolling interest ( 28,747 ) \u2014 \u00a0 ( 31,910 ) \u2014 \u00a0 Preferred dividends ( 1,558 ) ( 540 ) ( 4,705 ) ( 1,213 ) Net loss attributable to common stockholders $ ( 100,",
+       "5,555 ) ( 101,932 ) ( 178,528 ) Net loss attributable to redeemable noncontrolling interest ( 28,747 ) \u2014 \u00a0 ( 31,910 ) \u2014 \u00a0 Preferred dividends ( 1,558 ) ( 540 ) ( 4,705 ) ( 1,213 ) Net loss attributable to common stockholders $ ( 100,861 ) $ ( 36,095 ) $ ( 138,547 ) $ ( 179,741 ) Basic and diluted net loss per share attributable to common stockholders $ ( 0.36 ) $ ( 0.16 ) $ ( 0."
+      ],
+      "debt_instrument": [
+       "SMBC Loan (2) (2) August 2026 \u2014 \u00a0 375,000 \u00a0 Starion Ellendale Loan (3) 7.48 % February 2028 9,183 \u00a0 12,283 \u00a0 Cornerstone Bank Loan (4) 8.59 % March 2029 10,682 \u00a0 12,866 \u00a0 Starion Term Loan (5) 6.50 % July 2027 4,711 \u00a0 7,061 \u00a0 Other long-term debt (6) 31,439 \u00a0 12,275 \u00a0 Deferred financing costs, net of amortization ( 250,444 ) ( 181,329 ) Less: Current portion of debt",
+       "t in multiple Terms of Service Agreements for HPC based systems related to AI Cloud Computing Services, which are to be serviced at the Jamestown hosting facility. (5) The Starion Term Loan is guaranteed by APLD Hosting, LLC, a wholly-owned subsidiary of the Company, and is secured by the Jamestown hosting facility, a security interest in substantially all of the ass"
+      ],
+      "depreciation_life": [
+       "mpany\u2019s consolidated financial statements. 3.\u00a0\u00a0\u00a0\u00a0 Property and Equipment Property and equipment consisted of the following as of February\u00a028, 2026 and May\u00a031, 2025 (in thousands): Estimated Useful Life February 28, 2026 May 31, 2025 Networking equipment, electrical equipment, and software 3 years - 5 years $ 38,163 \u00a0 $ 33,611 \u00a0 Mechanical infrastructure 20 years 71,934 \u00a0 \u2014"
+      ]
+     }
+    }
+   }
+  },
+  {
+   "ticker": "HUT",
+   "cik": "0001964789",
+   "role": "cluster_issuer",
+   "filings": {
+    "10-K": {
+     "date": "2026-02-25",
+     "accession": "0001104659-26-019392",
+     "chars": 640973,
+     "facts": {
+      "customer_concentration": [
+       "ed changes in demand for AI, high-performance computing, or AI data center infrastructure, including expectations regarding capacity utilization, power availability, energy costs, customer concentration, technological change, and competition; \u25cf actual or perceived changes in the value of our equity interest in American Bitcoin; \u25cf volatility in the price of Bitcoin; \u25cf addition to"
+      ],
+      "rpo_backlog": [
+       "Merger, we have continued to serve as American Bitcoin\u2019s exclusive infrastructure and operations partner through a series of long-term commercial agreements that generate stable, contracted revenue streams in our Power and Digital Infrastructure segments. However, as American Bitcoin is a consolidated subsidiary, all fees under our commercial agreements are eliminated in con"
+      ],
+      "covenant_liquidity": [
+       "ve disadvantages for us relative to other companies with lower debt levels. Agreements governing our current debt obligations, and any debt we may incur in the future, may contain financial covenants and covenants that restrict our and our subsidiaries\u2019 ability to take certain corporate and operational actions. As a result of these covenants, we can be limited in the manner i",
+       "ZRC Secured Promissory Note is prepaid under the prepayment option discussed below. The Company is also subject to post-default interest of an additional 2 % upon occurrence of an event of default. The higher interest rate applies from the date of non-payment until such amount is paid in full. As of December 31, 2025 and 2024, the interest rate on the TZRC Secured Promissor"
+      ],
+      "net_loss": [
+       "benefit of nil and $2.3 million, respectively) \u200b \u200b \u2014 \u200b \u200b (7,044) \u200b \u200b 7,044 \u200b \u200b \u200b \u200b \u200b \u200b \u200b \u200b \u200b \u200b Net (loss) income \u200b \u200b (247,998) \u200b \u200b 331,409 \u200b \u200b (579,407) \u200b \u200b \u200b \u200b \u200b \u200b \u200b \u200b \u200b \u200b Less: Net loss attributable to non-controlling interests \u200b \u200b 21,849 \u200b \u200b 473 \u200b \u200b 21,376 Net (loss) income attributable to Hut 8 Corp. \u200b $ (226,149) \u200b $ 331,882 \u200b $ (558,031) \u200b \u200b \u200b \u200b \u200b \u200b \u200b \u200b \u200b \u200b Net (loss) inc",
+       "ncome tax benefit of $2.3 million and nil, respectively) \u200b \u200b (7,044) \u200b \u200b 77 \u200b \u200b (7,121) \u200b \u200b \u200b \u200b \u200b \u200b \u200b \u200b \u200b \u200b Net income \u200b \u200b 331,409 \u200b \u200b 21,850 \u200b \u200b 309,559 \u200b \u200b \u200b \u200b \u200b \u200b \u200b \u200b \u200b \u200b Less: Net loss attributable to non-controlling interests \u200b \u200b 473 \u200b \u200b \u2014 \u200b \u200b 473 Net income attributable to Hut 8 Corp. \u200b $ 331,882 \u200b $ 21,850 \u200b $ 310,032 \u200b \u200b \u200b \u200b \u200b \u200b \u200b \u200b \u200b \u200b Net income \u200b $ 331,409 \u200b $ 21,850"
+      ],
+      "depreciation_life": [
+       "not limited to, the expected stock price volatility over the term of the award, the risk-free rate, and dividend yield, if any. \u200b Finite-Lived Intangible Assets \u200b We evaluate the useful lives of our intangible assets to determine if they are finite or indefinite-lived. Reaching a determination on useful life requires significant judgments and assumptions regarding the",
+       ", if any. \u200b Finite-Lived Intangible Assets \u200b We evaluate the useful lives of our intangible assets to determine if they are finite or indefinite-lived. Reaching a determination on useful life requires significant judgments and assumptions regarding the future effects of obsolescence, demand, competition, and other economic factors. Finite-lived intangible assets are am"
+      ]
+     }
+    },
+    "10-Q": {
+     "date": "2026-05-06",
+     "accession": "0001104659-26-055891",
+     "chars": 241346,
+     "facts": {
+      "covenant_liquidity": [
+       "RC Secured Promissory Note is prepaid under the prepayment option discussed below. The Company is also subject to post-default interest of an additional\u00a0 2 % upon occurrence of an event of default. The higher interest rate applies from the date of non-payment until such amount is paid in full. As of March 31, 2026 and December 31, 2025, the interest rate on the TZRC Secured",
+       "also establishes a 105% minimum collateral threshold, below which the Lender may, following required margin notifications and subject to defined contractual parameters, declare an event of default and liquidate pledged collateral to satisfy outstanding obligations. The Borrower has the right to request that a portion of the Collateral be released by the Custodian if the Act"
+      ],
+      "net_loss": [
+       "fore income taxes \u200b \u00a0 ( 302,077 ) \u200b \u00a0 ( 154,524 ) \u200b \u200b \u200b \u200b \u200b \u200b \u200b Income tax benefit \u200b \u00a0 48,942 \u200b \u00a0 20,205 \u200b \u200b \u200b \u200b \u200b \u200b \u200b Net loss \u200b \u200b ( 253,135 ) \u200b \u200b ( 134,319 ) \u200b \u200b \u200b \u200b \u200b \u200b \u200b Less: Net loss attributable to non-controlling interests \u200b \u200b 33,286 \u200b \u200b 430 Net loss attributable to Hut 8 Corp. \u200b $ ( 219,849 ) \u200b $ ( 133,889 ) \u200b \u200b \u200b \u200b \u200b \u200b \u200b Net loss per share of common stock: \u200b \u200b \u200b \u200b \u200b \u200b",
+       "tax benefit \u200b \u00a0 48,942 \u200b \u00a0 20,205 \u200b \u200b \u200b \u200b \u200b \u200b \u200b Net loss \u200b \u200b ( 253,135 ) \u200b \u200b ( 134,319 ) \u200b \u200b \u200b \u200b \u200b \u200b \u200b Less: Net loss attributable to non-controlling interests \u200b \u200b 33,286 \u200b \u200b 430 Net loss attributable to Hut 8 Corp. \u200b $ ( 219,849 ) \u200b $ ( 133,889 ) \u200b \u200b \u200b \u200b \u200b \u200b \u200b Net loss per share of common stock: \u200b \u200b \u200b \u200b \u200b \u200b Basic attributable to Hut 8 Corp. \u200b $ ( 1.98 ) \u200b $ ( 1.30 ) Diluted at"
+      ],
+      "debt_instrument": [
+       "Agreement, exclusive of deferred financing costs of $ 0.1 \u00a0million. In May 2026, the Company paid off the outstanding balance of the Coinbase credit facility with proceeds from a term loan with FalconX Charlie, Inc. (\u201cFalconX\u201d). See Note 19. Subsequent events for further details. Coatue Note (convertible note) On June 21, 2024, the Company entered into a Convertible",
+       "equent events have occurred that require disclosure. In April 2026, the Company\u2019s wholly-owned subsidiary, Hut 8 DC LLC (the \u201cIssuer\u201d), closed a $ 3.25 billion private offering of 6.192 % senior secured notes due November 15, 2042 (the \u201cNotes\u201d). Interest on the Notes is payable semi-annually beginning on November 15, 2026, and scheduled amortization begins on May 15, 2028"
+      ],
+      "depreciation_life": [
+       "estimates inherent in the preparation of the Company\u2019s Unaudited Condensed Consolidated Financial Statements include estimates associated with revenue recognition, determining the useful lives and recoverability of long-lived assets, impairment analysis of finite-lived intangibles, goodwill and digital assets, stock-based compensation, and current and deferred income ta",
+       "not limited to, the expected stock price volatility over the term of the award, the risk-free rate, and dividend yield, if any. \u200b Finite-Lived Intangible Assets \u200b We evaluate the useful lives of our intangible assets to determine if they are finite or indefinite-lived. Reaching a determination on useful life requires significant judgments and assumptions regarding the"
+      ]
+     }
+    }
+   }
+  },
+  {
+   "ticker": "MARA",
+   "cik": "0001507605",
+   "role": "cluster_issuer",
+   "filings": {
+    "10-K": {
+     "date": "2026-03-02",
+     "accession": "0001507605-26-000007",
+     "chars": 415022,
+     "facts": {
+      "going_concern": [
+       "ch changes could materially and adversely impact our business, financial condition, and operating results. A restatement may also raise concerns about our ability to continue as a going concern, negatively affecting investor confidence and the value of cryptocurrencies we hold or acquire. Our ongoing at-the-market stock issuances contribute to stockholder dilution. Our a"
+      ],
+      "covenant_liquidity": [
+       "ryptocurrency rewards. Such changes could materially and adversely impact our business, financial condition, and operating results. A restatement may also raise concerns about our ability to continue as a going concern, negatively affecting investor confidence and the value of cryptocurrencies we hold or acquire. Our ongoing at-the-market stock issuances contribute to stockhol",
+       "frastructure, and reduce our cost of capital. Our strategy balances upside participation in bitcoin appreciation with near-term cash flow generation, while maintaining substantial liquidity to respond to market opportunities. In addition to our structured trading initiatives, we have also deployed a portion of our bitcoin holdings through lending arrangements designed t"
+      ],
+      "net_loss": [
+       "ring the second quarter of 2025, we entered into a separately managed account (\u201cSMA\u201d) agreement funded with 2,000 bitcoin. For the year ended December 31, 2025, the SMA incurred a net loss of approximately $22.1\u00a0million, primarily attributable to trading activities. In December 2025, we terminated the agreement and withdrew the remaining 1,777 bitcoin that had been hel",
+       ") before income taxes ( 1,368,268 ) 616,503 \u00a0 277,599 \u00a0 Income tax benefit (expense) 56,376 \u00a0 ( 75,495 ) ( 16,426 ) Net income (loss) $ ( 1,311,892 ) $ 541,008 \u00a0 $ 261,173 \u00a0 Less: Net loss attributable to noncontrolling interest 412 \u00a0 245 \u00a0 \u2014 \u00a0 Net income (loss) attributable to MARA $ ( 1,311,480 ) $ 541,253 \u00a0 $ 261,173 \u00a0 Series A preferred stock accretion to redemption value \u2014"
+      ],
+      "debt_instrument": [
+       "provide a potential source of liquidity if monetized. Additionally, during the year ended December 31, 2025 we issued a $1.0 billion aggregate principal amount of 0.0% Convertible Senior notes due 2032. Refer to Note 16 \u2013 Debt in the notes to our Consolidated Financial Statements, for further information. 52 Table of Contents As of December 31, 2025, the Company had $350.0\u00a0milli",
+       ") ( 380 ) Line of credit 150,000 \u00a0 200,000 \u00a0 \u2014 \u00a0 Repayment of finance lease liabilities ( 168 ) ( 163 ) \u2014 \u00a0 Repayment of Convertible Notes ( 18,279 ) ( 247,348 ) \u2014 \u00a0 Repayment of term loan borrowings \u2014 \u00a0 \u2014 \u00a0 ( 50,000 ) Purchased capped calls ( 39,770 ) \u2014 \u00a0 Contribution from noncontrolling interest 559 \u00a0 7,154 \u00a0 \u2014 \u00a0 Net cash provided by financing activities 1,628,006"
+      ],
+      "depreciation_life": [
+       "ily of property and equipment stated at cost, net of accumulated depreciation and impairment, as applicable. Depreciation is calculated on a straight-line basis and depends on the estimated useful lives of each type of asset and, in certain circumstances, estimates of fair values and residual values. Our property and equipment is primarily composed of digital asset mining r",
+       "es of fair values and residual values. Our property and equipment is primarily composed of digital asset mining rigs, which are largely homogeneous and have approximately the same useful lives. Accordingly, we utilize the group method of depreciation for our digital asset mining rigs. Judgment is necessary in estimating the useful lives of our various assets. We periodi"
+      ]
+     }
+    },
+    "10-Q": {
+     "date": "2026-05-11",
+     "accession": "0001507605-26-000016",
+     "chars": 196444,
+     "facts": {
+      "covenant_liquidity": [
+       "frastructure, and reduce our cost of capital. Our strategy balances upside participation in bitcoin appreciation with near-term cash flow generation, while maintaining substantial liquidity to respond to market opportunities. These activities are intended to complement our core mining operations by providing additional sources of liquidity and income. As of March 31, 20"
+      ],
+      "net_loss": [
+       "74 \u00a0 Total other loss ( 231,833 ) ( 111,552 ) Loss before income taxes ( 1,293,329 ) ( 652,615 ) Income tax benefit 30,932 \u00a0 119,172 \u00a0 Net loss $ ( 1,262,397 ) $ ( 533,443 ) Less: Net loss attributable to noncontrolling interests, including redeemable noncontrolling interest 2,778 \u00a0 244 \u00a0 Net loss attributable to common stockholders $ ( 1,259,619 ) $ ( 533,199 ) Net loss per sha",
+       "nefit 30,932 \u00a0 119,172 \u00a0 Net loss $ ( 1,262,397 ) $ ( 533,443 ) Less: Net loss attributable to noncontrolling interests, including redeemable noncontrolling interest 2,778 \u00a0 244 \u00a0 Net loss attributable to common stockholders $ ( 1,259,619 ) $ ( 533,199 ) Net loss per share of common stock - basic and diluted $ ( 3.31 ) $ ( 1.55 ) Weighted average shares of common stock - basic a"
+      ],
+      "debt_instrument": [
+       "The Company issued the following convertible notes (collectively, the \u201cConvertible Notes\u201d) in private offerings: \u2022 $ 1.025 \u00a0billion aggregate principal amount of 0.0 % Convertible Senior Notes due 2032 (the \u201cAugust 2032 Notes\u201d) \u2022 $ 925.0 \u00a0million aggregate principal amount of 0.0 % Convertible Senior Notes due 2031 (the \u201cJune 2031 Notes\u201d) \u2022 $ 1.0 \u00a0billion aggregate principal amo",
+       "$ 1.025 \u00a0billion aggregate principal amount of 0.0 % Convertible Senior Notes due 2032 (the \u201cAugust 2032 Notes\u201d) \u2022 $ 925.0 \u00a0million aggregate principal amount of 0.0 % Convertible Senior Notes due 2031 (the \u201cJune 2031 Notes\u201d) \u2022 $ 1.0 \u00a0billion aggregate principal amount of 0.0 % Convertible Senior Notes due 2030 (the \u201cMarch 2030 Notes\u201d) \u2022 $ 300.0 \u00a0million aggregate principal amou"
+      ],
+      "depreciation_life": [
+       "nancial statements include measurement of digital assets and related receivables, fair value of assets acquired and liabilities assumed in a business combination, determination of useful lives of property and equipment and finite-lived intangible assets, recoverability of long-lived assets, impairment of goodwill, valuation of derivative instruments, stock-based compens",
+       "applicable reporting period end exchange rates, with translation adjustments recorded in Accumulated Other Comprehensive Income. Acquired intangible assets are amortized over the estimated useful lives on a straight-line basis. The following table summarizes the purchase price allocation and weighted average remaining useful lives for identified intangible assets acquired"
+      ]
+     }
+    }
+   }
+  },
+  {
+   "ticker": "CLSK",
+   "cik": "0000827876",
+   "role": "cluster_issuer",
+   "filings": {
+    "10-K": {
+     "date": "2025-11-25",
+     "accession": "0001193125-25-297510",
+     "chars": 575849,
+     "facts": {
+      "rpo_backlog": [
+       "produce bitcoin. There are no deferred revenues or other liability obligations recorded by the Company since there are no payments in advance of the performance, and there are no remaining performance obligations after providing hash calculations. Revenues from Data Center Services Effective as of September 30, 2023, data center services are no longer provided to external customers. The C"
+      ],
+      "covenant_liquidity": [
+       "olicies to meet our needs, prior to the policies\u2019 expiration on November 1 of each year . 11 \u00a0 Human Resources We believe that our future success depends, in no small part, on our ability to continue to attract, hire and retain qualified personnel. As of September 30, 2025, we had 314 staff members, all located in the United States, of which 309 were full time. We believe that",
+       "ts cost, or otherwise adversely impact our business. Development and construction delays, cost overruns, changes in market circumstances, environmental or community constraints, inability to continue finding suitable data center locations, and other factors may adversely affect our operations, expansion plans, financial position and financial performance. We will continue to r"
+      ],
+      "net_loss": [
+       "hout the year (see Note 13 - Indebtedness for more details). Net income (loss) Net income for the year ended September 30, 2025 was $364,464, an increase of $510,241 compared to a net loss of $145,777 for the year ended September 30, 2024. 56 \u00a0 Results of Operations for the Fiscal Years Ended September 30, 2024 and 2023 ($ presented in 000's, except for average bitcoin",
+       "fair value of the underlying instrument. Net loss from continuing operations Net loss from continuing operations for the year ended September 30, 2024 was $145,777 as compared to net loss of $133,719 for the year ended September 30, 2023 for the reasons discussed above. Results of discontinued operations Revenues from our former energy segment decreased year over year"
+      ],
+      "debt_instrument": [
+       "with certain financial institutions at an aggregate cost of approximately $90,350,000. In November 2025, we issued $1,150,000,000 aggregate principal amount of our 0% convertible senior notes due 2032 (the \u201c2032 Notes\u201d). In August 2024, we entered into a Master Loan Agreement (the \u201c2024 Master Loan\u201d) with Coinbase Credit, Inc., as the lender (the \u201cCB Lender\u201d). The 2024 Master L",
+       "s may affect the value of the 2030 Notes and the market price of our common stock. In connection with the issuance of our $650,000,000 aggregate principal amount of 0% convertible senior notes due 2030 (the \u201c2030 Notes\u201d), we entered into privately negotiated capped call transactions with certain financial institutions (collectively, the \u201coption counterparties\u201d). The capped call"
+      ],
+      "depreciation_life": [
+       "ready for installation at expansion sites, are under evaluation for relocation, or are awaiting repair. Our miners have an average age of approximately 15 months. We estimate the useful lives of our miners to be three years, reflecting a change made in fiscal year 2024. We do not have scheduled downtime for our miners; however, we periodically perform unscheduled maint",
+       "evaluation for relocation, or are awaiting repair. Our miners range in age from 1-57 months and have an average age of approximately 15 months. Effective May 2024, we estimate the useful lives of our miners to be three years (see Note 2 - Summary of Significant Accounting Policies). We do not have scheduled downtime for our miners; however, we periodically perform unsch"
+      ]
+     }
+    },
+    "10-Q": {
+     "date": "2026-05-11",
+     "accession": "0001193125-26-217036",
+     "chars": 206960,
+     "facts": {
+      "customer_concentration": [
+       "months ended March 31, 2026 and 2025, respectively . F- 28 \u00a0 14. REVENUE AND VENDOR CONCENTRATIONS The Company has one mining pool operator (Foundry Digital) that represented 100 % of revenue for the six months ended March 31, 2026 and 2025. Revenues from Foundry Digital represented 100 % of the Company\u2019s total revenues for each of those years, as all bitcoin mining re"
+      ],
+      "covenant_liquidity": [
+       "contingent interest feature that requires additional interest to be paid only if certain conditions are met. One such redemption feature and contingent interest feature is in the event of default, including failure to maintain sufficient collateral, the Lender may liquidate the collateral to satisfy the outstanding loan balance or charge incremental interest at the federal",
+       "or the note. The notes bears a variable interest rate equal to the 30-day SOFR plus 3 % per annum, payable monthly , and matures on August 14, 2029 . The credit agreement contains financial covenants, including a minimum loan-to-value ratio, a minimum debt service coverage ratio, and a minimum average deposit balance. As of March 31, 2026, the Company had $ 5,690 gross princi"
+      ],
+      "net_loss": [
+       "anding amounts during the comparative period. Net (loss) income Net loss for the three months ended March 31, 2026 and 2025 was $378,343 and $138,792, respectively, an increase in net loss of $239,551 due to the reasons stated above. Results of continuing operations for the six months ended March 31, 2026 and 2025 ($ presented in 000's, except for average bitcoin price",
+       "any had a limited volume of outstanding amounts during the comparative period. 13 \u00a0 Net (loss) income Net loss for the six months ended March 31, 2026 was $757,054, as compared to net income of $107,999 for the six months ended March 31, 2025, due to the reasons stated above. Non-GAAP Measure We present Adjusted EBITDA, which is not a measurement of financial performance"
+      ],
+      "debt_instrument": [
+       "h 31, 2026 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 $ 1,790,681 \u00a0 Description of outstanding debt 2032 Convertible notes In November 2025, we issued $ 1,150,000,000 aggregate principal amount of 0 % convertible senior notes due 2032 (the \u201c2032 Notes\u201d). The 2032 Notes were issued in a private offering to qualified institutional buyers pursuant to Rule 144A under the Securities Act of 1933, as amended (the \u201cSec",
+       "special interest, if any, on, all the 2032 Notes to be due and payable. 2030 Convertible notes In December 2024, we issued $ 650,000 aggregate principal amount of 0 % convertible senior notes due 2030 (the \u201c2030 Notes\u201d), including the exercise in full by the initial purchasers of the 2030 Notes of their option to purchase up to an additional $ 100,000 principal amount of the 20"
+      ],
+      "depreciation_life": [
+       "on sites, are under evaluation for relocation, or are awaiting repair. Our miners range in age from 1-63 months and have an average age of approximately 20 months. We estimate the useful lives of our miners to be three years. We do not have scheduled downtime for our miners; however, we periodically perform unscheduled maintenance and curtailments on our miners, but suc",
+       "hen utility service was restored to the communities. The Company records depreciation expense (a non-cash expense) on its miners on a straight-line basis over the miners\u2019 expected useful life. Such non-cash depreciation amounts are recorded within the Condensed Consolidated Statements of Operations and Comprehensive (Loss) Income as Depreciation and amortization. Altho"
+      ]
+     }
+    }
+   }
+  },
+  {
+   "ticker": "GLXY",
+   "cik": "0001859392",
+   "role": "cluster_issuer",
+   "filings": {
+    "10-K": {
+     "date": "2026-02-26",
+     "accession": "0001859392-26-000016",
+     "chars": 844912,
+     "facts": {
+      "customer_concentration": [
+       "aintained or does not increase as expected, our operating results may be adversely affected. We expect that our AI/HPC data center business will initially be highly dependent on a single customer, CoreWeave, and may continue to derive a significant portion of the revenue of our Data Centers operating business segment from such single customer for the foreseeable future. Th",
+       "ially be highly dependent on a single customer, CoreWeave, and may continue to derive a significant portion of the revenue of our Data Centers operating business segment from such single customer for the foreseeable future. Therefore, the success of our AI/HPC data center business will be highly dependent on our continued relationship with CoreWeave, pursuant to the terms"
+      ],
+      "covenant_liquidity": [
+       "s) while revenues may take time to develop, which may adversely impact our results of operations. If we are unable to successfully manage our business while reducing expenses, our ability to continue in business could depend on our ability to raise sufficient additional capital, obtain sufficient financing and/or monetizing assets. The occurrence of any of the foregoing risks",
+       "cash flows from operating activities sufficient to permit us to pay the principal, premium, if any, and interest on our indebtedness. If our cash flows and capital resources are insufficient to fund our debt service obligations, we could face substantial liquidity problems and could be forced to reduce or delay investments and capital expenditures or to dispose of material as"
+      ],
+      "net_loss": [
+       "e held cash and digital assets, suspended customer withdrawals. FTX subsequently filed for Chapter 11 bankruptcy protection on November 11, 2022. As of December 31, 2022, we had a net loss of approximately $68 million related to our previously disclosed FTX exposure. The Company subsequently repurchased its FTX bankruptcy claims for $18.5 million and recorded unrealize",
+       "ecember 31, 2024 due to the lower cost basis and write-off of mining equipment and infrastructure in connection with the data center conversion. Net Income/(Loss) Galaxy generated Net loss of $241.3 million for the year ended December 31, 2025, compared to Net income of $346.7 million for the year ended December 31, 2024, and Net income of $228.5 million for the year e"
+      ],
+      "debt_instrument": [
+       "e sales, and could result in significant dilution for holders of our Class A common stock. Furthermore, GDH LP issued $500\u00a0million aggregate principal amount of 3.00% Exchangeable Senior Notes due 2026 (the \u201c2026 Exchangeable Notes\u201d) on December 9, 2021, $402.5 million aggregate principal amount of 2.500% Exchangeable Senior Notes due 2029 (the \u201c2029 Exchangeable Notes\u201d) on Nove",
+       "principal amount of 3.00% Exchangeable Senior Notes due 2026 (the \u201c2026 Exchangeable Notes\u201d) on December 9, 2021, $402.5 million aggregate principal amount of 2.500% Exchangeable Senior Notes due 2029 (the \u201c2029 Exchangeable Notes\u201d) on November 25, 2024 and $1.30 billion aggregate principal amount of 0.50% Exchangeable Senior Notes due 2031 (the \u201c2031 Exchangeable Notes\u201d and, t"
+      ],
+      "depreciation_life": [
+       "change in how entities that hold digital assets will account for certain of those holdings. Previously, digital assets held were accounted for as intangible assets with indefinite useful lives, which required us to measure digital assets at cost less impairment. In fiscal year 2023, we adopted ASU 2023-08, which requires us to measure in scope digital assets held at fai",
+       "he fair value. Depreciation is recognized in General and administrative expenses in the Company\u2019s consolidated statements of operations on a straight-line basis over the following estimated useful lives: \u2022 Mining equipment 3 \u2013 5 years \u2022 Data center infrastructure 15 \u2013 25 years \u2022 Corporate assets other than leasehold improvements 3 \u2013 10 years \u2022 Leasehold improvements The sho"
+      ]
+     }
+    },
+    "10-Q": {
+     "date": "2026-05-08",
+     "accession": "0001859392-26-000054",
+     "chars": 626361,
+     "facts": {
+      "customer_concentration": [
+       "5, no individual customer accounted for 10% or m ore of net accounts receivable. During the three months ended March 31, 2026, two digital asset trading platforms accounted for 32 % of revenue and during the three months ended March 31, 2025, two digital asset trading platforms accounted for 43 % of revenue. As of March\u00a031, 2026, three counterparties and their related p",
+       "31, 2026, two digital asset trading platforms accounted for 32 % of revenue and during the three months ended March 31, 2025, two digital asset trading platforms accounted for 43 % of revenue. As of March\u00a031, 2026, three counterparties and their related parties accounted for 44 % of the Company\u2019s Loans receivable and Digital asset loans receivable balance. As of Decemb"
+      ],
+      "covenant_liquidity": [
+       "er thereafter until Stabilization (as defined in the Credit Agreement). The Credit Agreement contains customary events of default, including, without limitation, payment defaults, covenant defaults, breaches of certain representations and warranties, cross defaults to certain indebtedness, certain events of bankruptcy and insolvency, certain judgments, change of control, ce",
+       "products and technologies may affect our future operating results. Regulation in U.S. and international markets Our financial prospects and continued growth depend in part on our ability to continue to operate in a manner compliant with regulations. Our business is subject to the oversight of numerous regulatory agencies in the U.S. and other jurisdictions, including, but not"
+      ],
+      "net_loss": [
+       "ting limited partner interests. See Note 1 for a description of the Reorganization Transactions. 20. EARNINGS PER SHARE The Company calculates basic earnings per share by dividing net income attributable to the Class A common stock holders by the weighted-average number of Class A common stock outstanding during the period. Earnings per share presented for periods prior to the com",
+       "re, private equity, and fund investments. Financial and Operational Highlights \u2022 Galaxy generated N et loss of $216.3 million for the three months ended March 31, 2026 compared to Net loss of $295.4 million for the three months ended March 31, 2025. \u2022 Galaxy generated Adjusted EBITDA of $(187.5) million for the three months ended March 31, 2026 compared to Adjusted EBI"
+      ],
+      "debt_instrument": [
+       "elios I LLC (\u201cGalaxy Helios I\u201d), a wholly owned subsidiary of GDH LP, entered into a credit agreement (the \u201cCredit Agreement\u201d) with Deutsche Bank AG providing for a senior secured term loan facility in an aggregate principal amount of up to $ 1.4 \u00a0billion. The intended use for this facility is to finance the construction and development of a data center project in Di",
+       "value for each of these three counterparties as of both March\u00a031, 2026 and December\u00a031, 2025. The Company is also subject to liquidity and concentration risk related to its short-term loans payable. The loans are callable on demand by the counterparties and are typically collateralized by the Company\u2019s cash, investment securities, and digital assets held in the Comp"
+      ],
+      "depreciation_life": [
+       "change in how entities that hold digital assets will account for certain of those holdings. Previously, digital assets held were accounted for as intangible assets with indefinite useful lives, which required us to measure digital assets at cost less impairment. In fiscal year 2023, we adopted ASU 2023-08, which requires us to measure in scope digital assets held at fai"
+      ]
+     }
+    }
+   }
+  },
+  {
+   "ticker": "NBIS",
+   "cik": "0001513845",
+   "role": "cluster_issuer",
+   "filings": {}
+  },
+  {
+   "ticker": "CORZ",
+   "cik": "0001839341",
+   "role": "cluster_issuer",
+   "filings": {
+    "10-K": {
+     "date": "2026-03-02",
+     "accession": "0001628280-26-013305",
+     "chars": 481183,
+     "facts": {
+      "customer_concentration": [
+       "and could have a material adverse effect on our business, financial condition and results of operations . \u2022 Currently our high-density colocation business is highly dependent on a single customer. \u2022 Our increased focus on high-density colocation services may not be successful and depends on the continuing development and resource and computational requirements of high-dens",
+       "e growth and have a material adverse effect on our business, financial condition and results of operations. Currently our high-density colocation business is highly dependent on a single customer. One customer, CoreWeave, currently accounts for 100% of our Colocation segment revenue. Our success in the Colocation segment is highly dependent on the success of CoreWeave and"
+      ],
+      "take_or_pay": [
+       "ile the customer is billed separately for power and, in some cases, other variable operating costs. Both lease 8 Table of Contents structures are\u202ffrequently\u202fpaired with long-term, take-or-pay contractual commitments, under which the customer is\u202fobligated\u202fto pay for leased customer power capacity regardless of\u202futilization, providing operators with revenue visibility ove"
+      ],
+      "going_concern": [
+       "s decision to pass power costs to its customers, that certain clients had breached their contracts, and that this impacted the Company\u2019s profitability and ability to continue as a going concern. The complaint seeks monetary damages. Core filed a notice of suggestion of bankruptcy stating that its petition for bankruptcy\u2014filed on December 21, 2022\u2014 operates as a stay to t"
+      ],
+      "covenant_liquidity": [
+       "ed projected financial information for various reasons, including to demonstrate to the Bankruptcy Court the feasibility of the Plan of Reorganization and our 38 Table of Contents ability to continue operations upon our emergence from Chapter 11. Those projections were prepared solely for the purposes stated therein and have not been, and will not be, updated on an ongoing bas",
+       "rially affect (i) revenue recognized from self\u2011mining, (ii) the fair value of digital assets we hold and related gains or losses recognized in our results of operations, and (iii) liquidity to the extent we sell bitcoin as part of our treasury strategy. Bitcoin miners also receive a transaction fee in the form of a portion of bitcoin for validating transactions on the B"
+      ],
+      "debt_instrument": [
+       "t our ability to repurchase 2029 Convertible Notes or the 2031 Convertible Notes or pay cash upon their conversion. Holders of the $460.0 million aggregate principal amount of our 3.00% Convertible Senior Notes due 2029 (the \u201c2029 Convertible Notes\u201d), subject to a limited exception, may require us to repurchase their notes for cash following certain corporate events that con",
+       "epurchase 2029 Convertible Notes or the 2031 Convertible Notes or pay cash upon their conversion. Holders of the $460.0 million aggregate principal amount of our 3.00% Convertible Senior Notes due 2029 (the \u201c2029 Convertible Notes\u201d), subject to a limited exception, may require us to repurchase their notes for cash following certain corporate events that constitute a \u201cfundamental"
+      ],
+      "depreciation_life": [
+       "tion of its property, plant, and equipment. Accounting for this equipment involves significant judgment and estimation uncertainty, particularly regarding the determination of its estimated useful life for depreciation purposes and the assessment of potential impairment. The Company depreciates its Bitcoin mining equipment using the straight-line method over an estimated us",
+       "mated useful life for depreciation purposes and the assessment of potential impairment. The Company depreciates its Bitcoin mining equipment using the straight-line method over an estimated useful life of three years. This estimate reflects management\u2019s judgment based on the current state of technology and industry practices. However, the actual useful life of this equipmen"
+      ]
+     }
+    },
+    "10-Q": {
+     "date": "2026-05-06",
+     "accession": "0001628280-26-031396",
+     "chars": 170493,
+     "facts": {
+      "customer_concentration": [
+       "ies operations, security and other services to third-party colocation customers to support workloads for machine learning and AI. Colocation segment revenue is concentrated with a single customer; see Note 13 \u2014 Segment Reporting . The Company\u2019s digital asset hosted mining business provides a full suite of services to digital asset mining customers. The Company provides dep"
+      ],
+      "going_concern": [
+       "s decision to pass power costs to its customers, that certain clients had breached their contracts, and that this impacted the Company\u2019s profitability and ability to continue as a going concern. The complaint seeks monetary damages. Core filed a notice of suggestion of bankruptcy stating that its petition for bankruptcy\u2014filed on December 21, 2022\u2014 operates as a stay to t"
+      ],
+      "covenant_liquidity": [
+       "le to litigation given its decision to pass power costs to its customers, that certain clients had breached their contracts, and that this impacted the Company\u2019s profitability and ability to continue as a going concern. The complaint seeks monetary damages. Core filed a notice of suggestion of bankruptcy stating that its petition for bankruptcy\u2014filed on December 21, 2022\u2014 oper",
+       "rially affect (i) revenue recognized from self\u2011mining, (ii) the fair value of digital assets we hold and related gains or losses recognized in our results of operations, and (iii) liquidity to the extent we sell bitcoin as part of our treasury strategy. Bitcoin miners also receive a transaction fee in the form of a portion of bitcoin for validating transactions on the B"
+      ],
+      "net_loss": [
+       "66.5 million of non-cash impairment charges on mining-related property, plant and equipment. Net loss was $347.2 million during the three months ended March\u00a031, 2026 , compared to net income of $576.3 million in the prior period, and included significant non-cash items, including 33 changes of $30.8 million in the fair value of warrants and contingent value rights. Adjus"
+      ],
+      "debt_instrument": [
+       "cipal payments on debt \u2014 ( 3,955 ) Taxes paid related to net share settlement of equity awards ( 21,722 ) \u2014 Proceeds from exercise of warrants 81 266 Proceeds from the issuance of term loan facility, net 995,000 \u2014 Issuance costs for term loan facility ( 882 ) \u2014 Net cash provided by (used in) financing activities 971,382 ( 4,198 ) Net increase (decrease) in cash, cash",
+       "to net share settlement of equity awards ( 21,722 ) \u2014 Proceeds from exercise of warrants 81 266 Proceeds from the issuance of term loan facility, net 995,000 \u2014 Issuance costs for term loan facility ( 882 ) \u2014 Net cash provided by (used in) financing activities 971,382 ( 4,198 ) Net increase (decrease) in cash, cash equivalents and restricted cash 834,607 ( 138,255 )"
+      ],
+      "depreciation_life": [
+       "perty, plant and equipment, net is stated at cost less accumulated depreciation and amortization. Depreciation and amortization is computed using the straight-line method over the estimated useful lives of the assets. Leasehold improvements are capitalized at cost and amortized over the shorter of their estimated useful lives or the lease term. Future obligations related to",
+       "on is computed using the straight-line method over the estimated useful lives of the assets. Leasehold improvements are capitalized at cost and amortized over the shorter of their estimated useful lives or the lease term. Future obligations related to finance leases are presented as Finance lease liabilities, current portion and Finance lease liabilities, net of current por"
+      ]
+     }
+    }
+   }
+  },
+  {
+   "ticker": "CIFR",
+   "cik": "0001819989",
+   "role": "cluster_issuer",
+   "filings": {
+    "10-K": {
+     "date": "2026-02-24",
+     "accession": "0001819989-26-000009",
+     "chars": 479655,
+     "facts": {
+      "customer_concentration": [
+       "quarter. The anticipated concentration of our customer base increases risks related to the financial condition of our customers, and the deterioration in financial condition of a single customer or the failure of a single customer to perform its obligations could have a material adverse effect on our results of operations and cash flow. In the event that any of our future",
+       "ion of our customer base increases risks related to the financial condition of our customers, and the deterioration in financial condition of a single customer or the failure of a single customer to perform its obligations could have a material adverse effect on our results of operations and cash flow. In the event that any of our future customers experience a decline in t"
+      ],
+      "rpo_backlog": [
+       "t material rights because they are offered at the standalone selling price of computing power. We elected the optional exemption to not disclose the transaction price allocated to remaining performance obligations that are part of a contract that has an original expected duration of one year or less. The provision of computing power in accordance with the mining pool operator\u2019s terms of se",
+       "of computing power. The 23 CIPHER DIGITAL INC. NOTES TO CONSOLIDATED FINANCIAL STATEMENTS Company elected the optional exemption to not disclose the transaction price allocated to remaining performance obligations that are part of a contract that has an original expected duration of one year or less. The provision of computing power in accordance with the mining pool operator\u2019s terms of se"
+      ],
+      "covenant_liquidity": [
+       "ants\u2019 guarantees and other backstop arrangements under our HPC leases will only be effective after rent commencement under such leases and are subject to certain limitations, like event of default triggers or caps. \u2022 Our HPC business strategy may not perform as planned. \u2022 Our business depends on the demand for data centers. \u2022 Constructing data centers for HPC hosting requir",
+       "s all sectors. Simultaneously, we believe this continued growth occurs in the face of a power shortfall, which we believe makes our valuable portfolio of data center sites and our ability to continue sourcing and developing sites a key strategic advantage in a competitive landscape. Deep experience in hyperscale development Our development and construction team brings signific"
+      ],
+      "net_loss": [
+       "se (956) (1,255) (201) Deferred income tax benefit (expense) 4,269\u00a0 937\u00a0 (3,366) Total income tax benefit (expense) 3,313\u00a0 (318) (3,567) Net loss (822,244) (44,635) (25,777) Less: Net loss attributable to redeemable noncontrolling interest $ \u2014\u00a0 $ \u2014\u00a0 $ \u2014\u00a0 Net loss available for common stockholders $ (822,244) $ (44,635) $ (25,777) Comparative Results for the Year Ended December 3",
+       "d in operating activities increased by $120.4 million to $207.9 million for the year ended December\u00a031, 2025 from $87.5 million for the year ended December\u00a031, 2024. We incurred a net loss of $822.2\u00a0million for the year ended December\u00a031, 2025, compared to a net loss of $44.6\u00a0million for the year ended December\u00a031, 2024, representing an increase of $777.6 million. Cash"
+      ],
+      "debt_instrument": [
+       "n and $333.0 million of our senior secured notes due 2030. Subsequent to December 31, 2025, Black Pearl Compute LLC, our wholly owned indirect subsidiary, incurred $2.0 billion of 6.125% senior secured notes due 2031. We may also incur additional indebtedness to meet future financing needs. Our indebtedness could have significant negative consequences for our security ho",
+       "interest due semiannually on May 15 and November 15 each year beginning on November 15, 2025. On September 30, 2025, we issued an aggregate principal amount of $1,300.0 million of 0.00% Convertible Senior Notes due 2031 (the \u201c2031 Convertible Notes\u201d and together with the 2030 Convertible Notes, the \u201cConvertible Notes\u201d). With the net proceeds of the 2031 Convertible Notes, we"
+      ],
+      "depreciation_life": [
+       "ssociated with leasehold improvements and other capitalized assets. We capitalize the cost of our mining machines and record depreciation expense on a straight-line basis over the estimated useful life of the machines, which is generally 3 years. Leasehold improvements include capitalized asset retirement costs, which are amortized over the estimated useful life of the rela",
+       "e basis over the estimated useful life of the machines, which is generally 3 years. Leasehold improvements include capitalized asset retirement costs, which are amortized over the estimated useful life of the related asset. All other leasehold improvements are depreciated over the lesser of the estimated useful life of the asset or the remaining life of the related lease. C"
+      ]
+     }
+    },
+    "10-Q": {
+     "date": "2026-05-05",
+     "accession": "0001819989-26-000028",
+     "chars": 188616,
+     "facts": {
+      "covenant_liquidity": [
+       "ants\u2019 guarantees and other backstop arrangements under our HPC leases will only be effective after rent commencement under such leases and are subject to certain limitations, like event of default triggers or caps. \u2022 Our HPC business strategy may not perform as planned. \u2022 Our business depends on the demand for data centers. \u2022 Constructing data centers for HPC hosting requir"
+      ],
+      "net_loss": [
+       "13,909 ) ( 38,831 ) Current income tax expense ( 407 ) ( 779 ) Deferred income tax benefit - \u00a0 635 \u00a0 Total income tax expense ( 407 ) ( 144 ) Net loss ( 114,316 ) ( 38,975 ) Less: Net loss attributable to redeemable noncontrolling interest - \u00a0 - \u00a0 Net loss available for common stockholders $ ( 114,316 ) $ ( 38,975 ) Loss per share - basic and diluted $ ( 0.28 ) $ ( 0.11 ) Weight",
+       "s before taxes (113,909) (38,831) Current income tax expense (407) (779) Deferred income tax benefit -\u00a0 635\u00a0 Total income tax expense (407) (144) Net loss (114,316) (38,975) Less: Net loss attributable to redeemable noncontrolling interest $ \u2014\u00a0 $ \u2014\u00a0 Net loss available for common stockholders $ (114,316) $ (38,975) Comparative Results for the Three Months Ended March 31, 2026 and"
+      ],
+      "debt_instrument": [
+       "red Notes On November 13, 2025, Cipher Compute LLC (\u201cCipher Compute\u201d), a wholly-owned indirect subsidiary of the Company, issued an aggregate principal amount of $ 1.4 \u00a0billion of 7.125 % Senior Secured Notes due 2030 (the \u201c2030 Senior Secured Notes\u201d). The 2030 Senior Secured Notes are senior secured obligations of Cipher Compute and bear interest at a rate of 7.125 % per",
+       "r Secured Notes On February 11, 2026, Black Pearl Compute LLC (\u201cBP Compute\u201d), a wholly-owned indirect subsidiary of the Company, issued an aggregate principal of $ 2.0 \u00a0billion of 6.13 % Senior Secured Notes due 2031 (the \u201c2031 Senior Secured Notes\u201d). The 2031 Senior Secured Notes are senior secured obligations of BP Compute and bear interest at a rate of 6.13 % per year"
+      ],
+      "depreciation_life": [
+       "l statements include, but are not limited to, those related to equity instruments issued in share-based compensation arrangements, valuation of its Level 3 assets and liabilities, useful lives of property and equipment, asset retirement obligations and the valuation allowance associated with the Company\u2019s deferred tax assets, among others. Making estimates requires mana",
+       "ssociated with leasehold improvements and other capitalized assets. We capitalize the cost of our mining machines and record depreciation expense on a straight-line basis over the estimated useful life of the machines, which is generally 3 years. Leasehold improvements include capitalized asset retirement costs, which are amortized over the estimated useful life of the rela"
+      ]
+     }
+    }
+   }
+  },
+  {
+   "ticker": "BTBT",
+   "cik": "0001710350",
+   "role": "cluster_issuer",
+   "filings": {
+    "10-K": {
+     "date": "2026-03-27",
+     "accession": "0001213900-26-035544",
+     "chars": 855811,
+     "facts": {
+      "customer_concentration": [
+       "Campus, Iceland, where it leases capacity to house its GPUs. During 2025, our HPC data center in Iceland had contracts with 21 customers. DNA Fund accounted for approximately 11.5% of our revenue during the 12 months ended December 31, 2025. We did not generate any revenue from DNA Fund in 2024. \u00a0 Our Initial Customer accounted for approximately 70.7% of its revenue during",
+       "ur from events out of WhiteFiber\u2019s control, such as environmental incidents or other catastrophes. \u00a0 42 \u00a0 WhiteFiber\u2019s business has and is expected to continue to have significant customer concentration. \u00a0 WhiteFiber generates a large portion of its revenue from a small number of customers. There are inherent risks whenever a large percentage of total revenue is concentrated with"
+      ],
+      "rpo_backlog": [
+       "colocation and related services at our NC-1 facility. The agreement represents a significant commercial milestone for our high-density data center platform and provides long-term contracted revenue visibility. The initial Service Order pursuant to the Services Agreement represents approximately $865 million in total contracted revenue over a 10-year term, inclusive of contra",
+       "a center platform and provides long-term contracted revenue visibility. The initial Service Order pursuant to the Services Agreement represents approximately $865 million in total contracted revenue over a 10-year term, inclusive of contractual annual rate escalators and non-recurring installation services (\u201cNRCs\u201d). Electricity and certain other operating costs are structured"
+      ],
+      "going_concern": [
+       "ly negatively impact our business, prospects, financial condition and results of operation. Such circumstances would have a material adverse effect on our ability to continue as a going concern or to pursue our business strategy at all, which would have a material adverse effect on our business, prospects or operations as well as and potentially the value of any digital"
+      ],
+      "covenant_liquidity": [
+       "ures conservatively, prioritize best-in-class custody and validator operations (including multi-client diversity and performance monitoring), and maintain appropriate unencumbered liquidity to meet corporate needs. We may rebalance or unwind positions in response to changes in risk, reward, or regulatory context. \u00a0 Operating expenditures and investment priorities . As a",
+       "the liquidity profile of any staked positions and our ability to access capital markets through our shelf registration and at-the-market program. We intend to maintain sufficient liquidity to support operations, regulatory compliance, and security investments, while seeking opportunities to increase ETH holdings when market conditions are attractive. \u00a0 Known events rea"
+      ],
+      "net_loss": [
+       "tatements. \u00a0 Net (loss) income and (loss) earnings per share \u00a0 For the year ended December 31, 2025, our net loss was $84.9 million, representing a change of $113.2 million from a net income of $28.3 million for the year ended December 31, 2024. \u00a0 Basic and diluted loss per share was $0.31 and $0.31 for the year ended December 31, 2025, respectively. Basic and diluted ea",
+       "atements. \u00a0 Net income (loss) and earnings (loss) per share \u00a0 For the year ended December 31, 2024, our net income was $28.3 million, representing a change of $42.2 million from a net loss of $13.9 million for the year ended December 31, 2023. \u00a0 Basic and diluted earnings per share was $0.20 and $0.19 for the year ended December 31, 2024, respectively. Basic and dilute"
+      ],
+      "debt_instrument": [
+       "ners. As of December 31, 2025, Digihost provided approximately 6.0 MW of capacity for our miners at their facility. \u00a0 On May 9, 2023 (\u201cEffective Date\u201d), the Company entered into a Term Loan Facility and Security Agreement (the \u201cLoan Agreement\u201d) with GreenBlocks. Pursuant to the Loan Agreement, GreenBlocks has requested the Company to extend one or more loans (\u201cAdvanc",
+       "ment (the \u201cLoan Agreement\u201d) with GreenBlocks. Pursuant to the Loan Agreement, GreenBlocks has requested the Company to extend one or more loans (\u201cAdvances\u201d) under a senior secured term loan facility in an aggregate outstanding principal amount not to exceed $5 million. The interest rate of the Loan Agreement is 0% and Advances are to be repaid on the maturity date, w"
+      ],
+      "depreciation_life": [
+       "items may increase the volatility of our reported results and require significant judgment. \u00a0 We make critical accounting estimates regarding impairment, fair value measurements, estimated useful lives of miners and infrastructure, revenue recognition (including principal-versus-agent considerations in pools), and the classification and presentation of digital assets. Chan",
+       "and amortization expenses \u00a0 For the years ended December 31, 2025 and 2024, depreciation and amortization expenses were $36.8 million and $32.3 million, respectively, based on an estimated useful life of property, plant, and equipment and intangible assets. The increase in depreciation and amortization expenses is attributable to additional assets placed in service in 2025"
+      ]
+     }
+    },
+    "10-Q": {
+     "date": "2026-05-15",
+     "accession": "0001213900-26-057116",
+     "chars": 349943,
+     "facts": {
+      "rpo_backlog": [
+       "eceived from customers for services that have not yet commenced as of March 31, 2026. Deferred revenues are recognized as revenue when recognition criteria have been met. \u00a0 16 \u00a0 \u00a0 Remaining performance obligation \u00a0 Remaining performance obligations represent the transaction price of contracts for work that have not yet been performed. The amount represents estimated revenue expected to be",
+       "that have not yet commenced as of March 31, 2026. Deferred revenues are recognized as revenue when recognition criteria have been met. \u00a0 16 \u00a0 \u00a0 Remaining performance obligation \u00a0 Remaining performance obligations represent the transaction price of contracts for work that have not yet been performed. The amount represents estimated revenue expected to be recognized in the future related to"
+      ],
+      "covenant_liquidity": [
+       "on a transaction-by-transaction basis. This facility will be available for the 36 -month term in the amount of $ 5.8 million. \u00a0 As of March 31, 2026, WhiteFiber agreed to certain financial covenants that were not yet in effect. The facilities had not yet been authorized for use by the lender, as certain conditions precedent had not yet been satisfied. Accordingly, no amounts",
+       "Letters of Guarantee. The fees will be determined on a transaction-by-transaction basis, and the facility will be available for a 12-month term. \u00a0 WhiteFiber has agreed to certain financial covenants, including a minimum debt service coverage ratio and a maximum Net funded debt to EBITDA ratio. \u00a0 As of the reporting date, the April 27, 2026 bridge loan has been authorized and"
+      ],
+      "net_loss": [
+       "ss before income taxes \u00a0 \u00a0 ( 149,857,788 ) \u00a0 \u00a0 ( 57,039,929 ) \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 Income tax expenses \u00a0 \u00a0 ( 421,523 ) \u00a0 \u00a0 ( 671,716 ) Net loss \u00a0 $ ( 150,279,311 ) \u00a0 $ ( 57,711,645 ) Net loss attributable to noncontrolling interest \u00a0 \u00a0 ( 3,610,275 ) \u00a0 \u00a0 - \u00a0 Net loss attributable to Bit Digital shareholders \u00a0 $ ( 146,669,036 ) \u00a0 $ ( 57,711,645 ) \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 Weighted average nu",
+       "Income tax expenses \u00a0 \u00a0 ( 421,523 ) \u00a0 \u00a0 ( 671,716 ) Net loss \u00a0 $ ( 150,279,311 ) \u00a0 $ ( 57,711,645 ) Net loss attributable to noncontrolling interest \u00a0 \u00a0 ( 3,610,275 ) \u00a0 \u00a0 - \u00a0 Net loss attributable to Bit Digital shareholders \u00a0 $ ( 146,669,036 ) \u00a0 $ ( 57,711,645 ) \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 Weighted average number of ordinary share outstanding \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 Basic \u00a0 \u00a0 325,638,843"
+      ],
+      "debt_instrument": [
+       "he deposits are refundable upon expiration of the agreement. \u00a0 32 \u00a0 \u00a0 12. DEBT \u00a0 2030 Convertible notes\u00a0 \u00a0 In October 2025, we issued $ 150,000,000 \u00a0aggregate principal amount of\u00a0 4.00 % convertible senior notes due 2030 (the \u201c2030 Notes\u201d), including the exercise in full by the initial purchasers of the 2030 Notes of their option to purchase up to an additional $ 15,000,000",
+       "undable upon expiration of the agreement. \u00a0 32 \u00a0 \u00a0 12. DEBT \u00a0 2030 Convertible notes\u00a0 \u00a0 In October 2025, we issued $ 150,000,000 \u00a0aggregate principal amount of\u00a0 4.00 % convertible senior notes due 2030 (the \u201c2030 Notes\u201d), including the exercise in full by the initial purchasers of the 2030 Notes of their option to purchase up to an additional $ 15,000,000 \u00a0principal amount of th"
+      ],
+      "depreciation_life": [
+       "nsolidated financial statements. Significant estimates required to be made by management include, but are not limited to, the valuation of digital assets and other current assets, useful lives of property, plant, and equipment, impairment of long-lived assets, intangible assets and goodwill, valuation of assets and liabilities acquired in business combinations, provisio",
+       "3,795 \u00a0 \u00a0 $ 52,838,419 \u00a0 \u00a0 11 \u00a0 \u00a0 Property, plant, and equipment, net \u00a0 Property, plant, and equipment are recorded at cost and depreciated using the straight-line method over the estimated useful lives of the assets or declining-balance method. Direct costs related to developing or obtaining software for internal use are capitalized as property, plant, and equipment. Capit"
+      ]
+     }
+    }
+   }
+  },
+  {
+   "ticker": "BXSL",
+   "cik": "0001736035",
+   "role": "bdc",
+   "filings": {
+    "10-K": {
+     "date": "2026-02-25",
+     "accession": "0001736035-26-000004",
+     "chars": 1481736,
+     "facts": {
+      "customer_concentration": [
+       "d other than by the Audit Committee for a non-audit service, such engagement will not be a violation of the Policy if: (i) any and all such services do not aggregate to more than 5% of total revenues paid by the Company to the Independent Auditor in the fiscal year when services are provided; (ii) the services were not recognized as non-audit services at the time of the engag"
+      ],
+      "covenant_liquidity": [
+       "Blackstone Credit & Insurance generally targets businesses with leading market share positions, sustainable barriers to entry, high free cash flow generation, strong asset values, liquidity to withstand market cycles, favorable underlying industry trends, strong internal controls and high-quality management teams. Strong Investment Track Record. Blackstone Credit & Insu",
+       "be no assurance that our rate of return objectives or any particular investment will be achieved. In addition, the debt securities in which we will invest may not be protected by financial covenants or limitations upon additional indebtedness, may have limited liquidity and are not expected to be rated by a credit rating agency. Early repayments of our investments may have a"
+      ],
+      "net_loss": [
+       "in our portfolio were at floating rates. Based on our Consolidated Statements of Assets and Liabilities as of December\u00a031, 2025, the following table shows the annualized impact on net income of hypothetical base rate changes in interest rates (considering interest rate floors and ceilings for floating rate instruments assuming no changes in our investment and borrowing s"
+      ],
+      "debt_instrument": [
+       "ortfolioCashAndCashEquivalentMember 2025-12-31 0001736035 bxsl:QualifyingAssetsMember 2025-12-31 0001736035 bxsl:NonQualifyingAssetsMember 2025-12-31 0001736035 123Dentist, Inc. | Delayed Draw Term Loan 2025-12-31 0001736035 Abacus Holdco 2, Oy | Delayed Draw Term Loan 2025-12-31 0001736035 Accordion Partners, LLC | Revolver 2025-12-31 0001736035 Accordion Partners, LLC | Delayed",
+       "ifyingAssetsMember 2025-12-31 0001736035 bxsl:NonQualifyingAssetsMember 2025-12-31 0001736035 123Dentist, Inc. | Delayed Draw Term Loan 2025-12-31 0001736035 Abacus Holdco 2, Oy | Delayed Draw Term Loan 2025-12-31 0001736035 Accordion Partners, LLC | Revolver 2025-12-31 0001736035 Accordion Partners, LLC | Delayed Draw Term Loan 2025-12-31 0001736035 Accuity Delivery Systems, LLC"
+      ]
+     }
+    },
+    "10-Q": {
+     "date": "2026-05-07",
+     "accession": "0001736035-26-000010",
+     "chars": 708336,
+     "facts": {
+      "covenant_liquidity": [
+       "ustomary events of default for similar financing transactions, including if a change of control of the applicable SPV occurs. Upon the occurrence and during the continuation of an event of default, the lenders under the applicable SPV Financing Facility may declare the outstanding advances and all other obligations under the applicable SPV Financing Facility immediately due",
+       "SPV Financing Facility may declare the outstanding advances and all other obligations under the applicable SPV Financing Facility immediately due and payable. The occurrence of an event of default triggers a requirement that the applicable SPV obtain the consent of the lenders under the applicable SPV Financing Facility prior to entering into any sale or disposition with re"
+      ],
+      "net_loss": [
+       "portfolio were at floating rates. Based on our Condensed Consolidated Statements of Assets and Liabilities as of March\u00a031, 2026, the following table shows the annualized impact on net income of hypothetical base rate changes in interest rates (considering interest rate floors and ceilings for floating rate instruments assuming no changes in our investment and borrowing s"
+      ],
+      "debt_instrument": [
+       "ortfolioCashAndCashEquivalentMember 2026-03-31 0001736035 bxsl:QualifyingAssetsMember 2026-03-31 0001736035 bxsl:NonQualifyingAssetsMember 2026-03-31 0001736035 123Dentist, Inc. | Delayed Draw Term Loan 2026-03-31 0001736035 Abacus Holdco 2, Oy | Delayed Draw Term Loan 2026-03-31 0001736035 Accordion Partners, LLC | Revolver 2026-03-31 0001736035 Accordion Partners, LLC | Delayed",
+       "ifyingAssetsMember 2026-03-31 0001736035 bxsl:NonQualifyingAssetsMember 2026-03-31 0001736035 123Dentist, Inc. | Delayed Draw Term Loan 2026-03-31 0001736035 Abacus Holdco 2, Oy | Delayed Draw Term Loan 2026-03-31 0001736035 Accordion Partners, LLC | Revolver 2026-03-31 0001736035 Accordion Partners, LLC | Delayed Draw Term Loan 2026-03-31 0001736035 Accuity Delivery Systems, LLC"
+      ]
+     }
+    }
+   }
+  },
+  {
+   "ticker": "ARCC",
+   "cik": "0001287750",
+   "role": "bdc",
+   "filings": {
+    "10-K": {
+     "date": "2026-02-04",
+     "accession": "0001287750-26-000006",
+     "chars": 1667387,
+     "facts": {
+      "covenant_liquidity": [
+       "d negative covenants, default penalties, lien protection, change of control provisions and board rights, including either observation or participation rights. We generally require financial covenants and terms that require an issuer to reduce leverage, thereby enhancing credit quality. These methods include: (a)\u00a0maintenance leverage covenants requiring a decreasing ratio of i",
+       "stment Company Act, which would subject us to additional regulatory restrictions and significantly decrease our operating flexibility. In addition, any such failure could cause an event of default under our outstanding indebtedness, which could have a material adverse effect on our business, financial condition or results of operations. We are dependent upon certain key per"
+      ],
+      "net_loss": [
+       "transactions (31) (91) 11\u00a0 (111) Net income 250\u00a0 157\u00a0 (188) 219\u00a0 Less: Net income (loss) attributable to non-controlling interests in Consolidated IHAM Vehicles \u2014\u00a0 157\u00a0 (188) (31) Net income attributable to Ivy Hill Asset Management, L.P. $ 250\u00a0 $ \u2014\u00a0 $ \u2014\u00a0 $ 250\u00a0 For the Year Ended December 31, 2024 (in millions) IHAM Consolidated IHAM Vehicles(1) Eliminations Consolidated Selected",
+       "r transactions (64) (69) 55\u00a0 (78) Net income 281\u00a0 125\u00a0 (130) 276\u00a0 Less: Net income (loss) attributable to non-controlling interests in Consolidated IHAM Vehicles \u2014\u00a0 125\u00a0 (130) (5) Net income attributable to Ivy Hill Asset Management, L.P. $ 281\u00a0 $ \u2014\u00a0 $ \u2014\u00a0 $ 281\u00a0 ____________________________________ (1) Consolidated for GAAP purposes only. 80 Senior Direct Lending Program We have e"
+      ],
+      "debt_instrument": [
+       "enior secured loans typically do not receive any stock, warrants to purchase stock or other yield enhancements. Senior secured loans may include both revolving lines of credit and term loans. Structurally, subordinated debt usually ranks junior in priority of payment to senior secured loans and is often unsecured. However, subordinated debt ranks senior to preferred",
+       "approximately $5.5\u00a0billion at any one time outstanding. The Revolving Credit Facility consists of an approximately $4.4\u00a0billion revolving tranche and an approximately $1.1 billion term loan tranche. As of December\u00a031, 2025, the end of the revolving periods and the stated maturity dates of the various revolving and term loan tranches of the Revolving Credit Facility w"
+      ]
+     }
+    },
+    "10-Q": {
+     "date": "2026-04-28",
+     "accession": "0001628280-26-027688",
+     "chars": 1303126,
+     "facts": {
+      "net_loss": [
+       "17 \u00a0 ( 118 ) Net income (loss) 66 \u00a0 ( 59 ) ( 49 ) ( 42 ) Less: Net income (loss) attributable to non-controlling interests in Consolidated IHAM Vehicles \u2014 \u00a0 ( 59 ) ( 49 ) ( 108 ) Net income attributable to Ivy Hill Asset Management, L.P. $ 66 \u00a0 $ \u2014 \u00a0 $ \u2014 \u00a0 $ 66 \u00a0 178 For the Three Months Ended March 31, 2025 IHAM Consolidated IHAM Vehicles(1) Eliminations Consolidated Selected St",
+       "ns 16 \u00a0 ( 43 ) ( 9 ) ( 36 ) Net income 82 \u00a0 12 \u00a0 ( 51 ) 43 \u00a0 Less: Net income (loss) attributable to non-controlling interests in Consolidated IHAM Vehicles \u2014 \u00a0 12 \u00a0 ( 51 ) ( 39 ) Net income attributable to Ivy Hill Asset Management, L.P. $ 82 \u00a0 $ \u2014 \u00a0 $ \u2014 \u00a0 $ 82 \u00a0 ____________________________________ (1) Consolidated for GAAP purposes only. Senior Direct Lending Program The Compan"
+      ],
+      "debt_instrument": [
+       "the Company to borrow up to $ 5,312 at any one time outstanding. The Revolving Credit Facility consists of an approximately $ 4,168 revolving tranche and an approximately $ 1,144 term loan tranche. As of March\u00a031, 2026, the end of the revolving periods and the stated maturity dates of the various revolving and term loan tranches of the Revolving Credit Facility were",
+       "revolving tranche and an approximately $ 1,144 term loan tranche. As of March\u00a031, 2026, the end of the revolving periods and the stated maturity dates of the various revolving and term loan tranches of the Revolving Credit Facility were as follows: Total Aggregate Principal Amount Committed End of Revolving Period Maturity Date Revolving tranche $ 4,058 \u00a0 April 15, 2"
+      ]
+     }
+    }
+   }
+  }
+ ]
+}

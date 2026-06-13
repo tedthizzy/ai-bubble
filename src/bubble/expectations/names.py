@@ -85,7 +85,10 @@ NAMES: list[NameInputs] = [
         notes="GPU cloud mid-transition from Bitcoin. ~$3.7-3.96B converts; net-debt sign is "
         "ambiguous across sources (modest net cash to mild net debt). NVIDIA warrant (30M @ $70) "
         "is dilution overhang. The revenue series is the trap -- do not annualize the falling "
-        "reported quarter.",
+        "reported quarter. FILING FLAG (2026-06-13, 10-Q): IREN's GAAP RPO is only $710.3M as of "
+        "2026-03-31, vs the ~$13.1B total-contract-value basis used here -- so the FIRM contracted "
+        "backlog is a small fraction of the headline, and IREN's renewal-dependent share is "
+        "UNDERSTATED. On a $0.71B RPO basis it would be ~99%. See analysis/filing_verifications.md.",
         sources={
             "ev_financials": "https://stockanalysis.com/stocks/iren/statistics/",
             "revenue_backlog_capacity": "https://iren.gcs-web.com/news-releases/"

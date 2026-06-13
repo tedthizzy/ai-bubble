@@ -35,9 +35,33 @@ Card updated: [analysis/spacex_adjacency.md](spacex_adjacency.md) (correction lo
 
 ---
 
-## Queue (next highest-value exhibit reads)
+## 2026-06-13 · Cluster-wide sweep (12 issuers + 2 BDCs)
 
-- CoreWeave Q1-2026 10-Q (acc 0001769628-26-000222) — confirm the $99.4B RPO and the 9.75% April-2026 issuance; OpenAI/Meta take-or-pay amounts.
-- NBIS / IREN / APLD latest filings — upgrade the WS1.1 backlog/EV inputs from press to filing tier.
-- BXSL / ARCC schedules of investments — size the AI/DC exposure behind the S3' set membership ([bdc_exposure_cards.md](bdc_exposure_cards.md)).
-- The 11 cluster issuers' debt exhibits — the WS2.2/2.3 utilization + waterfall work, now unblocked locally.
+Ran `scripts/edgar_verify_cluster.py` — the latest 10-K/10-Q (or 20-F for the foreign filer) for every cluster issuer + the two listed BDCs, extracting concentration / RPO / take-or-pay / going-concern / debt / profitability at filing tier. Full extracted snippets: [cluster_filing_facts.json](cluster_filing_facts.json). Key findings:
+
+**1. Going-concern: ZERO current auditor qualifications (a false alarm avoided).** The keyword sweep flagged six issuers (WULF, IREN, APLD, MARA, CORZ, BTBT), but reading each snippet, **five are hypothetical risk-factor boilerplate** ("*could* … impact our ability to continue as a going concern" — WULF re: SHA-256, IREN/APLD/BTBT generic, MARA re: a possible restatement) and the sixth (**CORZ**) is **historical** — its actual 2022 Chapter 11 (since emerged; now being acquired by CoreWeave). No affirmative going-concern *qualification* surfaced. (Airtight confirmation = reading each auditor's report paragraph; the risk-factor language alone does not establish distress, and treating it as such would be exactly the over-count error the engine rejects.)
+
+**2. CoreWeave is the cluster's internal customer-hub — a filing-verified concentration cascade.** Multiple issuers' AI/data-center revenue concentrates *into CoreWeave* as the customer:
+- **CORZ:** *"One customer, CoreWeave, currently accounts for 100% of our Colocation segment revenue"* (and CoreWeave is acquiring CORZ).
+- **GLXY:** *"our AI/HPC data center business will initially be highly dependent on a single customer, CoreWeave."*
+- **APLD:** *"material customer concentration"*; ~$11B of its ~$16B lease backlog is CoreWeave (per its disclosures).
+
+And CoreWeave itself is **67% Microsoft** with **56% of its backlog OpenAI** (the capital-markets-funded demand leg). So the cluster's revenue funnels up into CoreWeave, and CoreWeave funnels into Microsoft + OpenAI. A CoreWeave stumble is therefore not only its own lenders' problem — it removes GLXY's, CORZ's, and much of APLD's revenue simultaneously. This is the contagion-hub finding, now at filing tier and on the *revenue* side, not just the debt side.
+
+**3. Profitability: the cluster is overwhelmingly loss-making (filing-verified).** Net result, latest fiscal year: CRWV −$1,167M, APLD −$231M, HUT −$248M, CORZ −$347M (Q1-26), CIFR −$822M, BTBT −$85M, MARA loss, WULF loss, GLXY loss. The **only exceptions: CLSK net income +$364M** and **IREN FY net income +$86.9M** (both confirmed; both volatile — IREN swung to a −$248M quarter on impairments). Confirms the engine's "loss-making cluster" characterization directly.
+
+**4. A structural debt-split the engine should weight.** Two financing styles:
+- **Bitcoin-miner pivots** fund via *cheap convertibles* (equity optionality): MARA $1.0B **0%** conv '32; CLSK $1.15B **0%** conv '32; IREN 3.25–3.5% conv '29; GLXY 3.0% exch '26; CORZ 3.0% conv '29/'31.
+- **Pure neoclouds / AI-DC** fund via *expensive secured / SPV* debt: CRWV 9.00–9.75% senior + DDTLs at SOFR+4.0–4.25% (total indebtedness **$21.6B at YE2025**, +$3.7B undrawn); **CIFR's "Black Pearl Compute LLC" SPV raised $2.0B of 6.125% senior secured notes due 2031** (the CoreWeave/Elk-Grove SPV pattern repeating); APLD's ComputeCo 6.75% '31.
+
+The coverage stress (7/11 breaching) is concentrated in the *secured-debt* names; the 0%-convertible miners carry near-zero cash interest, so their fragility is dilution/refi-at-maturity, not current debt service. This sharpens the two-clock read: the secured neoclouds bleed on carry *now*; the convert-financed miners face a *2029–2032 maturity/conversion* event, not a near-term coverage breach.
+
+**5. IREN backlog — a material press-vs-filing gap.** IREN's filing **RPO is $710.3M as of 2026-03-31** (10-Q), against the ~$3.1B "contracted ARR" and ~$13.1B "total contract value" press/company headlines used in the expectations inversion. GAAP RPO excludes not-yet-commenced and cancellable/optional portions — so IREN's *firm* contracted backlog is a fraction of the headline, which means its renewal-dependent share of EV is **understated** in the inversion. Flagged in `src/bubble/expectations/names.py`.
+
+**6. BDC self-disclosure.** **BXSL's 10-K** explicitly names the risk: *"growing concern about the sustainability of the private credit industry, particularly due to its significant exposure to the expanding technology sector, which includes artificial intelligence infra[structure]."* **ARCC's 10-K** confirms the *"Retained Vantage Data Centers"* position — the one named DC exposure behind its weak S3′ "exposed" membership.
+
+## Queue (remaining filing-tier deepening)
+
+- Read each auditor's report paragraph to make the "zero going-concern qualifications" claim airtight.
+- Per-facility debt waterfalls (caps/triggers/seniority) on the secured names (CRWV, CIFR/Black Pearl, APLD/ComputeCo) — the WS2.3 waterfall work.
+- Confirm the 9.75% April-2026 CoreWeave note vs the 9.00% July-2025 note (de-conflate the S1 issuance card).
