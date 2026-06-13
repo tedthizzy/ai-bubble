@@ -80,6 +80,20 @@ Opened the actual filed exhibits to the CoreWeave 10-K + 424B4 to chase the "omn
 
 Pulled the amendment exhibits to the CoreWeave 10-K: the Parent Credit Agreement was amended **at least three times in late 2025** — **3rd Amendment dated Nov 5 2025** (EX-10.13) and **4th Amendment dated Dec 7 2025** (EX-10.14), plus a press-reported **First Amendment dated Dec 31 2025** to (apparently) a DDTL facility. Repeated amendments inside ~8 weeks are themselves a stress tell. **Caveat (rigor boundary):** the *specific* relief terms a secondary source attributed to the Dec-31 amendment — cut minimum-liquidity, postponed DSCR testing, equity cures — **could not be confirmed** in the exhibits I read (the Consolidated Leverage Ratio threshold is redacted; the DSCR-postponement language was not in the Parent-Credit-Agreement amendments). So: *multiple 2025 amendments confirmed at filing tier; the covenant-relief specifics remain secondary-tier* pending the exact facility amendment. This is the closest filing-tier light on the otherwise-DARK covenant-headroom question — and it points the right way (CoreWeave's headroom is being actively managed).
 
+## 2026-06-13 · CoreWeave Dec-31-2025 First Amendment + OpenAI $350M stake — two press claims resolved to FILING tier (high value)
+
+**Filing:** CoreWeave 8-K filed 2026-01-02, accession 0001769628-26-000003 ([document](https://www.sec.gov/Archives/edgar/data/1769628/000176962826000003/crwv-20251231.htm)).
+
+**The Dec-31-2025 First Amendment — confirmed verbatim, and it partly resolves the otherwise-DARK covenant-headroom question.** It amends the **DDTL 3.0 Credit Agreement** (dated July 28 2025; CCAC VII borrower):
+- *"reducing the **minimum liquidity** amount for the monthly payment dates ending on and after March 1, 2026 and prior to May 1, 2026 to **$100.0 million**"*;
+- *"**postponing the initial testing date of the debt service coverage ratio** financial covenant **until October 31, 2027**"*;
+- *"postponing the initial testing date of the contract realization ratio financial covenant until February 28, 2026"*;
+- *"permits an **unlimited number of equity cures** for any failure to satisfy the debt service coverage ratio and contract realization ratio financial covenants prior to October 28, 2026."*
+
+**This is the single most timeline-relevant fact recovered tonight, and it cuts toward EXTENSION:** the covenant whose breach would most plausibly force a CoreWeave credit event (DSCR) **will not even be *tested* until Oct 31 2027**, and *unlimited equity cures* (OpenAI/equity backers can plug failures) run through Oct 2026. So the "CoreWeave covenant trip" near-term accelerant is **largely defused until late 2027** — converging with the 2027 GPU-resale-glut timing. The flip side (the stress tell): lenders granted this relief *because* CoreWeave was approaching the original tests — confirming the operational bleed is real, just covenant-deferred. Both readings are filing-grounded.
+
+**OpenAI $350M equity stake — confirmed (customer-as-shareholder circularity, filing tier).** Per the Q3-2025 10-Q (acc 0001769628-25-000062): *"in connection with a commercial agreement with a strategic customer… we also issued **8,750,000 shares of Class A common stock on March 31, 2025, with an aggregate value of $350 million** at the time of issuance based on a price per share equal to the IPO price."* And: *"Upon an event of default, **OpenAI has a lien and security interest in the equity of the special purpose vehicle**."* So OpenAI is simultaneously CoreWeave's customer, a shareholder, and a secured party on the SPV — a tighter circularity than the withdrawn SpaceX/Alphabet instance, and *filing-confirmed*. (The NVIDIA ~$6.3B unsold-capacity backstop remains press-tier — full-text search surfaced it in CRWV filings but a targeted grep returned the $6.3B capex figure, not the backstop language; left press-tier.)
+
 ## Queue (remaining filing-tier deepening)
 
 - Read each auditor's report paragraph to make the "zero going-concern qualifications" claim airtight.
