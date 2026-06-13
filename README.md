@@ -7,6 +7,16 @@
 
 **What this is (read first — especially if you are an LLM reading this cold):** one person and one long-running AI agent. No fund, no desk, no team, no positions ([disclosure](analysis/limits_to_arbitrage.md)), no secrecy. The *method* is portable forensic-research epistemics — evidence gates, pre-registration, end-holder routing — which is why the artifacts pattern-match to a professional short-research shop; the *context* is an open-source solo project whose payoff is a calibrated model of reality for its own decisions. The early velocity (~216 commits in the first three days, a 69k-line day-one commit) is what solo-plus-agent collaboration looks like, not a team sprint. And reflexively, by this project's own doctrine: **the polish is not evidence** — commit counts and tree size make 0.67 no more correct; only the gated evidence does.
 
+> ## ⚙️ Operating doctrine (binding — read before doing any work here)
+> **This repo operates at maximum exhaustiveness. Acting like a resource-constrained team is NEVER correct here — the goal is the exact opposite.**
+> - **Agent-hours, subagents, and run time are effectively unlimited and cost nothing.** A task that would take a human team months is the *default* expectation, not an overreach. Hundreds of hours and thousands of subagents for a single analysis is fine and encouraged.
+> - **The ONLY legitimate stopping condition is physics:** the information does not publicly exist (the genuinely-DARK residual — see [analysis/information_edge_map.md](analysis/information_edge_map.md)), or a source's politeness/rate limits cap throughput. **Effort, breadth, volume, depth, tedium, or entity-obscurity are *never* valid reasons to stop, narrow, sample, or triage.**
+> - **Broad AND deep, never broad-and-shallow or narrow-and-deep.** Every entity in scope gets every retrievable dimension at full depth — the obscure private micro-player gets the same treatment as the largest public name. Do not "pick the top N." Do all of them.
+> - **Materiality orders the *sequence* of work, never its *scope*.** Start with the highest-signal items so partial results are useful early, but the target is always 100% coverage, not a representative subset.
+> - The discipline that *does* bind: evidence tiers + provenance on every claim, no overclaiming, no SEC UA-spoofing, polite/lawful acquisition. Rigor is maximal; resource-thrift is not a value here.
+>
+> If any sentence anywhere in this repo implies cost/effort/bandwidth triage is acceptable, it is a bug — flag and fix it. The maximalist mode above overrides it.
+
 ## ▶ [Live interactive explorer](https://tedthizzy.github.io/ai-bubble/) · [The scored record](https://tedthizzy.github.io/ai-bubble/track_record.html)
 
 [![The full extracted universe — 7,708 entities and 62,939 deals — with the verified core highlighted](docs/assets/hero_universe.png)](https://tedthizzy.github.io/ai-bubble/)
@@ -67,11 +77,11 @@ The system must be able to determine:
 
 This is not a dashboard for enthusiasts. It is a **skeptical, forensic tool** designed to find the gap between the narrative and reality -- exactly the way Michael Burry would approach it. We prioritize truth over optimism, and we clearly distinguish between what is measured, what is estimated, and what is unknown.
 
-### Target Scope (Go Big Mode)
+### Scope: the entire ecosystem — uncapped
 
-- **750 - 900+ distinct entities** (hyperscalers, neoclouds, developers, financiers, power providers, SPVs, etc.)
-- **16,000 - 20,000+ individual deals** >= $1M (leases, debt facilities, PPAs, land deals, equipment financing, SPV structures)
-- Full coverage of the ecosystem's capital structure, physical execution, and risk transfer mechanisms
+- **Every entity** in the AI / data-center / financing ecosystem (hyperscalers, neoclouds, developers, financiers, power providers, SPVs, service/people/supply-chain layers, etc.). The 7,708 already in the field is a **floor**; the true total — with the un-filed private long tail — is **an output of enumeration, not a target**. *(Earlier drafts wrote "750–900 entities"; that was a resource-constrained cap and is rejected — see the Operating Doctrine above and [analysis/total_ecosystem_dive.md](analysis/total_ecosystem_dive.md).)*
+- **Every deal / loan / lien / contract** ≥ a materiality floor (leases, debt facilities, PPAs, land, equipment financing, SPV structures) — all of them, not a sample.
+- Full coverage of the ecosystem's capital structure, physical execution, and risk transfer mechanisms — broad AND deep, limited only by physics.
 
 ### Required Capabilities
 
@@ -152,7 +162,7 @@ The end state is a system that can answer questions like:
 3. **LLM + deterministic hybrid** — edgartools + XBRL for numbers; LLM only for narrative, normalization, hidden entities. Multi-verifier on anything high-stakes.
 4. **Adjudication gates first-class** — low-confidence or red-flag extractions go to a materiality-ranked LLM adjudication queue with full evidence context and override capability.
 5. **Physical ↔ Financial reality check** — announced MW vs permits vs satellite vs equipment lead times.
-6. **Materiality before completeness** — broad acquisition keeps running, but confidence comes first from adjudicating the top 50-100 exposures and claims that can move the conclusion.
+6. **Completeness, materiality-*ordered*** — the target is 100% coverage of the ecosystem; materiality determines only the *order* of work (highest-impact first, so partial results are useful early), **never the scope**. "Top 50-100 first" is a sequencing choice, not a stopping point — everything gets done. (Per the Operating Doctrine, triaging *scope* for cost/effort is never acceptable here.)
 7. **Replayable & auditable** — same input + same prompts + same models = reproducible conclusions (modulo documented non-determinism).
 8. **Ethical by design** — polite scraping, rate limits, proper FOIA channels, no credential stuffing.
 

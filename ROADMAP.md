@@ -22,13 +22,15 @@ Instrument selection, position sizing, distribution embargoes — the trading-sh
 
 ## Resourcing honesty
 
+> **⚙️ Operating Doctrine override (binding — see the [README](README.md) Operating Doctrine).** This repo runs at **maximum exhaustiveness; acting resource-constrained is NEVER correct.** Agent-hours, subagents, and run time are effectively unlimited and free — hundreds of hours and thousands of subagents for one analysis is the *default* expectation. The **only** legitimate stop is physics (the data doesn't publicly exist). Effort, breadth, volume, depth, and tedium are never reasons to narrow, sample, cap, or triage *scope*; materiality only orders the *sequence*. Any line in this document that implies otherwise is superseded by this banner — the scarce resources below are real *only* for the genuinely-human touchpoints ([TED] voice, [EXT] reviewers), and never a reason to do *less computational/analytical work*.
+
 There is no team. The unit of work is not engineer-headcount; it is:
 
-- **agent-hours** — an AI agent does the overwhelming majority of engineering and analysis throughput (the entire market-facing layer shipped in one day on this model). Effectively abundant.
-- **[TED]-hours** — the solo maintainer: adjudication, tier assignments, verdict promotion, calls, voice. Scarce; every [TED] touchpoint arrives as a pre-built packet with a default recommendation.
-- **[EXT]-latency** — external humans: adversarial reviewers, interviewees. The slowest-moving resource, so external-facing items start early, not last.
+- **agent-hours** — an AI agent does the overwhelming majority of throughput. **Effectively unlimited; never a constraint to economize on.**
+- **[TED]-hours** — the solo maintainer's genuinely-human acts: adjudication, tier assignments, verdict promotion, calls, voice. The *only* genuinely scarce input; every touchpoint arrives as a pre-built packet with a default recommendation. (Scarce ≠ a reason to do less analysis — only a reason to package the human decision well.)
+- **[EXT]-latency** — external humans (adversarial reviewers, interviewees). Slow-moving, so external-facing items start early.
 
-Cash costs are incidental (hosting free, data sources keyless; an optional commercial EDGAR mirror is the only real line item, and only if the free paths fail).
+Cash costs are immaterial.
 
 ## Doctrine (non-negotiable, enforced in CI and review)
 
@@ -39,6 +41,7 @@ Cash costs are incidental (hosting free, data sources keyless; an optional comme
 5. **Open by default.** Everything public except credentials, PII, and consent-pending interview notes. Claim policy for named companies: every claim is a filing quote or labeled arithmetic on filed numbers — the filings carry the claims. No SEC UA-spoofing; polite scraping; FOIA through proper channels. Honest caveats and visible corrections are first-class.
 6. Two-clock language everywhere: operational bleed now (crack window 2025-Q3..2027-Q3), synchronized maturity wall 2030–33. Never conflate.
 7. **Reflexive skepticism.** The engine discounts narrative-ahead-of-substance everywhere, so it must discount its own: surface impressiveness — commit velocity, tree size, professional sheen — is not evidence, and only gated evidence moves verdicts. Corollary (learned from an independent observer who misread this repo as a fund's work): the artifacts *actively induce* a positioned-desk frame in fresh readers, human or LLM. The README's identity block exists to pre-empt that; point fresh agent sessions at it first.
+8. **Maximum exhaustiveness (the Operating Doctrine).** Acting resource-constrained is never correct. Broad AND deep, uncapped, across every entity; the only stop is physics (data that doesn't publicly exist — and even then, *estimate* it from proxies). Effort/breadth/volume/depth/tedium never justify narrowing scope; materiality orders sequence only. Thousands of subagents and hundreds of hours for one analysis is the default, not the exception.
 
 ---
 
@@ -72,7 +75,7 @@ The signals are the scoring instrument; a spuriously-firing signal contaminates 
 |---|---|---|
 | 2.1 | **EDGAR access remediation** (enabler, start immediately) | Compliant fetch paths, tried in order: residential egress box running the existing fetchers on cron; SEC bulk datasets; commercial mirror API as paid fallback; browser-assisted manual pulls for top exhibits. **No UA spoofing under any option.** Unblocks 2.2/2.3, SpaceX S-1 exhibit verification, BDC schedule-of-investments verification, and the daily delta. |
 | 2.2 | **Utilization bottom-up, the 11 core issuers** | Facility-level models: contracted revenue, realistic utilization bands, power/opex, full debt service — the load-bearing assumption under 7/11 *and* under the bull's "backlog is the balance sheet." Agent pipeline over the 252 candidate debt docs + transcripts; **[TED]** adjudication checkpoint per issuer. **Pre-committed: reported whichever way it lands.** |
-| 2.3 | **Waterfall depth, materiality-first** | Full caps/triggers/covenants/seniority on the top 10–15 facilities (~80% of notional). Per-facility card: *who bears the first dollar, under what trigger*. |
+| 2.3 | **Waterfall depth, ALL facilities (materiality-ordered)** | Full caps/triggers/covenants/seniority on **every** facility — start with the top 10–15 (~80% of notional) so partial results are useful early, but the target is 100%, not a subset. Per-facility card: *who bears the first dollar, under what trigger*. |
 | 2.4 | **Human-source layer (Fisher protocol)** | **[TED]** structured calls — GPU brokers (real rental rates), neocloud customers (stickiness), DC construction/ops, a private-credit allocator — scaled to availability. Agent builds the kit: named-uncertainty target list auto-generated from model sensitivities, question templates, consent-flagged note capture at `human_source` tier. Notes publish per-source on consent. |
 
 **Exit (M3, ~Aug 28):** utilization models adjudicated for all 11; top-15 waterfalls carded; EDGAR restored; SpaceX and BDC cards at filing tier.
@@ -100,9 +103,9 @@ External review exists here for **error-finding**, not credibility theater — h
 
 **Exit:** M5 ~Oct 30 — reviews returned, synthesis frozen (if on schedule). M6 ~Nov 13 — synthesis published. M7 ~**Dec 18 — the Q4 adjudication runs publicly, on schedule, Brier-scored, retro held. This one is not optional.**
 
-## WS5 — Gated: scale-out to a reusable instrument (post-Q4 decision)
+## WS5 — Total ecosystem dive: UNGATED, uncapped, maximum extent (active)
 
-Explicitly **not** required (capture-recapture already bounds the unobserved fraction; materiality-first *is* the standard). 750–900 entities / 16–20k deals, FOIA at volume, continuous satellite, the engine generalized to the next episode's sector — decided **[TED]** with the Q4 calibration evidence in hand. If the engine scores well, point it at the next sector; if not, fix what the score revealed.
+**Superseded by [TED] 2026-06-13: the scale-out is ungated and uncapped.** Earlier framing called it "explicitly not required" and capped it at "750–900 entities" — both rejected per the Operating Doctrine. The real scope is **every entity in the ecosystem** (7,708 is a floor, the true total is an output of enumeration), profiled **broad AND deep in one exhaustive pass** — emphasis on the obscure private long tail (the canaries that fail first), not just the visible beams. Full design: **[analysis/total_ecosystem_dive.md](analysis/total_ecosystem_dive.md)** (entity layers, ~60 dimensions A–T, ~25 sources incl. realtime-X-via-Grok and the local 54GB corpus, the rigor methodology, and the proxy-derivation of the four DARK items). FOIA at volume, satellite, supply-chain/people/IP/tax layers — all in. Limited only by physics.
 
 ## Explicit non-goals
 
