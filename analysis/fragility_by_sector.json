@@ -1,0 +1,291 @@
+{
+  "as_of": "2026-06-13",
+  "source": "analysis/economy_wide_fragility_map.json (top_200)",
+  "classification_tier": "heuristic (name/ticker); CIK->SIC join queued",
+  "ai_sector_rank": 3,
+  "ai_cohort_rank": 2,
+  "n_cohorts": 16,
+  "sectors": [
+    {
+      "sector": "Aerospace / space / defense",
+      "n": 1,
+      "sum_debt_usd": 45515999854.0,
+      "sum_near_term_usd": 40000000000.0,
+      "mean_composite": 0.4891,
+      "max_composite": 0.4891,
+      "off_corporate_leverage_axis": false,
+      "top_names": [
+        "SPACE EXPLORATION TECHNOLOGIES CORP (0.489)"
+      ]
+    },
+    {
+      "sector": "Midstream / pipeline",
+      "n": 4,
+      "sum_debt_usd": 216450000000.0,
+      "sum_near_term_usd": 60640000000.0,
+      "mean_composite": 0.3495,
+      "max_composite": 0.4598,
+      "off_corporate_leverage_axis": false,
+      "top_names": [
+        "ENBRIDGE INC (0.460)",
+        "Energy Transfer LP (0.336)",
+        "ENTERPRISE PRODUCTS PARTNERS L.P. (0.314)",
+        "Targa Resources Corp. (0.288)"
+      ]
+    },
+    {
+      "sector": "Data center / AI infra",
+      "n": 7,
+      "sum_debt_usd": 254735735989.0,
+      "sum_near_term_usd": 120054558899.0,
+      "mean_composite": 0.3477,
+      "max_composite": 0.4555,
+      "off_corporate_leverage_axis": false,
+      "top_names": [
+        "EQUINIX INC (0.456)",
+        "Hut 8 Corp. (0.413)",
+        "X.AI Corp, as holdings, X.AI LLC (0.410)",
+        "Applied Digital Corp. (0.327)",
+        "TERAWULF INC. (0.286)",
+        "Hyperscale Data, Inc. (0.271)"
+      ]
+    },
+    {
+      "sector": "Mortgage REIT",
+      "n": 5,
+      "sum_debt_usd": 126467467087.0,
+      "sum_near_term_usd": 54346347200.0,
+      "mean_composite": 0.3476,
+      "max_composite": 0.475,
+      "off_corporate_leverage_axis": false,
+      "top_names": [
+        "PennyMac Mortgage Investment Trust (0.475)",
+        "MFA FINANCIAL, INC. (0.376)",
+        "ARBOR REALTY TRUST INC (0.312)",
+        "BLACKSTONE MORTGAGE TRUST, INC. (0.303)",
+        "Ready Capital Corp (0.272)"
+      ]
+    },
+    {
+      "sector": "Payments / fintech",
+      "n": 6,
+      "sum_debt_usd": 356905940000.0,
+      "sum_near_term_usd": 73292690000.0,
+      "mean_composite": 0.3416,
+      "max_composite": 0.4518,
+      "off_corporate_leverage_axis": false,
+      "top_names": [
+        "BREAD FINANCIAL HOLDINGS, INC. (0.452)",
+        "NAVIENT CORP (0.419)",
+        "PayPal Holdings, Inc. (0.370)",
+        "GLOBAL PAYMENTS INC (0.275)",
+        "Shift4 Payments, LLC (0.274)",
+        "Fidelity National Information Servic (0.259)"
+      ]
+    },
+    {
+      "sector": "Bank / depository",
+      "n": 8,
+      "sum_debt_usd": 260834000000.0,
+      "sum_near_term_usd": 196605100000.0,
+      "mean_composite": 0.338,
+      "max_composite": 0.4355,
+      "off_corporate_leverage_axis": true,
+      "top_names": [
+        "SIMMONS FIRST NATIONAL CORP (0.435)",
+        "Ameris Bancorp (0.433)",
+        "BYLINE BANCORP, INC. (0.408)",
+        "FIFTH THIRD BANCORP (0.330)",
+        "BANK OF HAWAII CORP (0.308)",
+        "ConnectOne Bancorp, Inc. (0.279)"
+      ]
+    },
+    {
+      "sector": "Consumer / staples / retail",
+      "n": 4,
+      "sum_debt_usd": 195009000000.0,
+      "sum_near_term_usd": 77975000000.0,
+      "mean_composite": 0.3376,
+      "max_composite": 0.354,
+      "off_corporate_leverage_axis": false,
+      "top_names": [
+        "NIKE, INC. (0.354)",
+        "Keurig Dr Pepper Inc. (0.348)",
+        "AMCOR PLC (0.339)",
+        "PepsiCo, Inc. (0.310)"
+      ]
+    },
+    {
+      "sector": "Gaming / leisure / lodging",
+      "n": 6,
+      "sum_debt_usd": 250563246361.0,
+      "sum_near_term_usd": 59186000000.0,
+      "mean_composite": 0.3328,
+      "max_composite": 0.4452,
+      "off_corporate_leverage_axis": false,
+      "top_names": [
+        "LAS VEGAS SANDS CORP (0.445)",
+        "Marina Bay Sands Pte. Ltd. (0.355)",
+        "WYNN RESORTS LTD (0.349)",
+        "MGM RESORTS INTERNATIONAL (0.305)",
+        "ROYAL CARIBBEAN CRUISES LTD. (0.276)",
+        "Carnival Corp Ltd. (0.267)"
+      ]
+    },
+    {
+      "sector": "Telecom",
+      "n": 4,
+      "sum_debt_usd": 279724019000.0,
+      "sum_near_term_usd": 107626292000.0,
+      "mean_composite": 0.3309,
+      "max_composite": 0.3895,
+      "off_corporate_leverage_axis": false,
+      "top_names": [
+        "Lumen Technologies, Inc. (0.390)",
+        "AT&T INC. (0.359)",
+        "T-Mobile US, Inc. (0.307)",
+        "COMCAST CORP (0.268)"
+      ]
+    },
+    {
+      "sector": "Specialty pharma / healthcare",
+      "n": 3,
+      "sum_debt_usd": 52380208000.0,
+      "sum_near_term_usd": 22843108000.0,
+      "mean_composite": 0.3224,
+      "max_composite": 0.414,
+      "off_corporate_leverage_axis": false,
+      "top_names": [
+        "Bausch Health Companies Inc. (0.414)",
+        "Bausch & Lomb Corp (0.281)",
+        "Sarepta Therapeutics, Inc. (0.273)"
+      ]
+    },
+    {
+      "sector": "REIT / CRE (equity)",
+      "n": 15,
+      "sum_debt_usd": 200832087187.0,
+      "sum_near_term_usd": 107269757246.0,
+      "mean_composite": 0.3161,
+      "max_composite": 0.428,
+      "off_corporate_leverage_axis": false,
+      "top_names": [
+        "EQUITY RESIDENTIAL (0.428)",
+        "Kennedy-Wilson Holdings, Inc. (0.399)",
+        "WELLTOWER INC. (0.381)",
+        "HEALTHPEAK PROPERTIES, INC. (0.361)",
+        "AGREE REALTY CORP (0.337)",
+        "SIMON PROPERTY GROUP INC. (0.325)"
+      ]
+    },
+    {
+      "sector": "LNG / gas export",
+      "n": 4,
+      "sum_debt_usd": 98657769265.0,
+      "sum_near_term_usd": 10690800000.0,
+      "mean_composite": 0.3143,
+      "max_composite": 0.42,
+      "off_corporate_leverage_axis": false,
+      "top_names": [
+        "NextDecade Corp (0.420)",
+        "Cheniere Energy Partners, L.P. (0.308)",
+        "Venture Global, Inc. (0.282)",
+        "RIO GRANDE LNG, LLC (0.247)"
+      ]
+    },
+    {
+      "sector": "Media / advertising",
+      "n": 3,
+      "sum_debt_usd": 46552123910.0,
+      "sum_near_term_usd": 19776859000.0,
+      "mean_composite": 0.2954,
+      "max_composite": 0.3726,
+      "off_corporate_leverage_axis": false,
+      "top_names": [
+        "OMNICOM GROUP INC. (0.373)",
+        "McGraw-Hill Global Education Interme (0.267)",
+        "Versant Media Group, Inc. (0.247)"
+      ]
+    },
+    {
+      "sector": "BDC / private credit",
+      "n": 5,
+      "sum_debt_usd": 118498700000.0,
+      "sum_near_term_usd": 16254200000.0,
+      "mean_composite": 0.2933,
+      "max_composite": 0.3379,
+      "off_corporate_leverage_axis": false,
+      "top_names": [
+        "ARES CAPITAL CORP (0.338)",
+        "Goldman Sachs BDC, Inc. (0.331)",
+        "GOLUB CAPITAL BDC, Inc. (0.299)",
+        "Blackstone Secured Lending Fund (0.250)",
+        "BLUE OWL CAPITAL INC. (0.249)"
+      ]
+    },
+    {
+      "sector": "Industrial / materials / other infra",
+      "n": 6,
+      "sum_debt_usd": 117020840000.0,
+      "sum_near_term_usd": 52526000000.0,
+      "mean_composite": 0.2891,
+      "max_composite": 0.3406,
+      "off_corporate_leverage_axis": false,
+      "top_names": [
+        "Eaton Corp plc (0.341)",
+        "BHP Group Ltd (0.295)",
+        "Substitution of BHP Billiton Finance (0.295)",
+        "RIO TINTO LTD (0.281)",
+        "HONEYWELL INTERNATIONAL INC (0.272)",
+        "JABIL INC (0.251)"
+      ]
+    },
+    {
+      "sector": "Other / unclassified",
+      "n": 97,
+      "sum_debt_usd": 1964806343753.0,
+      "sum_near_term_usd": 731507192180.0,
+      "mean_composite": 0.2887,
+      "max_composite": 0.4238,
+      "off_corporate_leverage_axis": false,
+      "top_names": [
+        "UNIVEST FINANCIAL Corp (0.424)",
+        "X Holdings Corp., as holdings, X Cor (0.410)",
+        "KDP (0.394)",
+        "Alibaba Group Holding Ltd (0.375)",
+        "Encore Inc. (0.373)",
+        "CONOCOPHILLIPS (0.348)"
+      ]
+    },
+    {
+      "sector": "Power / utility",
+      "n": 20,
+      "sum_debt_usd": 683103918947.0,
+      "sum_near_term_usd": 121191079754.0,
+      "mean_composite": 0.2878,
+      "max_composite": 0.3815,
+      "off_corporate_leverage_axis": false,
+      "top_names": [
+        "PUBLIC SERVICE ENTERPRISE GROUP INC (0.382)",
+        "SM Energy Co (0.350)",
+        "Entergy Louisiana, LLC (0.334)",
+        "NRG ENERGY, INC. (0.331)",
+        "CENTERPOINT ENERGY, INC. (0.300)",
+        "NISOURCE INC. (0.295)"
+      ]
+    },
+    {
+      "sector": "Oil & gas E&P",
+      "n": 2,
+      "sum_debt_usd": 31645000000.0,
+      "sum_near_term_usd": 9050000000.0,
+      "mean_composite": 0.2852,
+      "max_composite": 0.3156,
+      "off_corporate_leverage_axis": false,
+      "top_names": [
+        "ANTERO RESOURCES Corp (0.316)",
+        "Permian Resources Corp (0.255)"
+      ]
+    }
+  ]
+}
