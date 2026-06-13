@@ -70,4 +70,15 @@ The goal names ~15 public-record sources. Having probed the access surface, here
 
 So of the un-done sources: **~5 are cheap open-work** (news, patents, FERC, and the fragmented-but-free WARN/deeds), and **~6 are genuine legal/economic walls** behind paywalls or credentialed access — reachable only by spending against the operator's real budget. That is the honest frontier: the cheap open-work is *not* done (a true gap), and the walls are real (Section B economic limit).
 
+### CORRECTION (probed 2026-06-13 — honesty-auditing my own "cheap" claim)
+
+Actually *testing* the "cheap open-work" sources walked several of them INTO the wall:
+- **USPTO patents** — keyless PatentsView endpoint **deprecated** (returns HTML); new `search.patentsview.org` unresolvable; USPTO ODP 503. → **needs a (free) API key**, not keyless.
+- **FRED macro** — HTTP 400 → **needs a free API key**.
+- **FERC/ISO queues (LBNL)** — **403 Forbidden** → anti-scraping wall.
+- **GDELT news** — works but **hard-throttled** (429s); running detached, slow.
+- **WARN / county deeds** — fragmented, no API (laborious scraping, often anti-bot).
+
+**Revised honest score:** the truly **keyless-free *autonomous* tier is essentially EXHAUSTED** — EDGAR + FDIC + GDELT *were* that tier, and they are done/running. **Everything remaining requires an operator-provided resource:** a free API key the human registers (FRED, PatentsView — the cheapest unlock), payment (PACER, NAIC, customs, ratings, transcripts), or directed effort against anti-bot/fragmentation (FERC, WARN, deeds). This is the real boundary, now *probe-verified* rather than asserted: "we did the maximum the data and **free autonomous access** allowed." Further requires the operator to hand over a key or a budget.
+
 **Standing rule:** anything in Section C may only move to Section B if a specific, documented attempt establishes the data genuinely does not exist or cannot be lawfully/affordably obtained. Until then it is open work, not a limit. (FDIC just moved the other way — open-work → done — proving the free APIs are real.)
