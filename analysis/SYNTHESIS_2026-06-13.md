@@ -35,7 +35,7 @@ The raw scan is **high-recall, low-precision: ~66% of adversarially-verified fla
 
 Stacking everything now ingested gives a coherent three-layer read of the economy's fragility:
 
-1. **Corporate / issuer layer (EDGAR + XBRL, 450 deep-verified → 174 confirmed):** fragility is **broadly distributed, idiosyncratic (not a contagion web), and ~62% on a worsening trajectory** — concentrated in leveraged media/energy/healthcare/consumer/REIT names, *not* AI. The one wired-together cluster is AI-compute (shared financiers).
+1. **Corporate / issuer layer (EDGAR + XBRL, 450 deep-verified → 174 confirmed; 124/166 orchestrator-filing-verified):** fragility is **broadly distributed, idiosyncratic (not a contagion web), and ~62% on a worsening trajectory** — concentrated in leveraged media/energy/healthcare/consumer/REIT names, *not* AI. The one wired-together cluster is AI-compute (shared financiers). **News cross-check (GDELT):** the confirmed set is overwhelmingly **news-quiet** — corroborating the *canary thesis* (real fragility the press isn't watching), though the free-tier throttle degraded coverage.
 2. **Banking layer (FDIC, all 4,352 banks):** **healthy on capital** — only ~6 below well-capitalized; bank distress is idiosyncratic small/BaaS-bank stress, **not a systemic node.** So the 2023-style "banks as the channel" risk is *not* lit.
 3. **Physical power layer (CAISO + EIA-860M):** **overbuilt and attriting** — CAISO ~**11× withdrawn:completed** queue, EIA **181 GW canceled/postponed vs 288 GW planned.** The grid being built for AI demand is itself showing the fiber-1999 demand-ahead-of-delivery signature in hard megawatts.
 
