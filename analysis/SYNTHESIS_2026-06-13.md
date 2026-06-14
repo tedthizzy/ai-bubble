@@ -31,6 +31,16 @@ The raw scan is **high-recall, low-precision: ~66% of adversarially-verified fla
 - **The attrition is *worsening*, not stabilizing** ([multidecade_trends.md](multidecade_trends.md)): of the confirmed names with ≥3y XBRL history, **~62% are on a deteriorating coverage trajectory** (65 deteriorating / 13 stable / 27 improving). So for most of the confirmed set the fragility is trending *toward* crystallization, not away — the 65 deteriorating names are the concrete forward-risk roster.
 - **And it is *not* wired together** ([contagion_over_confirmed.md](contagion_over_confirmed.md), [ownership_contagion.md](ownership_contagion.md)): across direct links (1), shared counterparties (AI-only), and shared ultimate owners (0), the confirmed distress is **idiosyncratic** — so it grinds name-by-name rather than cascading, *except* the AI-compute cluster, the one place the fragile names share financiers/vendors.
 
+## Cross-layer integration (all ingested layers, as of the off-EDGAR pass)
+
+Stacking everything now ingested gives a coherent three-layer read of the economy's fragility:
+
+1. **Corporate / issuer layer (EDGAR + XBRL, 450 deep-verified → 174 confirmed):** fragility is **broadly distributed, idiosyncratic (not a contagion web), and ~62% on a worsening trajectory** — concentrated in leveraged media/energy/healthcare/consumer/REIT names, *not* AI. The one wired-together cluster is AI-compute (shared financiers).
+2. **Banking layer (FDIC, all 4,352 banks):** **healthy on capital** — only ~6 below well-capitalized; bank distress is idiosyncratic small/BaaS-bank stress, **not a systemic node.** So the 2023-style "banks as the channel" risk is *not* lit.
+3. **Physical power layer (CAISO + EIA-860M):** **overbuilt and attriting** — CAISO ~**11× withdrawn:completed** queue, EIA **181 GW canceled/postponed vs 288 GW planned.** The grid being built for AI demand is itself showing the fiber-1999 demand-ahead-of-delivery signature in hard megawatts.
+
+**Integrated verdict:** no single epicenter and no systemic-cascade wiring; instead **a distributed, worsening, idiosyncratic corporate-distress grind**, a **sound banking core**, and a **visibly over-promised physical-power buildout** behind case-zero (AI). The fragility is real and broad but routes name-by-name, not through one domino — *unless* the funding channel cracks (the watch item). AI is one stressed-and-wired cohort sitting on an over-built power base, not the economy's fragility epicenter.
+
 ## Confidence & limits (binding)
 
 - A **high-recall first pass over ~0.02% of the enumerated universe** (143 of 789,787 deep-dived). Calibrated, not closed.
