@@ -14,7 +14,7 @@ Pointed at the whole economy with no sector prior, the engine does **not** find 
 
 It is **distributed, and it has two layers:**
 
-1. **A wide base of small, already-failing names (the canaries).** The fails-first tail — EV (Workhorse), solar (SunPower, Energy Vault), biotech (Celularity, Humacyte, Rapid Micro), legacy hardware (Lexmark, Xerox), micro-caps (Perfect Moment, NextNRG) — is **already in distress in real time**: going-concern opinions, delistings *this month*, NT late filings co-occurring. Orchestrator EDGAR pulls confirmed distress language in **9/9** of the top names. This layer is not a forecast; it is happening.
+1. **A wide base of small, already-failing names (the canaries).** The fails-first tail — EV (Workhorse), solar (SunPower, Energy Vault), biotech (Celularity, Humacyte, Rapid Micro), legacy hardware (Lexmark, Xerox), micro-caps (Perfect Moment, NextNRG) — is **already in distress in real time**: going-concern opinions, delistings *this month*, NT late filings co-occurring. Orchestrator EDGAR pulls confirmed distress language in **124 of 166** confirmed names (75% agent reliability). This layer is not a forecast; it is happening.
 2. **A smaller set of large levered balance sheets facing a 2025–27 refi wall.** Telecom (Lumen, $91B), specialty pharma (Bausch), cinema (AMC), industrials (Babcock & Wilcox), parts of the REIT/BDC/mortgage-REIT complex (SIC 67, $373B). Here the distress is **real but timing-dependent** — gated by refinancing access on negative-to-thin carry, not imminent failure. (Caveat: for the largest ongoing names the agents' "already-distressed" label is likely **overstated** — distress *language* in a 10-K includes covenant/risk-factor boilerplate; the unambiguous cases are the microcap co-occurrence ones.)
 
 AI-compute sits **inside** this structure as one stressed cohort, overlapping both layers (Hyperscale Data in the canary tail; the secured neoclouds in the levered layer). It is not separable as "the bubble."
@@ -44,6 +44,6 @@ Stacking everything now ingested gives a coherent three-layer read of the econom
 ## Confidence & limits (binding)
 
 - A **high-recall first pass over ~0.02% of the enumerated universe** (143 of 789,787 deep-dived). Calibrated, not closed.
-- **Filing-verified by the orchestrator:** the top 9 distress names, **keyword-tier** (presence of distress language + NT flag), not a full numeric re-audit. Everything else is agent-asserted.
+- **Filing-verified by the orchestrator:** **124 of 166** confirmed names, **keyword-tier** (distress language + NT flag, not a full numeric re-audit) — 75% agent reliability; the 42 no-signal are partly real non-keyword fragility (leverage/refi) and partly agent over-calls.
 - **Not yet done:** XBRL net-debt/EBITDA (so notional still ≠ true leverage), the §2.8 distress layer (Form-4/8-K/NT) at scale, the canary tail past the first 143 (~1,000 more), international beyond US-primary.
 - **The most valuable output is the reframe itself:** there is no single epicenter; the raw signal is ~⅔ noise; the real fragility is a distributed condition led by an already-failing small-cap tail, with AI one stressed cohort among several — and the discipline that produced that answer (scan → verify → filing-confirm) is the asset, more than any single name on the list.

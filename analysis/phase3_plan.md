@@ -1,4 +1,6 @@
-# Phase 3 — deep-agent forensic profiling of the flagged set (ready, gated)
+# Phase 3 — deep-agent forensic profiling of the flagged set (EXECUTED)
+
+> **Status: EXECUTED & superseded.** This was the plan; it ran. Results: [phase3_findings.md](phase3_findings.md) (450 deep-verified → 174 confirmed), verification [survivor_filing_verification.md](survivor_filing_verification.md) (124/166). Current entry point: [ATLAS_INDEX.md](ATLAS_INDEX.md). The "gated on storage" framing below is historical (storage was cleared).
 
 > **⚓ Frame — read first (reanchor):** this repo is a **general forensic engine for financial fragility & mispricing across the _whole economy_** — hidden / mismatched / circular leverage and valuation-run-ahead-of-cash-flow, found with **no sector prior**. **AI / data-center is _case zero_, not the object** (the method is sector- and era-agnostic — cf. fiber 1999, shale 2014). **Operating mode: maximum exhaustiveness — broad AND deep, uncapped, ≥ $1M-substance floor, US-primary (international by connectedness-to-core × data-accessibility); acting resource-constrained is NEVER correct; the only stop is physics (data that doesn't publicly exist → estimate it from proxies).** Full scope & doctrine: [total_ecosystem_dive.md](total_ecosystem_dive.md) · [README](../README.md).
 
