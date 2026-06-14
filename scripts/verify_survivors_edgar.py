@@ -85,21 +85,28 @@ def scan_terms(text: str) -> list[str]:
 
 
 def cik_index() -> dict[str, str]:
-    tdata = json.loads(TARGETS.read_text())
     idx = {}
+    tdata = json.loads(TARGETS.read_text())
     for t in tdata["targets"]:
         cik = (t.get("cik") or "").strip()
         if cik and cik.isdigit():
             idx[_norm(t["entity"])] = cik.zfill(10)
+    # fallback: the economy-wide XBRL cache (name -> cik) covers the XBRL-distress confirmations
+    cache_path = ROOT / "data" / "entity_universe" / "xbrl_economy_cache.json"
+    if cache_path.exists():
+        for v in json.loads(cache_path.read_text()).values():
+            cik = (v.get("cik") or "").strip()
+            nm = _norm(v.get("name", ""))
+            if cik and cik.isdigit() and nm and nm not in idx:
+                idx[nm] = cik.zfill(10)
     return idx
 
 
 def main() -> None:
     findings = json.loads(FINDINGS.read_text())["findings"]
     cidx = cik_index()
-    confirmed = [
-        f for f in findings if f["is_real_fragility"] is True and f["severity"] in SEVERITY_KEEP
-    ]
+    # broadened: orchestrator-verify the FULL confirmed set, not just already-distressed+high
+    confirmed = [f for f in findings if f["is_real_fragility"] is True]
     seen = set()
     results = []
     for f in confirmed:
