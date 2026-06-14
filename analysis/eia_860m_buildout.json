@@ -1,0 +1,45 @@
+{
+  "file": "https://www.eia.gov/electricity/data/eia860m/xls/april_generator2026.xlsx",
+  "sheets": {
+    "Operating": {
+      "rows": 27972,
+      "mw_sum": 1392666,
+      "mw_col": "Nameplate Capacity (MW)"
+    },
+    "Planned": {
+      "rows": 2257,
+      "mw_sum": 288406,
+      "mw_col": "Nameplate Capacity (MW)"
+    },
+    "Retired": {
+      "rows": 7255,
+      "mw_sum": 294489,
+      "mw_col": "Nameplate Capacity (MW)"
+    },
+    "Canceled or Postponed": {
+      "rows": 1714,
+      "mw_sum": 181264,
+      "mw_col": "Nameplate Capacity (MW)"
+    },
+    "Operating_PR": {
+      "rows": 229,
+      "mw_sum": 6474,
+      "mw_col": "Nameplate Capacity (MW)"
+    },
+    "Planned_PR": {
+      "rows": 6,
+      "mw_sum": 177,
+      "mw_col": "Nameplate Capacity (MW)"
+    },
+    "Retired_PR": {
+      "rows": 11,
+      "mw_sum": 130,
+      "mw_col": "Nameplate Capacity (MW)"
+    }
+  },
+  "operating_mw": 1392666,
+  "planned_mw": 288406,
+  "canceled_mw": 181264,
+  "retired_mw": 294489,
+  "planned_to_operating_pct": 20.7
+}
