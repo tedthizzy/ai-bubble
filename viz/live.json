@@ -98,7 +98,7 @@
   }
  },
  "edgar": {},
- "generated_utc": "2026-06-13T13:46:40Z",
+ "generated_utc": "2026-06-14T01:36:13Z",
  "issuance_latest": {
   "amount_usd": 900000000,
   "coupon_pct": 7.5,
@@ -251,7 +251,7 @@
   {
    "desc": "latest carded cluster print (Elk Grove Village Property LLC (CoreWeave-linked data-center SPV) 2026-06-02) ~332bp over 5y UST; <=600bp = window open (contra), >=800bp = cracking (confirming); >45d old = stale, never contra",
    "id": "S1_new_issue_spread",
-   "print_age_days": 11,
+   "print_age_days": 12,
    "status": "contra",
    "value_bp": 332
   },
