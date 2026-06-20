@@ -9,7 +9,7 @@ authors = [{name = "Ted", email = "ted@example.com"}]
 dependencies = [
     # Core domain & rigor
     "pydantic>=2.10,<3",
-    "pydantic-settings>=2.7,<3",
+    "pydantic-settings>=2.14.2,<3",
     # SEC EDGAR (production choice per plan)
     "edgartools>=2.10",
     # Document intelligence (2026 gold standard for PDFs/tables/layout)
