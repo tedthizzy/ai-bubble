@@ -61,7 +61,7 @@ dev = [
 ]
 llm = [
     # Extra frontier models / tracing when needed
-    "langsmith>=0.2",
+    "langsmith>=0.8.18",
 ]
 viz = [
     "matplotlib>=3.9",
