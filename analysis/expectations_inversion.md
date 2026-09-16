@@ -1,5 +1,7 @@
 # Expectations inversion — what the price is paying for
 
+**September 16, 2026 correction:** The June inversions below have not been rerun. The input card omits an already-disclosed Nebius Microsoft contract, and its IREN RPO interpretation is incorrect. The blanket GPU-life assumption also faces new counterevidence. These limitations affect the interpretation of the displayed valuation bands. See the [dated update](SYNTHESIS_2026-09-16.md) and [filing corrections](filing_verifications.md#september-16-2026-corrections-and-new-evidence).
+
 > **⚓ Frame — read first (reanchor):** this repo is a **general forensic engine for financial fragility & mispricing across the _whole economy_** — hidden / mismatched / circular leverage and valuation-run-ahead-of-cash-flow, found with **no sector prior**. **AI / data-center is _case zero_, not the object** (the method is sector- and era-agnostic — cf. fiber 1999, shale 2014). **Operating mode: maximum exhaustiveness — broad AND deep, uncapped, ≥ $1M-substance floor, US-primary (international by connectedness-to-core × data-accessibility); acting resource-constrained is NEVER correct; the only stop is physics (data that doesn't publicly exist → estimate it from proxies).** Full scope & doctrine: [total_ecosystem_dive.md](total_ecosystem_dive.md) · [README](../README.md).
 
 

@@ -1,5 +1,7 @@
 # ai-bubble
 
+**September 16, 2026 update:** [Current AI research](analysis/SYNTHESIS_2026-09-16.md), including the Anthropic filing check, the compute-glut video's arithmetic and corrected June assumptions. The engine scores and headline figures below are historical June outputs. This research update has not regenerated the graph or deployed the explorer. Original forecasts remain available for scoring.
+
 **A general, evidence-gated forensic engine for financial fragility & mispricing across the whole (US-primary) economy — hidden / mismatched / circular leverage and valuation-run-ahead-of-cash-flow, found with no sector prior.** The AI / data-center / financing boom is **case zero** — the first concentration it was pointed at, not the object. (The method is sector- and era-agnostic; its fingerprints are already in the base-rate book: fiber 1999, shale 2014.) The generalization to the whole economy is the active scope: **[analysis/total_ecosystem_dive.md](analysis/total_ecosystem_dive.md)**.
 
 > **Case zero (AI / data-center) verdict — a *result* of the engine, not its purpose:** Is the financed compute cluster a bubble? Yes — bounded (~4% of the classified AI-infra universe), not ecosystem-wide.

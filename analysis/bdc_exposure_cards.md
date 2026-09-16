@@ -1,5 +1,7 @@
 # BDC AI/DC exposure cards — the S3′ set membership evidence
 
+**September 16, 2026:** Registered membership remains unchanged for comparability. IREN's August financing now names OBDC among lenders and as agent, challenging the exclusion rationale below; its individual funded allocation remains unverified. Current NAV inputs and the fixed-basket calculation are in the [dated evidence](refresh_2026-09-16.json). [IREN 10-K, Item 9B](https://www.sec.gov/Archives/edgar/data/1878848/000187884826000052/iren-20260630.htm).
+
 > **⚓ Frame — read first (reanchor):** this repo is a **general forensic engine for financial fragility & mispricing across the _whole economy_** — hidden / mismatched / circular leverage and valuation-run-ahead-of-cash-flow, found with **no sector prior**. **AI / data-center is _case zero_, not the object** (the method is sector- and era-agnostic — cf. fiber 1999, shale 2014). **Operating mode: maximum exhaustiveness — broad AND deep, uncapped, ≥ $1M-substance floor, US-primary (international by connectedness-to-core × data-accessibility); acting resource-constrained is NEVER correct; the only stop is physics (data that doesn't publicly exist → estimate it from proxies).** Full scope & doctrine: [total_ecosystem_dive.md](total_ecosystem_dive.md) · [README](../README.md).
 
 

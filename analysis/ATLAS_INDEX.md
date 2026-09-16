@@ -1,5 +1,7 @@
 # Fragility Atlas — index (bounded free-public-tier deliverable)
 
+**September 16, 2026:** [Read the AI update](SYNTHESIS_2026-09-16.md). The economy-wide census below remains dated June. Its power-queue attrition does not establish installed overcapacity; the new analysis corrects that inference and distinguishes current scarcity from future supply forecasts.
+
 > **⚓ Frame:** a general, evidence-gated forensic engine for **financial fragility & mispricing across the whole (US-primary) economy** — no sector prior; **AI / data-center is case zero, not the object.** This index is the navigable entry point to the **bounded free-public-tier atlas**: the US public-filer + FDIC-bank universe, scored on every free/autonomously-reachable dimension, with the genuine flagged candidates adversarially verified. Scope, doctrine, and what's *out of scope as a real wall*: [total_ecosystem_dive.md](total_ecosystem_dive.md) · [boundary_ledger.md](boundary_ledger.md) · [README](../README.md).
 
 ## The verdict (one screen)
