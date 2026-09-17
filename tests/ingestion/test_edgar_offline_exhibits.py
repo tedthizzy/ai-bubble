@@ -116,10 +116,12 @@ def test_offline_manifest_reads_gzip_parent_and_scores_21_22(tmp_path: Path):
     documents = tmp_path / "documents"
     local = documents / "0000000123" / "000000012326000002" / "report.htm.gz"
     local.parent.mkdir(parents=True)
-    local.write_bytes(gzip.compress(
-        b'<a href="ex21-subsidiaries.htm">Subsidiaries</a>'
-        b'<a href="guarantors.htm">Exhibit 22.1</a>'
-    ))
+    local.write_bytes(
+        gzip.compress(
+            b'<a href="ex21-subsidiaries.htm">Subsidiaries</a>'
+            b'<a href="guarantors.htm">Exhibit 22.1</a>'
+        )
+    )
 
     result = discover_offline_exhibits(manifest_csv, documents)
     assert result.coverage["parsed_parent_filings"] == 1

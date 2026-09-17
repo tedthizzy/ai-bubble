@@ -37,43 +37,85 @@ def test_dated_universe_only_links_selected_sources_and_never_replaces(
     _csv(
         source,
         ["sponsors", "source_uri", "source_type", "retrieved_at", "content_hash"],
-        [{"sponsors": "Example Compute Inc", "source_uri": "https://example.org/tracker", "source_type": "manual_curated", "retrieved_at": "2026-09-16", "content_hash": "a" * 64}],
+        [
+            {
+                "sponsors": "Example Compute Inc",
+                "source_uri": "https://example.org/tracker",
+                "source_type": "manual_curated",
+                "retrieved_at": "2026-09-16",
+                "content_hash": "a" * 64,
+            }
+        ],
     )
     reference = tmp_path / "sec_reference.json"
-    reference.write_text(json.dumps({"fields": ["cik", "name", "ticker", "exchange"], "data": [[1234, "Example Compute Inc", "EXC", "NYSE"]]}))
-    monkeypatch.setattr(dated_universe, "SOURCE_MAP", {"source_acquisition/source_rows/tracker_records.csv": source})
+    reference.write_text(
+        json.dumps(
+            {
+                "fields": ["cik", "name", "ticker", "exchange"],
+                "data": [[1234, "Example Compute Inc", "EXC", "NYSE"]],
+            }
+        )
+    )
+    monkeypatch.setattr(
+        dated_universe, "SOURCE_MAP", {"source_acquisition/source_rows/tracker_records.csv": source}
+    )
     monkeypatch.setattr(dated_universe, "REFERENCE", reference)
     result = dated_universe.run(
-        label="test", filings_manifest=None, edgar_deals=None, capital_deals=None,
-        input_base=tmp_path / "input", output_base=tmp_path / "output",
+        label="test",
+        filings_manifest=None,
+        edgar_deals=None,
+        capital_deals=None,
+        input_base=tmp_path / "input",
+        output_base=tmp_path / "output",
     )
     assert result["summary"]["distinct_entities"] == 1
     assert result["summary"]["cik_matches"] == 1
     assert result["summary"]["source_rows_by_path"] == {
         "source_acquisition/source_rows/tracker_records.csv": 1
     }
-    assert result["included_entity_source_specs"] == ["source_acquisition/source_rows/tracker_records.csv"]
-    assert result["input_files"]["source_acquisition/source_rows/tracker_records.csv"]["path"] == str(source)
+    assert result["included_entity_source_specs"] == [
+        "source_acquisition/source_rows/tracker_records.csv"
+    ]
+    assert result["input_files"]["source_acquisition/source_rows/tracker_records.csv"][
+        "path"
+    ] == str(source)
     with pytest.raises(FileExistsError, match="dated run already exists"):
         dated_universe.run(
-            label="test", filings_manifest=None, edgar_deals=None, capital_deals=None,
-            input_base=tmp_path / "input", output_base=tmp_path / "output",
+            label="test",
+            filings_manifest=None,
+            edgar_deals=None,
+            capital_deals=None,
+            input_base=tmp_path / "input",
+            output_base=tmp_path / "output",
         )
 
     filings = tmp_path / "sept_filings.csv"
     _csv(
         filings,
         ["cik", "company_name", "source_uri", "accession_number", "provenance_content_hash"],
-        [{"cik": "1234", "company_name": "Example Compute Inc", "source_uri": "https://data.sec.gov/submissions/CIK0000001234.json", "accession_number": "0000001234-26-000001", "provenance_content_hash": "b" * 64}],
+        [
+            {
+                "cik": "1234",
+                "company_name": "Example Compute Inc",
+                "source_uri": "https://data.sec.gov/submissions/CIK0000001234.json",
+                "accession_number": "0000001234-26-000001",
+                "provenance_content_hash": "b" * 64,
+            }
+        ],
     )
     with_filings = dated_universe.run(
-        label="with_filings", filings_manifest=filings, edgar_deals=None, capital_deals=None,
-        input_base=tmp_path / "input", output_base=tmp_path / "output",
+        label="with_filings",
+        filings_manifest=filings,
+        edgar_deals=None,
+        capital_deals=None,
+        input_base=tmp_path / "input",
+        output_base=tmp_path / "output",
     )
     assert with_filings["filing_rows_derived"] == 1
-    assert with_filings["summary"]["source_rows_by_path"][
-        "source_acquisition/source_rows/filings.csv"
-    ] == 1
+    assert (
+        with_filings["summary"]["source_rows_by_path"]["source_acquisition/source_rows/filings.csv"]
+        == 1
+    )
 
 
 def test_offline_reextraction_verifies_saved_document_and_corrects_maturity(tmp_path: Path) -> None:
@@ -88,27 +130,70 @@ def test_offline_reextraction_verifies_saved_document_and_corrects_maturity(tmp_
     inventory = tmp_path / "inventory.csv"
     _csv(
         inventory,
-        ["cik", "company_name", "form", "accession_number", "filing_date", "primary_document", "document_type", "parent_primary_document", "filing_url", "local_path", "content_hash", "byte_count", "relevance_score", "relevance_reasons"],
-        [{
-            "cik": "0000000123", "company_name": "Example Compute Corp", "form": "8-K",
-            "accession_number": "0000000123-26-000001", "filing_date": "2026-09-16",
-            "primary_document": "credit-agreement.htm", "document_type": "exhibit",
-            "parent_primary_document": "form8k.htm", "filing_url": "https://www.sec.gov/Archives/edgar/data/123/000000012326000001/credit-agreement.htm",
-            "local_path": str(document), "content_hash": hashlib.sha256(raw).hexdigest(),
-            "byte_count": str(len(raw)), "relevance_score": "180", "relevance_reasons": "form:8-K",
-        }],
+        [
+            "cik",
+            "company_name",
+            "form",
+            "accession_number",
+            "filing_date",
+            "primary_document",
+            "document_type",
+            "parent_primary_document",
+            "filing_url",
+            "local_path",
+            "content_hash",
+            "byte_count",
+            "relevance_score",
+            "relevance_reasons",
+        ],
+        [
+            {
+                "cik": "0000000123",
+                "company_name": "Example Compute Corp",
+                "form": "8-K",
+                "accession_number": "0000000123-26-000001",
+                "filing_date": "2026-09-16",
+                "primary_document": "credit-agreement.htm",
+                "document_type": "exhibit",
+                "parent_primary_document": "form8k.htm",
+                "filing_url": "https://www.sec.gov/Archives/edgar/data/123/000000012326000001/credit-agreement.htm",
+                "local_path": str(document),
+                "content_hash": hashlib.sha256(raw).hexdigest(),
+                "byte_count": str(len(raw)),
+                "relevance_score": "180",
+                "relevance_reasons": "form:8-K",
+            }
+        ],
     )
     manifest = tmp_path / "manifest.csv"
     _csv(
         manifest,
-        ["filing_url", "primary_document_description", "company_name", "form", "accession_number", "primary_document", "document_type", "parent_primary_document", "relevance_score", "relevance_reasons"],
-        [{
-            "filing_url": "https://www.sec.gov/Archives/edgar/data/123/000000012326000001/credit-agreement.htm",
-            "primary_document_description": "Credit agreement exhibit", "company_name": "Example Compute Corp",
-            "form": "8-K", "accession_number": "0000000123-26-000001", "primary_document": "credit-agreement.htm",
-            "document_type": "exhibit", "parent_primary_document": "form8k.htm",
-            "relevance_score": "180", "relevance_reasons": "form:8-K",
-        }],
+        [
+            "filing_url",
+            "primary_document_description",
+            "company_name",
+            "form",
+            "accession_number",
+            "primary_document",
+            "document_type",
+            "parent_primary_document",
+            "relevance_score",
+            "relevance_reasons",
+        ],
+        [
+            {
+                "filing_url": "https://www.sec.gov/Archives/edgar/data/123/000000012326000001/credit-agreement.htm",
+                "primary_document_description": "Credit agreement exhibit",
+                "company_name": "Example Compute Corp",
+                "form": "8-K",
+                "accession_number": "0000000123-26-000001",
+                "primary_document": "credit-agreement.htm",
+                "document_type": "exhibit",
+                "parent_primary_document": "form8k.htm",
+                "relevance_score": "180",
+                "relevance_reasons": "form:8-K",
+            }
+        ],
     )
     output = tmp_path / "reextracted"
     report = reextract(inventory, output, manifest_csvs=[manifest], progress_interval=0)
@@ -130,24 +215,74 @@ def test_dated_scan_moves_refinancing_window_and_preserves_original_output(tmp_p
     edgar = tmp_path / "edgar.csv"
     tranches = tmp_path / "tranches.csv"
     entities = tmp_path / "entities.csv"
-    fields = ["deal_id", "deal_type", "title", "primary_party", "counterparty_roles", "notional_amount_usd", "maturity_date", "source_uri"]
+    fields = [
+        "deal_id",
+        "deal_type",
+        "title",
+        "primary_party",
+        "counterparty_roles",
+        "notional_amount_usd",
+        "maturity_date",
+        "source_uri",
+    ]
     _csv(capital, fields, [])
     _csv(
-        edgar, fields,
+        edgar,
+        fields,
         [
-            {"deal_id": "sept-1", "deal_type": "bond", "title": "AI data center note", "primary_party": "Example Compute", "counterparty_roles": "{}", "notional_amount_usd": "1000000000", "maturity_date": "2028-05-01", "source_uri": "https://example.org/sec"},
-            {"deal_id": "sept-2", "deal_type": "bond", "title": "Old offering date misparsed as maturity", "primary_party": "Example Compute", "counterparty_roles": "{}", "notional_amount_usd": "2000000000", "maturity_date": "2026-06-11", "source_uri": "https://example.org/old"},
+            {
+                "deal_id": "sept-1",
+                "deal_type": "bond",
+                "title": "AI data center note",
+                "primary_party": "Example Compute",
+                "counterparty_roles": "{}",
+                "notional_amount_usd": "1000000000",
+                "maturity_date": "2028-05-01",
+                "source_uri": "https://example.org/sec",
+            },
+            {
+                "deal_id": "sept-2",
+                "deal_type": "bond",
+                "title": "Old offering date misparsed as maturity",
+                "primary_party": "Example Compute",
+                "counterparty_roles": "{}",
+                "notional_amount_usd": "2000000000",
+                "maturity_date": "2026-06-11",
+                "source_uri": "https://example.org/old",
+            },
         ],
     )
     _csv(tranches, ["deal_id", "interest_rate"], [{"deal_id": "sept-1", "interest_rate": "10"}])
-    _csv(entities, ["canonical_name", "matched_cik", "matched_ticker", "mention_count"], [{"canonical_name": "Example Compute", "matched_cik": "0000001234", "matched_ticker": "EXC", "mention_count": "2"}])
+    _csv(
+        entities,
+        ["canonical_name", "matched_cik", "matched_ticker", "mention_count"],
+        [
+            {
+                "canonical_name": "Example Compute",
+                "matched_cik": "0000001234",
+                "matched_ticker": "EXC",
+                "mention_count": "2",
+            }
+        ],
+    )
     output = tmp_path / "economy_wide_fragility_map_2026-09-16"
     command = [
-        sys.executable, "scripts/economy_wide_signature_scan.py",
-        "--capital-deals", str(capital), "--edgar-deals", str(edgar),
-        "--tranches", str(tranches), "--entities", str(entities),
-        "--output-prefix", str(output), "--as-of", "2026-09-16",
-        "--coverage-status", "partial",
+        sys.executable,
+        "scripts/economy_wide_signature_scan.py",
+        "--capital-deals",
+        str(capital),
+        "--edgar-deals",
+        str(edgar),
+        "--tranches",
+        str(tranches),
+        "--entities",
+        str(entities),
+        "--output-prefix",
+        str(output),
+        "--as-of",
+        "2026-09-16",
+        "--coverage-status",
+        "partial",
     ]
     run = subprocess.run(command, capture_output=True, text=True, check=True)
     assert "entities scored: 1" in run.stdout
@@ -179,12 +314,24 @@ def test_official_master_index_exposes_selected_cik_gap(tmp_path: Path) -> None:
     _csv(selected, ["cik"], [{"cik": "1234"}])
     _csv(manifested, ["cik"], [{"cik": "1234"}])
     _csv(
-        entities, ["normalized_name", "mention_count", "source_tables", "source_count"],
-        [{"normalized_name": "UNSELECTED ISSUER", "mention_count": "3", "source_tables": '{"queue_records": 3}', "source_count": "1"}],
+        entities,
+        ["normalized_name", "mention_count", "source_tables", "source_count"],
+        [
+            {
+                "normalized_name": "UNSELECTED ISSUER",
+                "mention_count": "3",
+                "source_tables": '{"queue_records": 3}',
+                "source_count": "1",
+            }
+        ],
     )
     result = audit_sec_index(
-        index_paths=[index], selected_cik_paths=[selected], manifest_paths=[manifested],
-        entities_csv=entities, start=date(2026, 6, 1), end=date(2026, 9, 16),
+        index_paths=[index],
+        selected_cik_paths=[selected],
+        manifest_paths=[manifested],
+        entities_csv=entities,
+        start=date(2026, 6, 1),
+        end=date(2026, 9, 16),
     )
     assert result["unique_index_filings"] == 2
     assert result["unique_index_ciks"] == 2
@@ -202,10 +349,25 @@ def test_blackwell_solar_does_not_get_gpu_sector_tag(tmp_path: Path) -> None:
     other = tmp_path / "empty.csv"
     fields = ["deal_id", "deal_type", "title", "primary_party", "counterparty_roles", "source_uri"]
     _csv(
-        capital, fields,
+        capital,
+        fields,
         [
-            {"deal_id": "ppa-1", "deal_type": "ppa", "title": "PG&E purchase with Blackwell Solar, LLC", "primary_party": "PG&E", "counterparty_roles": "{}", "source_uri": "https://example.org/solar"},
-            {"deal_id": "gpu-1", "deal_type": "bond", "title": "NVIDIA Blackwell GPU capacity note", "primary_party": "Example Issuer", "counterparty_roles": "{}", "source_uri": "https://example.org/gpu"},
+            {
+                "deal_id": "ppa-1",
+                "deal_type": "ppa",
+                "title": "PG&E purchase with Blackwell Solar, LLC",
+                "primary_party": "PG&E",
+                "counterparty_roles": "{}",
+                "source_uri": "https://example.org/solar",
+            },
+            {
+                "deal_id": "gpu-1",
+                "deal_type": "bond",
+                "title": "NVIDIA Blackwell GPU capacity note",
+                "primary_party": "Example Issuer",
+                "counterparty_roles": "{}",
+                "source_uri": "https://example.org/gpu",
+            },
         ],
     )
     _csv(other, fields, [])
@@ -245,8 +407,11 @@ def test_sec_master_index_separates_pairs_accessions_and_form_labels(tmp_path: P
     selected = tmp_path / "selected.csv"
     _csv(selected, ["cik"], [{"cik": "1234"}])
     result = audit_sec_index(
-        index_paths=[index], selected_cik_paths=[selected], manifest_paths=[selected],
-        start=date(2026, 9, 15), end=date(2026, 9, 16),
+        index_paths=[index],
+        selected_cik_paths=[selected],
+        manifest_paths=[selected],
+        start=date(2026, 9, 15),
+        end=date(2026, 9, 16),
     )
     assert result["raw_index_rows"] == 3
     assert result["unique_index_cik_accession_pairs"] == 2

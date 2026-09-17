@@ -1,0 +1,5177 @@
+{
+  "audited_at_pacific": "2026-09-17T07:39:07.779609-07:00",
+  "repository_commit": "5ee3af59176f8ad9371fcf8e62fb716aa6afaa7e",
+  "scope": "All 54 open Dependabot alerts returned by the GitHub API, plus three GitPython advisories found through PyPI. This is an audit; dependency upgrades were resolved only in scratch copies.",
+  "totals": {
+    "open_alerts": 54,
+    "affected_packages": 14,
+    "severity": {
+      "low": 3,
+      "high": 35,
+      "medium": 15,
+      "critical": 1
+    },
+    "locked_version_matches": 54,
+    "candidate_remaining_alert_matches": 1,
+    "additional_advisories_reviewed": 3,
+    "additional_matches_using_maintainer_ranges": 2,
+    "maintainer_advisories_retrieved": 51,
+    "maintainer_severity_disagreements": 9,
+    "python_files_parsed": 389,
+    "python_parse_errors": 0
+  },
+  "alerts": [
+    {
+      "number": 4,
+      "package": "python-multipart",
+      "ghsa_id": "GHSA-v9pg-7xvm-68hf",
+      "cve_id": "CVE-2026-53540",
+      "database_severity": "low",
+      "maintainer_severity": "low",
+      "locked_version": "0.0.30",
+      "installed_main_venv_version": "0.0.30",
+      "affected_range": "< 0.0.31",
+      "locked_version_matches": true,
+      "first_patched_version": "0.0.31",
+      "candidate_version": "0.0.31",
+      "candidate_version_matches": false,
+      "relationship": "transitive",
+      "scope": "runtime",
+      "direct_parents": [
+        "streamlit"
+      ],
+      "issue": "Unbounded form read",
+      "assessment": "Calls to python-multipart parse_form with an unvalidated negative Content-Length. Starlette uses a different parser API.",
+      "evidence": [
+        "uv.lock:4300",
+        "streamlit 1.58.0 wheel: streamlit/web/server/starlette/starlette_routes.py:682"
+      ],
+      "alert_url": "https://github.com/tedthizzy/ai-bubble/security/dependabot/4",
+      "advisory_url": "https://github.com/advisories/GHSA-v9pg-7xvm-68hf",
+      "maintainer_url": "https://github.com/Kludex/python-multipart/security/advisories/GHSA-v9pg-7xvm-68hf"
+    },
+    {
+      "number": 5,
+      "package": "cryptography",
+      "ghsa_id": "GHSA-537c-gmf6-5ccf",
+      "cve_id": null,
+      "database_severity": "high",
+      "maintainer_severity": "medium",
+      "locked_version": "48.0.0",
+      "installed_main_venv_version": "48.0.0",
+      "affected_range": ">= 0.5.0, < 48.0.1",
+      "locked_version_matches": true,
+      "first_patched_version": "48.0.1",
+      "candidate_version": "50.0.1",
+      "candidate_version_matches": false,
+      "relationship": "transitive",
+      "scope": "runtime",
+      "direct_parents": [
+        "prefect"
+      ],
+      "issue": "Bundled OpenSSL vulnerability",
+      "assessment": "A wheel includes affected OpenSSL. The maintainer identifies CVE-2026-34180, which needs an attacker-controlled ASN.1 element larger than 2 GB; Prefect uses Fernet in the inspected code.",
+      "evidence": [
+        "uv.lock:938",
+        "src/bubble/orchestration/prefect_flows/daily_edgar.py:9",
+        "prefect 3.7.2 wheel: prefect/server/utilities/encryption.py:10"
+      ],
+      "alert_url": "https://github.com/tedthizzy/ai-bubble/security/dependabot/5",
+      "advisory_url": "https://github.com/advisories/GHSA-537c-gmf6-5ccf",
+      "maintainer_url": "https://github.com/pyca/cryptography/security/advisories/GHSA-537c-gmf6-5ccf"
+    },
+    {
+      "number": 6,
+      "package": "starlette",
+      "ghsa_id": "GHSA-jp82-jpqv-5vv3",
+      "cve_id": "CVE-2026-54282",
+      "database_severity": "low",
+      "maintainer_severity": "low",
+      "locked_version": "1.2.1",
+      "installed_main_venv_version": "1.2.1",
+      "affected_range": "< 1.3.0",
+      "locked_version_matches": true,
+      "first_patched_version": "1.3.0",
+      "candidate_version": "1.3.1",
+      "candidate_version_matches": false,
+      "relationship": "transitive",
+      "scope": "runtime",
+      "direct_parents": [
+        "fastapi",
+        "streamlit"
+      ],
+      "issue": "Request URL host confusion",
+      "assessment": "An ASGI server must forward a malformed path without a leading slash, and application middleware must trust the resulting URL hostname.",
+      "evidence": [
+        "uv.lock:5241",
+        "justfile:190",
+        "streamlit 1.58.0 wheel: streamlit/web/server/starlette/starlette_routes.py:659,664,682"
+      ],
+      "alert_url": "https://github.com/tedthizzy/ai-bubble/security/dependabot/6",
+      "advisory_url": "https://github.com/advisories/GHSA-jp82-jpqv-5vv3",
+      "maintainer_url": "https://github.com/Kludex/starlette/security/advisories/GHSA-jp82-jpqv-5vv3"
+    },
+    {
+      "number": 7,
+      "package": "starlette",
+      "ghsa_id": "GHSA-82w8-qh3p-5jfq",
+      "cve_id": "CVE-2026-54283",
+      "database_severity": "high",
+      "maintainer_severity": "high",
+      "locked_version": "1.2.1",
+      "installed_main_venv_version": "1.2.1",
+      "affected_range": ">= 0.4.1, < 1.3.1",
+      "locked_version_matches": true,
+      "first_patched_version": "1.3.1",
+      "candidate_version": "1.3.1",
+      "candidate_version_matches": false,
+      "relationship": "transitive",
+      "scope": "runtime",
+      "direct_parents": [
+        "fastapi",
+        "streamlit"
+      ],
+      "issue": "URL-encoded form limits ignored",
+      "assessment": "A running service must parse attacker-controlled URL-encoded forms. Streamlit has an upload route that calls request.form after session and XSRF checks.",
+      "evidence": [
+        "uv.lock:5241",
+        "justfile:190",
+        "streamlit 1.58.0 wheel: streamlit/web/server/starlette/starlette_routes.py:659,664,682"
+      ],
+      "alert_url": "https://github.com/tedthizzy/ai-bubble/security/dependabot/7",
+      "advisory_url": "https://github.com/advisories/GHSA-82w8-qh3p-5jfq",
+      "maintainer_url": "https://github.com/Kludex/starlette/security/advisories/GHSA-82w8-qh3p-5jfq"
+    },
+    {
+      "number": 8,
+      "package": "vcrpy",
+      "ghsa_id": "GHSA-rpj2-4hq8-938g",
+      "cve_id": null,
+      "database_severity": "high",
+      "maintainer_severity": "high",
+      "locked_version": "8.1.1",
+      "installed_main_venv_version": "8.1.1",
+      "affected_range": "< 8.2.1",
+      "locked_version_matches": true,
+      "first_patched_version": "8.2.1",
+      "candidate_version": "8.2.1",
+      "candidate_version_matches": false,
+      "relationship": "direct",
+      "scope": "development",
+      "direct_parents": [
+        "bubble"
+      ],
+      "issue": "Callable execution from YAML cassettes",
+      "assessment": "Loading an untrusted VCR YAML cassette invokes arbitrary Python constructors. No VCR imports or cassette calls were found in the scanned application or tests.",
+      "evidence": [
+        "uv.lock:5845",
+        "pyproject.toml:58",
+        "pyproject.toml:96",
+        ".github/workflows/ci.yml:22"
+      ],
+      "alert_url": "https://github.com/tedthizzy/ai-bubble/security/dependabot/8",
+      "advisory_url": "https://github.com/advisories/GHSA-rpj2-4hq8-938g",
+      "maintainer_url": "https://github.com/kevin1024/vcrpy/security/advisories/GHSA-rpj2-4hq8-938g"
+    },
+    {
+      "number": 9,
+      "package": "langsmith",
+      "ghsa_id": "GHSA-f4xh-w4cj-qxq8",
+      "cve_id": null,
+      "database_severity": "high",
+      "maintainer_severity": "critical",
+      "locked_version": "0.8.8",
+      "installed_main_venv_version": "0.8.8",
+      "affected_range": "< 0.8.18",
+      "locked_version_matches": true,
+      "first_patched_version": "0.8.18",
+      "candidate_version": "0.8.18",
+      "candidate_version_matches": false,
+      "relationship": "direct",
+      "scope": "runtime",
+      "direct_parents": [
+        "bubble",
+        "langchain-core"
+      ],
+      "issue": "Tracing middleware reads local files",
+      "assessment": "Requires exposed LangSmith TracingMiddleware and trace-read access to the destination workspace. No such middleware was found in the scanned code.",
+      "evidence": [
+        "uv.lock:2365",
+        "pyproject.toml:64",
+        "src/bubble/orchestration/langgraph_agents/edgar_extraction_flow.py:73"
+      ],
+      "alert_url": "https://github.com/tedthizzy/ai-bubble/security/dependabot/9",
+      "advisory_url": "https://github.com/advisories/GHSA-f4xh-w4cj-qxq8",
+      "maintainer_url": "https://github.com/langchain-ai/langsmith-sdk/security/advisories/GHSA-f4xh-w4cj-qxq8"
+    },
+    {
+      "number": 10,
+      "package": "pydantic-settings",
+      "ghsa_id": "GHSA-4xgf-cpjx-pc3j",
+      "cve_id": null,
+      "database_severity": "medium",
+      "maintainer_severity": "medium",
+      "locked_version": "2.14.1",
+      "installed_main_venv_version": "2.14.1",
+      "affected_range": ">= 2.12.0, < 2.14.2",
+      "locked_version_matches": true,
+      "first_patched_version": "2.14.2",
+      "candidate_version": "2.14.2",
+      "candidate_version_matches": false,
+      "relationship": "direct",
+      "scope": "runtime",
+      "direct_parents": [
+        "bubble",
+        "docling-core",
+        "docling-slim",
+        "prefect"
+      ],
+      "issue": "Nested secrets follow escaping symlinks",
+      "assessment": "Requires NestedSecretsSettingsSource, nested subdirectories, and attacker-writable secrets entries. Bubble uses BaseSettings with an env file and does not configure this source.",
+      "evidence": [
+        "uv.lock:4088",
+        "src/bubble/config.py:12",
+        "src/bubble/config.py:16"
+      ],
+      "alert_url": "https://github.com/tedthizzy/ai-bubble/security/dependabot/10",
+      "advisory_url": "https://github.com/advisories/GHSA-4xgf-cpjx-pc3j",
+      "maintainer_url": "https://github.com/pydantic/pydantic-settings/security/advisories/GHSA-4xgf-cpjx-pc3j"
+    },
+    {
+      "number": 11,
+      "package": "torch",
+      "ghsa_id": "GHSA-rrmf-rvhw-rf47",
+      "cve_id": "CVE-2025-3000",
+      "database_severity": "low",
+      "maintainer_severity": null,
+      "locked_version": "2.12.0",
+      "installed_main_venv_version": "2.12.0",
+      "affected_range": "<= 2.12.1",
+      "locked_version_matches": true,
+      "first_patched_version": "2.13.0",
+      "candidate_version": "2.13.0",
+      "candidate_version_matches": false,
+      "relationship": "transitive",
+      "scope": "runtime",
+      "direct_parents": [
+        "accelerate",
+        "docling-ibm-models",
+        "docling-slim",
+        "safetensors",
+        "torchvision"
+      ],
+      "issue": "TorchScript memory corruption",
+      "assessment": "Requires execution of the affected torch.jit.script path with malicious input. No direct TorchScript calls were found in the scanned application or inspected Docling sources.",
+      "evidence": [
+        "uv.lock:5390",
+        "src/bubble/ingestion/edgar/extractor.py:15",
+        "uv.lock: torchvision dependencies"
+      ],
+      "alert_url": "https://github.com/tedthizzy/ai-bubble/security/dependabot/11",
+      "advisory_url": "https://github.com/advisories/GHSA-rrmf-rvhw-rf47",
+      "maintainer_url": null
+    },
+    {
+      "number": 12,
+      "package": "pillow",
+      "ghsa_id": "GHSA-pg7v-jwj7-p798",
+      "cve_id": "CVE-2026-59203",
+      "database_severity": "medium",
+      "maintainer_severity": "medium",
+      "locked_version": "12.2.0",
+      "installed_main_venv_version": "12.2.0",
+      "affected_range": ">= 12.0.0, < 12.3.0",
+      "locked_version_matches": true,
+      "first_patched_version": "12.3.0",
+      "candidate_version": "12.3.0",
+      "candidate_version_matches": false,
+      "relationship": "transitive",
+      "scope": "runtime",
+      "direct_parents": [
+        "docling-core",
+        "docling-ibm-models",
+        "docling-parse",
+        "docling-slim",
+        "matplotlib",
+        "python-pptx",
+        "rapidocr",
+        "streamlit",
+        "torchvision"
+      ],
+      "issue": "EPS parser loop",
+      "assessment": "Opening a crafted EPS image can loop before image decoding. The current Docling HTML configuration disables image fetching; other image-conversion paths require review before use.",
+      "evidence": [
+        "uv.lock:3482",
+        "src/bubble/ingestion/edgar/extractor.py:237",
+        "docling-slim 2.96.0 wheel: docling/datamodel/backend_options.py:73",
+        "docling-slim 2.96.0 wheel: docling/backend/html_backend.py:4233"
+      ],
+      "alert_url": "https://github.com/tedthizzy/ai-bubble/security/dependabot/12",
+      "advisory_url": "https://github.com/advisories/GHSA-pg7v-jwj7-p798",
+      "maintainer_url": "https://github.com/python-pillow/Pillow/security/advisories/GHSA-pg7v-jwj7-p798"
+    },
+    {
+      "number": 13,
+      "package": "pillow",
+      "ghsa_id": "GHSA-62p4-gmf7-7g93",
+      "cve_id": "CVE-2026-54058",
+      "database_severity": "high",
+      "maintainer_severity": "high",
+      "locked_version": "12.2.0",
+      "installed_main_venv_version": "12.2.0",
+      "affected_range": "< 12.3.0",
+      "locked_version_matches": true,
+      "first_patched_version": "12.3.0",
+      "candidate_version": "12.3.0",
+      "candidate_version_matches": false,
+      "relationship": "transitive",
+      "scope": "runtime",
+      "direct_parents": [
+        "docling-core",
+        "docling-ibm-models",
+        "docling-parse",
+        "docling-slim",
+        "matplotlib",
+        "python-pptx",
+        "rapidocr",
+        "streamlit",
+        "torchvision"
+      ],
+      "issue": "McIdas mmap read outside image buffer",
+      "assessment": "Requires opening a crafted McIdas image from a filesystem path and accessing its pixels. BytesIO image handling does not use this mmap path.",
+      "evidence": [
+        "uv.lock:3482",
+        "src/bubble/ingestion/edgar/extractor.py:237",
+        "docling-slim 2.96.0 wheel: docling/datamodel/backend_options.py:73",
+        "docling-slim 2.96.0 wheel: docling/backend/html_backend.py:4233"
+      ],
+      "alert_url": "https://github.com/tedthizzy/ai-bubble/security/dependabot/13",
+      "advisory_url": "https://github.com/advisories/GHSA-62p4-gmf7-7g93",
+      "maintainer_url": "https://github.com/python-pillow/Pillow/security/advisories/GHSA-62p4-gmf7-7g93"
+    },
+    {
+      "number": 14,
+      "package": "pillow",
+      "ghsa_id": "GHSA-8v84-f9pq-wr9x",
+      "cve_id": "CVE-2026-54059",
+      "database_severity": "high",
+      "maintainer_severity": "high",
+      "locked_version": "12.2.0",
+      "installed_main_venv_version": "12.2.0",
+      "affected_range": "< 12.3.0",
+      "locked_version_matches": true,
+      "first_patched_version": "12.3.0",
+      "candidate_version": "12.3.0",
+      "candidate_version_matches": false,
+      "relationship": "transitive",
+      "scope": "runtime",
+      "direct_parents": [
+        "docling-core",
+        "docling-ibm-models",
+        "docling-parse",
+        "docling-slim",
+        "matplotlib",
+        "python-pptx",
+        "rapidocr",
+        "streamlit",
+        "torchvision"
+      ],
+      "issue": "PCF font allocation bypass",
+      "assessment": "Requires loading an untrusted PCF bitmap font. Image.open does not invoke this font loader; no matching loader use was found in inspected callers.",
+      "evidence": [
+        "uv.lock:3482",
+        "src/bubble/ingestion/edgar/extractor.py:237",
+        "docling-slim 2.96.0 wheel: docling/datamodel/backend_options.py:73",
+        "docling-slim 2.96.0 wheel: docling/backend/html_backend.py:4233"
+      ],
+      "alert_url": "https://github.com/tedthizzy/ai-bubble/security/dependabot/14",
+      "advisory_url": "https://github.com/advisories/GHSA-8v84-f9pq-wr9x",
+      "maintainer_url": "https://github.com/python-pillow/Pillow/security/advisories/GHSA-8v84-f9pq-wr9x"
+    },
+    {
+      "number": 15,
+      "package": "pillow",
+      "ghsa_id": "GHSA-5x94-69rx-g8h2",
+      "cve_id": "CVE-2026-54060",
+      "database_severity": "high",
+      "maintainer_severity": "high",
+      "locked_version": "12.2.0",
+      "installed_main_venv_version": "12.2.0",
+      "affected_range": "< 12.3.0",
+      "locked_version_matches": true,
+      "first_patched_version": "12.3.0",
+      "candidate_version": "12.3.0",
+      "candidate_version_matches": false,
+      "relationship": "transitive",
+      "scope": "runtime",
+      "direct_parents": [
+        "docling-core",
+        "docling-ibm-models",
+        "docling-parse",
+        "docling-slim",
+        "matplotlib",
+        "python-pptx",
+        "rapidocr",
+        "streamlit",
+        "torchvision"
+      ],
+      "issue": "Combined bitmap font allocation bypass",
+      "assessment": "Requires compiling or exporting an untrusted PCF/BDF bitmap font. No matching operation was found in inspected callers.",
+      "evidence": [
+        "uv.lock:3482",
+        "src/bubble/ingestion/edgar/extractor.py:237",
+        "docling-slim 2.96.0 wheel: docling/datamodel/backend_options.py:73",
+        "docling-slim 2.96.0 wheel: docling/backend/html_backend.py:4233"
+      ],
+      "alert_url": "https://github.com/tedthizzy/ai-bubble/security/dependabot/15",
+      "advisory_url": "https://github.com/advisories/GHSA-5x94-69rx-g8h2",
+      "maintainer_url": "https://github.com/python-pillow/Pillow/security/advisories/GHSA-5x94-69rx-g8h2"
+    },
+    {
+      "number": 16,
+      "package": "pillow",
+      "ghsa_id": "GHSA-45hq-cxwh-f6vc",
+      "cve_id": "CVE-2026-55379",
+      "database_severity": "high",
+      "maintainer_severity": "high",
+      "locked_version": "12.2.0",
+      "installed_main_venv_version": "12.2.0",
+      "affected_range": "< 12.3.0",
+      "locked_version_matches": true,
+      "first_patched_version": "12.3.0",
+      "candidate_version": "12.3.0",
+      "candidate_version_matches": false,
+      "relationship": "transitive",
+      "scope": "runtime",
+      "direct_parents": [
+        "docling-core",
+        "docling-ibm-models",
+        "docling-parse",
+        "docling-slim",
+        "matplotlib",
+        "python-pptx",
+        "rapidocr",
+        "streamlit",
+        "torchvision"
+      ],
+      "issue": "BDF glyph allocation bypass",
+      "assessment": "Requires loading an untrusted BDF bitmap font with attacker-controlled glyph dimensions. No matching operation was found in inspected callers.",
+      "evidence": [
+        "uv.lock:3482",
+        "src/bubble/ingestion/edgar/extractor.py:237",
+        "docling-slim 2.96.0 wheel: docling/datamodel/backend_options.py:73",
+        "docling-slim 2.96.0 wheel: docling/backend/html_backend.py:4233"
+      ],
+      "alert_url": "https://github.com/tedthizzy/ai-bubble/security/dependabot/16",
+      "advisory_url": "https://github.com/advisories/GHSA-45hq-cxwh-f6vc",
+      "maintainer_url": "https://github.com/python-pillow/Pillow/security/advisories/GHSA-45hq-cxwh-f6vc"
+    },
+    {
+      "number": 17,
+      "package": "pillow",
+      "ghsa_id": "GHSA-phj9-mv4w-65pm",
+      "cve_id": "CVE-2026-55380",
+      "database_severity": "high",
+      "maintainer_severity": "high",
+      "locked_version": "12.2.0",
+      "installed_main_venv_version": "12.2.0",
+      "affected_range": "< 12.3.0",
+      "locked_version_matches": true,
+      "first_patched_version": "12.3.0",
+      "candidate_version": "12.3.0",
+      "candidate_version_matches": false,
+      "relationship": "transitive",
+      "scope": "runtime",
+      "direct_parents": [
+        "docling-core",
+        "docling-ibm-models",
+        "docling-parse",
+        "docling-slim",
+        "matplotlib",
+        "python-pptx",
+        "rapidocr",
+        "streamlit",
+        "torchvision"
+      ],
+      "issue": "GD image allocation bypass",
+      "assessment": "Requires the dedicated GdImageFile loader followed by decoding. No matching loader use was found in inspected callers.",
+      "evidence": [
+        "uv.lock:3482",
+        "src/bubble/ingestion/edgar/extractor.py:237",
+        "docling-slim 2.96.0 wheel: docling/datamodel/backend_options.py:73",
+        "docling-slim 2.96.0 wheel: docling/backend/html_backend.py:4233"
+      ],
+      "alert_url": "https://github.com/tedthizzy/ai-bubble/security/dependabot/17",
+      "advisory_url": "https://github.com/advisories/GHSA-phj9-mv4w-65pm",
+      "maintainer_url": "https://github.com/python-pillow/Pillow/security/advisories/GHSA-phj9-mv4w-65pm"
+    },
+    {
+      "number": 18,
+      "package": "pillow",
+      "ghsa_id": "GHSA-4x4j-2g7c-83w6",
+      "cve_id": "CVE-2026-55798",
+      "database_severity": "medium",
+      "maintainer_severity": "medium",
+      "locked_version": "12.2.0",
+      "installed_main_venv_version": "12.2.0",
+      "affected_range": "< 12.3.0",
+      "locked_version_matches": true,
+      "first_patched_version": "12.3.0",
+      "candidate_version": "12.3.0",
+      "candidate_version_matches": false,
+      "relationship": "transitive",
+      "scope": "runtime",
+      "direct_parents": [
+        "docling-core",
+        "docling-ibm-models",
+        "docling-parse",
+        "docling-slim",
+        "matplotlib",
+        "python-pptx",
+        "rapidocr",
+        "streamlit",
+        "torchvision"
+      ],
+      "issue": "Windows image viewer command injection",
+      "assessment": "Requires WindowsViewer and an attacker-controlled shell path. The observed host is macOS and the CI runner is Ubuntu; no image viewer calls were found.",
+      "evidence": [
+        "uv.lock:3482",
+        "src/bubble/ingestion/edgar/extractor.py:237",
+        "docling-slim 2.96.0 wheel: docling/datamodel/backend_options.py:73",
+        "docling-slim 2.96.0 wheel: docling/backend/html_backend.py:4233"
+      ],
+      "alert_url": "https://github.com/tedthizzy/ai-bubble/security/dependabot/18",
+      "advisory_url": "https://github.com/advisories/GHSA-4x4j-2g7c-83w6",
+      "maintainer_url": "https://github.com/python-pillow/Pillow/security/advisories/GHSA-4x4j-2g7c-83w6"
+    },
+    {
+      "number": 19,
+      "package": "pillow",
+      "ghsa_id": "GHSA-xj96-63gp-2gmr",
+      "cve_id": "CVE-2026-59197",
+      "database_severity": "high",
+      "maintainer_severity": "high",
+      "locked_version": "12.2.0",
+      "installed_main_venv_version": "12.2.0",
+      "affected_range": "< 12.3.0",
+      "locked_version_matches": true,
+      "first_patched_version": "12.3.0",
+      "candidate_version": "12.3.0",
+      "candidate_version_matches": false,
+      "relationship": "transitive",
+      "scope": "runtime",
+      "direct_parents": [
+        "docling-core",
+        "docling-ibm-models",
+        "docling-parse",
+        "docling-slim",
+        "matplotlib",
+        "python-pptx",
+        "rapidocr",
+        "streamlit",
+        "torchvision"
+      ],
+      "issue": "Rank filter heap overwrite",
+      "assessment": "Requires attacker-controlled filter sizes near integer limits. No rank filter use was found in inspected application or Docling callers.",
+      "evidence": [
+        "uv.lock:3482",
+        "src/bubble/ingestion/edgar/extractor.py:237",
+        "docling-slim 2.96.0 wheel: docling/datamodel/backend_options.py:73",
+        "docling-slim 2.96.0 wheel: docling/backend/html_backend.py:4233"
+      ],
+      "alert_url": "https://github.com/tedthizzy/ai-bubble/security/dependabot/19",
+      "advisory_url": "https://github.com/advisories/GHSA-xj96-63gp-2gmr",
+      "maintainer_url": "https://github.com/python-pillow/Pillow/security/advisories/GHSA-xj96-63gp-2gmr"
+    },
+    {
+      "number": 20,
+      "package": "pillow",
+      "ghsa_id": "GHSA-fj7v-r99m-22gq",
+      "cve_id": "CVE-2026-59198",
+      "database_severity": "medium",
+      "maintainer_severity": "medium",
+      "locked_version": "12.2.0",
+      "installed_main_venv_version": "12.2.0",
+      "affected_range": ">= 5.2.0, < 12.3.0",
+      "locked_version_matches": true,
+      "first_patched_version": "12.3.0",
+      "candidate_version": "12.3.0",
+      "candidate_version_matches": false,
+      "relationship": "transitive",
+      "scope": "runtime",
+      "direct_parents": [
+        "docling-core",
+        "docling-ibm-models",
+        "docling-parse",
+        "docling-slim",
+        "matplotlib",
+        "python-pptx",
+        "rapidocr",
+        "streamlit",
+        "torchvision"
+      ],
+      "issue": "TGA encoder leaks heap bytes",
+      "assessment": "Requires saving a one-bit image with TGA RLE encoding. No matching encoder use was found in inspected callers.",
+      "evidence": [
+        "uv.lock:3482",
+        "src/bubble/ingestion/edgar/extractor.py:237",
+        "docling-slim 2.96.0 wheel: docling/datamodel/backend_options.py:73",
+        "docling-slim 2.96.0 wheel: docling/backend/html_backend.py:4233"
+      ],
+      "alert_url": "https://github.com/tedthizzy/ai-bubble/security/dependabot/20",
+      "advisory_url": "https://github.com/advisories/GHSA-fj7v-r99m-22gq",
+      "maintainer_url": "https://github.com/python-pillow/Pillow/security/advisories/GHSA-fj7v-r99m-22gq"
+    },
+    {
+      "number": 21,
+      "package": "pillow",
+      "ghsa_id": "GHSA-6r8x-57c9-28j4",
+      "cve_id": "CVE-2026-59199",
+      "database_severity": "high",
+      "maintainer_severity": "high",
+      "locked_version": "12.2.0",
+      "installed_main_venv_version": "12.2.0",
+      "affected_range": "< 12.3.0",
+      "locked_version_matches": true,
+      "first_patched_version": "12.3.0",
+      "candidate_version": "12.3.0",
+      "candidate_version_matches": false,
+      "relationship": "transitive",
+      "scope": "runtime",
+      "direct_parents": [
+        "docling-core",
+        "docling-ibm-models",
+        "docling-parse",
+        "docling-slim",
+        "matplotlib",
+        "python-pptx",
+        "rapidocr",
+        "streamlit",
+        "torchvision"
+      ],
+      "issue": "Image coordinate overflow",
+      "assessment": "Requires extreme attacker-controlled crop, paste, or compositing coordinates. Docling performs image operations, but an end-to-end path for these extreme values was not demonstrated.",
+      "evidence": [
+        "uv.lock:3482",
+        "src/bubble/ingestion/edgar/extractor.py:237",
+        "docling-slim 2.96.0 wheel: docling/datamodel/backend_options.py:73",
+        "docling-slim 2.96.0 wheel: docling/backend/html_backend.py:4233"
+      ],
+      "alert_url": "https://github.com/tedthizzy/ai-bubble/security/dependabot/21",
+      "advisory_url": "https://github.com/advisories/GHSA-6r8x-57c9-28j4",
+      "maintainer_url": "https://github.com/python-pillow/Pillow/security/advisories/GHSA-6r8x-57c9-28j4"
+    },
+    {
+      "number": 22,
+      "package": "pillow",
+      "ghsa_id": "GHSA-jjj6-mw9f-p565",
+      "cve_id": "CVE-2026-59200",
+      "database_severity": "high",
+      "maintainer_severity": "high",
+      "locked_version": "12.2.0",
+      "installed_main_venv_version": "12.2.0",
+      "affected_range": ">= 5.1.0, < 12.3.0",
+      "locked_version_matches": true,
+      "first_patched_version": "12.3.0",
+      "candidate_version": "12.3.0",
+      "candidate_version_matches": false,
+      "relationship": "transitive",
+      "scope": "runtime",
+      "direct_parents": [
+        "docling-core",
+        "docling-ibm-models",
+        "docling-parse",
+        "docling-slim",
+        "matplotlib",
+        "python-pptx",
+        "rapidocr",
+        "streamlit",
+        "torchvision"
+      ],
+      "issue": "Pillow PDF decompression exhaustion",
+      "assessment": "Requires Pillow PdfParser to decode untrusted compressed streams. Docling PDF handling must not be equated with use of Pillow PdfParser; no matching caller was found in inspected sources.",
+      "evidence": [
+        "uv.lock:3482",
+        "src/bubble/ingestion/edgar/extractor.py:237",
+        "docling-slim 2.96.0 wheel: docling/datamodel/backend_options.py:73",
+        "docling-slim 2.96.0 wheel: docling/backend/html_backend.py:4233"
+      ],
+      "alert_url": "https://github.com/tedthizzy/ai-bubble/security/dependabot/22",
+      "advisory_url": "https://github.com/advisories/GHSA-jjj6-mw9f-p565",
+      "maintainer_url": "https://github.com/python-pillow/Pillow/security/advisories/GHSA-jjj6-mw9f-p565"
+    },
+    {
+      "number": 23,
+      "package": "pillow",
+      "ghsa_id": "GHSA-vjc4-5qp5-m44j",
+      "cve_id": "CVE-2026-59204",
+      "database_severity": "high",
+      "maintainer_severity": "medium",
+      "locked_version": "12.2.0",
+      "installed_main_venv_version": "12.2.0",
+      "affected_range": ">= 8.2.0, < 12.3.0",
+      "locked_version_matches": true,
+      "first_patched_version": "12.3.0",
+      "candidate_version": "12.3.0",
+      "candidate_version_matches": false,
+      "relationship": "transitive",
+      "scope": "runtime",
+      "direct_parents": [
+        "docling-core",
+        "docling-ibm-models",
+        "docling-parse",
+        "docling-slim",
+        "matplotlib",
+        "python-pptx",
+        "rapidocr",
+        "streamlit",
+        "torchvision"
+      ],
+      "issue": "JPEG2000 tile memory exhaustion",
+      "assessment": "Requires decoding an untrusted tiled JPEG2000 image. Current HTML extraction disables image fetching; alternate image/document inputs could expose the decoder.",
+      "evidence": [
+        "uv.lock:3482",
+        "src/bubble/ingestion/edgar/extractor.py:237",
+        "docling-slim 2.96.0 wheel: docling/datamodel/backend_options.py:73",
+        "docling-slim 2.96.0 wheel: docling/backend/html_backend.py:4233"
+      ],
+      "alert_url": "https://github.com/tedthizzy/ai-bubble/security/dependabot/23",
+      "advisory_url": "https://github.com/advisories/GHSA-vjc4-5qp5-m44j",
+      "maintainer_url": "https://github.com/python-pillow/Pillow/security/advisories/GHSA-vjc4-5qp5-m44j"
+    },
+    {
+      "number": 24,
+      "package": "pillow",
+      "ghsa_id": "GHSA-9hw9-ch79-4vh6",
+      "cve_id": "CVE-2026-59205",
+      "database_severity": "high",
+      "maintainer_severity": "high",
+      "locked_version": "12.2.0",
+      "installed_main_venv_version": "12.2.0",
+      "affected_range": "< 12.3.0",
+      "locked_version_matches": true,
+      "first_patched_version": "12.3.0",
+      "candidate_version": "12.3.0",
+      "candidate_version_matches": false,
+      "relationship": "transitive",
+      "scope": "runtime",
+      "direct_parents": [
+        "docling-core",
+        "docling-ibm-models",
+        "docling-parse",
+        "docling-slim",
+        "matplotlib",
+        "python-pptx",
+        "rapidocr",
+        "streamlit",
+        "torchvision"
+      ],
+      "issue": "Color transform output buffer mismatch",
+      "assessment": "Requires attacker control over output image modes or ImageCms transform parameters. No matching ImageCms use was found in inspected callers.",
+      "evidence": [
+        "uv.lock:3482",
+        "src/bubble/ingestion/edgar/extractor.py:237",
+        "docling-slim 2.96.0 wheel: docling/datamodel/backend_options.py:73",
+        "docling-slim 2.96.0 wheel: docling/backend/html_backend.py:4233"
+      ],
+      "alert_url": "https://github.com/tedthizzy/ai-bubble/security/dependabot/24",
+      "advisory_url": "https://github.com/advisories/GHSA-9hw9-ch79-4vh6",
+      "maintainer_url": "https://github.com/python-pillow/Pillow/security/advisories/GHSA-9hw9-ch79-4vh6"
+    },
+    {
+      "number": 25,
+      "package": "setuptools",
+      "ghsa_id": "GHSA-h35f-9h28-mq5c",
+      "cve_id": "CVE-2026-59890",
+      "database_severity": "medium",
+      "maintainer_severity": "medium",
+      "locked_version": "81.0.0",
+      "installed_main_venv_version": "81.0.0",
+      "affected_range": "< 83.0.0",
+      "locked_version_matches": true,
+      "first_patched_version": "83.0.0",
+      "candidate_version": "83.0.0",
+      "candidate_version_matches": false,
+      "relationship": "transitive",
+      "scope": "runtime",
+      "direct_parents": [
+        "torch"
+      ],
+      "issue": "Source archive exclusion bypass",
+      "assessment": "Requires setuptools source-distribution builds on a normalization-sensitive filesystem with non-ASCII excluded files. Bubble declares Hatchling as its build backend.",
+      "evidence": [
+        "uv.lock:5064",
+        "pyproject.toml:78",
+        "uv.lock: torch dependencies"
+      ],
+      "alert_url": "https://github.com/tedthizzy/ai-bubble/security/dependabot/25",
+      "advisory_url": "https://github.com/advisories/GHSA-h35f-9h28-mq5c",
+      "maintainer_url": "https://github.com/pypa/setuptools/security/advisories/GHSA-h35f-9h28-mq5c"
+    },
+    {
+      "number": 26,
+      "package": "gitpython",
+      "ghsa_id": "GHSA-v396-v7q4-x2qj",
+      "cve_id": null,
+      "database_severity": "high",
+      "maintainer_severity": "high",
+      "locked_version": "3.1.50",
+      "installed_main_venv_version": "3.1.50",
+      "affected_range": "= 3.1.50",
+      "locked_version_matches": true,
+      "first_patched_version": "3.1.51",
+      "candidate_version": "3.1.62",
+      "candidate_version_matches": false,
+      "relationship": "transitive",
+      "scope": "runtime",
+      "direct_parents": [
+        "streamlit"
+      ],
+      "issue": "Joined short clone options bypass guards",
+      "assessment": "Requires forwarding attacker-controlled multi_options into GitPython cloning. Streamlit does not expose such a call in the inspected source.",
+      "evidence": [
+        "uv.lock:1598",
+        "src/bubble/ui/streamlit_app.py:13",
+        "streamlit 1.58.0 wheel: streamlit/git_util.py:77,136,151,186"
+      ],
+      "alert_url": "https://github.com/tedthizzy/ai-bubble/security/dependabot/26",
+      "advisory_url": "https://github.com/advisories/GHSA-v396-v7q4-x2qj",
+      "maintainer_url": "https://github.com/gitpython-developers/GitPython/security/advisories/GHSA-v396-v7q4-x2qj"
+    },
+    {
+      "number": 27,
+      "package": "gitpython",
+      "ghsa_id": "GHSA-2f96-g7mh-g2hx",
+      "cve_id": "CVE-2026-67325",
+      "database_severity": "high",
+      "maintainer_severity": "high",
+      "locked_version": "3.1.50",
+      "installed_main_venv_version": "3.1.50",
+      "affected_range": "<= 3.1.50",
+      "locked_version_matches": true,
+      "first_patched_version": "3.1.51",
+      "candidate_version": "3.1.62",
+      "candidate_version_matches": false,
+      "relationship": "transitive",
+      "scope": "runtime",
+      "direct_parents": [
+        "streamlit"
+      ],
+      "issue": "Abbreviated Git options bypass guards",
+      "assessment": "Requires attacker-controlled keyword names for Git operations. Inspected Streamlit calls use fixed argument names.",
+      "evidence": [
+        "uv.lock:1598",
+        "src/bubble/ui/streamlit_app.py:13",
+        "streamlit 1.58.0 wheel: streamlit/git_util.py:77,136,151,186"
+      ],
+      "alert_url": "https://github.com/tedthizzy/ai-bubble/security/dependabot/27",
+      "advisory_url": "https://github.com/advisories/GHSA-2f96-g7mh-g2hx",
+      "maintainer_url": "https://github.com/gitpython-developers/GitPython/security/advisories/GHSA-2f96-g7mh-g2hx"
+    },
+    {
+      "number": 28,
+      "package": "gitpython",
+      "ghsa_id": "GHSA-956x-8gvw-wg5v",
+      "cve_id": "CVE-2026-67323",
+      "database_severity": "high",
+      "maintainer_severity": "high",
+      "locked_version": "3.1.50",
+      "installed_main_venv_version": "3.1.50",
+      "affected_range": "<= 3.1.50",
+      "locked_version_matches": true,
+      "first_patched_version": "3.1.51",
+      "candidate_version": "3.1.62",
+      "candidate_version_matches": false,
+      "relationship": "transitive",
+      "scope": "runtime",
+      "direct_parents": [
+        "streamlit"
+      ],
+      "issue": "Unvalidated archive and revision options",
+      "assessment": "Requires attacker-controlled Git options or revisions reaching archive, ls_remote, iter_commits, or blame. Streamlit reads local branch names; visitor control was not found.",
+      "evidence": [
+        "uv.lock:1598",
+        "src/bubble/ui/streamlit_app.py:13",
+        "streamlit 1.58.0 wheel: streamlit/git_util.py:77,136,151,186"
+      ],
+      "alert_url": "https://github.com/tedthizzy/ai-bubble/security/dependabot/28",
+      "advisory_url": "https://github.com/advisories/GHSA-956x-8gvw-wg5v",
+      "maintainer_url": "https://github.com/gitpython-developers/GitPython/security/advisories/GHSA-956x-8gvw-wg5v"
+    },
+    {
+      "number": 29,
+      "package": "gitpython",
+      "ghsa_id": "GHSA-rwj8-pgh3-r573",
+      "cve_id": "CVE-2026-67322",
+      "database_severity": "high",
+      "maintainer_severity": "high",
+      "locked_version": "3.1.50",
+      "installed_main_venv_version": "3.1.50",
+      "affected_range": "<= 3.1.51",
+      "locked_version_matches": true,
+      "first_patched_version": "3.1.52",
+      "candidate_version": "3.1.62",
+      "candidate_version_matches": false,
+      "relationship": "transitive",
+      "scope": "runtime",
+      "direct_parents": [
+        "streamlit"
+      ],
+      "issue": "Clone URL expands environment variables",
+      "assessment": "Requires cloning a caller-controlled URL through GitPython. No such operation was found in the application or Streamlit git utility.",
+      "evidence": [
+        "uv.lock:1598",
+        "src/bubble/ui/streamlit_app.py:13",
+        "streamlit 1.58.0 wheel: streamlit/git_util.py:77,136,151,186"
+      ],
+      "alert_url": "https://github.com/tedthizzy/ai-bubble/security/dependabot/29",
+      "advisory_url": "https://github.com/advisories/GHSA-rwj8-pgh3-r573",
+      "maintainer_url": "https://github.com/gitpython-developers/GitPython/security/advisories/GHSA-rwj8-pgh3-r573"
+    },
+    {
+      "number": 30,
+      "package": "gitpython",
+      "ghsa_id": "GHSA-3rp5-jjmw-4wv2",
+      "cve_id": null,
+      "database_severity": "high",
+      "maintainer_severity": "high",
+      "locked_version": "3.1.50",
+      "installed_main_venv_version": "3.1.50",
+      "affected_range": "<= 3.1.52",
+      "locked_version_matches": true,
+      "first_patched_version": "3.1.53",
+      "candidate_version": "3.1.62",
+      "candidate_version_matches": false,
+      "relationship": "transitive",
+      "scope": "runtime",
+      "direct_parents": [
+        "streamlit"
+      ],
+      "issue": "Config section injection through submodules",
+      "assessment": "Requires untrusted section names or submodule initialization from a malicious repository. No such operation was found in the inspected callers.",
+      "evidence": [
+        "uv.lock:1598",
+        "src/bubble/ui/streamlit_app.py:13",
+        "streamlit 1.58.0 wheel: streamlit/git_util.py:77,136,151,186"
+      ],
+      "alert_url": "https://github.com/tedthizzy/ai-bubble/security/dependabot/30",
+      "advisory_url": "https://github.com/advisories/GHSA-3rp5-jjmw-4wv2",
+      "maintainer_url": "https://github.com/gitpython-developers/GitPython/security/advisories/GHSA-3rp5-jjmw-4wv2"
+    },
+    {
+      "number": 31,
+      "package": "gitpython",
+      "ghsa_id": "GHSA-6p8h-3wgx-97gf",
+      "cve_id": null,
+      "database_severity": "high",
+      "maintainer_severity": "high",
+      "locked_version": "3.1.50",
+      "installed_main_venv_version": "3.1.50",
+      "affected_range": "<= 3.1.53",
+      "locked_version_matches": true,
+      "first_patched_version": "3.1.54",
+      "candidate_version": "3.1.62",
+      "candidate_version_matches": false,
+      "relationship": "transitive",
+      "scope": "runtime",
+      "direct_parents": [
+        "streamlit"
+      ],
+      "issue": "Clone template can install executable hooks",
+      "assessment": "Requires untrusted clone options and an attacker-controlled hook directory. No such operation was found in the inspected callers.",
+      "evidence": [
+        "uv.lock:1598",
+        "src/bubble/ui/streamlit_app.py:13",
+        "streamlit 1.58.0 wheel: streamlit/git_util.py:77,136,151,186"
+      ],
+      "alert_url": "https://github.com/tedthizzy/ai-bubble/security/dependabot/31",
+      "advisory_url": "https://github.com/advisories/GHSA-6p8h-3wgx-97gf",
+      "maintainer_url": "https://github.com/gitpython-developers/GitPython/security/advisories/GHSA-6p8h-3wgx-97gf"
+    },
+    {
+      "number": 32,
+      "package": "gitpython",
+      "ghsa_id": "GHSA-fjr4-x663-mwxc",
+      "cve_id": null,
+      "database_severity": "high",
+      "maintainer_severity": "high",
+      "locked_version": "3.1.50",
+      "installed_main_venv_version": "3.1.50",
+      "affected_range": "<= 3.1.53",
+      "locked_version_matches": true,
+      "first_patched_version": "3.1.54",
+      "candidate_version": "3.1.62",
+      "candidate_version_matches": false,
+      "relationship": "transitive",
+      "scope": "runtime",
+      "direct_parents": [
+        "streamlit"
+      ],
+      "issue": "Diff options can overwrite files",
+      "assessment": "Requires attacker-controlled diff options or revision values. Streamlit calls index.diff(None) without these options.",
+      "evidence": [
+        "uv.lock:1598",
+        "src/bubble/ui/streamlit_app.py:13",
+        "streamlit 1.58.0 wheel: streamlit/git_util.py:77,136,151,186"
+      ],
+      "alert_url": "https://github.com/tedthizzy/ai-bubble/security/dependabot/32",
+      "advisory_url": "https://github.com/advisories/GHSA-fjr4-x663-mwxc",
+      "maintainer_url": "https://github.com/gitpython-developers/GitPython/security/advisories/GHSA-fjr4-x663-mwxc"
+    },
+    {
+      "number": 33,
+      "package": "gitpython",
+      "ghsa_id": "GHSA-r9mr-m37c-5fr3",
+      "cve_id": null,
+      "database_severity": "high",
+      "maintainer_severity": "high",
+      "locked_version": "3.1.50",
+      "installed_main_venv_version": "3.1.50",
+      "affected_range": "<= 3.1.53",
+      "locked_version_matches": true,
+      "first_patched_version": "3.1.54",
+      "candidate_version": "3.1.62",
+      "candidate_version_matches": false,
+      "relationship": "transitive",
+      "scope": "runtime",
+      "direct_parents": [
+        "streamlit"
+      ],
+      "issue": "Short-option values bypass guards",
+      "assessment": "Requires forwarding attacker-controlled Git keyword values. No such interface was found in the inspected callers.",
+      "evidence": [
+        "uv.lock:1598",
+        "src/bubble/ui/streamlit_app.py:13",
+        "streamlit 1.58.0 wheel: streamlit/git_util.py:77,136,151,186"
+      ],
+      "alert_url": "https://github.com/tedthizzy/ai-bubble/security/dependabot/33",
+      "advisory_url": "https://github.com/advisories/GHSA-r9mr-m37c-5fr3",
+      "maintainer_url": "https://github.com/gitpython-developers/GitPython/security/advisories/GHSA-r9mr-m37c-5fr3"
+    },
+    {
+      "number": 34,
+      "package": "gitpython",
+      "ghsa_id": "GHSA-94p4-4cq8-9g67",
+      "cve_id": null,
+      "database_severity": "high",
+      "maintainer_severity": "high",
+      "locked_version": "3.1.50",
+      "installed_main_venv_version": "3.1.50",
+      "affected_range": "<= 3.1.53",
+      "locked_version_matches": true,
+      "first_patched_version": "3.1.55",
+      "candidate_version": "3.1.62",
+      "candidate_version_matches": false,
+      "relationship": "transitive",
+      "scope": "runtime",
+      "direct_parents": [
+        "streamlit"
+      ],
+      "issue": "Remote URL expands environment variables",
+      "assessment": "Requires creating a remote from an attacker-controlled URL and subsequently using it. Streamlit only reads the configured remotes in the inspected source.",
+      "evidence": [
+        "uv.lock:1598",
+        "src/bubble/ui/streamlit_app.py:13",
+        "streamlit 1.58.0 wheel: streamlit/git_util.py:77,136,151,186"
+      ],
+      "alert_url": "https://github.com/tedthizzy/ai-bubble/security/dependabot/34",
+      "advisory_url": "https://github.com/advisories/GHSA-94p4-4cq8-9g67",
+      "maintainer_url": "https://github.com/gitpython-developers/GitPython/security/advisories/GHSA-94p4-4cq8-9g67"
+    },
+    {
+      "number": 35,
+      "package": "gitpython",
+      "ghsa_id": "GHSA-3f7w-8rr8-f37f",
+      "cve_id": null,
+      "database_severity": "high",
+      "maintainer_severity": "high",
+      "locked_version": "3.1.50",
+      "installed_main_venv_version": "3.1.50",
+      "affected_range": "<= 3.1.56",
+      "locked_version_matches": true,
+      "first_patched_version": "3.1.57",
+      "candidate_version": "3.1.62",
+      "candidate_version_matches": false,
+      "relationship": "transitive",
+      "scope": "runtime",
+      "direct_parents": [
+        "streamlit"
+      ],
+      "issue": "Checkout or tag options access arbitrary files",
+      "assessment": "Requires attacker-controlled checkout or tag options. No matching operation was found in the inspected callers.",
+      "evidence": [
+        "uv.lock:1598",
+        "src/bubble/ui/streamlit_app.py:13",
+        "streamlit 1.58.0 wheel: streamlit/git_util.py:77,136,151,186"
+      ],
+      "alert_url": "https://github.com/tedthizzy/ai-bubble/security/dependabot/35",
+      "advisory_url": "https://github.com/advisories/GHSA-3f7w-8rr8-f37f",
+      "maintainer_url": "https://github.com/gitpython-developers/GitPython/security/advisories/GHSA-3f7w-8rr8-f37f"
+    },
+    {
+      "number": 36,
+      "package": "gitpython",
+      "ghsa_id": "GHSA-539m-9xh6-q6rr",
+      "cve_id": null,
+      "database_severity": "medium",
+      "maintainer_severity": "medium",
+      "locked_version": "3.1.50",
+      "installed_main_venv_version": "3.1.50",
+      "affected_range": "<= 3.1.56",
+      "locked_version_matches": true,
+      "first_patched_version": "3.1.57",
+      "candidate_version": "3.1.62",
+      "candidate_version_matches": false,
+      "relationship": "transitive",
+      "scope": "runtime",
+      "direct_parents": [
+        "streamlit"
+      ],
+      "issue": "Archive options include arbitrary files",
+      "assessment": "Requires forwarding attacker-controlled archive options. No matching operation was found in the inspected callers.",
+      "evidence": [
+        "uv.lock:1598",
+        "src/bubble/ui/streamlit_app.py:13",
+        "streamlit 1.58.0 wheel: streamlit/git_util.py:77,136,151,186"
+      ],
+      "alert_url": "https://github.com/tedthizzy/ai-bubble/security/dependabot/36",
+      "advisory_url": "https://github.com/advisories/GHSA-539m-9xh6-q6rr",
+      "maintainer_url": "https://github.com/gitpython-developers/GitPython/security/advisories/GHSA-539m-9xh6-q6rr"
+    },
+    {
+      "number": 37,
+      "package": "gitpython",
+      "ghsa_id": "GHSA-p538-c434-8v24",
+      "cve_id": null,
+      "database_severity": "medium",
+      "maintainer_severity": "medium",
+      "locked_version": "3.1.50",
+      "installed_main_venv_version": "3.1.50",
+      "affected_range": "<= 3.1.55",
+      "locked_version_matches": true,
+      "first_patched_version": "3.1.56",
+      "candidate_version": "3.1.62",
+      "candidate_version_matches": false,
+      "relationship": "transitive",
+      "scope": "runtime",
+      "direct_parents": [
+        "streamlit"
+      ],
+      "issue": "Commit count options truncate files",
+      "assessment": "Requires attacker-controlled Commit.count keyword arguments. No matching operation was found in the inspected callers.",
+      "evidence": [
+        "uv.lock:1598",
+        "src/bubble/ui/streamlit_app.py:13",
+        "streamlit 1.58.0 wheel: streamlit/git_util.py:77,136,151,186"
+      ],
+      "alert_url": "https://github.com/tedthizzy/ai-bubble/security/dependabot/37",
+      "advisory_url": "https://github.com/advisories/GHSA-p538-c434-8v24",
+      "maintainer_url": "https://github.com/gitpython-developers/GitPython/security/advisories/GHSA-p538-c434-8v24"
+    },
+    {
+      "number": 38,
+      "package": "aiohttp",
+      "ghsa_id": "GHSA-mq44-7p77-q5h7",
+      "cve_id": "CVE-2026-59881",
+      "database_severity": "medium",
+      "maintainer_severity": "low",
+      "locked_version": "3.14.1",
+      "installed_main_venv_version": "3.14.1",
+      "affected_range": "<= 3.14.1",
+      "locked_version_matches": true,
+      "first_patched_version": "3.14.2",
+      "candidate_version": "3.14.3",
+      "candidate_version_matches": false,
+      "relationship": "transitive",
+      "scope": "runtime",
+      "direct_parents": [
+        "instructor"
+      ],
+      "issue": "WebSocket compression accepted unexpectedly",
+      "assessment": "Requires an aiohttp WebSocket client talking to a malicious peer. Instructor uses aiohttp in its usage CLI; no WebSocket client was found there.",
+      "evidence": [
+        "uv.lock:56",
+        "src/bubble/extraction/llm.py:64",
+        "instructor 1.15.1 wheel: instructor/cli/usage.py:26"
+      ],
+      "alert_url": "https://github.com/tedthizzy/ai-bubble/security/dependabot/38",
+      "advisory_url": "https://github.com/advisories/GHSA-mq44-7p77-q5h7",
+      "maintainer_url": "https://github.com/aio-libs/aiohttp/security/advisories/GHSA-mq44-7p77-q5h7"
+    },
+    {
+      "number": 39,
+      "package": "aiohttp",
+      "ghsa_id": "GHSA-mfx4-hv73-q22v",
+      "cve_id": "CVE-2026-69243",
+      "database_severity": "medium",
+      "maintainer_severity": "low",
+      "locked_version": "3.14.1",
+      "installed_main_venv_version": "3.14.1",
+      "affected_range": "<= 3.14.1",
+      "locked_version_matches": true,
+      "first_patched_version": "3.14.2",
+      "candidate_version": "3.14.3",
+      "candidate_version_matches": false,
+      "relationship": "transitive",
+      "scope": "runtime",
+      "direct_parents": [
+        "instructor"
+      ],
+      "issue": "WebSocket upgrade request smuggling",
+      "assessment": "Requires an aiohttp HTTP server. The inspected dependency use is a client in Instructor, not an aiohttp server.",
+      "evidence": [
+        "uv.lock:56",
+        "src/bubble/extraction/llm.py:64",
+        "instructor 1.15.1 wheel: instructor/cli/usage.py:26"
+      ],
+      "alert_url": "https://github.com/tedthizzy/ai-bubble/security/dependabot/39",
+      "advisory_url": "https://github.com/advisories/GHSA-mfx4-hv73-q22v",
+      "maintainer_url": "https://github.com/aio-libs/aiohttp/security/advisories/GHSA-mfx4-hv73-q22v"
+    },
+    {
+      "number": 40,
+      "package": "aiohttp",
+      "ghsa_id": "GHSA-cq5v-8q36-5273",
+      "cve_id": "CVE-2026-69244",
+      "database_severity": "high",
+      "maintainer_severity": "high",
+      "locked_version": "3.14.1",
+      "installed_main_venv_version": "3.14.1",
+      "affected_range": "<= 3.14.2",
+      "locked_version_matches": true,
+      "first_patched_version": "3.14.3",
+      "candidate_version": "3.14.3",
+      "candidate_version_matches": false,
+      "relationship": "transitive",
+      "scope": "runtime",
+      "direct_parents": [
+        "instructor"
+      ],
+      "issue": "Malformed HTTP response reads heap memory",
+      "assessment": "Requires the aiohttp C client parser and a malformed response. Instructor usage CLI uses this client; Bubble extraction selects SDK clients using HTTPX.",
+      "evidence": [
+        "uv.lock:56",
+        "src/bubble/extraction/llm.py:64",
+        "instructor 1.15.1 wheel: instructor/cli/usage.py:26"
+      ],
+      "alert_url": "https://github.com/tedthizzy/ai-bubble/security/dependabot/40",
+      "advisory_url": "https://github.com/advisories/GHSA-cq5v-8q36-5273",
+      "maintainer_url": "https://github.com/aio-libs/aiohttp/security/advisories/GHSA-cq5v-8q36-5273"
+    },
+    {
+      "number": 41,
+      "package": "cryptography",
+      "ghsa_id": "GHSA-g6cj-pr64-35w5",
+      "cve_id": "CVE-2026-69247",
+      "database_severity": "high",
+      "maintainer_severity": "medium",
+      "locked_version": "48.0.0",
+      "installed_main_venv_version": "48.0.0",
+      "affected_range": ">= 44.0.0, < 50.0.0",
+      "locked_version_matches": true,
+      "first_patched_version": "50.0.0",
+      "candidate_version": "50.0.1",
+      "candidate_version_matches": false,
+      "relationship": "transitive",
+      "scope": "runtime",
+      "direct_parents": [
+        "prefect"
+      ],
+      "issue": "PKCS7 decryption oracle",
+      "assessment": "Requires a service decrypting untrusted EnvelopedData and exposing repeated distinguishable results. No matching operation was found in Bubble or Prefect; the inspected Prefect code uses Fernet.",
+      "evidence": [
+        "uv.lock:938",
+        "src/bubble/orchestration/prefect_flows/daily_edgar.py:9",
+        "prefect 3.7.2 wheel: prefect/server/utilities/encryption.py:10"
+      ],
+      "alert_url": "https://github.com/tedthizzy/ai-bubble/security/dependabot/41",
+      "advisory_url": "https://github.com/advisories/GHSA-g6cj-pr64-35w5",
+      "maintainer_url": "https://github.com/pyca/cryptography/security/advisories/GHSA-g6cj-pr64-35w5"
+    },
+    {
+      "number": 44,
+      "package": "h2",
+      "ghsa_id": "GHSA-6hr6-w5qg-qmwg",
+      "cve_id": "CVE-2026-71554",
+      "database_severity": "medium",
+      "maintainer_severity": "medium",
+      "locked_version": "4.3.0",
+      "installed_main_venv_version": "4.3.0",
+      "affected_range": "<= 4.4.0",
+      "locked_version_matches": true,
+      "first_patched_version": "4.4.1",
+      "candidate_version": "4.4.1",
+      "candidate_version_matches": false,
+      "relationship": "transitive",
+      "scope": "runtime",
+      "direct_parents": [
+        "httpx"
+      ],
+      "issue": "Duplicate Host headers in HTTP2",
+      "assessment": "Requires an HTTP2 request receiver or a proxy that downgrades requests. The dependency path is HTTPX client use; no H2 server or gateway was found.",
+      "evidence": [
+        "uv.lock:1730",
+        "src/bubble/ingestion/edgar/document_acquisition.py:557",
+        "uv.lock: httpx dependencies"
+      ],
+      "alert_url": "https://github.com/tedthizzy/ai-bubble/security/dependabot/44",
+      "advisory_url": "https://github.com/advisories/GHSA-6hr6-w5qg-qmwg",
+      "maintainer_url": "https://github.com/python-hyper/h2/security/advisories/GHSA-6hr6-w5qg-qmwg"
+    },
+    {
+      "number": 45,
+      "package": "gitpython",
+      "ghsa_id": "GHSA-4gmw-gg2m-w46p",
+      "cve_id": "CVE-2026-76219",
+      "database_severity": "high",
+      "maintainer_severity": "high",
+      "locked_version": "3.1.50",
+      "installed_main_venv_version": "3.1.50",
+      "affected_range": "<= 3.1.57",
+      "locked_version_matches": true,
+      "first_patched_version": "3.1.58",
+      "candidate_version": "3.1.62",
+      "candidate_version_matches": false,
+      "relationship": "transitive",
+      "scope": "runtime",
+      "direct_parents": [
+        "streamlit"
+      ],
+      "issue": "Read-tree options overwrite files",
+      "assessment": "Requires attacker-controlled tree revisions reaching index creation, reset, or merge. No matching operation was found in inspected callers.",
+      "evidence": [
+        "uv.lock:1598",
+        "src/bubble/ui/streamlit_app.py:13",
+        "streamlit 1.58.0 wheel: streamlit/git_util.py:77,136,151,186"
+      ],
+      "alert_url": "https://github.com/tedthizzy/ai-bubble/security/dependabot/45",
+      "advisory_url": "https://github.com/advisories/GHSA-4gmw-gg2m-w46p",
+      "maintainer_url": "https://github.com/gitpython-developers/GitPython/security/advisories/GHSA-4gmw-gg2m-w46p"
+    },
+    {
+      "number": 46,
+      "package": "gitpython",
+      "ghsa_id": "GHSA-9rj7-rf2p-w77r",
+      "cve_id": "CVE-2026-76218",
+      "database_severity": "high",
+      "maintainer_severity": "high",
+      "locked_version": "3.1.50",
+      "installed_main_venv_version": "3.1.50",
+      "affected_range": "<= 3.1.57",
+      "locked_version_matches": true,
+      "first_patched_version": "3.1.58",
+      "candidate_version": "3.1.62",
+      "candidate_version_matches": false,
+      "relationship": "transitive",
+      "scope": "runtime",
+      "direct_parents": [
+        "streamlit"
+      ],
+      "issue": "Repository initialization installs hooks",
+      "assessment": "Requires attacker-controlled initialization options and a prepared hook directory. No matching operation was found in inspected callers.",
+      "evidence": [
+        "uv.lock:1598",
+        "src/bubble/ui/streamlit_app.py:13",
+        "streamlit 1.58.0 wheel: streamlit/git_util.py:77,136,151,186"
+      ],
+      "alert_url": "https://github.com/tedthizzy/ai-bubble/security/dependabot/46",
+      "advisory_url": "https://github.com/advisories/GHSA-9rj7-rf2p-w77r",
+      "maintainer_url": "https://github.com/gitpython-developers/GitPython/security/advisories/GHSA-9rj7-rf2p-w77r"
+    },
+    {
+      "number": 47,
+      "package": "gitpython",
+      "ghsa_id": "GHSA-hh9p-6wh2-4mfc",
+      "cve_id": "CVE-2026-76217",
+      "database_severity": "medium",
+      "maintainer_severity": "medium",
+      "locked_version": "3.1.50",
+      "installed_main_venv_version": "3.1.50",
+      "affected_range": "<= 3.1.57",
+      "locked_version_matches": true,
+      "first_patched_version": "3.1.58",
+      "candidate_version": "3.1.62",
+      "candidate_version_matches": false,
+      "relationship": "transitive",
+      "scope": "runtime",
+      "direct_parents": [
+        "streamlit"
+      ],
+      "issue": "Pathspec options expose file contents",
+      "assessment": "Requires attacker-controlled options for index removal or branch checkout. No matching operation was found in inspected callers.",
+      "evidence": [
+        "uv.lock:1598",
+        "src/bubble/ui/streamlit_app.py:13",
+        "streamlit 1.58.0 wheel: streamlit/git_util.py:77,136,151,186"
+      ],
+      "alert_url": "https://github.com/tedthizzy/ai-bubble/security/dependabot/47",
+      "advisory_url": "https://github.com/advisories/GHSA-hh9p-6wh2-4mfc",
+      "maintainer_url": "https://github.com/gitpython-developers/GitPython/security/advisories/GHSA-hh9p-6wh2-4mfc"
+    },
+    {
+      "number": 48,
+      "package": "gitpython",
+      "ghsa_id": "GHSA-wvpp-8hx9-p66j",
+      "cve_id": "CVE-2026-76220",
+      "database_severity": "high",
+      "maintainer_severity": "high",
+      "locked_version": "3.1.50",
+      "installed_main_venv_version": "3.1.50",
+      "affected_range": "<= 3.1.57",
+      "locked_version_matches": true,
+      "first_patched_version": "3.1.58",
+      "candidate_version": "3.1.62",
+      "candidate_version_matches": false,
+      "relationship": "transitive",
+      "scope": "runtime",
+      "direct_parents": [
+        "streamlit"
+      ],
+      "issue": "Joined short-option values execute commands",
+      "assessment": "Requires forwarding an attacker-controlled keyword dictionary, including the argument-splitting control. No matching interface was found.",
+      "evidence": [
+        "uv.lock:1598",
+        "src/bubble/ui/streamlit_app.py:13",
+        "streamlit 1.58.0 wheel: streamlit/git_util.py:77,136,151,186"
+      ],
+      "alert_url": "https://github.com/tedthizzy/ai-bubble/security/dependabot/48",
+      "advisory_url": "https://github.com/advisories/GHSA-wvpp-8hx9-p66j",
+      "maintainer_url": "https://github.com/gitpython-developers/GitPython/security/advisories/GHSA-wvpp-8hx9-p66j"
+    },
+    {
+      "number": 49,
+      "package": "gitpython",
+      "ghsa_id": "GHSA-jm78-9fvv-mhgr",
+      "cve_id": null,
+      "database_severity": "high",
+      "maintainer_severity": "high",
+      "locked_version": "3.1.50",
+      "installed_main_venv_version": "3.1.50",
+      "affected_range": "<= 3.1.57",
+      "locked_version_matches": true,
+      "first_patched_version": "3.1.58",
+      "candidate_version": "3.1.62",
+      "candidate_version_matches": false,
+      "relationship": "transitive",
+      "scope": "runtime",
+      "direct_parents": [
+        "streamlit"
+      ],
+      "issue": "Config option name injection",
+      "assessment": "Requires attacker-controlled configuration option names written through GitPython. No GitPython configuration writer was found in Bubble or Streamlit.",
+      "evidence": [
+        "uv.lock:1598",
+        "src/bubble/ui/streamlit_app.py:13",
+        "streamlit 1.58.0 wheel: streamlit/git_util.py:77,136,151,186"
+      ],
+      "alert_url": "https://github.com/tedthizzy/ai-bubble/security/dependabot/49",
+      "advisory_url": "https://github.com/advisories/GHSA-jm78-9fvv-mhgr",
+      "maintainer_url": "https://github.com/gitpython-developers/GitPython/security/advisories/GHSA-jm78-9fvv-mhgr"
+    },
+    {
+      "number": 50,
+      "package": "gitpython",
+      "ghsa_id": "GHSA-hmq2-w58f-27jc",
+      "cve_id": "CVE-2026-76222",
+      "database_severity": "high",
+      "maintainer_severity": "high",
+      "locked_version": "3.1.50",
+      "installed_main_venv_version": "3.1.50",
+      "affected_range": "<= 3.1.57",
+      "locked_version_matches": true,
+      "first_patched_version": "3.1.58",
+      "candidate_version": "3.1.62",
+      "candidate_version_matches": false,
+      "relationship": "transitive",
+      "scope": "runtime",
+      "direct_parents": [
+        "streamlit"
+      ],
+      "issue": "Submodule names escape repository storage",
+      "assessment": "Requires initializing submodules from an attacker-controlled repository. No such operation was found in inspected callers.",
+      "evidence": [
+        "uv.lock:1598",
+        "src/bubble/ui/streamlit_app.py:13",
+        "streamlit 1.58.0 wheel: streamlit/git_util.py:77,136,151,186"
+      ],
+      "alert_url": "https://github.com/tedthizzy/ai-bubble/security/dependabot/50",
+      "advisory_url": "https://github.com/advisories/GHSA-hmq2-w58f-27jc",
+      "maintainer_url": "https://github.com/gitpython-developers/GitPython/security/advisories/GHSA-hmq2-w58f-27jc"
+    },
+    {
+      "number": 51,
+      "package": "transformers",
+      "ghsa_id": "GHSA-xrqw-3rrv-vx5w",
+      "cve_id": "CVE-2026-9856",
+      "database_severity": "high",
+      "maintainer_severity": null,
+      "locked_version": "5.9.0",
+      "installed_main_venv_version": "5.9.0",
+      "affected_range": "< 5.10.0",
+      "locked_version_matches": true,
+      "first_patched_version": "5.10.0",
+      "candidate_version": "5.10.1",
+      "candidate_version_matches": false,
+      "relationship": "transitive",
+      "scope": "runtime",
+      "direct_parents": [
+        "docling-core",
+        "docling-ibm-models"
+      ],
+      "issue": "Tokenizer export writes outside destination",
+      "assessment": "Requires downloading malicious chat-template names and then saving the tokenizer or processor. Docling loads processors; no save_pretrained call was found in the inspected application or Docling sources.",
+      "evidence": [
+        "uv.lock:5487",
+        "src/bubble/ingestion/edgar/extractor.py:15",
+        "docling-slim 2.96.0 wheel: docling/models/vlm_pipeline_models/hf_transformers_model.py:123"
+      ],
+      "alert_url": "https://github.com/tedthizzy/ai-bubble/security/dependabot/51",
+      "advisory_url": "https://github.com/advisories/GHSA-xrqw-3rrv-vx5w",
+      "maintainer_url": null
+    },
+    {
+      "number": 52,
+      "package": "cryptography",
+      "ghsa_id": "GHSA-m2h6-j472-rp4c",
+      "cve_id": "CVE-2026-69248",
+      "database_severity": "medium",
+      "maintainer_severity": "low",
+      "locked_version": "48.0.0",
+      "installed_main_venv_version": "48.0.0",
+      "affected_range": ">= 45.0.0, <= 48.0.0",
+      "locked_version_matches": true,
+      "first_patched_version": "49.0.0",
+      "candidate_version": "50.0.1",
+      "candidate_version_matches": false,
+      "relationship": "transitive",
+      "scope": "runtime",
+      "direct_parents": [
+        "prefect"
+      ],
+      "issue": "Wildcard certificate constraints bypass",
+      "assessment": "Requires cryptography certificate-chain verification with constrained issuers and wildcard leaf names. Prefect uses Fernet; HTTPX TLS is not automatically this verifier.",
+      "evidence": [
+        "uv.lock:938",
+        "src/bubble/orchestration/prefect_flows/daily_edgar.py:9",
+        "prefect 3.7.2 wheel: prefect/server/utilities/encryption.py:10"
+      ],
+      "alert_url": "https://github.com/tedthizzy/ai-bubble/security/dependabot/52",
+      "advisory_url": "https://github.com/advisories/GHSA-m2h6-j472-rp4c",
+      "maintainer_url": "https://github.com/pyca/cryptography/security/advisories/GHSA-m2h6-j472-rp4c"
+    },
+    {
+      "number": 53,
+      "package": "cryptography",
+      "ghsa_id": "GHSA-jwv3-5hgf-82ww",
+      "cve_id": "CVE-2026-69249",
+      "database_severity": "high",
+      "maintainer_severity": "low",
+      "locked_version": "48.0.0",
+      "installed_main_venv_version": "48.0.0",
+      "affected_range": ">= 42.0.0, <= 48.0.0",
+      "locked_version_matches": true,
+      "first_patched_version": "49.0.0",
+      "candidate_version": "50.0.1",
+      "candidate_version_matches": false,
+      "relationship": "transitive",
+      "scope": "runtime",
+      "direct_parents": [
+        "prefect"
+      ],
+      "issue": "Repeated certificate candidates exhaust CPU",
+      "assessment": "Requires cryptography certificate-chain verification on attacker-controlled duplicate intermediates. No matching verifier was found in Bubble or Prefect.",
+      "evidence": [
+        "uv.lock:938",
+        "src/bubble/orchestration/prefect_flows/daily_edgar.py:9",
+        "prefect 3.7.2 wheel: prefect/server/utilities/encryption.py:10"
+      ],
+      "alert_url": "https://github.com/tedthizzy/ai-bubble/security/dependabot/53",
+      "advisory_url": "https://github.com/advisories/GHSA-jwv3-5hgf-82ww",
+      "maintainer_url": "https://github.com/pyca/cryptography/security/advisories/GHSA-jwv3-5hgf-82ww"
+    },
+    {
+      "number": 54,
+      "package": "accelerate",
+      "ghsa_id": "GHSA-4j2p-28q2-5m79",
+      "cve_id": "CVE-2026-69112",
+      "database_severity": "medium",
+      "maintainer_severity": null,
+      "locked_version": "1.13.0",
+      "installed_main_venv_version": "1.13.0",
+      "affected_range": "<= 1.14.0",
+      "locked_version_matches": true,
+      "first_patched_version": null,
+      "candidate_version": "1.13.0",
+      "candidate_version_matches": true,
+      "relationship": "transitive",
+      "scope": "runtime",
+      "direct_parents": [
+        "docling-ibm-models",
+        "docling-slim"
+      ],
+      "issue": "Checkpoint shard paths escape their directory",
+      "assessment": "Requires loading an attacker-controlled sharded checkpoint through Accelerate. Docling brings this model stack into the environment. Version 1.15.0 still joins unvalidated weight_map paths; no patched release is established here.",
+      "evidence": [
+        "uv.lock:20",
+        "src/bubble/ingestion/edgar/extractor.py:15",
+        "accelerate 1.15.0 wheel: accelerate/utils/modeling.py:1936,1944,1970"
+      ],
+      "alert_url": "https://github.com/tedthizzy/ai-bubble/security/dependabot/54",
+      "advisory_url": "https://github.com/advisories/GHSA-4j2p-28q2-5m79",
+      "maintainer_url": null
+    },
+    {
+      "number": 55,
+      "package": "gitpython",
+      "ghsa_id": "GHSA-7833-fr7j-v32q",
+      "cve_id": "CVE-2026-78675",
+      "database_severity": "high",
+      "maintainer_severity": "high",
+      "locked_version": "3.1.50",
+      "installed_main_venv_version": "3.1.50",
+      "affected_range": "<= 3.1.58",
+      "locked_version_matches": true,
+      "first_patched_version": "3.1.59",
+      "candidate_version": "3.1.62",
+      "candidate_version_matches": false,
+      "relationship": "transitive",
+      "scope": "runtime",
+      "direct_parents": [
+        "streamlit"
+      ],
+      "issue": "Submodule config includes disclose files",
+      "assessment": "Requires an untrusted .gitmodules file and a GitPython submodule read. Streamlit git_util does not access submodules in the inspected source.",
+      "evidence": [
+        "uv.lock:1598",
+        "src/bubble/ui/streamlit_app.py:13",
+        "streamlit 1.58.0 wheel: streamlit/git_util.py:77,136,151,186"
+      ],
+      "alert_url": "https://github.com/tedthizzy/ai-bubble/security/dependabot/55",
+      "advisory_url": "https://github.com/advisories/GHSA-7833-fr7j-v32q",
+      "maintainer_url": "https://github.com/gitpython-developers/GitPython/security/advisories/GHSA-7833-fr7j-v32q"
+    },
+    {
+      "number": 56,
+      "package": "gitpython",
+      "ghsa_id": "GHSA-284h-m62q-gf8w",
+      "cve_id": "CVE-2026-78676",
+      "database_severity": "critical",
+      "maintainer_severity": "high",
+      "locked_version": "3.1.50",
+      "installed_main_venv_version": "3.1.50",
+      "affected_range": "<= 3.1.58",
+      "locked_version_matches": true,
+      "first_patched_version": "3.1.59",
+      "candidate_version": "3.1.62",
+      "candidate_version_matches": false,
+      "relationship": "transitive",
+      "scope": "runtime",
+      "direct_parents": [
+        "streamlit"
+      ],
+      "issue": "Config rewrite injects new directives",
+      "assessment": "Requires an attacker-influenced Git config and a GitPython write. A synthetic config reproduced the injection in 3.1.50 and remained intact in 3.1.62. No matching writer was found in application or Streamlit code.",
+      "evidence": [
+        "uv.lock:1598",
+        "src/bubble/ui/streamlit_app.py:13",
+        "streamlit 1.58.0 wheel: streamlit/git_util.py:77,136,151,186"
+      ],
+      "alert_url": "https://github.com/tedthizzy/ai-bubble/security/dependabot/56",
+      "advisory_url": "https://github.com/advisories/GHSA-284h-m62q-gf8w",
+      "maintainer_url": "https://github.com/gitpython-developers/GitPython/security/advisories/GHSA-284h-m62q-gf8w"
+    },
+    {
+      "number": 57,
+      "package": "gitpython",
+      "ghsa_id": "GHSA-5xxx-qhh7-9287",
+      "cve_id": "CVE-2026-78678",
+      "database_severity": "medium",
+      "maintainer_severity": "medium",
+      "locked_version": "3.1.50",
+      "installed_main_venv_version": "3.1.50",
+      "affected_range": "<= 3.1.58",
+      "locked_version_matches": true,
+      "first_patched_version": "3.1.59",
+      "candidate_version": "3.1.62",
+      "candidate_version_matches": false,
+      "relationship": "transitive",
+      "scope": "runtime",
+      "direct_parents": [
+        "streamlit"
+      ],
+      "issue": "Blame options disclose local files",
+      "assessment": "Requires forwarding attacker-controlled blame revisions or options. No matching operation was found in inspected callers.",
+      "evidence": [
+        "uv.lock:1598",
+        "src/bubble/ui/streamlit_app.py:13",
+        "streamlit 1.58.0 wheel: streamlit/git_util.py:77,136,151,186"
+      ],
+      "alert_url": "https://github.com/tedthizzy/ai-bubble/security/dependabot/57",
+      "advisory_url": "https://github.com/advisories/GHSA-5xxx-qhh7-9287",
+      "maintainer_url": "https://github.com/gitpython-developers/GitPython/security/advisories/GHSA-5xxx-qhh7-9287"
+    },
+    {
+      "number": 58,
+      "package": "gitpython",
+      "ghsa_id": "GHSA-8mcc-hrx5-hvxc",
+      "cve_id": "CVE-2026-78677",
+      "database_severity": "high",
+      "maintainer_severity": "high",
+      "locked_version": "3.1.50",
+      "installed_main_venv_version": "3.1.50",
+      "affected_range": "<= 3.1.58",
+      "locked_version_matches": true,
+      "first_patched_version": "3.1.59",
+      "candidate_version": "3.1.62",
+      "candidate_version_matches": false,
+      "relationship": "transitive",
+      "scope": "runtime",
+      "direct_parents": [
+        "streamlit"
+      ],
+      "issue": "Clone options redirect Git metadata writes",
+      "assessment": "Requires attacker-controlled separate_git_dir clone options. No matching operation was found in inspected callers.",
+      "evidence": [
+        "uv.lock:1598",
+        "src/bubble/ui/streamlit_app.py:13",
+        "streamlit 1.58.0 wheel: streamlit/git_util.py:77,136,151,186"
+      ],
+      "alert_url": "https://github.com/tedthizzy/ai-bubble/security/dependabot/58",
+      "advisory_url": "https://github.com/advisories/GHSA-8mcc-hrx5-hvxc",
+      "maintainer_url": "https://github.com/gitpython-developers/GitPython/security/advisories/GHSA-8mcc-hrx5-hvxc"
+    },
+    {
+      "number": 59,
+      "package": "gitpython",
+      "ghsa_id": "GHSA-3wxw-xv34-2frg",
+      "cve_id": "CVE-2026-78679",
+      "database_severity": "medium",
+      "maintainer_severity": "medium",
+      "locked_version": "3.1.50",
+      "installed_main_venv_version": "3.1.50",
+      "affected_range": "<= 3.1.58",
+      "locked_version_matches": true,
+      "first_patched_version": "3.1.59",
+      "candidate_version": "3.1.62",
+      "candidate_version_matches": false,
+      "relationship": "transitive",
+      "scope": "runtime",
+      "direct_parents": [
+        "streamlit"
+      ],
+      "issue": "Tag reference bypass reads local files",
+      "assessment": "Requires an attacker-controlled positional tag reference. No matching operation was found in inspected callers.",
+      "evidence": [
+        "uv.lock:1598",
+        "src/bubble/ui/streamlit_app.py:13",
+        "streamlit 1.58.0 wheel: streamlit/git_util.py:77,136,151,186"
+      ],
+      "alert_url": "https://github.com/tedthizzy/ai-bubble/security/dependabot/59",
+      "advisory_url": "https://github.com/advisories/GHSA-3wxw-xv34-2frg",
+      "maintainer_url": "https://github.com/gitpython-developers/GitPython/security/advisories/GHSA-3wxw-xv34-2frg"
+    }
+  ],
+  "packages": {
+    "gitpython": {
+      "assessment": "Streamlit opens the local repository and reads metadata. Its inspected git utility does not write config, create tags, clone repositories, or initialize submodules. These are installed vulnerabilities with conditional exposure, not evidence of a compromise.",
+      "evidence": [
+        "src/bubble/ui/streamlit_app.py:13",
+        "streamlit 1.58.0 wheel: streamlit/git_util.py:77,136,151,186"
+      ],
+      "locked_version": "3.1.50",
+      "candidate_version": "3.1.62"
+    },
+    "starlette": {
+      "assessment": "The strongest identified network-facing path is Streamlit upload handling. The route calls request.form after checking XSRF and an active session. No listener was found on local ports 8501 or 4200 during the audit; deployments on other hosts or ports were not inspected.",
+      "evidence": [
+        "justfile:190",
+        "streamlit 1.58.0 wheel: streamlit/web/server/starlette/starlette_routes.py:659,664,682"
+      ],
+      "locked_version": "1.2.1",
+      "candidate_version": "1.3.1"
+    },
+    "pillow": {
+      "assessment": "Pillow is used by Docling and Streamlit. Bubble converts the primary filing HTML with the default converter. In Docling 2.96.0, HTML image fetching is false by default and the backend returns placeholders before Image.open. Arbitrary document formats, image operations, and model assets need their own runtime coverage.",
+      "evidence": [
+        "src/bubble/ingestion/edgar/extractor.py:237",
+        "docling-slim 2.96.0 wheel: docling/datamodel/backend_options.py:73",
+        "docling-slim 2.96.0 wheel: docling/backend/html_backend.py:4233"
+      ],
+      "locked_version": "12.2.0",
+      "candidate_version": "12.3.0"
+    },
+    "vcrpy": {
+      "assessment": "Declared in development dependencies and installed by CI. Static inspection found no VCR imports, cassette calls, or cassette fixtures in the tested source tree. The unsafe loader is real and was reproduced using a harmless Python string constructor.",
+      "evidence": [
+        "pyproject.toml:58",
+        "pyproject.toml:96",
+        ".github/workflows/ci.yml:22"
+      ],
+      "locked_version": "8.1.1",
+      "candidate_version": "8.2.1"
+    },
+    "accelerate": {
+      "assessment": "Transitive dependency of Docling. The advisory has no first patched version. The 1.15.0 wheel retains the unchecked join and passes resulting paths to load_state_dict. Both runtime probes timed out after 90 seconds before producing a result, so the finding about 1.15.0 is based on source inspection.",
+      "evidence": [
+        "src/bubble/ingestion/edgar/extractor.py:15",
+        "accelerate 1.15.0 wheel: accelerate/utils/modeling.py:1936,1944,1970"
+      ],
+      "locked_version": "1.13.0",
+      "candidate_version": "1.13.0"
+    },
+    "aiohttp": {
+      "assessment": "Instructor imports aiohttp in its usage CLI. Bubble extraction selects the Anthropic/OpenAI SDK integrations, whose lockfile dependency path uses HTTPX. No direct aiohttp server or WebSocket path was found in the inspected code.",
+      "evidence": [
+        "src/bubble/extraction/llm.py:64",
+        "instructor 1.15.1 wheel: instructor/cli/usage.py:26"
+      ],
+      "locked_version": "3.14.1",
+      "candidate_version": "3.14.3"
+    },
+    "cryptography": {
+      "assessment": "Prefect depends on cryptography. The inspected Prefect code uses Fernet for stored-data encryption. It does not call the certificate verifier or PKCS7 APIs identified by these alerts. A vulnerable wheel remains installed.",
+      "evidence": [
+        "src/bubble/orchestration/prefect_flows/daily_edgar.py:9",
+        "prefect 3.7.2 wheel: prefect/server/utilities/encryption.py:10"
+      ],
+      "locked_version": "48.0.0",
+      "candidate_version": "50.0.1"
+    },
+    "h2": {
+      "assessment": "Reached through HTTPX HTTP2 support. The reported vulnerability concerns accepting and forwarding duplicate request headers in a server/proxy role. No such role was found in the application sources.",
+      "evidence": [
+        "src/bubble/ingestion/edgar/document_acquisition.py:557",
+        "uv.lock: httpx dependencies"
+      ],
+      "locked_version": "4.3.0",
+      "candidate_version": "4.4.1"
+    },
+    "langsmith": {
+      "assessment": "Installed both through LangChain and the llm extra. The LangGraph flow builds a graph; no LangSmith TracingMiddleware integration was found in the application source.",
+      "evidence": [
+        "pyproject.toml:64",
+        "src/bubble/orchestration/langgraph_agents/edgar_extraction_flow.py:73"
+      ],
+      "locked_version": "0.8.8",
+      "candidate_version": "0.8.18"
+    },
+    "pydantic-settings": {
+      "assessment": "Direct dependency. Bubble configures env-file loading, not the vulnerable nested-secret directory source. No explicit NestedSecretsSettingsSource call was found in the inspected code.",
+      "evidence": [
+        "src/bubble/config.py:12",
+        "src/bubble/config.py:16"
+      ],
+      "locked_version": "2.14.1",
+      "candidate_version": "2.14.2"
+    },
+    "python-multipart": {
+      "assessment": "Streamlit dependency. Its upload route delegates to Starlette request.form. The advisory explicitly distinguishes this from the vulnerable direct parse_form convenience function.",
+      "evidence": [
+        "streamlit 1.58.0 wheel: streamlit/web/server/starlette/starlette_routes.py:682"
+      ],
+      "locked_version": "0.0.30",
+      "candidate_version": "0.0.31"
+    },
+    "setuptools": {
+      "assessment": "Transitive through Torch. The vulnerability concerns producing source archives; Bubble specifies Hatchling. This is not a runtime network exploit for the inspected application.",
+      "evidence": [
+        "pyproject.toml:78",
+        "uv.lock: torch dependencies"
+      ],
+      "locked_version": "81.0.0",
+      "candidate_version": "83.0.0"
+    },
+    "torch": {
+      "assessment": "Transitive through Docling. No direct torch.jit.script use was found in the application or the inspected Docling wheels. Torch and torchvision must be upgraded as a compatible pair.",
+      "evidence": [
+        "src/bubble/ingestion/edgar/extractor.py:15",
+        "uv.lock: torchvision dependencies"
+      ],
+      "locked_version": "2.12.0",
+      "candidate_version": "2.13.0"
+    },
+    "transformers": {
+      "assessment": "Transitive through Docling. Inspected callers load processors and models, but do not save_pretrained. The advisory minimum 5.10.0 is yanked; the proposed candidate uses the available non-yanked 5.10.1 release.",
+      "evidence": [
+        "src/bubble/ingestion/edgar/extractor.py:15",
+        "docling-slim 2.96.0 wheel: docling/models/vlm_pipeline_models/hf_transformers_model.py:123"
+      ],
+      "locked_version": "5.9.0",
+      "candidate_version": "5.10.1"
+    }
+  },
+  "supplementary_advisories": [
+    {
+      "ghsa_id": "GHSA-239g-whfq-7xj9",
+      "package": "gitpython",
+      "maintainer_severity": "high",
+      "affected_range": "<=3.1.59",
+      "patched_versions": ">=3.1.60",
+      "locked_version_matches_maintainer_range": true,
+      "candidate_version_matches_maintainer_range": false,
+      "url": "https://github.com/gitpython-developers/GitPython/security/advisories/GHSA-239g-whfq-7xj9",
+      "assessment": "Tracked repository content can impersonate Git metadata. File reads need repository/config access; code execution additionally needs index.commit. Streamlit opens and reads the local checkout; no attacker-controlled checkout or commit path was demonstrated."
+    },
+    {
+      "ghsa_id": "GHSA-g5vv-9gxw-82hx",
+      "package": "gitpython",
+      "maintainer_severity": "high",
+      "affected_range": "<= 3.1.59",
+      "patched_versions": ">=3.1.60",
+      "locked_version_matches_maintainer_range": true,
+      "candidate_version_matches_maintainer_range": false,
+      "url": "https://github.com/gitpython-developers/GitPython/security/advisories/GHSA-g5vv-9gxw-82hx",
+      "assessment": "Malformed commit author or committer data can exhaust CPU during metadata parsing. Requires an attacker-controlled commit reaching the local GitPython consumer."
+    },
+    {
+      "ghsa_id": "GHSA-whh4-5q6c-9v3x",
+      "package": "gitpython",
+      "maintainer_severity": "medium",
+      "affected_range": "= 3.1.59",
+      "patched_versions": ">=3.1.60",
+      "locked_version_matches_maintainer_range": false,
+      "candidate_version_matches_maintainer_range": false,
+      "url": "https://github.com/gitpython-developers/GitPython/security/advisories/GHSA-whh4-5q6c-9v3x",
+      "assessment": "A diff option bypass permits a blind file-content oracle. PyPI associates this with 3.1.50, but the maintainer lists only 3.1.59. Counted as an upgrade-path advisory, not a confirmed additional match for the installed version."
+    }
+  ],
+  "source_conflicts": [
+    {
+      "number": 56,
+      "ghsa_id": "GHSA-284h-m62q-gf8w",
+      "status": "ok",
+      "database_severity": "critical",
+      "maintainer_severity": "high",
+      "vulnerabilities": [
+        {
+          "package": {
+            "ecosystem": "pip",
+            "name": "GitPython"
+          },
+          "vulnerable_version_range": "<= 3.1.58",
+          "patched_versions": ">= 3.1.59",
+          "vulnerable_functions": []
+        }
+      ],
+      "html_url": "https://github.com/gitpython-developers/GitPython/security/advisories/GHSA-284h-m62q-gf8w"
+    },
+    {
+      "number": 53,
+      "ghsa_id": "GHSA-jwv3-5hgf-82ww",
+      "status": "ok",
+      "database_severity": "high",
+      "maintainer_severity": "low",
+      "vulnerabilities": [
+        {
+          "package": {
+            "ecosystem": "pip",
+            "name": "cryptography"
+          },
+          "vulnerable_version_range": "<=48.0.0",
+          "patched_versions": ">=49.0.0",
+          "vulnerable_functions": []
+        }
+      ],
+      "html_url": "https://github.com/pyca/cryptography/security/advisories/GHSA-jwv3-5hgf-82ww"
+    },
+    {
+      "number": 52,
+      "ghsa_id": "GHSA-m2h6-j472-rp4c",
+      "status": "ok",
+      "database_severity": "medium",
+      "maintainer_severity": "low",
+      "vulnerabilities": [
+        {
+          "package": {
+            "ecosystem": "pip",
+            "name": "cryptography"
+          },
+          "vulnerable_version_range": "<=48.0.0",
+          "patched_versions": ">=49.0.0",
+          "vulnerable_functions": []
+        }
+      ],
+      "html_url": "https://github.com/pyca/cryptography/security/advisories/GHSA-m2h6-j472-rp4c"
+    },
+    {
+      "number": 41,
+      "ghsa_id": "GHSA-g6cj-pr64-35w5",
+      "status": "ok",
+      "database_severity": "high",
+      "maintainer_severity": "medium",
+      "vulnerabilities": [
+        {
+          "package": {
+            "ecosystem": "pip",
+            "name": "cryptography"
+          },
+          "vulnerable_version_range": ">= 44.0.0",
+          "patched_versions": "50.0.0",
+          "vulnerable_functions": []
+        }
+      ],
+      "html_url": "https://github.com/pyca/cryptography/security/advisories/GHSA-g6cj-pr64-35w5"
+    },
+    {
+      "number": 39,
+      "ghsa_id": "GHSA-mfx4-hv73-q22v",
+      "status": "ok",
+      "database_severity": "medium",
+      "maintainer_severity": "low",
+      "vulnerabilities": [
+        {
+          "package": {
+            "ecosystem": "pip",
+            "name": "aiohttp"
+          },
+          "vulnerable_version_range": "<= 3.14.1",
+          "patched_versions": "4.14.2",
+          "vulnerable_functions": []
+        }
+      ],
+      "html_url": "https://github.com/aio-libs/aiohttp/security/advisories/GHSA-mfx4-hv73-q22v"
+    },
+    {
+      "number": 38,
+      "ghsa_id": "GHSA-mq44-7p77-q5h7",
+      "status": "ok",
+      "database_severity": "medium",
+      "maintainer_severity": "low",
+      "vulnerabilities": [
+        {
+          "package": {
+            "ecosystem": "pip",
+            "name": "aiohttp"
+          },
+          "vulnerable_version_range": "<=3.14.1",
+          "patched_versions": "3.14.2",
+          "vulnerable_functions": []
+        }
+      ],
+      "html_url": "https://github.com/aio-libs/aiohttp/security/advisories/GHSA-mq44-7p77-q5h7"
+    },
+    {
+      "number": 23,
+      "ghsa_id": "GHSA-vjc4-5qp5-m44j",
+      "status": "ok",
+      "database_severity": "high",
+      "maintainer_severity": "medium",
+      "vulnerabilities": [
+        {
+          "package": {
+            "ecosystem": "pip",
+            "name": "pillow"
+          },
+          "vulnerable_version_range": "8.2.0 - 12.2.0",
+          "patched_versions": ">= 12.3.0",
+          "vulnerable_functions": []
+        }
+      ],
+      "html_url": "https://github.com/python-pillow/Pillow/security/advisories/GHSA-vjc4-5qp5-m44j"
+    },
+    {
+      "number": 9,
+      "ghsa_id": "GHSA-f4xh-w4cj-qxq8",
+      "status": "ok",
+      "database_severity": "high",
+      "maintainer_severity": "critical",
+      "vulnerabilities": [
+        {
+          "package": {
+            "ecosystem": "pip",
+            "name": "langsmith"
+          },
+          "vulnerable_version_range": "< 0.8.18",
+          "patched_versions": "0.8.18",
+          "vulnerable_functions": []
+        }
+      ],
+      "html_url": "https://github.com/langchain-ai/langsmith-sdk/security/advisories/GHSA-f4xh-w4cj-qxq8"
+    },
+    {
+      "number": 5,
+      "ghsa_id": "GHSA-537c-gmf6-5ccf",
+      "status": "ok",
+      "database_severity": "high",
+      "maintainer_severity": "medium",
+      "vulnerabilities": [
+        {
+          "package": {
+            "ecosystem": "pip",
+            "name": "cryptography"
+          },
+          "vulnerable_version_range": ">=0.5",
+          "patched_versions": "48.0.1",
+          "vulnerable_functions": []
+        }
+      ],
+      "html_url": "https://github.com/pyca/cryptography/security/advisories/GHSA-537c-gmf6-5ccf"
+    }
+  ],
+  "metadata_conflicts": [
+    {
+      "alert": 39,
+      "field": "patched_version",
+      "database": "3.14.2",
+      "maintainer": "4.14.2",
+      "resolution": "The candidate selects 3.14.3. GitHub compare confirms the advisory fix commit is its ancestor.",
+      "verification_command": "gh api repos/aio-libs/aiohttp/compare/6ae358f0983c3f4d6f67692b2f8e65dc8e091c98...v3.14.3",
+      "verification_output": {
+        "status": "ahead",
+        "ahead_by": 22,
+        "behind_by": 0,
+        "merge_base_sha": "6ae358f0983c3f4d6f67692b2f8e65dc8e091c98"
+      }
+    },
+    {
+      "alert": 5,
+      "field": "cve_id",
+      "database": null,
+      "maintainer": "CVE-2026-34180",
+      "official_advisory": "https://openssl-library.org/news/secadv/20260609.txt"
+    },
+    {
+      "ghsa_id": "GHSA-whh4-5q6c-9v3x",
+      "field": "affected_version",
+      "pypi": "Associated with installed 3.1.50",
+      "maintainer": "=3.1.59",
+      "resolution": "Excluded from additional confirmed installed-version matches; included in upgrade review."
+    },
+    {
+      "alert": 54,
+      "field": "fix_status",
+      "database": "Affected <=1.14.0, first_patched_version=null",
+      "pypi_latest": "1.15.0 has no listed vulnerabilities",
+      "wheel_source": "1.15.0 retains the unchecked path join",
+      "resolution": "No fixed version established. Do not equate absence from a bounded advisory range with a verified fix."
+    }
+  ],
+  "candidate": {
+    "path": "/var/folders/_w/b5k4dz1109q4nj1sx3y7dg7h0000gn/T/ai-bubble-dependabot-20260917-xi_8zj6m/candidate-remediation/uv.lock",
+    "command": [
+      "uv",
+      "lock",
+      "--project",
+      "/var/folders/_w/b5k4dz1109q4nj1sx3y7dg7h0000gn/T/ai-bubble-dependabot-20260917-xi_8zj6m/candidate-remediation",
+      "--python",
+      "/tmp/bubble-refresh-20260916/bin/python",
+      "--no-python-downloads",
+      "--upgrade-package",
+      "aiohttp==3.14.3",
+      "--upgrade-package",
+      "cryptography==50.0.1",
+      "--upgrade-package",
+      "gitpython==3.1.62",
+      "--upgrade-package",
+      "h2==4.4.1",
+      "--upgrade-package",
+      "langsmith==0.8.18",
+      "--upgrade-package",
+      "pillow==12.3.0",
+      "--upgrade-package",
+      "pydantic-settings==2.14.2",
+      "--upgrade-package",
+      "python-multipart==0.0.31",
+      "--upgrade-package",
+      "setuptools==83.0.0",
+      "--upgrade-package",
+      "starlette==1.3.1",
+      "--upgrade-package",
+      "torch==2.13.0",
+      "--upgrade-package",
+      "torchvision==0.28.0",
+      "--upgrade-package",
+      "transformers==5.10.1",
+      "--upgrade-package",
+      "vcrpy==8.2.1"
+    ],
+    "resolution_output": "Using CPython 3.12.11 interpreter at: /private/tmp/bubble-refresh-20260916/bin/python\nResolved 293 packages in 312ms\nUpdated aiohttp v3.14.1 -> v3.14.3\nUpdated cryptography v48.0.0 -> v50.0.1\nUpdated cuda-toolkit v13.0.2 -> v13.0.3.0\nUpdated gitpython v3.1.50 -> v3.1.62\nUpdated h2 v4.3.0 -> v4.4.1\nUpdated hpack v4.1.0 -> v4.2.0\nUpdated langsmith v0.8.8 -> v0.8.18\nUpdated pillow v12.2.0 -> v12.3.0\nUpdated pydantic-settings v2.14.1 -> v2.14.2\nUpdated python-multipart v0.0.30 -> v0.0.31\nUpdated setuptools v81.0.0 -> v83.0.0\nUpdated starlette v1.2.1 -> v1.3.1\nUpdated torch v2.12.0 -> v2.13.0\nUpdated torchvision v0.27.0 -> v0.28.0\nUpdated transformers v5.9.0 -> v5.10.1\nUpdated triton v3.7.0 -> v3.7.1\nUpdated vcrpy v8.1.1 -> v8.2.1\n",
+    "changed_packages": {
+      "aiohttp": {
+        "old": "3.14.1",
+        "new": "3.14.3"
+      },
+      "cryptography": {
+        "old": "48.0.0",
+        "new": "50.0.1"
+      },
+      "cuda-toolkit": {
+        "old": "13.0.2",
+        "new": "13.0.3.0"
+      },
+      "gitpython": {
+        "old": "3.1.50",
+        "new": "3.1.62"
+      },
+      "h2": {
+        "old": "4.3.0",
+        "new": "4.4.1"
+      },
+      "hpack": {
+        "old": "4.1.0",
+        "new": "4.2.0"
+      },
+      "langsmith": {
+        "old": "0.8.8",
+        "new": "0.8.18"
+      },
+      "pillow": {
+        "old": "12.2.0",
+        "new": "12.3.0"
+      },
+      "pydantic-settings": {
+        "old": "2.14.1",
+        "new": "2.14.2"
+      },
+      "python-multipart": {
+        "old": "0.0.30",
+        "new": "0.0.31"
+      },
+      "setuptools": {
+        "old": "81.0.0",
+        "new": "83.0.0"
+      },
+      "starlette": {
+        "old": "1.2.1",
+        "new": "1.3.1"
+      },
+      "torch": {
+        "old": "2.12.0",
+        "new": "2.13.0"
+      },
+      "torchvision": {
+        "old": "0.27.0",
+        "new": "0.28.0"
+      },
+      "transformers": {
+        "old": "5.9.0",
+        "new": "5.10.1"
+      },
+      "triton": {
+        "old": "3.7.0",
+        "new": "3.7.1"
+      },
+      "vcrpy": {
+        "old": "8.1.1",
+        "new": "8.2.1"
+      }
+    },
+    "removed_packages": [],
+    "remaining_alerts": [
+      54
+    ],
+    "application_regression_tested": false,
+    "note": "The candidate keeps Accelerate 1.13.0 because the latest 1.15.0 is not established as fixed. A separate broad candidate selected 1.15.0, whose unchecked path handling remains in the wheel."
+  },
+  "security_probes": {
+    "old": {
+      "exit_code": 0,
+      "results": {
+        "git_config_roundtrip": {
+          "after": "injected",
+          "before": null,
+          "write_error": null
+        },
+        "starlette_field_limit": {
+          "accepted": true,
+          "fields": 2
+        },
+        "starlette_size_limit": {
+          "accepted": true,
+          "fields": 1
+        },
+        "synthetic_files": "/var/folders/_w/b5k4dz1109q4nj1sx3y7dg7h0000gn/T/ai-bubble-dependabot-20260917-xi_8zj6m/security-probe-zt911q67",
+        "vcr_yaml_callable": {
+          "callable_executed": true
+        },
+        "versions": {
+          "GitPython": "3.1.50",
+          "python-multipart": "0.0.30",
+          "starlette": "1.2.1",
+          "vcrpy": "8.1.1"
+        }
+      },
+      "stderr": ""
+    },
+    "minimum": {
+      "exit_code": 0,
+      "results": {
+        "git_config_roundtrip": {
+          "after": null,
+          "before": null,
+          "write_error": null
+        },
+        "starlette_field_limit": {
+          "accepted": false,
+          "rejected_with": "MultiPartException"
+        },
+        "starlette_size_limit": {
+          "accepted": false,
+          "rejected_with": "MultiPartException"
+        },
+        "synthetic_files": "/var/folders/_w/b5k4dz1109q4nj1sx3y7dg7h0000gn/T/ai-bubble-dependabot-20260917-xi_8zj6m/security-probe-bhm0iquo",
+        "vcr_yaml_callable": {
+          "callable_executed": false,
+          "rejected_with": "ConstructorError"
+        },
+        "versions": {
+          "GitPython": "3.1.62",
+          "python-multipart": "0.0.31",
+          "starlette": "1.3.1",
+          "vcrpy": "8.2.1"
+        }
+      },
+      "stderr": ""
+    },
+    "latest": {
+      "exit_code": 0,
+      "results": {
+        "git_config_roundtrip": {
+          "after": null,
+          "before": null,
+          "write_error": null
+        },
+        "starlette_field_limit": {
+          "accepted": false,
+          "rejected_with": "MultiPartException"
+        },
+        "starlette_size_limit": {
+          "accepted": false,
+          "rejected_with": "MultiPartException"
+        },
+        "synthetic_files": "/var/folders/_w/b5k4dz1109q4nj1sx3y7dg7h0000gn/T/ai-bubble-dependabot-20260917-xi_8zj6m/security-probe-gk58o36f",
+        "vcr_yaml_callable": {
+          "callable_executed": false,
+          "rejected_with": "ConstructorError"
+        },
+        "versions": {
+          "GitPython": "3.1.62",
+          "python-multipart": "0.0.32",
+          "starlette": "1.6.0",
+          "vcrpy": "8.3.0"
+        }
+      },
+      "stderr": ""
+    },
+    "accelerate-1.13.0": {
+      "probe": "accelerate-1.13.0",
+      "timeout": 90,
+      "stdout": "",
+      "stderr": ""
+    },
+    "accelerate-1.15.0": {
+      "probe": "accelerate-1.15.0",
+      "timeout": 90,
+      "stdout": "",
+      "stderr": ""
+    }
+  },
+  "security_probe_sources": {
+    "probe_security.py": "\"\"\"Benign advisory checks in a fresh directory, without network or real secrets.\"\"\"\nimport asyncio\nimport importlib.metadata\nimport json\nfrom pathlib import Path\nimport subprocess\nimport tempfile\n\nfrom git.config import GitConfigParser\nfrom starlette.requests import Request\nfrom vcr.serializers import yamlserializer\n\nroot = Path(tempfile.mkdtemp(prefix=\"security-probe-\", dir=Path(__file__).parent))\nconfig = root / \"synthetic.config\"\noriginal = '[core]\\n\\tzzz = \"A\\\\nauditmarker = injected\\\\\\n\"\\n'\nconfig.write_text(original)\n(root / \"synthetic.config.before\").write_text(original)\n\n\ndef marker():\n    result = subprocess.run(\n        [\"git\", \"config\", \"--file\", str(config), \"--get\", \"core.auditmarker\"],\n        text=True, capture_output=True, check=False,\n    )\n    return result.stdout.strip() if result.returncode == 0 else None\n\n\nbefore = marker()\nwrite_error = None\ntry:\n    with GitConfigParser(str(config), read_only=False, merge_includes=False) as parser:\n        parser.set_value(\"user\", \"name\", \"Audit\")\nexcept Exception as error:\n    write_error = type(error).__name__ + \": \" + str(error)\nafter = marker()\n\ntry:\n    result = yamlserializer.deserialize(\n        '_audit: !!python/object/apply:builtins.str [\"synthetic-marker\"]\\n'\n    )\n    yaml_result = {\"callable_executed\": result.get(\"_audit\") == \"synthetic-marker\"}\nexcept Exception as error:\n    yaml_result = {\"callable_executed\": False, \"rejected_with\": type(error).__name__}\n\n\nasync def form_check(body, **limits):\n    delivered = False\n\n    async def receive():\n        nonlocal delivered\n        if delivered:\n            return {\"type\": \"http.disconnect\"}\n        delivered = True\n        return {\"type\": \"http.request\", \"body\": body, \"more_body\": False}\n\n    request = Request({\n        \"type\": \"http\", \"method\": \"POST\", \"path\": \"/\", \"scheme\": \"http\",\n        \"headers\": [(b\"content-type\", b\"application/x-www-form-urlencoded\")],\n        \"query_string\": b\"\", \"server\": (\"127.0.0.1\", 1),\n    }, receive)\n    try:\n        form = await request.form(**limits)\n        return {\"accepted\": True, \"fields\": len(form)}\n    except Exception as error:\n        return {\"accepted\": False, \"rejected_with\": type(error).__name__}\n\n\nprint(json.dumps({\n    \"versions\": {n: importlib.metadata.version(n) for n in [\"GitPython\", \"vcrpy\", \"starlette\", \"python-multipart\"]},\n    \"git_config_roundtrip\": {\"before\": before, \"after\": after, \"write_error\": write_error},\n    \"vcr_yaml_callable\": yaml_result,\n    \"starlette_field_limit\": asyncio.run(form_check(b\"a=1&b=2\", max_fields=1)),\n    \"starlette_size_limit\": asyncio.run(form_check(b\"a=12345\", max_part_size=4)),\n    \"synthetic_files\": str(root),\n}, sort_keys=True))\n",
+    "probe_accelerate.py": "\"\"\"Test checkpoint containment using only tiny synthetic tensors.\"\"\"\nimport json\nfrom pathlib import Path\nimport tempfile\n\nimport accelerate\nfrom accelerate import load_checkpoint_in_model\nimport torch\n\nroot = Path(tempfile.mkdtemp(prefix=\"accelerate-probe-\", dir=Path(__file__).parent))\ncheckpoint = root / \"checkpoint\"\noutside = root / \"outside\"\ncheckpoint.mkdir()\noutside.mkdir()\nweights = outside / \"weights.bin\"\ntorch.save({\"weight\": torch.tensor([[9.0]]), \"bias\": torch.tensor([4.0])}, weights)\noutcomes = []\nfor label, shard in [(\"relative\", \"../outside/weights.bin\"), (\"absolute\", str(weights))]:\n    index = checkpoint / (label + \".index.json\")\n    index.write_text(json.dumps({\"weight_map\": {\"weight\": shard, \"bias\": shard}}))\n    model = torch.nn.Linear(1, 1)\n    try:\n        load_checkpoint_in_model(model, str(index))\n        outcomes.append({\"case\": label, \"outside_tensor_loaded\": model.weight.item() == 9.0 and model.bias.item() == 4.0})\n    except Exception as error:\n        outcomes.append({\"case\": label, \"outside_tensor_loaded\": False, \"error_type\": type(error).__name__, \"error\": str(error)})\nprint(json.dumps({\"accelerate\": accelerate.__version__, \"torch\": torch.__version__, \"outcomes\": outcomes, \"synthetic_files\": str(root)}, sort_keys=True))\n"
+  },
+  "source_excerpts": [
+    {
+      "wheel_source": "accelerate-1.15.0/accelerate/utils/modeling.py",
+      "first_line": 1936,
+      "last_line": 1944,
+      "code": "    if index_filename is not None:\n        checkpoint_folder = os.path.split(index_filename)[0]\n        with open(index_filename) as f:\n            index = json.loads(f.read())\n\n        if \"weight_map\" in index:\n            index = index[\"weight_map\"]\n        checkpoint_files = sorted(list(set(index.values())))\n        checkpoint_files = [os.path.join(checkpoint_folder, f) for f in checkpoint_files]"
+    },
+    {
+      "wheel_source": "accelerate-1.15.0/accelerate/utils/modeling.py",
+      "first_line": 1958,
+      "last_line": 1985,
+      "code": "    for checkpoint_file in checkpoint_files:\n        if device_map is None:\n            # exception for multi-device loading was made for the meta device in torch v2.7.0\n            # https://github.com/pytorch/pytorch/blob/v2.6.0/torch/distributed/checkpoint/state_dict.py#L557-L563\n            # https://github.com/pytorch/pytorch/blob/v2.7.0-rc2/torch/distributed/checkpoint/state_dict.py#L575-L587\n            if is_torch_version(\">=\", \"2.2.0\") and (\n                (is_torch_version(\">=\", \"2.7.0\") and len(model_physical_devices) <= 1) or len(model_devices) <= 1\n            ):\n                from torch.distributed.checkpoint.state_dict import StateDictOptions, set_model_state_dict\n\n                broadcast_from_rank0 &= is_torch_version(\">=\", \"2.4.0\")\n                loaded_checkpoint = (\n                    load_state_dict(checkpoint_file, device_map=device_map)\n                    if not broadcast_from_rank0 or dist.get_rank() == 0\n                    else {}\n                )\n                set_model_state_dict(\n                    model,\n                    loaded_checkpoint,\n                    options=StateDictOptions(\n                        full_state_dict=full_state_dict,\n                        strict=strict,\n                        **({\"broadcast_from_rank0\": broadcast_from_rank0} if is_torch_version(\">=\", \"2.4.0\") else {}),\n                    ),\n                )\n            else:\n                loaded_checkpoint = load_state_dict(checkpoint_file, device_map=device_map)\n                model.load_state_dict(loaded_checkpoint, strict=strict)"
+    },
+    {
+      "wheel_source": "streamlit-1.58.0/streamlit/web/server/starlette/starlette_routes.py",
+      "first_line": 656,
+      "last_line": 683,
+      "code": "    async def _upload_put(request: Request) -> Response:\n        \"\"\"Upload a file to the server.\"\"\"\n\n        _check_xsrf(request)\n\n        session_id = request.path_params[\"session_id\"]\n        file_id = request.path_params[\"file_id\"]\n\n        if not runtime.is_active_session(session_id):\n            raise HTTPException(status_code=400, detail=\"Invalid session_id\")\n\n        max_size_bytes = (  # maxUploadSize is in megabytes\n            config.get_option(\"server.maxUploadSize\") * 1024 * 1024\n        )\n\n        # 1. Fast fail via header (if present) - check before reading the body\n        content_length = request.headers.get(\"content-length\")\n        if content_length:\n            try:\n                if int(content_length) > max_size_bytes:\n                    raise HTTPException(status_code=413, detail=\"File too large\")\n            except ValueError:\n                raise HTTPException(\n                    status_code=400, detail=\"Invalid Content-Length header\"\n                )\n\n        form = await request.form()\n        uploads = [value for value in form.values() if isinstance(value, UploadFile)]"
+    },
+    {
+      "wheel_source": "docling-slim-2.96.0/docling/datamodel/backend_options.py",
+      "first_line": 73,
+      "last_line": 79,
+      "code": "    fetch_images: bool = Field(\n        False,\n        description=(\n            \"Whether the backend should access remote or local resources to parse \"\n            \"images in an HTML document.\"\n        ),\n    )"
+    },
+    {
+      "wheel_source": "docling-slim-2.96.0/docling/backend/html_backend.py",
+      "first_line": 4227,
+      "last_line": 4243,
+      "code": "                hyperlink=caption_anno_text.hyperlink,\n                prov=prov,\n            )\n\n        src_loc: str = self._get_attr_as_string(img_tag, \"src\")\n        pic_prov = self._make_prov(text=\"\", tag=img_tag)\n        if not cast(HTMLBackendOptions, self.options).fetch_images or not src_loc:\n            # Do not fetch the image, just add a placeholder\n            placeholder: PictureItem = doc.add_picture(\n                caption=caption_item,\n                parent=parent,\n                content_layer=self.content_layer,\n                prov=pic_prov,\n            )\n            return placeholder.get_ref()\n\n        src_loc = self._resolve_relative_path(src_loc)"
+    }
+  ],
+  "source_downloads": [
+    {
+      "package": "streamlit",
+      "version": "1.58.0",
+      "files": 362,
+      "sha256": "4ca8a7afc5bd16a5f176ccf4be1e34e8121cad0240becd127fb58a103ea3178d",
+      "source": "https://files.pythonhosted.org/packages/df/84/14c36a92fb24f8e1cea452f53b0744b5da69d52cdd2fe22e71e6fbf765d5/streamlit-1.58.0-py3-none-any.whl"
+    },
+    {
+      "package": "prefect",
+      "version": "3.7.2",
+      "files": 829,
+      "sha256": "8a16b6de41364bc4e120c17d03fcde674d8459b38ead635762d820973047fdbc",
+      "source": "https://files.pythonhosted.org/packages/1a/2c/60db5ea3c1f2186eb840c73fe70d6721c887b4ff1b7f1e5048fe08012a7e/prefect-3.7.2-py3-none-any.whl"
+    },
+    {
+      "package": "docling-slim",
+      "version": "2.96.0",
+      "files": 221,
+      "sha256": "242d7665e62c2e3897ed6f565e5bd6c44d75ea31876c6667e428dc92081be3bf",
+      "source": "https://files.pythonhosted.org/packages/8d/ff/729689c5f89224a714b880896657226f8318852d2438431324dde9bccacd/docling_slim-2.96.0-py3-none-any.whl"
+    },
+    {
+      "package": "docling-core",
+      "version": "2.78.0",
+      "files": 92,
+      "sha256": "69c0d67e87e4d3aec1509a758691a27e8ba0496f61a85ba705cc48a5b21ffe86",
+      "source": "https://files.pythonhosted.org/packages/d6/de/7911f2750dd65b145e4971b090a3f5c30a56b243f4589d00543c5399b141/docling_core-2.78.0-py3-none-any.whl"
+    },
+    {
+      "package": "docling-ibm-models",
+      "version": "3.13.2",
+      "files": 41,
+      "sha256": "5fa0838bf15a4e06d2fcb686d756a6f4c329ea0a8820d085f06d07abe96269ed",
+      "source": "https://files.pythonhosted.org/packages/a4/fc/584f75ca31aa6694fed5338ecb54dc4c8341704b1e5b7b6a4528651f12fa/docling_ibm_models-3.13.2-py3-none-any.whl"
+    },
+    {
+      "package": "instructor",
+      "version": "1.15.1",
+      "files": 101,
+      "sha256": "be81d17ba2b154a04ab4720808f24f9d6b598f80992f82eaf9cc79006099cf6c",
+      "source": "https://files.pythonhosted.org/packages/d8/c8/36c5d9b80aaf40ba9a7084a8fc18c967db6bf248a4cc8d0f0816b14284be/instructor-1.15.1-py3-none-any.whl"
+    },
+    {
+      "package": "fastapi",
+      "version": "0.136.3",
+      "files": 49,
+      "sha256": "3d2a69bdf04b7e9f3afa292c3bc7a98816bbfafa10bc9b45f3f3700d2f761620",
+      "source": "https://files.pythonhosted.org/packages/e0/82/45359b62a067409bd929ae8a56b8ed13e5a8c8a61194b3c236920999ab83/fastapi-0.136.3-py3-none-any.whl"
+    },
+    {
+      "package": "accelerate",
+      "version": "1.13.0",
+      "files": 85,
+      "sha256": "cf1a3efb96c18f7b152eb0fa7490f3710b19c3f395699358f08decca2b8b62e0",
+      "source": "https://files.pythonhosted.org/packages/7e/46/02ac5e262d4af18054b3e922b2baedbb2a03289ee792162de60a865defc5/accelerate-1.13.0-py3-none-any.whl"
+    },
+    {
+      "package": "gitpython",
+      "version": "3.1.50",
+      "files": 38,
+      "sha256": "d352abe2908d07355014abdd21ddf798c2a961469239afec4962e9da884858f9",
+      "source": "https://files.pythonhosted.org/packages/20/7a/1c6e3562dfd8950adbb11ffbc65d21e7c89d01a6e4f137fa981056de25c5/gitpython-3.1.50-py3-none-any.whl"
+    },
+    {
+      "package": "accelerate",
+      "version": "1.15.0",
+      "files": 85,
+      "sha256": "97eacca0b73e45cb867dbf8c5d5d4dc32219544300e0c8992c7334dc2ef33cec",
+      "source": "https://files.pythonhosted.org/packages/8a/4c/34f0450479d01195027260da68d8a3880683f1640c3ca5adf64acb3185f1/accelerate-1.15.0-py3-none-any.whl"
+    },
+    {
+      "package": "gitpython",
+      "version": "3.1.62",
+      "files": 38,
+      "sha256": "7002251225e10e29d2e1f49e6532613fe5d5d9f0b6f1f02997a52b38fe56899e",
+      "source": "https://files.pythonhosted.org/packages/d6/0b/29d7965215f8ef830a7ca1f42997fe13e5693d85e9edb18f938d063ef5f2/gitpython-3.1.62-py3-none-any.whl"
+    }
+  ],
+  "source_snapshot": {
+    "path": "/var/folders/_w/b5k4dz1109q4nj1sx3y7dg7h0000gn/T/ai-bubble-dependabot-20260917-xi_8zj6m",
+    "open_alerts_sha256": "c333ef87ae5c497f9dd21d26ed68eb36cd6fba14a581b7ffac683d9ea350f119",
+    "uv_lock_sha256": "9a32236a8c595c6355827e53b4001bd1d02ace9a21e036eebf485ee747f241a6"
+  },
+  "limits": [
+    "The full application was not upgraded or regression-tested against the proposed dependency set.",
+    "Accelerate runtime probes timed out at 90 seconds without a result; 1.15.0 was assessed from the verified wheel source.",
+    "No production host, container image, or service on another port was inspected. Local lsof found no listener on 8501 or 4200.",
+    "The previous passing pytest run used /tmp/bubble-refresh-20260916, which lacks 13 of these 14 packages and uses fixed pydantic-settings 2.15.0.",
+    "GitHub CI run 35233070407 on 5ee3af5 failed at Ruff; format, typecheck, and tests were skipped. The separate Pages workflow succeeded.",
+    "A global advisory API lookup returned 404 for the three additional GitPython IDs; their public maintainer endpoints were successfully retrieved.",
+    "The web fetch of the OpenSSL advisory failed; a direct read of the same official URL succeeded and was saved.",
+    "A first GitConfigParser probe used a list where writable mode requires a single filename; that constructor error was corrected before the reported reproduction.",
+    "A first targeted resolution chose yanked Transformers 5.10.0. The retained candidate uses non-yanked 5.10.1.",
+    "Static call inspection is not proof that every indirect or dynamically selected path is unreachable.",
+    "This audit is not a compromise investigation and does not establish whether these vulnerabilities were previously exploited."
+  ],
+  "source_scan": {
+    "roots": [
+      "src",
+      "scripts",
+      "tests"
+    ],
+    "tracked_python_files": 364,
+    "untracked_python_files": 25,
+    "files": [
+      "scripts/acquire_connecticut_public_records_2026_09_16.py",
+      "scripts/acquire_edgar_documents.py",
+      "scripts/acquire_gdelt_event_day.py",
+      "scripts/acquire_gpu_pricing.py",
+      "scripts/acquire_hillsborough_civil_bulk_2026_09_16 2.py",
+      "scripts/acquire_hillsborough_civil_bulk_2026_09_16.py",
+      "scripts/acquire_hillsborough_official_records_2026_09_16.py",
+      "scripts/acquire_source_catalog.py",
+      "scripts/audit_colorado_ucc_2026_09_16.py",
+      "scripts/audit_edgar_coverage.py",
+      "scripts/audit_oregon_ucc_2026_09_16.py",
+      "scripts/audit_public_registry_acquisitions_2026_09_16.py",
+      "scripts/audit_sec_master_index_coverage.py",
+      "scripts/audit_source_invariants.py",
+      "scripts/build_capital_exposure_graph.py",
+      "scripts/build_contract_contagion_paths.py",
+      "scripts/build_edgar_exhibit_manifest.py",
+      "scripts/build_edgar_exhibit_manifest_offline.py",
+      "scripts/build_edgar_manifest.py",
+      "scripts/build_entity_universe.py",
+      "scripts/build_expectations_inversion.py",
+      "scripts/build_full_deepdive_targets 2.py",
+      "scripts/build_full_deepdive_targets.py",
+      "scripts/build_materiality_adjudication_decisions.py",
+      "scripts/build_materiality_adjudication_packets.py",
+      "scripts/build_ownership_graph.py",
+      "scripts/build_phase3_targets 2.py",
+      "scripts/build_phase3_targets.py",
+      "scripts/build_review_packets.py",
+      "scripts/build_review_queue.py",
+      "scripts/build_sic_sector_map 2.py",
+      "scripts/build_sic_sector_map.py",
+      "scripts/build_source_catalog.py",
+      "scripts/build_timing_signals.py",
+      "scripts/build_weak_links.py",
+      "scripts/bulk_ingest.py",
+      "scripts/check_collateral_scope_coverage.py",
+      "scripts/check_direct_tier_debt_card_alignment.py",
+      "scripts/check_direct_tier_debt_event_classifications.py",
+      "scripts/check_direct_tier_debt_service_field_coverage.py",
+      "scripts/check_direct_tier_economic_event_duplicates.py",
+      "scripts/check_edgar_access.py",
+      "scripts/check_for_updates.py",
+      "scripts/check_graph_artifacts.py",
+      "scripts/check_metric_integrity.py",
+      "scripts/check_mixed_evidence_collisions.py",
+      "scripts/check_provenance_integrity.py",
+      "scripts/check_report_consistency.py",
+      "scripts/check_report_invariants.py",
+      "scripts/check_timing_dedup.py",
+      "scripts/classify_fragility_sectors 2.py",
+      "scripts/classify_fragility_sectors.py",
+      "scripts/combine_queue_sources.py",
+      "scripts/contagion_over_confirmed 2.py",
+      "scripts/contagion_over_confirmed.py",
+      "scripts/economy_wide_signature_scan 2.py",
+      "scripts/economy_wide_signature_scan.py",
+      "scripts/edgar_verify_cluster.py",
+      "scripts/eia_860m_buildout 2.py",
+      "scripts/eia_860m_buildout.py",
+      "scripts/extract_compute_economics.py",
+      "scripts/extract_construction_observations.py",
+      "scripts/extract_lease_agreements.py",
+      "scripts/extract_nyiso_load_queue.py",
+      "scripts/extract_phase3_findings 2.py",
+      "scripts/extract_phase3_findings.py",
+      "scripts/extract_physical_execution_terms.py",
+      "scripts/extract_ppa_deals.py",
+      "scripts/extract_tracker_projects.py",
+      "scripts/fdic_bank_distress 2.py",
+      "scripts/fdic_bank_distress.py",
+      "scripts/gdelt_news_distress 2.py",
+      "scripts/gdelt_news_distress.py",
+      "scripts/gds_analytics.py",
+      "scripts/generate_final_burry_report.py",
+      "scripts/ingest_capital_evidence.py",
+      "scripts/ingest_physical_evidence.py",
+      "scripts/iso_queue_caiso 2.py",
+      "scripts/iso_queue_caiso.py",
+      "scripts/load_graph_to_neo4j.py",
+      "scripts/match_data_center_queues.py",
+      "scripts/match_physical_records.py",
+      "scripts/merge_edgar_acquisitions 2.py",
+      "scripts/merge_edgar_acquisitions.py",
+      "scripts/multidecade_trends 2.py",
+      "scripts/multidecade_trends.py",
+      "scripts/normalize_debt_service_cards.py",
+      "scripts/ownership_contagion 2.py",
+      "scripts/ownership_contagion.py",
+      "scripts/parse_public_source_expansion_2026_09_16.py",
+      "scripts/physical_capacity_summary.py",
+      "scripts/physical_risk_summary.py",
+      "scripts/reextract_edgar_documents_offline.py",
+      "scripts/refresh_capital_graph_2026_09_16.py",
+      "scripts/refresh_case_zero_financials.py",
+      "scripts/refresh_fdic_banks.py",
+      "scripts/refresh_live_overlay.py",
+      "scripts/run_burry_report.py",
+      "scripts/run_dated_engine_2026_09_16.py",
+      "scripts/run_dated_entity_universe.py",
+      "scripts/run_edgar_feed_bulk_2026_09_16.py",
+      "scripts/satellite_progress.py",
+      "scripts/seed_graph 2.py",
+      "scripts/seed_graph.py",
+      "scripts/simulate_metric_aggregation.py",
+      "scripts/source_coverage_report.py",
+      "scripts/stream_edgar_feed_day 2.py",
+      "scripts/stream_edgar_feed_day.py",
+      "scripts/summarize_physical_execution_terms.py",
+      "scripts/verify_refresh_2026_09_16.py",
+      "scripts/verify_survivors_edgar 2.py",
+      "scripts/verify_survivors_edgar.py",
+      "scripts/xbrl_economy_scan 2.py",
+      "scripts/xbrl_economy_scan.py",
+      "scripts/xbrl_net_leverage 2.py",
+      "scripts/xbrl_net_leverage.py",
+      "src/bubble/__init__.py",
+      "src/bubble/analysis/adjudicated_committed_debt.py",
+      "src/bubble/analysis/ai_direct_graph_edges.py",
+      "src/bubble/analysis/burry_verdict.py",
+      "src/bubble/analysis/capital_exposure_graph.py",
+      "src/bubble/analysis/capital_structure.py",
+      "src/bubble/analysis/circular_financing.py",
+      "src/bubble/analysis/cluster_boundary.py",
+      "src/bubble/analysis/cluster_discovery.py",
+      "src/bubble/analysis/cluster_dscr.py",
+      "src/bubble/analysis/cluster_extension.py",
+      "src/bubble/analysis/compute_economics.py",
+      "src/bubble/analysis/contagion_hubs.py",
+      "src/bubble/analysis/contagion_propagation.py",
+      "src/bubble/analysis/contract_contagion_paths.py",
+      "src/bubble/analysis/contract_structure.py",
+      "src/bubble/analysis/debt_census.py",
+      "src/bubble/analysis/debt_service.py",
+      "src/bubble/analysis/demand_funding_durability.py",
+      "src/bubble/analysis/demand_side.py",
+      "src/bubble/analysis/ecosystem_scope.py",
+      "src/bubble/analysis/end_holders.py",
+      "src/bubble/analysis/entity_filters.py",
+      "src/bubble/analysis/entity_risk_ranking.py",
+      "src/bubble/analysis/entity_universe_map.py",
+      "src/bubble/analysis/equipment_bottlenecks.py",
+      "src/bubble/analysis/evidence.py",
+      "src/bubble/analysis/forensic_fragility_scorecard.py",
+      "src/bubble/analysis/gds_graph_analytics.py",
+      "src/bubble/analysis/gpu_earnings_quality.py",
+      "src/bubble/analysis/gpu_economics.py",
+      "src/bubble/analysis/graph_centrality.py",
+      "src/bubble/analysis/leading_indicator_monitor.py",
+      "src/bubble/analysis/materiality_adjudication.py",
+      "src/bubble/analysis/materiality_adjudication_results.py",
+      "src/bubble/analysis/ownership_graph.py",
+      "src/bubble/analysis/physical_capacity.py",
+      "src/bubble/analysis/physical_execution_summary.py",
+      "src/bubble/analysis/physical_risk.py",
+      "src/bubble/analysis/physical_risk_summary.py",
+      "src/bubble/analysis/power_exposure.py",
+      "src/bubble/analysis/private_credit_funding.py",
+      "src/bubble/analysis/red_flag_scorecard.py",
+      "src/bubble/analysis/red_flags.py",
+      "src/bubble/analysis/refi_wall.py",
+      "src/bubble/analysis/review_queue.py",
+      "src/bubble/analysis/risk_register.py",
+      "src/bubble/analysis/scenario_stress.py",
+      "src/bubble/analysis/scenarios.py",
+      "src/bubble/analysis/source_coverage.py",
+      "src/bubble/analysis/timing_signals.py",
+      "src/bubble/analysis/universe_extrapolation.py",
+      "src/bubble/analysis/utilization_debt_service.py",
+      "src/bubble/analysis/weak_links.py",
+      "src/bubble/calendar_engine.py",
+      "src/bubble/cli.py",
+      "src/bubble/config.py",
+      "src/bubble/expectations/__init__.py",
+      "src/bubble/expectations/inversion.py",
+      "src/bubble/expectations/names.py",
+      "src/bubble/extraction/llm.py",
+      "src/bubble/graph/client.py",
+      "src/bubble/graph/neo4j_loader.py",
+      "src/bubble/ingestion/capital/__init__.py",
+      "src/bubble/ingestion/capital/lease_extraction.py",
+      "src/bubble/ingestion/capital/loader.py",
+      "src/bubble/ingestion/capital/ppa_extraction.py",
+      "src/bubble/ingestion/compute/__init__.py",
+      "src/bubble/ingestion/compute/debt_service_terms.py",
+      "src/bubble/ingestion/compute/economic_commitments.py",
+      "src/bubble/ingestion/compute/edgar_extraction.py",
+      "src/bubble/ingestion/compute/gpu_pricing.py",
+      "src/bubble/ingestion/compute/loader.py",
+      "src/bubble/ingestion/concurrency.py",
+      "src/bubble/ingestion/edgar/client.py",
+      "src/bubble/ingestion/edgar/document_acquisition.py",
+      "src/bubble/ingestion/edgar/extractor.py",
+      "src/bubble/ingestion/edgar/filing_manifest.py",
+      "src/bubble/ingestion/edgar/offline_exhibits.py",
+      "src/bubble/ingestion/edgar/seeds.py",
+      "src/bubble/ingestion/entities/__init__.py",
+      "src/bubble/ingestion/entities/universe.py",
+      "src/bubble/ingestion/physical/__init__.py",
+      "src/bubble/ingestion/physical/construction_observations.py",
+      "src/bubble/ingestion/physical/execution_extraction.py",
+      "src/bubble/ingestion/physical/execution_terms.py",
+      "src/bubble/ingestion/physical/loader.py",
+      "src/bubble/ingestion/physical/queue_matching.py",
+      "src/bubble/ingestion/physical/record_matching.py",
+      "src/bubble/ingestion/physical/status_taxonomy.py",
+      "src/bubble/ingestion/physical/tracker_extraction.py",
+      "src/bubble/ingestion/regulatory/__init__.py",
+      "src/bubble/ingestion/regulatory/ratepayer.py",
+      "src/bubble/ingestion/satellite.py",
+      "src/bubble/ingestion/sources/__init__.py",
+      "src/bubble/ingestion/sources/catalog.py",
+      "src/bubble/ingestion/sources/catalog_builder.py",
+      "src/bubble/ingestion/sources/eia.py",
+      "src/bubble/ingestion/sources/ercot.py",
+      "src/bubble/ingestion/sources/ferc.py",
+      "src/bubble/ingestion/sources/fractracker.py",
+      "src/bubble/ingestion/sources/gleif.py",
+      "src/bubble/ingestion/sources/iso_ne.py",
+      "src/bubble/ingestion/update_detector.py",
+      "src/bubble/market_signals.py",
+      "src/bubble/models/base.py",
+      "src/bubble/models/cashflow.py",
+      "src/bubble/models/compute.py",
+      "src/bubble/models/deal.py",
+      "src/bubble/models/entity.py",
+      "src/bubble/models/physical.py",
+      "src/bubble/models/risk.py",
+      "src/bubble/orchestration/langgraph_agents/edgar_extraction_flow.py",
+      "src/bubble/orchestration/prefect_flows/daily_edgar.py",
+      "src/bubble/overlay_history.py",
+      "src/bubble/quality/asset_leakage.py",
+      "src/bubble/quality/claim_semantics.py",
+      "src/bubble/quality/collateral_name_sanity.py",
+      "src/bubble/quality/collateral_scope_coverage.py",
+      "src/bubble/quality/cross_filing_duplication.py",
+      "src/bubble/quality/economic_obligation_dedup.py",
+      "src/bubble/quality/forward_refinancing.py",
+      "src/bubble/quality/graph_name_sanity.py",
+      "src/bubble/quality/graph_notional_dedup.py",
+      "src/bubble/quality/indirect_linkage_rule.py",
+      "src/bubble/quality/metric_aggregation_sim.py",
+      "src/bubble/quality/metric_integrity.py",
+      "src/bubble/quality/mixed_evidence_collisions.py",
+      "src/bubble/quality/physical_capacity_dedup.py",
+      "src/bubble/quality/provenance_audit.py",
+      "src/bubble/quality/relevance_linkage.py",
+      "src/bubble/quality/report_consistency.py",
+      "src/bubble/quality/report_invariants.py",
+      "src/bubble/quality/risk_bearer_classification.py",
+      "src/bubble/quality/source_invariant_audit.py",
+      "src/bubble/quality/source_invariants.py",
+      "src/bubble/quality/timing_wall_integrity.py",
+      "src/bubble/quality/undrawn_capacity_basis.py",
+      "src/bubble/quality/within_filing_duplication.py",
+      "src/bubble/ui/streamlit_app.py",
+      "src/bubble/verdict_tree.py",
+      "tests/analysis/test_adjudicated_committed_debt.py",
+      "tests/analysis/test_ai_direct_graph_edges.py",
+      "tests/analysis/test_burry_verdict.py",
+      "tests/analysis/test_capital_exposure_graph.py",
+      "tests/analysis/test_capital_structure.py",
+      "tests/analysis/test_circular_financing.py",
+      "tests/analysis/test_cluster_boundary.py",
+      "tests/analysis/test_cluster_discovery.py",
+      "tests/analysis/test_cluster_dscr.py",
+      "tests/analysis/test_cluster_extension.py",
+      "tests/analysis/test_combine_queue_sources 2.py",
+      "tests/analysis/test_combine_queue_sources.py",
+      "tests/analysis/test_compute_economics.py",
+      "tests/analysis/test_contagion_hubs.py",
+      "tests/analysis/test_contagion_propagation.py",
+      "tests/analysis/test_contract_contagion_paths.py",
+      "tests/analysis/test_contract_structure.py",
+      "tests/analysis/test_debt_census.py",
+      "tests/analysis/test_debt_service.py",
+      "tests/analysis/test_demand_funding_durability.py",
+      "tests/analysis/test_demand_side.py",
+      "tests/analysis/test_economic_event_collapse.py",
+      "tests/analysis/test_ecosystem_scope.py",
+      "tests/analysis/test_end_holders.py",
+      "tests/analysis/test_entity_risk_ranking.py",
+      "tests/analysis/test_entity_universe_map.py",
+      "tests/analysis/test_equipment_bottlenecks.py",
+      "tests/analysis/test_evidence_gate.py",
+      "tests/analysis/test_forensic_fragility_scorecard.py",
+      "tests/analysis/test_gds_graph_analytics.py",
+      "tests/analysis/test_gpu_earnings_quality.py",
+      "tests/analysis/test_gpu_economics.py",
+      "tests/analysis/test_graph_centrality.py",
+      "tests/analysis/test_leading_indicator_monitor.py",
+      "tests/analysis/test_materiality_adjudication.py",
+      "tests/analysis/test_ownership_graph.py",
+      "tests/analysis/test_physical_capacity.py",
+      "tests/analysis/test_physical_execution_summary.py",
+      "tests/analysis/test_physical_risk.py",
+      "tests/analysis/test_physical_risk_summary.py",
+      "tests/analysis/test_power_exposure.py",
+      "tests/analysis/test_private_credit_funding.py",
+      "tests/analysis/test_red_flag_scorecard.py",
+      "tests/analysis/test_refi_wall.py",
+      "tests/analysis/test_review_queue.py",
+      "tests/analysis/test_risk_register.py",
+      "tests/analysis/test_scenario_stress.py",
+      "tests/analysis/test_source_coverage.py",
+      "tests/analysis/test_timing_signals.py",
+      "tests/analysis/test_universe_extrapolation.py",
+      "tests/analysis/test_utilization_debt_service.py",
+      "tests/analysis/test_weak_links.py",
+      "tests/graph/test_in_memory_client.py",
+      "tests/graph/test_neo4j_loader.py",
+      "tests/ingestion/test_capital_loader.py",
+      "tests/ingestion/test_compute_edgar_extraction.py",
+      "tests/ingestion/test_compute_loader.py",
+      "tests/ingestion/test_construction_observation_extraction.py",
+      "tests/ingestion/test_debt_service_terms.py",
+      "tests/ingestion/test_economic_commitments.py",
+      "tests/ingestion/test_edgar_document_acquisition.py",
+      "tests/ingestion/test_edgar_filing_manifest.py",
+      "tests/ingestion/test_edgar_offline_exhibits.py",
+      "tests/ingestion/test_edgar_seed_quality.py",
+      "tests/ingestion/test_eia_sources.py",
+      "tests/ingestion/test_entity_universe.py",
+      "tests/ingestion/test_ercot_sources.py",
+      "tests/ingestion/test_ferc_sources.py",
+      "tests/ingestion/test_gpu_pricing_acquisition.py",
+      "tests/ingestion/test_lease_agreement_extraction.py",
+      "tests/ingestion/test_physical_execution_extraction.py",
+      "tests/ingestion/test_physical_execution_terms.py",
+      "tests/ingestion/test_physical_loader.py",
+      "tests/ingestion/test_physical_record_matching.py",
+      "tests/ingestion/test_physical_status_taxonomy.py",
+      "tests/ingestion/test_ppa_deal_extraction.py",
+      "tests/ingestion/test_queue_project_matching.py",
+      "tests/ingestion/test_regulatory_ratepayer.py",
+      "tests/ingestion/test_satellite.py",
+      "tests/ingestion/test_source_catalog_acquisition.py",
+      "tests/ingestion/test_source_catalog_builder.py",
+      "tests/ingestion/test_tracker_project_extraction.py",
+      "tests/ingestion/test_update_detector.py",
+      "tests/models/test_base_models.py",
+      "tests/quality/test_asset_leakage.py",
+      "tests/quality/test_claim_semantics.py",
+      "tests/quality/test_collateral_name_sanity.py",
+      "tests/quality/test_collateral_scope_coverage.py",
+      "tests/quality/test_cross_filing_collapse.py",
+      "tests/quality/test_cross_filing_duplication.py",
+      "tests/quality/test_economic_obligation_dedup.py",
+      "tests/quality/test_forward_refinancing.py",
+      "tests/quality/test_graph_name_sanity.py",
+      "tests/quality/test_graph_notional_dedup.py",
+      "tests/quality/test_indirect_linkage_rule.py",
+      "tests/quality/test_metric_aggregation_sim.py",
+      "tests/quality/test_metric_integrity.py",
+      "tests/quality/test_mixed_evidence_collisions.py",
+      "tests/quality/test_physical_capacity_dedup.py",
+      "tests/quality/test_provenance_audit.py",
+      "tests/quality/test_relevance_linkage.py",
+      "tests/quality/test_report_consistency.py",
+      "tests/quality/test_report_invariants.py",
+      "tests/quality/test_risk_bearer_classification.py",
+      "tests/quality/test_source_invariant_audit.py",
+      "tests/quality/test_source_invariants.py",
+      "tests/quality/test_timing_wall_integrity.py",
+      "tests/quality/test_undrawn_capacity_basis.py",
+      "tests/quality/test_within_filing_duplication.py",
+      "tests/test_audit_edgar_coverage.py",
+      "tests/test_calendar_engine.py",
+      "tests/test_check_direct_tier_debt_card_alignment.py",
+      "tests/test_check_direct_tier_debt_event_classifications.py",
+      "tests/test_check_direct_tier_debt_service_field_coverage.py",
+      "tests/test_check_direct_tier_economic_event_duplicates.py",
+      "tests/test_dated_economy_scan 2.py",
+      "tests/test_dated_economy_scan.py",
+      "tests/test_expectations_inversion.py",
+      "tests/test_generate_final_burry_report_audits.py",
+      "tests/test_market_signals.py",
+      "tests/test_merge_edgar_acquisitions.py",
+      "tests/test_overlay_history.py",
+      "tests/test_refresh_capital_graph_2026_09_16.py",
+      "tests/test_refresh_case_zero_financials 2.py",
+      "tests/test_refresh_case_zero_financials.py",
+      "tests/test_run_dated_engine_2026_09_16 2.py",
+      "tests/test_run_dated_engine_2026_09_16.py",
+      "tests/test_stream_edgar_feed_day.py",
+      "tests/test_verdict_tree.py",
+      "tests/test_xbrl_economy_scan.py",
+      "tests/test_xbrl_net_leverage 2.py",
+      "tests/test_xbrl_net_leverage.py"
+    ],
+    "note": "Untracked duplicate files appeared during the audit. The final parse and import scan included them; none were changed."
+  },
+  "final_alert_inventory_check": {
+    "open_alerts": 54,
+    "same_alert_numbers": true
+  },
+  "remediation": {
+    "applied_at_pacific": "2026-09-17T08:00:39.080099-07:00",
+    "status": "53 original alerts patched; Accelerate remains vulnerable upstream and is mitigated at the EDGAR HTML conversion boundary. No alert dismissed.",
+    "patched_original_alerts": [
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51,
+      52,
+      53,
+      55,
+      56,
+      57,
+      58,
+      59
+    ],
+    "unpatched_original_alerts": [
+      54
+    ],
+    "installed_versions": {
+      "gitpython": "3.1.62",
+      "starlette": "1.3.1",
+      "pillow": "12.3.0",
+      "vcrpy": "8.2.1",
+      "accelerate": "1.13.0",
+      "aiohttp": "3.14.3",
+      "cryptography": "50.0.1",
+      "h2": "4.4.1",
+      "langsmith": "0.8.18",
+      "pydantic-settings": "2.14.2",
+      "python-multipart": "0.0.31",
+      "setuptools": "83.0.0",
+      "torch": "2.13.0",
+      "transformers": "5.10.1"
+    },
+    "uv_lock_sha256": "e2e00efc56b58db0de1e78eec077637d168faa838e1cab3ffe196948d83ec2cf",
+    "all_locked_registry_package_advisories": [
+      {
+        "name": "accelerate",
+        "version": "1.13.0",
+        "url": "https://pypi.org/pypi/accelerate/1.13.0/json",
+        "vulnerabilities": [
+          {
+            "aliases": [
+              "CVE-2026-69112"
+            ],
+            "details": "Hugging Face Accelerate through 1.14.0 contains a path traversal vulnerability in load_checkpoint_in_model and load_checkpoint_and_dispatch functions that fail to sanitize weight_map entries from sharded checkpoint indexes. Attackers can supply relative paths with ../ sequences or absolute paths to read arbitrary files, or point shard entries at named pipes to cause indefinite blocking and denial of service.",
+            "fixed_in": [],
+            "id": "GHSA-4j2p-28q2-5m79",
+            "link": "https://osv.dev/vulnerability/GHSA-4j2p-28q2-5m79",
+            "source": "osv",
+            "summary": null,
+            "withdrawn": null
+          },
+          {
+            "aliases": [
+              "CVE-2026-69112",
+              "GHSA-4j2p-28q2-5m79"
+            ],
+            "details": "Hugging Face Accelerate through 1.14.0 contains a path traversal vulnerability in load_checkpoint_in_model and load_checkpoint_and_dispatch functions that fail to sanitize weight_map entries from sharded checkpoint indexes. Attackers can supply relative paths with ../ sequences or absolute paths to read arbitrary files, or point shard entries at named pipes to cause indefinite blocking and denial of service.",
+            "fixed_in": [],
+            "id": "PYSEC-2026-3804",
+            "link": "https://osv.dev/vulnerability/PYSEC-2026-3804",
+            "source": "osv",
+            "summary": null,
+            "withdrawn": null
+          }
+        ],
+        "yanked": false
+      },
+      {
+        "name": "aiofiles",
+        "version": "25.1.0",
+        "url": "https://pypi.org/pypi/aiofiles/25.1.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "aiohappyeyeballs",
+        "version": "2.6.2",
+        "url": "https://pypi.org/pypi/aiohappyeyeballs/2.6.2/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "aiohttp",
+        "version": "3.14.3",
+        "url": "https://pypi.org/pypi/aiohttp/3.14.3/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "aiosignal",
+        "version": "1.4.0",
+        "url": "https://pypi.org/pypi/aiosignal/1.4.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "aiosqlite",
+        "version": "0.22.1",
+        "url": "https://pypi.org/pypi/aiosqlite/0.22.1/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "alembic",
+        "version": "1.18.4",
+        "url": "https://pypi.org/pypi/alembic/1.18.4/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "altair",
+        "version": "6.1.0",
+        "url": "https://pypi.org/pypi/altair/6.1.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "amplitude-analytics",
+        "version": "1.2.3",
+        "url": "https://pypi.org/pypi/amplitude-analytics/1.2.3/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "annotated-doc",
+        "version": "0.0.4",
+        "url": "https://pypi.org/pypi/annotated-doc/0.0.4/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "annotated-types",
+        "version": "0.7.0",
+        "url": "https://pypi.org/pypi/annotated-types/0.7.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "anthropic",
+        "version": "0.105.2",
+        "url": "https://pypi.org/pypi/anthropic/0.105.2/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "antlr4-python3-runtime",
+        "version": "4.9.3",
+        "url": "https://pypi.org/pypi/antlr4-python3-runtime/4.9.3/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "anyio",
+        "version": "4.13.0",
+        "url": "https://pypi.org/pypi/anyio/4.13.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "apprise",
+        "version": "1.11.0",
+        "url": "https://pypi.org/pypi/apprise/1.11.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "asgi-lifespan",
+        "version": "2.1.0",
+        "url": "https://pypi.org/pypi/asgi-lifespan/2.1.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "ast-serialize",
+        "version": "0.5.0",
+        "url": "https://pypi.org/pypi/ast-serialize/0.5.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "asttokens",
+        "version": "3.0.1",
+        "url": "https://pypi.org/pypi/asttokens/3.0.1/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "asyncpg",
+        "version": "0.31.0",
+        "url": "https://pypi.org/pypi/asyncpg/0.31.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "attrs",
+        "version": "26.1.0",
+        "url": "https://pypi.org/pypi/attrs/26.1.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "beartype",
+        "version": "0.22.9",
+        "url": "https://pypi.org/pypi/beartype/0.22.9/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "beautifulsoup4",
+        "version": "4.14.3",
+        "url": "https://pypi.org/pypi/beautifulsoup4/4.14.3/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "blinker",
+        "version": "1.9.0",
+        "url": "https://pypi.org/pypi/blinker/1.9.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "burner-redis",
+        "version": "0.1.7",
+        "url": "https://pypi.org/pypi/burner-redis/0.1.7/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "cachetools",
+        "version": "7.1.4",
+        "url": "https://pypi.org/pypi/cachetools/7.1.4/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "certifi",
+        "version": "2026.5.20",
+        "url": "https://pypi.org/pypi/certifi/2026.5.20/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "cffi",
+        "version": "2.0.0",
+        "url": "https://pypi.org/pypi/cffi/2.0.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "cfgv",
+        "version": "3.5.0",
+        "url": "https://pypi.org/pypi/cfgv/3.5.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "charset-normalizer",
+        "version": "3.4.7",
+        "url": "https://pypi.org/pypi/charset-normalizer/3.4.7/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "click",
+        "version": "8.4.1",
+        "url": "https://pypi.org/pypi/click/8.4.1/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "cloudpickle",
+        "version": "3.1.2",
+        "url": "https://pypi.org/pypi/cloudpickle/3.1.2/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "colorama",
+        "version": "0.4.6",
+        "url": "https://pypi.org/pypi/colorama/0.4.6/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "colorlog",
+        "version": "6.10.1",
+        "url": "https://pypi.org/pypi/colorlog/6.10.1/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "contourpy",
+        "version": "1.3.3",
+        "url": "https://pypi.org/pypi/contourpy/1.3.3/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "coolname",
+        "version": "5.0.0",
+        "url": "https://pypi.org/pypi/coolname/5.0.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "coverage",
+        "version": "7.14.1",
+        "url": "https://pypi.org/pypi/coverage/7.14.1/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "cronsim",
+        "version": "2.7",
+        "url": "https://pypi.org/pypi/cronsim/2.7/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "cryptography",
+        "version": "50.0.1",
+        "url": "https://pypi.org/pypi/cryptography/50.0.1/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "cuda-bindings",
+        "version": "13.3.1",
+        "url": "https://pypi.org/pypi/cuda-bindings/13.3.1/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "cuda-pathfinder",
+        "version": "1.5.5",
+        "url": "https://pypi.org/pypi/cuda-pathfinder/1.5.5/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "cuda-toolkit",
+        "version": "13.0.3.0",
+        "url": "https://pypi.org/pypi/cuda-toolkit/13.0.3.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "cycler",
+        "version": "0.12.1",
+        "url": "https://pypi.org/pypi/cycler/0.12.1/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "cyclopts",
+        "version": "4.16.1",
+        "url": "https://pypi.org/pypi/cyclopts/4.16.1/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "dateparser",
+        "version": "1.4.0",
+        "url": "https://pypi.org/pypi/dateparser/1.4.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "decorator",
+        "version": "5.3.1",
+        "url": "https://pypi.org/pypi/decorator/5.3.1/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "defusedxml",
+        "version": "0.7.1",
+        "url": "https://pypi.org/pypi/defusedxml/0.7.1/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "dill",
+        "version": "0.4.1",
+        "url": "https://pypi.org/pypi/dill/0.4.1/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "distlib",
+        "version": "0.4.0",
+        "url": "https://pypi.org/pypi/distlib/0.4.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "distro",
+        "version": "1.9.0",
+        "url": "https://pypi.org/pypi/distro/1.9.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "docker",
+        "version": "7.1.0",
+        "url": "https://pypi.org/pypi/docker/7.1.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "docling",
+        "version": "2.96.0",
+        "url": "https://pypi.org/pypi/docling/2.96.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "docling-core",
+        "version": "2.78.0",
+        "url": "https://pypi.org/pypi/docling-core/2.78.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "docling-ibm-models",
+        "version": "3.13.2",
+        "url": "https://pypi.org/pypi/docling-ibm-models/3.13.2/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "docling-parse",
+        "version": "6.2.0",
+        "url": "https://pypi.org/pypi/docling-parse/6.2.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "docling-slim",
+        "version": "2.96.0",
+        "url": "https://pypi.org/pypi/docling-slim/2.96.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "docstring-parser",
+        "version": "0.18.0",
+        "url": "https://pypi.org/pypi/docstring-parser/0.18.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "duckdb",
+        "version": "1.5.3",
+        "url": "https://pypi.org/pypi/duckdb/1.5.3/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "edgartools",
+        "version": "5.33.0",
+        "url": "https://pypi.org/pypi/edgartools/5.33.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "et-xmlfile",
+        "version": "2.0.0",
+        "url": "https://pypi.org/pypi/et-xmlfile/2.0.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "exceptiongroup",
+        "version": "1.3.1",
+        "url": "https://pypi.org/pypi/exceptiongroup/1.3.1/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "executing",
+        "version": "2.2.1",
+        "url": "https://pypi.org/pypi/executing/2.2.1/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "faker",
+        "version": "40.19.1",
+        "url": "https://pypi.org/pypi/faker/40.19.1/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "fastapi",
+        "version": "0.136.3",
+        "url": "https://pypi.org/pypi/fastapi/0.136.3/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "filelock",
+        "version": "3.29.0",
+        "url": "https://pypi.org/pypi/filelock/3.29.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "filetype",
+        "version": "1.2.0",
+        "url": "https://pypi.org/pypi/filetype/1.2.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "fonttools",
+        "version": "4.63.0",
+        "url": "https://pypi.org/pypi/fonttools/4.63.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "frozenlist",
+        "version": "1.8.0",
+        "url": "https://pypi.org/pypi/frozenlist/1.8.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "fsspec",
+        "version": "2026.4.0",
+        "url": "https://pypi.org/pypi/fsspec/2026.4.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "gitdb",
+        "version": "4.0.12",
+        "url": "https://pypi.org/pypi/gitdb/4.0.12/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "gitpython",
+        "version": "3.1.62",
+        "url": "https://pypi.org/pypi/gitpython/3.1.62/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "graphviz",
+        "version": "0.21",
+        "url": "https://pypi.org/pypi/graphviz/0.21/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "greenlet",
+        "version": "3.5.1",
+        "url": "https://pypi.org/pypi/greenlet/3.5.1/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "griffe",
+        "version": "2.0.2",
+        "url": "https://pypi.org/pypi/griffe/2.0.2/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "griffecli",
+        "version": "2.0.2",
+        "url": "https://pypi.org/pypi/griffecli/2.0.2/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "griffelib",
+        "version": "2.0.2",
+        "url": "https://pypi.org/pypi/griffelib/2.0.2/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "h11",
+        "version": "0.16.0",
+        "url": "https://pypi.org/pypi/h11/0.16.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "h2",
+        "version": "4.4.1",
+        "url": "https://pypi.org/pypi/h2/4.4.1/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "hf-xet",
+        "version": "1.5.0",
+        "url": "https://pypi.org/pypi/hf-xet/1.5.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "hpack",
+        "version": "4.2.0",
+        "url": "https://pypi.org/pypi/hpack/4.2.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "httpcore",
+        "version": "1.0.9",
+        "url": "https://pypi.org/pypi/httpcore/1.0.9/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "httptools",
+        "version": "0.8.0",
+        "url": "https://pypi.org/pypi/httptools/0.8.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "httpx",
+        "version": "0.28.1",
+        "url": "https://pypi.org/pypi/httpx/0.28.1/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "httpxthrottlecache",
+        "version": "0.3.5",
+        "url": "https://pypi.org/pypi/httpxthrottlecache/0.3.5/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "huggingface-hub",
+        "version": "1.17.0",
+        "url": "https://pypi.org/pypi/huggingface-hub/1.17.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "humanize",
+        "version": "4.15.0",
+        "url": "https://pypi.org/pypi/humanize/4.15.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "hyperframe",
+        "version": "6.1.0",
+        "url": "https://pypi.org/pypi/hyperframe/6.1.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "identify",
+        "version": "2.6.19",
+        "url": "https://pypi.org/pypi/identify/2.6.19/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "idna",
+        "version": "3.17",
+        "url": "https://pypi.org/pypi/idna/3.17/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "iniconfig",
+        "version": "2.3.0",
+        "url": "https://pypi.org/pypi/iniconfig/2.3.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "instructor",
+        "version": "1.15.1",
+        "url": "https://pypi.org/pypi/instructor/1.15.1/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "ipython",
+        "version": "9.14.0",
+        "url": "https://pypi.org/pypi/ipython/9.14.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "ipython-pygments-lexers",
+        "version": "1.1.1",
+        "url": "https://pypi.org/pypi/ipython-pygments-lexers/1.1.1/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "itsdangerous",
+        "version": "2.2.0",
+        "url": "https://pypi.org/pypi/itsdangerous/2.2.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "jedi",
+        "version": "0.20.0",
+        "url": "https://pypi.org/pypi/jedi/0.20.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "jinja2",
+        "version": "3.1.6",
+        "url": "https://pypi.org/pypi/jinja2/3.1.6/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "jinja2-humanize-extension",
+        "version": "0.4.0",
+        "url": "https://pypi.org/pypi/jinja2-humanize-extension/0.4.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "jiter",
+        "version": "0.13.0",
+        "url": "https://pypi.org/pypi/jiter/0.13.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "joblib",
+        "version": "1.5.3",
+        "url": "https://pypi.org/pypi/joblib/1.5.3/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "jsonlines",
+        "version": "4.0.0",
+        "url": "https://pypi.org/pypi/jsonlines/4.0.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "jsonpatch",
+        "version": "1.33",
+        "url": "https://pypi.org/pypi/jsonpatch/1.33/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "jsonpickle",
+        "version": "4.1.2",
+        "url": "https://pypi.org/pypi/jsonpickle/4.1.2/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "jsonpointer",
+        "version": "3.1.1",
+        "url": "https://pypi.org/pypi/jsonpointer/3.1.1/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "jsonref",
+        "version": "1.1.0",
+        "url": "https://pypi.org/pypi/jsonref/1.1.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "jsonschema",
+        "version": "4.26.0",
+        "url": "https://pypi.org/pypi/jsonschema/4.26.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "jsonschema-specifications",
+        "version": "2025.9.1",
+        "url": "https://pypi.org/pypi/jsonschema-specifications/2025.9.1/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "kiwisolver",
+        "version": "1.5.0",
+        "url": "https://pypi.org/pypi/kiwisolver/1.5.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "langchain-core",
+        "version": "1.4.0",
+        "url": "https://pypi.org/pypi/langchain-core/1.4.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "langchain-protocol",
+        "version": "0.0.16",
+        "url": "https://pypi.org/pypi/langchain-protocol/0.0.16/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "langgraph",
+        "version": "1.2.2",
+        "url": "https://pypi.org/pypi/langgraph/1.2.2/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "langgraph-checkpoint",
+        "version": "4.1.1",
+        "url": "https://pypi.org/pypi/langgraph-checkpoint/4.1.1/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "langgraph-prebuilt",
+        "version": "1.1.0",
+        "url": "https://pypi.org/pypi/langgraph-prebuilt/1.1.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "langgraph-sdk",
+        "version": "0.3.15",
+        "url": "https://pypi.org/pypi/langgraph-sdk/0.3.15/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "langsmith",
+        "version": "0.8.18",
+        "url": "https://pypi.org/pypi/langsmith/0.8.18/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "latex2mathml",
+        "version": "3.81.0",
+        "url": "https://pypi.org/pypi/latex2mathml/3.81.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "librt",
+        "version": "0.11.0",
+        "url": "https://pypi.org/pypi/librt/0.11.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "lxml",
+        "version": "6.1.1",
+        "url": "https://pypi.org/pypi/lxml/6.1.1/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "mako",
+        "version": "1.3.12",
+        "url": "https://pypi.org/pypi/mako/1.3.12/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "markdown",
+        "version": "3.10.2",
+        "url": "https://pypi.org/pypi/markdown/3.10.2/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "markdown-it-py",
+        "version": "4.2.0",
+        "url": "https://pypi.org/pypi/markdown-it-py/4.2.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "marko",
+        "version": "2.2.3",
+        "url": "https://pypi.org/pypi/marko/2.2.3/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "markupsafe",
+        "version": "3.0.3",
+        "url": "https://pypi.org/pypi/markupsafe/3.0.3/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "matplotlib",
+        "version": "3.10.9",
+        "url": "https://pypi.org/pypi/matplotlib/3.10.9/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "matplotlib-inline",
+        "version": "0.2.2",
+        "url": "https://pypi.org/pypi/matplotlib-inline/0.2.2/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "mdurl",
+        "version": "0.1.2",
+        "url": "https://pypi.org/pypi/mdurl/0.1.2/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "mpire",
+        "version": "2.10.2",
+        "url": "https://pypi.org/pypi/mpire/2.10.2/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "mpmath",
+        "version": "1.3.0",
+        "url": "https://pypi.org/pypi/mpmath/1.3.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "multidict",
+        "version": "6.7.1",
+        "url": "https://pypi.org/pypi/multidict/6.7.1/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "multiprocess",
+        "version": "0.70.19",
+        "url": "https://pypi.org/pypi/multiprocess/0.70.19/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "mypy",
+        "version": "2.1.0",
+        "url": "https://pypi.org/pypi/mypy/2.1.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "mypy-extensions",
+        "version": "1.1.0",
+        "url": "https://pypi.org/pypi/mypy-extensions/1.1.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "narwhals",
+        "version": "2.21.2",
+        "url": "https://pypi.org/pypi/narwhals/2.21.2/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "neo4j",
+        "version": "6.2.0",
+        "url": "https://pypi.org/pypi/neo4j/6.2.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "nest-asyncio",
+        "version": "1.6.0",
+        "url": "https://pypi.org/pypi/nest-asyncio/1.6.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "networkx",
+        "version": "3.6.1",
+        "url": "https://pypi.org/pypi/networkx/3.6.1/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "nodeenv",
+        "version": "1.10.0",
+        "url": "https://pypi.org/pypi/nodeenv/1.10.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "numpy",
+        "version": "2.4.6",
+        "url": "https://pypi.org/pypi/numpy/2.4.6/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "nvidia-cublas",
+        "version": "13.1.1.3",
+        "url": "https://pypi.org/pypi/nvidia-cublas/13.1.1.3/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "nvidia-cuda-cupti",
+        "version": "13.0.85",
+        "url": "https://pypi.org/pypi/nvidia-cuda-cupti/13.0.85/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "nvidia-cuda-nvrtc",
+        "version": "13.0.88",
+        "url": "https://pypi.org/pypi/nvidia-cuda-nvrtc/13.0.88/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "nvidia-cuda-runtime",
+        "version": "13.0.96",
+        "url": "https://pypi.org/pypi/nvidia-cuda-runtime/13.0.96/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "nvidia-cudnn-cu13",
+        "version": "9.20.0.48",
+        "url": "https://pypi.org/pypi/nvidia-cudnn-cu13/9.20.0.48/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "nvidia-cufft",
+        "version": "12.0.0.61",
+        "url": "https://pypi.org/pypi/nvidia-cufft/12.0.0.61/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "nvidia-cufile",
+        "version": "1.15.1.6",
+        "url": "https://pypi.org/pypi/nvidia-cufile/1.15.1.6/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "nvidia-curand",
+        "version": "10.4.0.35",
+        "url": "https://pypi.org/pypi/nvidia-curand/10.4.0.35/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "nvidia-cusolver",
+        "version": "12.0.4.66",
+        "url": "https://pypi.org/pypi/nvidia-cusolver/12.0.4.66/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "nvidia-cusparse",
+        "version": "12.6.3.3",
+        "url": "https://pypi.org/pypi/nvidia-cusparse/12.6.3.3/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "nvidia-cusparselt-cu13",
+        "version": "0.8.1",
+        "url": "https://pypi.org/pypi/nvidia-cusparselt-cu13/0.8.1/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "nvidia-nccl-cu13",
+        "version": "2.29.7",
+        "url": "https://pypi.org/pypi/nvidia-nccl-cu13/2.29.7/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "nvidia-nvjitlink",
+        "version": "13.0.88",
+        "url": "https://pypi.org/pypi/nvidia-nvjitlink/13.0.88/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "nvidia-nvshmem-cu13",
+        "version": "3.4.5",
+        "url": "https://pypi.org/pypi/nvidia-nvshmem-cu13/3.4.5/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "nvidia-nvtx",
+        "version": "13.0.85",
+        "url": "https://pypi.org/pypi/nvidia-nvtx/13.0.85/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "oauthlib",
+        "version": "3.3.1",
+        "url": "https://pypi.org/pypi/oauthlib/3.3.1/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "omegaconf",
+        "version": "2.3.0",
+        "url": "https://pypi.org/pypi/omegaconf/2.3.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "openai",
+        "version": "2.38.0",
+        "url": "https://pypi.org/pypi/openai/2.38.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "opencv-python",
+        "version": "4.13.0.92",
+        "url": "https://pypi.org/pypi/opencv-python/4.13.0.92/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "openpyxl",
+        "version": "3.1.5",
+        "url": "https://pypi.org/pypi/openpyxl/3.1.5/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "opentelemetry-api",
+        "version": "1.42.1",
+        "url": "https://pypi.org/pypi/opentelemetry-api/1.42.1/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "orjson",
+        "version": "3.11.9",
+        "url": "https://pypi.org/pypi/orjson/3.11.9/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "ormsgpack",
+        "version": "1.12.2",
+        "url": "https://pypi.org/pypi/ormsgpack/1.12.2/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "packaging",
+        "version": "26.2",
+        "url": "https://pypi.org/pypi/packaging/26.2/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "pandas",
+        "version": "3.0.3",
+        "url": "https://pypi.org/pypi/pandas/3.0.3/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "parso",
+        "version": "0.8.7",
+        "url": "https://pypi.org/pypi/parso/0.8.7/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "pathspec",
+        "version": "1.1.1",
+        "url": "https://pypi.org/pypi/pathspec/1.1.1/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "pendulum",
+        "version": "3.2.0",
+        "url": "https://pypi.org/pypi/pendulum/3.2.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "pexpect",
+        "version": "4.9.0",
+        "url": "https://pypi.org/pypi/pexpect/4.9.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "pillow",
+        "version": "12.3.0",
+        "url": "https://pypi.org/pypi/pillow/12.3.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "platformdirs",
+        "version": "4.10.0",
+        "url": "https://pypi.org/pypi/platformdirs/4.10.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "plotly",
+        "version": "6.7.0",
+        "url": "https://pypi.org/pypi/plotly/6.7.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "pluggy",
+        "version": "1.6.0",
+        "url": "https://pypi.org/pypi/pluggy/1.6.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "polars",
+        "version": "1.41.2",
+        "url": "https://pypi.org/pypi/polars/1.41.2/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "polars-runtime-32",
+        "version": "1.41.2",
+        "url": "https://pypi.org/pypi/polars-runtime-32/1.41.2/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "polyfactory",
+        "version": "3.3.0",
+        "url": "https://pypi.org/pypi/polyfactory/3.3.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "pre-commit",
+        "version": "4.6.0",
+        "url": "https://pypi.org/pypi/pre-commit/4.6.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "prefect",
+        "version": "3.7.2",
+        "url": "https://pypi.org/pypi/prefect/3.7.2/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "prometheus-client",
+        "version": "0.25.0",
+        "url": "https://pypi.org/pypi/prometheus-client/0.25.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "prompt-toolkit",
+        "version": "3.0.52",
+        "url": "https://pypi.org/pypi/prompt-toolkit/3.0.52/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "propcache",
+        "version": "0.5.2",
+        "url": "https://pypi.org/pypi/propcache/0.5.2/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "protobuf",
+        "version": "7.35.0",
+        "url": "https://pypi.org/pypi/protobuf/7.35.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "psutil",
+        "version": "7.2.2",
+        "url": "https://pypi.org/pypi/psutil/7.2.2/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "ptyprocess",
+        "version": "0.7.0",
+        "url": "https://pypi.org/pypi/ptyprocess/0.7.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "pure-eval",
+        "version": "0.2.3",
+        "url": "https://pypi.org/pypi/pure-eval/0.2.3/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "py-key-value-aio",
+        "version": "0.4.5",
+        "url": "https://pypi.org/pypi/py-key-value-aio/0.4.5/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "pyarrow",
+        "version": "24.0.0",
+        "url": "https://pypi.org/pypi/pyarrow/24.0.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "pyclipper",
+        "version": "1.4.0",
+        "url": "https://pypi.org/pypi/pyclipper/1.4.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "pycparser",
+        "version": "3.0",
+        "url": "https://pypi.org/pypi/pycparser/3.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "pydantic",
+        "version": "2.13.4",
+        "url": "https://pypi.org/pypi/pydantic/2.13.4/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "pydantic-core",
+        "version": "2.46.4",
+        "url": "https://pypi.org/pypi/pydantic-core/2.46.4/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "pydantic-extra-types",
+        "version": "2.11.1",
+        "url": "https://pypi.org/pypi/pydantic-extra-types/2.11.1/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "pydantic-settings",
+        "version": "2.14.2",
+        "url": "https://pypi.org/pypi/pydantic-settings/2.14.2/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "pydeck",
+        "version": "0.9.2",
+        "url": "https://pypi.org/pypi/pydeck/0.9.2/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "pydocket",
+        "version": "0.21.1",
+        "url": "https://pypi.org/pypi/pydocket/0.21.1/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "pygments",
+        "version": "2.20.0",
+        "url": "https://pypi.org/pypi/pygments/2.20.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "pylatexenc",
+        "version": "2.10",
+        "url": "https://pypi.org/pypi/pylatexenc/2.10/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "pyparsing",
+        "version": "3.3.2",
+        "url": "https://pypi.org/pypi/pyparsing/3.3.2/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "pypdfium2",
+        "version": "5.8.0",
+        "url": "https://pypi.org/pypi/pypdfium2/5.8.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "pyrate-limiter",
+        "version": "4.1.0",
+        "url": "https://pypi.org/pypi/pyrate-limiter/4.1.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "pytest",
+        "version": "9.0.3",
+        "url": "https://pypi.org/pypi/pytest/9.0.3/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "pytest-asyncio",
+        "version": "1.4.0",
+        "url": "https://pypi.org/pypi/pytest-asyncio/1.4.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "pytest-cov",
+        "version": "7.1.0",
+        "url": "https://pypi.org/pypi/pytest-cov/7.1.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "python-dateutil",
+        "version": "2.9.0.post0",
+        "url": "https://pypi.org/pypi/python-dateutil/2.9.0.post0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "python-discovery",
+        "version": "1.4.0",
+        "url": "https://pypi.org/pypi/python-discovery/1.4.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "python-docx",
+        "version": "1.2.0",
+        "url": "https://pypi.org/pypi/python-docx/1.2.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "python-dotenv",
+        "version": "1.2.2",
+        "url": "https://pypi.org/pypi/python-dotenv/1.2.2/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "python-json-logger",
+        "version": "4.1.0",
+        "url": "https://pypi.org/pypi/python-json-logger/4.1.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "python-multipart",
+        "version": "0.0.31",
+        "url": "https://pypi.org/pypi/python-multipart/0.0.31/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "python-pptx",
+        "version": "1.0.2",
+        "url": "https://pypi.org/pypi/python-pptx/1.0.2/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "python-slugify",
+        "version": "8.0.4",
+        "url": "https://pypi.org/pypi/python-slugify/8.0.4/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "pytz",
+        "version": "2026.2",
+        "url": "https://pypi.org/pypi/pytz/2026.2/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "pyvis",
+        "version": "0.3.2",
+        "url": "https://pypi.org/pypi/pyvis/0.3.2/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "pywin32",
+        "version": "311",
+        "url": "https://pypi.org/pypi/pywin32/311/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "pyyaml",
+        "version": "6.0.3",
+        "url": "https://pypi.org/pypi/pyyaml/6.0.3/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "rank-bm25",
+        "version": "0.2.2",
+        "url": "https://pypi.org/pypi/rank-bm25/0.2.2/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "rapidfuzz",
+        "version": "3.14.5",
+        "url": "https://pypi.org/pypi/rapidfuzz/3.14.5/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "rapidocr",
+        "version": "3.8.1",
+        "url": "https://pypi.org/pypi/rapidocr/3.8.1/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "readchar",
+        "version": "4.2.2",
+        "url": "https://pypi.org/pypi/readchar/4.2.2/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "redis",
+        "version": "8.0.0",
+        "url": "https://pypi.org/pypi/redis/8.0.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "referencing",
+        "version": "0.37.0",
+        "url": "https://pypi.org/pypi/referencing/0.37.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "regex",
+        "version": "2026.5.9",
+        "url": "https://pypi.org/pypi/regex/2026.5.9/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "requests",
+        "version": "2.34.2",
+        "url": "https://pypi.org/pypi/requests/2.34.2/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "requests-oauthlib",
+        "version": "2.0.0",
+        "url": "https://pypi.org/pypi/requests-oauthlib/2.0.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "requests-toolbelt",
+        "version": "1.0.0",
+        "url": "https://pypi.org/pypi/requests-toolbelt/1.0.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "rfc3339-validator",
+        "version": "0.1.4",
+        "url": "https://pypi.org/pypi/rfc3339-validator/0.1.4/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "rich",
+        "version": "14.3.4",
+        "url": "https://pypi.org/pypi/rich/14.3.4/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "rich-rst",
+        "version": "2.0.1",
+        "url": "https://pypi.org/pypi/rich-rst/2.0.1/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "rpds-py",
+        "version": "2026.5.1",
+        "url": "https://pypi.org/pypi/rpds-py/2026.5.1/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "rtree",
+        "version": "1.4.1",
+        "url": "https://pypi.org/pypi/rtree/1.4.1/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "ruamel-yaml",
+        "version": "0.19.1",
+        "url": "https://pypi.org/pypi/ruamel-yaml/0.19.1/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "ruamel-yaml-clib",
+        "version": "0.2.15",
+        "url": "https://pypi.org/pypi/ruamel-yaml-clib/0.2.15/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "ruff",
+        "version": "0.15.15",
+        "url": "https://pypi.org/pypi/ruff/0.15.15/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "safetensors",
+        "version": "0.7.0",
+        "url": "https://pypi.org/pypi/safetensors/0.7.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "scikit-learn",
+        "version": "1.9.0",
+        "url": "https://pypi.org/pypi/scikit-learn/1.9.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "scipy",
+        "version": "1.17.1",
+        "url": "https://pypi.org/pypi/scipy/1.17.1/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "semchunk",
+        "version": "3.2.5",
+        "url": "https://pypi.org/pypi/semchunk/3.2.5/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "semver",
+        "version": "3.0.4",
+        "url": "https://pypi.org/pypi/semver/3.0.4/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "setuptools",
+        "version": "83.0.0",
+        "url": "https://pypi.org/pypi/setuptools/83.0.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "shapely",
+        "version": "2.1.2",
+        "url": "https://pypi.org/pypi/shapely/2.1.2/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "shellingham",
+        "version": "1.5.4",
+        "url": "https://pypi.org/pypi/shellingham/1.5.4/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "six",
+        "version": "1.17.0",
+        "url": "https://pypi.org/pypi/six/1.17.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "smmap",
+        "version": "5.0.3",
+        "url": "https://pypi.org/pypi/smmap/5.0.3/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "sniffio",
+        "version": "1.3.1",
+        "url": "https://pypi.org/pypi/sniffio/1.3.1/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "soupsieve",
+        "version": "2.8.4",
+        "url": "https://pypi.org/pypi/soupsieve/2.8.4/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "sqlalchemy",
+        "version": "2.0.50",
+        "url": "https://pypi.org/pypi/sqlalchemy/2.0.50/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "stack-data",
+        "version": "0.6.3",
+        "url": "https://pypi.org/pypi/stack-data/0.6.3/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "stamina",
+        "version": "26.1.0",
+        "url": "https://pypi.org/pypi/stamina/26.1.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "starlette",
+        "version": "1.3.1",
+        "url": "https://pypi.org/pypi/starlette/1.3.1/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "streamlit",
+        "version": "1.58.0",
+        "url": "https://pypi.org/pypi/streamlit/1.58.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "structlog",
+        "version": "25.5.0",
+        "url": "https://pypi.org/pypi/structlog/25.5.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "sympy",
+        "version": "1.14.0",
+        "url": "https://pypi.org/pypi/sympy/1.14.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "tabulate",
+        "version": "0.10.0",
+        "url": "https://pypi.org/pypi/tabulate/0.10.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "tenacity",
+        "version": "9.1.4",
+        "url": "https://pypi.org/pypi/tenacity/9.1.4/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "text-unidecode",
+        "version": "1.3",
+        "url": "https://pypi.org/pypi/text-unidecode/1.3/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "textdistance",
+        "version": "4.6.3",
+        "url": "https://pypi.org/pypi/textdistance/4.6.3/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "threadpoolctl",
+        "version": "3.6.0",
+        "url": "https://pypi.org/pypi/threadpoolctl/3.6.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "tokenizers",
+        "version": "0.22.2",
+        "url": "https://pypi.org/pypi/tokenizers/0.22.2/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "toml",
+        "version": "0.10.2",
+        "url": "https://pypi.org/pypi/toml/0.10.2/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "torch",
+        "version": "2.13.0",
+        "url": "https://pypi.org/pypi/torch/2.13.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "torchvision",
+        "version": "0.28.0",
+        "url": "https://pypi.org/pypi/torchvision/0.28.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "tqdm",
+        "version": "4.67.3",
+        "url": "https://pypi.org/pypi/tqdm/4.67.3/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "traitlets",
+        "version": "5.15.0",
+        "url": "https://pypi.org/pypi/traitlets/5.15.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "transformers",
+        "version": "5.10.1",
+        "url": "https://pypi.org/pypi/transformers/5.10.1/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "tree-sitter",
+        "version": "0.25.2",
+        "url": "https://pypi.org/pypi/tree-sitter/0.25.2/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "tree-sitter-c",
+        "version": "0.24.2",
+        "url": "https://pypi.org/pypi/tree-sitter-c/0.24.2/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "tree-sitter-javascript",
+        "version": "0.25.0",
+        "url": "https://pypi.org/pypi/tree-sitter-javascript/0.25.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "tree-sitter-python",
+        "version": "0.25.0",
+        "url": "https://pypi.org/pypi/tree-sitter-python/0.25.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "tree-sitter-typescript",
+        "version": "0.23.2",
+        "url": "https://pypi.org/pypi/tree-sitter-typescript/0.23.2/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "triton",
+        "version": "3.7.1",
+        "url": "https://pypi.org/pypi/triton/3.7.1/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "truststore",
+        "version": "0.10.4",
+        "url": "https://pypi.org/pypi/truststore/0.10.4/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "typer",
+        "version": "0.21.2",
+        "url": "https://pypi.org/pypi/typer/0.21.2/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "types-beautifulsoup4",
+        "version": "4.12.0.20250516",
+        "url": "https://pypi.org/pypi/types-beautifulsoup4/4.12.0.20250516/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "types-html5lib",
+        "version": "1.1.11.20260518",
+        "url": "https://pypi.org/pypi/types-html5lib/1.1.11.20260518/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "types-requests",
+        "version": "2.33.0.20260518",
+        "url": "https://pypi.org/pypi/types-requests/2.33.0.20260518/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "types-webencodings",
+        "version": "0.5.0.20260408",
+        "url": "https://pypi.org/pypi/types-webencodings/0.5.0.20260408/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "typing-extensions",
+        "version": "4.15.0",
+        "url": "https://pypi.org/pypi/typing-extensions/4.15.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "typing-inspection",
+        "version": "0.4.2",
+        "url": "https://pypi.org/pypi/typing-inspection/0.4.2/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "tzdata",
+        "version": "2026.2",
+        "url": "https://pypi.org/pypi/tzdata/2026.2/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "tzlocal",
+        "version": "5.3.1",
+        "url": "https://pypi.org/pypi/tzlocal/5.3.1/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "uncalled-for",
+        "version": "0.3.2",
+        "url": "https://pypi.org/pypi/uncalled-for/0.3.2/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "unidecode",
+        "version": "1.4.0",
+        "url": "https://pypi.org/pypi/unidecode/1.4.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "urllib3",
+        "version": "2.7.0",
+        "url": "https://pypi.org/pypi/urllib3/2.7.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "uuid-utils",
+        "version": "0.16.0",
+        "url": "https://pypi.org/pypi/uuid-utils/0.16.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "uvicorn",
+        "version": "0.48.0",
+        "url": "https://pypi.org/pypi/uvicorn/0.48.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "vcrpy",
+        "version": "8.2.1",
+        "url": "https://pypi.org/pypi/vcrpy/8.2.1/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "virtualenv",
+        "version": "21.4.2",
+        "url": "https://pypi.org/pypi/virtualenv/21.4.2/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "watchdog",
+        "version": "6.0.0",
+        "url": "https://pypi.org/pypi/watchdog/6.0.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "wcwidth",
+        "version": "0.7.0",
+        "url": "https://pypi.org/pypi/wcwidth/0.7.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "websockets",
+        "version": "16.0",
+        "url": "https://pypi.org/pypi/websockets/16.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "whenever",
+        "version": "0.10.0",
+        "url": "https://pypi.org/pypi/whenever/0.10.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "wrapt",
+        "version": "2.2.1",
+        "url": "https://pypi.org/pypi/wrapt/2.2.1/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "xlsxwriter",
+        "version": "3.2.9",
+        "url": "https://pypi.org/pypi/xlsxwriter/3.2.9/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "xxhash",
+        "version": "3.7.0",
+        "url": "https://pypi.org/pypi/xxhash/3.7.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "yarl",
+        "version": "1.24.2",
+        "url": "https://pypi.org/pypi/yarl/1.24.2/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "zstandard",
+        "version": "0.25.0",
+        "url": "https://pypi.org/pypi/zstandard/0.25.0/json",
+        "vulnerabilities": [],
+        "yanked": false
+      },
+      {
+        "name": "lxml-stubs",
+        "version": "0.5.1",
+        "url": "https://pypi.org/pypi/lxml-stubs/0.5.1/json",
+        "vulnerabilities": [],
+        "yanked": false
+      }
+    ],
+    "mitigation": {
+      "file": "src/bubble/ingestion/edgar/documents.py",
+      "allowed_formats": [
+        "HTML"
+      ],
+      "fetch_images": false,
+      "enable_remote_fetch": false,
+      "enable_local_fetch": false,
+      "render_page": false,
+      "scope": "Both EdgarExtractor converter entry points use the restricted converter. Direct use of Accelerate outside this application boundary is still affected."
+    },
+    "verification": {
+      "full_suite_command": [
+        "/Users/ted/Documents/dev-archive/bubble/.venv/bin/python",
+        "-m",
+        "pytest",
+        "tests",
+        "--ignore-glob=* 2.py",
+        "--tb=short",
+        "-o",
+        "cache_dir=/tmp/ai-bubble-security-fix-20260917-lvpmx5m6/pytest-cache-complete",
+        "--junitxml=/tmp/ai-bubble-security-fix-20260917-lvpmx5m6/full-tests-complete.xml"
+      ],
+      "full_suite_result": {
+        "name": "pytest",
+        "errors": "0",
+        "failures": "0",
+        "skipped": "0",
+        "tests": "858",
+        "time": "49.390",
+        "timestamp": "2026-09-17T09:56:10.052638-05:00",
+        "hostname": "Mac.lan"
+      },
+      "security_test_cases": [
+        {
+          "classname": "tests.security.test_dependency_regressions",
+          "name": "test_git_config_rewrite_does_not_inject_directives",
+          "time": "0.079"
+        },
+        {
+          "classname": "tests.security.test_dependency_regressions",
+          "name": "test_vcr_rejects_python_yaml_constructors",
+          "time": "0.001"
+        },
+        {
+          "classname": "tests.security.test_dependency_regressions",
+          "name": "test_urlencoded_form_limits_are_enforced[a=1&b=2-limits0]",
+          "time": "0.004"
+        },
+        {
+          "classname": "tests.security.test_dependency_regressions",
+          "name": "test_urlencoded_form_limits_are_enforced[a=12345-limits1]",
+          "time": "0.001"
+        },
+        {
+          "classname": "tests.security.test_dependency_regressions",
+          "name": "test_urlencoded_form_within_limits_still_parses",
+          "time": "0.001"
+        },
+        {
+          "classname": "tests.security.test_filing_converter",
+          "name": "test_filing_html_preserves_text_and_tables_without_fetching_images",
+          "time": "0.067"
+        },
+        {
+          "classname": "tests.security.test_filing_converter",
+          "name": "test_pdf_filing_cannot_select_a_model_pipeline[filing.pdf]",
+          "time": "0.001"
+        },
+        {
+          "classname": "tests.security.test_filing_converter",
+          "name": "test_pdf_filing_cannot_select_a_model_pipeline[mislabelled.html]",
+          "time": "0.001"
+        },
+        {
+          "classname": "tests.security.test_filing_converter",
+          "name": "test_checkpoint_json_cannot_select_a_model_pipeline",
+          "time": "0.001"
+        },
+        {
+          "classname": "tests.security.test_filing_converter",
+          "name": "test_extractor_uses_the_restricted_converter[<!doctype html><html><body><p>Filing revenue text.</p></body></html>-Filing revenue text.]",
+          "time": "4.608"
+        },
+        {
+          "classname": "tests.security.test_filing_converter",
+          "name": "test_extractor_uses_the_restricted_converter[%PDF-1.4\\n1 0 obj\\n<< /Type /Catalog >>\\nendobj\\n%%EOF\\n-]",
+          "time": "0.002"
+        }
+      ],
+      "mypy_command": ".venv/bin/mypy src --cache-dir /tmp/ai-bubble-security-fix-20260917-lvpmx5m6/mypy-cache",
+      "mypy_result": "Success: no issues found in 142 source files",
+      "ruff_command": ".venv/bin/ruff check src tests",
+      "ruff_result": "All checks passed!",
+      "format_command": ".venv/bin/ruff format --check src tests",
+      "format_result": "271 files already formatted",
+      "lock_command": "uv lock --check",
+      "lock_result": "Resolved 294 packages"
+    },
+    "retained_snapshots": {
+      "source_files": "/tmp/ai-bubble-security-fix-20260917-lvpmx5m6/before",
+      "original_environment": "/Users/ted/Documents/dev-archive/bubble/.codex/security-snapshots/2026-09-17/venv-before-upgrades",
+      "logs": "/tmp/ai-bubble-security-fix-20260917-lvpmx5m6"
+    },
+    "verification_notes": [
+      "The first full-suite attempt from a scratch working directory failed three relative-fixture lookups. The repository-root runs passed, ending at 858 tests after adding direct extractor coverage.",
+      "A positive form-parser test initially set a limit below the combined field-name and value size. The test now uses an adequate size; the two malicious-limit cases pass.",
+      "Copying the old environment and bundling all Git objects blocked on macOS cloud-only files. Both partial snapshots were retained. The complete original environment was preserved by a directory rename, and the Git refs/index were separately saved. No historical Git objects were removed.",
+      "The original mypy attempt blocked on a cloud-only cache database. A fresh local cache completed and passed after type corrections and adding lxml-stubs.",
+      "The broad historical commit scan matched 136 lines; 130 attribution lines predate this change. Historical commits are preserved. The new commit must contain zero attribution trailers.",
+      "No paid model calls or production analytics queries were made. No compromised-host investigation was performed."
+    ]
+  }
+}

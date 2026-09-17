@@ -68,19 +68,20 @@ def test_complete_graph_uses_only_dated_inputs_and_reports_review(tmp_path: Path
     assert result["selection"]["graph_deals"] == 2
     assert result["selection"]["pending_graph_deals"] == 1
     assert result["selection"]["reviewed_graph_deals"] == 1
-    assert result["inputs"]["ferc_ppa_deals"]["sha256"] == hashlib.sha256(
-        ferc.read_bytes()
-    ).hexdigest()
-    assert result["inputs"]["edgar_deals"]["sha256"] == hashlib.sha256(
-        edgar.read_bytes()
-    ).hexdigest()
+    assert (
+        result["inputs"]["ferc_ppa_deals"]["sha256"]
+        == hashlib.sha256(ferc.read_bytes()).hexdigest()
+    )
+    assert (
+        result["inputs"]["edgar_deals"]["sha256"] == hashlib.sha256(edgar.read_bytes()).hexdigest()
+    )
     assert result["graph_summary"]["deals_scanned"] == 2
     repeat = build_capital(
         mode="complete", ferc_path=ferc, edgar_path=edgar, output_root=tmp_path / "repeat"
     )
-    assert {
-        name: record["sha256"] for name, record in result["outputs"].items()
-    } == {name: record["sha256"] for name, record in repeat["outputs"].items()}
+    assert {name: record["sha256"] for name, record in result["outputs"].items()} == {
+        name: record["sha256"] for name, record in repeat["outputs"].items()
+    }
     with pytest.raises(FileExistsError, match="Refusing to replace"):
         build_capital(mode="complete", ferc_path=ferc, edgar_path=edgar, output_root=root)
 

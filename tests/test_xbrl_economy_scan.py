@@ -12,7 +12,6 @@ from datetime import date
 from pathlib import Path
 from unittest import mock
 
-
 SCRIPT = Path(__file__).resolve().parents[1] / "scripts" / "xbrl_economy_scan.py"
 SPEC = importlib.util.spec_from_file_location("xbrl_economy_scan_for_test", SCRIPT)
 assert SPEC is not None and SPEC.loader is not None
@@ -75,8 +74,10 @@ class DatedXbrlRefreshTest(unittest.TestCase):
         self.assertEqual(output["with_xbrl"], 1)
         self.assertEqual(output["without_xbrl_http_404"], 1)
         self.assertEqual([row["status"] for row in output["results"]], ["ok", "no_xbrl"])
-        self.assertEqual(output["results"][1]["source_uri"],
-                         "https://data.sec.gov/api/xbrl/companyfacts/CIK0000000222.json")
+        self.assertEqual(
+            output["results"][1]["source_uri"],
+            "https://data.sec.gov/api/xbrl/companyfacts/CIK0000000222.json",
+        )
         self.assertIn("coverage", output["field_definitions"])
         self.assertEqual(len(output["reference_sha256"]), 64)
         self.assertIn("not observed distress", output["interpretation"])
@@ -113,9 +114,13 @@ class DatedXbrlRefreshTest(unittest.TestCase):
 
     def test_sec_empty_http_200_is_counted_separately_from_http_404(self) -> None:
         with mock.patch.object(
-            SCAN, "fetch_sec_json",
-            side_effect=[(self.reference_payload(), None, None), ({}, None, None),
-                         (None, 404, "HTTP 404")],
+            SCAN,
+            "fetch_sec_json",
+            side_effect=[
+                (self.reference_payload(), None, None),
+                ({}, None, None),
+                (None, 404, "HTTP 404"),
+            ],
         ):
             self.assertEqual(SCAN.main(["--refresh-date", "2026-09-16"]), 0)
         output = json.loads(self.dated_path(self.output_json).read_text())
@@ -129,11 +134,10 @@ class DatedXbrlRefreshTest(unittest.TestCase):
 
     def test_prior_v7_http_404_cache_row_gets_reason_in_memory(self) -> None:
         cache = self.dated_path(self.cache)
-        cache.write_text(json.dumps({
-            "cik": "0000000111", "selector_version": 7, "status": "no_xbrl"
-        }) + "\n")
-        self.assertEqual(SCAN.load_refresh_cache(cache)["0000000111"]["no_xbrl_reason"],
-                         "http_404")
+        cache.write_text(
+            json.dumps({"cik": "0000000111", "selector_version": 7, "status": "no_xbrl"}) + "\n"
+        )
+        self.assertEqual(SCAN.load_refresh_cache(cache)["0000000111"]["no_xbrl_reason"], "http_404")
         self.assertNotIn("no_xbrl_reason", json.loads(cache.read_text()))
 
     def test_concurrent_fetches_preserve_rate_and_stop_after_429(self) -> None:
@@ -211,21 +215,38 @@ class DatedXbrlRefreshTest(unittest.TestCase):
     def test_newer_interest_does_not_hide_same_year_interest_for_latest_ebitda(self) -> None:
         def annual(value: float, start: str, end: str) -> dict:
             return {
-                "val": value, "start": start, "end": end,
-                "filed": "2026-08-20", "form": "10-K", "fp": "FY",
+                "val": value,
+                "start": start,
+                "end": end,
+                "filed": "2026-08-20",
+                "form": "10-K",
+                "fp": "FY",
             }
 
         fy2025 = ("2025-01-01", "2025-12-31")
         fy2026 = ("2025-07-01", "2026-06-30")
-        facts = {"facts": {"us-gaap": {
-            "OperatingIncomeLoss": {"units": {"USD": [annual(3e9, *fy2025)]}},
-            "DepreciationAndAmortization": {"units": {"USD": [annual(1e9, *fy2025)]}},
-            "InterestExpense": {"units": {"USD": [
-                annual(1e9, *fy2025), annual(2e9, *fy2026),
-            ]}},
-        }}}
+        facts = {
+            "facts": {
+                "us-gaap": {
+                    "OperatingIncomeLoss": {"units": {"USD": [annual(3e9, *fy2025)]}},
+                    "DepreciationAndAmortization": {"units": {"USD": [annual(1e9, *fy2025)]}},
+                    "InterestExpense": {
+                        "units": {
+                            "USD": [
+                                annual(1e9, *fy2025),
+                                annual(2e9, *fy2026),
+                            ]
+                        }
+                    },
+                }
+            }
+        }
         row = SCAN.current_row(
-            {"cik": "0000000111"}, facts, "ok", "https://data.sec.gov/example", None,
+            {"cik": "0000000111"},
+            facts,
+            "ok",
+            "https://data.sec.gov/example",
+            None,
             date(2026, 9, 16),
         )
         self.assertEqual(row["ebitda_period_end"], "2025-12-31")
@@ -240,17 +261,29 @@ class DatedXbrlRefreshTest(unittest.TestCase):
     def test_negative_ebitda_has_no_numeric_coverage_ratio(self) -> None:
         def annual(value: float) -> dict:
             return {
-                "val": value, "start": "2025-01-01", "end": "2025-12-31",
-                "filed": "2026-02-01", "form": "10-K", "fp": "FY",
+                "val": value,
+                "start": "2025-01-01",
+                "end": "2025-12-31",
+                "filed": "2026-02-01",
+                "form": "10-K",
+                "fp": "FY",
             }
 
-        facts = {"facts": {"us-gaap": {
-            "OperatingIncomeLoss": {"units": {"USD": [annual(-2e9)]}},
-            "DepreciationAndAmortization": {"units": {"USD": [annual(1e8)]}},
-            "InterestExpense": {"units": {"USD": [annual(2e8)]}},
-        }}}
+        facts = {
+            "facts": {
+                "us-gaap": {
+                    "OperatingIncomeLoss": {"units": {"USD": [annual(-2e9)]}},
+                    "DepreciationAndAmortization": {"units": {"USD": [annual(1e8)]}},
+                    "InterestExpense": {"units": {"USD": [annual(2e8)]}},
+                }
+            }
+        }
         row = SCAN.current_row(
-            {"cik": "0000000111"}, facts, "ok", "https://data.sec.gov/example", None,
+            {"cik": "0000000111"},
+            facts,
+            "ok",
+            "https://data.sec.gov/example",
+            None,
             date(2026, 9, 16),
         )
         self.assertTrue(row["income_current"])
@@ -266,15 +299,22 @@ class DatedXbrlRefreshTest(unittest.TestCase):
                 "us-gaap": {
                     "LongTermDebt": {"units": {"USD": [instant(5e9, "2026-05-31")]}},
                     "CashAndCashEquivalentsAtCarryingValue": {
-                        "units": {"USD": [
-                            instant(2e9, "2026-05-31"),
-                            instant(3e9, "2026-08-31"),
-                        ]}}
+                        "units": {
+                            "USD": [
+                                instant(2e9, "2026-05-31"),
+                                instant(3e9, "2026-08-31"),
+                            ]
+                        }
+                    },
                 }
             }
         }
         row = SCAN.current_row(
-            {"cik": "0000000111"}, facts, "ok", "https://data.sec.gov/example", None,
+            {"cik": "0000000111"},
+            facts,
+            "ok",
+            "https://data.sec.gov/example",
+            None,
             date(2026, 9, 16),
         )
         self.assertEqual(row["balance_period_end"], "2026-05-31")
@@ -288,22 +328,42 @@ class DatedXbrlRefreshTest(unittest.TestCase):
             "facts": {
                 "us-gaap": {
                     "OperatingIncomeLoss": {
-                        "units": {"USD": [{
-                            "val": -1e9, "start": "2018-01-01", "end": "2018-12-31",
-                            "filed": "2019-03-01", "form": "10-K", "fp": "FY",
-                        }]}
+                        "units": {
+                            "USD": [
+                                {
+                                    "val": -1e9,
+                                    "start": "2018-01-01",
+                                    "end": "2018-12-31",
+                                    "filed": "2019-03-01",
+                                    "form": "10-K",
+                                    "fp": "FY",
+                                }
+                            ]
+                        }
                     },
                     "DepreciationDepletionAndAmortization": {
-                        "units": {"USD": [{
-                            "val": 1e8, "start": "2018-01-01", "end": "2018-12-31",
-                            "filed": "2019-03-01", "form": "10-K", "fp": "FY",
-                        }]}
+                        "units": {
+                            "USD": [
+                                {
+                                    "val": 1e8,
+                                    "start": "2018-01-01",
+                                    "end": "2018-12-31",
+                                    "filed": "2019-03-01",
+                                    "form": "10-K",
+                                    "fp": "FY",
+                                }
+                            ]
+                        }
                     },
                 }
             }
         }
         row = SCAN.current_row(
-            {"cik": "0000000111"}, facts, "ok", "https://data.sec.gov/example", None,
+            {"cik": "0000000111"},
+            facts,
+            "ok",
+            "https://data.sec.gov/example",
+            None,
             date(2026, 9, 16),
         )
         self.assertEqual(row["ebitda_period_end"], "2018-12-31")

@@ -7,7 +7,7 @@ import unittest
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
-from xbrl_net_leverage import (  # noqa: E402
+from xbrl_net_leverage import (
     INT_TAGS,
     ebitda_observation,
     latest_annual,
@@ -66,20 +66,24 @@ class XbrlSelectorTest(unittest.TestCase):
         facts = companyfacts(
             fact(tag="InterestExpense", value=1e8, start="2023-01-30", end="2024-01-28"),
             fact(
-                tag="InterestExpenseNonoperating", value=2.59e8,
-                start="2025-01-27", end="2026-01-25",
+                tag="InterestExpenseNonoperating",
+                value=2.59e8,
+                start="2025-01-27",
+                end="2026-01-25",
             ),
         )
         self.assertEqual(latest_annual(facts, INT_TAGS), 2.59e8)
 
     def test_microsoft_explicit_depreciation_and_amortization_form_same_year_da(self) -> None:
         facts = companyfacts(
-            fact(tag="OperatingIncomeLoss", value=155.237e9,
-                 start="2025-07-01", end="2026-06-30"),
-            fact(tag="Depreciation", value=34.3e9,
-                 start="2025-07-01", end="2026-06-30"),
-            fact(tag="AmortizationOfIntangibleAssets", value=4.7e9,
-                 start="2025-07-01", end="2026-06-30"),
+            fact(tag="OperatingIncomeLoss", value=155.237e9, start="2025-07-01", end="2026-06-30"),
+            fact(tag="Depreciation", value=34.3e9, start="2025-07-01", end="2026-06-30"),
+            fact(
+                tag="AmortizationOfIntangibleAssets",
+                value=4.7e9,
+                start="2025-07-01",
+                end="2026-06-30",
+            ),
         )
         obs = ebitda_observation(facts)
         self.assertIsNotNone(obs)
@@ -90,8 +94,12 @@ class XbrlSelectorTest(unittest.TestCase):
         facts = companyfacts(
             fact(tag="OperatingIncomeLoss", value=3e9, start="2025-01-01", end="2025-12-31"),
             fact(tag="Depreciation", value=1e9, start="2025-01-01", end="2025-12-31"),
-            fact(tag="AmortizationOfIntangibleAssets", value=1e8,
-                 start="2024-01-01", end="2024-12-31"),
+            fact(
+                tag="AmortizationOfIntangibleAssets",
+                value=1e8,
+                start="2024-01-01",
+                end="2024-12-31",
+            ),
         )
         self.assertIsNone(ebitda_observation(facts))
 
@@ -99,14 +107,14 @@ class XbrlSelectorTest(unittest.TestCase):
         base = [
             fact(tag="NetIncomeLoss", value=3e9, start="2025-01-01", end="2025-12-31"),
             fact(tag="InterestExpense", value=1e8, start="2025-01-01", end="2025-12-31"),
-            fact(tag="DepreciationAndAmortization", value=2e8,
-                 start="2025-01-01", end="2025-12-31"),
+            fact(
+                tag="DepreciationAndAmortization", value=2e8, start="2025-01-01", end="2025-12-31"
+            ),
         ]
         self.assertIsNone(ebitda_observation(companyfacts(*base)))
         facts = companyfacts(
             *base,
-            fact(tag="IncomeTaxExpenseBenefit", value=4e8,
-                 start="2025-01-01", end="2025-12-31"),
+            fact(tag="IncomeTaxExpenseBenefit", value=4e8, start="2025-01-01", end="2025-12-31"),
         )
         self.assertEqual(ebitda_observation(facts)["value"], 3.7e9)
 

@@ -490,7 +490,9 @@ def _parse_coreweave_pricing(raw: bytes) -> list[dict[str, Any]]:
     soup = BeautifulSoup(raw.decode("utf-8", errors="ignore"), "lxml")
     rows: list[dict[str, Any]] = []
     for row_number, row in enumerate(soup.select(".table-row-v2"), 1):
-        cells = [_clean_text(cell.get_text(" ", strip=True)) for cell in row.select(".table-v2-cell")]
+        cells = [
+            _clean_text(cell.get_text(" ", strip=True)) for cell in row.select(".table-v2-cell")
+        ]
         if len(cells) < 8:
             continue
         generation = _gpu_generation_from_name(cells[0])
@@ -498,7 +500,9 @@ def _parse_coreweave_pricing(raw: bytes) -> list[dict[str, Any]]:
         if not generation or not count_text.isdigit() or int(count_text) < 1:
             continue
         gpu_count = int(count_text)
-        product_class = "kubernetes" if "kubernetes-gpu-pricing" in " ".join(row.get("class", [])) else "gpu"
+        product_class = (
+            "kubernetes" if "kubernetes-gpu-pricing" in " ".join(row.get("class", [])) else "gpu"
+        )
         for column, pricing_basis in ((6, "on_demand"), (7, "spot")):
             node_rate = _price_from_text(cells[column])
             if node_rate is None:
@@ -530,7 +534,9 @@ def _parse_modal_pricing(raw: bytes) -> list[dict[str, Any]]:
     if start < 0 or end < 0:
         return []
     section = text[start:end]
-    price_pattern = re.compile(r"(Nvidia\s+[A-Za-z0-9 ,]+?)\s+\$\s*(\d+(?:\.\d+)?)\s*/\s*sec", re.IGNORECASE)
+    price_pattern = re.compile(
+        r"(Nvidia\s+[A-Za-z0-9 ,]+?)\s+\$\s*(\d+(?:\.\d+)?)\s*/\s*sec", re.IGNORECASE
+    )
     rows: list[dict[str, Any]] = []
     for match in price_pattern.finditer(section):
         name = _clean_text(match.group(1))

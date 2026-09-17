@@ -493,9 +493,13 @@ def _build_manifest_for_cik(
         if max_filings_per_cik is None or len(records) < max_filings_per_cik:
             for filename in _submission_archive_files(payload, since=since, until=until):
                 archive_uri = SEC_SUBMISSIONS_FILE_URL.format(filename=filename)
+
+                def fetch_archive(uri: str = archive_uri) -> Mapping[str, Any]:
+                    return limiter.run(uri, lambda: fetcher(uri))
+
                 try:
                     archive = fetch_with_retries(
-                        lambda uri=archive_uri: limiter.run(uri, lambda: fetcher(uri)),
+                        fetch_archive,
                         attempts=retry_attempts,
                         backoff_seconds=retry_backoff_seconds,
                     )

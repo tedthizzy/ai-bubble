@@ -71,9 +71,7 @@ class FinancialSnapshotAlignmentTest(unittest.TestCase):
         self.assertEqual(result["cash_capex"]["value_usd"], 250)
 
         facts["cash_capex"]["quarter"] = observation(250, "2026-04-01", "2026-06-30")
-        derived = {
-            "quarter_cash_after_capex": observation(50, "2026-04-01", "2026-06-30")
-        }
+        derived = {"quarter_cash_after_capex": observation(50, "2026-04-01", "2026-06-30")}
         result = current_liquidity("CRWV", facts, derived, "2026-06-30")
         self.assertEqual(result["cash_after_capex"]["value_usd"], 50)
         self.assertEqual(result["cash_flow_span"], "quarter")
@@ -81,9 +79,7 @@ class FinancialSnapshotAlignmentTest(unittest.TestCase):
     def test_verified_annual_debt_bucket_expires_with_report_date(self) -> None:
         facts = liquidity_facts("2026-06-30")
         result = current_liquidity("CRWV", facts, {}, "2026-06-30")
-        self.assertEqual(
-            result["first_full_year_principal_schedule"]["bucket"], "calendar 2027"
-        )
+        self.assertEqual(result["first_full_year_principal_schedule"]["bucket"], "calendar 2027")
         later = liquidity_facts("2026-09-30")
         later_result = current_liquidity("CRWV", later, {}, "2026-09-30")
         self.assertIsNone(later_result["first_full_year_principal_schedule"])

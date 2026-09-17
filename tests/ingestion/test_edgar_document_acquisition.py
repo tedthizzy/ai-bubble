@@ -334,16 +334,23 @@ def test_document_text_and_term_extractors_handle_common_sec_language():
 
 
 def test_maturity_extractor_ignores_prospectus_expiration():
-    assert extract_maturity_date(
-        "The prospectus will expire with the closing of the offering period, "
-        "expected on or about June 11, 2026."
-    ) is None
-    assert extract_maturity_date(
-        "Due to timing of the offering, the prospectus is dated June 11, 2026."
-    ) is None
-    assert extract_maturity_date(
-        "The revolving credit facility expires on May 19, 2031."
-    ).isoformat() == "2031-05-19"
+    assert (
+        extract_maturity_date(
+            "The prospectus will expire with the closing of the offering period, "
+            "expected on or about June 11, 2026."
+        )
+        is None
+    )
+    assert (
+        extract_maturity_date(
+            "Due to timing of the offering, the prospectus is dated June 11, 2026."
+        )
+        is None
+    )
+    assert (
+        extract_maturity_date("The revolving credit facility expires on May 19, 2031.").isoformat()
+        == "2031-05-19"
+    )
 
 
 def test_document_notional_extractor_rejects_malformed_comma_grouping():

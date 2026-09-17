@@ -13,6 +13,7 @@ import re
 from collections import Counter
 from dataclasses import dataclass
 from pathlib import Path
+from typing import TYPE_CHECKING, cast
 from urllib.parse import unquote, urljoin, urlparse
 
 from lxml import html as lxml_html
@@ -29,6 +30,9 @@ from bubble.ingestion.edgar.filing_manifest import (
     score_filing_relevance,
 )
 from bubble.models.base import Provenance, SourceType
+
+if TYPE_CHECKING:
+    from collections.abc import Iterable
 
 EXHIBIT_LABEL = re.compile(
     r"^\s*(?:exhibit\s*(?:no\.?|number)?\s*)?(10|21|22|99|2|4)"
@@ -87,7 +91,8 @@ def discover_offline_exhibits(
                     raw = compressed_file.read()
             else:
                 raw = local.read_bytes()
-            links = discover_exhibit_links(raw, parent.filing_url)
+            # Parent selection above guarantees a filing URL.
+            links = discover_exhibit_links(raw, cast("str", parent.filing_url))
         except (OSError, EOFError, ValueError, TypeError) as exc:
             parse_errors[key] = f"{type(exc).__name__}: {exc}"
             continue
@@ -164,13 +169,19 @@ def discover_exhibit_links(raw_html: bytes, filing_url: str) -> list[tuple[str, 
         if not candidate_path.startswith(filing_dir) or "/" in candidate_path[len(filing_dir) :]:
             continue
         name = Path(candidate_path).name
-        if not name or name.lower() == primary_name or Path(name).suffix.lower() not in TEXT_SUFFIXES:
+        if (
+            not name
+            or name.lower() == primary_name
+            or Path(name).suffix.lower() not in TEXT_SUFFIXES
+        ):
             continue
         if any(name.lower().startswith(prefix) for prefix in IGNORED_EXHIBIT_PREFIXES):
             continue
 
         from_name = _exhibit_number(name)
-        label_match = EXHIBIT_LABEL.match(" ".join(anchor.itertext()).strip())
+        label_match = EXHIBIT_LABEL.match(
+            " ".join(cast("Iterable[str]", anchor.itertext())).strip()
+        )
         from_label = label_match.group(1) if label_match else None
         number = from_name or from_label
         if number not in EXHIBIT_RELEVANCE:

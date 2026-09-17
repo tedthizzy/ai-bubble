@@ -6,9 +6,12 @@ import io
 import json
 import tarfile
 from datetime import date
-from pathlib import Path
+from typing import TYPE_CHECKING
 
 from scripts.stream_edgar_feed_day import stream_day, submission_documents
+
+if TYPE_CHECKING:
+    from pathlib import Path
 
 
 def _fixture(tmp_path: Path, *, extra_master: bool = False):
@@ -30,26 +33,47 @@ def _fixture(tmp_path: Path, *, extra_master: bool = False):
     compressed = gzip.compress(tar_buffer.getvalue())
     manifest = tmp_path / "manifest.csv"
     with manifest.open("w", newline="") as stream:
-        writer = csv.DictWriter(stream, fieldnames=[
-            "cik", "company_name", "form", "accession_number", "filing_date",
-            "primary_document", "filing_url", "relevance_score", "relevance_reasons",
-            "document_type", "size_bytes",
-        ])
+        writer = csv.DictWriter(
+            stream,
+            fieldnames=[
+                "cik",
+                "company_name",
+                "form",
+                "accession_number",
+                "filing_date",
+                "primary_document",
+                "filing_url",
+                "relevance_score",
+                "relevance_reasons",
+                "document_type",
+                "size_bytes",
+            ],
+        )
         writer.writeheader()
-        writer.writerow({
-            "cik": "0000001234", "company_name": "Example Corp", "form": "8-K",
-            "accession_number": accession, "filing_date": day.isoformat(),
-            "primary_document": "main.htm",
-            "filing_url": "https://www.sec.gov/Archives/edgar/data/1234/000000123426000001/main.htm",
-            "relevance_score": "80", "relevance_reasons": "test", "document_type": "primary",
-        })
+        writer.writerow(
+            {
+                "cik": "0000001234",
+                "company_name": "Example Corp",
+                "form": "8-K",
+                "accession_number": accession,
+                "filing_date": day.isoformat(),
+                "primary_document": "main.htm",
+                "filing_url": "https://www.sec.gov/Archives/edgar/data/1234/000000123426000001/main.htm",
+                "relevance_score": "80",
+                "relevance_reasons": "test",
+                "document_type": "primary",
+            }
+        )
     master = tmp_path / "master.idx"
     rows = [
-        "Description: test", "CIK|Company Name|Form Type|Date Filed|Filename",
+        "Description: test",
+        "CIK|Company Name|Form Type|Date Filed|Filename",
         f"1234|Example Corp|8-K|{day.isoformat()}|edgar/data/1234/{accession}.txt",
     ]
     if extra_master:
-        rows.append(f"5678|Another Corp|8-K|{day.isoformat()}|edgar/data/5678/0000005678-26-000002.txt")
+        rows.append(
+            f"5678|Another Corp|8-K|{day.isoformat()}|edgar/data/5678/0000005678-26-000002.txt"
+        )
     master.write_text("\n".join(rows) + "\n")
     return day, compressed, manifest, master
 
@@ -88,7 +112,8 @@ def test_submission_parser_accepts_sec_feed_carriage_return_lines():
         b"<TEXT>\r<html>agreement</html>\r</TEXT>\r</DOCUMENT></SUBMISSION>"
     )
     assert [(kind, name) for kind, name, _ in submission_documents(raw)] == [
-        ("8-K", "main.htm"), ("EX-10.1", "agreement.htm"),
+        ("8-K", "main.htm"),
+        ("EX-10.1", "agreement.htm"),
     ]
 
 
@@ -114,22 +139,30 @@ def test_stream_day_preserves_all_index_metadata_and_hashes_unselected_members(t
         ("0000003456-26-000004", "DEF 14A", "proxy.htm", b"<html>data center proxy</html>"),
     ]
     tar_buffer = io.BytesIO()
-    with tarfile.open(fileobj=io.BytesIO(gzip.decompress(compressed)), mode="r") as original:
-        with tarfile.open(fileobj=tar_buffer, mode="w") as archive:
-            for member in original:
-                archive.addfile(member, original.extractfile(member))
-            for accession, form, filename, content in additions:
-                payload = (
+    with (
+        tarfile.open(fileobj=io.BytesIO(gzip.decompress(compressed)), mode="r") as original,
+        tarfile.open(fileobj=tar_buffer, mode="w") as archive,
+    ):
+        for member in original:
+            archive.addfile(member, original.extractfile(member))
+        for accession, form, filename, content in additions:
+            payload = (
+                (
                     f"<SUBMISSION><ACCESSION-NUMBER>{accession}\n<DOCUMENT>\n<TYPE>{form}\n"
                     f"<FILENAME>{filename}\n<TEXT>\n"
-                ).encode() + content + b"\n</TEXT>\n</DOCUMENT></SUBMISSION>"
-                member = tarfile.TarInfo(f"./{accession}.nc")
-                member.size = len(payload)
-                archive.addfile(member, io.BytesIO(payload))
+                ).encode()
+                + content
+                + b"\n</TEXT>\n</DOCUMENT></SUBMISSION>"
+            )
+            member = tarfile.TarInfo(f"./{accession}.nc")
+            member.size = len(payload)
+            archive.addfile(member, io.BytesIO(payload))
     with master.open("a") as stream:
         for accession, form, _, _ in additions:
             cik = str(int(accession[:10]))
-            stream.write(f"{cik}|Extra {cik}|{form}|{day.isoformat()}|edgar/data/{cik}/{accession}.txt\n")
+            stream.write(
+                f"{cik}|Extra {cik}|{form}|{day.isoformat()}|edgar/data/{cik}/{accession}.txt\n"
+            )
     exact_ciks = tmp_path / "exact.csv"
     exact_ciks.write_text("cik\n0000009012\n")
     output_dir = tmp_path / "output"
@@ -168,7 +201,10 @@ def test_stream_day_preserves_all_index_metadata_and_hashes_unselected_members(t
     with (output_dir / "feed_document_manifest.csv").open(newline="") as stream:
         documents = list(csv.DictReader(stream))
     assert {row["primary_document"] for row in documents} == {
-        "main.htm", "agreement.htm", "second.htm", "form4.xml",
+        "main.htm",
+        "agreement.htm",
+        "second.htm",
+        "form4.xml",
     }
 
 

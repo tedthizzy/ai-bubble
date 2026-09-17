@@ -104,7 +104,9 @@ def test_coreweave_node_prices_are_divided_by_gpu_count() -> None:
         retrieved_at="2026-09-16T20:00:00+00:00",
         content_hash=Provenance.compute_content_hash(COREWEAVE_HTML),
     )
-    assert [(row["gpu_generation"], row["observed_cloud_rental_rate_usd_per_hour"]) for row in rows] == [
+    assert [
+        (row["gpu_generation"], row["observed_cloud_rental_rate_usd_per_hour"]) for row in rows
+    ] == [
         ("B200", 8.6),
         ("B200", 4.26375),
     ]
@@ -120,7 +122,9 @@ def test_modal_second_prices_convert_to_gpu_hours_with_extra_charges_labeled() -
         retrieved_at="2026-09-16T20:00:00+00:00",
         content_hash=Provenance.compute_content_hash(MODAL_HTML),
     )
-    assert [(row["gpu_generation"], row["observed_cloud_rental_rate_usd_per_hour"]) for row in rows] == [
+    assert [
+        (row["gpu_generation"], row["observed_cloud_rental_rate_usd_per_hour"]) for row in rows
+    ] == [
         ("B200", 6.2496),
         ("H100", 3.9492),
     ]

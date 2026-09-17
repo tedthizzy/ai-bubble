@@ -440,12 +440,12 @@ def _queue_record_in_scope(row: Mapping[str, str]) -> bool:
     source_id = _source_id(row)
     if source_id.startswith("nyiso-"):
         sheet_name = (row.get("sheet_name") or "").strip().lower()
-        if sheet_name in {"withdrawn", "cluster projects-withdrawn", "in service"}:
-            return False
         # The current NYISO workbook defines 0 as withdrawn, 13 as in service
         # for test, and 14 as in service commercially. Codes 11 and 12 are
         # agreement completed and under construction, respectively.
-        if (row.get("Project Status #") or "").strip().upper() in {"0", "13", "13C", "14", "14C"}:
+        if sheet_name in {"withdrawn", "cluster projects-withdrawn", "in service"} or (
+            (row.get("Project Status #") or "").strip().upper() in {"0", "13", "13C", "14", "14C"}
+        ):
             return False
     status = (_queue_status(row) or "").strip().lower()
     if status in {
@@ -460,9 +460,7 @@ def _queue_record_in_scope(row: Mapping[str, str]) -> bool:
         "retracted",
         "terminated",
         "withdrawn",
-    }:
-        return False
-    if status.startswith("partially in service") and "under construction" not in status:
+    } or (status.startswith("partially in service") and "under construction" not in status):
         return False
     if source_id.startswith("spp-") and status == "ia fully executed/commercial operation":
         return False

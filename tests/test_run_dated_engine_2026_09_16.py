@@ -32,8 +32,15 @@ def test_registered_signal_recalculation_matches_dated_observations() -> None:
     assert result["compound_confirm_2"] is False
     assert result["latest_carded_issuance_date"] == "2026-08-27"
     assert result["ust5y_pct"] == 4.83
-    assert next(item for item in result["registered_components"] if item["id"] == "S1_new_issue_spread")["value_bp"] == 180
-    assert next(item for item in result["registered_components"] if item["id"] == "S1b_failed_print")["event"]["issuer"] in {
+    assert (
+        next(
+            item for item in result["registered_components"] if item["id"] == "S1_new_issue_spread"
+        )["value_bp"]
+        == 180
+    )
+    assert next(
+        item for item in result["registered_components"] if item["id"] == "S1b_failed_print"
+    )["event"]["issuer"] in {
         "Prime Data Centers LLC",
         "Pure Data Centres Group Ltd",
     }

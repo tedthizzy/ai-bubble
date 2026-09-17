@@ -9,10 +9,7 @@ from __future__ import annotations
 
 import logging
 from datetime import date
-from functools import lru_cache
 from typing import Any
-
-from docling.document_converter import DocumentConverter
 
 from bubble.extraction.llm import call_structured_extraction, convert_to_domain_models
 
@@ -21,12 +18,10 @@ from ...models.deal import Deal
 from ...models.entity import Entity
 from ...models.risk import Assumption, Risk
 from .client import EdgarClient
+from .documents import get_filing_converter
 from .seeds import PUBLIC_SEEDS
 
-
-@lru_cache(maxsize=1)
-def _get_docling_converter() -> DocumentConverter:
-    return DocumentConverter()
+_get_docling_converter = get_filing_converter
 
 
 logger = logging.getLogger(__name__)
@@ -35,7 +30,7 @@ logger = logging.getLogger(__name__)
 class EdgarExtractor:
     def __init__(self) -> None:
         self.edgar = EdgarClient()
-        self.doc_converter = DocumentConverter()
+        self.doc_converter = _get_docling_converter()
 
     def extract_from_cik(self, cik: str) -> dict[str, Any]:
         """
