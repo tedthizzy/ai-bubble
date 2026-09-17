@@ -31,6 +31,7 @@ from bubble.ingestion.concurrency import (
 from bubble.models.base import Provenance, SourceType
 
 SEC_SUBMISSIONS_URL = "https://data.sec.gov/submissions/CIK{cik}.json"
+SEC_SUBMISSIONS_FILE_URL = "https://data.sec.gov/submissions/{filename}"
 SEC_ARCHIVE_DOCUMENT_URL = (
     "https://www.sec.gov/Archives/edgar/data/{cik_int}/{accession_no_dash}/{primary_document}"
 )
@@ -99,6 +100,8 @@ EXHIBIT_RELEVANCE: dict[str, tuple[int, str]] = {
     "2": (20, "material plan/acquisition agreement exhibit"),
     "4": (45, "indenture or security instrument exhibit"),
     "10": (65, "material contract exhibit"),
+    "21": (30, "subsidiary roster exhibit"),
+    "22": (45, "guarantor subsidiary exhibit"),
     "99": (10, "supplemental disclosure exhibit"),
 }
 
@@ -286,7 +289,7 @@ def build_edgar_filing_manifest(
     until: date | None = None,
     max_filings_per_cik: int | None = None,
     include_exhibits: bool = False,
-    max_exhibits_per_filing: int = 25,
+    max_exhibits_per_filing: int | None = 25,
     exhibit_index_workers: int = 4,
     max_workers: int = 32,
     sec_requests_per_second: float = 8.0,
@@ -335,6 +338,7 @@ def build_edgar_filing_manifest(
     results.sort(key=lambda result: result.index)
     primary_records = [record for result in results for record in result.records]
     records = list(primary_records)
+    exhibit_errors: dict[str, str] = {}
     if include_exhibits:
         records.extend(
             _exhibit_records_for_filings(
@@ -345,10 +349,12 @@ def build_edgar_filing_manifest(
                 max_workers=exhibit_index_workers,
                 retry_attempts=retry_attempts,
                 retry_backoff_seconds=retry_backoff_seconds,
+                errors=exhibit_errors,
             )
         )
     returned_entities = sum(bool(result.records) for result in results)
     errors = {result.cik: result.error for result in results if result.error}
+    errors.update(exhibit_errors)
 
     return FilingManifest(
         records=records,
@@ -373,7 +379,7 @@ def build_edgar_exhibit_manifest_from_manifest(
     fetch_json: FetchJson | None = None,
     min_parent_relevance_score: int = 75,
     max_parent_rows: int | None = None,
-    max_exhibits_per_filing: int = 25,
+    max_exhibits_per_filing: int | None = 25,
     exhibit_index_workers: int = 8,
     sec_requests_per_second: float = 8.0,
     sec_domain_concurrency: int = 8,
@@ -397,6 +403,7 @@ def build_edgar_exhibit_manifest_from_manifest(
         if record.document_type == "primary"
         and record.filing_detail_url
         and record.relevance_score >= min_parent_relevance_score
+        and _should_fetch_exhibit_index(record)
     ]
     if max_parent_rows is not None:
         parent_records = parent_records[:max_parent_rows]
@@ -410,6 +417,7 @@ def build_edgar_exhibit_manifest_from_manifest(
             retry_backoff_seconds=retry_backoff_seconds,
         )
     )
+    exhibit_errors: dict[str, str] = {}
     exhibits = _exhibit_records_for_filings(
         parent_records,
         fetcher=fetcher,
@@ -420,6 +428,7 @@ def build_edgar_exhibit_manifest_from_manifest(
         retry_backoff_seconds=retry_backoff_seconds,
         progress_interval=progress_interval,
         progress_callback=progress_callback,
+        errors=exhibit_errors,
     )
     parent_keys_with_exhibits = {
         (record.cik, record.accession_number)
@@ -432,7 +441,7 @@ def build_edgar_exhibit_manifest_from_manifest(
             requested_count=len(parent_records),
             returned_count=len(parent_keys_with_exhibits),
             records=exhibits,
-            errors={},
+            errors=exhibit_errors,
             workers=min(max(1, exhibit_index_workers), max(1, len(parent_records))),
             sec_requests_per_second=sec_requests_per_second,
             sec_domain_concurrency=sec_domain_concurrency,
@@ -480,14 +489,76 @@ def _build_manifest_for_cik(
             until=until,
             max_filings=max_filings_per_cik,
         )
+        archive_errors: list[str] = []
+        if max_filings_per_cik is None or len(records) < max_filings_per_cik:
+            for filename in _submission_archive_files(payload, since=since, until=until):
+                archive_uri = SEC_SUBMISSIONS_FILE_URL.format(filename=filename)
+                try:
+                    archive = fetch_with_retries(
+                        lambda uri=archive_uri: limiter.run(uri, lambda: fetcher(uri)),
+                        attempts=retry_attempts,
+                        backoff_seconds=retry_backoff_seconds,
+                    )
+                    records.extend(
+                        _records_from_submission(
+                            {
+                                "name": payload.get("name"),
+                                "tickers": payload.get("tickers"),
+                                "filings": {"recent": archive},
+                            },
+                            cik=cik,
+                            source_uri=archive_uri,
+                            since=since,
+                            until=until,
+                            max_filings=None,
+                        )
+                    )
+                except Exception as exc:  # pragma: no cover - network failures vary
+                    archive_errors.append(f"{filename}: {exc}")
+        records.sort(
+            key=lambda record: (record.filing_date or date.min, record.acceptance_datetime or ""),
+            reverse=True,
+        )
+        unique_records: dict[tuple[str, str | None], FilingRecord] = {}
+        for record in records:
+            unique_records.setdefault((record.accession_number, record.primary_document), record)
+        records = list(unique_records.values())
+        if max_filings_per_cik is not None:
+            records = records[:max_filings_per_cik]
         return _FilingManifestResult(
             index=index,
             cik=cik,
             records=records,
-            error=None,
+            error="; ".join(archive_errors) if archive_errors else None,
         )
     except Exception as exc:  # pragma: no cover - exact network failures vary
         return _FilingManifestResult(index=index, cik=cik, records=[], error=str(exc))
+
+
+def _submission_archive_files(
+    payload: Mapping[str, Any], *, since: date | None, until: date | None
+) -> list[str]:
+    filings = payload.get("filings")
+    if not isinstance(filings, Mapping):
+        return []
+    files = filings.get("files")
+    if not isinstance(files, Sequence) or isinstance(files, str):
+        return []
+    selected: list[str] = []
+    for item in files:
+        if not isinstance(item, Mapping):
+            continue
+        filename = _optional_string(item.get("name"))
+        if not filename or not re.fullmatch(r"CIK\d+-submissions-\d+\.json", filename):
+            continue
+        filing_from = _optional_date(item.get("filingFrom"))
+        filing_to = _optional_date(item.get("filingTo"))
+        if since and filing_to and filing_to < since:
+            continue
+        if until and filing_from and filing_from > until:
+            continue
+        selected.append(filename)
+    return selected
 
 
 def _records_from_submission(
@@ -640,21 +711,22 @@ def _exhibit_records_for_filings(
     *,
     fetcher: FetchJson,
     limiter: DomainFetchLimiter,
-    max_exhibits_per_filing: int,
+    max_exhibits_per_filing: int | None,
     max_workers: int,
     retry_attempts: int,
     retry_backoff_seconds: float,
     progress_interval: int = 0,
     progress_callback: Callable[[int, int], None] | None = None,
+    errors: dict[str, str] | None = None,
 ) -> list[FilingRecord]:
-    if max_exhibits_per_filing <= 0:
+    if max_exhibits_per_filing is not None and max_exhibits_per_filing <= 0:
         return []
     candidates = [filing for filing in filings if _should_fetch_exhibit_index(filing)]
     if not candidates:
         return []
 
     worker_count = min(max(1, max_workers), len(candidates))
-    results: list[tuple[int, list[FilingRecord]]] = []
+    results: list[tuple[int, list[FilingRecord], str | None]] = []
     with ThreadPoolExecutor(max_workers=worker_count) as executor:
         futures = [
             executor.submit(
@@ -677,9 +749,18 @@ def _exhibit_records_for_filings(
             ):
                 progress_callback(completed, total)
 
+    if errors is not None:
+        for index, _exhibits, error in results:
+            if error:
+                filing = candidates[index]
+                index_url = filing.filing_detail_url or _filing_index_url(
+                    filing.cik, filing.accession_number
+                )
+                errors[index_url] = error
+
     return [
         exhibit
-        for _index, exhibits in sorted(results, key=lambda result: result[0])
+        for _index, exhibits, _error in sorted(results, key=lambda result: result[0])
         for exhibit in exhibits
     ]
 
@@ -689,10 +770,10 @@ def _fetch_exhibit_records_for_filing(
     filing: FilingRecord,
     fetcher: FetchJson,
     limiter: DomainFetchLimiter,
-    max_exhibits_per_filing: int,
+    max_exhibits_per_filing: int | None,
     retry_attempts: int,
     retry_backoff_seconds: float,
-) -> tuple[int, list[FilingRecord]]:
+) -> tuple[int, list[FilingRecord], str | None]:
     index_url = filing.filing_detail_url or _filing_index_url(filing.cik, filing.accession_number)
     try:
         payload = fetch_with_retries(
@@ -703,13 +784,16 @@ def _fetch_exhibit_records_for_filing(
             attempts=retry_attempts,
             backoff_seconds=retry_backoff_seconds,
         )
-    except Exception:  # pragma: no cover - exact SEC archive failures vary
-        return index, []
+    except Exception as exc:  # pragma: no cover - exact SEC archive failures vary
+        return index, [], str(exc)
+
+    directory = payload.get("directory")
+    if not isinstance(directory, Mapping) or not isinstance(directory.get("item"), (list, Mapping)):
+        return index, [], "SEC index response missing directory.item"
 
     items = _candidate_exhibit_items(payload, primary_document=filing.primary_document)
-    return index, [
-        _exhibit_record(filing, item, index_url) for item in items[:max_exhibits_per_filing]
-    ]
+    selected = items if max_exhibits_per_filing is None else items[:max_exhibits_per_filing]
+    return index, [_exhibit_record(filing, item, index_url) for item in selected], None
 
 
 def _exhibit_record(
@@ -1059,10 +1143,9 @@ def _exhibit_number(document_name: str | None) -> str | None:
         if start > 0 and normalized[start - 1].isalpha() and normalized[start - 1] != "d":
             continue
         raw_number = match.group("number")
-        if raw_number.startswith("10"):
-            return "10"
-        if raw_number.startswith("99"):
-            return "99"
+        for prefix in ("10", "99", "21", "22"):
+            if raw_number.startswith(prefix):
+                return prefix
         if raw_number in EXHIBIT_RELEVANCE:
             return raw_number
     return None

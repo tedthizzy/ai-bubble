@@ -1,11 +1,13 @@
 from __future__ import annotations
 
 import csv
+import gzip
 import json
 import zipfile
 from pathlib import Path
 
 from bubble.analysis.materiality_adjudication import (
+    _read_plain_text,
     build_materiality_adjudication_packets,
     write_materiality_adjudication_packets,
 )
@@ -13,6 +15,12 @@ from bubble.analysis.materiality_adjudication_results import (
     build_materiality_adjudication_decisions,
     write_materiality_adjudication_decisions,
 )
+
+
+def test_materiality_reads_gzipped_edgar_source(tmp_path: Path) -> None:
+    path = tmp_path / "credit.htm.gz"
+    path.write_bytes(gzip.compress(b"<html>Secured GPU term loan</html>"))
+    assert "Secured GPU term loan" in _read_plain_text(path)
 
 
 def _write_csv(path: Path, rows: list[dict[str, object]]) -> None:

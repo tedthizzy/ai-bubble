@@ -32,6 +32,11 @@ def main() -> None:
     parser.add_argument("--until", type=date.fromisoformat, default=None)
     parser.add_argument("--max-filings-per-cik", type=int, default=80)
     parser.add_argument(
+        "--all-filings-per-cik",
+        action="store_true",
+        help="Include every filing in the requested date range, including SEC archival submission files.",
+    )
+    parser.add_argument(
         "--include-exhibits",
         action="store_true",
         help="Append candidate exhibit documents from each filing directory index",
@@ -59,7 +64,7 @@ def main() -> None:
         ciks,
         since=args.since,
         until=args.until,
-        max_filings_per_cik=args.max_filings_per_cik,
+        max_filings_per_cik=None if args.all_filings_per_cik else args.max_filings_per_cik,
         include_exhibits=args.include_exhibits,
         max_exhibits_per_filing=args.max_exhibits_per_filing,
         exhibit_index_workers=args.exhibit_index_workers,

@@ -1,10 +1,12 @@
 from __future__ import annotations
 
 import csv
+import gzip
 from typing import TYPE_CHECKING
 
 from bubble.ingestion.compute.edgar_extraction import (
     _first_money,
+    _html_text,
     _money_value,
     extract_compute_economics_from_edgar,
 )
@@ -14,6 +16,12 @@ if TYPE_CHECKING:
 
 
 HASH = "b" * 64
+
+
+def test_compute_edgar_reads_gzipped_source_document(tmp_path: Path) -> None:
+    path = tmp_path / "filing.htm.gz"
+    path.write_bytes(gzip.compress(b"<html><body>GPU cash capex</body></html>"))
+    assert _html_text(path) == "GPU cash capex"
 
 
 def test_compute_edgar_money_parser_rejects_malformed_comma_grouping() -> None:

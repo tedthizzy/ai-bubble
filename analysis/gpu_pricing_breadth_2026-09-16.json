@@ -1,0 +1,29 @@
+{
+  "as_of_pacific": "2026-09-16",
+  "raw_snapshot": "data/compute/2026-09-16-expanded/gpu_price_observations.csv",
+  "acquisition_summary": "data/compute/2026-09-16-expanded/gpu_pricing_acquisition.summary.json",
+  "sources_attempted": 4,
+  "sources_acquired": 4,
+  "errors": 0,
+  "observations": 87,
+  "counts_by_provider": {
+    "CoreWeave": 32,
+    "Lambda": 27,
+    "RunPod": 18,
+    "Modal": 10
+  },
+  "b200_examples_usd_per_gpu_hour": {
+    "CoreWeave_on_demand_8gpu_kubernetes_node": 8.6,
+    "CoreWeave_spot_8gpu_kubernetes_node_lowest_observed": 4.26375,
+    "Lambda_on_demand_lowest_observed": 6.69,
+    "RunPod_default_cloud": 6.79,
+    "Modal_gpu_only_cpu_and_memory_extra": 6.2496
+  },
+  "source_uris": [
+    "https://coreweave.com/pricing",
+    "https://lambda.ai/pricing",
+    "https://modal.com/pricing",
+    "https://www.runpod.io/pricing"
+  ],
+  "scope_and_limits": "Published public list prices captured on September 16 Pacific (September 17 UTC). Per-node CoreWeave rates were divided by eight GPUs; Modal per-second GPU-only rates were multiplied by 3600. Product bundles, terms, and included CPU/memory differ. Listed prices do not establish realized transaction prices, availability, utilization, or market-wide price direction. June-to-September matched observations are separately recorded in gpu_pricing_delta_2026-09-16.json."
+}

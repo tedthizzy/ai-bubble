@@ -105,6 +105,61 @@ def test_build_edgar_filing_manifest_scores_filters_and_preserves_provenance(tmp
     assert json.loads(summary_path.read_text())["burry_relevant_filings"] == 3
 
 
+def test_manifest_reads_archive_files_that_overlap_requested_dates():
+    main = {
+        "name": "High Volume Issuer",
+        "tickers": ["HVI"],
+        "filings": {
+            "recent": {
+                "accessionNumber": ["0000000000-26-000003"],
+                "filingDate": ["2026-09-12"],
+                "form": ["8-K"],
+                "primaryDocument": ["latest.htm"],
+            },
+            "files": [
+                {
+                    "name": "CIK0000000123-submissions-001.json",
+                    "filingFrom": "2026-05-01",
+                    "filingTo": "2026-09-12",
+                },
+                {
+                    "name": "CIK0000000123-submissions-002.json",
+                    "filingFrom": "2025-01-01",
+                    "filingTo": "2026-05-31",
+                },
+            ],
+        },
+    }
+    archive = {
+        "accessionNumber": ["0000000000-26-000003", "0000000000-26-000002"],
+        "filingDate": ["2026-09-12", "2026-07-01"],
+        "form": ["8-K", "10-Q"],
+        "primaryDocument": ["latest.htm", "quarter.htm"],
+    }
+    calls: list[str] = []
+
+    def fake_fetch(url: str) -> dict[str, Any]:
+        calls.append(url)
+        return archive if url.endswith("-001.json") else main
+
+    manifest = build_edgar_filing_manifest(
+        ["123"],
+        fetch_json=fake_fetch,
+        since=date(2026, 6, 1),
+        until=date(2026, 9, 16),
+        sec_requests_per_second=0,
+    )
+
+    assert len(manifest.records) == 2
+    assert [record.form for record in manifest.records] == ["8-K", "10-Q"]
+    assert manifest.records[0].provenance.source_uri.endswith("CIK0000000123.json")
+    assert manifest.records[1].provenance.source_uri.endswith("-001.json")
+    assert calls == [
+        "https://data.sec.gov/submissions/CIK0000000123.json",
+        "https://data.sec.gov/submissions/CIK0000000123-submissions-001.json",
+    ]
+
+
 def test_score_filing_relevance_prioritizes_burry_signals():
     score, reasons = score_filing_relevance(
         form="8-K",
@@ -135,6 +190,10 @@ def test_build_edgar_filing_manifest_can_append_exhibit_documents():
                         {"name": "form8k.htm", "size": "1,000"},
                         {"name": "ex10-1-lease-agreement.htm", "size": "2,000"},
                         {"name": "ex4-1-indent.htm", "size": "3,000"},
+                        {"name": "ex21-subsidiaries.htm", "size": "3,000"},
+                        {"name": "ex22-guarantors.htm", "size": "3,000"},
+                        {"name": "ex211-list.htm", "size": "3,000"},
+                        {"name": "ex221-guarantors.htm", "size": "3,000"},
                         {"name": "ex101.xml", "size": "4,000"},
                         {"name": "image.jpg", "size": "10"},
                     ]
@@ -173,15 +232,19 @@ def test_build_edgar_filing_manifest_can_append_exhibit_documents():
         "https://www.sec.gov/Archives/edgar/data/123/000000000026000002/index.json",
     ]
     assert manifest.summary.total_filings == 1
-    assert manifest.summary.total_document_rows == 3
-    assert manifest.summary.documents_by_type == {"exhibit": 2, "primary": 1}
+    assert manifest.summary.total_document_rows == 7
+    assert manifest.summary.documents_by_type == {"exhibit": 6, "primary": 1}
     assert manifest.summary.include_exhibits is True
     assert manifest.summary.exhibit_index_workers == 3
-    assert len(manifest.records) == 3
+    assert len(manifest.records) == 7
     exhibits = [record for record in manifest.records if record.document_type == "exhibit"]
     assert [record.primary_document for record in exhibits] == [
         "ex10-1-lease-agreement.htm",
         "ex4-1-indent.htm",
+        "ex21-subsidiaries.htm",
+        "ex22-guarantors.htm",
+        "ex211-list.htm",
+        "ex221-guarantors.htm",
     ]
     assert all(record.parent_primary_document == "form8k.htm" for record in exhibits)
     assert exhibits[0].filing_url
@@ -190,6 +253,10 @@ def test_build_edgar_filing_manifest_can_append_exhibit_documents():
     assert exhibits[0].provenance.source_uri.endswith("/index.json")
     assert "exhibit:10:material contract exhibit" in exhibits[0].relevance_reasons
     assert "exhibit:4:indenture or security instrument exhibit" in exhibits[1].relevance_reasons
+    assert "exhibit:21:subsidiary roster exhibit" in exhibits[2].relevance_reasons
+    assert "exhibit:22:guarantor subsidiary exhibit" in exhibits[3].relevance_reasons
+    assert "exhibit:21:subsidiary roster exhibit" in exhibits[4].relevance_reasons
+    assert "exhibit:22:guarantor subsidiary exhibit" in exhibits[5].relevance_reasons
 
 
 def test_build_edgar_exhibit_manifest_from_existing_manifest(tmp_path: Path):
@@ -248,6 +315,49 @@ def test_build_edgar_exhibit_manifest_from_existing_manifest(tmp_path: Path):
     assert all(record.parent_primary_document == "credit-agreement.htm" for record in exhibits)
     assert exhibits[0].filing_url
     assert exhibits[0].filing_url.endswith("/ex10-1-credit-agreement.htm")
+
+
+def test_exhibit_index_errors_are_reported_and_full_index_is_not_capped(tmp_path: Path):
+    source_manifest = build_edgar_filing_manifest(
+        ["123"],
+        fetch_json=lambda _url: _sample_submission(),
+        since=date(2026, 4, 1),
+        max_filings_per_cik=2,
+        sec_requests_per_second=0,
+    )
+    manifest_csv = source_manifest.write_csv(tmp_path / "primary.csv")
+
+    def failing_fetch(_url: str) -> dict[str, Any]:
+        raise RuntimeError("index unavailable")
+
+    failed = build_edgar_exhibit_manifest_from_manifest(
+        manifest_csv,
+        fetch_json=failing_fetch,
+        min_parent_relevance_score=180,
+        sec_requests_per_second=0,
+        retry_attempts=1,
+    )
+    assert len(failed.summary.errors) == 1
+    assert "index unavailable" in next(iter(failed.summary.errors.values()))
+
+    def complete_fetch(_url: str) -> dict[str, Any]:
+        return {
+            "directory": {
+                "item": [
+                    {"name": f"ex10-{number}-agreement.htm", "size": "100"} for number in range(30)
+                ]
+            }
+        }
+
+    complete = build_edgar_exhibit_manifest_from_manifest(
+        manifest_csv,
+        fetch_json=complete_fetch,
+        min_parent_relevance_score=180,
+        max_exhibits_per_filing=None,
+        sec_requests_per_second=0,
+    )
+    assert len(complete.records) == 30
+    assert complete.summary.errors == {}
 
 
 def test_exhibit_index_fetches_use_one_global_worker_pool():

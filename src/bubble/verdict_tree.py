@@ -5,8 +5,9 @@ The published core verdict is a flat `bubble_dynamics_present @ 0.67`. That numb
 guard in analysis/preregistered_signals.md). It is NOT a forecast that resolves on a date, so
 it is not Brier-scoreable as written. Conflating a structural confidence with a realization
 forecast was a latent imprecision; this module fixes it by giving the **forecastable**
-quantity its own decomposed, signal-wired estimate that the 2026-Q4 adjudication (and later
-events) will score.
+quantity its own decomposed, signal-wired estimate. The 2026-Q4 TIMING-KILL adjudication
+tests a separate registered criterion; P_real resolves on a qualifying issuer event through
+2027-Q3 or, if no event occurs, after that window closes with complete event coverage.
 
 The quantity decomposed here:
     P_real = P(a realized cluster financial-distress event within the crack window
@@ -31,10 +32,14 @@ was rewritten. Pure functions; shadow mode means nothing here overrides the gate
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+from datetime import date
 from typing import Any
 
 PROMOTED = False  # shadow mode: the gated report keeps the flat 0.67 until [TED] flips this
 STRUCTURAL_CONFIDENCE = 0.67  # the engine's measurement; kept separate, NOT a forecast
+P_REAL_WINDOW_START = date(2025, 7, 1)
+P_REAL_WINDOW_END = date(2027, 9, 30)
+TIMING_KILL_ADJUDICATION_QUARTER = "2026-Q4"
 
 # How far one confirming/contra signal nudges a wired leaf (clamped to [0.02, 0.98]).
 _SIGNAL_DELTA = 0.05
@@ -147,6 +152,8 @@ def realization_forecast(signal_status: dict[str, str] | None = None) -> dict[st
         "promoted": PROMOTED,
         "structural_confidence_unchanged": STRUCTURAL_CONFIDENCE,
         "p_real": round(p_real, 4),
+        "p_real_outcome_window_end": P_REAL_WINDOW_END.isoformat(),
+        "timing_kill_adjudication_quarter": TIMING_KILL_ADJUDICATION_QUARTER,
         "pathway_operations_first": round(p_a, 4),
         "pathway_funding_first": round(p_b, 4),
         "leaves": {
@@ -160,17 +167,44 @@ def realization_forecast(signal_status: dict[str, str] | None = None) -> dict[st
             for k, lf in LEAVES.items()
         },
         "note": "Shadow mode: this forecast runs ALONGSIDE the gated 0.67 structural confidence "
-        "and does not replace it until promoted. p_real is the quantity the 2026-Q4 adjudication "
-        "scores; the flat 0.67 is a structural measurement, not a forecast.",
+        "and does not replace it until promoted. 2026-Q4 adjudicates TIMING-KILL, not p_real. "
+        "The p_real outcome window runs through 2027-09-30; the flat 0.67 is a structural "
+        "measurement, not a forecast.",
     }
 
 
-def brier_score(forecasts: list[tuple[float, int]]) -> dict[str, Any]:
+def realization_outcome(
+    *,
+    as_of: date,
+    filing_verified_qualifying_event_date: date | None = None,
+    issuer_event_coverage_complete: bool = False,
+) -> int | None:
+    """Resolve P_real only from a verified issuer event or a complete closed-window audit.
+
+    The caller must verify that the event is a qualifying core-issuer covenant breach,
+    going-concern qualifier, distressed exchange, or failed refinancing in an issuer filing.
+    A scheduled Q2 pressure peak, a signal state, or the Q4 TIMING-KILL adjudication is not
+    such an event. Negative resolution requires coverage of all qualifying issuer events
+    through September 30, 2027, even if TIMING-KILL was adjudicated in 2026-Q4.
+    """
+    event_date = filing_verified_qualifying_event_date
+    if event_date is not None:
+        if event_date > as_of:
+            raise ValueError("qualifying event date cannot be after as_of")
+        if P_REAL_WINDOW_START <= event_date <= P_REAL_WINDOW_END:
+            return 1
+    if as_of >= P_REAL_WINDOW_END and issuer_event_coverage_complete:
+        return 0
+    return None
+
+
+def brier_score(forecasts: list[tuple[float, int | None]]) -> dict[str, Any]:
     """Brier score of resolved (probability, outcome) pairs (outcome in {0,1}).
 
     Returns the mean squared error and the count; an empty set scores None (nothing has
-    resolved yet — the first resolution is the 2026-Q4 adjudication). Lower is better; a
-    forecast of 0.5 on every binary outcome scores 0.25 (the coin-flip benchmark).
+    resolved yet). Use realization_outcome() to gate P_real outcomes: 2026-Q4 TIMING-KILL
+    alone does not resolve P_real. Lower is better; a forecast of 0.5 on every binary
+    outcome scores 0.25 (the coin-flip benchmark).
     """
     resolved = [(p, o) for p, o in forecasts if o in (0, 1)]
     if not resolved:

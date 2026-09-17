@@ -158,6 +158,16 @@ DEFAULT_GPU_PRICING_SOURCES = (
         provider="RunPod",
         source_uri="https://www.runpod.io/pricing",
     ),
+    GpuPricingSource(
+        source_id="coreweave-pricing",
+        provider="CoreWeave",
+        source_uri="https://coreweave.com/pricing",
+    ),
+    GpuPricingSource(
+        source_id="modal-pricing",
+        provider="Modal",
+        source_uri="https://modal.com/pricing",
+    ),
 )
 
 
@@ -265,6 +275,10 @@ def parse_gpu_pricing_snapshot(
         parsed = _parse_lambda_pricing(raw)
     elif normalized_provider == "runpod":
         parsed = _parse_runpod_pricing(raw)
+    elif normalized_provider == "coreweave":
+        parsed = _parse_coreweave_pricing(raw)
+    elif normalized_provider == "modal":
+        parsed = _parse_modal_pricing(raw)
     else:
         parsed = []
     observed_date = retrieved_at[:10]
@@ -466,6 +480,71 @@ def _parse_runpod_pricing(raw: bytes) -> list[dict[str, Any]]:
                     f"${price}/hr"
                 ),
                 "document_id": "runpod-pricing-page",
+            }
+        )
+    return rows
+
+
+def _parse_coreweave_pricing(raw: bytes) -> list[dict[str, Any]]:
+    """Normalize whole-node prices to per-GPU hours without merging spot quotes."""
+    soup = BeautifulSoup(raw.decode("utf-8", errors="ignore"), "lxml")
+    rows: list[dict[str, Any]] = []
+    for row_number, row in enumerate(soup.select(".table-row-v2"), 1):
+        cells = [_clean_text(cell.get_text(" ", strip=True)) for cell in row.select(".table-v2-cell")]
+        if len(cells) < 8:
+            continue
+        generation = _gpu_generation_from_name(cells[0])
+        count_text = cells[1].replace(",", "")
+        if not generation or not count_text.isdigit() or int(count_text) < 1:
+            continue
+        gpu_count = int(count_text)
+        product_class = "kubernetes" if "kubernetes-gpu-pricing" in " ".join(row.get("class", [])) else "gpu"
+        for column, pricing_basis in ((6, "on_demand"), (7, "spot")):
+            node_rate = _price_from_text(cells[column])
+            if node_rate is None:
+                continue
+            rows.append(
+                {
+                    "gpu_generation": generation,
+                    "observed_cloud_rental_rate_usd_per_hour": round(node_rate / gpu_count, 6),
+                    "contract_term": (
+                        f"{pricing_basis};gpu_count={gpu_count};"
+                        f"node_bundle={product_class};pricing_row={row_number}"
+                    ),
+                    "page_or_section": (
+                        f"CoreWeave pricing row {row_number}: {cells[0]}, "
+                        f"{gpu_count} GPUs, {pricing_basis}, ${node_rate}/node-hour"
+                    ),
+                    "document_id": "coreweave-pricing-page",
+                }
+            )
+    return rows
+
+
+def _parse_modal_pricing(raw: bytes) -> list[dict[str, Any]]:
+    """Convert GPU-only second rates; Modal bills CPU and memory separately."""
+    soup = BeautifulSoup(raw.decode("utf-8", errors="ignore"), "lxml")
+    text = _clean_text(soup.get_text(" ", strip=True))
+    start = text.find("GPU Tasks")
+    end = text.find("CPU Physical core", start)
+    if start < 0 or end < 0:
+        return []
+    section = text[start:end]
+    price_pattern = re.compile(r"(Nvidia\s+[A-Za-z0-9 ,]+?)\s+\$\s*(\d+(?:\.\d+)?)\s*/\s*sec", re.IGNORECASE)
+    rows: list[dict[str, Any]] = []
+    for match in price_pattern.finditer(section):
+        name = _clean_text(match.group(1))
+        generation = _gpu_generation_from_name(name)
+        if not generation:
+            continue
+        second_rate = float(match.group(2))
+        rows.append(
+            {
+                "gpu_generation": generation,
+                "observed_cloud_rental_rate_usd_per_hour": round(second_rate * 3600, 6),
+                "contract_term": f"per_second_metered;gpu_only_cpu_memory_extra;model={name}",
+                "page_or_section": f"Modal GPU Tasks: {name} ${second_rate}/sec",
+                "document_id": "modal-pricing-page",
             }
         )
     return rows

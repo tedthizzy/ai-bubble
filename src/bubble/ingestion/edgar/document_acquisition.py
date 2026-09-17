@@ -9,10 +9,12 @@ they are useful extraction candidates, not final approved facts.
 from __future__ import annotations
 
 import csv
+import gzip
 import html
 import json
 import os
 import re
+import tempfile
 from collections import Counter
 from collections.abc import Callable, Mapping, Sequence
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -576,6 +578,7 @@ def acquire_edgar_documents_from_manifest(
     write_outputs: bool = True,
     progress_interval: int = 0,
     progress_callback: Callable[[int, int], None] | None = None,
+    compress_raw: bool = False,
 ) -> EdgarAcquisitionBatch:
     """
     Download prioritized EDGAR documents and emit pending-adjudication deal candidates.
@@ -615,6 +618,7 @@ def acquire_edgar_documents_from_manifest(
                 retry_attempts,
                 retry_backoff_seconds,
                 resume,
+                compress_raw,
             )
             for index, row in enumerate(selected_rows)
         ]
@@ -673,6 +677,7 @@ def _acquire_edgar_manifest_row(
     retry_attempts: int,
     retry_backoff_seconds: float,
     resume: bool,
+    compress_raw: bool,
 ) -> _EdgarDocumentResult:
     filing_url = row.get("filing_url", "")
     record_key = _record_key(row)
@@ -686,10 +691,17 @@ def _acquire_edgar_manifest_row(
             error="Manifest row has no filing_url.",
         )
     try:
-        local_path = _document_path(base_dir, row)
+        plain_path = _document_path(base_dir, row)
+        compressed_path = plain_path.with_name(plain_path.name + ".gz")
+        local_path = compressed_path if compress_raw else plain_path
+        if resume and plain_path.exists():
+            local_path = plain_path
+        elif resume and compressed_path.exists():
+            local_path = compressed_path
         resumed = resume and local_path.exists()
         if resumed:
-            raw = local_path.read_bytes()
+            stored = local_path.read_bytes()
+            raw = gzip.decompress(stored) if local_path.suffix == ".gz" else stored
             downloaded_at = datetime.fromtimestamp(local_path.stat().st_mtime, UTC).isoformat()
         else:
             raw = fetch_with_retries(
@@ -701,7 +713,19 @@ def _acquire_edgar_manifest_row(
                 backoff_seconds=retry_backoff_seconds,
             )
             local_path.parent.mkdir(parents=True, exist_ok=True)
-            local_path.write_bytes(raw)
+            if compress_raw:
+                with tempfile.NamedTemporaryFile(
+                    dir=local_path.parent,
+                    prefix=local_path.name + ".",
+                    suffix=".part",
+                    delete=False,
+                ) as staged:
+                    staged.write(gzip.compress(raw, compresslevel=3, mtime=0))
+                    staged.flush()
+                    os.fsync(staged.fileno())
+                os.replace(staged.name, local_path)
+            else:
+                local_path.write_bytes(raw)
             downloaded_at = datetime.now(UTC).isoformat()
 
         content_hash = Provenance.compute_content_hash(raw)
@@ -2091,15 +2115,38 @@ def extract_maturity_date(text: str) -> date | None:
         r"(?P<month>January|February|March|April|May|June|July|August|September|October|November|December)"
         r"\s+(?P<day>\d{1,2}),\s+(?P<year>\d{4})"
     )
-    keyword_pattern = re.compile(
-        rf"(?:matur(?:e|es|ity|ing)|due|expires?|expiration).{{0,120}}{date_pattern}",
+    candidates: list[re.Match[str]] = []
+    maturity_pattern = re.compile(
+        rf"\bmatur(?:e|es|ity|ing)\b.{{0,120}}?{date_pattern}",
         re.IGNORECASE | re.DOTALL,
     )
-    match = keyword_pattern.search(snippet)
-    if not match:
-        return None
-    month = MONTHS[match.group("month").lower()]
-    return date(int(match.group("year")), month, int(match.group("day")))
+    candidates.extend(maturity_pattern.finditer(snippet))
+    # "Due to" often introduces an unrelated offering or report date. A debt
+    # due date uses the month directly, optionally with "on" or "by".
+    due_pattern = re.compile(
+        rf"\bdue\s+(?:(?:on|by)\s+)?{date_pattern}",
+        re.IGNORECASE,
+    )
+    candidates.extend(due_pattern.finditer(snippet))
+    expiry_pattern = re.compile(
+        rf"\b(?:expires?|expiration)\b.{{0,80}}?{date_pattern}",
+        re.IGNORECASE | re.DOTALL,
+    )
+    debt_context = re.compile(
+        r"\b(?:debt|credit|loan|revolver|facility|notes?|bonds?|debentures?)\b",
+        re.IGNORECASE,
+    )
+    for match in expiry_pattern.finditer(snippet):
+        context = snippet[max(0, match.start() - 120) : match.start()]
+        if debt_context.search(context):
+            candidates.append(match)
+    for match in sorted(candidates, key=lambda item: item.start()):
+        try:
+            month = MONTHS[match.group("month").lower()]
+            return date(int(match.group("year")), month, int(match.group("day")))
+        except ValueError:
+            continue
+    return None
 
 
 def extract_interest_rate(text: str) -> float | None:

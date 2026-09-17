@@ -77,16 +77,16 @@ def eval_s1(latest_deal: Signal | None, today: date) -> Signal | None:
     """S1: spread of the latest hand-carded cluster print vs 5y UST, with staleness guard."""
     if latest_deal is None:
         return None
-    spread = latest_deal.get("spread_vs_5y_bp")
-    if spread is None:
-        return None
     deal_date = latest_deal.get("date", "")
     try:
         age_days = (today - date.fromisoformat(deal_date)).days
     except ValueError:
         age_days = None
+    spread = latest_deal.get("spread_vs_5y_bp")
     if age_days is not None and age_days > STALE_DAYS:
         status = "stale"
+    elif spread is None:
+        return None
     elif spread >= SPREAD_CRACK_BP:
         status = "confirming"
     elif spread <= SPREAD_OPEN_BP:
@@ -100,8 +100,9 @@ def eval_s1(latest_deal: Signal | None, today: date) -> Signal | None:
         "print_age_days": age_days,
         "desc": (
             f"latest carded cluster print ({latest_deal.get('issuer', '?')} "
-            f"{deal_date or '?'}) ~{spread}bp over 5y UST; "
-            f"<={SPREAD_OPEN_BP}bp = window open (contra), "
+            f"{deal_date or '?'}) "
+            + (f"~{spread}bp over 5y UST; " if spread is not None else "spread unmeasured; ")
+            + f"<={SPREAD_OPEN_BP}bp = window open (contra), "
             f">={SPREAD_CRACK_BP}bp = cracking (confirming); "
             f">{STALE_DAYS}d old = stale, never contra"
         ),

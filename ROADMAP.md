@@ -135,3 +135,7 @@ External review exists here for **error-finding**, not credibility theater — h
 6. The WS5 decision made deliberately, with the calibration evidence in hand.
 
 At that point the project is what it set out to be: a rigorously calibrated engine for modeling a financed boom — with a public record of exactly how well it modeled this one.
+
+## September 16, 2026 timing correction
+
+The June plan above conflates two scoring dates. The 2026-Q4 work remains the registered TIMING-KILL adjudication: apply its through-Q4 issuance and BDC-discount criteria and record that result. The `P_real` forecast in [the verdict tree](analysis/verdict_tree.md) has a separate binary outcome window through September 30, 2027. A filing-verified qualifying issuer event can resolve it positive before then. A negative result requires the full window and a complete issuer-event coverage audit. Q4 alone cannot supply its first Brier result, and the June 2026-Q2 input-pressure peak supplies no issuer-event outcome. This dated correction preserves the original plan text for its registration history.

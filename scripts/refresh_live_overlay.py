@@ -34,12 +34,12 @@ from typing import Any
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "src"))
 
+from bubble.calendar_engine import calendar_payload  # noqa: E402
 from bubble.market_signals import (  # noqa: E402
     BDC_CONTROL,
     BDC_EXPOSED,
     evaluate_signals,
 )
-from bubble.calendar_engine import calendar_payload  # noqa: E402
 from bubble.overlay_history import build_history_record, merge_history  # noqa: E402
 from bubble.verdict_tree import realization_forecast  # noqa: E402
 
@@ -131,6 +131,26 @@ BDC_NAV: dict[str, tuple[float, str]] = {
     "TSLX": (16.24, "2026-03-31"),
     "PSEC": (6.05, "2026-03-31"),
 }
+
+
+def _reported_bdc_nav() -> dict[str, tuple[float, str, str]]:
+    """Use the latest source-carded quarterly NAV snapshot for every BDC mark."""
+    snapshots = sorted((ROOT / "analysis").glob("bdc_nav_????-??-??.json"))
+    if not snapshots:
+        return {ticker: (nav, period, "") for ticker, (nav, period) in BDC_NAV.items()}
+    payload = json.loads(snapshots[-1].read_text())
+    rows = payload["bdc"]
+    if set(rows) != set(BDC_TICKERS):
+        raise ValueError(f"Incomplete BDC NAV snapshot: {snapshots[-1]}")
+    navs: dict[str, tuple[float, str, str]] = {}
+    for ticker, row in rows.items():
+        nav = float(row["nav_usd_per_share"])
+        period = str(row["nav_asof"])
+        source = str(row["source_uri"])
+        if nav <= 0 or not source.startswith("https://") or period > payload["as_of"]:
+            raise ValueError(f"Invalid {ticker} NAV in {snapshots[-1]}")
+        navs[ticker] = (nav, period, source)
+    return navs
 
 
 def _get(url: str, timeout: float = 20.0, headers: dict[str, str] | None = None) -> str:
@@ -276,9 +296,10 @@ def _bdc() -> dict[str, dict[str, Any]]:
     S3' differential), 'context' (quoted for continuity; in neither signal set).
     """
     out: dict[str, dict[str, Any]] = {}
+    reported_nav = _reported_bdc_nav()
     for sym, (stooq_sym, yahoo_sym) in BDC_TICKERS.items():
         quote = _fetch_quote(stooq_sym, yahoo_sym)
-        nav, nav_asof = BDC_NAV[sym]
+        nav, nav_asof, nav_source_uri = reported_nav[sym]
         if quote and quote.get("close"):
             role = (
                 "exposed" if sym in BDC_EXPOSED else "control" if sym in BDC_CONTROL else "context"
@@ -288,6 +309,7 @@ def _bdc() -> dict[str, dict[str, Any]]:
                 "date": quote.get("date", ""),
                 "nav": nav,
                 "nav_asof": nav_asof,
+                "nav_source_uri": nav_source_uri,
                 "discount_pct": round((1.0 - quote["close"] / nav) * 100.0, 1),
                 "role": role,
             }
@@ -306,10 +328,11 @@ def _issuance_cards() -> list[dict[str, Any]]:
 
 
 def _issuance_latest(deals: list[dict[str, Any]], credit: dict[str, Any]) -> dict[str, Any] | None:
-    """Most recent carded cluster print, + spread vs 5y UST if available."""
-    if not deals:
+    """Most recent completed cluster print, + registered coupon spread if available."""
+    priced = [deal for deal in deals if deal.get("status", "priced") == "priced"]
+    if not priced:
         return None
-    latest = max(deals, key=lambda d: d.get("date", ""))
+    latest = max(priced, key=lambda d: d.get("date", ""))
     ust = (credit.get("ust5y") or {}).get("value")
     if ust is not None and latest.get("coupon_pct") is not None:
         latest = {**latest, "spread_vs_5y_bp": round((latest["coupon_pct"] - ust) * 100)}
@@ -441,8 +464,8 @@ def _persist_history(payload: dict[str, Any]) -> None:
     """Append-or-replace today's compact record in viz/history.jsonl (one row per UTC day)."""
     existing: list[dict[str, Any]] = []
     if HISTORY.exists():
-        for line in HISTORY.read_text().splitlines():
-            line = line.strip()
+        for raw_line in HISTORY.read_text().splitlines():
+            line = raw_line.strip()
             if not line:
                 continue
             try:

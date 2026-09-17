@@ -1,0 +1,3170 @@
+{
+  "as_of": "2026-09-16",
+  "quarter": "2026-06-30",
+  "institutions_returned": 4313,
+  "flagged_count": 260,
+  "severity": {
+    "other_distress": 253,
+    "undercapitalized": 3,
+    "not_well_capitalized": 4
+  },
+  "flagged": [
+    {
+      "cert": 10120,
+      "name": "AMERICAN TRUST&SAVINGS BANK",
+      "state": "IOWA",
+      "assets_thousands_usd": 27845,
+      "risk_based_capital_pct": 41.23346532985087,
+      "roa_pct": -1.015042750674409,
+      "nonperforming_pct": 6.1231818998024785,
+      "flags": [
+        "losing money (ROA -1.02%)",
+        "high nonperforming (6.1%)"
+      ]
+    },
+    {
+      "cert": 10218,
+      "name": "CITIZENS BANK&TRUST CO",
+      "state": "MINNESOTA",
+      "assets_thousands_usd": 329024,
+      "risk_based_capital_pct": 15.07422496721689,
+      "roa_pct": 1.2103469369920474,
+      "nonperforming_pct": 0.19664219023536278,
+      "flags": [
+        "thin equity (5.0% of assets)"
+      ]
+    },
+    {
+      "cert": 10471,
+      "name": "CAMP GROVE STATE BANK",
+      "state": "ILLINOIS",
+      "assets_thousands_usd": 53079,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -0.6533005669237695,
+      "nonperforming_pct": 0.02449179524859172,
+      "flags": [
+        "losing money (ROA -0.65%)"
+      ]
+    },
+    {
+      "cert": 10628,
+      "name": "PREFERRED BANK",
+      "state": "MISSOURI",
+      "assets_thousands_usd": 134473,
+      "risk_based_capital_pct": 18.623827125390957,
+      "roa_pct": 1.2449984381740022,
+      "nonperforming_pct": 0.08328809500791981,
+      "flags": [
+        "thin equity (4.4% of assets)"
+      ]
+    },
+    {
+      "cert": 10704,
+      "name": "AVANA BANK",
+      "state": "TEXAS",
+      "assets_thousands_usd": 39554,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -0.4221105527638191,
+      "nonperforming_pct": 0,
+      "flags": [
+        "losing money (ROA -0.42%)"
+      ]
+    },
+    {
+      "cert": 10804,
+      "name": "DU QUOIN STATE BANK",
+      "state": "ILLINOIS",
+      "assets_thousands_usd": 148246,
+      "risk_based_capital_pct": 26.232859074229058,
+      "roa_pct": 0.9168635915375025,
+      "nonperforming_pct": 0,
+      "flags": [
+        "thin equity (4.1% of assets)"
+      ]
+    },
+    {
+      "cert": 10816,
+      "name": "GRAND RIVERS COMMUNITY BANK",
+      "state": "ILLINOIS",
+      "assets_thousands_usd": 15101,
+      "risk_based_capital_pct": 11.955270514717974,
+      "roa_pct": -3.372011026347843,
+      "nonperforming_pct": 13.826898880868816,
+      "flags": [
+        "losing money (ROA -3.37%)",
+        "high nonperforming (13.8%)"
+      ]
+    },
+    {
+      "cert": 10843,
+      "name": "CITIZENS BANK OF CHATSWORTH",
+      "state": "ILLINOIS",
+      "assets_thousands_usd": 36211,
+      "risk_based_capital_pct": 24.875469719479156,
+      "roa_pct": -0.4927427561458947,
+      "nonperforming_pct": 0.14636436441965148,
+      "flags": [
+        "losing money (ROA -0.49%)"
+      ]
+    },
+    {
+      "cert": 10872,
+      "name": "CHESTERFIELD STATE BANK",
+      "state": "ILLINOIS",
+      "assets_thousands_usd": 21654,
+      "risk_based_capital_pct": 14.483765049252098,
+      "roa_pct": 1.8858912531007812,
+      "nonperforming_pct": 6.996397894153505,
+      "flags": [
+        "high nonperforming (7.0%)"
+      ]
+    },
+    {
+      "cert": 10991,
+      "name": "FIRST STATE BANK OF BIGFORK",
+      "state": "MINNESOTA",
+      "assets_thousands_usd": 117390,
+      "risk_based_capital_pct": 20.47458990490965,
+      "roa_pct": 1.096147733683062,
+      "nonperforming_pct": 4.563421075048982,
+      "flags": [
+        "high nonperforming (4.6%)"
+      ]
+    },
+    {
+      "cert": 11178,
+      "name": "TRANSPECOS BANKS SSB",
+      "state": "TEXAS",
+      "assets_thousands_usd": 972067,
+      "risk_based_capital_pct": 10.724919723654763,
+      "roa_pct": -1.5684606140768282,
+      "nonperforming_pct": 5.525442176310892,
+      "flags": [
+        "losing money (ROA -1.57%)",
+        "high nonperforming (5.5%)"
+      ]
+    },
+    {
+      "cert": 11317,
+      "name": "IUKA STATE BANK",
+      "state": "ILLINOIS",
+      "assets_thousands_usd": 133016,
+      "risk_based_capital_pct": 0,
+      "roa_pct": 0.07578775541931033,
+      "nonperforming_pct": 6.895411078366512,
+      "flags": [
+        "high nonperforming (6.9%)"
+      ]
+    },
+    {
+      "cert": 12013,
+      "name": "UNION COUNTY SAVINGS BANK",
+      "state": "NEW JERSEY",
+      "assets_thousands_usd": 1478885,
+      "risk_based_capital_pct": 21.126140987572857,
+      "roa_pct": -1.4499650680881553,
+      "nonperforming_pct": 0.1895346832241858,
+      "flags": [
+        "losing money (ROA -1.45%)",
+        "thin equity (-1.6% of assets)"
+      ]
+    },
+    {
+      "cert": 12086,
+      "name": "SAINTE MARIE STATE BANK",
+      "state": "ILLINOIS",
+      "assets_thousands_usd": 22956,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -0.7383258222264839,
+      "nonperforming_pct": 0.12197246907126677,
+      "flags": [
+        "losing money (ROA -0.74%)"
+      ]
+    },
+    {
+      "cert": 12107,
+      "name": "FARMERS STATE BANK",
+      "state": "ILLINOIS",
+      "assets_thousands_usd": 66903,
+      "risk_based_capital_pct": 15.409010579320695,
+      "roa_pct": 0.5560704355885078,
+      "nonperforming_pct": 2.1972108874041525,
+      "flags": [
+        "thin equity (3.9% of assets)"
+      ]
+    },
+    {
+      "cert": 12388,
+      "name": "WILLIAMSVILLE STATE B&T",
+      "state": "ILLINOIS",
+      "assets_thousands_usd": 93810,
+      "risk_based_capital_pct": 40.60116644235083,
+      "roa_pct": -0.03013647518046008,
+      "nonperforming_pct": 0.269694062466688,
+      "flags": [
+        "losing money (ROA -0.03%)"
+      ]
+    },
+    {
+      "cert": 12585,
+      "name": "HOPETON STATE BANK",
+      "state": "OKLAHOMA",
+      "assets_thousands_usd": 30840,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -0.7880069190851432,
+      "nonperforming_pct": 0,
+      "flags": [
+        "losing money (ROA -0.79%)"
+      ]
+    },
+    {
+      "cert": 12627,
+      "name": "BANK OF WASHINGTON",
+      "state": "MISSOURI",
+      "assets_thousands_usd": 1148041,
+      "risk_based_capital_pct": 0,
+      "roa_pct": 0.8642041390317604,
+      "nonperforming_pct": 4.136524740841137,
+      "flags": [
+        "high nonperforming (4.1%)"
+      ]
+    },
+    {
+      "cert": 12893,
+      "name": "FIRST STATE BANK OF MICHIGAN",
+      "state": "MICHIGAN",
+      "assets_thousands_usd": 87760,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -1.3169771556951708,
+      "nonperforming_pct": 0.7121695533272562,
+      "flags": [
+        "losing money (ROA -1.32%)"
+      ]
+    },
+    {
+      "cert": 1299,
+      "name": "EVOLVE BANK&TRUST",
+      "state": "ARKANSAS",
+      "assets_thousands_usd": 1188644,
+      "risk_based_capital_pct": 18.973863301464636,
+      "roa_pct": -0.14089615383362417,
+      "nonperforming_pct": 1.4726865234670767,
+      "flags": [
+        "losing money (ROA -0.14%)"
+      ]
+    },
+    {
+      "cert": 13551,
+      "name": "STATE EXCHANGE BANK",
+      "state": "OKLAHOMA",
+      "assets_thousands_usd": 89596,
+      "risk_based_capital_pct": 0,
+      "roa_pct": 0.8725615915294185,
+      "nonperforming_pct": 4.818295459618733,
+      "flags": [
+        "high nonperforming (4.8%)"
+      ]
+    },
+    {
+      "cert": 13696,
+      "name": "NEBRASKA STATE BANK",
+      "state": "NEBRASKA",
+      "assets_thousands_usd": 36596,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -0.18510168727307244,
+      "nonperforming_pct": 1.1613291070062304,
+      "flags": [
+        "losing money (ROA -0.19%)"
+      ]
+    },
+    {
+      "cert": 14207,
+      "name": "LINCOLN SAVINGS BANK",
+      "state": "IOWA",
+      "assets_thousands_usd": 1712237,
+      "risk_based_capital_pct": 13.040952851974014,
+      "roa_pct": -1.022465671273968,
+      "nonperforming_pct": 3.4719492687052087,
+      "flags": [
+        "losing money (ROA -1.02%)"
+      ]
+    },
+    {
+      "cert": 14574,
+      "name": "ODIN STATE BANK",
+      "state": "MINNESOTA",
+      "assets_thousands_usd": 82424,
+      "risk_based_capital_pct": 13.109385728621984,
+      "roa_pct": -0.11103389001065103,
+      "nonperforming_pct": 1.5772105212074152,
+      "flags": [
+        "losing money (ROA -0.11%)"
+      ]
+    },
+    {
+      "cert": 14820,
+      "name": "CITIZENS NB OF HAMMOND",
+      "state": "NEW YORK",
+      "assets_thousands_usd": 23897,
+      "risk_based_capital_pct": 14.601124765673818,
+      "roa_pct": -1.8435776677534919,
+      "nonperforming_pct": 1.0587102983638113,
+      "flags": [
+        "losing money (ROA -1.84%)"
+      ]
+    },
+    {
+      "cert": 1484,
+      "name": "BANK OF FRANKEWING",
+      "state": "TENNESSEE",
+      "assets_thousands_usd": 413119,
+      "risk_based_capital_pct": 0,
+      "roa_pct": 0.32795173960539103,
+      "nonperforming_pct": 4.878255417930427,
+      "flags": [
+        "high nonperforming (4.9%)"
+      ]
+    },
+    {
+      "cert": 14867,
+      "name": "HOME STATE BANK",
+      "state": "IOWA",
+      "assets_thousands_usd": 480739,
+      "risk_based_capital_pct": 11.306776524805361,
+      "roa_pct": -0.2729400352004329,
+      "nonperforming_pct": 1.8142900825603916,
+      "flags": [
+        "losing money (ROA -0.27%)"
+      ]
+    },
+    {
+      "cert": 15146,
+      "name": "GREAT NORTH BANK",
+      "state": "WISCONSIN",
+      "assets_thousands_usd": 233360,
+      "risk_based_capital_pct": 13.859536172654622,
+      "roa_pct": -0.858063165210573,
+      "nonperforming_pct": 0.9586047308878985,
+      "flags": [
+        "losing money (ROA -0.86%)"
+      ]
+    },
+    {
+      "cert": 15326,
+      "name": "UNION BANKING CO",
+      "state": "OHIO",
+      "assets_thousands_usd": 54524,
+      "risk_based_capital_pct": 34.33639531200507,
+      "roa_pct": 0.2404839739976703,
+      "nonperforming_pct": 0.10454111950700608,
+      "flags": [
+        "thin equity (2.4% of assets)"
+      ]
+    },
+    {
+      "cert": 15346,
+      "name": "COMMERCE BANK TEXAS",
+      "state": "TEXAS",
+      "assets_thousands_usd": 60644,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -0.09200035047752562,
+      "nonperforming_pct": 2.066156585977178,
+      "flags": [
+        "losing money (ROA -0.09%)"
+      ]
+    },
+    {
+      "cert": 1556,
+      "name": "TWIN CEDARS BANK",
+      "state": "IOWA",
+      "assets_thousands_usd": 118346,
+      "risk_based_capital_pct": 14.210520345308725,
+      "roa_pct": -2.339174744519832,
+      "nonperforming_pct": 3.5438460108495424,
+      "flags": [
+        "losing money (ROA -2.34%)"
+      ]
+    },
+    {
+      "cert": 15751,
+      "name": "FLAT BRANCH BANK",
+      "state": "MISSOURI",
+      "assets_thousands_usd": 92799,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -0.9576641507292434,
+      "nonperforming_pct": 0,
+      "flags": [
+        "losing money (ROA -0.96%)"
+      ]
+    },
+    {
+      "cert": 15778,
+      "name": "GRANT COUNTY BANK",
+      "state": "OKLAHOMA",
+      "assets_thousands_usd": 58383,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -0.029925187032418952,
+      "nonperforming_pct": 0.0222667557336896,
+      "flags": [
+        "losing money (ROA -0.03%)"
+      ]
+    },
+    {
+      "cert": 15820,
+      "name": "RED RIVER STATE BANK",
+      "state": "MINNESOTA",
+      "assets_thousands_usd": 110246,
+      "risk_based_capital_pct": 0,
+      "roa_pct": 2.1775448879867256,
+      "nonperforming_pct": 7.91230520835223,
+      "flags": [
+        "high nonperforming (7.9%)"
+      ]
+    },
+    {
+      "cert": 15930,
+      "name": "MAXWELL STATE BANK",
+      "state": "IOWA",
+      "assets_thousands_usd": 31745,
+      "risk_based_capital_pct": 23.061144754834928,
+      "roa_pct": -4.9120075111350285,
+      "nonperforming_pct": 0.5418176090722948,
+      "flags": [
+        "losing money (ROA -4.91%)"
+      ]
+    },
+    {
+      "cert": 160,
+      "name": "EXCHANGE BANK",
+      "state": "GEORGIA",
+      "assets_thousands_usd": 410305,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -0.7039829942807384,
+      "nonperforming_pct": 0.023397228890703257,
+      "flags": [
+        "losing money (ROA -0.70%)"
+      ]
+    },
+    {
+      "cert": 16247,
+      "name": "NEIGHBORS BANK",
+      "state": "MISSOURI",
+      "assets_thousands_usd": 115638,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -3.839332411971471,
+      "nonperforming_pct": 1.1172797869212543,
+      "flags": [
+        "losing money (ROA -3.84%)"
+      ]
+    },
+    {
+      "cert": 16249,
+      "name": "DEVON BANK",
+      "state": "ILLINOIS",
+      "assets_thousands_usd": 418565,
+      "risk_based_capital_pct": 10.651828298887123,
+      "roa_pct": -0.17157877639167546,
+      "nonperforming_pct": 0.12518963601830063,
+      "flags": [
+        "losing money (ROA -0.17%)"
+      ]
+    },
+    {
+      "cert": 16281,
+      "name": "FIRST CITY BANK",
+      "state": "GEORGIA",
+      "assets_thousands_usd": 22994,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -3.0453041132463774,
+      "nonperforming_pct": 0,
+      "flags": [
+        "losing money (ROA -3.05%)"
+      ]
+    },
+    {
+      "cert": 16394,
+      "name": "TABLE GROVE STATE BANK",
+      "state": "ILLINOIS",
+      "assets_thousands_usd": 45904,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -0.187171652002524,
+      "nonperforming_pct": 1.1741896131056118,
+      "flags": [
+        "losing money (ROA -0.19%)"
+      ]
+    },
+    {
+      "cert": 1639,
+      "name": "FCNB BANK",
+      "state": "MISSOURI",
+      "assets_thousands_usd": 220438,
+      "risk_based_capital_pct": 10.936476751800917,
+      "roa_pct": 0.6751698386939277,
+      "nonperforming_pct": 0.021774830110960902,
+      "flags": [
+        "thin equity (5.0% of assets)"
+      ]
+    },
+    {
+      "cert": 16417,
+      "name": "CITIZENS BANK&TRUST CO",
+      "state": "LOUISIANA",
+      "assets_thousands_usd": 183708,
+      "risk_based_capital_pct": 0,
+      "roa_pct": 0.6306592359826131,
+      "nonperforming_pct": 4.895812920504278,
+      "flags": [
+        "high nonperforming (4.9%)"
+      ]
+    },
+    {
+      "cert": 16473,
+      "name": "FIRST BANK",
+      "state": "KANSAS",
+      "assets_thousands_usd": 162379,
+      "risk_based_capital_pct": 0,
+      "roa_pct": 1.0589876961176823,
+      "nonperforming_pct": 5.565990676134229,
+      "flags": [
+        "high nonperforming (5.6%)"
+      ]
+    },
+    {
+      "cert": 16820,
+      "name": "BANK OF GLEN BURNIE",
+      "state": "MARYLAND",
+      "assets_thousands_usd": 394882,
+      "risk_based_capital_pct": 13.102518288777265,
+      "roa_pct": -0.06606637292089125,
+      "nonperforming_pct": 0.1694176994646502,
+      "flags": [
+        "losing money (ROA -0.07%)"
+      ]
+    },
+    {
+      "cert": 17001,
+      "name": "FIRST SECURITY BANK&TRUST CO",
+      "state": "OKLAHOMA",
+      "assets_thousands_usd": 225955,
+      "risk_based_capital_pct": 0,
+      "roa_pct": 0.18354891413943955,
+      "nonperforming_pct": 11.708968599942466,
+      "flags": [
+        "high nonperforming (11.7%)"
+      ]
+    },
+    {
+      "cert": 17280,
+      "name": "BANK OF TIOGA",
+      "state": "NORTH DAKOTA",
+      "assets_thousands_usd": 412068,
+      "risk_based_capital_pct": 15.886655662362042,
+      "roa_pct": 1.3239830684984526,
+      "nonperforming_pct": 0.4448294941611579,
+      "flags": [
+        "thin equity (2.1% of assets)"
+      ]
+    },
+    {
+      "cert": 17350,
+      "name": "FIRST STB OF SAN DIEGO",
+      "state": "TEXAS",
+      "assets_thousands_usd": 68247,
+      "risk_based_capital_pct": 28.951281378465843,
+      "roa_pct": -0.5497290886682324,
+      "nonperforming_pct": 0.5905021466145032,
+      "flags": [
+        "losing money (ROA -0.55%)"
+      ]
+    },
+    {
+      "cert": 17388,
+      "name": "M C BANK&TRUST CO",
+      "state": "LOUISIANA",
+      "assets_thousands_usd": 709982,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -2.5620930613704425,
+      "nonperforming_pct": 2.882608291477812,
+      "flags": [
+        "losing money (ROA -2.56%)"
+      ]
+    },
+    {
+      "cert": 17478,
+      "name": "FIRSTIER BANK",
+      "state": "NEBRASKA",
+      "assets_thousands_usd": 1048233,
+      "risk_based_capital_pct": 14.597843912143452,
+      "roa_pct": 0.767256098068271,
+      "nonperforming_pct": 5.9816853695695515,
+      "flags": [
+        "high nonperforming (6.0%)"
+      ]
+    },
+    {
+      "cert": 1756,
+      "name": "CENTRAL BANK",
+      "state": "ARKANSAS",
+      "assets_thousands_usd": 954592,
+      "risk_based_capital_pct": 11.567704309133052,
+      "roa_pct": 1.0925722487948457,
+      "nonperforming_pct": 4.494485602225872,
+      "flags": [
+        "high nonperforming (4.5%)"
+      ]
+    },
+    {
+      "cert": 17636,
+      "name": "ASTRA BANK",
+      "state": "KANSAS",
+      "assets_thousands_usd": 423288,
+      "risk_based_capital_pct": 13.924499874445468,
+      "roa_pct": 0.5882083552287903,
+      "nonperforming_pct": 0.017482187068851466,
+      "flags": [
+        "thin equity (4.8% of assets)"
+      ]
+    },
+    {
+      "cert": 17685,
+      "name": "OUTDOOR BANK",
+      "state": "KANSAS",
+      "assets_thousands_usd": 648754,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -0.2564697398112947,
+      "nonperforming_pct": 2.9831029943553333,
+      "flags": [
+        "losing money (ROA -0.26%)"
+      ]
+    },
+    {
+      "cert": 178,
+      "name": "TALBOT STATE BANK",
+      "state": "GEORGIA",
+      "assets_thousands_usd": 51658,
+      "risk_based_capital_pct": 17.60644894584539,
+      "roa_pct": -0.8537202848298007,
+      "nonperforming_pct": 1.498315846529095,
+      "flags": [
+        "losing money (ROA -0.85%)",
+        "thin equity (4.5% of assets)"
+      ]
+    },
+    {
+      "cert": 17975,
+      "name": "COMMERCIAL BANK OF OZARK",
+      "state": "ALABAMA",
+      "assets_thousands_usd": 115195,
+      "risk_based_capital_pct": 19.27591173208403,
+      "roa_pct": 0.5099857858691439,
+      "nonperforming_pct": 0.5425582707582794,
+      "flags": [
+        "thin equity (4.9% of assets)"
+      ]
+    },
+    {
+      "cert": 17982,
+      "name": "WALTON STATE BANK",
+      "state": "KANSAS",
+      "assets_thousands_usd": 13026,
+      "risk_based_capital_pct": 61.5849563465413,
+      "roa_pct": -0.01646723021187836,
+      "nonperforming_pct": 0,
+      "flags": [
+        "losing money (ROA -0.02%)"
+      ]
+    },
+    {
+      "cert": 1829,
+      "name": "FAIRMOUNT STATE BANK",
+      "state": "INDIANA",
+      "assets_thousands_usd": 57020,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -0.03118845334149624,
+      "nonperforming_pct": 4.982462293931953,
+      "flags": [
+        "losing money (ROA -0.03%)",
+        "high nonperforming (5.0%)"
+      ]
+    },
+    {
+      "cert": 18302,
+      "name": "PRODUCER BANK OF TEXAS",
+      "state": "TEXAS",
+      "assets_thousands_usd": 58749,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -0.8184335698872891,
+      "nonperforming_pct": 0.2570256515004511,
+      "flags": [
+        "losing money (ROA -0.82%)"
+      ]
+    },
+    {
+      "cert": 18463,
+      "name": "GREATAMERICA BANK NA",
+      "state": "IOWA",
+      "assets_thousands_usd": 449962,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -2.744147281008352,
+      "nonperforming_pct": 0,
+      "flags": [
+        "losing money (ROA -2.74%)"
+      ]
+    },
+    {
+      "cert": 18618,
+      "name": "SMBC MANUBANK",
+      "state": "CALIFORNIA",
+      "assets_thousands_usd": 6596628,
+      "risk_based_capital_pct": 24.04761253375691,
+      "roa_pct": -3.557425110655358,
+      "nonperforming_pct": 0.12347217396524407,
+      "flags": [
+        "losing money (ROA -3.56%)"
+      ]
+    },
+    {
+      "cert": 18641,
+      "name": "FIRST B&T CO OF ILLINOIS",
+      "state": "ILLINOIS",
+      "assets_thousands_usd": 228579,
+      "risk_based_capital_pct": 26.280419084192513,
+      "roa_pct": 1.433460321560018,
+      "nonperforming_pct": 4.736655598283307,
+      "flags": [
+        "high nonperforming (4.7%)"
+      ]
+    },
+    {
+      "cert": 18734,
+      "name": "NEWTEK BANK NATIONAL ASSN",
+      "state": "FLORIDA",
+      "assets_thousands_usd": 2473353,
+      "risk_based_capital_pct": 12.739065526145902,
+      "roa_pct": 4.402542597877482,
+      "nonperforming_pct": 6.096784405622651,
+      "flags": [
+        "high nonperforming (6.1%)"
+      ]
+    },
+    {
+      "cert": 1874,
+      "name": "BANK OF LABOR",
+      "state": "KANSAS",
+      "assets_thousands_usd": 1110876,
+      "risk_based_capital_pct": 15.139675845543978,
+      "roa_pct": 0.9098887802012977,
+      "nonperforming_pct": 1.03719947140815,
+      "flags": [
+        "thin equity (4.6% of assets)"
+      ]
+    },
+    {
+      "cert": 18895,
+      "name": "FIRST NB OF LAKE JACKSON",
+      "state": "TEXAS",
+      "assets_thousands_usd": 218367,
+      "risk_based_capital_pct": 34.94151856150005,
+      "roa_pct": 0.30020106925199125,
+      "nonperforming_pct": 0,
+      "flags": [
+        "thin equity (2.9% of assets)"
+      ]
+    },
+    {
+      "cert": 18924,
+      "name": "OLD GLORY BANK",
+      "state": "OKLAHOMA",
+      "assets_thousands_usd": 276783,
+      "risk_based_capital_pct": 11.565655052577968,
+      "roa_pct": -5.894709412876717,
+      "nonperforming_pct": 0.5491666756990133,
+      "flags": [
+        "losing money (ROA -5.89%)",
+        "thin equity (2.5% of assets)"
+      ]
+    },
+    {
+      "cert": 19254,
+      "name": "HERITAGE BANK NATIONAL ASSN",
+      "state": "MINNESOTA",
+      "assets_thousands_usd": 361058,
+      "risk_based_capital_pct": 16.58983842709753,
+      "roa_pct": -0.01776269045551433,
+      "nonperforming_pct": 3.2806363520542408,
+      "flags": [
+        "losing money (ROA -0.02%)"
+      ]
+    },
+    {
+      "cert": 1929,
+      "name": "FARMERS STB OF TRIMONT",
+      "state": "MINNESOTA",
+      "assets_thousands_usd": 73122,
+      "risk_based_capital_pct": 25.311631748892395,
+      "roa_pct": -0.34667634135526265,
+      "nonperforming_pct": 0.6181450179152649,
+      "flags": [
+        "losing money (ROA -0.35%)"
+      ]
+    },
+    {
+      "cert": 19440,
+      "name": "FIRST FINANCIAL BANK",
+      "state": "ALABAMA",
+      "assets_thousands_usd": 248097,
+      "risk_based_capital_pct": 15.943137629884617,
+      "roa_pct": 1.061616250499198,
+      "nonperforming_pct": 0.8424124435200748,
+      "flags": [
+        "thin equity (3.3% of assets)"
+      ]
+    },
+    {
+      "cert": 19755,
+      "name": "SOUTH LAFOURCHE B&T CO",
+      "state": "LOUISIANA",
+      "assets_thousands_usd": 177535,
+      "risk_based_capital_pct": 0,
+      "roa_pct": 0.6903990552034894,
+      "nonperforming_pct": 5.658602529078773,
+      "flags": [
+        "high nonperforming (5.7%)"
+      ]
+    },
+    {
+      "cert": 20026,
+      "name": "EASTERN NATIONAL BANK",
+      "state": "FLORIDA",
+      "assets_thousands_usd": 65158,
+      "risk_based_capital_pct": 15.174405687624972,
+      "roa_pct": -6.562554520199873,
+      "nonperforming_pct": 0.058319776543171976,
+      "flags": [
+        "losing money (ROA -6.56%)"
+      ]
+    },
+    {
+      "cert": 20093,
+      "name": "ALL AMERICA BANK",
+      "state": "OKLAHOMA",
+      "assets_thousands_usd": 611477,
+      "risk_based_capital_pct": 15.34526628848378,
+      "roa_pct": 0.941453627255566,
+      "nonperforming_pct": 4.0796301414444045,
+      "flags": [
+        "high nonperforming (4.1%)"
+      ]
+    },
+    {
+      "cert": 20239,
+      "name": "BANK OF CADIZ&TRUST CO",
+      "state": "KENTUCKY",
+      "assets_thousands_usd": 142913,
+      "risk_based_capital_pct": 16.116614088111366,
+      "roa_pct": 0.9942329819287653,
+      "nonperforming_pct": 0.0020991792209246185,
+      "flags": [
+        "thin equity (2.8% of assets)"
+      ]
+    },
+    {
+      "cert": 20537,
+      "name": "AMERICAN BANK&TRUST CO",
+      "state": "OKLAHOMA",
+      "assets_thousands_usd": 324441,
+      "risk_based_capital_pct": 0,
+      "roa_pct": 1.4186758198585667,
+      "nonperforming_pct": 4.0839474665655695,
+      "flags": [
+        "high nonperforming (4.1%)"
+      ]
+    },
+    {
+      "cert": 21085,
+      "name": "BANK OF ONTARIO",
+      "state": "WISCONSIN",
+      "assets_thousands_usd": 79002,
+      "risk_based_capital_pct": 0,
+      "roa_pct": 1.159588586595886,
+      "nonperforming_pct": 7.065643907749171,
+      "flags": [
+        "high nonperforming (7.1%)"
+      ]
+    },
+    {
+      "cert": 21448,
+      "name": "REDEMPTION BANK",
+      "state": "UTAH",
+      "assets_thousands_usd": 77507,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -0.27648645351910334,
+      "nonperforming_pct": 0.29158656637465,
+      "flags": [
+        "losing money (ROA -0.28%)"
+      ]
+    },
+    {
+      "cert": 21455,
+      "name": "FIDELITY BANK OF TEXAS",
+      "state": "TEXAS",
+      "assets_thousands_usd": 162840,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -0.5514467233637426,
+      "nonperforming_pct": 0.03131908621960206,
+      "flags": [
+        "losing money (ROA -0.55%)"
+      ]
+    },
+    {
+      "cert": 2157,
+      "name": "FIRST STB OF RANDOLPH COUNTY",
+      "state": "GEORGIA",
+      "assets_thousands_usd": 86859,
+      "risk_based_capital_pct": 15.769200840401526,
+      "roa_pct": -0.2716067379954042,
+      "nonperforming_pct": 1.5991434393672503,
+      "flags": [
+        "losing money (ROA -0.27%)",
+        "thin equity (1.4% of assets)"
+      ]
+    },
+    {
+      "cert": 22229,
+      "name": "COMMONWEALTH NATIONAL BANK",
+      "state": "ALABAMA",
+      "assets_thousands_usd": 78539,
+      "risk_based_capital_pct": 29.522110498432262,
+      "roa_pct": -0.3035976319384709,
+      "nonperforming_pct": 1.7137982403646594,
+      "flags": [
+        "losing money (ROA -0.30%)"
+      ]
+    },
+    {
+      "cert": 22381,
+      "name": "ANAHUAC NATIONAL BANK",
+      "state": "TEXAS",
+      "assets_thousands_usd": 266425,
+      "risk_based_capital_pct": 0,
+      "roa_pct": 0.9554400292670104,
+      "nonperforming_pct": 0.1171061274279816,
+      "flags": [
+        "thin equity (3.9% of assets)"
+      ]
+    },
+    {
+      "cert": 22398,
+      "name": "MODERN BANK NATIONAL ASSN",
+      "state": "NEW YORK",
+      "assets_thousands_usd": 648549,
+      "risk_based_capital_pct": 14.211333111288567,
+      "roa_pct": 0.13469166509460026,
+      "nonperforming_pct": 4.204154196521774,
+      "flags": [
+        "high nonperforming (4.2%)"
+      ]
+    },
+    {
+      "cert": 22460,
+      "name": "MONTEREY COUNTY BANK",
+      "state": "CALIFORNIA",
+      "assets_thousands_usd": 300380,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -0.9566782496986973,
+      "nonperforming_pct": 0.44377122311738465,
+      "flags": [
+        "losing money (ROA -0.96%)"
+      ]
+    },
+    {
+      "cert": 22536,
+      "name": "FIRST SECURE BANK&TRUST CO",
+      "state": "ILLINOIS",
+      "assets_thousands_usd": 396243,
+      "risk_based_capital_pct": 14.855662597565312,
+      "roa_pct": 0.5124384161547351,
+      "nonperforming_pct": 4.825321835338416,
+      "flags": [
+        "high nonperforming (4.8%)"
+      ]
+    },
+    {
+      "cert": 22738,
+      "name": "FIRST UTAH BANK",
+      "state": "UTAH",
+      "assets_thousands_usd": 840298,
+      "risk_based_capital_pct": 0,
+      "roa_pct": 0.7413746192725019,
+      "nonperforming_pct": 4.825073961856389,
+      "flags": [
+        "high nonperforming (4.8%)"
+      ]
+    },
+    {
+      "cert": 22867,
+      "name": "COMMUNITY BANK OF RAYMORE",
+      "state": "MISSOURI",
+      "assets_thousands_usd": 346918,
+      "risk_based_capital_pct": 20.5831140582669,
+      "roa_pct": 1.7933751839098904,
+      "nonperforming_pct": 0.017583405876893096,
+      "flags": [
+        "thin equity (4.0% of assets)"
+      ]
+    },
+    {
+      "cert": 23086,
+      "name": "NEW OMNI BANK NATIONAL ASSN",
+      "state": "CALIFORNIA",
+      "assets_thousands_usd": 517936,
+      "risk_based_capital_pct": 44.56842072574259,
+      "roa_pct": 0.6960462743305575,
+      "nonperforming_pct": 5.707268851750023,
+      "flags": [
+        "high nonperforming (5.7%)"
+      ]
+    },
+    {
+      "cert": 23242,
+      "name": "CALIFORNIA PACIFIC BANK",
+      "state": "CALIFORNIA",
+      "assets_thousands_usd": 102578,
+      "risk_based_capital_pct": 41.774275987771595,
+      "roa_pct": 1.8988665911724951,
+      "nonperforming_pct": 16.24519877556591,
+      "flags": [
+        "high nonperforming (16.2%)"
+      ]
+    },
+    {
+      "cert": 232,
+      "name": "SOLON STATE BANK",
+      "state": "IOWA",
+      "assets_thousands_usd": 122478,
+      "risk_based_capital_pct": 0,
+      "roa_pct": 0.049612171519412766,
+      "nonperforming_pct": 10.685184277992782,
+      "flags": [
+        "high nonperforming (10.7%)"
+      ]
+    },
+    {
+      "cert": 2331,
+      "name": "PEOPLES BANK&TRUST CO",
+      "state": "OKLAHOMA",
+      "assets_thousands_usd": 61880,
+      "risk_based_capital_pct": 15.269190306565031,
+      "roa_pct": -1.3205055649877382,
+      "nonperforming_pct": 7.813510019392372,
+      "flags": [
+        "losing money (ROA -1.32%)",
+        "high nonperforming (7.8%)"
+      ]
+    },
+    {
+      "cert": 23373,
+      "name": "UNITED ORIENT BANK",
+      "state": "NEW YORK",
+      "assets_thousands_usd": 101406,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -0.12160717613099578,
+      "nonperforming_pct": 0.6715578959824863,
+      "flags": [
+        "losing money (ROA -0.12%)"
+      ]
+    },
+    {
+      "cert": 2359,
+      "name": "MAUCH CHUNK TRUST CO",
+      "state": "PENNSYLVANIA",
+      "assets_thousands_usd": 642783,
+      "risk_based_capital_pct": 16.395302300547883,
+      "roa_pct": 0.21796710178897818,
+      "nonperforming_pct": 0.5888456913141761,
+      "flags": [
+        "thin equity (1.1% of assets)"
+      ]
+    },
+    {
+      "cert": 23749,
+      "name": "MISSION NATIONAL BANK",
+      "state": "CALIFORNIA",
+      "assets_thousands_usd": 276407,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -0.04565083929330402,
+      "nonperforming_pct": 0,
+      "flags": [
+        "losing money (ROA -0.05%)"
+      ]
+    },
+    {
+      "cert": 23864,
+      "name": "SUMMIT BANK",
+      "state": "CALIFORNIA",
+      "assets_thousands_usd": 264445,
+      "risk_based_capital_pct": 22.010990152294806,
+      "roa_pct": -3.452837286610329,
+      "nonperforming_pct": 1.1076027151203462,
+      "flags": [
+        "losing money (ROA -3.45%)"
+      ]
+    },
+    {
+      "cert": 23966,
+      "name": "ONEUNITED BANK",
+      "state": "MASSACHUSETTS",
+      "assets_thousands_usd": 637943,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -0.8047019605773703,
+      "nonperforming_pct": 0.27196787173775716,
+      "flags": [
+        "losing money (ROA -0.80%)"
+      ]
+    },
+    {
+      "cert": 23989,
+      "name": "MINERS EXCHANGE BANK",
+      "state": "VIRGINIA",
+      "assets_thousands_usd": 93453,
+      "risk_based_capital_pct": 22.005333333333333,
+      "roa_pct": -0.5122542361520253,
+      "nonperforming_pct": 2.183985532834687,
+      "flags": [
+        "losing money (ROA -0.51%)"
+      ]
+    },
+    {
+      "cert": 24045,
+      "name": "BANC OF CALIFORNIA",
+      "state": "CALIFORNIA",
+      "assets_thousands_usd": 34899077,
+      "risk_based_capital_pct": 13.74425928527678,
+      "roa_pct": -0.8762443067035598,
+      "nonperforming_pct": 1.7344584786583326,
+      "flags": [
+        "losing money (ROA -0.88%)"
+      ]
+    },
+    {
+      "cert": 24387,
+      "name": "INDUSTRIAL&COMMERCIAL BK CHI",
+      "state": "NEW YORK",
+      "assets_thousands_usd": 2859720,
+      "risk_based_capital_pct": 18.267961135005255,
+      "roa_pct": 0.6656889350773629,
+      "nonperforming_pct": 4.156455876799127,
+      "flags": [
+        "high nonperforming (4.2%)"
+      ]
+    },
+    {
+      "cert": 24677,
+      "name": "TRIAD BANK NATIONAL ASSN",
+      "state": "OKLAHOMA",
+      "assets_thousands_usd": 228559,
+      "risk_based_capital_pct": 0,
+      "roa_pct": 2.307177521632714,
+      "nonperforming_pct": 4.578686466076594,
+      "flags": [
+        "high nonperforming (4.6%)"
+      ]
+    },
+    {
+      "cert": 25054,
+      "name": "SUMMIT NATIONAL BANK",
+      "state": "WYOMING",
+      "assets_thousands_usd": 65941,
+      "risk_based_capital_pct": 6.068399452804377,
+      "roa_pct": -2.197739711422276,
+      "nonperforming_pct": 0.23505861300253256,
+      "flags": [
+        "undercapitalized (RBC 6.1%)",
+        "losing money (ROA -2.20%)",
+        "thin equity (2.4% of assets)"
+      ]
+    },
+    {
+      "cert": 25258,
+      "name": "PIBANK NATIONAL ASSN",
+      "state": "FLORIDA",
+      "assets_thousands_usd": 2373337,
+      "risk_based_capital_pct": 18.519651492505375,
+      "roa_pct": -0.48513795216638245,
+      "nonperforming_pct": 0.06143248935991813,
+      "flags": [
+        "losing money (ROA -0.49%)"
+      ]
+    },
+    {
+      "cert": 26181,
+      "name": "TEXAS NB OF JACKSONVILLE",
+      "state": "TEXAS",
+      "assets_thousands_usd": 852407,
+      "risk_based_capital_pct": 16.5670756577014,
+      "roa_pct": -0.3375706714823602,
+      "nonperforming_pct": 1.2126836124058107,
+      "flags": [
+        "losing money (ROA -0.34%)"
+      ]
+    },
+    {
+      "cert": 26395,
+      "name": "MUTUALONE BANK",
+      "state": "MASSACHUSETTS",
+      "assets_thousands_usd": 1217844,
+      "risk_based_capital_pct": 0,
+      "roa_pct": 0.8829170441622175,
+      "nonperforming_pct": 4.325102394066891,
+      "flags": [
+        "high nonperforming (4.3%)"
+      ]
+    },
+    {
+      "cert": 26704,
+      "name": "BALBOA THRIFT&LOAN ASSN",
+      "state": "CALIFORNIA",
+      "assets_thousands_usd": 394455,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -0.7024955341119586,
+      "nonperforming_pct": 1.027493630452143,
+      "flags": [
+        "losing money (ROA -0.70%)"
+      ]
+    },
+    {
+      "cert": 26816,
+      "name": "LIBERTY BANK INC",
+      "state": "UTAH",
+      "assets_thousands_usd": 11435,
+      "risk_based_capital_pct": 73.5056925996205,
+      "roa_pct": -11.624441132637854,
+      "nonperforming_pct": 0,
+      "flags": [
+        "losing money (ROA -11.62%)"
+      ]
+    },
+    {
+      "cert": 27010,
+      "name": "YOUNG AMERICANS BANK",
+      "state": "COLORADO",
+      "assets_thousands_usd": 15527,
+      "risk_based_capital_pct": 204.32852386237514,
+      "roa_pct": -11.530455625407372,
+      "nonperforming_pct": 0.03864236491273266,
+      "flags": [
+        "losing money (ROA -11.53%)"
+      ]
+    },
+    {
+      "cert": 27015,
+      "name": "42 NORTH PRIVATE BANK",
+      "state": "MASSACHUSETTS",
+      "assets_thousands_usd": 182165,
+      "risk_based_capital_pct": 13.374529065877963,
+      "roa_pct": -3.857905873360614,
+      "nonperforming_pct": 0.023604973513023906,
+      "flags": [
+        "losing money (ROA -3.86%)"
+      ]
+    },
+    {
+      "cert": 27664,
+      "name": "STERLING FEDERAL BANK FSB",
+      "state": "ILLINOIS",
+      "assets_thousands_usd": 481614,
+      "risk_based_capital_pct": 11.800024540972268,
+      "roa_pct": -2.236392472108586,
+      "nonperforming_pct": 4.539319870269552,
+      "flags": [
+        "losing money (ROA -2.24%)",
+        "high nonperforming (4.5%)"
+      ]
+    },
+    {
+      "cert": 27716,
+      "name": "MUTUAL SAVINGS&LOAN ASSN",
+      "state": "LOUISIANA",
+      "assets_thousands_usd": 35922,
+      "risk_based_capital_pct": 99.96532793990175,
+      "roa_pct": -0.6657825651573791,
+      "nonperforming_pct": 0.1892990368019598,
+      "flags": [
+        "losing money (ROA -0.67%)"
+      ]
+    },
+    {
+      "cert": 27884,
+      "name": "HUNTINGTON FSB",
+      "state": "WEST VIRGINIA",
+      "assets_thousands_usd": 532286,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -0.38128689252414144,
+      "nonperforming_pct": 0.1991410632629827,
+      "flags": [
+        "losing money (ROA -0.38%)"
+      ]
+    },
+    {
+      "cert": 27897,
+      "name": "BLACK MOUNTAIN SB SSB",
+      "state": "NORTH CAROLINA",
+      "assets_thousands_usd": 42995,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -0.20609542842867848,
+      "nonperforming_pct": 0,
+      "flags": [
+        "losing money (ROA -0.21%)"
+      ]
+    },
+    {
+      "cert": 28217,
+      "name": "WARSAW FS&LA",
+      "state": "OHIO",
+      "assets_thousands_usd": 108524,
+      "risk_based_capital_pct": 19.502062151587026,
+      "roa_pct": -0.08146665847689677,
+      "nonperforming_pct": 1.071652353396484,
+      "flags": [
+        "losing money (ROA -0.08%)"
+      ]
+    },
+    {
+      "cert": 28222,
+      "name": "HADDON SAVINGS BANK",
+      "state": "NEW JERSEY",
+      "assets_thousands_usd": 421352,
+      "risk_based_capital_pct": 12.994148115215983,
+      "roa_pct": -0.0958525226641192,
+      "nonperforming_pct": 0.15189200478459816,
+      "flags": [
+        "losing money (ROA -0.10%)"
+      ]
+    },
+    {
+      "cert": 28266,
+      "name": "CONNECT COMMUNITY BANK",
+      "state": "WASHINGTON",
+      "assets_thousands_usd": 72656,
+      "risk_based_capital_pct": 8.914338330503842,
+      "roa_pct": -1.7275890326307446,
+      "nonperforming_pct": 0.11698964985685971,
+      "flags": [
+        "not well-capitalized (RBC 8.9%)",
+        "losing money (ROA -1.73%)",
+        "thin equity (3.7% of assets)"
+      ]
+    },
+    {
+      "cert": 28380,
+      "name": "ADIRONDACK BANK",
+      "state": "NEW YORK",
+      "assets_thousands_usd": 1005295,
+      "risk_based_capital_pct": 12.538240933557306,
+      "roa_pct": -2.117984097366266,
+      "nonperforming_pct": 0.4348972192242079,
+      "flags": [
+        "losing money (ROA -2.12%)"
+      ]
+    },
+    {
+      "cert": 28478,
+      "name": "FARMERS&MECHANICS FSB",
+      "state": "INDIANA",
+      "assets_thousands_usd": 113590,
+      "risk_based_capital_pct": 12.168217855911754,
+      "roa_pct": -0.25116343522292917,
+      "nonperforming_pct": 0.7685535698565015,
+      "flags": [
+        "losing money (ROA -0.25%)",
+        "thin equity (4.7% of assets)"
+      ]
+    },
+    {
+      "cert": 28480,
+      "name": "COLUMBIA SAVINGS&LOAN ASSN",
+      "state": "WISCONSIN",
+      "assets_thousands_usd": 20558,
+      "risk_based_capital_pct": 8.866229995273144,
+      "roa_pct": -3.26647835760837,
+      "nonperforming_pct": 15.487887926841132,
+      "flags": [
+        "not well-capitalized (RBC 8.9%)",
+        "losing money (ROA -3.27%)",
+        "high nonperforming (15.5%)"
+      ]
+    },
+    {
+      "cert": 28515,
+      "name": "TRUSTTEXAS BANK SSB",
+      "state": "TEXAS",
+      "assets_thousands_usd": 393489,
+      "risk_based_capital_pct": 18.474266143283863,
+      "roa_pct": 0.24265484313910463,
+      "nonperforming_pct": 0.3646861792832837,
+      "flags": [
+        "thin equity (1.5% of assets)"
+      ]
+    },
+    {
+      "cert": 28663,
+      "name": "BROOKVILLE BLDG&SVG ASSN",
+      "state": "OHIO",
+      "assets_thousands_usd": 41172,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -0.08343634116192832,
+      "nonperforming_pct": 0,
+      "flags": [
+        "losing money (ROA -0.08%)"
+      ]
+    },
+    {
+      "cert": 28805,
+      "name": "SUNNYSIDE FS&LA OF IRVINGTON",
+      "state": "NEW YORK",
+      "assets_thousands_usd": 82271,
+      "risk_based_capital_pct": 20.960325928800078,
+      "roa_pct": -0.8562915927023625,
+      "nonperforming_pct": 0.10331708621506971,
+      "flags": [
+        "losing money (ROA -0.86%)"
+      ]
+    },
+    {
+      "cert": 28841,
+      "name": "COMMUNITY SAVINGS BANK",
+      "state": "ILLINOIS",
+      "assets_thousands_usd": 410173,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -0.21697433203425653,
+      "nonperforming_pct": 0.11458579672479662,
+      "flags": [
+        "losing money (ROA -0.22%)"
+      ]
+    },
+    {
+      "cert": 28989,
+      "name": "WCF FINANCIAL BANK",
+      "state": "IOWA",
+      "assets_thousands_usd": 224385,
+      "risk_based_capital_pct": 12.709775702555085,
+      "roa_pct": 0.09813557149235325,
+      "nonperforming_pct": 4.018093901107472,
+      "flags": [
+        "high nonperforming (4.0%)"
+      ]
+    },
+    {
+      "cert": 29005,
+      "name": "FIRST FS&LA",
+      "state": "OHIO",
+      "assets_thousands_usd": 22432,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -0.451460607848923,
+      "nonperforming_pct": 0,
+      "flags": [
+        "losing money (ROA -0.45%)"
+      ]
+    },
+    {
+      "cert": 29061,
+      "name": "TARBORO SAVINGS BANK SSB",
+      "state": "NORTH CAROLINA",
+      "assets_thousands_usd": 54057,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -0.2602130570758405,
+      "nonperforming_pct": 0.49762287955306433,
+      "flags": [
+        "losing money (ROA -0.26%)"
+      ]
+    },
+    {
+      "cert": 29268,
+      "name": "EUREKA HOMESTEAD",
+      "state": "LOUISIANA",
+      "assets_thousands_usd": 89360,
+      "risk_based_capital_pct": 42.173874551812666,
+      "roa_pct": -0.5250977692499231,
+      "nonperforming_pct": 0.40174574753804837,
+      "flags": [
+        "losing money (ROA -0.53%)"
+      ]
+    },
+    {
+      "cert": 29332,
+      "name": "FIRST SOUTHERN BANK",
+      "state": "ALABAMA",
+      "assets_thousands_usd": 679154,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -2.5023123182284137,
+      "nonperforming_pct": 7.489612076200684,
+      "flags": [
+        "losing money (ROA -2.50%)",
+        "high nonperforming (7.5%)"
+      ]
+    },
+    {
+      "cert": 29399,
+      "name": "GN BANK",
+      "state": "ILLINOIS",
+      "assets_thousands_usd": 59783,
+      "risk_based_capital_pct": 0,
+      "roa_pct": 0.2335261365479215,
+      "nonperforming_pct": 5.906361340180319,
+      "flags": [
+        "high nonperforming (5.9%)"
+      ]
+    },
+    {
+      "cert": 29430,
+      "name": "COMPASS SAVINGS BANK",
+      "state": "PENNSYLVANIA",
+      "assets_thousands_usd": 53523,
+      "risk_based_capital_pct": 15.333067700220958,
+      "roa_pct": -0.3348419619531221,
+      "nonperforming_pct": 0.12517982923229268,
+      "flags": [
+        "losing money (ROA -0.33%)"
+      ]
+    },
+    {
+      "cert": 29449,
+      "name": "NORTH SIDE FS&LA OF CHICAGO",
+      "state": "ILLINOIS",
+      "assets_thousands_usd": 41818,
+      "risk_based_capital_pct": 19.174237739618512,
+      "roa_pct": -0.18014743645457204,
+      "nonperforming_pct": 1.3989191257353293,
+      "flags": [
+        "losing money (ROA -0.18%)"
+      ]
+    },
+    {
+      "cert": 29486,
+      "name": "KINGSTREE FS&LA",
+      "state": "SOUTH CAROLINA",
+      "assets_thousands_usd": 39329,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -0.6112160762017536,
+      "nonperforming_pct": 1.8739352640545146,
+      "flags": [
+        "losing money (ROA -0.61%)"
+      ]
+    },
+    {
+      "cert": 29517,
+      "name": "PIONEER STATE BANK",
+      "state": "MONTANA",
+      "assets_thousands_usd": 133546,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -2.1539625133823708,
+      "nonperforming_pct": 0.41408952720410946,
+      "flags": [
+        "losing money (ROA -2.15%)"
+      ]
+    },
+    {
+      "cert": 29566,
+      "name": "UNITED FIDELITY BANK FSB",
+      "state": "INDIANA",
+      "assets_thousands_usd": 6493323,
+      "risk_based_capital_pct": 15.085096173659524,
+      "roa_pct": -0.08754778650013133,
+      "nonperforming_pct": 0.2570486636811383,
+      "flags": [
+        "losing money (ROA -0.09%)"
+      ]
+    },
+    {
+      "cert": 29578,
+      "name": "MONROE FS&LA",
+      "state": "OHIO",
+      "assets_thousands_usd": 144544,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -0.22180229287546235,
+      "nonperforming_pct": 0.17157405357538189,
+      "flags": [
+        "losing money (ROA -0.22%)"
+      ]
+    },
+    {
+      "cert": 29744,
+      "name": "FIRST SEACOAST BANK",
+      "state": "NEW HAMPSHIRE",
+      "assets_thousands_usd": 576306,
+      "risk_based_capital_pct": 15.955654381551124,
+      "roa_pct": -0.0880626888474328,
+      "nonperforming_pct": 0.02221042293503798,
+      "flags": [
+        "losing money (ROA -0.09%)"
+      ]
+    },
+    {
+      "cert": 29772,
+      "name": "VIDALIA FEDERAL SAVINGS BANK",
+      "state": "GEORGIA",
+      "assets_thousands_usd": 211974,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -0.8007759456838022,
+      "nonperforming_pct": 0.36608263277571773,
+      "flags": [
+        "losing money (ROA -0.80%)"
+      ]
+    },
+    {
+      "cert": 29922,
+      "name": "RIVERVIEW BANK",
+      "state": "WASHINGTON",
+      "assets_thousands_usd": 1468113,
+      "risk_based_capital_pct": 15.644976472281376,
+      "roa_pct": -0.765013215400554,
+      "nonperforming_pct": 0.5952539075670605,
+      "flags": [
+        "losing money (ROA -0.77%)"
+      ]
+    },
+    {
+      "cert": 29966,
+      "name": "EQUITABLE SAVINGS&LOAN CO",
+      "state": "OHIO",
+      "assets_thousands_usd": 8593,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -2.26027397260274,
+      "nonperforming_pct": 0.9659024787617829,
+      "flags": [
+        "losing money (ROA -2.26%)"
+      ]
+    },
+    {
+      "cert": 29980,
+      "name": "MIDLAND FS&LA",
+      "state": "ILLINOIS",
+      "assets_thousands_usd": 111234,
+      "risk_based_capital_pct": 25.13992885395159,
+      "roa_pct": -3.960729736561499,
+      "nonperforming_pct": 0.44950284984806804,
+      "flags": [
+        "losing money (ROA -3.96%)"
+      ]
+    },
+    {
+      "cert": 30039,
+      "name": "HAVEN SAVINGS BANK",
+      "state": "NEW JERSEY",
+      "assets_thousands_usd": 986876,
+      "risk_based_capital_pct": 14.22291806502019,
+      "roa_pct": -0.3529848097213011,
+      "nonperforming_pct": 0.31878371750858264,
+      "flags": [
+        "losing money (ROA -0.35%)"
+      ]
+    },
+    {
+      "cert": 30052,
+      "name": "BLUE FOUNDRY BANK",
+      "state": "NEW JERSEY",
+      "assets_thousands_usd": 1889913,
+      "risk_based_capital_pct": 19.93029647822493,
+      "roa_pct": -1.3120427053994708,
+      "nonperforming_pct": 0.9529539190428343,
+      "flags": [
+        "losing money (ROA -1.31%)"
+      ]
+    },
+    {
+      "cert": 30313,
+      "name": "EAST WISCONSIN SAVINGS BANK",
+      "state": "WISCONSIN",
+      "assets_thousands_usd": 265761,
+      "risk_based_capital_pct": 12.626839719306963,
+      "roa_pct": -0.3866211563100576,
+      "nonperforming_pct": 0.04402451827017508,
+      "flags": [
+        "losing money (ROA -0.39%)"
+      ]
+    },
+    {
+      "cert": 30357,
+      "name": "STREATOR HOME SAVINGS BANK",
+      "state": "ILLINOIS",
+      "assets_thousands_usd": 137043,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -18.93006226533896,
+      "nonperforming_pct": 0.3480659355092927,
+      "flags": [
+        "losing money (ROA -18.93%)"
+      ]
+    },
+    {
+      "cert": 30394,
+      "name": "CARVER FEDERAL SAVINGS BANK",
+      "state": "NEW YORK",
+      "assets_thousands_usd": 658052,
+      "risk_based_capital_pct": 11.424039144220915,
+      "roa_pct": -0.7242754413691986,
+      "nonperforming_pct": 2.9102563323263206,
+      "flags": [
+        "losing money (ROA -0.72%)"
+      ]
+    },
+    {
+      "cert": 30447,
+      "name": "RAYNE BUILDING&LOAN ASSN",
+      "state": "LOUISIANA",
+      "assets_thousands_usd": 50820,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -1.3188432968496453,
+      "nonperforming_pct": 0.3089334907516726,
+      "flags": [
+        "losing money (ROA -1.32%)"
+      ]
+    },
+    {
+      "cert": 3079,
+      "name": "FIRST NB OF ASPERMONT",
+      "state": "TEXAS",
+      "assets_thousands_usd": 133878,
+      "risk_based_capital_pct": 0,
+      "roa_pct": 1.0873195167468814,
+      "nonperforming_pct": 0.10756061488818176,
+      "flags": [
+        "thin equity (4.0% of assets)"
+      ]
+    },
+    {
+      "cert": 30996,
+      "name": "CENLAR FSB",
+      "state": "NEW JERSEY",
+      "assets_thousands_usd": 782039,
+      "risk_based_capital_pct": 44.07094074150149,
+      "roa_pct": -1.232882200945736,
+      "nonperforming_pct": 0.055112340944633194,
+      "flags": [
+        "losing money (ROA -1.23%)"
+      ]
+    },
+    {
+      "cert": 31345,
+      "name": "HERTFORD SAVINGS BANK SSB",
+      "state": "NORTH CAROLINA",
+      "assets_thousands_usd": 20682,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -0.1189551770284336,
+      "nonperforming_pct": 0.15472391451503723,
+      "flags": [
+        "losing money (ROA -0.12%)"
+      ]
+    },
+    {
+      "cert": 31361,
+      "name": "COLONIAL SAVINGS FA",
+      "state": "TEXAS",
+      "assets_thousands_usd": 501794,
+      "risk_based_capital_pct": 175.73064496039973,
+      "roa_pct": -2.405678471007633,
+      "nonperforming_pct": 0.08768538483919697,
+      "flags": [
+        "losing money (ROA -2.41%)"
+      ]
+    },
+    {
+      "cert": 31723,
+      "name": "HOME SAVINGS BANK FSB",
+      "state": "KENTUCKY",
+      "assets_thousands_usd": 25738,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -1.2887180646619942,
+      "nonperforming_pct": 5.8357292718936975,
+      "flags": [
+        "losing money (ROA -1.29%)",
+        "high nonperforming (5.8%)"
+      ]
+    },
+    {
+      "cert": 3232,
+      "name": "GRANGER NATIONAL BANK",
+      "state": "TEXAS",
+      "assets_thousands_usd": 53472,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -0.6342332184452957,
+      "nonperforming_pct": 0.059844404548174746,
+      "flags": [
+        "losing money (ROA -0.63%)"
+      ]
+    },
+    {
+      "cert": 32360,
+      "name": "EASTERN SAVINGS BANK FSB",
+      "state": "MARYLAND",
+      "assets_thousands_usd": 336412,
+      "risk_based_capital_pct": 0,
+      "roa_pct": 2.2746453021696267,
+      "nonperforming_pct": 6.379677300453015,
+      "flags": [
+        "high nonperforming (6.4%)"
+      ]
+    },
+    {
+      "cert": 32968,
+      "name": "BANK47",
+      "state": "ALABAMA",
+      "assets_thousands_usd": 96958,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -4.315871075464385,
+      "nonperforming_pct": 0.11963943150642546,
+      "flags": [
+        "losing money (ROA -4.32%)"
+      ]
+    },
+    {
+      "cert": 33103,
+      "name": "GATEWAY BANK FSB",
+      "state": "CALIFORNIA",
+      "assets_thousands_usd": 288216,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -0.3642189049007917,
+      "nonperforming_pct": 1.8402864518277957,
+      "flags": [
+        "losing money (ROA -0.36%)"
+      ]
+    },
+    {
+      "cert": 33568,
+      "name": "UNITED BANK OF PHILADELPHIA",
+      "state": "PENNSYLVANIA",
+      "assets_thousands_usd": 48411,
+      "risk_based_capital_pct": 37.54990355717041,
+      "roa_pct": -2.647752231648095,
+      "nonperforming_pct": 6.384912519881845,
+      "flags": [
+        "losing money (ROA -2.65%)",
+        "high nonperforming (6.4%)"
+      ]
+    },
+    {
+      "cert": 33753,
+      "name": "CITIZENS COMMUNITY BANK",
+      "state": "ILLINOIS",
+      "assets_thousands_usd": 531041,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -0.3023119182196938,
+      "nonperforming_pct": 3.4735547726070113,
+      "flags": [
+        "losing money (ROA -0.30%)"
+      ]
+    },
+    {
+      "cert": 33802,
+      "name": "TIOGA-FRANKLIN SAVINGS BANK",
+      "state": "PENNSYLVANIA",
+      "assets_thousands_usd": 68444,
+      "risk_based_capital_pct": 4.138789164490862,
+      "roa_pct": -3.3519229376403272,
+      "nonperforming_pct": 7.942259365320554,
+      "flags": [
+        "undercapitalized (RBC 4.1%)",
+        "losing money (ROA -3.35%)",
+        "high nonperforming (7.9%)",
+        "thin equity (2.0% of assets)"
+      ]
+    },
+    {
+      "cert": 34259,
+      "name": "CROWN BANK",
+      "state": "NEW JERSEY",
+      "assets_thousands_usd": 614282,
+      "risk_based_capital_pct": 0,
+      "roa_pct": 2.33104508468287,
+      "nonperforming_pct": 7.349230483719203,
+      "flags": [
+        "high nonperforming (7.3%)"
+      ]
+    },
+    {
+      "cert": 34403,
+      "name": "COASTAL COMMUNITY BANK",
+      "state": "WASHINGTON",
+      "assets_thousands_usd": 5452231,
+      "risk_based_capital_pct": 12.268833890998271,
+      "roa_pct": -1.1026287957085543,
+      "nonperforming_pct": 1.7967507246116314,
+      "flags": [
+        "losing money (ROA -1.10%)"
+      ]
+    },
+    {
+      "cert": 34535,
+      "name": "TCM BANK NATIONAL ASSN",
+      "state": "FLORIDA",
+      "assets_thousands_usd": 382352,
+      "risk_based_capital_pct": 22.163467951092997,
+      "roa_pct": -1.1387391210967082,
+      "nonperforming_pct": 0.7367556597062392,
+      "flags": [
+        "losing money (ROA -1.14%)"
+      ]
+    },
+    {
+      "cert": 34644,
+      "name": "KEY COMMUNITY BANK",
+      "state": "MINNESOTA",
+      "assets_thousands_usd": 121022,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -0.11153757832234361,
+      "nonperforming_pct": 1.9657582918808152,
+      "flags": [
+        "losing money (ROA -0.11%)"
+      ]
+    },
+    {
+      "cert": 34784,
+      "name": "COMMERCIAL CAPITAL BANK",
+      "state": "LOUISIANA",
+      "assets_thousands_usd": 611382,
+      "risk_based_capital_pct": 0,
+      "roa_pct": 1.907770376834151,
+      "nonperforming_pct": 4.582077980706007,
+      "flags": [
+        "high nonperforming (4.6%)"
+      ]
+    },
+    {
+      "cert": 34786,
+      "name": "ENTERPRISE BANK",
+      "state": "PENNSYLVANIA",
+      "assets_thousands_usd": 524622,
+      "risk_based_capital_pct": 11.67338497385125,
+      "roa_pct": 0.7800343750635755,
+      "nonperforming_pct": 6.761249051698175,
+      "flags": [
+        "high nonperforming (6.8%)"
+      ]
+    },
+    {
+      "cert": 34995,
+      "name": "FIRST CENTRAL BANK MCCOOK",
+      "state": "NEBRASKA",
+      "assets_thousands_usd": 122772,
+      "risk_based_capital_pct": 14.368076393213686,
+      "roa_pct": 0.6561119764439798,
+      "nonperforming_pct": 4.76085752451699,
+      "flags": [
+        "high nonperforming (4.8%)"
+      ]
+    },
+    {
+      "cert": 34997,
+      "name": "BAYFIRST NATIONAL BANK",
+      "state": "FLORIDA",
+      "assets_thousands_usd": 1136157,
+      "risk_based_capital_pct": 13.190652467545902,
+      "roa_pct": -6.31534144545297,
+      "nonperforming_pct": 1.7102389898579158,
+      "flags": [
+        "losing money (ROA -6.32%)"
+      ]
+    },
+    {
+      "cert": 35138,
+      "name": "MILLENNIUM BANK",
+      "state": "TENNESSEE",
+      "assets_thousands_usd": 780768,
+      "risk_based_capital_pct": 10.456278788500612,
+      "roa_pct": -0.6371929634384708,
+      "nonperforming_pct": 0.6236167465879748,
+      "flags": [
+        "losing money (ROA -0.64%)"
+      ]
+    },
+    {
+      "cert": 35154,
+      "name": "BTG PACTUAL BANK NA",
+      "state": "NEW YORK",
+      "assets_thousands_usd": 978322,
+      "risk_based_capital_pct": 112.78834598587216,
+      "roa_pct": -0.12832754409356165,
+      "nonperforming_pct": 0.0800349987018589,
+      "flags": [
+        "losing money (ROA -0.13%)"
+      ]
+    },
+    {
+      "cert": 35314,
+      "name": "BHM BANK",
+      "state": "ALABAMA",
+      "assets_thousands_usd": 17400,
+      "risk_based_capital_pct": 19.798631322268545,
+      "roa_pct": -3.9464122677895985,
+      "nonperforming_pct": 6.074712643678161,
+      "flags": [
+        "losing money (ROA -3.95%)",
+        "high nonperforming (6.1%)"
+      ]
+    },
+    {
+      "cert": 35323,
+      "name": "FINWISE BANK",
+      "state": "UTAH",
+      "assets_thousands_usd": 915475,
+      "risk_based_capital_pct": 0,
+      "roa_pct": 1.416727497251804,
+      "nonperforming_pct": 4.117206914443322,
+      "flags": [
+        "high nonperforming (4.1%)"
+      ]
+    },
+    {
+      "cert": 35331,
+      "name": "LIBERTY BANK NATIONAL ASSN",
+      "state": "CALIFORNIA",
+      "assets_thousands_usd": 399182,
+      "risk_based_capital_pct": 20.632535935552944,
+      "roa_pct": -0.4397042782693007,
+      "nonperforming_pct": 0.0012525614882434577,
+      "flags": [
+        "losing money (ROA -0.44%)"
+      ]
+    },
+    {
+      "cert": 35413,
+      "name": "BESSEMER TR CO OF CA NA",
+      "state": "CALIFORNIA",
+      "assets_thousands_usd": 14341,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -15.468992335183978,
+      "nonperforming_pct": 0,
+      "flags": [
+        "losing money (ROA -15.47%)"
+      ]
+    },
+    {
+      "cert": 35541,
+      "name": "BCB COMMUNITY BANK",
+      "state": "NEW JERSEY",
+      "assets_thousands_usd": 3117295,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -0.498777062877324,
+      "nonperforming_pct": 2.5754700790268483,
+      "flags": [
+        "losing money (ROA -0.50%)"
+      ]
+    },
+    {
+      "cert": 3639,
+      "name": "FIRST NATIONAL BANK&TRUST CO",
+      "state": "ILLINOIS",
+      "assets_thousands_usd": 388108,
+      "risk_based_capital_pct": 12.5825794455007,
+      "roa_pct": 0.49312329550016365,
+      "nonperforming_pct": 0.7521102373566121,
+      "flags": [
+        "thin equity (1.0% of assets)"
+      ]
+    },
+    {
+      "cert": 3818,
+      "name": "FIRST B&T CO OF MURPHYSBORO",
+      "state": "ILLINOIS",
+      "assets_thousands_usd": 83079,
+      "risk_based_capital_pct": 16.026297655187825,
+      "roa_pct": 0.27222683963911876,
+      "nonperforming_pct": 5.806521503629076,
+      "flags": [
+        "high nonperforming (5.8%)"
+      ]
+    },
+    {
+      "cert": 4049,
+      "name": "FIRST ENTERPRISE BANK",
+      "state": "OKLAHOMA",
+      "assets_thousands_usd": 189692,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -0.26762825990361283,
+      "nonperforming_pct": 5.551103894734622,
+      "flags": [
+        "losing money (ROA -0.27%)",
+        "high nonperforming (5.6%)"
+      ]
+    },
+    {
+      "cert": 4051,
+      "name": "ALLNATIONS BANK",
+      "state": "OKLAHOMA",
+      "assets_thousands_usd": 84527,
+      "risk_based_capital_pct": 15.252295842796485,
+      "roa_pct": 1.1693739983409708,
+      "nonperforming_pct": 4.7617920901013875,
+      "flags": [
+        "high nonperforming (4.8%)"
+      ]
+    },
+    {
+      "cert": 4063,
+      "name": "MIDFIRST BANK",
+      "state": "OKLAHOMA",
+      "assets_thousands_usd": 42834126,
+      "risk_based_capital_pct": 19.477854478358804,
+      "roa_pct": 1.4583192147916293,
+      "nonperforming_pct": 14.402121803535806,
+      "flags": [
+        "high nonperforming (14.4%)"
+      ]
+    },
+    {
+      "cert": 4094,
+      "name": "BANK OF EUFAULA",
+      "state": "OKLAHOMA",
+      "assets_thousands_usd": 87125,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -0.036321673823802046,
+      "nonperforming_pct": 0.4751793400286944,
+      "flags": [
+        "losing money (ROA -0.04%)"
+      ]
+    },
+    {
+      "cert": 4196,
+      "name": "SNB BANK NATIONAL ASSN",
+      "state": "OKLAHOMA",
+      "assets_thousands_usd": 129448,
+      "risk_based_capital_pct": 0,
+      "roa_pct": 0.01217044711180077,
+      "nonperforming_pct": 6.286694271058649,
+      "flags": [
+        "high nonperforming (6.3%)"
+      ]
+    },
+    {
+      "cert": 41,
+      "name": "PHENIX-GIRARD BANK",
+      "state": "ALABAMA",
+      "assets_thousands_usd": 342259,
+      "risk_based_capital_pct": 0,
+      "roa_pct": 1.0436229344962755,
+      "nonperforming_pct": 0.1224219085546326,
+      "flags": [
+        "thin equity (2.6% of assets)"
+      ]
+    },
+    {
+      "cert": 420,
+      "name": "BANK OF VICI",
+      "state": "OKLAHOMA",
+      "assets_thousands_usd": 28851,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -0.8698561391769822,
+      "nonperforming_pct": 5.930470347648262,
+      "flags": [
+        "losing money (ROA -0.87%)",
+        "high nonperforming (5.9%)"
+      ]
+    },
+    {
+      "cert": 4241,
+      "name": "IDABEL NATIONAL BANK",
+      "state": "OKLAHOMA",
+      "assets_thousands_usd": 242273,
+      "risk_based_capital_pct": 24.80849188100883,
+      "roa_pct": 0.9161802249731441,
+      "nonperforming_pct": 5.706372563182856,
+      "flags": [
+        "high nonperforming (5.7%)"
+      ]
+    },
+    {
+      "cert": 4683,
+      "name": "VENTURA NATIONAL BANK&TRUST",
+      "state": "KANSAS",
+      "assets_thousands_usd": 41719,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -0.4608325978427106,
+      "nonperforming_pct": 0.07910064958412234,
+      "flags": [
+        "losing money (ROA -0.46%)"
+      ]
+    },
+    {
+      "cert": 4766,
+      "name": "SJN BANK OF KANSAS",
+      "state": "KANSAS",
+      "assets_thousands_usd": 302913,
+      "risk_based_capital_pct": 13.480756680444134,
+      "roa_pct": 0.9122628160621534,
+      "nonperforming_pct": 4.35372532707411,
+      "flags": [
+        "high nonperforming (4.4%)"
+      ]
+    },
+    {
+      "cert": 4794,
+      "name": "FIRST NB OF KANSAS",
+      "state": "KANSAS",
+      "assets_thousands_usd": 105593,
+      "risk_based_capital_pct": 18.99069625562419,
+      "roa_pct": 0.783151448535762,
+      "nonperforming_pct": 0.05682194842461148,
+      "flags": [
+        "thin equity (4.0% of assets)"
+      ]
+    },
+    {
+      "cert": 5018,
+      "name": "CITIZENS NB OF CHEBOYGAN",
+      "state": "MICHIGAN",
+      "assets_thousands_usd": 470958,
+      "risk_based_capital_pct": 15.44594798531113,
+      "roa_pct": 0.7319524636353355,
+      "nonperforming_pct": 0.8382913126011237,
+      "flags": [
+        "thin equity (4.6% of assets)"
+      ]
+    },
+    {
+      "cert": 5105,
+      "name": "B2 BANK NATIONAL ASSN",
+      "state": "UTAH",
+      "assets_thousands_usd": 114588,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -1.4712869533005306,
+      "nonperforming_pct": 0.6981533842985304,
+      "flags": [
+        "losing money (ROA -1.47%)"
+      ]
+    },
+    {
+      "cert": 5673,
+      "name": "CITIZENS BANK&TRUST",
+      "state": "FLORIDA",
+      "assets_thousands_usd": 1480129,
+      "risk_based_capital_pct": 13.70573996237305,
+      "roa_pct": 1.4307631099920428,
+      "nonperforming_pct": 0.21430564498094423,
+      "flags": [
+        "thin equity (4.1% of assets)"
+      ]
+    },
+    {
+      "cert": 5676,
+      "name": "BRANNEN BANK",
+      "state": "FLORIDA",
+      "assets_thousands_usd": 1030928,
+      "risk_based_capital_pct": 15.95368989936638,
+      "roa_pct": 1.9652122913326537,
+      "nonperforming_pct": 0.273830956187047,
+      "flags": [
+        "thin equity (3.6% of assets)"
+      ]
+    },
+    {
+      "cert": 57031,
+      "name": "CHAMPION BANK",
+      "state": "COLORADO",
+      "assets_thousands_usd": 41706,
+      "risk_based_capital_pct": 95.26222880245999,
+      "roa_pct": -2.117331607415284,
+      "nonperforming_pct": 0.4004220016304609,
+      "flags": [
+        "losing money (ROA -2.12%)"
+      ]
+    },
+    {
+      "cert": 57129,
+      "name": "COMMUNITY FSB",
+      "state": "NEW YORK",
+      "assets_thousands_usd": 826976,
+      "risk_based_capital_pct": 19.97839994041363,
+      "roa_pct": -0.6547656982082457,
+      "nonperforming_pct": 0.20460085903339395,
+      "flags": [
+        "losing money (ROA -0.65%)"
+      ]
+    },
+    {
+      "cert": 57336,
+      "name": "DRAKE BANK",
+      "state": "MINNESOTA",
+      "assets_thousands_usd": 247441,
+      "risk_based_capital_pct": 11.07504557957192,
+      "roa_pct": -1.2411321918662266,
+      "nonperforming_pct": 5.389163477354197,
+      "flags": [
+        "losing money (ROA -1.24%)",
+        "high nonperforming (5.4%)"
+      ]
+    },
+    {
+      "cert": 57359,
+      "name": "AMERICAN EAGLE BANK",
+      "state": "ILLINOIS",
+      "assets_thousands_usd": 484737,
+      "risk_based_capital_pct": 9.754556602585922,
+      "roa_pct": -0.19032817685712616,
+      "nonperforming_pct": 0.032594994811619496,
+      "flags": [
+        "not well-capitalized (RBC 9.8%)",
+        "losing money (ROA -0.19%)"
+      ]
+    },
+    {
+      "cert": 57470,
+      "name": "MEMBERS TRUST CO",
+      "state": "FLORIDA",
+      "assets_thousands_usd": 34263,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -1.0734282978908585,
+      "nonperforming_pct": 0,
+      "flags": [
+        "losing money (ROA -1.07%)"
+      ]
+    },
+    {
+      "cert": 57884,
+      "name": "PARAMOUNT BANK",
+      "state": "MISSOURI",
+      "assets_thousands_usd": 86553,
+      "risk_based_capital_pct": 16.777549897453856,
+      "roa_pct": -3.9261709988379767,
+      "nonperforming_pct": 1.012096634432082,
+      "flags": [
+        "losing money (ROA -3.93%)"
+      ]
+    },
+    {
+      "cert": 57901,
+      "name": "ONE WORLD BANK",
+      "state": "TEXAS",
+      "assets_thousands_usd": 290110,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -1.3038066133250121,
+      "nonperforming_pct": 0,
+      "flags": [
+        "losing money (ROA -1.30%)"
+      ]
+    },
+    {
+      "cert": 58088,
+      "name": "SOUTHPOINT BANK",
+      "state": "ALABAMA",
+      "assets_thousands_usd": 1360933,
+      "risk_based_capital_pct": 10.180060939071277,
+      "roa_pct": -1.7060899210069789,
+      "nonperforming_pct": 3.193911823726811,
+      "flags": [
+        "losing money (ROA -1.71%)"
+      ]
+    },
+    {
+      "cert": 58148,
+      "name": "MILESTONE BANK",
+      "state": "UTAH",
+      "assets_thousands_usd": 342168,
+      "risk_based_capital_pct": 0,
+      "roa_pct": 0.6889797585507474,
+      "nonperforming_pct": 4.606509083257347,
+      "flags": [
+        "high nonperforming (4.6%)"
+      ]
+    },
+    {
+      "cert": 58158,
+      "name": "SMARTBIZ BANK NATIONAL ASSN",
+      "state": "ILLINOIS",
+      "assets_thousands_usd": 200758,
+      "risk_based_capital_pct": 11.497207867435534,
+      "roa_pct": -0.33230318231330536,
+      "nonperforming_pct": 1.0858844977535143,
+      "flags": [
+        "losing money (ROA -0.33%)"
+      ]
+    },
+    {
+      "cert": 58263,
+      "name": "GLOBAL BANK",
+      "state": "NEW YORK",
+      "assets_thousands_usd": 304249,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -0.02452150945070651,
+      "nonperforming_pct": 3.986866020923651,
+      "flags": [
+        "losing money (ROA -0.02%)"
+      ]
+    },
+    {
+      "cert": 58359,
+      "name": "UNITED REPUBLIC BANK",
+      "state": "NEBRASKA",
+      "assets_thousands_usd": 185768,
+      "risk_based_capital_pct": 0,
+      "roa_pct": 0.1544581527987713,
+      "nonperforming_pct": 7.490525817148271,
+      "flags": [
+        "high nonperforming (7.5%)"
+      ]
+    },
+    {
+      "cert": 58407,
+      "name": "UNIBANK",
+      "state": "WASHINGTON",
+      "assets_thousands_usd": 392997,
+      "risk_based_capital_pct": 11.297979257992088,
+      "roa_pct": -0.24922594575015763,
+      "nonperforming_pct": 0.36997737896218036,
+      "flags": [
+        "losing money (ROA -0.25%)"
+      ]
+    },
+    {
+      "cert": 58426,
+      "name": "WEST VALLEY NATIONAL BANK",
+      "state": "ARIZONA",
+      "assets_thousands_usd": 74287,
+      "risk_based_capital_pct": 13.38304345532244,
+      "roa_pct": -1.752616480882334,
+      "nonperforming_pct": 0,
+      "flags": [
+        "losing money (ROA -1.75%)"
+      ]
+    },
+    {
+      "cert": 58590,
+      "name": "NANO BANC",
+      "state": "CALIFORNIA",
+      "assets_thousands_usd": 736172,
+      "risk_based_capital_pct": 9.112451997857567,
+      "roa_pct": -0.5384547223425936,
+      "nonperforming_pct": 16.736034513673435,
+      "flags": [
+        "not well-capitalized (RBC 9.1%)",
+        "losing money (ROA -0.54%)",
+        "high nonperforming (16.7%)"
+      ]
+    },
+    {
+      "cert": 58619,
+      "name": "MRV BANKS",
+      "state": "MISSOURI",
+      "assets_thousands_usd": 803087,
+      "risk_based_capital_pct": 0,
+      "roa_pct": 1.577337577036945,
+      "nonperforming_pct": 6.42558029204806,
+      "flags": [
+        "high nonperforming (6.4%)"
+      ]
+    },
+    {
+      "cert": 58626,
+      "name": "GBANK",
+      "state": "NEVADA",
+      "assets_thousands_usd": 1427371,
+      "risk_based_capital_pct": 0,
+      "roa_pct": 1.3123801142850569,
+      "nonperforming_pct": 4.216282942556631,
+      "flags": [
+        "high nonperforming (4.2%)"
+      ]
+    },
+    {
+      "cert": 58629,
+      "name": "STELLAR BANK",
+      "state": "TEXAS",
+      "assets_thousands_usd": 10404868,
+      "risk_based_capital_pct": 13.994453603325018,
+      "roa_pct": -0.6232469484900768,
+      "nonperforming_pct": 0.6215936617360258,
+      "flags": [
+        "losing money (ROA -0.62%)"
+      ]
+    },
+    {
+      "cert": 58687,
+      "name": "TOUCHMARK NATIONAL BANK",
+      "state": "GEORGIA",
+      "assets_thousands_usd": 416900,
+      "risk_based_capital_pct": 45.4983196246477,
+      "roa_pct": 0.4492005385912852,
+      "nonperforming_pct": 5.256656272487406,
+      "flags": [
+        "high nonperforming (5.3%)"
+      ]
+    },
+    {
+      "cert": 58741,
+      "name": "FIELDPOINT PRIVATE B&T",
+      "state": "CONNECTICUT",
+      "assets_thousands_usd": 867112,
+      "risk_based_capital_pct": 11.183536734437668,
+      "roa_pct": -0.28662978764493485,
+      "nonperforming_pct": 1.3824050411019568,
+      "flags": [
+        "losing money (ROA -0.29%)"
+      ]
+    },
+    {
+      "cert": 58764,
+      "name": "MINT NATIONAL BANK",
+      "state": "TEXAS",
+      "assets_thousands_usd": 388937,
+      "risk_based_capital_pct": 0,
+      "roa_pct": 1.4405646648401147,
+      "nonperforming_pct": 4.416396485806184,
+      "flags": [
+        "high nonperforming (4.4%)"
+      ]
+    },
+    {
+      "cert": 58857,
+      "name": "NEW HORIZON BANK NA",
+      "state": "VIRGINIA",
+      "assets_thousands_usd": 359324,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -0.39208408550267404,
+      "nonperforming_pct": 0.07764580156070844,
+      "flags": [
+        "losing money (ROA -0.39%)"
+      ]
+    },
+    {
+      "cert": 59114,
+      "name": "COMMERCEONE BANK",
+      "state": "ALABAMA",
+      "assets_thousands_usd": 1062980,
+      "risk_based_capital_pct": 12.886091453456721,
+      "roa_pct": -0.1614620907623072,
+      "nonperforming_pct": 0,
+      "flags": [
+        "losing money (ROA -0.16%)"
+      ]
+    },
+    {
+      "cert": 59154,
+      "name": "PIERMONT BANK",
+      "state": "NEW YORK",
+      "assets_thousands_usd": 505063,
+      "risk_based_capital_pct": 17.888266205383697,
+      "roa_pct": -1.9603932260102315,
+      "nonperforming_pct": 0,
+      "flags": [
+        "losing money (ROA -1.96%)"
+      ]
+    },
+    {
+      "cert": 59190,
+      "name": "VARO BANK NATIONAL ASSN",
+      "state": "UTAH",
+      "assets_thousands_usd": 337821,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -25.677126023177944,
+      "nonperforming_pct": 0.11988597511699985,
+      "flags": [
+        "losing money (ROA -25.68%)"
+      ]
+    },
+    {
+      "cert": 59204,
+      "name": "LEGACY BANK",
+      "state": "CALIFORNIA",
+      "assets_thousands_usd": 112785,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -2.0149846229660793,
+      "nonperforming_pct": 1.1012102673227824,
+      "flags": [
+        "losing money (ROA -2.01%)"
+      ]
+    },
+    {
+      "cert": 59239,
+      "name": "AGILITY BANK NATIONAL ASSN",
+      "state": "TEXAS",
+      "assets_thousands_usd": 151636,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -0.43805593312252183,
+      "nonperforming_pct": 0.7748819541533672,
+      "flags": [
+        "losing money (ROA -0.44%)"
+      ]
+    },
+    {
+      "cert": 59245,
+      "name": "GENESIS BANK",
+      "state": "CALIFORNIA",
+      "assets_thousands_usd": 340254,
+      "risk_based_capital_pct": 19.37518288981189,
+      "roa_pct": -0.2408117319066071,
+      "nonperforming_pct": 0.034386076284187696,
+      "flags": [
+        "losing money (ROA -0.24%)"
+      ]
+    },
+    {
+      "cert": 59249,
+      "name": "FIRST BANK OF CENTRAL OHIO",
+      "state": "OHIO",
+      "assets_thousands_usd": 260918,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -0.2335754135573693,
+      "nonperforming_pct": 1.1697161560336964,
+      "flags": [
+        "losing money (ROA -0.23%)"
+      ]
+    },
+    {
+      "cert": 59265,
+      "name": "WATERFALL BANK",
+      "state": "FLORIDA",
+      "assets_thousands_usd": 409933,
+      "risk_based_capital_pct": 14.267729112037458,
+      "roa_pct": -0.033850029860562056,
+      "nonperforming_pct": 0.024394230276654966,
+      "flags": [
+        "losing money (ROA -0.03%)"
+      ]
+    },
+    {
+      "cert": 59273,
+      "name": "GAINEY BUSINESS BANK",
+      "state": "ARIZONA",
+      "assets_thousands_usd": 106610,
+      "risk_based_capital_pct": 15.916502164879867,
+      "roa_pct": -0.06898556093884238,
+      "nonperforming_pct": 0.06190788856580058,
+      "flags": [
+        "losing money (ROA -0.07%)"
+      ]
+    },
+    {
+      "cert": 59276,
+      "name": "ANCHORAGE DIGITAL BANK NA",
+      "state": "SOUTH DAKOTA",
+      "assets_thousands_usd": 1872222,
+      "risk_based_capital_pct": 0,
+      "roa_pct": 2.4006719576933495,
+      "nonperforming_pct": 0,
+      "flags": [
+        "thin equity (2.3% of assets)"
+      ]
+    },
+    {
+      "cert": 59283,
+      "name": "INTEGRO BANK",
+      "state": "ARIZONA",
+      "assets_thousands_usd": 195591,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -1.0338713926646397,
+      "nonperforming_pct": 3.099835882019111,
+      "flags": [
+        "losing money (ROA -1.03%)"
+      ]
+    },
+    {
+      "cert": 59286,
+      "name": "THRIVENT BANK",
+      "state": "UTAH",
+      "assets_thousands_usd": 905602,
+      "risk_based_capital_pct": 56.04292899011772,
+      "roa_pct": -1.6215334511853048,
+      "nonperforming_pct": 0.16508355767765528,
+      "flags": [
+        "losing money (ROA -1.62%)"
+      ]
+    },
+    {
+      "cert": 59290,
+      "name": "BEACH CITIES COMMERCIAL BANK",
+      "state": "CALIFORNIA",
+      "assets_thousands_usd": 188867,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -0.043789467538320345,
+      "nonperforming_pct": 0,
+      "flags": [
+        "losing money (ROA -0.04%)"
+      ]
+    },
+    {
+      "cert": 59298,
+      "name": "BUSINESS BANK THE",
+      "state": "VERMONT",
+      "assets_thousands_usd": 352210,
+      "risk_based_capital_pct": 15.701640886902313,
+      "roa_pct": -0.3262044430253304,
+      "nonperforming_pct": 0.05990744158314642,
+      "flags": [
+        "losing money (ROA -0.33%)"
+      ]
+    },
+    {
+      "cert": 59305,
+      "name": "COMMUNITY UNITY BANK",
+      "state": "MICHIGAN",
+      "assets_thousands_usd": 107137,
+      "risk_based_capital_pct": 24.232204529124076,
+      "roa_pct": -1.6787675586240294,
+      "nonperforming_pct": 0,
+      "flags": [
+        "losing money (ROA -1.68%)"
+      ]
+    },
+    {
+      "cert": 59314,
+      "name": "ICON BUSINESS BANK",
+      "state": "CALIFORNIA",
+      "assets_thousands_usd": 155506,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -0.8768051711033241,
+      "nonperforming_pct": 0.17169755507826065,
+      "flags": [
+        "losing money (ROA -0.88%)"
+      ]
+    },
+    {
+      "cert": 59321,
+      "name": "HIGHTOWER TRUST CO NA",
+      "state": "TEXAS",
+      "assets_thousands_usd": 16895,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -5.6152353133347415,
+      "nonperforming_pct": 0,
+      "flags": [
+        "losing money (ROA -5.62%)"
+      ]
+    },
+    {
+      "cert": 59324,
+      "name": "NAVE BANK",
+      "state": "PUERTO RICO",
+      "assets_thousands_usd": 555006,
+      "risk_based_capital_pct": 25.826933246481264,
+      "roa_pct": -0.48626226269345385,
+      "nonperforming_pct": 0,
+      "flags": [
+        "losing money (ROA -0.49%)"
+      ]
+    },
+    {
+      "cert": 59330,
+      "name": "FORTUNA BANK",
+      "state": "OHIO",
+      "assets_thousands_usd": 57262,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -3.9007163352529246,
+      "nonperforming_pct": 0,
+      "flags": [
+        "losing money (ROA -3.90%)"
+      ]
+    },
+    {
+      "cert": 59339,
+      "name": "ALTOS BANK",
+      "state": "CALIFORNIA",
+      "assets_thousands_usd": 68825,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -8.498526877536271,
+      "nonperforming_pct": 0,
+      "flags": [
+        "losing money (ROA -8.50%)"
+      ]
+    },
+    {
+      "cert": 59345,
+      "name": "FIVE RIVERS BANK",
+      "state": "NEW JERSEY",
+      "assets_thousands_usd": 78136,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -8.083993692488873,
+      "nonperforming_pct": 0,
+      "flags": [
+        "losing money (ROA -8.08%)"
+      ]
+    },
+    {
+      "cert": 59346,
+      "name": "BESSEMER TR CO OF NEVADA NA",
+      "state": "NEVADA",
+      "assets_thousands_usd": 6810,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -29.785164883741487,
+      "nonperforming_pct": 0,
+      "flags": [
+        "losing money (ROA -29.79%)"
+      ]
+    },
+    {
+      "cert": 59354,
+      "name": "BANKMIAMI",
+      "state": "FLORIDA",
+      "assets_thousands_usd": 317852,
+      "risk_based_capital_pct": 29.734355744214707,
+      "roa_pct": -0.7079904525066014,
+      "nonperforming_pct": 0,
+      "flags": [
+        "losing money (ROA -0.71%)"
+      ]
+    },
+    {
+      "cert": 59358,
+      "name": "GALA BANK",
+      "state": "FLORIDA",
+      "assets_thousands_usd": 44907,
+      "risk_based_capital_pct": 30.05690453469056,
+      "roa_pct": -1.9758387308056184,
+      "nonperforming_pct": 0,
+      "flags": [
+        "losing money (ROA -1.98%)"
+      ]
+    },
+    {
+      "cert": 59360,
+      "name": "HOUSTON BANK&TRUST",
+      "state": "TEXAS",
+      "assets_thousands_usd": 38547,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -53.11437984797779,
+      "nonperforming_pct": 0,
+      "flags": [
+        "losing money (ROA -53.11%)"
+      ]
+    },
+    {
+      "cert": 59362,
+      "name": "SOLUTIONS PLUS BANK",
+      "state": "ALABAMA",
+      "assets_thousands_usd": 43850,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -5.303203661327231,
+      "nonperforming_pct": 0,
+      "flags": [
+        "losing money (ROA -5.30%)"
+      ]
+    },
+    {
+      "cert": 59365,
+      "name": "GENERATIONS COMMUNITY BANK",
+      "state": "INDIANA",
+      "assets_thousands_usd": 30901,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -22.639654506513114,
+      "nonperforming_pct": 0,
+      "flags": [
+        "losing money (ROA -22.64%)"
+      ]
+    },
+    {
+      "cert": 59366,
+      "name": "IRACE DIGITAL BANK NA",
+      "state": "TEXAS",
+      "assets_thousands_usd": 25594,
+      "risk_based_capital_pct": 260.1259529333775,
+      "roa_pct": -39.510652381769596,
+      "nonperforming_pct": 0,
+      "flags": [
+        "losing money (ROA -39.51%)"
+      ]
+    },
+    {
+      "cert": 59369,
+      "name": "LIBERTY BANK OF NEW JERSEY",
+      "state": "NEW JERSEY",
+      "assets_thousands_usd": 107357,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -2.4657919136860444,
+      "nonperforming_pct": 0,
+      "flags": [
+        "losing money (ROA -2.47%)"
+      ]
+    },
+    {
+      "cert": 59377,
+      "name": "ECHELON BANK",
+      "state": "FLORIDA",
+      "assets_thousands_usd": 52158,
+      "risk_based_capital_pct": 176.57447084794183,
+      "roa_pct": -8.186663599064381,
+      "nonperforming_pct": 0,
+      "flags": [
+        "losing money (ROA -8.19%)"
+      ]
+    },
+    {
+      "cert": 59378,
+      "name": "EREBOR BANK N A",
+      "state": "OHIO",
+      "assets_thousands_usd": 4664972,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -1.025186377181218,
+      "nonperforming_pct": 0,
+      "flags": [
+        "losing money (ROA -1.03%)"
+      ]
+    },
+    {
+      "cert": 59379,
+      "name": "CORNERSTONE COMMUNITY BANK",
+      "state": "KENTUCKY",
+      "assets_thousands_usd": 44491,
+      "risk_based_capital_pct": 220.54340028694406,
+      "roa_pct": -0.33714683868647594,
+      "nonperforming_pct": 0,
+      "flags": [
+        "losing money (ROA -0.34%)"
+      ]
+    },
+    {
+      "cert": 59381,
+      "name": "PORTRAIT BANK",
+      "state": "FLORIDA",
+      "assets_thousands_usd": 44695,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -8.26938136256852,
+      "nonperforming_pct": 0,
+      "flags": [
+        "losing money (ROA -8.27%)"
+      ]
+    },
+    {
+      "cert": 59395,
+      "name": "ALVAREZ&MARSAL TRUST CO NA",
+      "state": "DELAWARE",
+      "assets_thousands_usd": 9957,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -10.817344009669135,
+      "nonperforming_pct": 0,
+      "flags": [
+        "losing money (ROA -10.82%)"
+      ]
+    },
+    {
+      "cert": 6078,
+      "name": "ONE AMERICAN BANK",
+      "state": "SOUTH DAKOTA",
+      "assets_thousands_usd": 285193,
+      "risk_based_capital_pct": 20.691018342821,
+      "roa_pct": -3.964417442398889,
+      "nonperforming_pct": 1.231797414382541,
+      "flags": [
+        "losing money (ROA -3.96%)"
+      ]
+    },
+    {
+      "cert": 6100,
+      "name": "LINEAGE BANK",
+      "state": "TENNESSEE",
+      "assets_thousands_usd": 197745,
+      "risk_based_capital_pct": 21.168423124164466,
+      "roa_pct": -5.110021099936974,
+      "nonperforming_pct": 0.7469215403676452,
+      "flags": [
+        "losing money (ROA -5.11%)"
+      ]
+    },
+    {
+      "cert": 6805,
+      "name": "FIRST NB OF WILLIAMSON",
+      "state": "WEST VIRGINIA",
+      "assets_thousands_usd": 120280,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -0.3849407543249059,
+      "nonperforming_pct": 1.9097106750914532,
+      "flags": [
+        "losing money (ROA -0.38%)"
+      ]
+    },
+    {
+      "cert": 8117,
+      "name": "PBT BCORP",
+      "state": "KENTUCKY",
+      "assets_thousands_usd": 473233,
+      "risk_based_capital_pct": 10.48873522614104,
+      "roa_pct": -0.014483161378236326,
+      "nonperforming_pct": 2.3935355311231468,
+      "flags": [
+        "losing money (ROA -0.01%)"
+      ]
+    },
+    {
+      "cert": 8122,
+      "name": "FIRST&PEOPLES BANK&TRUST CO",
+      "state": "KENTUCKY",
+      "assets_thousands_usd": 207102,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -0.48193777540735794,
+      "nonperforming_pct": 6.752711224420817,
+      "flags": [
+        "losing money (ROA -0.48%)",
+        "high nonperforming (6.8%)"
+      ]
+    },
+    {
+      "cert": 8191,
+      "name": "FIRST STATE BANK OF RED WING",
+      "state": "MINNESOTA",
+      "assets_thousands_usd": 86349,
+      "risk_based_capital_pct": 22.597955936682578,
+      "roa_pct": -0.023342488776153313,
+      "nonperforming_pct": 0.4284936710326697,
+      "flags": [
+        "losing money (ROA -0.02%)",
+        "thin equity (3.6% of assets)"
+      ]
+    },
+    {
+      "cert": 8536,
+      "name": "PROGROWTH BANK",
+      "state": "MINNESOTA",
+      "assets_thousands_usd": 364790,
+      "risk_based_capital_pct": 20.50204478185228,
+      "roa_pct": -1.1205814683120687,
+      "nonperforming_pct": 0,
+      "flags": [
+        "losing money (ROA -1.12%)"
+      ]
+    },
+    {
+      "cert": 8681,
+      "name": "LAMONT BANK OF ST JOHN",
+      "state": "WASHINGTON",
+      "assets_thousands_usd": 51124,
+      "risk_based_capital_pct": 4.511402332060674,
+      "roa_pct": -6.225062782214455,
+      "nonperforming_pct": 34.75471402863626,
+      "flags": [
+        "undercapitalized (RBC 4.5%)",
+        "losing money (ROA -6.23%)",
+        "high nonperforming (34.8%)",
+        "thin equity (1.8% of assets)"
+      ]
+    },
+    {
+      "cert": 8714,
+      "name": "UNITY BANK",
+      "state": "WISCONSIN",
+      "assets_thousands_usd": 574753,
+      "risk_based_capital_pct": 13.435276083082393,
+      "roa_pct": 0.027055667034924354,
+      "nonperforming_pct": 6.6901782156856955,
+      "flags": [
+        "high nonperforming (6.7%)"
+      ]
+    },
+    {
+      "cert": 8730,
+      "name": "GATEWAY BANK",
+      "state": "ARKANSAS",
+      "assets_thousands_usd": 180978,
+      "risk_based_capital_pct": 0,
+      "roa_pct": 0.7764027801322259,
+      "nonperforming_pct": 4.72764645426516,
+      "flags": [
+        "high nonperforming (4.7%)"
+      ]
+    },
+    {
+      "cert": 8889,
+      "name": "MIDWEST REGIONAL BANK",
+      "state": "MISSOURI",
+      "assets_thousands_usd": 948967,
+      "risk_based_capital_pct": 12.66507633922362,
+      "roa_pct": -1.335713109784254,
+      "nonperforming_pct": 5.3892284979351235,
+      "flags": [
+        "losing money (ROA -1.34%)",
+        "high nonperforming (5.4%)"
+      ]
+    },
+    {
+      "cert": 9035,
+      "name": "HEADWATERS STATE BANK",
+      "state": "WISCONSIN",
+      "assets_thousands_usd": 122481,
+      "risk_based_capital_pct": 0,
+      "roa_pct": 0.8427505374968361,
+      "nonperforming_pct": 4.177790841028404,
+      "flags": [
+        "high nonperforming (4.2%)"
+      ]
+    },
+    {
+      "cert": 91280,
+      "name": "BANK OF LITTLE ROCK",
+      "state": "ARKANSAS",
+      "assets_thousands_usd": 252866,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -1.252292755844859,
+      "nonperforming_pct": 0.2629851383736841,
+      "flags": [
+        "losing money (ROA -1.25%)"
+      ]
+    },
+    {
+      "cert": 9189,
+      "name": "BRIGHTON BANK",
+      "state": "TENNESSEE",
+      "assets_thousands_usd": 51038,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -1.0774460812542959,
+      "nonperforming_pct": 0.04114581292370391,
+      "flags": [
+        "losing money (ROA -1.08%)"
+      ]
+    },
+    {
+      "cert": 9245,
+      "name": "BANK OF LAFAYETTE GEORGIA",
+      "state": "GEORGIA",
+      "assets_thousands_usd": 446778,
+      "risk_based_capital_pct": 0,
+      "roa_pct": 0.9322157829372888,
+      "nonperforming_pct": 0.5691864863534015,
+      "flags": [
+        "thin equity (4.1% of assets)"
+      ]
+    },
+    {
+      "cert": 9336,
+      "name": "BATTLE BANK NATIONAL ASSN",
+      "state": "MINNESOTA",
+      "assets_thousands_usd": 180793,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -8.07836564221633,
+      "nonperforming_pct": 0,
+      "flags": [
+        "losing money (ROA -8.08%)"
+      ]
+    },
+    {
+      "cert": 9614,
+      "name": "LOCAL BANK",
+      "state": "ALABAMA",
+      "assets_thousands_usd": 111299,
+      "risk_based_capital_pct": 0,
+      "roa_pct": -1.474088573975536,
+      "nonperforming_pct": 1.2695531855632125,
+      "flags": [
+        "losing money (ROA -1.47%)"
+      ]
+    },
+    {
+      "cert": 9769,
+      "name": "FIRST STB OF ROSEMOUNT",
+      "state": "MINNESOTA",
+      "assets_thousands_usd": 146091,
+      "risk_based_capital_pct": 10.889448099526017,
+      "roa_pct": 0.3310505558338832,
+      "nonperforming_pct": 2.0268189005482884,
+      "flags": [
+        "thin equity (4.7% of assets)"
+      ]
+    },
+    {
+      "cert": 9777,
+      "name": "CITIZENS BANK&TRUST CO",
+      "state": "MISSISSIPPI",
+      "assets_thousands_usd": 98552,
+      "risk_based_capital_pct": 18.214621901474743,
+      "roa_pct": 0.9199348707078716,
+      "nonperforming_pct": 4.815731796412046,
+      "flags": [
+        "high nonperforming (4.8%)"
+      ]
+    }
+  ],
+  "raw_snapshot": "data/financials/fdic_bank_financials_2026-09-16.json"
+}

@@ -57,6 +57,12 @@ class TestS1:
         sig = eval_s1(_deal(900, deal_date="2026-01-02"), TODAY)
         assert sig is not None and sig["status"] == "stale"
 
+    def test_stale_print_does_not_need_an_unavailable_treasury_spread(self) -> None:
+        sig = eval_s1(_deal(spread_bp=None, deal_date="2026-04-14"), TODAY)
+        assert sig is not None
+        assert sig["status"] == "stale"
+        assert sig["value_bp"] is None
+
     def test_no_deal_or_no_spread_yields_none(self) -> None:
         assert eval_s1(None, TODAY) is None
         assert eval_s1(_deal(spread_bp=None), TODAY) is None

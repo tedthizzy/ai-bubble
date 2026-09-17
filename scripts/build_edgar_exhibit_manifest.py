@@ -17,6 +17,11 @@ def main() -> None:
     parser.add_argument("--min-parent-relevance-score", type=int, default=75)
     parser.add_argument("--max-parent-rows", type=int, default=None)
     parser.add_argument("--max-exhibits-per-filing", type=int, default=25)
+    parser.add_argument(
+        "--all-exhibits-per-filing",
+        action="store_true",
+        help="Include every qualifying exhibit in each SEC filing index.",
+    )
     parser.add_argument("--exhibit-index-workers", type=int, default=16)
     parser.add_argument("--sec-requests-per-second", type=float, default=8.0)
     parser.add_argument("--sec-domain-concurrency", type=int, default=8)
@@ -43,7 +48,9 @@ def main() -> None:
         args.manifest_csv,
         min_parent_relevance_score=args.min_parent_relevance_score,
         max_parent_rows=args.max_parent_rows,
-        max_exhibits_per_filing=args.max_exhibits_per_filing,
+        max_exhibits_per_filing=(
+            None if args.all_exhibits_per_filing else args.max_exhibits_per_filing
+        ),
         exhibit_index_workers=args.exhibit_index_workers,
         sec_requests_per_second=args.sec_requests_per_second,
         sec_domain_concurrency=args.sec_domain_concurrency,

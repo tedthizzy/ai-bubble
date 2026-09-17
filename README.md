@@ -1,5 +1,15 @@
 # ai-bubble
 
+**Current SEC corpus status:** the dated master indexes contain 367,387 raw rows and 257,675 unique accessions through September 15. The selected primary and exhibit manifests contain 180,044 URLs; 37,706 are in the saved document inventory and 142,338 remain missing after 724 SEC HTTP 429 responses. The inventory has 41,589 rows because it retains earlier FWP and exhibit work. See [the acquisition status](analysis/sec_acquisition_status_2026-09-16.md) and [the v7 dated engine run](analysis/dated_engine_2026-09-16_v7.md) for the exact reconciliation.
+
+**Refresh validation:** [The validation packet](analysis/refresh_validation_2026-09-16.md) records the calculation, provenance, notebook, and presentation checks plus the remaining coverage limits.
+
+**September 16, 2026 full refresh:** [Current evidence, company additions, and bubble assessment](analysis/FULL_REFRESH_2026-09-16.md). The June `0.67` and `0.25` readings below are historical and have not been recomputed. The dated report distinguishes recognized demand, financed infrastructure exposure, physical capacity, and the registered September credit observations.
+
+**Explorer data status:** The checked-in graph and market overlay are June snapshots. See [the dated explorer data status](viz/DATA_STATUS_2026-09-16.md) before interpreting its verdict, prices, or credit dial as current.
+
+**September 16 filing correction:** The June SpaceX adjacency summary below incorrectly withdrew the Google compute deal. A [June 5 SEC free-writing prospectus](https://www.sec.gov/Archives/edgar/data/1181412/000162828026041150/spacexagreementfwp.htm) confirms $920 million per month for about 110,000 GPUs, subject to delivery and termination terms. SpaceX also disclosed $13.329 billion of Valor-related AI equipment debt in its [June 30 10-Q](https://www.sec.gov/Archives/edgar/data/1181412/000162828026052535/spcx-20260630.htm). These are inside the current September analysis and supersede the old no-Google/no-AI-debt claims.
+
 **September 16, 2026 update:** [Current AI research](analysis/SYNTHESIS_2026-09-16.md), including the Anthropic filing check, the compute-glut video's arithmetic and corrected June assumptions. The engine scores and headline figures below are historical June outputs. This research update has not regenerated the graph or deployed the explorer. Original forecasts remain available for scoring.
 
 **A general, evidence-gated forensic engine for financial fragility & mispricing across the whole (US-primary) economy — hidden / mismatched / circular leverage and valuation-run-ahead-of-cash-flow, found with no sector prior.** The AI / data-center / financing boom is **case zero** — the first concentration it was pointed at, not the object. (The method is sector- and era-agnostic; its fingerprints are already in the base-rate book: fiber 1999, shale 2014.) The generalization to the whole economy is the active scope: **[analysis/total_ecosystem_dive.md](analysis/total_ecosystem_dive.md)**.

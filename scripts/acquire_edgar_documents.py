@@ -22,6 +22,11 @@ def main() -> None:
     parser.add_argument("--retry-attempts", type=int, default=3)
     parser.add_argument("--retry-backoff-seconds", type=float, default=0.5)
     parser.add_argument("--progress-interval", type=int, default=0)
+    parser.add_argument(
+        "--compress-raw",
+        action="store_true",
+        help="Store downloaded source bytes as gzip to preserve local disk capacity.",
+    )
     parser.add_argument("--no-resume", action="store_true")
     parser.add_argument(
         "--overwrite",
@@ -57,6 +62,7 @@ def main() -> None:
         write_outputs=False,
         progress_interval=args.progress_interval,
         progress_callback=progress if args.progress_interval > 0 else None,
+        compress_raw=args.compress_raw,
     )
     outputs = batch.write_outputs(args.output_dir, merge_existing=not args.overwrite)
 

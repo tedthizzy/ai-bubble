@@ -1,0 +1,353 @@
+{
+  "acquisition_totals_excluding_sec": {
+    "acquired": 483,
+    "attempted": 484,
+    "current_combined_uses_partial_pjm": false,
+    "deduplicated_combined_queue_rows": 16515,
+    "failed": 1,
+    "parsed_full_source_rows": 5011884,
+    "partial_pjm_complete_rows_separate": 6072,
+    "superseded_partial_pjm_rows_retained_after_cycle_dedup": 5915
+  },
+  "as_of_pacific_date": "2026-09-16",
+  "catalog": {
+    "all_rows": 485,
+    "catalog_path": "data/source_catalogs/source_catalog_2026-09-16_with_pjm_cycle_and_serial_full.csv",
+    "catalog_sha256": "d1e8e8ef31af390feb9c7b5c4fdaf2185b9357ea1f5a1d78bff0e5df960b44f0",
+    "non_edgar_rows": 484,
+    "supersedes_snapshot_path": "data/source_catalogs/source_catalog_2026-09-16_all.csv",
+    "supplemental_pjm_cycle_catalog": "data/source_catalogs/source_catalog_2026-09-16_pjm_cycle.csv",
+    "supplemental_pjm_serial_full_catalog": "data/source_catalogs/source_catalog_2026-09-16_pjm_serial_full.csv"
+  },
+  "coverage_by_source_class": {
+    "equipment_records": {
+      "acquired_here": 2,
+      "artifact_inventory": "data/source_acquisition_2026-09-16/non_gleif/source_artifact_inventory.csv",
+      "attempted_here": 2,
+      "catalog_rows": 2,
+      "failed_here": 0,
+      "normalized_rows": "data/source_acquisition_2026-09-16/non_gleif/source_rows/equipment_records.csv",
+      "parsed_rows_here": 105344,
+      "retrieved_at_utc_max": "2026-09-17T00:03:21.188810+00:00",
+      "retrieved_at_utc_min": "2026-09-17T00:03:12.024108+00:00",
+      "source_dates": {
+        "eia-860m-generator-inventory-july-2026": "2026-07 inventory; released 2026-08-26",
+        "epa-egrid2023-data-rev2": "2023 data; released 2025-06-12"
+      }
+    },
+    "filings": {
+      "acquired_here": 0,
+      "attempted_here": 0,
+      "catalog_rows": 1,
+      "failed_here": 0,
+      "parsed_rows_here": 0,
+      "status": "delegated to SEC EDGAR refresh owned by root"
+    },
+    "lei_records": {
+      "acquired_here": 1,
+      "artifact_inventory": "data/source_acquisition_2026-09-16/gleif/source_artifact_inventory.csv",
+      "attempted_here": 1,
+      "catalog_rows": 1,
+      "failed_here": 0,
+      "normalized_rows": "data/source_acquisition_2026-09-16/gleif/source_rows/lei_records.csv",
+      "parsed_rows_here": 3432165,
+      "retrieved_at_utc_max": "2026-09-17T00:04:52.946584+00:00",
+      "retrieved_at_utc_min": "2026-09-17T00:04:52.946584+00:00",
+      "source_dates": {
+        "gleif-lei-cdf-42218": "content date 2026-09-16 09:00:01"
+      }
+    },
+    "ownership_records": {
+      "acquired_here": 1,
+      "artifact_inventory": "data/source_acquisition_2026-09-16/gleif/source_artifact_inventory.csv",
+      "attempted_here": 1,
+      "catalog_rows": 1,
+      "failed_here": 0,
+      "normalized_rows": "data/source_acquisition_2026-09-16/gleif/source_rows/ownership_records.csv",
+      "parsed_rows_here": 669374,
+      "retrieved_at_utc_max": "2026-09-17T00:04:59.341192+00:00",
+      "retrieved_at_utc_min": "2026-09-17T00:04:59.341192+00:00",
+      "source_dates": {
+        "gleif-rr-cdf-42221": "content date 2026-09-16 09:00:01"
+      }
+    },
+    "permit_records": {
+      "acquired_here": 1,
+      "artifact_inventory": "data/source_acquisition_2026-09-16/non_gleif/source_artifact_inventory.csv",
+      "attempted_here": 1,
+      "catalog_rows": 1,
+      "failed_here": 0,
+      "normalized_rows": "data/source_acquisition_2026-09-16/non_gleif/source_rows/permit_records.csv",
+      "parsed_rows_here": 738181,
+      "retrieved_at_utc_max": "2026-09-17T00:03:13.636063+00:00",
+      "retrieved_at_utc_min": "2026-09-17T00:03:13.636063+00:00",
+      "source_dates": {
+        "epa-icis-air-facilities-programs": "source data date not encoded; retrieved 2026-09-16 PDT"
+      }
+    },
+    "ppas": {
+      "acquired_here": 467,
+      "artifact_inventory": "data/source_acquisition_2026-09-16/non_gleif/source_artifact_inventory.csv",
+      "attempted_here": 467,
+      "catalog_rows": 467,
+      "failed_here": 0,
+      "normalized_rows": "data/source_acquisition_2026-09-16/non_gleif/source_rows/ppas.csv",
+      "parsed_rows_here": 46669,
+      "retrieved_at_utc_max": "2026-09-17T00:05:30.274100+00:00",
+      "retrieved_at_utc_min": "2026-09-17T00:03:10.687245+00:00",
+      "source_dates": {
+        "all_467_pages": "FERC dataset last updated 2026-09-16T22:11:41.405Z"
+      }
+    },
+    "queue_records": {
+      "acquired_here": 8,
+      "artifact_inventory": "data/source_acquisition_2026-09-16/non_gleif/source_artifact_inventory.csv",
+      "attempted_here": 9,
+      "catalog_rows": 9,
+      "cycle_counts": {
+        "C01": 829,
+        "TC1": 315,
+        "TC2": 648
+      },
+      "cycle_last_updated_date_max": "2026-09-16",
+      "cycle_project_id_unique_count": 1792,
+      "cycle_status_counts": {
+        "Active": 982,
+        "EP": 84,
+        "Pending Termination": 3,
+        "UC": 9,
+        "UC-ISP": 5,
+        "Withdrawn": 709
+      },
+      "deduplicated_combined_rows": 16515,
+      "deduplicated_combined_rows_path": "data/source_acquisition_2026-09-16/derived/queue_combined_full_serial_2026-09-16/source_rows/queue_records.csv",
+      "failed_here": 1,
+      "failed_source": "pjm-planning-queues-xml: official XML response ends inside a Project element; native parser failed twice",
+      "full_serial_raw_rows": 9263,
+      "full_serial_raw_sha256": "486d090d718cb594a7441a72149477f8101ff6c4c4083a36c93a80c687aaff9d",
+      "full_serial_source_publication_date": "not established; retrieved 2026-09-16 Pacific",
+      "normalized_rows": "data/source_acquisition_2026-09-16/non_gleif/source_rows/queue_records.csv",
+      "parsed_rows_here": 17423,
+      "partial_recovery": {
+        "complete_project_elements": 6072,
+        "discarded_trailing_bytes": 543,
+        "record_path": "data/source_acquisition_2026-09-16/pjm_salvage/source_rows/queue_records.csv",
+        "recovery_manifest": "data/source_acquisition_2026-09-16/pjm_salvage/recovery.json",
+        "status": "historical partial XML recovery only; excluded from final combined queue",
+        "unobserved_project_count": "unknown"
+      },
+      "pjm_cycle_capacity_basis": "MW Energy (winter net interconnection request); MFO is total facility maximum output and can overstate incremental requested capacity",
+      "retrieved_at_utc_max": "2026-09-17T00:50:10.503617+00:00",
+      "retrieved_at_utc_min": "2026-09-17T00:03:10.657280+00:00",
+      "serial_cycle_overlap_ids_replaced": 908,
+      "source_dates": {
+        "caiso-cluster-15-queue-report": "Cluster 15 report, official page posted 2026-07-16",
+        "ercot-gis-report-1269363208": "August 2026 GIS report, published 2026-09-01",
+        "iso-ne-public-queue-639251136000000000": "as of 2026-09-16",
+        "miso-eras-interconnection-requests": "source publication date not established",
+        "nyiso-interconnection-queue": "HTTP Last-Modified 2026-09-11T17:26:02Z; workbook modified property 2026-09-11",
+        "pjm-cycle-projects-2026-09-16": "current live full cycle export retrieved 2026-09-16 PDT; latest parseable project Last Updated date 2026-09-16",
+        "pjm-planning-queues-xml": "retrieved 2026-09-16 PDT; malformed upstream response",
+        "pjm-serial-full-2026-09-16": "retrieved 2026-09-16 Pacific; source publication date not established; latest project Submitted Date 2025-06-03",
+        "spp-active-generation-interconnection-queue": "source publication date not encoded"
+      },
+      "supplemental_artifact_inventory": "data/source_acquisition_2026-09-16/pjm_cycle/acquired/source_artifact_inventory.csv",
+      "supplemental_normalized_rows": "data/source_acquisition_2026-09-16/pjm_cycle/acquired/source_rows/queue_records.csv",
+      "supplemental_serial_full_artifact_inventory": "data/source_acquisition_2026-09-16/pjm_serial_full/acquired/source_artifact_inventory.csv",
+      "supplemental_serial_full_normalized_rows": "data/source_acquisition_2026-09-16/pjm_serial_full/acquired/source_rows/queue_records.csv"
+    },
+    "tracker_records": {
+      "acquired_here": 3,
+      "artifact_inventory": "data/source_acquisition_2026-09-16/non_gleif/source_artifact_inventory.csv",
+      "attempted_here": 3,
+      "catalog_rows": 3,
+      "failed_here": 0,
+      "normalized_rows": "data/source_acquisition_2026-09-16/non_gleif/source_rows/tracker_records.csv",
+      "parsed_rows_here": 2728,
+      "retrieved_at_utc_max": "2026-09-17T00:05:27.472929+00:00",
+      "retrieved_at_utc_min": "2026-09-17T00:03:10.498205+00:00",
+      "source_dates": {
+        "fractracker-data-centers-000000-001000": "ArcGIS current extract; publication date not encoded",
+        "fractracker-data-centers-001000-001680": "ArcGIS current extract; publication date not encoded",
+        "server-country-all-projects": "source publication date not encoded"
+      }
+    }
+  },
+  "failed_or_partial": [
+    "PJM serial XML endpoint malformed; 6,072-record complete-prefix salvage retained for audit; complete 9,263-row official serial workbook replaces it in final queue",
+    "ERCOT Batch Zero deck has 2.5GW studied-load inconsistency between summary and detailed slide",
+    "Publication dates missing for some public exports; retrieval timestamps shown separately",
+    "Current catalog lacks local zoning, state PUC, broad utility energization, foreign data and fresh authenticated satellite observations"
+  ],
+  "immediately_consumable_by_existing_extractors": [
+    "scripts/extract_ppa_deals.py --input DATED/non_gleif/source_rows/ppas.csv --output DATED/derived/ppa_deals.csv (run)",
+    "scripts/extract_tracker_projects.py --input DATED/non_gleif/source_rows/tracker_records.csv --output DATED/derived/tracker_projects.csv (run)",
+    "scripts/match_physical_records.py --data-dir DATED/non_gleif --projects-input DATED/derived/tracker_projects.csv (run)",
+    "scripts/build_ownership_graph.py --data-dir DATED/gleif/source_rows --output-dir DATED/derived/ownership_graph (run)",
+    "scripts/extract_nyiso_load_queue.py --input DATED/non_gleif/source_rows/queue_records.csv --output DATED/large_load/nyiso_data_center_loads.csv (run)",
+    "scripts/combine_queue_sources.py --standard DATED/non_gleif/source_rows/queue_records.csv --serial DATED/pjm_serial_full/acquired/source_rows/queue_records.csv --cycle DATED/pjm_cycle/acquired/source_rows/queue_records.csv --output DATED/derived/queue_combined_full_serial_2026-09-16/source_rows/queue_records.csv --summary-output DATED/derived/queue_combined_full_serial_2026-09-16/combination_summary.json (run)",
+    "scripts/match_data_center_queues.py --queue-input DATED/derived/queue_combined_full_serial_2026-09-16/source_rows/queue_records.csv --projects-input DATED/derived/tracker_projects.csv --matches-output DATED/derived/queue_project_matches_full_pjm_serial.csv --queues-output DATED/derived/queues_full_pjm_serial.csv --queue-projects-output DATED/derived/queue_projects_full_pjm_serial.csv --summary-output DATED/derived/queue_project_match_summary_full_pjm_serial.json (run)",
+    "scripts/physical_capacity_summary.py --data-dir DATED/derived/queue_combined_full_serial_2026-09-16 --output DATED/derived/physical_capacity_summary_full_pjm_serial_generation_only_2026-09-16.json (run)"
+  ],
+  "inventory_sha256": {
+    "gleif": "87077f5d7bc023b36e6499733b9c1609020987b6dc3f93c208478be473c673de",
+    "non_gleif": "9f22c84d82dfa4ec9d61f47dff29f88d08556dee3f4bf468e2a2be5e1a29b710",
+    "pjm_cycle": "aa11fc1f02d98c8790dffe8eb5d9f5593286cbda0dd4648b8abfb4fedc80078c",
+    "pjm_serial_full": "1bed9a5fda30ef107bfedb06cedad5cfa5f6adb563c513430b06918fc2029fc2"
+  },
+  "key_source_dimensions_absent_from_current_catalog": {
+    "customer_roi_and_actual_token_use": "Public source catalog has no standardized customer productivity outcomes or measured token ROI; tracker and financial data cannot identify customer ROI.",
+    "direct_load_queues_outside_nyiso": "Built-in CAISO, ERCOT GIS, MISO ERAS, SPP and PJM queue files are predominantly generation/service-request exports; no all-region per-project data-center load queue is present.",
+    "foreign_data_centers": "Catalog is U.S.-centric and has no foreign site, power approval or corporate registry source.",
+    "satellite_construction": "scripts/satellite_progress.py uses authenticated Google Earth Engine and a post-window ending 2026-06-03; the pre-existing June satellite artifact was not refreshed by this keyless source run.",
+    "state_local_zoning_and_building_permits": "No state or local zoning, building permit, tax abatement or water permit dataset is configured; EPA ICIS Air is a federal air program extract, not local construction approval.",
+    "state_public_utility_commission_dockets": "No state PUC docket corpus is configured; ERCOT Batch Zero board deck is an aggregate process update, not per-project approval.",
+    "utility_load_and_energization": "No broad utility metered load, signed-service, substation energization or reserved MW panel is configured; NYISO requests and ERCOT conditional classifications cannot establish actual grid draw."
+  },
+  "normalized_outputs": {
+    "ercot_batch_zero_large_load": {
+      "aggregate_path": "data/source_acquisition_2026-09-16/large_load/ercot_batch_zero_aggregate.json",
+      "conditional_base_load_gw": 66.4,
+      "conditional_base_load_projects": 204,
+      "conditional_studied_load_gw_detailed_chart": 125.4,
+      "conditional_studied_load_gw_summary_slide": 127.9,
+      "conditional_studied_load_projects": 158,
+      "excluded_load_gw": 302.2,
+      "excluded_load_projects": 373,
+      "pdf_path": "data/source_acquisition_2026-09-16/large_load/raw/ercot-batch-zero-update-2026-09-11.pdf",
+      "pdf_sha256": "98e37c5f1c0b46803b6af594228fb65180fee41929de3406f51c72891bd1c05b",
+      "source_date": "2026-09-11",
+      "warning": "source slide discrepancy 127.9 vs 125.4 GW for studied load; provisional classifications pending December verification, not approvals to energize"
+    },
+    "ferc_ppa_deals": {
+      "blank_or_duplicate_id_rows_skipped": 186,
+      "output_rows": 46483,
+      "output_sha256": "78eae144a00e83224f9e841292009f5e76b1565f494ea99db830a95bc1c5cd47",
+      "path": "data/source_acquisition_2026-09-16/derived/ppa_deals.csv",
+      "source_rows": 46669
+    },
+    "generation_queue": {
+      "capacity_rows": 2532,
+      "combined_source_summary": "data/source_acquisition_2026-09-16/derived/queue_combined_full_serial_2026-09-16/combination_summary.json",
+      "data_center_supporting_generation_mw": 11717.7,
+      "data_center_supporting_generation_rows": 11,
+      "deduplicated_input_csv": "data/source_acquisition_2026-09-16/derived/queue_combined_full_serial_2026-09-16/source_rows/queue_records.csv",
+      "missing_capacity_rows": 47,
+      "non_generation_positive_mw_excluded": 10877.98,
+      "non_generation_request_rows_excluded": 346,
+      "partial_pjm_included": false,
+      "pjm_cycle_requested_generation_mw": 250197.391,
+      "pjm_serial_requested_generation_mw": 35619.865,
+      "queued_generation_mw": 531011.143,
+      "request_type_basis": {
+        "CAISO": "Cluster 15 interconnection workbook has Generation/Fuel fields",
+        "ERCOT": "Project Details - Small Gen sheet in Generator Interconnection Status report",
+        "ISO-NE": "Type = G",
+        "MISO": "ERAS interconnection export has Generating Facility and Fuel Type fields",
+        "NYISO": "Interconnection Queue and Cluster Projects sheets; excludes Load Projects and Affected System Studies",
+        "PJM": "Project Type = Generation Interconnection",
+        "SPP": "Active Generation Interconnection Queue has Generation Type field"
+      },
+      "rows_scanned": 16515,
+      "status_exclusions": 13590,
+      "summary_path": "data/source_acquisition_2026-09-16/derived/physical_capacity_summary_full_pjm_serial_generation_only_2026-09-16.json",
+      "superseded_partial_pjm_serial_requested_generation_mw": 66768.114,
+      "superseded_unfiltered_full_serial_mw": 541889.123,
+      "superseded_unfiltered_full_serial_summary_path": "data/source_acquisition_2026-09-16/derived/physical_capacity_summary_full_pjm_serial_2026-09-16.json",
+      "warning": "gross generation interconnection requests after source-type filtering; not approved deliverability or energized DC load; some source publication dates unestablished and projects can withdraw or overlap other generation reporting"
+    },
+    "generation_queue_matches": {
+      "classified_rows": 11,
+      "meaning": "11 classifier hits are MISO ERAS supporting generation; zero tracker matches do not measure direct data-center load",
+      "rows_scanned": 16515,
+      "strong_tracker_matches": 0,
+      "summary_path": "data/source_acquisition_2026-09-16/derived/queue_project_match_summary_full_pjm_serial.json"
+    },
+    "gleif_ownership_graph": {
+      "active_relationships": 482099,
+      "csv_qa": "CSV-aware edge and node counts match production summary exactly",
+      "edges_path": "data/source_acquisition_2026-09-16/derived/ownership_graph/ownership_edges.csv",
+      "edges_written": 662417,
+      "nodes_path": "data/source_acquisition_2026-09-16/derived/ownership_graph/ownership_nodes.csv",
+      "nodes_written": 437020,
+      "source_relationship_rows_scanned": 669374,
+      "source_relationship_rows_without_edge": 6957,
+      "summary_path": "data/source_acquisition_2026-09-16/derived/ownership_graph/ownership_graph_summary.json",
+      "summary_sha256": "ffcc3840d93d69020f67a1a58d6f280743cc6bcba80f095a7ba9686e03a08fce"
+    },
+    "nyiso_direct_load": {
+      "classification_basis": "embedded NYISO End-Use Key: DAT Data Center; DAT-AI AI data center; DAT-CM cryptocurrency mining data center",
+      "data_center_type_rows": 40,
+      "load_sheet_rows": 91,
+      "raw_xlsx_spot_checks": [
+        "DAT: queue 0580 300MW status12; 1315 120MW status8; 1484 300MW status12",
+        "DAT-AI: queue 1670 250MW status6; 1728 233MW status5; 1729 233MW status5"
+      ],
+      "requested_peak_mw_by_end_use": {
+        "DAT": 5876.9,
+        "DAT-AI": 5266.0,
+        "DAT-CM": 745.0
+      },
+      "requested_peak_mw_crypto": 745.0,
+      "requested_peak_mw_non_crypto": 11142.9,
+      "rows_path": "data/source_acquisition_2026-09-16/large_load/nyiso_data_center_loads.csv",
+      "source_xlsx_last_modified_utc": "2026-09-11T17:26:02Z",
+      "status_basis": "embedded NYISO legend; 0 withdrawn, 13 in service for test, 14 commercial; historical Withdrawn and In Service sheets excluded",
+      "summary_path": "data/source_acquisition_2026-09-16/large_load/nyiso_data_center_load_summary.json",
+      "unique_queue_numbers": 40,
+      "warning": "distinct queue numbers may describe phases of one campus; sum is requested load, not unique-site or energized capacity"
+    },
+    "physical_matches": {
+      "equipment_scanned": 105344,
+      "equipment_strong_matches": 14,
+      "permit_strong_matches": 132,
+      "permits_scanned": 738181,
+      "summary_path": "data/source_acquisition_2026-09-16/derived/physical_record_match_summary.json"
+    },
+    "tracker_projects": {
+      "capacity_warning": "raw project-row capacity sum can double count physical sites across trackers",
+      "csv_qa": "CSV-aware record count; five quoted fields include embedded newlines, so physical line count is not a row count",
+      "output_rows": 2728,
+      "output_sha256": "c980e0f3a7f1107c6861ed1c069038b7943e27f59d9c09ba9aaf43dbf2117e56",
+      "path": "data/source_acquisition_2026-09-16/derived/tracker_projects.csv",
+      "source_rows": 2728
+    }
+  },
+  "pjm_serial_full_proof_path": "analysis/pjm_serial_queue_full_2026-09-16.json",
+  "separation_rule": "Do not sum gross generation queue requests, NYISO requested data-center load, ERCOT Batch Zero conditional load, or tracker project-row MW; definitions, regions and projects overlap.",
+  "supersession": {
+    "current_generation_queue_capacity_rows": 2532,
+    "current_generation_queue_requested_mw": 531011.143,
+    "current_generation_queue_rows_scanned": 16515,
+    "current_generation_queue_summary_path": "data/source_acquisition_2026-09-16/derived/physical_capacity_summary_full_pjm_serial_generation_only_2026-09-16.json",
+    "prior_full_serial_without_request_type_filter_requested_mw": 541889.123,
+    "prior_full_serial_without_request_type_filter_summary_path": "data/source_acquisition_2026-09-16/derived/physical_capacity_summary_full_pjm_serial_2026-09-16.json",
+    "prior_partial_xml_combined_rows": 14075,
+    "prior_partial_xml_requested_mw": 570293.372,
+    "prior_partial_xml_summary_path": "data/source_acquisition_2026-09-16/derived/physical_capacity_summary_corrected_with_cycle_requested_mw.json",
+    "status": "Both prior queue MW figures are superseded by the full-serial generation-only summary; original dated outputs preserved for audit."
+  },
+  "supplemental_official_public_sources_not_in_original_catalog": [
+    {
+      "rows": 1792,
+      "source": "PJM current cycle full export",
+      "source_page": "https://www.pjm.com/planning/m/cycle-service-request-status",
+      "status": "acquired and added to source catalog builder",
+      "uri": "https://www.pjm.com/m/ProjectTransition/GenerateExcelTransitionProjectsAll"
+    },
+    {
+      "rows": "aggregate, 3 classification buckets",
+      "source": "ERCOT Batch Zero update",
+      "status": "acquired as official aggregate document; not a per-project queue",
+      "uri": "https://www.ercot.com/files/docs/2026/09/11/14-Batch-Zero-Update.pdf"
+    },
+    {
+      "rows": 9263,
+      "source": "PJM serial queue full workbook",
+      "source_page": "https://www.pjm.com/planning/service-requests/interconnection-queues",
+      "source_publication_date": "not established; retrieved 2026-09-16 Pacific",
+      "status": "acquired and normalized offline from complete public XLSX; replaces malformed serial XML in final queue",
+      "uri": "https://services.pjm.com/PJMPlanningApi/api/Queue/ExportToXls"
+    }
+  ]
+}

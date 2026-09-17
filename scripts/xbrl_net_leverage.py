@@ -22,6 +22,7 @@ import json
 import time
 import urllib.error
 import urllib.request
+from datetime import date
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -50,9 +51,15 @@ DA_TAGS = [
     "DepreciationAmortizationAndAccretionNet",
     "DepreciationAndAmortization",
 ]
-INT_TAGS = ["InterestExpense", "InterestExpenseDebt", "InterestAndDebtExpense"]
+INT_TAGS = [
+    "InterestExpense",
+    "InterestExpenseDebt",
+    "InterestAndDebtExpense",
+    "InterestExpenseNonoperating",
+]
 NI_TAGS = ["NetIncomeLoss"]
 TAX_TAGS = ["IncomeTaxExpenseBenefit"]
+ANNUAL_FORMS = {"10-K", "10-K/A", "20-F", "20-F/A", "40-F", "40-F/A"}
 
 
 def fetch_json(url: str) -> dict | None:
@@ -72,55 +79,180 @@ def _units(facts: dict, tag: str) -> list[dict]:
     return units.get("USD", [])
 
 
+def instant_observations(facts: dict, tags: list[str]) -> dict[str, dict]:
+    """Select one observation for each balance-sheet date across candidate tags."""
+    selected: dict[str, dict] = {}
+    for priority, tag in enumerate(tags):
+        for row in _units(facts, tag):
+            if not row.get("end") or row.get("start"):
+                continue
+            try:
+                value = float(row["val"])
+            except (KeyError, TypeError, ValueError):
+                continue
+            candidate = {
+                "value": value,
+                "end": row["end"],
+                "filed": row.get("filed", ""),
+                "tag": tag,
+                "priority": priority,
+            }
+            existing = selected.get(row["end"])
+            if existing is None or (candidate["filed"], -priority) > (
+                existing["filed"], -existing["priority"]
+            ):
+                selected[row["end"]] = candidate
+    return selected
+
+
+def latest_instant_observation(facts: dict, tags: list[str]) -> dict | None:
+    """Select the newest instant across all candidate tags, not the first old tag."""
+    selected = instant_observations(facts, tags)
+    return max(selected.values(), key=lambda row: (row["end"], row["filed"])) if selected else None
+
+
 def latest_instant(facts: dict, tags: list[str]) -> float | None:
-    for tag in tags:
-        rows = [u for u in _units(facts, tag) if u.get("end") and "start" not in u]
-        if rows:
-            rows.sort(key=lambda u: u["end"])
-            return float(rows[-1]["val"])
-    return None
+    observation = latest_instant_observation(facts, tags)
+    return observation["value"] if observation else None
+
+
+def annual_observations(facts: dict, tags: list[str]) -> dict[tuple[str, str], dict]:
+    """One best annual observation per exact fiscal period across candidate tags."""
+    selected: dict[tuple[str, str], dict] = {}
+    for priority, tag in enumerate(tags):
+        for row in _units(facts, tag):
+            start, end = row.get("start"), row.get("end")
+            if not start or not end:
+                continue
+            try:
+                days = (date.fromisoformat(end) - date.fromisoformat(start)).days
+                value = float(row["val"])
+            except (KeyError, TypeError, ValueError):
+                continue
+            if not 330 <= days <= 390:
+                continue
+            if row.get("fp") != "FY" and row.get("form") not in ANNUAL_FORMS:
+                continue
+            period = (start, end)
+            candidate = {
+                "value": value,
+                "start": start,
+                "end": end,
+                "filed": row.get("filed", ""),
+                "tag": tag,
+                "priority": priority,
+            }
+            existing = selected.get(period)
+            if existing is None or (candidate["filed"], -priority) > (
+                existing["filed"],
+                -existing["priority"],
+            ):
+                selected[period] = candidate
+    return selected
+
+
+def latest_annual_observation(facts: dict, tags: list[str]) -> dict | None:
+    selected = annual_observations(facts, tags)
+    return max(selected.values(), key=lambda row: (row["end"], row["filed"])) if selected else None
 
 
 def latest_annual(facts: dict, tags: list[str]) -> float | None:
-    """Most recent FY (≈365-day) value."""
-    for tag in tags:
-        rows = []
-        for u in _units(facts, tag):
-            s, e = u.get("start"), u.get("end")
-            if not s or not e:
-                continue
-            # crude ~annual filter via fiscal-period tag or 10-K form
-            if u.get("fp") == "FY" or u.get("form", "").startswith("10-K"):
-                rows.append(u)
-        if rows:
-            rows.sort(key=lambda u: u["end"])
-            return float(rows[-1]["val"])
-    return None
+    observation = latest_annual_observation(facts, tags)
+    return observation["value"] if observation else None
+
+
+def annual_da_observations(facts: dict) -> dict[tuple[str, str], dict]:
+    """Use an explicit annual D&A total, or its same-year tangible/intangible parts."""
+    selected = annual_observations(facts, DA_TAGS)
+    depreciation = annual_observations(facts, ["Depreciation"])
+    intangible_amortization = annual_observations(facts, ["AmortizationOfIntangibleAssets"])
+    for period in (depreciation.keys() & intangible_amortization.keys()) - selected.keys():
+        dep = depreciation[period]
+        amort = intangible_amortization[period]
+        selected[period] = {
+            "value": dep["value"] + amort["value"],
+            "start": period[0],
+            "end": period[1],
+            "filed": max(dep["filed"], amort["filed"]),
+            "tag": "Depreciation+AmortizationOfIntangibleAssets",
+        }
+    return selected
+
+
+def total_debt_observations(facts: dict) -> dict[str, dict]:
+    """Find reported aggregate debt or aligned current/noncurrent debt parts."""
+    selected = instant_observations(facts, DEBT_TAGS)
+    for noncurrent_tag, current_tag in (
+        DEBT_SPLIT,
+        ("LongTermNotesPayable", "NotesPayableCurrent"),
+    ):
+        noncurrent = instant_observations(facts, [noncurrent_tag])
+        current = instant_observations(facts, [current_tag])
+        for period in (noncurrent.keys() & current.keys()) - selected.keys():
+            selected[period] = {
+                "value": noncurrent[period]["value"] + current[period]["value"],
+                "end": period,
+                "filed": max(noncurrent[period]["filed"], current[period]["filed"]),
+                "tag": f"{noncurrent_tag}+{current_tag}",
+            }
+    return selected
+
+
+def total_debt_observation(facts: dict) -> dict | None:
+    selected = total_debt_observations(facts)
+    return max(selected.values(), key=lambda row: (row["end"], row["filed"])) if selected else None
 
 
 def total_debt(facts: dict) -> float | None:
-    d = latest_instant(facts, DEBT_TAGS)
-    if d is not None:
-        return d
-    nc = latest_instant(facts, [DEBT_SPLIT[0]])
-    c = latest_instant(facts, [DEBT_SPLIT[1]])
-    if nc is not None or c is not None:
-        return (nc or 0) + (c or 0)
-    return None
+    observation = total_debt_observation(facts)
+    return observation["value"] if observation else None
+
+
+def ebitda_observation(facts: dict) -> dict | None:
+    """Calculate EBITDA only from components describing the same fiscal year."""
+    da = annual_da_observations(facts)
+    op = annual_observations(facts, OPINC_TAGS)
+    ni = annual_observations(facts, NI_TAGS)
+    inte = annual_observations(facts, INT_TAGS)
+    tax = annual_observations(facts, TAX_TAGS)
+    candidates = []
+    for period in op.keys() & da.keys():
+        da_method = (
+            "depreciation+intangible_amortization"
+            if da[period]["tag"] == "Depreciation+AmortizationOfIntangibleAssets"
+            else "da"
+        )
+        candidates.append(
+            {
+                "value": op[period]["value"] + da[period]["value"],
+                "start": period[0],
+                "end": period[1],
+                "method": f"opinc+{da_method}",
+            }
+        )
+    for period in ni.keys() & inte.keys() & tax.keys() & da.keys():
+        da_method = (
+            "depreciation+intangible_amortization"
+            if da[period]["tag"] == "Depreciation+AmortizationOfIntangibleAssets"
+            else "da"
+        )
+        candidates.append(
+            {
+                "value": ni[period]["value"] + inte[period]["value"]
+                + tax[period]["value"] + da[period]["value"],
+                "start": period[0],
+                "end": period[1],
+                "method": f"ni+int+tax+{da_method}",
+            }
+        )
+    if not candidates:
+        return None
+    return max(candidates, key=lambda row: (row["end"], row["method"].startswith("opinc+")))
 
 
 def ebitda(facts: dict) -> tuple[float | None, str]:
-    op = latest_annual(facts, OPINC_TAGS)
-    da = latest_annual(facts, DA_TAGS)
-    if op is not None and da is not None:
-        return op + da, "opinc+da"
-    # bottom-up fallback
-    ni = latest_annual(facts, NI_TAGS)
-    inte = latest_annual(facts, INT_TAGS)
-    tax = latest_annual(facts, TAX_TAGS)
-    if ni is not None and inte is not None and da is not None:
-        return ni + inte + (tax or 0) + da, "ni+int+tax+da"
-    return None, "unavailable"
+    observation = ebitda_observation(facts)
+    return (observation["value"], observation["method"]) if observation else (None, "unavailable")
 
 
 def classify(net_debt: float | None, eb: float | None, cov: float | None,

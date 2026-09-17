@@ -1,0 +1,41 @@
+{
+  "as_of": "2026-09-16",
+  "by_sheet": {
+    "Canceled or Postponed": {
+      "nameplate_mw": "184141.4",
+      "rows": 1735
+    },
+    "Operating": {
+      "nameplate_mw": "1408846.6",
+      "rows": 28319
+    },
+    "Operating_PR": {
+      "nameplate_mw": "6474.3",
+      "rows": 229
+    },
+    "Planned": {
+      "nameplate_mw": "291137.9",
+      "rows": 2342
+    },
+    "Planned_PR": {
+      "nameplate_mw": "177.2",
+      "rows": 6
+    },
+    "Retired": {
+      "nameplate_mw": "296458.9",
+      "rows": 7300
+    },
+    "Retired_PR": {
+      "nameplate_mw": "129.9",
+      "rows": 11
+    }
+  },
+  "method": "Select source_id eia-860m-generator-inventory-july-2026, group by sheet_name, sum Nameplate Capacity (MW) where numeric; mainland Planned and Canceled or Postponed exclude separate Puerto Rico sheets. Counts include sheet-header rows if present; MW sums do not. These are gross all-generation generator statuses, not AI IT load or new cancellations.",
+  "normalized_input_path": "data/source_acquisition_2026-09-16/non_gleif/source_rows/equipment_records.csv",
+  "normalized_input_sha256": "7deec35efa5d0e295ad31b64b7aba536e5823b7cac56a80bf95f82f8a37145db",
+  "selected_source_rows": 39942,
+  "source_date": "EIA-860M July 2026 generator inventory",
+  "source_uri": [
+    "https://www.eia.gov/electricity/data/eia860m/xls/july_generator2026.xlsx"
+  ]
+}

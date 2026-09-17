@@ -12,6 +12,7 @@ from bubble.calendar_engine import (
     next_quarterly_recard,
     upcoming,
 )
+from bubble.verdict_tree import P_REAL_WINDOW_END
 
 # A fixed "today" so the registered calendar's relative positions are deterministic.
 TODAY = date(2026, 6, 13)
@@ -23,6 +24,16 @@ def test_events_are_chronological_and_well_formed() -> None:
     for e in EVENTS:
         assert {"date", "kind", "label", "why"} <= e.keys()
         date.fromisoformat(e["date"])  # parses
+
+
+def test_q4_timing_kill_and_p_real_close_are_distinct_events() -> None:
+    events = {e["label"]: e for e in EVENTS}
+    timing_kill = events["2026-Q4 TIMING-KILL adjudication"]
+    p_real_close = events["P_real outcome window closes"]
+    assert timing_kill["date"] == "2026-12-18"
+    assert p_real_close["date"] == P_REAL_WINDOW_END.isoformat()
+    assert timing_kill["date"] < p_real_close["date"]
+    assert "complete issuer-event audit" in p_real_close["why"]
 
 
 def test_annotate_sets_status_bands() -> None:

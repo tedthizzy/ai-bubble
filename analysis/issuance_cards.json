@@ -36,6 +36,102 @@
    "tier": "press_reported",
    "source": "https://finance.yahoo.com/markets/stocks/articles/coreweave-crwv-subsidiary-raises-900-011330653.html",
    "status": "priced"
+  },
+  {
+   "date": "2026-06-08",
+   "issuer": "Stingray Compute LLC (Cipher Digital AI data-center SPV)",
+   "amount_usd": 810000000,
+   "coupon_pct": 6.0,
+   "tenor_yrs": 5,
+   "maturity": "2031-06-15",
+   "pricing": "99.750% of principal; secured project notes with post-commencement amortization",
+   "tier": "issuer_sec_8k",
+   "source": "https://www.sec.gov/Archives/edgar/data/1819989/000095010326008994/dp248453_8k.htm",
+   "status": "priced"
+  },
+  {
+   "date": "2026-06-09",
+   "issuer": "APLD ComputeCo 3 LLC (Applied Digital AI data-center SPV)",
+   "amount_usd": 1590000000,
+   "coupon_pct": 7.0,
+   "tenor_yrs": 5,
+   "maturity": "2031-06-15",
+   "pricing": "par; secured project notes with post-commencement amortization",
+   "tier": "issuer_sec_8k",
+   "source": "https://www.sec.gov/Archives/edgar/data/1144879/000149315226028899/form8-k.htm",
+   "status": "priced"
+  },
+  {
+   "date": "2026-06-11",
+   "issuer": "CoreWeave",
+   "amount_usd": 1250000000,
+   "coupon_pct": 9.625,
+   "tenor_yrs": 6,
+   "maturity": "2032-07-15",
+   "pricing": "par; a separate EUR 2B 8.500% tranche due the same date is outside this USD coupon card",
+   "tier": "issuer_release",
+   "source": "https://investors.coreweave.com/news/news-details/2026/CoreWeave-Announces-Pricing-of-1-25-Billion-of-Senior-Notes-and-2-Billion-of-Senior-Notes/default.aspx",
+   "status": "priced"
+  },
+  {
+   "date": "2026-07-21",
+   "date_basis": "Bloomberg Law report date; exact postponement date was not disclosed",
+   "issuer": "Prime Data Centers LLC",
+   "amount_usd": 500000000,
+   "initial_marketed_amount_usd": 600000000,
+   "coupon_pct": null,
+   "tenor_yrs": null,
+   "maturity": null,
+   "pricing": "Norwegian-law bond reduced from $600 million to $500 million and then postponed after investor resistance; no issue price or coupon exists",
+   "tier": "original_journalism; issuer confirmation not found",
+   "source": "https://news.bloomberglaw.com/bankruptcy-law/distress-watch-data-center-debt-hits-a-wall-after-deal-rush",
+   "amount_source": "https://news.bloomberglaw.com/artificial-intelligence/ai-borrowers-are-pushing-a-niche-credit-market-to-its-limits-1",
+   "amount_corrob_syndication": "https://businessmirror.com.ph/2026/07/22/ai-borrowers-pushing-niche-credit-market-to-limits/",
+   "source_detail": "Bloomberg Law 2026-07-21 reports the paused sale. Bloomberg's 2026-07-22 follow-up reports the $600 million-to-$500 million reduction; exact postponement date remains unverified",
+   "status": "postponed"
+  },
+  {
+   "date": "2026-07-21",
+   "date_basis": "Bloomberg Law report and issuer bank-financing announcement date; exact bond withdrawal date was not disclosed",
+   "issuer": "Pure Data Centres Group Ltd",
+   "amount_eur": 1000000000,
+   "coupon_pct": null,
+   "tenor_yrs": 5,
+   "maturity": null,
+   "pricing": "Proposed Nordic bond abandoned in favor of bank debt; no issue price or coupon exists. EUR 1.3 billion replacement bank financing was announced for a 110 MW AI campus",
+   "tier": "original_journalism; alternative financing issuer-confirmed",
+   "source": "https://news.bloomberglaw.com/bankruptcy-law/distress-watch-data-center-debt-hits-a-wall-after-deal-rush",
+   "corroborating_source": "https://puredc.com/2026/07/21/pure-dc-secures-additional-e1-3-billion-to-accelerate-growth-of-one-of-europes-largest-ai-campuses/",
+   "status": "pulled"
+  },
+  {
+   "date": "2026-07-23",
+   "issuer": "Galaxy Helios Data Centers II LLC (CoreWeave-leased data-center SPV)",
+   "amount_usd": 3507000000,
+   "coupon_pct": 9.875,
+   "tenor_yrs": 5,
+   "maturity": "2031-08-01",
+   "pricing": "99.500% of principal; 4% annual principal amortization after project completion",
+   "tier": "issuer_sec_8k",
+   "source": "https://investor.galaxy.com/static-files/a9227ff5-13d1-4405-8614-2b69eff959a8",
+   "status": "priced"
+  },
+  {
+   "date": "2026-08-27",
+   "date_basis": "Offering closed August 27 per transaction counsel; August 18-20 marketing and pricing were reported, but exact pricing date was not issuer-confirmed",
+   "issuer": "QTS Central Issuer LLC / QTS TRS Central Issuer LLC (Blackstone-backed data-center SPVs)",
+   "amount_usd": 3900000000,
+   "coupon_pct": 6.625,
+   "tenor_yrs": 5,
+   "maturity": "2031-09-01",
+   "pricing": "Rule 144A / Regulation S senior secured construction notes; issue price and issue yield absent from public issuer/counsel record. Do not use the 2026-09-10 98.90 secondary fund mark as issue price",
+   "tier": "transaction_counsel_primary_plus_holder_primary; coupon from holder portfolio",
+   "source": "https://www.stblaw.com/about-us/news/view/2026/09/01/qts-completes-inaugural-construction-rule-144a-notes-offering",
+   "coupon_source": "https://carboncollectivefunds.com/ccsb/",
+   "status": "priced"
   }
- ]
+ ],
+ "_september_note": "The first three cards retain their June press-reported tier. The June 11 CoreWeave and July 23 Galaxy cards were added from issuer primary sources on September 16. They are selected observed prints, not an exhaustive new-issue census. The latest verified card is 55 days old at the September 16 cutoff and is stale under registered rule A4. The Galaxy coupon is not its yield because its issue price was 99.500%.",
+ "_september_addendum": "September 16 issuer and SEC review added June 8 Stingray Compute and June 9 APLD ComputeCo 3 primary-source notes. Both are nominal five-year, secured, amortizing project notes; issue price makes the Stingray coupon different from yield. The covered universe remains selected observed prints, not a complete Rule 144A/private placement tape. Convertible notes and the 30-month IREN GPU equipment financing were inspected separately and excluded from the straight-credit S1 spread comparison.",
+ "_september_signal_audit": "September 16 follow-up added original Bloomberg-reported Prime and Pure failed Nordic bond attempts for S1b. Both cards use the July 21 Bloomberg Law report date because exact withdrawal dates are unverified; an earlier Prime date in the first September audit draft was corrected before final handoff. Pure's bank replacement is issuer-confirmed, but neither issuer confirmed the failed bond, so that source-tier limit remains explicit. QTS August 27 $3.9 billion completed notes are verified by transaction counsel and a holder's September 10 portfolio identifies the 6.625% coupon. Under the registered coupon-versus-five-year-Treasury S1 proxy, QTS supersedes the July 23 stale Galaxy card. QTS issue price/yield and exact pricing date are not public in reviewed primary records. These selected prints do not establish an exhaustive deal census or a sector-wide financing halt."
 }

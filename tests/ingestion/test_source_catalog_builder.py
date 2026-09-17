@@ -3,6 +3,7 @@ from __future__ import annotations
 import csv
 import json
 from typing import TYPE_CHECKING
+from urllib.parse import parse_qs
 
 from bubble.ingestion.sources import build_seed_source_catalog
 from bubble.ingestion.sources.catalog import load_source_catalog
@@ -84,13 +85,13 @@ def test_build_seed_source_catalog_includes_public_queue_target(tmp_path: Path):
     summary = build_seed_source_catalog(output, ciks=["0000789019"])
 
     rows = _read_csv(output)
-    assert summary.catalog_rows == 9
-    assert summary.public_sources == 8
+    assert summary.catalog_rows == 10
+    assert summary.public_sources == 9
     assert summary.corpora == {
         "equipment_records": 1,
         "filings": 1,
         "permit_records": 1,
-        "queue_records": 5,
+        "queue_records": 6,
         "tracker_records": 1,
     }
     assert rows[1]["source_id"] == "caiso-cluster-15-queue-report"
@@ -100,11 +101,28 @@ def test_build_seed_source_catalog_includes_public_queue_target(tmp_path: Path):
     assert rows[4]["source_id"] == "spp-active-generation-interconnection-queue"
     assert rows[5]["source_id"] == "pjm-planning-queues-xml"
     assert rows[5]["parser"] == "xml"
-    assert rows[6]["source_id"] == "epa-egrid2023-data-rev2"
-    assert rows[7]["source_id"] == "epa-icis-air-facilities-programs"
-    assert rows[7]["parser"] == "zip"
-    assert rows[8]["source_id"] == "server-country-all-projects"
-    assert rows[8]["corpus"] == "tracker_records"
+    assert rows[6]["source_id"] == "pjm-cycle-projects-current"
+    assert rows[6]["parser"] == "xlsx"
+    assert rows[6]["meta_xlsx_sheet_names"] == "Data"
+    assert rows[6]["meta_http_method"] == "POST"
+    assert json.loads(parse_qs(rows[6]["meta_http_body"])["jsonModel"][0]) == {
+        "GridName": "ProjectTransition",
+        "ItemType": 0,
+        "Items": [],
+        "Paginator": {
+            "ItemType": 7,
+            "CurrentItmsPerPageValue": "100",
+            "CurrentPageIndex": "1",
+        },
+        "Sort": "QueueNumber",
+        "SortDirection": "asc",
+        "RelatedGridsFilters": "",
+    }
+    assert rows[7]["source_id"] == "epa-egrid2023-data-rev2"
+    assert rows[8]["source_id"] == "epa-icis-air-facilities-programs"
+    assert rows[8]["parser"] == "zip"
+    assert rows[9]["source_id"] == "server-country-all-projects"
+    assert rows[9]["corpus"] == "tracker_records"
 
 
 def test_build_seed_source_catalog_resolves_dynamic_public_queue_target(tmp_path: Path):
@@ -211,8 +229,8 @@ def test_build_seed_source_catalog_resolves_dynamic_public_queue_target(tmp_path
     )
 
     rows = _read_csv(output)
-    assert summary.catalog_rows == 17
-    assert summary.public_sources == 16
+    assert summary.catalog_rows == 18
+    assert summary.public_sources == 17
     assert summary.corpora == {
         "equipment_records": 2,
         "filings": 1,
@@ -220,24 +238,24 @@ def test_build_seed_source_catalog_resolves_dynamic_public_queue_target(tmp_path
         "ownership_records": 1,
         "permit_records": 1,
         "ppas": 1,
-        "queue_records": 7,
+        "queue_records": 8,
         "tracker_records": 3,
     }
-    assert rows[9]["source_id"] == "eia-860m-generator-inventory-april-2026"
-    assert rows[10]["source_id"] == "ercot-gis-report-1221842626"
-    assert rows[10]["meta_resolved_from_uri"].startswith("https://www.ercot.com/")
-    assert rows[11]["source_id"] == "ferc-mbr-entities-to-ppas-17-000000-000003"
-    assert rows[11]["corpus"] == "ppas"
-    assert rows[11]["meta_http_method"] == "POST"
-    assert rows[12]["source_id"] == "fractracker-data-centers-000000-000002"
-    assert rows[12]["meta_json_records_path"] == "features"
-    assert rows[12]["meta_json_flatten_records"] == "true"
-    assert rows[13]["source_id"] == "fractracker-data-centers-000002-000003"
-    assert rows[14]["source_id"] == "gleif-lei-cdf-41255"
-    assert rows[14]["source_type"] == "gleif"
-    assert rows[14]["meta_zip_xml_record_tag"] == "LEIRecord"
-    assert rows[15]["source_id"] == "gleif-rr-cdf-41249"
+    assert rows[10]["source_id"] == "eia-860m-generator-inventory-april-2026"
+    assert rows[11]["source_id"] == "ercot-gis-report-1221842626"
+    assert rows[11]["meta_resolved_from_uri"].startswith("https://www.ercot.com/")
+    assert rows[12]["source_id"] == "ferc-mbr-entities-to-ppas-17-000000-000003"
+    assert rows[12]["corpus"] == "ppas"
+    assert rows[12]["meta_http_method"] == "POST"
+    assert rows[13]["source_id"] == "fractracker-data-centers-000000-000002"
+    assert rows[13]["meta_json_records_path"] == "features"
+    assert rows[13]["meta_json_flatten_records"] == "true"
+    assert rows[14]["source_id"] == "fractracker-data-centers-000002-000003"
+    assert rows[15]["source_id"] == "gleif-lei-cdf-41255"
     assert rows[15]["source_type"] == "gleif"
-    assert rows[15]["meta_zip_xml_record_tag"] == "RelationshipRecord"
-    assert rows[16]["source_id"] == "iso-ne-public-queue-639158688000000000"
-    assert rows[16]["meta_http_header_cookie"] == "AspxAutoDetectCookieSupport=1"
+    assert rows[15]["meta_zip_xml_record_tag"] == "LEIRecord"
+    assert rows[16]["source_id"] == "gleif-rr-cdf-41249"
+    assert rows[16]["source_type"] == "gleif"
+    assert rows[16]["meta_zip_xml_record_tag"] == "RelationshipRecord"
+    assert rows[17]["source_id"] == "iso-ne-public-queue-639158688000000000"
+    assert rows[17]["meta_http_header_cookie"] == "AspxAutoDetectCookieSupport=1"

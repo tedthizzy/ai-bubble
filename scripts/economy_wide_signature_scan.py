@@ -21,12 +21,15 @@ BEFORE seeing the ranking, and every score is reproducible from the cited source
 
 from __future__ import annotations
 
+import argparse
 import csv
+import hashlib
 import json
 import math
 import re
 from collections import Counter
 from dataclasses import dataclass, field
+from datetime import date
 from pathlib import Path
 
 csv.field_size_limit(10**9)
@@ -148,7 +151,7 @@ CREDITOR_ROLES = {
 # economy-wide map. Mirrors ecosystem_scope keywords but never excludes anything.
 AI_TAG_RE = re.compile(
     r"\b(ai|a\.i\.|artificial intelligence|data center|datacenter|gpu|h100|h200|b200|"
-    r"blackwell|hyperscal|colocat|coreweave|nebius|crusoe|lambda|together ai|"
+    r"hyperscal|colocat|coreweave|nebius|crusoe|lambda|together ai|"
     r"applied digital|terawulf|iren|core scientific|cipher mining|hut 8|bitdeer|"
     r"cleanspark|riot platform|hyperscale data|nvidia|neocloud|gpu cloud)\b",
     re.IGNORECASE,
@@ -251,12 +254,12 @@ class EntityScore:
         return any(not BANK_RE.search(cp) for cp in overlap)
 
 
-def load_entities_index() -> dict[str, dict[str, str | int]]:
+def load_entities_index(path: Path = ENTITIES) -> dict[str, dict[str, str | int]]:
     """norm-name -> {cik, ticker, mention_count} from the 789K-entity census."""
     idx: dict[str, dict[str, str | int]] = {}
-    if not ENTITIES.exists():
+    if not path.exists():
         return idx
-    with ENTITIES.open(newline="") as f:
+    with path.open(newline="") as f:
         for row in csv.DictReader(f):
             nm = _norm(row.get("canonical_name") or "")
             if not nm:
@@ -273,10 +276,19 @@ def load_entities_index() -> dict[str, dict[str, str | int]]:
     return idx
 
 
-def scan_deals(scores: dict[str, EntityScore], quality_log: list[dict]) -> int:  # noqa: PLR0912, PLR0915
+def scan_deals(  # noqa: PLR0912, PLR0915
+    scores: dict[str, EntityScore],
+    quality_log: list[dict],
+    *,
+    capital_deals: Path = CAPITAL_DEALS,
+    edgar_deals: Path = EDGAR_DEALS,
+    near_term_years: set[str] | None = None,
+    as_of_date: date | None = None,
+) -> int:
     seen_dedup: set[tuple] = set()
     rows = 0
-    for path in (CAPITAL_DEALS, EDGAR_DEALS):
+    near_term_years = near_term_years or NEAR_TERM_YEARS
+    for path in (capital_deals, edgar_deals):
         if not path.exists():
             continue
         with path.open(newline="") as f:
@@ -287,6 +299,15 @@ def scan_deals(scores: dict[str, EntityScore], quality_log: list[dict]) -> int: 
                 primary = (row.get("primary_party") or "").strip()
                 notional = _num(row.get("notional_amount_usd"))
                 mat_year = _year(row.get("maturity_date"))
+                future_maturity = True
+                if as_of_date is not None:
+                    try:
+                        future_maturity = (
+                            date.fromisoformat((row.get("maturity_date") or "")[:10])
+                            >= as_of_date
+                        )
+                    except ValueError:
+                        future_maturity = bool(mat_year and int(mat_year) > as_of_date.year)
                 src = (row.get("source_uri") or "").strip()
                 is_rp = _truthy(row.get("is_related_party"))
                 is_conc = _truthy(row.get("concentration_risk_flag"))
@@ -364,7 +385,7 @@ def scan_deals(scores: dict[str, EntityScore], quality_log: list[dict]) -> int: 
                     if is_debt and eff_notional and not duplicate:
                         s.debt_notional += eff_notional
                         s.debt_deal_count += 1
-                        if mat_year in NEAR_TERM_YEARS:
+                        if mat_year in near_term_years and future_maturity:
                             s.near_term_notional += eff_notional
                             s.near_term_count += 1
                     # counterparty concentration (creditors + offtakers this obligor depends on)
@@ -384,14 +405,20 @@ def scan_deals(scores: dict[str, EntityScore], quality_log: list[dict]) -> int: 
     return rows
 
 
-def scan_tranches(scores: dict[str, EntityScore]) -> int:  # noqa: PLR0912
+def scan_tranches(  # noqa: PLR0912
+    scores: dict[str, EntityScore],
+    *,
+    capital_deals: Path = CAPITAL_DEALS,
+    edgar_deals: Path = EDGAR_DEALS,
+    tranches: Path = TRANCHES,
+) -> int:
     """Coupons + recourse, attributed via the deal's obligors (joined on deal_id).
 
     Tranches key on the EDGAR deal-id namespace; deals come from two files with
     different id spaces, so build the obligor map from BOTH.
     """
     deal_obligor: dict[str, list[str]] = {}
-    for path in (CAPITAL_DEALS, EDGAR_DEALS):
+    for path in (capital_deals, edgar_deals):
         if not path.exists():
             continue
         with path.open(newline="") as f:
@@ -406,9 +433,9 @@ def scan_tranches(scores: dict[str, EntityScore]) -> int:  # noqa: PLR0912
                 if obs:
                     deal_obligor.setdefault(row.get("deal_id", ""), list(dict.fromkeys(obs)))
     rows = 0
-    if not TRANCHES.exists():
+    if not tranches.exists():
         return rows
-    with TRANCHES.open(newline="") as f:
+    with tranches.open(newline="") as f:
         for row in csv.DictReader(f):
             rows += 1
             rate = _num(row.get("interest_rate"))
@@ -471,18 +498,74 @@ def composite(s: EntityScore) -> dict:
     return {"composite": round(comp, 4), "signatures": subs}
 
 
-def main() -> None:
+def _fingerprint(path: Path) -> dict[str, str | int]:
+    digest = hashlib.sha256()
+    with path.open("rb") as stream:
+        for block in iter(lambda: stream.read(1024 * 1024), b""):
+            digest.update(block)
+    return {"path": str(path.resolve()), "bytes": path.stat().st_size, "sha256": digest.hexdigest()}
+
+
+def main() -> None:  # noqa: PLR0912, PLR0915
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--capital-deals", type=Path, default=CAPITAL_DEALS)
+    parser.add_argument("--edgar-deals", type=Path, default=EDGAR_DEALS)
+    parser.add_argument("--tranches", type=Path, default=TRANCHES)
+    parser.add_argument("--entities", type=Path, default=ENTITIES)
+    parser.add_argument("--output-prefix", type=Path)
+    parser.add_argument("--as-of", default="2026-06-13")
+    parser.add_argument("--coverage-status", choices=("partial", "acquired_manifest"))
+    args = parser.parse_args()
+    dated = args.output_prefix is not None
+    if dated and not args.coverage_status:
+        parser.error("dated output requires --coverage-status")
+    paths = {
+        "capital_deals": args.capital_deals,
+        "edgar_deals": args.edgar_deals,
+        "tranches": args.tranches,
+        "entities": args.entities,
+    }
+    if dated:
+        missing = [f"{name}: {path}" for name, path in paths.items() if not path.is_file()]
+        if missing:
+            parser.error("dated input missing: " + "; ".join(missing))
+        output_prefix = args.output_prefix
+        output_paths = [
+            output_prefix.with_suffix(".json"),
+            output_prefix.with_suffix(".full.json"),
+            output_prefix.with_suffix(".md"),
+        ]
+        existing = [str(path) for path in output_paths if path.exists()]
+        if existing:
+            parser.error("dated output already exists: " + "; ".join(existing))
+        output_prefix.parent.mkdir(parents=True, exist_ok=True)
+        near_term_years = {str(year) for year in range(int(args.as_of[:4]), int(args.as_of[:4]) + 3)}
+    else:
+        near_term_years = NEAR_TERM_YEARS
+
     print("loading entity census index ...")
-    eidx = load_entities_index()
+    eidx = load_entities_index(args.entities)
     print(f"  indexed {len(eidx):,} canonical entities")
 
     scores: dict[str, EntityScore] = {}
     quality_log: list[dict] = []
     print("scanning deals ...")
-    n_deals = scan_deals(scores, quality_log)
+    n_deals = scan_deals(
+        scores,
+        quality_log,
+        capital_deals=args.capital_deals,
+        edgar_deals=args.edgar_deals,
+        near_term_years=near_term_years,
+        as_of_date=date.fromisoformat(args.as_of) if dated else None,
+    )
     print(f"  scanned {n_deals:,} deal rows; {len(scores):,} entities touched")
     print("scanning tranches ...")
-    n_tr = scan_tranches(scores)
+    n_tr = scan_tranches(
+        scores,
+        capital_deals=args.capital_deals,
+        edgar_deals=args.edgar_deals,
+        tranches=args.tranches,
+    )
     print(f"  scanned {n_tr:,} tranche rows")
 
     # enrich with census identity
@@ -523,6 +606,7 @@ def main() -> None:
                 "counterparty_hhi": round(s.hhi(), 4),
                 "circular": s.circular(),
                 "source_uri_count": len(s.source_uris),
+                **({"source_uris_sample": sorted(s.source_uris)[:8]} if dated else {}),
                 "composite": c["composite"],
                 "signatures": c["signatures"],
             }
@@ -560,7 +644,7 @@ def main() -> None:
     canaries.sort(key=lambda r: (r["canary_score"], -r["debt_notional_usd"]), reverse=True)
 
     summary = {
-        "as_of": "2026-06-13",
+        "as_of": args.as_of,
         "method": "sector-agnostic forensic signature scan (analysis/total_ecosystem_dive.md §2/§9)",
         "deal_rows_scanned": n_deals,
         "tranche_rows_scanned": n_tr,
@@ -585,14 +669,86 @@ def main() -> None:
         "top_canaries": canaries[:100],
         "quality_excluded": sorted(quality_log, key=lambda q: -(q["notional_usd"] or 0))[:50],
     }
-    OUT_JSON.write_text(json.dumps(summary, indent=2))
+    if dated:
+        summary["coverage_status"] = args.coverage_status
+        summary["near_term_years"] = sorted(near_term_years)
+        summary["refinancing_date_policy"] = (
+            "Only maturities on or after as_of count as future refinancing; "
+            "year-only current-year dates do not count."
+        )
+        summary["input_files"] = {name: _fingerprint(path) for name, path in paths.items()}
+        summary["interpretation"] = (
+            "Machine-ranked filing signatures require issuer-level verification; "
+            "the scored denominator is entities with a deal footprint, not all companies."
+        )
+        out_json, out_full, out_md = output_paths
+    else:
+        out_json = OUT_JSON
+        out_full = ROOT / "analysis" / "economy_wide_fragility_map.full.json"
+        out_md = OUT_MD
+    out_json.write_text(json.dumps(summary, indent=2))
     # full ranked set (every scored entity) — the complete deep-dive frontier, not just top_200
-    (ROOT / "analysis" / "economy_wide_fragility_map.full.json").write_text(
+    out_full.write_text(
         json.dumps({"as_of": summary["as_of"], "entities": len(ranked), "all_ranked": ranked})
     )
-    write_markdown(summary, ranked)
-    print(f"wrote {OUT_JSON.relative_to(ROOT)} + {OUT_MD.relative_to(ROOT)}")
+    if dated:
+        write_dated_markdown(summary, ranked, out_md, out_json)
+    else:
+        write_markdown(summary, ranked)
+    print(f"wrote {out_json} + {out_md}")
     print(f"  AI cluster top rank: {top_ai_rank}  |  entities scored: {len(ranked):,}")
+
+
+def write_dated_markdown(
+    summary: dict, ranked: list[dict], output_path: Path, json_path: Path
+) -> None:
+    """State the dated scan's observations without importing the June verdict."""
+    lines = [
+        f"# Dated economy-wide signature scan: {summary['as_of']}",
+        "",
+        f"Coverage: {summary['coverage_status']}. This is a machine-ranked discovery screen, "
+        "not issuer adjudication or a prevalence estimate.",
+        "",
+        f"The scan read {summary['deal_rows_scanned']:,} deal rows and "
+        f"{summary['tranche_rows_scanned']:,} tranche rows. "
+        f"It touched {summary['entities_touched']:,} names and ranked "
+        f"{summary['entities_scored']:,} with a positive debt or signature footprint. "
+        "The denominator is this acquired deal corpus, not every company or SPV.",
+        "",
+        "The seven signature weights are unchanged from the original scan. "
+        f"The near-term refinancing window is {', '.join(summary['near_term_years'])}. "
+        "Past dates are excluded from the future refinancing signature. "
+        "Gross deal notional is not outstanding debt. Repeated or related obligations "
+        "can still survive the simple deduplication key.",
+        "",
+        "Top ranked issuer names, pending source-level verification:",
+        "",
+    ]
+    for i, row in enumerate(ranked[:15], 1):
+        lines.append(
+            f"- {i}. {row['entity']}: composite {row['composite']:.4f}; "
+            f"gross debt-like deal notional ${row['debt_notional_usd'] / 1e9:.3f}B; "
+            f"source URI count {row['source_uri_count']}."
+        )
+    lines.extend(
+        [
+            "",
+            "The legacy AI name/title keyword tag is diagnostic only. "
+            "This run does not use it to infer a sector epicenter. "
+            "A Blackwell Solar PPA previously triggered a false GPU match; "
+            "the ambiguous standalone word was removed from the tag pattern.",
+            "",
+            "The coupon maximum can be a step-up or extraction artifact. "
+            "The concentration score uses observed counterparties, not a complete "
+            "customer book. The filing flags omit distress types that this scanner "
+            "does not parse. Missing private obligations remain unmeasured.",
+            "",
+            f"All ranked rows, weights, exclusions, and SHA-256 input fingerprints: "
+            f"{json_path.name} and {json_path.stem}.full.json.",
+            "",
+        ]
+    )
+    output_path.write_text("\n".join(lines))
 
 
 BANNER = (

@@ -40,6 +40,24 @@ Serverless Cost effective for every inference workload.
 </body></html>
 """
 
+COREWEAVE_HTML = b"""
+<div class="table-row-v2 kubernetes-gpu-pricing">
+  <div class="table-v2-cell table-v2-cell--name"><h3>NVIDIA HGX B200</h3></div>
+  <div class="table-v2-cell">8</div><div class="table-v2-cell">180</div>
+  <div class="table-v2-cell">128</div><div class="table-v2-cell">2,048</div>
+  <div class="table-v2-cell">61.44</div><div class="table-v2-cell">$68.80</div>
+  <div class="table-v2-cell">$34.11</div>
+</div>
+"""
+
+MODAL_HTML = b"""
+<div>GPU Tasks
+  <div><p>Nvidia B200</p><p>$0.001736 / sec</p></div>
+  <div><p>Nvidia H100 SXM5</p><p>$0.001097 / sec</p></div>
+  CPU Physical core
+</div>
+"""
+
 
 def _read_csv(path: Path) -> list[dict[str, str]]:
     with path.open(newline="") as f:
@@ -76,6 +94,37 @@ def test_parse_runpod_gpu_pricing_snapshot() -> None:
     assert [row["gpu_generation"] for row in rows] == ["H200", "B200", "H100"]
     assert rows[2]["observed_cloud_rental_rate_usd_per_hour"] == 2.89
     assert rows[2]["contract_term"].startswith("public_pricing_page_default_cloud")
+
+
+def test_coreweave_node_prices_are_divided_by_gpu_count() -> None:
+    rows = parse_gpu_pricing_snapshot(
+        provider="CoreWeave",
+        raw=COREWEAVE_HTML,
+        source_uri="https://coreweave.com/pricing",
+        retrieved_at="2026-09-16T20:00:00+00:00",
+        content_hash=Provenance.compute_content_hash(COREWEAVE_HTML),
+    )
+    assert [(row["gpu_generation"], row["observed_cloud_rental_rate_usd_per_hour"]) for row in rows] == [
+        ("B200", 8.6),
+        ("B200", 4.26375),
+    ]
+    assert rows[0]["contract_term"].startswith("on_demand;gpu_count=8")
+    assert rows[1]["contract_term"].startswith("spot;gpu_count=8")
+
+
+def test_modal_second_prices_convert_to_gpu_hours_with_extra_charges_labeled() -> None:
+    rows = parse_gpu_pricing_snapshot(
+        provider="Modal",
+        raw=MODAL_HTML,
+        source_uri="https://modal.com/pricing",
+        retrieved_at="2026-09-16T20:00:00+00:00",
+        content_hash=Provenance.compute_content_hash(MODAL_HTML),
+    )
+    assert [(row["gpu_generation"], row["observed_cloud_rental_rate_usd_per_hour"]) for row in rows] == [
+        ("B200", 6.2496),
+        ("H100", 3.9492),
+    ]
+    assert all("gpu_only_cpu_memory_extra" in row["contract_term"] for row in rows)
 
 
 def test_acquire_gpu_pricing_writes_raw_artifacts_and_observations(tmp_path: Path) -> None:

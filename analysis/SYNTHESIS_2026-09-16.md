@@ -1,5 +1,9 @@
 # AI bubble update: September 16, 2026
 
+> This is the initial September 16 pass. The [full September refresh](FULL_REFRESH_2026-09-16.md) supersedes its source-coverage and market-date statements, using the later SEC, utility, capacity, and company checks.
+
+> Later September 16 correction: SpaceX's [June 5 SEC free-writing prospectus](https://www.sec.gov/Archives/edgar/data/1181412/000162828026041150/spacexagreementfwp.htm) confirms the $920 million per month Google compute agreement that earlier repo text withdrew. Its [June 12 prospectus](https://www.sec.gov/Archives/edgar/data/1181412/000162828026042639/spaceexplorationtechnologi.htm) confirms Anthropic's $1.25 billion per month agreement for about 325,000 GPUs with a 90-day termination right after the first three months. The retrieval-limit statement below records the first pass, not the current source status.
+
 **Demand has strengthened since June, and the financing network has become more dependent on a few large counterparties. Current evidence supports compute scarcity and continued construction. It does not establish the video's predicted 2027 glut or a systemic credit event.** Several June assumptions also need correction, especially GPU economic life, contract accounting and acquisition status.
 
 This updates the AI case against the June 13 repository baseline, commit `829bb7e`. Market comparisons use September 15 closes and FRED observations. Company numbers retain their own reporting dates. Annualized revenue means a point-in-time revenue rate multiplied to a year; it is different from revenue earned during that year. The June forecasts remain available for scoring. The engine's old 0.67 and 0.25 scores have not been recomputed and are not September probabilities. The economy-wide issuer and bank census remains dated June.

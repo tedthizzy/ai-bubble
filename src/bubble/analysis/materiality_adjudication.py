@@ -8,6 +8,7 @@ adjudication. It does not approve facts by itself.
 from __future__ import annotations
 
 import csv
+import gzip
 import hashlib
 import html
 import json
@@ -984,9 +985,17 @@ def _read_text(path: Path) -> str:
 
 
 def _read_plain_text(path: Path) -> str:
-    if path.suffix.lower() in _BINARY_TEXT_SKIP_SUFFIXES:
+    if path.suffix.lower() in _BINARY_TEXT_SKIP_SUFFIXES - {".gz"}:
+        return ""
+    if (
+        path.suffix.lower() == ".gz"
+        and len(path.suffixes) > 1
+        and path.suffixes[-2].lower() in _BINARY_TEXT_SKIP_SUFFIXES
+    ):
         return ""
     raw = path.read_bytes()
+    if path.suffix.lower() == ".gz":
+        raw = gzip.decompress(raw)
     if _looks_binary_bytes(raw):
         return ""
     return raw.decode("utf-8", errors="ignore")

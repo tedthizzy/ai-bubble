@@ -182,6 +182,8 @@ def test_build_entity_universe_uses_lei_reference_only_for_observed_ownership_no
     )
 
     assert summary.source_rows_scanned == 2
+    assert summary.source_rows_by_path["source_acquisition/source_rows/lei_records.csv"] == 2
+    assert summary.source_rows_eligible_by_path["source_acquisition/source_rows/lei_records.csv"] == 1
     assert summary.mentions_extracted == 1
     assert summary.cik_matches == 1
 

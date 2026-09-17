@@ -56,8 +56,8 @@ EVENTS: list[dict[str, Any]] = [
         "date": "2026-12-18",
         "kind": "adjudication",
         "label": "2026-Q4 TIMING-KILL adjudication",
-        "why": "The engine's registered predictions are scored -- the first calibration datum for "
-        "whether the apparatus can be trusted. The one date that is not optional.",
+        "why": "Adjudicate the registered TIMING-KILL condition from through-Q4 issuance and S3 "
+        "evidence. This does not resolve P_real's event window through 2027-Q3.",
     },
     {
         "date": "2027-01-01",
@@ -72,6 +72,13 @@ EVENTS: list[dict[str, Any]] = [
         "label": "Q4-2026 BDC NAV re-card",
         "why": "Re-card BDC NAVs from full-year results.",
         "recurs": "quarterly",
+    },
+    {
+        "date": "2027-09-30",
+        "kind": "adjudication",
+        "label": "P_real outcome window closes",
+        "why": "A verified qualifying core-issuer event can resolve P_real positive earlier. A negative "
+        "result requires a complete issuer-event audit through this date.",
     },
     {
         "date": "2030-01-01",

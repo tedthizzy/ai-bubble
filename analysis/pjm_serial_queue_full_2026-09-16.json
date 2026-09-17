@@ -1,0 +1,128 @@
+{
+  "as_of_pacific_date": "2026-09-16",
+  "capacity": {
+    "data_center_classifier_mw": 11717.7,
+    "data_center_classifier_rows": 11,
+    "excluded_non_generation_positive_mw": {
+      "ISO-NE transmission and upgrade requests": 1232.0,
+      "NYISO affected-system studies": 5801.98,
+      "PJM transmission service requests": 3844.0
+    },
+    "generation_request_type_basis": {
+      "CAISO": "Cluster 15 interconnection workbook has Generation/Fuel fields",
+      "ERCOT": "Project Details - Small Gen sheet in Generator Interconnection Status report",
+      "ISO-NE": "Type = G",
+      "MISO": "ERAS interconnection export has Generating Facility and Fuel Type fields",
+      "NYISO": "Interconnection Queue and Cluster Projects sheets; excludes Load Projects and Affected System Studies",
+      "PJM": "Project Type = Generation Interconnection",
+      "SPP": "Active Generation Interconnection Queue has Generation Type field"
+    },
+    "gross_generation_queue_requested_mw": 531011.143,
+    "interpretation": "gross generation interconnection requests only; excluded load, affected-system and transmission request rows; this is not energized data-center load or approved deliverability",
+    "missing_capacity_rows": 47,
+    "non_generation_request_rows_excluded": 346,
+    "out_of_scope_status_rows": 13590,
+    "physical_summary_path": "data/source_acquisition_2026-09-16/derived/physical_capacity_summary_full_pjm_serial_generation_only_2026-09-16.json",
+    "pjm_cycle_requested_generation_mw": 250197.391,
+    "pjm_serial_requested_generation_mw": 35619.865,
+    "positive_capacity_rows_after_status_and_request_type_filter": 2532,
+    "queue_match_summary_path": "data/source_acquisition_2026-09-16/derived/queue_project_match_summary_full_pjm_serial.json",
+    "queue_rows_scanned": 16515,
+    "source_definition": "PJM Definitions-Mapping: MW Energy is the interconnection request (winter net); MFO is maximum facility output",
+    "strong_tracker_matches": 0,
+    "superseded_unfiltered_full_serial_mw": 541889.123,
+    "superseded_unfiltered_full_serial_summary_path": "data/source_acquisition_2026-09-16/derived/physical_capacity_summary_full_pjm_serial_2026-09-16.json"
+  },
+  "catalog": {
+    "acquisition_mode": "offline production normalization from cached official XLSX; no API key stored",
+    "combined_catalog_path": "data/source_catalogs/source_catalog_2026-09-16_with_pjm_cycle_and_serial_full.csv",
+    "combined_catalog_rows_including_sec_placeholder": 485,
+    "combined_catalog_sha256": "d1e8e8ef31af390feb9c7b5c4fdaf2185b9357ea1f5a1d78bff0e5df960b44f0",
+    "non_edgar_catalog_rows": 484,
+    "supplemental_source_row_path": "data/source_catalogs/source_catalog_2026-09-16_pjm_serial_full.csv"
+  },
+  "combination": {
+    "combined_rows": 16515,
+    "combined_rows_path": "data/source_acquisition_2026-09-16/derived/queue_combined_full_serial_2026-09-16/source_rows/queue_records.csv",
+    "current_cycle_rows": 1792,
+    "former_partial_combination_summary": "data/source_acquisition_2026-09-16/derived/queue_combined_corrected/combination_summary.json",
+    "former_partial_xml_recovery_manifest": "data/source_acquisition_2026-09-16/pjm_salvage/recovery.json",
+    "full_serial_rows": 9263,
+    "moved_serial_ids_without_current_cycle_match": 9,
+    "moved_serial_project_ids": 917,
+    "partial_xml_used": false,
+    "serial_rows_replaced_by_current_cycle": 908,
+    "serial_rows_retained": 8355,
+    "standard_non_pjm_rows": 6368,
+    "summary_path": "data/source_acquisition_2026-09-16/derived/queue_combined_full_serial_2026-09-16/combination_summary.json",
+    "unique_combined_pjm_project_ids": 10147
+  },
+  "official_source": {
+    "export_endpoint": "https://services.pjm.com/PJMPlanningApi/api/Queue/ExportToXls",
+    "latest_project_submitted_date": "2025-06-03",
+    "method": "POST",
+    "public_browser_key": "used for acquisition; omitted from repository and artifact metadata",
+    "publisher": "PJM Interconnection",
+    "raw_xlsx_bytes": 1748133,
+    "raw_xlsx_path": "data/source_acquisition_2026-09-16/pjm_serial_full/cache/pjm-serial-queue-full-2026-09-16.xlsx",
+    "raw_xlsx_sha256": "486d090d718cb594a7441a72149477f8101ff6c4c4083a36c93a80c687aaff9d",
+    "response_status": 200,
+    "retrieved_at_utc": "2026-09-17T00:50:10.503617+00:00",
+    "source_page": "https://www.pjm.com/planning/service-requests/interconnection-queues",
+    "source_publication_date": "not established; workbook has no Last Updated column, and its 2023 file property is template metadata"
+  },
+  "qa": {
+    "combined_csv_count_equals_physical_and_match_inputs": true,
+    "excluded_positive_mw_reconciles_to_prior_full_workbook_rollup": true,
+    "full_serial_and_cycle_ids_deduplicated_once": true,
+    "production_acquisition_errors": {},
+    "raw_workbook_sheet_row_count_equals_normalized_csv_count": true,
+    "source_record_timestamp_warning": "retrieval date is 2026-09-16 Pacific; source publication date could not be established",
+    "source_type_filter_tests_passed": true
+  },
+  "source_normalization": {
+    "acquired_artifacts": 1,
+    "acquisition_summary_path": "data/source_acquisition_2026-09-16/pjm_serial_full/acquired/source_catalog_acquisition.summary.json",
+    "artifact_inventory_path": "data/source_acquisition_2026-09-16/pjm_serial_full/acquired/source_artifact_inventory.csv",
+    "extracted_rows": 9263,
+    "normalized_rows_path": "data/source_acquisition_2026-09-16/pjm_serial_full/acquired/source_rows/queue_records.csv",
+    "raw_data_sheet_rows": 9263,
+    "raw_id_set_equals_normalized_id_set": true,
+    "source_columns": 43,
+    "source_project_type_counts": {
+      "Generation Interconnection": 8253,
+      "Long-Term Firm Transmission": 743,
+      "Merchant Transmission": 193,
+      "Upgrade Request": 74
+    },
+    "source_status_counts": {
+      "Active": 260,
+      "Annulled": 24,
+      "Canceled": 1,
+      "Confirmed": 224,
+      "Deactivated": 84,
+      "Engineering and Procurement": 250,
+      "In Service": 1237,
+      "Partially in Service - Under Construction": 44,
+      "Pending Termination": 17,
+      "Retracted": 131,
+      "Suspended": 69,
+      "Under Construction": 95,
+      "Withdrawn": 6827
+    },
+    "spot_checked_columns": [
+      "Project ID",
+      "Status",
+      "MW Energy",
+      "MW Capacity",
+      "MFO"
+    ],
+    "spot_checked_ids_against_xlsx": [
+      "A01",
+      "AE1-070 - moved to TC1",
+      "AG2-344 - moved to TC2",
+      "AE2-289"
+    ],
+    "unique_raw_project_ids": 9263
+  }
+}

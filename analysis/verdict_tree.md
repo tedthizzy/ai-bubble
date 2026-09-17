@@ -50,3 +50,11 @@ Leaf priors are disciplined by the [base-rate book](base_rates.md): the ~6–8-q
 ## Promotion criteria (for [TED])
 
 Promote out of shadow mode when: (1) the leaf priors have survived external adversarial review; (2) the first Brier resolution (Q4) is recorded; (3) the structural-vs-forecast distinction is reflected in the published report's language. Until then, the gated report shows 0.67 and this tree runs beside it.
+
+## September 16, 2026 scoring correction
+
+The June text above incorrectly treats the 2026-Q4 TIMING-KILL adjudication as the first binary resolution of `P_real`. The [registered rule](preregistered_signals.md) gives TIMING-KILL its own through-Q4 issuance and BDC-discount conditions. `P_real` asks whether a qualifying core-issuer distress event occurs in 2025-Q3 through 2027-Q3. TIMING-KILL can be adjudicated in Q4 without determining that binary event outcome.
+
+A filing-verified qualifying event inside the window resolves `P_real` positive when observed. Without one, a negative resolution requires both the September 30, 2027 window close and a complete issuer-event coverage audit through that date. An event-free Q4 cannot be scored as a negative `P_real` outcome. The [outcome helper](../src/bubble/verdict_tree.py) encodes these conditions and leaves unresolved forecasts out of the Brier score.
+
+The June engine's 2026-Q2 peak and 0.8738 score measure scheduled input pressure from refinancing, construction, and chip-delivery windows. Q2 ended June 30. The registration defines no Q2 realized-event threshold, so that input score is neither a realized event nor an observed miss. A complete event review is still needed before scoring an issuer outcome. The checked-in `viz/live.json` shadow probability was generated June 13 and is a historical value, not a September forecast update. The existing [public scored-record page](../viz/track_record.html) still states the incorrect Q4 Brier timing; its display has not been revised or visually verified.

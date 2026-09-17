@@ -1,0 +1,287 @@
+{
+  "as_of_pacific": "2026-09-16",
+  "bubble_probability": null,
+  "capital_graph": {
+    "complete": {
+      "status": "not_run"
+    },
+    "ferc_only": {
+      "deals_scanned": 46483,
+      "edges": 6741,
+      "input_manifest": "data/capital_graph_refresh_2026-09-16/ferc_only/input_manifest.json",
+      "inputs_with_changed_size": [],
+      "nodes": 4175,
+      "pending_graph_deals": 46483,
+      "relationships": null,
+      "status": "built_from_dated_inputs",
+      "total_edge_notional_usd": 0.0
+    },
+    "ownership_current": {
+      "deals_scanned": null,
+      "edges": null,
+      "input_manifest": "data/capital_graph_refresh_2026-09-16/ownership_current/input_manifest.json",
+      "inputs_with_changed_size": [],
+      "nodes": 437020,
+      "pending_graph_deals": null,
+      "relationships": 662417,
+      "status": "built_from_dated_inputs",
+      "total_edge_notional_usd": null
+    }
+  },
+  "compute_economics": {
+    "asset_rows": 0,
+    "depreciation_policy_rows": 0,
+    "gpu_depreciation_red_flags": 0,
+    "gpu_price_observations": 87,
+    "interpretation": "Listed quotes do not establish transaction prices, utilization, or a 2027 glut.",
+    "payback_case_rows": 0,
+    "price_delta_direction_counts": {
+      "decrease": 1,
+      "increase": 12,
+      "unchanged": 32
+    },
+    "price_delta_matched_rows": 45,
+    "status": "measured"
+  },
+  "conclusion": "Customer demand is measurable and the original issuer cohort remains cash-investment-intensive. Registered S2 confirms weaker tail credit while S3 is contra, so CONFIRM-2 is false. Current evidence does not resolve the timing or probability of a system-wide unwind.",
+  "engine_boundary": "The legacy final report's June handoff-based verdict, contagion graph, and hardcoded customer concentration were not executed or relabeled as September results.",
+  "input_records": {
+    "compute": {
+      "bytes": 31734,
+      "path": "data/compute/2026-09-16-expanded/gpu_price_observations.csv",
+      "sha256": "010a566adffddec44a2cc8719e2f8d5576dee659d8ddd74142665beeb23a2c21"
+    },
+    "financials": {
+      "bytes": 574856,
+      "path": "analysis/case_zero_financials_2026-09-16_v4.json",
+      "sha256": "2327755054eab56a0b178a40e139e6efed13891e0c75f2af74edfb9a22d916c4"
+    },
+    "gpu_delta": {
+      "bytes": 4877,
+      "path": "analysis/gpu_pricing_delta_2026-09-16.json",
+      "sha256": "a2bc02cf36c3f9c1629676840f523342e908da6f0e7492901e451c408cb4e6a7"
+    },
+    "market": {
+      "bytes": 1725,
+      "path": "analysis/market_close_2026-09-16.json",
+      "sha256": "d163e50b78f1d67e6a28bba30bac59b7c307097f121449658dfb8b15122172bf"
+    },
+    "physical": [
+      {
+        "bytes": 22337197,
+        "path": "data/source_acquisition_2026-09-16/derived/queue_combined_full_serial_2026-09-16/source_rows/queue_records.csv",
+        "sha256": "9f0f837f2e394425fd415f34af38d0733f1c82a30660d7cdc39955bca2a3eed6"
+      },
+      {
+        "bytes": 4192664,
+        "path": "data/source_acquisition_2026-09-16/derived/tracker_projects.csv",
+        "sha256": "c980e0f3a7f1107c6861ed1c069038b7943e27f59d9c09ba9aaf43dbf2117e56"
+      },
+      {
+        "bytes": 116503912,
+        "path": "data/source_acquisition_2026-09-16/non_gleif/source_rows/equipment_records.csv",
+        "sha256": "7deec35efa5d0e295ad31b64b7aba536e5823b7cac56a80bf95f82f8a37145db"
+      }
+    ],
+    "source_refresh": {
+      "bytes": 21938,
+      "path": "analysis/source_refresh_2026-09-16.json",
+      "sha256": "b7f1f4258c5bab627eef7b70e8f9063ae8fb85b6b87c8e416ae216cd0d3f31f3"
+    }
+  },
+  "method": "Existing registered signal, physical-capacity, and compute-economics functions on explicit dated inputs; no June handoffs.",
+  "physical_capacity": {
+    "data_center_classifier_queue_mw": 11717.7,
+    "equipment_records_scanned": 105344,
+    "gross_generation_queue_requested_mw": 531011.143,
+    "interpretation": "Queue MW are gross generation requests; no inference of energized AI load.",
+    "queue_records_scanned": 16515,
+    "skipped_rows": {
+      "egrid_missing_capacity": 1,
+      "eia_missing_capacity": 7,
+      "queue_missing_capacity": 47,
+      "queue_non_generation_request": 346,
+      "queue_out_of_scope_status": 13590
+    },
+    "tracker_project_records_scanned": 2728
+  },
+  "registered_market": {
+    "bdc_close_date": "2026-09-16",
+    "compound_confirm_2": false,
+    "credit_observation_date": "2026-09-15",
+    "limits": "BDC prices are September 16 closes against June 30 reported NAVs; FRED spreads were last available for September 15. Registered basket membership is unchanged. These measures do not isolate AI causality.",
+    "registered_components": [
+      {
+        "id": "S1_new_issue_spread",
+        "reason": "No current, universe-wide comparable new-issue spread card.",
+        "status": "unmeasured"
+      },
+      {
+        "id": "S1b_failed_print",
+        "reason": "No complete September failed-print carding.",
+        "status": "unmeasured"
+      },
+      {
+        "bb_ytd_chg_pp": -0.1,
+        "ccc_minus_hy_ytd_pp": 2.04,
+        "ccc_oas": 10.85,
+        "desc": "(CCC-HY) OAS differential +2.04pp YTD; >=1.5pp = tail-specific repricing (confirming), <=0pp = contra",
+        "id": "S2_ccc_divergence",
+        "market_wide_flag": false,
+        "status": "confirming"
+      },
+      {
+        "control_median_pct": 1.4,
+        "desc": "worst AI-exposed BDC discount (BXSL 2.9%) minus non-AI control median (1.4%) = +1.5pp; >=15pp = exposure-specific stress (confirming), <=5pp = inside normal sector dispersion (contra)",
+        "differential_pp": 1.5,
+        "id": "S3_bdc_discount_differential",
+        "status": "contra",
+        "worst": "BXSL",
+        "worst_discount_pct": 2.9
+      },
+      {
+        "id": "S4_demand_trajectory",
+        "reason": "No comparable roughly annual AI end-demand basket.",
+        "status": "unmeasured"
+      }
+    ]
+  },
+  "sec_document_acquisition": {
+    "caveat": "An inventory row is an acquired document, not a unique obligation or a coverage proof.",
+    "forms": {
+      "FWP": 3051
+    },
+    "inventory_rows": 3051,
+    "path": "data/edgar_acquisition_2026-09-16/edgar_document_inventory.csv",
+    "status": "interim_unless_coverage_audit_confirms_complete",
+    "unique_ciks": 169
+  },
+  "sec_financial_panel": {
+    "interpretation": "Preselected capital-intensive issuer cohort; no sector prevalence or insolvency inference.",
+    "issuer_current_2026_matched_cashflow_capex": 11,
+    "issuer_current_2026_negative_cash_after_capex": 11,
+    "issuer_observations": [
+      {
+        "cash_after_capex_usd": -10454000000,
+        "cash_capex_usd": 14117000000,
+        "end": "2026-06-30",
+        "filing_url": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000366/crwv-20260630.htm",
+        "operating_cash_flow_usd": 3663000000,
+        "start": "2026-01-01",
+        "ticker": "CRWV"
+      },
+      {
+        "cash_after_capex_usd": -1532814000,
+        "cash_capex_usd": 1378514000,
+        "end": "2026-06-30",
+        "filing_url": "https://www.sec.gov/Archives/edgar/data/1083301/000108330126000166/wulf-20260630.htm",
+        "operating_cash_flow_usd": -154300000,
+        "start": "2026-01-01",
+        "ticker": "WULF"
+      },
+      {
+        "cash_after_capex_usd": -897588000,
+        "cash_capex_usd": 2998006000,
+        "end": "2026-06-30",
+        "filing_url": "https://www.sec.gov/Archives/edgar/data/1878848/000187884826000052/iren-20260630.htm",
+        "operating_cash_flow_usd": 2100418000,
+        "start": "2025-07-01",
+        "ticker": "IREN"
+      },
+      {
+        "cash_after_capex_usd": -2776080000,
+        "cash_capex_usd": 2865765000,
+        "end": "2026-05-31",
+        "filing_url": "https://www.sec.gov/Archives/edgar/data/1144879/000114487926000048/apld-20260531.htm",
+        "operating_cash_flow_usd": 89685000,
+        "start": "2025-06-01",
+        "ticker": "APLD"
+      },
+      {
+        "cash_after_capex_usd": -649027000,
+        "cash_capex_usd": 616182000,
+        "end": "2026-06-30",
+        "filing_url": "https://www.sec.gov/Archives/edgar/data/1964789/000110465926090025/hut-20260630x10q.htm",
+        "operating_cash_flow_usd": -32845000,
+        "start": "2026-01-01",
+        "ticker": "HUT"
+      },
+      {
+        "cash_after_capex_usd": -565560000,
+        "cash_capex_usd": 94303000,
+        "end": "2026-06-30",
+        "filing_url": "https://www.sec.gov/Archives/edgar/data/1507605/000150760526000022/mara-20260630.htm",
+        "operating_cash_flow_usd": -471257000,
+        "start": "2026-01-01",
+        "ticker": "MARA"
+      },
+      {
+        "cash_after_capex_usd": -489917000,
+        "cash_capex_usd": 80620000,
+        "end": "2026-06-30",
+        "filing_url": "https://www.sec.gov/Archives/edgar/data/827876/000119312526338382/clsk-20260630.htm",
+        "operating_cash_flow_usd": -409297000,
+        "start": "2025-10-01",
+        "ticker": "CLSK"
+      },
+      {
+        "cash_after_capex_usd": -448029000,
+        "cash_capex_usd": 736674000,
+        "end": "2026-06-30",
+        "filing_url": "https://www.sec.gov/Archives/edgar/data/1859392/000185939226000091/glxy-20260630.htm",
+        "operating_cash_flow_usd": 288645000,
+        "start": "2026-01-01",
+        "ticker": "GLXY"
+      },
+      {
+        "cash_after_capex_usd": -3681200000,
+        "cash_capex_usd": 4066000000,
+        "end": "2025-12-31",
+        "filing_url": "https://www.sec.gov/Archives/edgar/data/1513845/000110465926065681/nbis-20251231x20fa.htm",
+        "operating_cash_flow_usd": 384800000,
+        "start": "2025-01-01",
+        "ticker": "NBIS"
+      },
+      {
+        "cash_after_capex_usd": -723295000,
+        "cash_capex_usd": 954244000,
+        "end": "2026-06-30",
+        "filing_url": "https://www.sec.gov/Archives/edgar/data/1839341/000183934126000014/core-20260630.htm",
+        "operating_cash_flow_usd": 230949000,
+        "start": "2026-01-01",
+        "ticker": "CORZ"
+      },
+      {
+        "cash_after_capex_usd": -1116268000,
+        "cash_capex_usd": 964261000,
+        "end": "2026-06-30",
+        "filing_url": "https://www.sec.gov/Archives/edgar/data/1819989/000181998926000041/cifr-20260630.htm",
+        "operating_cash_flow_usd": -152007000,
+        "start": "2026-01-01",
+        "ticker": "CIFR"
+      },
+      {
+        "cash_after_capex_usd": -297942000,
+        "cash_capex_usd": 344712000,
+        "end": "2026-06-30",
+        "filing_url": "https://www.sec.gov/Archives/edgar/data/1710350/000121390026088709/ea0300693-10q_bitdigital.htm",
+        "operating_cash_flow_usd": 46770000,
+        "start": "2026-01-01",
+        "ticker": "BTBT"
+      }
+    ],
+    "issuer_older_matched_cashflow_capex": 1,
+    "original_issuer_count": 13,
+    "panel_entities": 22
+  },
+  "source_acquisition": {
+    "acquired": 483,
+    "attempted": 484,
+    "current_combined_uses_partial_pjm": false,
+    "deduplicated_combined_queue_rows": 16515,
+    "failed": 1,
+    "parsed_full_source_rows": 5011884,
+    "partial_pjm_complete_rows_separate": 6072,
+    "superseded_partial_pjm_rows_retained_after_cycle_dedup": 5915
+  }
+}

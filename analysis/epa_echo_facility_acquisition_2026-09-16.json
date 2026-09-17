@@ -1,0 +1,23 @@
+{
+  "as_of": "2026-09-16",
+  "source_url": "https://echo.epa.gov/files/echodownloads/echo_exporter.zip",
+  "source_page": "https://echo.epa.gov/tools/data-downloads",
+  "source_modified_utc": "2026-09-13T02:07:18Z",
+  "retrieved_utc": "2026-09-17T00:40:23.384389+00:00",
+  "status": "acquired_and_scanned",
+  "raw_path": "data/source_acquisition_2026-09-16/large_load/raw/state_utility_epa_echo_exporter_2026-09-13.zip",
+  "raw_sha256": "fbaf4dd0de9531e837c44739894429198eec8f4ad43fe23a5fb430f36f3a3350",
+  "raw_bytes": 428327103,
+  "inner_csv_bytes": 2116903997,
+  "total_facility_rows": 3180415,
+  "candidate_scan": {
+    "naics_518210_rows": 734,
+    "facility_name_data_center_rows": 476,
+    "both": 104,
+    "union_rows": 1106,
+    "candidate_csv": "data/state_utility_refresh_2026-09-16/epa_echo_dc_candidate_records.csv",
+    "candidate_csv_sha256": "45f60142c7a4b8c8f03874b86f1aa96cefdb2d3381f7358765ce1b2ca766a677",
+    "raw_scan_json": "data/state_utility_refresh_2026-09-16/epa_echo_518210_scan.json"
+  },
+  "metric_limit": "NAICS 518210 includes non-DC computing/data-processing/web-hosting; facility names generate false positives; regulated-facility records do not establish a data center, operational status, electric service, MW, or AI use. Counts are source coverage diagnostics only, never bubble denominator."
+}

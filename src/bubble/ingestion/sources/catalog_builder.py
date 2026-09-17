@@ -3,10 +3,12 @@
 from __future__ import annotations
 
 import csv
+import json
 from collections import Counter
 from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
+from urllib.parse import urlencode
 
 from bubble.ingestion.edgar.filing_manifest import SEC_SUBMISSIONS_URL
 from bubble.ingestion.edgar.seeds import PUBLIC_SEEDS
@@ -148,6 +150,45 @@ PUBLIC_SOURCE_ROWS: list[dict[str, str]] = [
         "meta_publisher": "PJM Interconnection",
         "meta_title": "PJM Planning Queues XML",
         "meta_source_page": "https://www.pjm.com/planning/service-requests/interconnection-queues",
+    },
+    {
+        "source_id": "pjm-cycle-projects-current",
+        "corpus": "queue_records",
+        "source_uri": "https://www.pjm.com/m/ProjectTransition/GenerateExcelTransitionProjectsAll",
+        "source_type": SourceType.GRID_QUEUE.value,
+        "parser": "xlsx",
+        "document_id": "pjm_cycle_projects_current_export",
+        "entity_id": "",
+        "project_id": "",
+        "filing_accession": "",
+        "meta_publisher": "PJM Interconnection",
+        "meta_title": "Cycle Service Request Status Full Export",
+        "meta_source_page": "https://www.pjm.com/planning/m/cycle-service-request-status",
+        "meta_scope": "cycle service requests; overlaps with serial queue projects moved to cycles",
+        "meta_xlsx_sheet_names": "Data",
+        "meta_xlsx_required_value_columns": "Project ID",
+        "meta_http_method": "POST",
+        "meta_http_body": urlencode(
+            {
+                "jsonModel": json.dumps(
+                    {
+                        "GridName": "ProjectTransition",
+                        "ItemType": 0,
+                        "Items": [],
+                        "Paginator": {
+                            "ItemType": 7,
+                            "CurrentItmsPerPageValue": "100",
+                            "CurrentPageIndex": "1",
+                        },
+                        "Sort": "QueueNumber",
+                        "SortDirection": "asc",
+                        "RelatedGridsFilters": "",
+                    },
+                    separators=(",", ":"),
+                )
+            }
+        ),
+        "meta_http_header_Content_Type": "application/x-www-form-urlencoded; charset=UTF-8",
     },
     {
         "source_id": "epa-egrid2023-data-rev2",

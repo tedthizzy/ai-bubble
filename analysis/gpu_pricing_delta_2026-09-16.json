@@ -1,0 +1,140 @@
+{
+  "as_of_pacific": "2026-09-16",
+  "observation_timestamps": {
+    "june_utc": [
+      "2026-06-01"
+    ],
+    "september_utc": [
+      "2026-09-17"
+    ]
+  },
+  "comparison": "same provider, GPU generation and contract term; identical multiplicities paired by quoted rate",
+  "original_snapshot": "data/compute/gpu_price_observations.csv",
+  "current_snapshot": "data/compute/2026-09-16/gpu_price_observations.csv",
+  "matched_observations": 45,
+  "direction_counts": {
+    "increase": 12,
+    "decrease": 1,
+    "unchanged": 32
+  },
+  "changed_quotes": [
+    {
+      "provider": "RunPod",
+      "gpu_generation": "A100",
+      "contract_term": "public_pricing_page_default_cloud;vram_gb=80;ram_gb=117;vcpus=8",
+      "june_usd_per_gpu_hour": 1.39,
+      "september_usd_per_gpu_hour": 1.59,
+      "change_pct": 14.4,
+      "source_uri": "https://www.runpod.io/pricing"
+    },
+    {
+      "provider": "RunPod",
+      "gpu_generation": "A100",
+      "contract_term": "public_pricing_page_default_cloud;vram_gb=80;ram_gb=125;vcpus=16",
+      "june_usd_per_gpu_hour": 1.49,
+      "september_usd_per_gpu_hour": 1.59,
+      "change_pct": 6.7,
+      "source_uri": "https://www.runpod.io/pricing"
+    },
+    {
+      "provider": "RunPod",
+      "gpu_generation": "A40",
+      "contract_term": "public_pricing_page_default_cloud;vram_gb=48;ram_gb=50;vcpus=9",
+      "june_usd_per_gpu_hour": 0.44,
+      "september_usd_per_gpu_hour": 0.49,
+      "change_pct": 11.4,
+      "source_uri": "https://www.runpod.io/pricing"
+    },
+    {
+      "provider": "RunPod",
+      "gpu_generation": "B200",
+      "contract_term": "public_pricing_page_default_cloud;vram_gb=180;ram_gb=283;vcpus=28",
+      "june_usd_per_gpu_hour": 5.89,
+      "september_usd_per_gpu_hour": 6.79,
+      "change_pct": 15.3,
+      "source_uri": "https://www.runpod.io/pricing"
+    },
+    {
+      "provider": "RunPod",
+      "gpu_generation": "H100",
+      "contract_term": "public_pricing_page_default_cloud;vram_gb=80;ram_gb=125;vcpus=20",
+      "june_usd_per_gpu_hour": 3.29,
+      "september_usd_per_gpu_hour": 3.49,
+      "change_pct": 6.1,
+      "source_uri": "https://www.runpod.io/pricing"
+    },
+    {
+      "provider": "RunPod",
+      "gpu_generation": "H200",
+      "contract_term": "public_pricing_page_default_cloud;vram_gb=141;ram_gb=276;vcpus=24",
+      "june_usd_per_gpu_hour": 4.39,
+      "september_usd_per_gpu_hour": 4.59,
+      "change_pct": 4.6,
+      "source_uri": "https://www.runpod.io/pricing"
+    },
+    {
+      "provider": "RunPod",
+      "gpu_generation": "L4",
+      "contract_term": "public_pricing_page_default_cloud;vram_gb=24;ram_gb=50;vcpus=12",
+      "june_usd_per_gpu_hour": 0.39,
+      "september_usd_per_gpu_hour": 0.49,
+      "change_pct": 25.6,
+      "source_uri": "https://www.runpod.io/pricing"
+    },
+    {
+      "provider": "RunPod",
+      "gpu_generation": "L40",
+      "contract_term": "public_pricing_page_default_cloud;vram_gb=48;ram_gb=94;vcpus=8",
+      "june_usd_per_gpu_hour": 0.99,
+      "september_usd_per_gpu_hour": 0.82,
+      "change_pct": -17.2,
+      "source_uri": "https://www.runpod.io/pricing"
+    },
+    {
+      "provider": "RunPod",
+      "gpu_generation": "L40S",
+      "contract_term": "public_pricing_page_default_cloud;vram_gb=48;ram_gb=94;vcpus=16",
+      "june_usd_per_gpu_hour": 0.86,
+      "september_usd_per_gpu_hour": 1.09,
+      "change_pct": 26.7,
+      "source_uri": "https://www.runpod.io/pricing"
+    },
+    {
+      "provider": "RunPod",
+      "gpu_generation": "RTX3090",
+      "contract_term": "public_pricing_page_default_cloud;vram_gb=24;ram_gb=125;vcpus=16",
+      "june_usd_per_gpu_hour": 0.46,
+      "september_usd_per_gpu_hour": 0.5,
+      "change_pct": 8.7,
+      "source_uri": "https://www.runpod.io/pricing"
+    },
+    {
+      "provider": "RunPod",
+      "gpu_generation": "RTX4090",
+      "contract_term": "public_pricing_page_default_cloud;vram_gb=24;ram_gb=41;vcpus=6",
+      "june_usd_per_gpu_hour": 0.69,
+      "september_usd_per_gpu_hour": 0.74,
+      "change_pct": 7.2,
+      "source_uri": "https://www.runpod.io/pricing"
+    },
+    {
+      "provider": "RunPod",
+      "gpu_generation": "RTX6000ADA",
+      "contract_term": "public_pricing_page_default_cloud;vram_gb=48;ram_gb=167;vcpus=10",
+      "june_usd_per_gpu_hour": 0.77,
+      "september_usd_per_gpu_hour": 0.84,
+      "change_pct": 9.1,
+      "source_uri": "https://www.runpod.io/pricing"
+    },
+    {
+      "provider": "RunPod",
+      "gpu_generation": "RTXA6000",
+      "contract_term": "public_pricing_page_default_cloud;vram_gb=48;ram_gb=50;vcpus=9",
+      "june_usd_per_gpu_hour": 0.49,
+      "september_usd_per_gpu_hour": 0.53,
+      "change_pct": 8.2,
+      "source_uri": "https://www.runpod.io/pricing"
+    }
+  ],
+  "limitation": "Only public Lambda and RunPod listed rates; no transaction volume, availability, realized prices or market-wide utilization."
+}

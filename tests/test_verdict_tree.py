@@ -2,13 +2,18 @@
 
 from __future__ import annotations
 
+from datetime import date
+
 from bubble.verdict_tree import (
     LEAVES,
+    P_REAL_WINDOW_END,
     PROMOTED,
     STRUCTURAL_CONFIDENCE,
+    TIMING_KILL_ADJUDICATION_QUARTER,
     Leaf,
     brier_score,
     realization_forecast,
+    realization_outcome,
 )
 
 
@@ -98,3 +103,56 @@ class TestBrier:
         # outcomes not in {0,1} are treated as unresolved and dropped
         out = brier_score([(0.5, 1), (0.5, 2)])
         assert out["n"] == 1
+
+
+class TestRealizationResolution:
+    def test_forecast_declares_separate_dates(self) -> None:
+        out = realization_forecast()
+        assert out["p_real_outcome_window_end"] == "2027-09-30"
+        assert out["timing_kill_adjudication_quarter"] == "2026-Q4"
+
+    def test_elapsed_q2_pressure_peak_is_not_an_event(self) -> None:
+        # June's 0.8738 timing score measures scheduled inputs, not issuer distress.
+        outcome = realization_outcome(as_of=date(2026, 9, 16))
+        assert outcome is None
+        assert brier_score([(0.39, outcome)])["n"] == 0
+
+    def test_event_free_q4_does_not_resolve_negative(self) -> None:
+        assert TIMING_KILL_ADJUDICATION_QUARTER == "2026-Q4"
+        assert (
+            realization_outcome(as_of=date(2026, 12, 31), issuer_event_coverage_complete=True)
+            is None
+        )
+
+    def test_filing_verified_event_resolves_early_positive(self) -> None:
+        assert (
+            realization_outcome(
+                as_of=date(2026, 9, 16),
+                filing_verified_qualifying_event_date=date(2026, 8, 20),
+            )
+            == 1
+        )
+
+    def test_negative_requires_window_close_and_complete_audit(self) -> None:
+        assert realization_outcome(as_of=P_REAL_WINDOW_END) is None
+        assert (
+            realization_outcome(as_of=P_REAL_WINDOW_END, issuer_event_coverage_complete=True) == 0
+        )
+
+    def test_out_of_window_or_future_events_do_not_resolve_positive(self) -> None:
+        assert (
+            realization_outcome(
+                as_of=date(2027, 10, 1),
+                filing_verified_qualifying_event_date=date(2027, 10, 1),
+            )
+            is None
+        )
+        try:
+            realization_outcome(
+                as_of=date(2026, 9, 16),
+                filing_verified_qualifying_event_date=date(2026, 9, 17),
+            )
+        except ValueError:
+            pass
+        else:
+            raise AssertionError("future issuer events cannot be scored")

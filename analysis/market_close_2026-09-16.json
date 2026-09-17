@@ -1,0 +1,45 @@
+{
+  "as_of_pacific": "2026-09-16",
+  "credit_observation_date": "2026-09-15",
+  "bdc_close_date": "2026-09-16",
+  "credit": {
+    "source_urls": [
+      "https://fred.stlouisfed.org/series/BAMLH0A0HYM2",
+      "https://fred.stlouisfed.org/series/BAMLH0A3HYC",
+      "https://fred.stlouisfed.org/series/BAMLH0A1HYBB",
+      "https://fred.stlouisfed.org/series/DGS5"
+    ],
+    "hy_oas_pct": 2.76,
+    "ccc_oas_pct": 10.85,
+    "bb_oas_pct": 1.61,
+    "ust5y_pct": 4.83,
+    "ust5y_observation_date": "2026-09-15",
+    "ust5y_download_url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DGS5&cosd=2026-08-20&coed=2026-09-15",
+    "hy_ytd_change_pp": -0.07,
+    "ccc_ytd_change_pp": 1.97,
+    "bb_ytd_change_pp": -0.10,
+    "registered_s2_tail_differential_pp": 2.04,
+    "registered_s2_status": "confirming",
+    "market_wide_flag": false
+  },
+  "bdc": {
+    "price_source_template": "https://query1.finance.yahoo.com/v8/finance/chart/{ticker}?range=5d&interval=1d",
+    "nav_source": "analysis/bdc_nav_2026-09-16.json",
+    "exposed": {
+      "ARCC": {"close_usd": 19.37, "nav_usd": 19.35, "discount_pct": -0.1},
+      "BXSL": {"close_usd": 24.79, "nav_usd": 25.53, "discount_pct": 2.9}
+    },
+    "controls": {
+      "GBDC": {"close_usd": 12.43, "nav_usd": 14.25, "discount_pct": 12.8},
+      "MAIN": {"close_usd": 56.54, "nav_usd": 33.92, "discount_pct": -66.7},
+      "PSEC": {"close_usd": 2.22, "nav_usd": 5.71, "discount_pct": 61.1},
+      "TSLX": {"close_usd": 17.86, "nav_usd": 16.24, "discount_pct": -10.0}
+    },
+    "control_median_discount_pct": 1.4,
+    "worst_exposed_discount_pct": 2.9,
+    "registered_s3_excess_discount_pp": 1.5,
+    "registered_s3_status": "contra"
+  },
+  "registered_confirm_2": false,
+  "measurement_limits": "BDC prices are September 16 closes against June 30 reported NAVs; FRED spreads were last available for September 15. Registered basket membership is unchanged. These measures do not isolate AI causality."
+}

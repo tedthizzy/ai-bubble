@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import csv
+import gzip
 import hashlib
 import re
 import warnings
@@ -672,7 +673,11 @@ def _extract_economic_commitment_terms(
 
 
 def _html_text(path: Path) -> str:
-    soup = BeautifulSoup(path.read_text(errors="ignore"), "lxml")
+    if path.suffix.lower() == ".gz":
+        source = gzip.decompress(path.read_bytes()).decode("utf-8", errors="ignore")
+    else:
+        source = path.read_text(errors="ignore")
+    soup = BeautifulSoup(source, "lxml")
     return re.sub(r"\s+", " ", soup.get_text(" ", strip=True)).strip()
 
 

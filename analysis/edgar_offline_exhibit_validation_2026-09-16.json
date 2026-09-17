@@ -1,0 +1,21 @@
+{
+  "as_of_pacific": "2026-09-16",
+  "cached_index_manifest": "data/manifests/edgar_exhibit_manifest_20260601-195938.csv",
+  "cached_index_parent_count": 10401,
+  "current_acquired_parent_overlap_count": 16,
+  "exact_name_matches": 41,
+  "extra_examples": [],
+  "indexed_exhibit_types_in_overlap": {
+    "10": 24,
+    "2": 2,
+    "99": 15
+  },
+  "indexed_exhibits_in_overlap": 41,
+  "indexed_misses_in_overlap": 0,
+  "interpretation": "Recall is exact only for the small current-file overlap, not for all 10,401 index-covered parents. The cached SEC index manifest itself filters filename types and caps per filing. Full SEC index requests remain necessary for exhaustive exhibit coverage because primary HTML can omit/unlink files.",
+  "missed_examples": [],
+  "missed_exhibit_types_in_overlap": {},
+  "offline_exhibits_in_overlap": 41,
+  "offline_extras_in_overlap": 0,
+  "older_archive_full_validation": "Attempted twice against all 10,401 older locally indexed parents; old archive read calls stalled repeatedly, so no full old-archive recall figure was produced."
+}

@@ -2958,7 +2958,7 @@
   },
   "calculation_source": {
     "path": "src/bubble/market_signals.py",
-    "sha256": "b9c038def1822be91e0b3f3389b408238ffa83a20db14eb2d109204d5f62b813"
+    "sha256": "5dd3396e6702851291d8800e8f23d271d594f39c3ae9b6b0d7a59ed524c5d209"
   },
   "verification": {
     "root_independent_live_source_checks": 9,

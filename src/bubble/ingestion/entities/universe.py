@@ -120,6 +120,8 @@ class EntityUniverseSummary:
     data_dir: str
     output_dir: str
     source_rows_scanned: int
+    source_rows_by_path: dict[str, int]
+    source_rows_eligible_by_path: dict[str, int]
     mentions_extracted: int
     distinct_entities: int
     sec_reference_entities: int
@@ -309,6 +311,8 @@ def build_entity_universe(
     aggregates: dict[str, EntityAggregate] = {}
     mention_rows: list[dict[str, str]] = []
     source_rows_scanned = 0
+    source_rows_by_path: Counter[str] = Counter()
+    source_rows_eligible_by_path: Counter[str] = Counter()
     mentions_extracted = 0
 
     for spec in SOURCE_SPECS:
@@ -319,11 +323,13 @@ def build_entity_universe(
             reader = csv.DictReader(f)
             for row in reader:
                 source_rows_scanned += 1
+                source_rows_by_path[spec.relative_path] += 1
                 if spec.source_table == "lei_records" and not _include_lei_row(
                     row,
                     ownership_lei_ids,
                 ):
                     continue
+                source_rows_eligible_by_path[spec.relative_path] += 1
                 for field_name, role in spec.fields:
                     for name in _entity_names_from_cell(row.get(field_name, "")):
                         normalized = normalize_entity_name(name)
@@ -381,6 +387,8 @@ def build_entity_universe(
         data_dir=str(base),
         output_dir=str(output),
         source_rows_scanned=source_rows_scanned,
+        source_rows_by_path=dict(sorted(source_rows_by_path.items())),
+        source_rows_eligible_by_path=dict(sorted(source_rows_eligible_by_path.items())),
         mentions_extracted=mentions_extracted,
         distinct_entities=len(entity_rows),
         sec_reference_entities=len(sec_reference.rows),

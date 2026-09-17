@@ -65,6 +65,7 @@ def test_physical_capacity_summary_rolls_up_queue_and_equipment_capacity(
                 "content_hash": "hash-nyiso",
                 "document_id": "nyiso",
                 "Project Name": "Missing MW",
+                "sheet_name": "Interconnection Queue",
             },
             {
                 "source_id": "spp-active-generation-interconnection-queue",
@@ -271,6 +272,7 @@ def test_physical_capacity_summary_skips_completed_or_withdrawn_queue_rows(
                 "document_id": "iso",
                 "Position": "1100",
                 "Project Status": "Under Study",
+                "Type": "G",
                 "Net MW": "0",
                 "Summer MW": "200",
             },
@@ -284,6 +286,166 @@ def test_physical_capacity_summary_skips_completed_or_withdrawn_queue_rows(
     assert summary.queue_capacity_mw == 650
     assert summary.queue_capacity_by_region_mw == {"PJM": 450, "ISO-NE": 200}
     assert summary.skipped_rows == {"queue_out_of_scope_status": 1}
+
+
+def test_physical_capacity_summary_uses_nyiso_sheet_and_code_and_spp_operating_status(
+    tmp_path: Path,
+) -> None:
+    nyiso = {
+        "source_id": "nyiso-interconnection-queue",
+        "source_uri": "https://example.com/nyiso.xlsx",
+        "source_type": "grid_interconnection_queue",
+        "content_hash": "hash-nyiso",
+        "document_id": "nyiso",
+        "SP (MW)": "100",
+    }
+    spp = {
+        "source_id": "spp-active-generation-interconnection-queue",
+        "source_uri": "https://example.com/spp.csv",
+        "source_type": "grid_interconnection_queue",
+        "content_hash": "hash-spp",
+        "document_id": "spp",
+        "Capacity": "200",
+    }
+    _write_csv(
+        tmp_path / "source_rows" / "queue_records.csv",
+        [
+            {**nyiso, "sheet_name": "Withdrawn", "Project Status #": "7"},
+            {**nyiso, "sheet_name": " Cluster Projects-Withdrawn", "Project Status #": ""},
+            {**nyiso, "sheet_name": "In Service", "Project Status #": ""},
+            {**nyiso, "sheet_name": "Interconnection Queue", "Project Status #": "0"},
+            {**nyiso, "sheet_name": "Interconnection Queue", "Project Status #": "13"},
+            {**nyiso, "sheet_name": "Interconnection Queue", "Project Status #": "14"},
+            {**nyiso, "sheet_name": "Interconnection Queue", "Project Status #": "11"},
+            {**nyiso, "sheet_name": "Interconnection Queue", "Project Status #": "12"},
+            {**spp, "Status": "IA FULLY EXECUTED/COMMERCIAL OPERATION"},
+            {**spp, "Status": "IA FULLY EXECUTED/ON SCHEDULE"},
+        ],
+    )
+
+    summary = build_physical_capacity_summary([tmp_path])
+
+    assert summary.queue_records_scanned == 10
+    assert summary.queue_capacity_records == 3
+    assert summary.queue_capacity_by_region_mw == {"NYISO": 200, "SPP": 200}
+    assert summary.skipped_rows == {"queue_out_of_scope_status": 7}
+
+
+def test_pjm_workbook_capacity_uses_requested_mw_energy_not_existing_facility_mfo(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "source_rows" / "queue_records.csv",
+        [
+            {
+                "source_id": "pjm-cycle-projects-current",
+                "source_uri": "https://example.com/cycle.xlsx",
+                "source_type": "grid_interconnection_queue",
+                "content_hash": "hash-cycle",
+                "document_id": "cycle",
+                "Project ID": "C01-1055",
+                "Project Type": "Generation Interconnection",
+                "Status": "Active",
+                "MFO": "2808",
+                "MW Energy": "382",
+                "MW Capacity": "348",
+            },
+            {
+                "source_id": "pjm-cycle-projects-current",
+                "source_uri": "https://example.com/cycle.xlsx",
+                "source_type": "grid_interconnection_queue",
+                "content_hash": "hash-cycle",
+                "document_id": "cycle",
+                "Project ID": "C01-1056",
+                "Project Type": "Generation Interconnection",
+                "Status": "Active",
+                "MFO": "500",
+                "MW Energy": "0",
+                "MW Capacity": "70",
+            },
+            {
+                "source_id": "pjm-serial-full-2026-09-16",
+                "source_uri": "https://example.com/serial.xlsx",
+                "source_type": "grid_interconnection_queue",
+                "content_hash": "hash-serial",
+                "document_id": "serial",
+                "Project ID": "AG1-060",
+                "Project Type": "Generation Interconnection",
+                "Status": "Active",
+                "MFO": "1000",
+                "MW Energy": "120",
+                "MW Capacity": "100",
+            },
+        ],
+    )
+
+    summary = build_physical_capacity_summary([tmp_path])
+
+    assert summary.queue_capacity_records == 3
+    assert summary.queue_capacity_mw == 572
+    assert summary.queue_capacity_by_region_mw == {"PJM": 572}
+
+
+def test_generation_queue_excludes_load_transmission_and_affected_system_rows(
+    tmp_path: Path,
+) -> None:
+    _write_csv(
+        tmp_path / "source_rows" / "queue_records.csv",
+        [
+            {
+                "source_id": "pjm-serial-full-2026-09-16",
+                "Project Type": "Generation Interconnection",
+                "MW Energy": "100",
+            },
+            {
+                "source_id": "pjm-serial-full-2026-09-16",
+                "Project Type": "Long-Term Firm Transmission",
+                "MW Energy": "200",
+            },
+            {
+                "source_id": "pjm-cycle-projects-2026-09-16",
+                "Project Type": "Merchant Transmission",
+                "MW Energy": "300",
+            },
+            {
+                "source_id": "nyiso-interconnection-queue",
+                "sheet_name": " Cluster Projects",
+                "SP (MW)": "40",
+            },
+            {
+                "source_id": "nyiso-interconnection-queue",
+                "sheet_name": "Affected System Studies",
+                "SP (MW)": "50",
+            },
+            {
+                "source_id": "nyiso-interconnection-queue",
+                "sheet_name": "Load Projects",
+                "SP (MW)": "60",
+            },
+            {
+                "source_id": "iso-ne-public-queue-current",
+                "Type": "G",
+                "Net MW": "70",
+            },
+            {
+                "source_id": "iso-ne-public-queue-current",
+                "Type": "TS",
+                "Net MW": "80",
+            },
+            {
+                "source_id": "iso-ne-public-queue-current",
+                "Type": "ETU",
+                "Net MW": "90",
+            },
+        ],
+    )
+
+    summary = build_physical_capacity_summary([tmp_path])
+
+    assert summary.queue_records_scanned == 9
+    assert summary.queue_capacity_records == 3
+    assert summary.queue_capacity_mw == 210
+    assert summary.skipped_rows == {"queue_non_generation_request": 6}
 
 
 def test_physical_capacity_summary_reports_distinct_tracker_capacity(

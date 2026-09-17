@@ -1,0 +1,47 @@
+{
+  "as_of": "2026-09-16",
+  "period": "2026-06-30",
+  "definition": "latest reported quarterly NAV per share",
+  "bdc": {
+    "ARCC": {
+      "nav_usd_per_share": 19.35,
+      "nav_asof": "2026-06-30",
+      "source_uri": "https://www.sec.gov/Archives/edgar/data/1287750/000162828026050303/arccq2-2026exhibit991.htm"
+    },
+    "BXSL": {
+      "nav_usd_per_share": 25.53,
+      "nav_asof": "2026-06-30",
+      "source_uri": "https://www.sec.gov/Archives/edgar/data/1736035/000121390026085889/ea0300654-01_ex991.htm"
+    },
+    "FSK": {
+      "nav_usd_per_share": 18.3,
+      "nav_asof": "2026-06-30",
+      "source_uri": "https://www.sec.gov/Archives/edgar/data/1422183/000110465926091572/tm2622260d1_ex99-1.htm"
+    },
+    "GBDC": {
+      "nav_usd_per_share": 14.25,
+      "nav_asof": "2026-06-30",
+      "source_uri": "https://www.sec.gov/Archives/edgar/data/1476765/000147676526000047/gbdcfy2026q3epfinal.htm"
+    },
+    "MAIN": {
+      "nav_usd_per_share": 33.92,
+      "nav_asof": "2026-06-30",
+      "source_uri": "https://www.mainstcapital.com/investors/sec-filings/all-sec-filings/content/0001396440-26-000090/main-q22026xearningsreleas.htm"
+    },
+    "OBDC": {
+      "nav_usd_per_share": 14.26,
+      "nav_asof": "2026-06-30",
+      "source_uri": "https://www.sec.gov/Archives/edgar/data/1655888/000165588826000055/exhibit991-obdcxpressrelea.htm"
+    },
+    "PSEC": {
+      "nav_usd_per_share": 5.71,
+      "nav_asof": "2026-06-30",
+      "source_uri": "https://www.prospectstreet.com/news/prospect-capital-announces-june-2026-results/"
+    },
+    "TSLX": {
+      "nav_usd_per_share": 16.24,
+      "nav_asof": "2026-06-30",
+      "source_uri": "https://www.sec.gov/Archives/edgar/data/1508655/000119312526332772/tslx-ex99_1.htm"
+    }
+  }
+}

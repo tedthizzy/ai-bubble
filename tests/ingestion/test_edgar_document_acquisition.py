@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import csv
+import gzip
+import pathlib
 from typing import TYPE_CHECKING
 
 from bubble.ingestion.capital import load_capital_evidence
@@ -202,6 +204,38 @@ def test_acquire_edgar_documents_resume_reuses_downloaded_doc(tmp_path: Path):
     assert second.summary.documents_resumed == 1
 
 
+def test_acquire_edgar_documents_gzip_preserves_source_and_resumes(tmp_path: Path):
+    manifest = tmp_path / "manifest.csv"
+    _write_manifest(manifest)
+    html = b"<html><body>Credit Agreement for a $10 million facility.</body></html>"
+    calls = 0
+
+    def fake_fetch(_url: str) -> bytes:
+        nonlocal calls
+        calls += 1
+        return html
+
+    first = acquire_edgar_documents_from_manifest(
+        manifest,
+        output_dir=tmp_path / "acquired",
+        fetch_bytes=fake_fetch,
+        compress_raw=True,
+    )
+    second = acquire_edgar_documents_from_manifest(
+        manifest,
+        output_dir=tmp_path / "acquired",
+        fetch_bytes=fake_fetch,
+        compress_raw=True,
+    )
+
+    path = pathlib.Path(first.documents[0].local_path)
+    assert path.suffix == ".gz"
+    assert gzip.decompress(path.read_bytes()) == html
+    assert first.documents[0].content_hash == second.documents[0].content_hash
+    assert second.summary.documents_resumed == 1
+    assert calls == 1
+
+
 def test_edgar_acquisition_outputs_can_merge_delta_rows(tmp_path: Path):
     first_manifest = tmp_path / "first_manifest.csv"
     second_manifest = tmp_path / "second_manifest.csv"
@@ -297,6 +331,19 @@ def test_document_text_and_term_extractors_handle_common_sec_language():
     assert extract_collateral_descriptions(
         "The facility is senior secured and secured by first-priority liens on collateral."
     )
+
+
+def test_maturity_extractor_ignores_prospectus_expiration():
+    assert extract_maturity_date(
+        "The prospectus will expire with the closing of the offering period, "
+        "expected on or about June 11, 2026."
+    ) is None
+    assert extract_maturity_date(
+        "Due to timing of the offering, the prospectus is dated June 11, 2026."
+    ) is None
+    assert extract_maturity_date(
+        "The revolving credit facility expires on May 19, 2031."
+    ).isoformat() == "2031-05-19"
 
 
 def test_document_notional_extractor_rejects_malformed_comma_grouping():

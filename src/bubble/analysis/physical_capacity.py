@@ -214,6 +214,9 @@ def build_physical_capacity_summary(  # noqa: PLR0912, PLR0915
             if not _queue_record_in_scope(row):
                 skipped_rows["queue_out_of_scope_status"] += 1
                 continue
+            if not _queue_record_is_generation_request(row):
+                skipped_rows["queue_non_generation_request"] += 1
+                continue
             capacity = _queue_capacity_mw(row)
             if capacity is None:
                 skipped_rows["queue_missing_capacity"] += 1
@@ -369,6 +372,11 @@ def _read_csv(path: Path) -> list[dict[str, str]]:
 
 
 def _queue_capacity_mw(row: Mapping[str, str]) -> float | None:
+    if _source_id(row).startswith(("pjm-cycle-", "pjm-serial-full-")):
+        # PJM's workbooks define MW Energy as the interconnection request.
+        # MFO is the facility's total maximum output and can include an
+        # existing plant, so it would overstate requested queue capacity.
+        return _first_positive_float(row, ["MW Energy", "MW Capacity"])
     preferred = _first_positive_float(
         row,
         [
@@ -429,6 +437,16 @@ def _queue_region(row: Mapping[str, str]) -> str:
 
 
 def _queue_record_in_scope(row: Mapping[str, str]) -> bool:
+    source_id = _source_id(row)
+    if source_id.startswith("nyiso-"):
+        sheet_name = (row.get("sheet_name") or "").strip().lower()
+        if sheet_name in {"withdrawn", "cluster projects-withdrawn", "in service"}:
+            return False
+        # The current NYISO workbook defines 0 as withdrawn, 13 as in service
+        # for test, and 14 as in service commercially. Codes 11 and 12 are
+        # agreement completed and under construction, respectively.
+        if (row.get("Project Status #") or "").strip().upper() in {"0", "13", "13C", "14", "14C"}:
+            return False
     status = (_queue_status(row) or "").strip().lower()
     if status in {
         "annulled",
@@ -446,6 +464,8 @@ def _queue_record_in_scope(row: Mapping[str, str]) -> bool:
         return False
     if status.startswith("partially in service") and "under construction" not in status:
         return False
+    if source_id.startswith("spp-") and status == "ia fully executed/commercial operation":
+        return False
     if _first_present(
         row,
         [
@@ -462,6 +482,22 @@ def _queue_record_in_scope(row: Mapping[str, str]) -> bool:
         if op_date and _date_is_on_or_before_today(op_date):
             return False
     return not _first_present(row, ["Actual In Service Date", "ActualCompletionDate"])
+
+
+def _queue_record_is_generation_request(row: Mapping[str, str]) -> bool:
+    """Keep generation requests separate from load and transmission queue rows."""
+
+    source_id = _source_id(row)
+    if source_id.startswith(("pjm-cycle-", "pjm-serial-full-")):
+        return (row.get("Project Type") or "").strip().lower() == "generation interconnection"
+    if source_id.startswith("iso-ne-"):
+        return (row.get("Type") or "").strip().upper() == "G"
+    if source_id.startswith("nyiso-"):
+        return (row.get("sheet_name") or "").strip().lower() in {
+            "interconnection queue",
+            "cluster projects",
+        }
+    return True
 
 
 def _queue_record_is_data_center_related(row: Mapping[str, str]) -> bool:
