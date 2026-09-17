@@ -1,283 +1,304 @@
 {
  "adjacent": {
   "Alphabet": {
-   "chg_pct": 0.53,
-   "close": 359.67999267578125,
-   "date": "2026-06-12",
-   "prev_close": 357.7699890136719,
+   "chg_pct": 0.99,
+   "close": 346.260009765625,
+   "date": "2026-09-17",
+   "prev_close": 342.8699951171875,
    "sym": "GOOGL"
+  },
+  "SpaceX": {
+   "chg_pct": 2.55,
+   "close": 154.72999572753906,
+   "date": "2026-09-17",
+   "prev_close": 150.8800048828125,
+   "sym": "SPCX"
   }
  },
  "bdc": {
   "ARCC": {
-   "close": 19.260000228881836,
-   "date": "2026-06-12",
-   "discount_pct": 1.7,
-   "nav": 19.59,
-   "nav_asof": "2026-03-31",
+   "close": 19.774999618530273,
+   "date": "2026-09-17",
+   "discount_pct": -2.2,
+   "nav": 19.35,
+   "nav_asof": "2026-06-30",
+   "nav_source_uri": "https://www.sec.gov/Archives/edgar/data/1287750/000162828026050303/arccq2-2026exhibit991.htm",
    "role": "exposed"
   },
   "BXSL": {
-   "close": 23.850000381469727,
-   "date": "2026-06-12",
-   "discount_pct": 9.2,
-   "nav": 26.26,
-   "nav_asof": "2026-03-31",
+   "close": 25.344999313354492,
+   "date": "2026-09-17",
+   "discount_pct": 0.7,
+   "nav": 25.53,
+   "nav_asof": "2026-06-30",
+   "nav_source_uri": "https://www.sec.gov/Archives/edgar/data/1736035/000121390026085889/ea0300654-01_ex991.htm",
    "role": "exposed"
   },
   "FSK": {
-   "close": 11.0600004196167,
-   "date": "2026-06-12",
-   "discount_pct": 41.3,
-   "nav": 18.83,
-   "nav_asof": "2026-03-31",
+   "close": 11.774999618530273,
+   "date": "2026-09-17",
+   "discount_pct": 35.7,
+   "nav": 18.3,
+   "nav_asof": "2026-06-30",
+   "nav_source_uri": "https://www.sec.gov/Archives/edgar/data/1422183/000110465926091572/tm2622260d1_ex99-1.htm",
    "role": "context"
   },
   "GBDC": {
-   "close": 13.289999961853027,
-   "date": "2026-06-12",
-   "discount_pct": 7.4,
-   "nav": 14.35,
-   "nav_asof": "2026-03-31",
+   "close": 12.725000381469727,
+   "date": "2026-09-17",
+   "discount_pct": 10.7,
+   "nav": 14.25,
+   "nav_asof": "2026-06-30",
+   "nav_source_uri": "https://www.sec.gov/Archives/edgar/data/1476765/000147676526000047/gbdcfy2026q3epfinal.htm",
    "role": "control"
   },
   "MAIN": {
-   "close": 52.02000045776367,
-   "date": "2026-06-12",
-   "discount_pct": -55.5,
-   "nav": 33.46,
-   "nav_asof": "2026-03-31",
+   "close": 57.52000045776367,
+   "date": "2026-09-17",
+   "discount_pct": -69.6,
+   "nav": 33.92,
+   "nav_asof": "2026-06-30",
+   "nav_source_uri": "https://www.mainstcapital.com/investors/sec-filings/all-sec-filings/content/0001396440-26-000090/main-q22026xearningsreleas.htm",
    "role": "control"
   },
   "OBDC": {
-   "close": 11.180000305175781,
-   "date": "2026-06-12",
-   "discount_pct": 22.4,
-   "nav": 14.41,
-   "nav_asof": "2026-03-31",
+   "close": 11.385000228881836,
+   "date": "2026-09-17",
+   "discount_pct": 20.2,
+   "nav": 14.26,
+   "nav_asof": "2026-06-30",
+   "nav_source_uri": "https://www.sec.gov/Archives/edgar/data/1655888/000165588826000055/exhibit991-obdcxpressrelea.htm",
    "role": "context"
   },
   "PSEC": {
-   "close": 2.309999942779541,
-   "date": "2026-06-12",
-   "discount_pct": 61.8,
-   "nav": 6.05,
-   "nav_asof": "2026-03-31",
+   "close": 2.255000114440918,
+   "date": "2026-09-17",
+   "discount_pct": 60.5,
+   "nav": 5.71,
+   "nav_asof": "2026-06-30",
+   "nav_source_uri": "https://www.prospectstreet.com/news/prospect-capital-announces-june-2026-results/",
    "role": "control"
   },
   "TSLX": {
-   "close": 16.899999618530273,
-   "date": "2026-06-12",
-   "discount_pct": -4.1,
+   "close": 18.364999771118164,
+   "date": "2026-09-17",
+   "discount_pct": -13.1,
    "nav": 16.24,
-   "nav_asof": "2026-03-31",
+   "nav_asof": "2026-06-30",
+   "nav_source_uri": "https://www.sec.gov/Archives/edgar/data/1508655/000119312526332772/tslx-ex99_1.htm",
    "role": "control"
   }
  },
  "credit": {
   "bb_oas": {
-   "date": "2026-06-11",
-   "value": 1.69,
-   "ytd_chg": -0.02
+   "date": "2026-09-16",
+   "value": 1.55,
+   "ytd_chg": -0.16
   },
-  "ccc_minus_hy_pp": 6.78,
+  "ccc_minus_hy_pp": 8.06,
   "ccc_oas": {
-   "date": "2026-06-11",
-   "value": 9.56,
-   "ytd_chg": 0.68
+   "date": "2026-09-16",
+   "value": 10.76,
+   "ytd_chg": 1.88
   },
   "hy_oas": {
-   "date": "2026-06-11",
-   "value": 2.78,
-   "ytd_chg": -0.05
+   "date": "2026-09-16",
+   "value": 2.7,
+   "ytd_chg": -0.13
   },
   "ust5y": {
-   "date": "2026-06-11",
-   "value": 4.18,
-   "ytd_chg": 0.44
+   "date": "2026-09-15",
+   "value": 4.83,
+   "ytd_chg": 1.09
   }
  },
  "edgar": {},
- "generated_utc": "2026-06-14T01:36:13Z",
+ "generated_utc": "2026-09-17T14:22:35Z",
  "issuance_latest": {
-  "amount_usd": 900000000,
-  "coupon_pct": 7.5,
-  "date": "2026-06-02",
-  "issuer": "Elk Grove Village Property LLC (CoreWeave-linked data-center SPV)",
-  "maturity": "~2031",
-  "pricing": "par; SPV-level secured paper printing INSIDE the parent's 9.75% corporate level",
-  "source": "https://finance.yahoo.com/markets/stocks/articles/coreweave-crwv-subsidiary-raises-900-011330653.html",
-  "spread_vs_5y_bp": 332,
+  "amount_usd": 3900000000,
+  "coupon_pct": 6.625,
+  "coupon_source": "https://carboncollectivefunds.com/ccsb/",
+  "date": "2026-08-27",
+  "date_basis": "Offering closed August 27 per transaction counsel; August 18-20 marketing and pricing were reported, but exact pricing date was not issuer-confirmed",
+  "issuer": "QTS Central Issuer LLC / QTS TRS Central Issuer LLC (Blackstone-backed data-center SPVs)",
+  "maturity": "2031-09-01",
+  "pricing": "Rule 144A / Regulation S senior secured construction notes; issue price and issue yield absent from public issuer/counsel record. Do not use the 2026-09-10 98.90 secondary fund mark as issue price",
+  "source": "https://www.stblaw.com/about-us/news/view/2026/09/01/qts-completes-inaugural-construction-rule-144a-notes-offering",
+  "spread_vs_5y_bp": 180,
   "status": "priced",
   "tenor_yrs": 5,
-  "tier": "press_reported"
+  "tier": "transaction_counsel_primary_plus_holder_primary; coupon from holder portfolio"
  },
  "quotes": {
   "Apollo / Athene": {
-   "chg_pct": -0.02,
-   "close": 133.8800048828125,
-   "date": "2026-06-12",
-   "prev_close": 133.91000366210938,
+   "chg_pct": 3.08,
+   "close": 128.3699951171875,
+   "date": "2026-09-17",
+   "prev_close": 124.52999877929688,
    "sym": "APO"
   },
   "Applied Digital": {
-   "chg_pct": 2.97,
-   "close": 42.70000076293945,
-   "date": "2026-06-12",
-   "prev_close": 41.470001220703125,
+   "chg_pct": 3.4,
+   "close": 25.219900131225586,
+   "date": "2026-09-17",
+   "prev_close": 24.389999389648438,
    "sym": "APLD"
   },
   "Bit Digital": {
-   "chg_pct": 0.58,
-   "close": 1.7400000095367432,
-   "date": "2026-06-12",
-   "prev_close": 1.7300000190734863,
+   "chg_pct": 4.55,
+   "close": 1.4950000047683716,
+   "date": "2026-09-17",
+   "prev_close": 1.4299999475479126,
    "sym": "BTBT"
   },
   "Blackstone": {
-   "chg_pct": 1.58,
-   "close": 122.79000091552734,
-   "date": "2026-06-12",
-   "prev_close": 120.87999725341797,
+   "chg_pct": 1.48,
+   "close": 125.27420043945312,
+   "date": "2026-09-17",
+   "prev_close": 123.44999694824219,
    "sym": "BX"
   },
   "Cipher Mining": {
-   "chg_pct": 8.26,
-   "close": 24.5,
-   "date": "2026-06-12",
-   "prev_close": 22.6299991607666,
+   "chg_pct": 1.26,
+   "close": 16.93000030517578,
+   "date": "2026-09-17",
+   "prev_close": 16.719999313354492,
    "sym": "CIFR"
   },
   "CleanSpark": {
-   "chg_pct": 1.92,
-   "close": 16.479999542236328,
-   "date": "2026-06-12",
-   "prev_close": 16.170000076293945,
+   "chg_pct": 0.86,
+   "close": 12.899999618530273,
+   "date": "2026-09-17",
+   "prev_close": 12.789999961853027,
    "sym": "CLSK"
   },
   "Core Scientific": {
-   "chg_pct": 1.4,
-   "close": 27.600000381469727,
-   "date": "2026-06-12",
-   "prev_close": 27.219999313354492,
+   "chg_pct": 2.25,
+   "close": 17.260000228881836,
+   "date": "2026-09-17",
+   "prev_close": 16.8799991607666,
    "sym": "CORZ"
   },
   "CoreWeave": {
-   "chg_pct": 5.02,
-   "close": 100.55000305175781,
-   "date": "2026-06-12",
-   "prev_close": 95.73999786376953,
+   "chg_pct": -5.23,
+   "close": 78.98999786376953,
+   "date": "2026-09-17",
+   "prev_close": 83.3499984741211,
    "sym": "CRWV"
   },
   "Galaxy Digital": {
-   "chg_pct": 0.27,
-   "close": 33.36000061035156,
-   "date": "2026-06-12",
-   "prev_close": 33.27000045776367,
+   "chg_pct": 0.02,
+   "close": 22.274999618530273,
+   "date": "2026-09-17",
+   "prev_close": 22.270000457763672,
    "sym": "GLXY"
   },
   "Goldman Sachs": {
-   "chg_pct": 2.62,
-   "close": 1062.75,
-   "date": "2026-06-12",
-   "prev_close": 1035.6400146484375,
+   "chg_pct": 0.24,
+   "close": 940.2150268554688,
+   "date": "2026-09-17",
+   "prev_close": 937.97998046875,
    "sym": "GS"
   },
   "Hut 8": {
-   "chg_pct": 2.19,
-   "close": 118.86000061035156,
-   "date": "2026-06-12",
-   "prev_close": 116.30999755859375,
+   "chg_pct": 1.5,
+   "close": 91.16500091552734,
+   "date": "2026-09-17",
+   "prev_close": 89.81999969482422,
    "sym": "HUT"
   },
   "IREN": {
-   "chg_pct": 5.4,
-   "close": 59.77000045776367,
-   "date": "2026-06-12",
-   "prev_close": 56.709999084472656,
+   "chg_pct": 0.93,
+   "close": 43.01499938964844,
+   "date": "2026-09-17",
+   "prev_close": 42.619998931884766,
    "sym": "IREN"
   },
   "MARA Holdings": {
-   "chg_pct": 3.45,
-   "close": 14.079999923706055,
-   "date": "2026-06-12",
-   "prev_close": 13.609999656677246,
+   "chg_pct": 0.63,
+   "close": 11.109999656677246,
+   "date": "2026-09-17",
+   "prev_close": 11.039999961853027,
    "sym": "MARA"
   },
   "Meta": {
-   "chg_pct": -0.26,
-   "close": 566.97998046875,
-   "date": "2026-06-12",
-   "prev_close": 568.4299926757812,
+   "chg_pct": -0.05,
+   "close": 672.99951171875,
+   "date": "2026-09-17",
+   "prev_close": 673.3099975585938,
    "sym": "META"
   },
   "Microsoft": {
-   "chg_pct": 0.1,
-   "close": 390.739990234375,
-   "date": "2026-06-12",
-   "prev_close": 390.3399963378906,
+   "chg_pct": 1.34,
+   "close": 496.8599853515625,
+   "date": "2026-09-17",
+   "prev_close": 490.29998779296875,
    "sym": "MSFT"
   },
   "Morgan Stanley": {
-   "chg_pct": 0.65,
-   "close": 214.0399932861328,
-   "date": "2026-06-12",
-   "prev_close": 212.66000366210938,
+   "chg_pct": -0.37,
+   "close": 201.6699981689453,
+   "date": "2026-09-17",
+   "prev_close": 202.4199981689453,
    "sym": "MS"
   },
   "NVIDIA": {
-   "chg_pct": 0.16,
-   "close": 205.19000244140625,
-   "date": "2026-06-12",
-   "prev_close": 204.8699951171875,
+   "chg_pct": 2.56,
+   "close": 219.38009643554688,
+   "date": "2026-09-17",
+   "prev_close": 213.89999389648438,
    "sym": "NVDA"
   },
   "Nebius": {
-   "chg_pct": 4.55,
-   "close": 232.36000061035156,
-   "date": "2026-06-12",
-   "prev_close": 222.24000549316406,
+   "chg_pct": 1.26,
+   "close": 212.01600646972656,
+   "date": "2026-09-17",
+   "prev_close": 209.3699951171875,
    "sym": "NBIS"
   },
   "TeraWulf": {
-   "chg_pct": 2.8,
-   "close": 26.059999465942383,
-   "date": "2026-06-12",
-   "prev_close": 25.350000381469727,
+   "chg_pct": 4.52,
+   "close": 16.086000442504883,
+   "date": "2026-09-17",
+   "prev_close": 15.390000343322754,
    "sym": "WULF"
   }
  },
  "signals": [
   {
-   "desc": "latest carded cluster print (Elk Grove Village Property LLC (CoreWeave-linked data-center SPV) 2026-06-02) ~332bp over 5y UST; <=600bp = window open (contra), >=800bp = cracking (confirming); >45d old = stale, never contra",
+   "desc": "latest carded cluster print (QTS Central Issuer LLC / QTS TRS Central Issuer LLC (Blackstone-backed data-center SPVs) 2026-08-27) ~180bp over 5y UST; <=600bp = window open (contra), >=800bp = cracking (confirming); >45d old = stale, never contra",
    "id": "S1_new_issue_spread",
-   "print_age_days": 12,
+   "print_age_days": 21,
    "status": "contra",
-   "value_bp": 332
+   "value_bp": 180
   },
   {
    "desc": "any carded cluster print postponed/pulled/failed = confirming event (issuance windows historically gap shut rather than taper); all prints priced = neutral",
-   "event": null,
+   "event": {
+    "date": "2026-07-21",
+    "issuer": "Prime Data Centers LLC",
+    "status": "postponed"
+   },
    "id": "S1b_failed_print",
-   "status": "neutral"
+   "status": "confirming"
   },
   {
-   "bb_ytd_chg_pp": -0.02,
-   "ccc_minus_hy_ytd_pp": 0.73,
-   "ccc_oas": 9.56,
-   "desc": "(CCC-HY) OAS differential +0.73pp YTD; >=1.5pp = tail-specific repricing (confirming), <=0pp = contra",
+   "bb_ytd_chg_pp": -0.16,
+   "ccc_minus_hy_ytd_pp": 2.01,
+   "ccc_oas": 10.76,
+   "desc": "(CCC-HY) OAS differential +2.01pp YTD; >=1.5pp = tail-specific repricing (confirming), <=0pp = contra",
    "id": "S2_ccc_divergence",
    "market_wide_flag": false,
-   "status": "neutral"
+   "status": "confirming"
   },
   {
-   "control_median_pct": 1.7,
-   "desc": "worst AI-exposed BDC discount (BXSL 9.2%) minus non-AI control median (1.7%) = +7.5pp; >=15pp = exposure-specific stress (confirming), <=5pp = inside normal sector dispersion (contra)",
-   "differential_pp": 7.5,
+   "control_median_pct": -1.2,
+   "desc": "worst AI-exposed BDC discount (BXSL 0.7%) minus non-AI control median (-1.2%) = +1.9pp; >=15pp = exposure-specific stress (confirming), <=5pp = inside normal sector dispersion (contra)",
+   "differential_pp": 1.9,
    "id": "S3_bdc_discount_differential",
-   "status": "neutral",
+   "status": "contra",
    "worst": "BXSL",
-   "worst_discount_pct": 9.2
+   "worst_discount_pct": 0.7
   },
   {
    "base_as_of": "2025-07-01",
@@ -327,7 +348,7 @@
    "window_closes_given_op": {
     "base_p": 0.45,
     "label": "funding window closes on a stressed name | it is already operationally distressed",
-    "p": 0.4,
+    "p": 0.45,
     "prior": "capex-peak\u2192default lag ~6-8 quarters; access withdrawn from the fringe first",
     "signals": [
      "S1_new_issue_spread",
@@ -335,11 +356,13 @@
     ]
    }
   },
-  "note": "Shadow mode: this forecast runs ALONGSIDE the gated 0.67 structural confidence and does not replace it until promoted. p_real is the quantity the 2026-Q4 adjudication scores; the flat 0.67 is a structural measurement, not a forecast.",
-  "p_real": 0.3862,
+  "note": "Shadow mode: this forecast runs ALONGSIDE the gated 0.67 structural confidence and does not replace it until promoted. 2026-Q4 adjudicates TIMING-KILL, not p_real. The p_real outcome window runs through 2027-09-30; the flat 0.67 is a structural measurement, not a forecast.",
+  "p_real": 0.4063,
+  "p_real_outcome_window_end": "2027-09-30",
   "pathway_funding_first": 0.225,
-  "pathway_operations_first": 0.208,
+  "pathway_operations_first": 0.234,
   "promoted": false,
-  "structural_confidence_unchanged": 0.67
+  "structural_confidence_unchanged": 0.67,
+  "timing_kill_adjudication_quarter": "2026-Q4"
  }
 }

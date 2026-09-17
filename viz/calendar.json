@@ -2,57 +2,57 @@
  "all": [
   {
    "date": "2026-07-06",
-   "days_until": 22,
+   "days_until": -73,
    "kind": "legal",
    "label": "FSK securities class-action lead-plaintiff deadline",
-   "status": "approaching",
+   "status": "past",
    "why": "Confirms the FSK discount is legacy/governance-driven, not AI -- the basis of the S3' control-set exclusion (amendment A1)."
   },
   {
    "date": "2026-08-10",
-   "days_until": 57,
+   "days_until": -38,
    "kind": "recard",
    "label": "Q2-2026 BDC NAV re-card",
    "recurs": "quarterly",
-   "status": "approaching",
+   "status": "past",
    "why": "Re-card the eight BDC NAVs from Q2 results into BDC_NAV; S3' must compare close to REPORTED NAV, never estimated."
   },
   {
    "date": "2026-09-30",
-   "days_until": 108,
+   "days_until": 13,
    "kind": "freeze",
    "label": "Signal-semantics freeze",
-   "status": "scheduled",
+   "status": "imminent",
    "why": "No semantic amendments to S1-S4 after this date, so the Q4 adjudication scores a spec fixed well before the data arrived (ROADMAP doctrine)."
   },
   {
    "date": "2026-10-01",
-   "days_until": 109,
+   "days_until": 14,
    "kind": "contract",
    "label": "Google -> SpaceX compute contract revenue start",
-   "status": "scheduled",
+   "status": "imminent",
    "why": "~$920M/month begins; the first of the SpaceX adjacency contracts to go live."
   },
   {
    "date": "2026-11-10",
-   "days_until": 149,
+   "days_until": 54,
    "kind": "recard",
    "label": "Q3-2026 BDC NAV re-card",
    "recurs": "quarterly",
-   "status": "scheduled",
+   "status": "approaching",
    "why": "Re-card BDC NAVs from Q3 results; last re-card before the Q4 adjudication."
   },
   {
    "date": "2026-12-18",
-   "days_until": 187,
+   "days_until": 92,
    "kind": "adjudication",
    "label": "2026-Q4 TIMING-KILL adjudication",
    "status": "scheduled",
-   "why": "The engine's registered predictions are scored -- the first calibration datum for whether the apparatus can be trusted. The one date that is not optional."
+   "why": "Adjudicate the registered TIMING-KILL condition from through-Q4 issuance and S3 evidence. This does not resolve P_real's event window through 2027-Q3."
   },
   {
    "date": "2027-01-01",
-   "days_until": 201,
+   "days_until": 106,
    "kind": "contract",
    "label": "SpaceX contract termination window opens (90-day notice)",
    "status": "scheduled",
@@ -60,7 +60,7 @@
   },
   {
    "date": "2027-02-10",
-   "days_until": 241,
+   "days_until": 146,
    "kind": "recard",
    "label": "Q4-2026 BDC NAV re-card",
    "recurs": "quarterly",
@@ -68,8 +68,16 @@
    "why": "Re-card BDC NAVs from full-year results."
   },
   {
+   "date": "2027-09-30",
+   "days_until": 378,
+   "kind": "adjudication",
+   "label": "P_real outcome window closes",
+   "status": "scheduled",
+   "why": "A verified qualifying core-issuer event can resolve P_real positive earlier. A negative result requires a complete issuer-event audit through this date."
+  },
+  {
    "date": "2030-01-01",
-   "days_until": 1297,
+   "days_until": 1202,
    "kind": "wall",
    "label": "Maturity wall 2030-2033 begins",
    "status": "scheduled",
@@ -77,55 +85,63 @@
   },
   {
    "date": "2030-10-01",
-   "days_until": 1570,
+   "days_until": 1475,
    "kind": "contract",
    "label": "CoreWeave-OpenAI commitment expiry",
    "status": "scheduled",
    "why": "The contract servicing the maturity wall is itself up for renewal as the wall peaks -- backlog quality becomes terminal."
   }
  ],
- "as_of": "2026-06-14",
+ "as_of": "2026-09-17",
  "next": {
-  "date": "2026-07-06",
-  "days_until": 22,
-  "kind": "legal",
-  "label": "FSK securities class-action lead-plaintiff deadline",
-  "status": "approaching",
-  "why": "Confirms the FSK discount is legacy/governance-driven, not AI -- the basis of the S3' control-set exclusion (amendment A1)."
+  "date": "2026-09-30",
+  "days_until": 13,
+  "kind": "freeze",
+  "label": "Signal-semantics freeze",
+  "status": "imminent",
+  "why": "No semantic amendments to S1-S4 after this date, so the Q4 adjudication scores a spec fixed well before the data arrived (ROADMAP doctrine)."
  },
  "upcoming": [
   {
-   "date": "2026-07-06",
-   "days_until": 22,
-   "kind": "legal",
-   "label": "FSK securities class-action lead-plaintiff deadline",
-   "status": "approaching",
-   "why": "Confirms the FSK discount is legacy/governance-driven, not AI -- the basis of the S3' control-set exclusion (amendment A1)."
-  },
-  {
-   "date": "2026-08-10",
-   "days_until": 57,
-   "kind": "recard",
-   "label": "Q2-2026 BDC NAV re-card",
-   "recurs": "quarterly",
-   "status": "approaching",
-   "why": "Re-card the eight BDC NAVs from Q2 results into BDC_NAV; S3' must compare close to REPORTED NAV, never estimated."
-  },
-  {
    "date": "2026-09-30",
-   "days_until": 108,
+   "days_until": 13,
    "kind": "freeze",
    "label": "Signal-semantics freeze",
-   "status": "scheduled",
+   "status": "imminent",
    "why": "No semantic amendments to S1-S4 after this date, so the Q4 adjudication scores a spec fixed well before the data arrived (ROADMAP doctrine)."
   },
   {
    "date": "2026-10-01",
-   "days_until": 109,
+   "days_until": 14,
    "kind": "contract",
    "label": "Google -> SpaceX compute contract revenue start",
-   "status": "scheduled",
+   "status": "imminent",
    "why": "~$920M/month begins; the first of the SpaceX adjacency contracts to go live."
+  },
+  {
+   "date": "2026-11-10",
+   "days_until": 54,
+   "kind": "recard",
+   "label": "Q3-2026 BDC NAV re-card",
+   "recurs": "quarterly",
+   "status": "approaching",
+   "why": "Re-card BDC NAVs from Q3 results; last re-card before the Q4 adjudication."
+  },
+  {
+   "date": "2026-12-18",
+   "days_until": 92,
+   "kind": "adjudication",
+   "label": "2026-Q4 TIMING-KILL adjudication",
+   "status": "scheduled",
+   "why": "Adjudicate the registered TIMING-KILL condition from through-Q4 issuance and S3 evidence. This does not resolve P_real's event window through 2027-Q3."
+  },
+  {
+   "date": "2027-01-01",
+   "days_until": 106,
+   "kind": "contract",
+   "label": "SpaceX contract termination window opens (90-day notice)",
+   "status": "scheduled",
+   "why": "First quarter in which the ~$26B/yr SpaceX compute run-rate is economically at-will; renewal/termination behaviour is the best single test of the headline backlog."
   }
  ]
 }
