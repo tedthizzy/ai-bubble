@@ -1,15 +1,15 @@
 {
  "adjacent": {
   "Alphabet": {
-   "chg_pct": 0.85,
-   "close": 345.7799987792969,
+   "chg_pct": 1.29,
+   "close": 347.2900085449219,
    "date": "2026-09-17",
    "prev_close": 342.8699951171875,
    "sym": "GOOGL"
   },
   "SpaceX": {
-   "chg_pct": 2.25,
-   "close": 154.27999877929688,
+   "chg_pct": 2.16,
+   "close": 154.14500427246094,
    "date": "2026-09-17",
    "prev_close": 150.8800048828125,
    "sym": "SPCX"
@@ -17,16 +17,16 @@
  },
  "bdc": {
   "ARCC": {
-   "close": 19.780000686645508,
+   "close": 19.7549991607666,
    "date": "2026-09-17",
-   "discount_pct": -2.2,
+   "discount_pct": -2.1,
    "nav": 19.35,
    "nav_asof": "2026-06-30",
    "nav_source_uri": "https://www.sec.gov/Archives/edgar/data/1287750/000162828026050303/arccq2-2026exhibit991.htm",
    "role": "exposed"
   },
   "BXSL": {
-   "close": 25.3700008392334,
+   "close": 25.375,
    "date": "2026-09-17",
    "discount_pct": 0.6,
    "nav": 25.53,
@@ -35,7 +35,7 @@
    "role": "exposed"
   },
   "FSK": {
-   "close": 11.670100212097168,
+   "close": 11.680000305175781,
    "date": "2026-09-17",
    "discount_pct": 36.2,
    "nav": 18.3,
@@ -44,16 +44,16 @@
    "role": "context"
   },
   "GBDC": {
-   "close": 12.78499984741211,
+   "close": 12.774999618530273,
    "date": "2026-09-17",
-   "discount_pct": 10.3,
+   "discount_pct": 10.4,
    "nav": 14.25,
    "nav_asof": "2026-06-30",
    "nav_source_uri": "https://www.sec.gov/Archives/edgar/data/1476765/000147676526000047/gbdcfy2026q3epfinal.htm",
    "role": "control"
   },
   "MAIN": {
-   "close": 57.4900016784668,
+   "close": 57.5,
    "date": "2026-09-17",
    "discount_pct": -69.5,
    "nav": 33.92,
@@ -62,7 +62,7 @@
    "role": "control"
   },
   "OBDC": {
-   "close": 11.364999771118164,
+   "close": 11.359999656677246,
    "date": "2026-09-17",
    "discount_pct": 20.3,
    "nav": 14.26,
@@ -71,16 +71,16 @@
    "role": "context"
   },
   "PSEC": {
-   "close": 2.255000114440918,
+   "close": 2.2592999935150146,
    "date": "2026-09-17",
-   "discount_pct": 60.5,
+   "discount_pct": 60.4,
    "nav": 5.71,
    "nav_asof": "2026-06-30",
    "nav_source_uri": "https://www.prospectstreet.com/news/prospect-capital-announces-june-2026-results/",
    "role": "control"
   },
   "TSLX": {
-   "close": 18.329999923706055,
+   "close": 18.334999084472656,
    "date": "2026-09-17",
    "discount_pct": -12.9,
    "nav": 16.24,
@@ -113,7 +113,7 @@
   }
  },
  "edgar": {},
- "generated_utc": "2026-09-17T15:10:00Z",
+ "generated_utc": "2026-09-17T15:16:42Z",
  "issuance_latest": {
   "amount_usd": 3900000000,
   "coupon_pct": 6.625,
@@ -131,43 +131,43 @@
  },
  "quotes": {
   "Apollo / Athene": {
-   "chg_pct": 2.26,
-   "close": 127.3499984741211,
+   "chg_pct": 2.31,
+   "close": 127.40499877929688,
    "date": "2026-09-17",
    "prev_close": 124.52999877929688,
    "sym": "APO"
   },
   "Applied Digital": {
-   "chg_pct": 4.94,
-   "close": 25.593799591064453,
+   "chg_pct": 4.38,
+   "close": 25.45789909362793,
    "date": "2026-09-17",
    "prev_close": 24.389999389648438,
    "sym": "APLD"
   },
   "Bit Digital": {
-   "chg_pct": 3.55,
-   "close": 1.4808000326156616,
+   "chg_pct": 2.8,
+   "close": 1.4700000286102295,
    "date": "2026-09-17",
    "prev_close": 1.4299999475479126,
    "sym": "BTBT"
   },
   "Blackstone": {
-   "chg_pct": 0.63,
-   "close": 124.2249984741211,
+   "chg_pct": 0.82,
+   "close": 124.45999908447266,
    "date": "2026-09-17",
    "prev_close": 123.44999694824219,
    "sym": "BX"
   },
   "Cipher Mining": {
-   "chg_pct": 2.26,
-   "close": 17.09869956970215,
+   "chg_pct": 2.24,
+   "close": 17.094999313354492,
    "date": "2026-09-17",
    "prev_close": 16.719999313354492,
    "sym": "CIFR"
   },
   "CleanSpark": {
-   "chg_pct": 2.97,
-   "close": 13.170000076293945,
+   "chg_pct": 2.5,
+   "close": 13.109999656677246,
    "date": "2026-09-17",
    "prev_close": 12.789999961853027,
    "sym": "CLSK"
@@ -180,85 +180,85 @@
    "sym": "CORZ"
   },
   "CoreWeave": {
-   "chg_pct": -4.74,
-   "close": 79.4000015258789,
+   "chg_pct": -4.88,
+   "close": 79.27999877929688,
    "date": "2026-09-17",
    "prev_close": 83.3499984741211,
    "sym": "CRWV"
   },
   "Galaxy Digital": {
-   "chg_pct": -0.7,
-   "close": 22.114999771118164,
+   "chg_pct": -1.12,
+   "close": 22.020000457763672,
    "date": "2026-09-17",
    "prev_close": 22.270000457763672,
    "sym": "GLXY"
   },
   "Goldman Sachs": {
-   "chg_pct": 0.62,
-   "close": 943.7999877929688,
+   "chg_pct": 0.56,
+   "close": 943.2424926757812,
    "date": "2026-09-17",
    "prev_close": 937.97998046875,
    "sym": "GS"
   },
   "Hut 8": {
-   "chg_pct": 1.93,
-   "close": 91.55000305175781,
+   "chg_pct": 1.4,
+   "close": 91.08000183105469,
    "date": "2026-09-17",
    "prev_close": 89.81999969482422,
    "sym": "HUT"
   },
   "IREN": {
-   "chg_pct": 1.09,
-   "close": 43.08290100097656,
+   "chg_pct": 0.72,
+   "close": 42.92499923706055,
    "date": "2026-09-17",
    "prev_close": 42.619998931884766,
    "sym": "IREN"
   },
   "MARA Holdings": {
-   "chg_pct": 1.72,
-   "close": 11.229999542236328,
+   "chg_pct": 1.61,
+   "close": 11.217700004577637,
    "date": "2026-09-17",
    "prev_close": 11.039999961853027,
    "sym": "MARA"
   },
   "Meta": {
-   "chg_pct": -0.11,
-   "close": 672.5549926757812,
+   "chg_pct": 0.15,
+   "close": 674.3099975585938,
    "date": "2026-09-17",
    "prev_close": 673.3099975585938,
    "sym": "META"
   },
   "Microsoft": {
-   "chg_pct": 1.02,
-   "close": 495.32000732421875,
+   "chg_pct": 1.12,
+   "close": 495.7900085449219,
    "date": "2026-09-17",
    "prev_close": 490.29998779296875,
    "sym": "MSFT"
   },
   "Morgan Stanley": {
-   "chg_pct": 0.04,
-   "close": 202.4949951171875,
+   "chg_pct": -0.05,
+   "close": 202.30999755859375,
    "date": "2026-09-17",
    "prev_close": 202.4199981689453,
    "sym": "MS"
   },
   "NVIDIA": {
-   "chg_pct": 2.38,
-   "close": 218.9949951171875,
+   "chg_pct": 2.31,
+   "close": 218.85009765625,
    "date": "2026-09-17",
    "prev_close": 213.89999389648438,
    "sym": "NVDA"
   },
   "Nebius": {
-   "chg_pct": 0.75,
-   "close": 210.9499969482422,
+   "chg_pct": 0.62,
+   "close": 210.67750549316406,
    "date": "2026-09-17",
    "prev_close": 209.3699951171875,
    "sym": "NBIS"
   },
   "TeraWulf": {
-   "chg_pct": 6.47,
-   "close": 16.385000228881836,
+   "chg_pct": 6.4,
+   "close": 16.375,
    "date": "2026-09-17",
    "prev_close": 15.390000343322754,
    "sym": "WULF"
@@ -292,9 +292,9 @@
    "status": "confirming"
   },
   {
-   "control_median_pct": -1.3,
-   "desc": "worst AI-exposed BDC discount (BXSL 0.6%) minus non-AI control median (-1.3%) = +1.9pp; >=15pp = exposure-specific stress (confirming), <=5pp = inside normal sector dispersion (contra)",
-   "differential_pp": 1.9,
+   "control_median_pct": -1.2,
+   "desc": "worst AI-exposed BDC discount (BXSL 0.6%) minus non-AI control median (-1.2%) = +1.8pp; >=15pp = exposure-specific stress (confirming), <=5pp = inside normal sector dispersion (contra)",
+   "differential_pp": 1.8,
    "id": "S3_bdc_discount_differential",
    "status": "contra",
    "worst": "BXSL",
