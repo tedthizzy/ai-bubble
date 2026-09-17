@@ -183,8 +183,9 @@ ignore_missing_imports = true
 # =============================================================================
 [tool.pytest.ini_options]
 minversion = "8.0"
-addopts = "-ra -q --strict-markers --cov=bubble --cov-report=term-missing:skip-covered --cov-branch"
+addopts = "-ra -q --strict-markers --cov=bubble --cov-report=term-missing:skip-covered --cov-branch --ignore-glob='* 2.py'"
 testpaths = ["tests"]
+pythonpath = ["."]
 asyncio_mode = "auto"
 markers = [
     "integration: marks tests that hit real (but cached) external data",

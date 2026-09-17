@@ -5172,6 +5172,46 @@
       "The original mypy attempt blocked on a cloud-only cache database. A fresh local cache completed and passed after type corrections and adding lxml-stubs.",
       "The broad historical commit scan matched 136 lines; 130 attribution lines predate this change. Historical commits are preserved. The new commit must contain zero attribution trailers.",
       "No paid model calls or production analytics queries were made. No compromised-host investigation was performed."
-    ]
+    ],
+    "github_dependabot_after_push": {
+      "checked_at_pacific": "2026-09-17T08:08:10.990337-07:00",
+      "fixed_original_alert_count": 53,
+      "open_alerts": [
+        {
+          "number": 54,
+          "package": "accelerate",
+          "severity": "medium"
+        }
+      ],
+      "source": "https://api.github.com/repos/tedthizzy/ai-bubble/dependabot/alerts?state=open&per_page=100"
+    },
+    "ci_entrypoint_fix": {
+      "first_ci_run": "https://github.com/tedthizzy/ai-bubble/actions/runs/35237651488",
+      "failure": "Two test modules could not import the top-level scripts namespace when invoked through the pytest executable. Local python -m pytest had supplied the repository import path.",
+      "fix": "Set pytest pythonpath to the repository root. Encode the existing Git exclusion for Finder duplicate test files in pytest addopts.",
+      "local_command": [
+        "uv",
+        "run",
+        "--locked",
+        "pytest",
+        "--tb=short",
+        "--ignore-glob=* 2.py",
+        "-o",
+        "cache_dir=/tmp/ai-bubble-security-fix-20260917-lvpmx5m6/pytest-ci-final",
+        "-o",
+        "tmp_path_retention_count=10000000",
+        "--junitxml=/tmp/ai-bubble-security-fix-20260917-lvpmx5m6/ci-command-final.xml"
+      ],
+      "local_result": {
+        "name": "pytest",
+        "errors": "0",
+        "failures": "0",
+        "skipped": "0",
+        "tests": "858",
+        "time": "36.823",
+        "timestamp": "2026-09-17T10:06:20.191980-05:00",
+        "hostname": "Mac.lan"
+      }
+    }
   }
 }
