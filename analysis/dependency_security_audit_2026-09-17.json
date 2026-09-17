@@ -5212,6 +5212,36 @@
         "timestamp": "2026-09-17T10:06:20.191980-05:00",
         "hostname": "Mac.lan"
       }
+    },
+    "ci_clean_checkout_fix": {
+      "verified_at_pacific": "2026-09-17T08:15:45.363524-07:00",
+      "failed_ci_run": "https://github.com/tedthizzy/ai-bubble/actions/runs/35238364538",
+      "failure": "The dated runner test required ignored local acquisition inputs absent from a fresh checkout.",
+      "change": "Exercise the real runner with synthetic CSV fixtures and a manifest in tmp_path. Preserve the saved full-acquisition totals in a separate report assertion.",
+      "production_runner_changed": false,
+      "clean_checkout": "/tmp/ai-bubble-security-fix-20260917-lvpmx5m6/clean-checkout",
+      "source_import_path": "/tmp/ai-bubble-security-fix-20260917-lvpmx5m6/clean-checkout/src",
+      "python_environment": "/Users/ted/Documents/dev-archive/bubble/.venv",
+      "command": [
+        "/Users/ted/Documents/dev-archive/bubble/.venv/bin/pytest",
+        "-q",
+        "--tb=line",
+        "-o",
+        "cache_dir=/tmp/ai-bubble-security-fix-20260917-lvpmx5m6/pytest-clean-checkout",
+        "-o",
+        "tmp_path_retention_count=10000000",
+        "--junitxml=/tmp/ai-bubble-security-fix-20260917-lvpmx5m6/clean-checkout-tests.xml"
+      ],
+      "exit_code": 0,
+      "tests": 859,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "duration_seconds": 32.318,
+      "log": "/tmp/ai-bubble-security-fix-20260917-lvpmx5m6/clean-checkout-tests.log",
+      "junit": "/tmp/ai-bubble-security-fix-20260917-lvpmx5m6/clean-checkout-tests.xml",
+      "ruff_check": "All checks passed!",
+      "ruff_format_check": "271 files already formatted"
     }
   }
 }

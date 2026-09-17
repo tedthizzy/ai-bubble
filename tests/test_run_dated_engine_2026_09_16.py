@@ -2,7 +2,10 @@
 
 from __future__ import annotations
 
+import csv
+import hashlib
 import json
+import shutil
 from pathlib import Path
 
 import pytest
@@ -75,8 +78,8 @@ def test_financial_panel_uses_matched_report_periods_only() -> None:
     )
 
 
-def test_full_dated_run_executes_physical_and_compute_without_new_probability() -> None:
-    result = run(ROOT)
+def test_saved_dated_run_preserves_full_observation_counts() -> None:
+    result = json.loads((ROOT / "analysis/dated_engine_2026-09-16_v6.json").read_text())
     assert result["physical_capacity"]["queue_records_scanned"] == 16_515
     assert result["physical_capacity"]["gross_generation_queue_requested_mw"] == pytest.approx(
         531_011.143
@@ -85,6 +88,128 @@ def test_full_dated_run_executes_physical_and_compute_without_new_probability() 
     assert result["compute_economics"]["payback_case_rows"] == 0
     assert result["bubble_probability"] is None
     assert result["capital_graph"]["ferc_only"]["pending_graph_deals"] == 46_483
+
+
+def _write_csv(path: Path, rows: list[dict[str, str]]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    fields = list(dict.fromkeys(key for row in rows for key in row))
+    with path.open("w", newline="") as stream:
+        writer = csv.DictWriter(stream, fieldnames=fields)
+        writer.writeheader()
+        writer.writerows(rows)
+
+
+def test_full_dated_run_executes_physical_and_compute_without_new_probability(
+    tmp_path: Path,
+) -> None:
+    """Execute real rollups without depending on the ignored acquisition cache."""
+    analysis = tmp_path / "analysis"
+    analysis.mkdir()
+    for name in (
+        "market_close_2026-09-16.json",
+        "case_zero_financials_2026-09-16_v4.json",
+        "source_refresh_2026-09-16.json",
+        "gpu_pricing_delta_2026-09-16.json",
+        "issuance_cards.json",
+    ):
+        shutil.copyfile(ROOT / "analysis" / name, analysis / name)
+
+    # Synthetic rows test execution and filtering. The saved-report test above
+    # retains the full acquisition's historical totals separately.
+    provenance = {
+        "source_uri": "https://example.com/test-data",
+        "retrieved_at": "2026-09-16T12:00:00+00:00",
+        "content_hash": "test-fixture",
+    }
+    acquisition = tmp_path / "data/source_acquisition_2026-09-16"
+    queue_path = (
+        acquisition / "derived/queue_combined_full_serial_2026-09-16/source_rows/queue_records.csv"
+    )
+    _write_csv(
+        queue_path,
+        [
+            {
+                **provenance,
+                "source_id": "pjm-planning-queues-xml",
+                "source_type": "grid_interconnection_queue",
+                "ProjectNumber": f"TEST-{status}",
+                "Status": status,
+                "MaximumFacilityOutput": capacity,
+            }
+            for status, capacity in (("Active", "450"), ("Withdrawn", "999"))
+        ],
+    )
+    _write_csv(
+        acquisition / "derived/tracker_projects.csv",
+        [
+            {
+                **provenance,
+                "source_type": "project_tracker",
+                "project_id": "test-project",
+                "name": "Test data center",
+                "capacity_mw": "25",
+            }
+        ],
+    )
+    _write_csv(
+        acquisition / "non_gleif/source_rows/equipment_records.csv",
+        [
+            {
+                **provenance,
+                "source_type": "eia",
+                "sheet_name": "Operating",
+                "Nameplate Capacity (MW)": "10.5",
+            }
+        ],
+    )
+    _write_csv(
+        tmp_path / "data/compute/2026-09-16-expanded/gpu_price_observations.csv",
+        [
+            {
+                **provenance,
+                "source_type": "company_ir",
+                "observation_id": f"test-gpu-{index}",
+                "gpu_generation": "H100",
+                "observed_date": "2026-09-16",
+                "observed_cloud_rental_rate_usd_per_hour": "3",
+            }
+            for index in range(87)
+        ],
+    )
+    graph_path = tmp_path / "data/capital_graph_refresh_2026-09-16/ferc_only/input_manifest.json"
+    graph_path.parent.mkdir(parents=True)
+    graph_path.write_text(
+        json.dumps(
+            {
+                "as_of": "2026-09-16",
+                "inputs": {
+                    "test_input": {
+                        "path": str(queue_path.relative_to(tmp_path)),
+                        "bytes": queue_path.stat().st_size,
+                    }
+                },
+                "graph_summary": {"deals_scanned": 1},
+                "selection": {"pending_graph_deals": 1},
+            }
+        )
+    )
+
+    result = run(tmp_path)
+    physical = result["physical_capacity"]
+    assert physical["queue_records_scanned"] == 2
+    assert physical["gross_generation_queue_requested_mw"] == 450
+    assert physical["skipped_rows"] == {"queue_out_of_scope_status": 1}
+    assert physical["tracker_project_records_scanned"] == 1
+    assert physical["equipment_records_scanned"] == 1
+    assert result["compute_economics"]["gpu_price_observations"] == 87
+    assert result["compute_economics"]["payback_case_rows"] == 0
+    assert result["bubble_probability"] is None
+    assert result["capital_graph"]["ferc_only"]["pending_graph_deals"] == 1
+    assert result["capital_graph"]["ferc_only"]["status"] == "input_sizes_match_manifest"
+    assert (
+        result["input_records"]["physical"][0]["sha256"]
+        == hashlib.sha256(queue_path.read_bytes()).hexdigest()
+    )
 
 
 def test_sec_coverage_audit_must_match_inventory(tmp_path: Path) -> None:
