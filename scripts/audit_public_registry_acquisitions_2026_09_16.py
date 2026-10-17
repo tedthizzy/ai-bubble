@@ -9,9 +9,13 @@ from __future__ import annotations
 import csv
 import hashlib
 import json
+import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
+
+from bubble.paths import resolve_local_path
 
 ROOT = Path("data/off_edgar_expansion_2026-09-16")
 OUT = ROOT / "provenance_ledger"
@@ -64,7 +68,7 @@ def main() -> None:
         add_record(
             rows,
             source_system=f"connecticut_{record['dataset']}",
-            file_path=Path(record["raw_file"]),
+            file_path=resolve_local_path(record["raw_file"]),
             source_uri=record["export_url"],
             expected_hash=record["sha256"],
             expected_bytes=record["bytes"],

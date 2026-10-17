@@ -16,6 +16,7 @@ from bs4 import BeautifulSoup, XMLParsedAsHTMLWarning
 
 from bubble.ingestion.compute.economic_commitments import extract_economic_commitments
 from bubble.models.base import HumanReviewStatus, SourceType
+from bubble.paths import resolve_local_path
 
 warnings.filterwarnings("ignore", category=XMLParsedAsHTMLWarning)
 
@@ -551,7 +552,7 @@ def _economic_commitment_dedupe_key(commitment: dict[str, Any]) -> tuple[str, ..
 
 
 def _extract_document(row: dict[str, str]) -> _DocumentExtraction:
-    local_path = Path(row.get("local_path", ""))
+    local_path = resolve_local_path(row.get("local_path", ""))
     if not local_path.is_file():
         return _empty_document_extraction()
     text = _html_text(local_path)

@@ -21,6 +21,7 @@ from bubble.ingestion.edgar.document_acquisition import (
     extract_deal_candidate,
     normalize_document_text,
 )
+from bubble.paths import resolve_local_path
 
 csv.field_size_limit(10**9)
 
@@ -86,7 +87,7 @@ def _extract_candidates(
         if not url or url in seen_urls:
             raise ValueError(f"Missing or duplicate inventory filing URL: {url}")
         seen_urls.add(url)
-        path = Path(row["local_path"])
+        path = resolve_local_path(row["local_path"])
         if not path.is_absolute():
             path = Path.cwd() / path
         stored = path.read_bytes()

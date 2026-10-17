@@ -6,7 +6,7 @@ compares the final approved-metric total under several grouping keys, so the
 effect of the dedup key can be monitored after each rebuild. Reads only.
 
     PYTHONPATH=src uv run scripts/simulate_metric_aggregation.py \
-        --repo-root /Users/ted/Documents/dev-archive/bubble
+        --repo-root .
 """
 
 from __future__ import annotations

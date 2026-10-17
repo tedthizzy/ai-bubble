@@ -13,9 +13,14 @@ import csv
 import gzip
 import hashlib
 import json
+import sys
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
+
+from bubble.paths import resolve_local_path
 
 TABLES: dict[str, tuple[str, ...]] = {
     "edgar_document_inventory.csv": ("filing_url",),
@@ -50,7 +55,7 @@ def _sha256(path: Path, *, compressed: bool = False) -> str:
 
 
 def _document_path(recorded: str, source_dir: Path) -> Path:
-    path = Path(recorded)
+    path = resolve_local_path(recorded)
     candidates = [path] if path.is_absolute() else [Path.cwd() / path, source_dir / path]
     for candidate in candidates:
         if candidate.is_file():

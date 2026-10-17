@@ -4,6 +4,8 @@
 # the DBMS using Desktop's bundled JRE. Version-matched: GDS 2026.05.0 <-> Neo4j 2026.05.0.
 set -euo pipefail
 
+REPO_ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
+
 DBMS="$HOME/Library/Application Support/neo4j-desktop/Application/Data/dbmss/dbms-ac7a503c-b68a-40d3-8ca7-9e9d4ea604a4"
 JAVA_HOME="$HOME/Library/Application Support/neo4j-desktop/Application/Cache/runtime/zulu21.48.17-ca-jre21.0.10-macosx_aarch64"
 GDS_VERSION="2026.05.0"
@@ -44,7 +46,7 @@ echo "==> 3/4 Restart Neo4j (bundled JRE)"
 echo "==> 4/4 Wait for bolt + verify gds.version()"
 set +x
 # shellcheck disable=SC1090
-NEO4J_PASSWORD="$(grep '^NEO4J_PASSWORD=' "$HOME/Documents/dev-archive/bubble/.env" | cut -d= -f2-)"
+NEO4J_PASSWORD="$(grep '^NEO4J_PASSWORD=' "$REPO_ROOT/.env" | cut -d= -f2-)"
 export NEO4J_USERNAME=neo4j NEO4J_PASSWORD
 for i in $(seq 1 30); do
   if "$DBMS/bin/cypher-shell" -a bolt://127.0.0.1:7687 "RETURN gds.version() AS gds;" 2>/dev/null; then

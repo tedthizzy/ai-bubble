@@ -23,6 +23,8 @@ from threading import Lock
 from typing import Any
 from xml.etree import ElementTree
 
+from bubble.paths import resolve_local_path
+
 REVIEWED_STATUSES = {"approved", "overridden", "rejected"}
 PRIORITY_RANK = {"critical": 4, "high": 3, "medium": 2, "watch": 1}
 AI_RELEVANCE_RANK = {
@@ -390,7 +392,7 @@ def _evidence_snippets(
         if not local_path or local_path in seen_paths:
             continue
         seen_paths.add(local_path)
-        path = Path(local_path)
+        path = resolve_local_path(local_path)
         if not path.exists() or not path.is_file():
             continue
         text = _read_text(path)

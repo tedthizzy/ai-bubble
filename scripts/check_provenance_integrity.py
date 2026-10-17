@@ -13,7 +13,7 @@ Scans the EDGAR document inventory, deals.csv, and tranches.csv. Reads only,
 rebuilds nothing. Exit code non-zero on any error-severity finding.
 
     PYTHONPATH=src uv run scripts/check_provenance_integrity.py \
-        --repo-root /Users/ted/Documents/dev-archive/bubble
+        --repo-root .
 """
 
 from __future__ import annotations

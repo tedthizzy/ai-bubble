@@ -23,6 +23,7 @@ from bubble.analysis.compute_economics import analyze_compute_economics
 from bubble.analysis.physical_capacity import build_physical_capacity_summary
 from bubble.ingestion.compute.loader import load_compute_economics
 from bubble.market_signals import STALE_DAYS, evaluate_signals
+from bubble.paths import resolve_local_path
 
 AS_OF = "2026-09-16"
 REGISTERED_IDS = (
@@ -225,7 +226,7 @@ def summarize_graph(root: Path) -> dict[str, Any]:
         _assert_date(manifest, "as_of", path)
         stale: list[str] = []
         for record in manifest["inputs"].values():
-            source = Path(record["path"])
+            source = resolve_local_path(record["path"], root=root)
             if not source.is_absolute():
                 source = root / source
             if not source.is_file() or source.stat().st_size != record["bytes"]:
@@ -277,7 +278,7 @@ def summarize_sec_inventory(
     }
     if coverage_audit is not None:
         audit = _json(coverage_audit)
-        audited_path = Path(audit["inventory"])
+        audited_path = resolve_local_path(audit["inventory"], root=root)
         if not audited_path.is_absolute():
             audited_path = root / audited_path
         if audited_path.resolve() != path.resolve():

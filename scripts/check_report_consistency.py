@@ -13,7 +13,7 @@ Run against another checkout's live data (the artifacts live in the main
 checkout, since ``data/`` is gitignored)::
 
     PYTHONPATH=src uv run scripts/check_report_consistency.py \
-        --repo-root /Users/ted/Documents/dev-archive/bubble
+        --repo-root .
 """
 
 from __future__ import annotations

@@ -36,6 +36,7 @@ from bubble.ingestion.concurrency import (
     fetch_with_retries,
 )
 from bubble.models.base import Provenance, SourceType
+from bubble.paths import resolve_local_path
 from bubble.quality.source_invariants import assert_source_row
 
 FetchBytes = Callable[[str], bytes]
@@ -209,9 +210,9 @@ class SourceCatalogClient:
     def fetch_bytes(self, source_uri: str) -> bytes:
         parsed = urlparse(source_uri)
         if parsed.scheme == "file":
-            return Path(unquote(parsed.path)).read_bytes()
+            return resolve_local_path(unquote(parsed.path)).read_bytes()
         if parsed.scheme in {"", "."}:
-            return Path(source_uri).read_bytes()
+            return resolve_local_path(source_uri).read_bytes()
         headers = self._headers_for_host(parsed.hostname or "")
         with httpx.Client(timeout=self.timeout_seconds, follow_redirects=True) as client:
             response = client.get(source_uri, headers=headers)
@@ -224,9 +225,9 @@ class SourceCatalogClient:
         source_uri = catalog_row.source_uri
         parsed = urlparse(source_uri)
         if parsed.scheme == "file":
-            return Path(unquote(parsed.path)).read_bytes()
+            return resolve_local_path(unquote(parsed.path)).read_bytes()
         if parsed.scheme in {"", "."}:
-            return Path(source_uri).read_bytes()
+            return resolve_local_path(source_uri).read_bytes()
 
         headers = self._headers_for_host(parsed.hostname or "")
         headers.update(_http_headers_from_metadata(catalog_row.metadata))
