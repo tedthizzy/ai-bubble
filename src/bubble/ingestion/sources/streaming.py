@@ -25,6 +25,7 @@ from bubble.ingestion.concurrency import (
     fetch_with_retries,
 )
 from bubble.ingestion.sources import catalog as legacy
+from bubble.ingestion.sources.pjm import EXPORT, public_export_headers
 from bubble.paths import resolve_local_path
 
 if TYPE_CHECKING:
@@ -72,7 +73,7 @@ def _iter_xlsx_records(path: Path, row: legacy.SourceCatalogRow) -> Iterator[dic
                 if not legacy._xlsx_sheet_included(sheet.title, metadata):
                     continue
                 number, header, data_rows = legacy._xlsx_header_and_rows(
-                    sheet.iter_rows(values_only=True)
+                    sheet.iter_rows(values_only=True), metadata
                 )
                 if header is None:
                     continue
@@ -142,6 +143,8 @@ def download(
     client = legacy.SourceCatalogClient()
     headers = client._headers_for_host(parsed.hostname or "")
     headers.update(legacy._http_headers_from_metadata(row.metadata))
+    if row.source_uri == EXPORT:
+        headers.update(public_export_headers())
     method = str(row.metadata.get("http_method", "GET")).strip().upper() or "GET"
     body = str(row.metadata.get("http_body", ""))
 

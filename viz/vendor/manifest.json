@@ -1,0 +1,14 @@
+[
+  {
+    "path": "viz/vendor/three-0.150.1.min.js",
+    "url": "https://unpkg.com/three@0.150.1/build/three.min.js",
+    "bytes": 613740,
+    "sha256": "72c8a8302444fb39cb8e04be1f556b2fdca798e606a99b4b37c8cfe3e3ee3272"
+  },
+  {
+    "path": "viz/vendor/3d-force-graph-1.73.4.min.js",
+    "url": "https://unpkg.com/3d-force-graph@1.73.4/dist/3d-force-graph.min.js",
+    "bytes": 706907,
+    "sha256": "0ddfb909b551f4fdeb6b43cca567e71f2bc82b2e2eadf1d7cda65af8961b2d0f"
+  }
+]

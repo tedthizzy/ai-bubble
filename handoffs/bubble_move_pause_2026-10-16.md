@@ -1,5 +1,28 @@
 # Bubble move pause - 2026-10-16
 
+## Verified refresh checkpoint - October 17, 2026
+
+The following paragraphs are historical checkpoints. The broad acquisition
+resumed after its memory repair. Recheck its current process and log before
+launching anything: data/refresh_2026-10-17/acquisition-resumed.log. Do not start
+a second main refresh. The guarded run was still active at this checkpoint.
+
+[Verified operations and recovery](../analysis/refresh_operations_2026-10-17.md)
+records the completed source imports, source corrections, retained snapshots,
+and exact storage results. The full current GLEIF ownership graph completed
+through SQLite at an 81.2 MiB peak. Historical SEC text compression completed
+with 43.7 GiB less allocated storage and no recorded errors. The first 27 SEC
+source failures all succeeded in a separate bounded retry pass.
+
+The explorer changes are written and have logic tests, a contrast check, and
+a rendered SVG banner. Browser verification remains pending Ted's answer to
+the browser-control question required by Projects/AGENTS.md. No publication
+has occurred. The June adjudicated core and its judgments remain historical.
+Current SEC acquisition, coverage reconciliation, the complete capital graph,
+and the dated engine/report update remain unfinished. Git fetched successfully;
+local changes remain ahead of origin. Preserve the 15 original staged additions.
+
+
 
 ## Full refresh resumed - October 17, 2026
 

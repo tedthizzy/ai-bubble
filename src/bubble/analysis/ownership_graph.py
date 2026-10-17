@@ -6,6 +6,7 @@ import csv
 import json
 from collections import Counter, defaultdict
 from dataclasses import asdict, dataclass
+from itertools import chain
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
@@ -105,7 +106,12 @@ class OwnershipGraph:
 def load_ownership_rows(data_dirs: Iterable[str | Path]) -> list[dict[str, str]]:
     """Load source-backed ownership rows from known data directories."""
 
-    rows: list[dict[str, str]] = []
+    return list(iter_ownership_rows(data_dirs))
+
+
+def iter_ownership_rows(data_dirs: Iterable[str | Path]) -> Iterable[dict[str, str]]:
+    """Read ownership records incrementally, preserving the list-loader API."""
+
     seen_paths: set[Path] = set()
     for data_dir in data_dirs:
         root = Path(data_dir)
@@ -117,8 +123,7 @@ def load_ownership_rows(data_dirs: Iterable[str | Path]) -> list[dict[str, str]]
                 continue
             seen_paths.add(path)
             with path.open(newline="", errors="ignore") as f:
-                rows.extend(dict(row) for row in csv.DictReader(f))
-    return rows
+                yield from csv.DictReader(f)
 
 
 def load_lei_reference_rows(data_dirs: Iterable[str | Path]) -> Iterable[dict[str, str]]:
@@ -261,8 +266,8 @@ def write_ownership_graph(graph: OwnershipGraph, output_dir: str | Path) -> dict
     nodes_path = out / "ownership_nodes.csv"
     edges_path = out / "ownership_edges.csv"
     summary_path = out / "ownership_graph_summary.json"
-    _write_csv(nodes_path, [node.to_dict() for node in graph.nodes])
-    _write_csv(edges_path, [edge.to_dict() for edge in graph.edges])
+    _write_csv(nodes_path, (node.to_dict() for node in graph.nodes))
+    _write_csv(edges_path, (edge.to_dict() for edge in graph.edges))
     summary_path.write_text(json.dumps(graph.summary.to_dict(), indent=2, sort_keys=True))
     return {
         "nodes_csv": str(nodes_path),
@@ -385,12 +390,13 @@ def _lei_reference(
     return reference
 
 
-def _write_csv(path: Path, rows: list[dict[str, Any]]) -> None:
+def _write_csv(path: Path, rows: Iterable[dict[str, Any]]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    fieldnames = list(dict.fromkeys(key for row in rows for key in row))
+    iterator = iter(rows)
+    first = next(iterator, None)
     with path.open("w", newline="") as f:
-        if not fieldnames:
+        if first is None:
             return
-        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer = csv.DictWriter(f, fieldnames=list(first))
         writer.writeheader()
-        writer.writerows(rows)
+        writer.writerows(chain([first], iterator))

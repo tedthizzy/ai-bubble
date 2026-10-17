@@ -1,0 +1,175 @@
+{
+  "snapshot_at_pacific": "2026-10-17T12:52:11.647888-07:00",
+  "refresh_as_of": "2026-10-17",
+  "complete": false,
+  "report": {
+    "generated_from": "BURRY_REPORT_EvidenceGated_20260603-2312",
+    "current_verdict_recomputed": false,
+    "reason": "The adjudicated core and its judgments retain their original evidence date."
+  },
+  "market": {
+    "generated_utc": "2026-10-17T19:24:20Z",
+    "price_dates": [
+      "2026-10-16"
+    ],
+    "credit_dates": [
+      "2026-10-15"
+    ],
+    "nav_periods": [
+      "2026-06-30"
+    ],
+    "source_status": {
+      "adjacent": {
+        "expected": 2,
+        "missing": [],
+        "received": 2
+      },
+      "bdc": {
+        "expected": 8,
+        "missing": [],
+        "received": 8
+      },
+      "credit": {
+        "expected": 4,
+        "missing": [],
+        "received": 4
+      },
+      "edgar": {
+        "expected": 12,
+        "missing": [],
+        "received": 12
+      },
+      "quotes": {
+        "expected": 19,
+        "missing": [],
+        "received": 19
+      }
+    }
+  },
+  "financial_panel": {
+    "targets": 30,
+    "complete": 30,
+    "filing_dates": [
+      "2026-04-30",
+      "2026-05-22",
+      "2026-07-23",
+      "2026-07-28",
+      "2026-07-29",
+      "2026-07-30",
+      "2026-07-31",
+      "2026-08-03",
+      "2026-08-04",
+      "2026-08-05",
+      "2026-08-06",
+      "2026-08-07",
+      "2026-08-10",
+      "2026-08-12",
+      "2026-08-13",
+      "2026-08-20",
+      "2026-08-26",
+      "2026-08-27",
+      "2026-09-11",
+      "2026-10-07"
+    ],
+    "periods": [
+      "2025-12-31",
+      "2026-06-27",
+      "2026-06-30",
+      "2026-07-26",
+      "2026-08-31"
+    ]
+  },
+  "sec_acquisition": {
+    "new_run_queue": {
+      "acquired": 10713,
+      "failed": 27,
+      "inflight": 8,
+      "queued": 194235
+    },
+    "baseline_inventory": 41589,
+    "recovered_failures": 27,
+    "unresolved_source_errors": 0,
+    "note": "Queue counts exclude the retained baseline. Downloads are not unique obligations.",
+    "status": "incomplete"
+  },
+  "public_batches": [
+    {
+      "batch": "public",
+      "artifacts": 480,
+      "rows": 871385,
+      "errors": [
+        "eia-860m-generator-inventory-july-2026",
+        "pjm-serial-full-2026-09-16"
+      ]
+    },
+    {
+      "batch": "gleif",
+      "artifacts": 2,
+      "rows": 4101539,
+      "errors": []
+    },
+    {
+      "batch": "dynamic",
+      "artifacts": 5,
+      "rows": 4182344,
+      "errors": []
+    },
+    {
+      "batch": "queue_corrections",
+      "artifacts": 2,
+      "rows": 11052,
+      "errors": []
+    }
+  ],
+  "current_public_releases": [
+    {
+      "source": "eia-860m-generator-inventory-august-2026",
+      "source_uri": "https://www.eia.gov/electricity/data/eia860m/xls/august_generator2026.xlsx",
+      "observation_date": "EIA 860M August 2026 Generator Inventory",
+      "published": "September 24, 2026",
+      "next_release": "October 23, 2026"
+    },
+    {
+      "source": "ercot-gis-report-1281327706",
+      "source_uri": "https://www.ercot.com/misdownload/servlets/mirDownload?doclookupId=1281327706",
+      "observation_date": "GIS_Report_September2026",
+      "published": "2026-10-01T16:08:28-05:00",
+      "next_release": null
+    },
+    {
+      "source": "gleif-lei-cdf-42497",
+      "source_uri": "https://leidata.gleif.org/api/v1/concatenated-files/lei2/get/42497/zip",
+      "observation_date": "2026-10-17 09:00:01",
+      "published": null,
+      "next_release": null
+    },
+    {
+      "source": "gleif-rr-cdf-42500",
+      "source_uri": "https://leidata.gleif.org/api/v1/concatenated-files/rr/get/42500/zip",
+      "observation_date": "2026-10-17 09:00:01",
+      "published": null,
+      "next_release": null
+    },
+    {
+      "source": "iso-ne-public-queue-639277920000000000",
+      "source_uri": "https://irtt.iso-ne.com/reports/exportpublicqueue?ReportDate=639277920000000000&Status=&Jurisdiction=",
+      "observation_date": "10/17/2026",
+      "published": null,
+      "next_release": null
+    }
+  ],
+  "fdic": {
+    "period": "2026-06-30",
+    "institutions": 4313
+  },
+  "source_corrections": [
+    "The July EIA URL failed; the latest August workbook was acquired.",
+    "The first PJM serial export lacked the anonymous public header; a corrected full export was acquired.",
+    "ERCOT header selection was repaired; the corrected output retains both generator sheets."
+  ],
+  "limits": [
+    "Retrieval date and observation date are separate.",
+    "Source rows and graph edges are not additive debt.",
+    "The June core confidence readings are historical judgments, not calibrated probabilities."
+  ]
+}

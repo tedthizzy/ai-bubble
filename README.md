@@ -1,5 +1,7 @@
 # ai-bubble
 
+**October 17, 2026 local refresh checkpoint:** [Verified operations and remaining work](analysis/refresh_operations_2026-10-17.md). The market overlay has October 16 closes and October 15 credit observations. The latest reported BDC NAVs are June 30. Latest GLEIF normalization and the complete ownership layer finished; SEC document acquisition continues. The visualization changes await browser verification and publication. June report judgments remain historical. [Explorer source dates](viz/DATA_STATUS_2026-10-17.md). The September status below records the baseline before this run.
+
 **Current SEC corpus status:** the dated master indexes contain 367,387 raw rows and 257,675 unique accessions through September 15. The selected primary and exhibit manifests contain 180,044 URLs; 37,706 are in the saved document inventory and 142,338 remain missing after 724 SEC HTTP 429 responses. The inventory has 41,589 rows because it retains earlier FWP and exhibit work. See [the acquisition status](analysis/sec_acquisition_status_2026-09-16.md) and [the v7 dated engine run](analysis/dated_engine_2026-09-16_v7.md) for the exact reconciliation.
 
 **Refresh validation:** [The validation packet](analysis/refresh_validation_2026-09-16.md) records the calculation, provenance, notebook, and presentation checks plus the remaining coverage limits.

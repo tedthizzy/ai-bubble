@@ -1,0 +1,87 @@
+{
+  "as_of": "2026-10-17",
+  "definition": "Latest reported quarterly NAV per share in saved SEC periodic filings",
+  "panel": "analysis/case_zero_financials_2026-10-17_v4.json",
+  "bdc": {
+    "ARCC": {
+      "nav_usd_per_share": 19.35,
+      "nav_asof": "2026-06-30",
+      "filed": "2026-07-29",
+      "form": "10-Q",
+      "source_uri": "https://www.sec.gov/Archives/edgar/data/1287750/000162828026050307/arcc-20260630.htm",
+      "fact_tag": "us-gaap:NetAssetValuePerShare",
+      "raw_path": "data/refresh_2026-10-17/financial_raw/CIK0001287750-companyfacts.json.gz",
+      "raw_sha256": "8fc17dd66329d3c53cae6db457f71107201f0e1621584e8b466332dca6d3a7b2"
+    },
+    "BXSL": {
+      "nav_usd_per_share": 25.53,
+      "nav_asof": "2026-06-30",
+      "filed": "2026-08-06",
+      "form": "10-Q",
+      "source_uri": "https://www.sec.gov/Archives/edgar/data/1736035/000173603526000016/bxsl-20260630.htm",
+      "fact_tag": "us-gaap:NetAssetValuePerShare",
+      "raw_path": "data/refresh_2026-10-17/financial_raw/CIK0001736035-companyfacts.json.gz",
+      "raw_sha256": "86537bb7c57ac85f3d17088c66ed3ba5a79be3102d9d9fca1d1fb46c0477ffe2"
+    },
+    "FSK": {
+      "nav_usd_per_share": 18.3,
+      "nav_asof": "2026-06-30",
+      "filed": "2026-08-06",
+      "form": "10-Q",
+      "source_uri": "https://www.sec.gov/Archives/edgar/data/1422183/000162828026053783/fsk-20260630.htm",
+      "fact_tag": "us-gaap:NetAssetValuePerShare",
+      "raw_path": "data/refresh_2026-10-17/financial_raw/CIK0001422183-companyfacts.json.gz",
+      "raw_sha256": "cdbcf5bc0ad2f67a0b3a96d08dd8a37eff4310195f47ae90ae919c93e639a75e"
+    },
+    "GBDC": {
+      "nav_usd_per_share": 14.25,
+      "nav_asof": "2026-06-30",
+      "filed": "2026-08-03",
+      "form": "10-Q",
+      "source_uri": "https://www.sec.gov/Archives/edgar/data/1476765/000147676526000048/gbdc-20260630.htm",
+      "fact_tag": "us-gaap:NetAssetValuePerShare",
+      "raw_path": "data/refresh_2026-10-17/financial_raw/CIK0001476765-companyfacts.json.gz",
+      "raw_sha256": "c0a75edab8cdcc6380ec671583ec2ceee3df5ac40d48bf6f04384f1030da2acb"
+    },
+    "MAIN": {
+      "nav_usd_per_share": 33.92,
+      "nav_asof": "2026-06-30",
+      "filed": "2026-08-07",
+      "form": "10-Q",
+      "source_uri": "https://www.sec.gov/Archives/edgar/data/1396440/000139644026000094/main-20260630.htm",
+      "fact_tag": "us-gaap:NetAssetValuePerShare",
+      "raw_path": "data/refresh_2026-10-17/financial_raw/CIK0001396440-companyfacts.json.gz",
+      "raw_sha256": "ca3e518f41138f806e9caf03b76c50ec0954ab31d824ebe81aa2d4ced04c3c6b"
+    },
+    "OBDC": {
+      "nav_usd_per_share": 14.26,
+      "nav_asof": "2026-06-30",
+      "filed": "2026-08-05",
+      "form": "10-Q",
+      "source_uri": "https://www.sec.gov/Archives/edgar/data/1655888/000165588826000056/obdc-20260630.htm",
+      "fact_tag": "us-gaap:NetAssetValuePerShare",
+      "raw_path": "data/refresh_2026-10-17/financial_raw/CIK0001655888-companyfacts.json.gz",
+      "raw_sha256": "eb0310ea709146bd5a692fc3faa846e4ea1bcd14c0a53b9f1ff4b9a25aa1f78c"
+    },
+    "PSEC": {
+      "nav_usd_per_share": 5.71,
+      "nav_asof": "2026-06-30",
+      "filed": "2026-08-20",
+      "form": "10-K",
+      "source_uri": "https://www.sec.gov/Archives/edgar/data/1287032/000128703226000269/psec-20260630.htm",
+      "fact_tag": "us-gaap:NetAssetValuePerShare",
+      "raw_path": "data/refresh_2026-10-17/financial_raw/CIK0001287032-companyfacts.json.gz",
+      "raw_sha256": "7588fdcf11b0952c8bbfa72732e6b6ee93650d47b61d2116cacfb3000afd3278"
+    },
+    "TSLX": {
+      "nav_usd_per_share": 16.24,
+      "nav_asof": "2026-06-30",
+      "filed": "2026-08-04",
+      "form": "10-Q",
+      "source_uri": "https://www.sec.gov/Archives/edgar/data/1508655/000119312526332725/tslx-20260630.htm",
+      "fact_tag": "us-gaap:NetAssetValuePerShare",
+      "raw_path": "data/refresh_2026-10-17/financial_raw/CIK0001508655-companyfacts.json.gz",
+      "raw_sha256": "fa5ea9c79bf50ec2e5f67591190300047908b2f4fcb6a00127219b80d8830cc9"
+    }
+  }
+}

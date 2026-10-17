@@ -20,11 +20,10 @@ from bubble.analysis.capital_exposure_graph import (
     write_capital_exposure_graph,
 )
 from bubble.analysis.ownership_graph import (
-    build_ownership_graph,
+    iter_ownership_rows,
     load_lei_reference_rows,
-    load_ownership_rows,
-    write_ownership_graph,
 )
+from bubble.analysis.ownership_sqlite import write_ownership_graph_from_rows
 from bubble.models.base import DealType, HumanReviewStatus, Provenance, SourceType
 from bubble.models.deal import Deal
 from bubble.quality.source_invariants import assert_source_row
@@ -195,6 +194,7 @@ def build_capital(
     ferc_path: Path,
     edgar_path: Path,
     output_root: Path,
+    as_of: str = DATE,
 ) -> dict:
     out = output_root / mode.replace("-", "_")
     ensure_new_output(out)
@@ -207,7 +207,7 @@ def build_capital(
     graph = build_capital_exposure_graph(deals)
     paths = write_capital_exposure_graph(graph, out)
     manifest = {
-        "as_of": DATE,
+        "as_of": as_of,
         "mode": mode,
         "inputs": inputs,
         "selection": selection,
@@ -224,7 +224,7 @@ def build_capital(
     return manifest
 
 
-def build_ownership(*, gleif_dir: Path, output_root: Path) -> dict:
+def build_ownership(*, gleif_dir: Path, output_root: Path, as_of: str = DATE) -> dict:
     out = output_root / "ownership_current"
     ensure_new_output(out)
     relationship_path = gleif_dir / "ownership_records.csv"
@@ -233,16 +233,16 @@ def build_ownership(*, gleif_dir: Path, output_root: Path) -> dict:
         "gleif_relationships": file_record(relationship_path),
         "gleif_lei_reference": file_record(lei_path),
     }
-    graph = build_ownership_graph(
-        load_ownership_rows([gleif_dir]),
+    summary, paths = write_ownership_graph_from_rows(
+        iter_ownership_rows([gleif_dir]),
         lei_rows=load_lei_reference_rows([gleif_dir]),
+        output_dir=out,
     )
-    paths = write_ownership_graph(graph, out)
     manifest = {
-        "as_of": DATE,
+        "as_of": as_of,
         "mode": "ownership_current",
         "inputs": inputs,
-        "graph_summary": graph.summary.to_dict(),
+        "graph_summary": summary.to_dict(),
         "outputs": {name: file_record(Path(path)) for name, path in sorted(paths.items())},
         "warning": "GLEIF consolidation relationships are a separate layer. No capital graph join is inferred.",
     }
@@ -273,4 +273,7 @@ def main() -> None:
 
 
 if __name__ == "__main__":
+    from run_with_memory_budget import ensure_memory_budget
+
+    ensure_memory_budget()
     main()

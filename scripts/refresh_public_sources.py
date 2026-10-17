@@ -192,7 +192,22 @@ class DocumentQueue:
                             f"Partial journal line {number}; preserved, not replayed"
                         ) from exc
                     document = entry.get("document")
-                    url = document["filing_url"] if document else entry.get("error_url")
+                    url = document["filing_url"] if document else entry.get("filing_url") or entry.get("error_url")
+                    if url and not url.startswith(("https://", "http://")):
+                        # Older failure entries stored the record key under
+                        # error_url. Recover its URL from the durable queue.
+                        parts = url.split(":", 2)
+                        matches = []
+                        if len(parts) == 3:
+                            matches = self.database.execute(
+                                """SELECT url FROM documents WHERE
+                                json_extract(record,'$.cik')=? AND
+                                json_extract(record,'$.accession_number')=? AND
+                                json_extract(record,'$.primary_document')=?""", parts
+                            ).fetchall()
+                        if len(matches) != 1:
+                            raise ValueError(f"Cannot resolve legacy failed record; journal preserved: {url}")
+                        url = matches[0][0]
                     if url:
                         self.database.execute(
                             """INSERT INTO documents(url,status,result) VALUES (?,?,?)
@@ -256,9 +271,10 @@ class DocumentQueue:
                     return
                 continue
             index, serialized = row
+            manifest_record = json.loads(serialized)
             result = _acquire_edgar_manifest_row(
                 index,
-                json.loads(serialized),
+                manifest_record,
                 self.run / "edgar",
                 self.client.get,
                 self.limiter,
@@ -273,7 +289,9 @@ class DocumentQueue:
                 "document": document,
                 "deal": candidate.to_capital_csv_row() if candidate else None,
                 "tranches": candidate.to_tranche_csv_rows() if candidate else [],
-                "error_url": result.error_key,
+                "filing_url": manifest_record["filing_url"],
+                "error_url": manifest_record["filing_url"] if result.error else None,
+                "error_key": result.error_key,
                 "error": result.error,
             }
             serialized = json.dumps(entry, default=str)

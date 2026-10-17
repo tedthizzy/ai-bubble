@@ -8,11 +8,10 @@ import json
 from pathlib import Path
 
 from bubble.analysis.ownership_graph import (
-    build_ownership_graph,
+    iter_ownership_rows,
     load_lei_reference_rows,
-    load_ownership_rows,
-    write_ownership_graph,
 )
+from bubble.analysis.ownership_sqlite import write_ownership_graph_from_rows
 
 
 def main() -> None:
@@ -28,12 +27,16 @@ def main() -> None:
     args = parser.parse_args()
 
     data_dirs = args.data_dir or [Path("data")]
-    rows = load_ownership_rows(data_dirs)
+    if args.output_dir.exists():
+        raise FileExistsError(f"Choose a new immutable output directory: {args.output_dir}")
+    rows = iter_ownership_rows(data_dirs)
     lei_rows = load_lei_reference_rows(data_dirs)
-    graph = build_ownership_graph(rows, lei_rows=lei_rows)
-    outputs = write_ownership_graph(graph, args.output_dir)
-    print(json.dumps({**graph.summary.to_dict(), "outputs": outputs}, indent=2, sort_keys=True))
+    summary, outputs = write_ownership_graph_from_rows(rows, lei_rows=lei_rows, output_dir=args.output_dir)
+    print(json.dumps({**summary.to_dict(), "outputs": outputs}, indent=2, sort_keys=True))
 
 
 if __name__ == "__main__":
+    from run_with_memory_budget import ensure_memory_budget
+
+    ensure_memory_budget(1024)
     main()

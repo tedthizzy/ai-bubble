@@ -23,6 +23,8 @@ from __future__ import annotations
 import csv
 import io
 import json
+import re
+import shutil
 import sys
 import time
 import urllib.parse
@@ -30,6 +32,7 @@ import urllib.request
 from datetime import UTC, datetime, timedelta
 from pathlib import Path
 from typing import Any
+from xml.sax.saxutils import escape
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "src"))
@@ -156,7 +159,7 @@ def _reported_bdc_nav() -> dict[str, tuple[float, str, str]]:
 def _get(url: str, timeout: float = 20.0, headers: dict[str, str] | None = None) -> str:
     req = urllib.request.Request(url, headers=headers or UA)
     with urllib.request.urlopen(req, timeout=timeout) as resp:
-        return resp.read().decode("utf-8", errors="replace")
+        return str(resp.read().decode("utf-8", errors="replace"))
 
 
 def _stooq(sym: str) -> dict[str, Any] | None:
@@ -355,74 +358,41 @@ def _banner_svg(
     signals: list[dict[str, Any]] | None = None,
     latest_deal: dict[str, Any] | None = None,
 ) -> str:
-    """Self-rendering status banner, embedded in the GitHub profile README via Pages."""
-    meta: dict[str, Any] = {}
-    field: dict[str, Any] = {}
-    try:
-        graph = json.loads((ROOT / "viz" / "graph_data.json").read_text())
-        meta = graph.get("meta") or {}
-        field = graph.get("field") or {}
-    except Exception:
-        pass
-    core_b = (meta.get("committed_core_usd") or 0) / 1e9
-    headline_t = (meta.get("original_inflated_basis_usd") or 0) / 1e12
-    cut = meta.get("over_count_removed_pct") or 0
-    ents = field.get("entities") or 0
-    deals = field.get("deals") or 0
-    stamp = datetime.now(UTC).strftime("%H:%M UTC · %d %b %Y")
-    movers = sorted(
-        ((nid, q) for nid, q in quotes.items() if isinstance(q.get("chg_pct"), int | float)),
-        key=lambda kv: -abs(kv[1]["chg_pct"]),
-    )[:4]
-    tspans = "".join(
-        f'<tspan fill="{"#3fb950" if q["chg_pct"] >= 0 else "#f85149"}">'
-        f"{q['sym']} {'+' if q['chg_pct'] >= 0 else ''}{q['chg_pct']:.1f}%</tspan>"
-        f'<tspan fill="#39414c">&#160;&#160;&#160;</tspan>'
-        for _nid, q in movers
-    )
-    font = "ui-sans-serif,system-ui,sans-serif"
-    dial_bits: list[str] = []
-    hy = ((credit or {}).get("hy_oas") or {}).get("value")
-    ccc = (credit or {}).get("ccc_oas") or {}
-    if hy is not None:
-        dial_bits.append(f"HY {hy:.2f}%")
-    if ccc.get("value") is not None:
-        ytd = ccc.get("ytd_chg")
-        suffix = f" ({'+' if ytd >= 0 else ''}{round(ytd * 100)}bp YTD)" if ytd is not None else ""
-        dial_bits.append(f"CCC {ccc['value']:.2f}%{suffix}")
-    s3 = next((s for s in (signals or []) if s.get("id") == "S3_bdc_discount_differential"), None)
-    if s3 and s3.get("differential_pp") is not None:
-        dial_bits.append(f"AI-BDC {s3['differential_pp']:+.1f}pp vs ctl")
-    if latest_deal and latest_deal.get("spread_vs_5y_bp") is not None:
-        dial_bits.append(f"latest print +{latest_deal['spread_vs_5y_bp']}bp")
-    dial = (
-        f' <text x="24" y="106" font-family="{font}" font-size="12" fill="#9aa7b4">'
-        f'<tspan fill="#5d6a77">credit dial</tspan>  {" · ".join(dial_bits)}</text>\n'
-        if dial_bits
-        else ""
-    )
+    """Render the GitHub banner with the same font and dates as the explorer."""
+    graph = json.loads((ROOT / "viz/graph_data.json").read_text())
+    meta, field = graph.get("meta", {}), graph.get("field", {})
+    report = str(meta.get("as_of") or meta.get("generated_from") or "Unavailable")
+    match = re.search(r"(20\d{2})(\d{2})(\d{2})", report)
+    if match:
+        report = "-".join(match.groups())
+    dates = sorted({q["date"] for q in quotes.values() if q.get("date")})
+    market = dates[-1] if dates else "Unavailable"
+    credit_bits = []
+    for name, label in (("hy_oas", "HY"), ("ccc_oas", "CCC")):
+        point = (credit or {}).get(name, {})
+        if point.get("value") is not None:
+            credit_bits.append(f"{label} {point['value']:.2f}% ({point.get('date', 'unknown date')})")
+    movers = sorted(quotes.values(), key=lambda q: -abs(q.get("chg_pct", 0)))[:4]
+    rows = [
+        f"Report {report} / ${(meta.get('committed_core_usd', 0)/1e9):.1f}B core debt / {field.get('entities', 0):,} extracted entities",
+        f"Market {market}" + (" / " + " / ".join(credit_bits) if credit_bits else ""),
+        " / ".join(f"{q.get('sym', '')} {q.get('chg_pct', 0):+.1f}%" for q in movers),
+        "Report judgments retain their evidence date. Market observations have separate dates.",
+    ]
     return (
-        '<svg xmlns="http://www.w3.org/2000/svg" width="860" height="126" viewBox="0 0 860 126">\n'
-        ' <rect x="1" y="1" width="858" height="124" rx="12" fill="#0c1420" stroke="#223344"/>\n'
-        f' <text x="24" y="32" font-family="{font}" font-size="15" font-weight="700" fill="#e6edf3">'
-        f'AI BUBBLE<tspan fill="#5d6a77" font-weight="400"> · evidence-gated map · '
-        f"{ents:,} entities · {deals:,} deals</tspan></text>\n"
-        f' <text x="24" y="58" font-family="{font}" font-size="12.5" fill="#9aa7b4">'
-        f'verified core <tspan fill="#ffd166" font-weight="600">${core_b:.1f}B</tspan> '
-        f'vs headline claimed <tspan fill="#ffd166" font-weight="600">${headline_t:.2f}T</tspan> '
-        f'(~{cut:.0f}% over-count) · bubble <tspan fill="#ffd166">{meta.get("core_confidence")}</tspan> '
-        f'· ecosystem <tspan fill="#f0883e">{meta.get("ecosystem_confidence")}</tspan> · not final</text>\n'
-        f' <text x="24" y="84" font-family="{font}" font-size="13" font-weight="600">{tspans}</text>\n'
-        f"{dial}"
-        f' <text x="836" y="106" text-anchor="end" font-family="{font}" font-size="11" fill="#6b7785">'
-        f"live · {stamp}</text>\n"
-        "</svg>\n"
+        '<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="182" viewBox="0 0 1000 182">\n'
+        '<rect x="1" y="1" width="998" height="180" rx="10" fill="#0c1420" stroke="#354252"/>\n'
+        '<text x="24" y="32" font-family="Arial,sans-serif" font-size="18" font-weight="700" fill="#e6edf3">Bubble</text>\n'
+        + "".join(
+            f'<text x="24" y="{59+i*31}" font-family="Arial,sans-serif" font-size="14" fill="#adb8c8">{escape(row)}</text>\n'
+            for i, row in enumerate(rows)
+        ) + "</svg>\n"
     )
 
 
-def main() -> int:
+def main(*, saved_edgar: dict[str, dict[str, int]] | None = None) -> int:
     quotes = _quotes()
-    edgar = _edgar_counts()
+    edgar = _edgar_counts() if saved_edgar is None else saved_edgar
     credit = _credit()
     bdc = _bdc()
     adjacent = _quotes_for(ADJACENT_TICKERS)
@@ -430,7 +400,7 @@ def main() -> int:
     latest_deal = _issuance_latest(deals, credit)
     if not quotes and not edgar and not credit and not bdc:
         print("live overlay: every source failed; leaving existing live.json untouched")
-        return 0
+        return 1
     signals = evaluate_signals(
         credit, bdc, deals, latest_deal, _demand_baskets(), datetime.now(UTC).date()
     )
@@ -445,7 +415,26 @@ def main() -> int:
         "issuance_latest": latest_deal,
         "signals": signals,
         "verdict_shadow": realization_forecast(signal_status),
+        "source_status": {
+            name: {
+                "received": len(set(observed) & set(expected)),
+                "expected": len(expected),
+                "missing": sorted(set(expected) - set(observed)),
+            }
+            for name, observed, expected in (
+                ("quotes", quotes, TICKERS),
+                ("edgar", edgar, EDGAR_TICKERS),
+                ("credit", credit, FRED_SERIES),
+                ("bdc", bdc, BDC_TICKERS),
+                ("adjacent", adjacent, ADJACENT_TICKERS),
+            )
+        },
     }
+    snapshot = ROOT / ".codex" / "overlay-snapshots" / datetime.now(UTC).strftime("%Y%m%dT%H%M%S.%fZ")
+    snapshot.mkdir(parents=True, exist_ok=False)
+    for path in (OUT, ROOT / "viz/banner.svg", HISTORY, CALENDAR):
+        if path.exists():
+            shutil.copy2(path, snapshot / path.name)
     OUT.write_text(json.dumps(payload, indent=1, sort_keys=True) + "\n")
     (ROOT / "viz" / "banner.svg").write_text(_banner_svg(quotes, credit, signals, latest_deal))
     _persist_history(payload)

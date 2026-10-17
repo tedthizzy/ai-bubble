@@ -771,7 +771,7 @@ def _parse_xlsx(raw: bytes, *, metadata: Mapping[str, Any] | None = None) -> lis
             if not _xlsx_sheet_included(sheet.title, metadata or {}):
                 continue
             row_iter = sheet.iter_rows(values_only=True)
-            header_row_number, header, data_rows = _xlsx_header_and_rows(row_iter)
+            header_row_number, header, data_rows = _xlsx_header_and_rows(row_iter, metadata)
             if header is None:
                 continue
             headers = _xlsx_headers(header)
@@ -800,7 +800,20 @@ def _parse_xlsx(raw: bytes, *, metadata: Mapping[str, Any] | None = None) -> lis
     return records
 
 
-def _xlsx_header_and_rows(row_iter: Any) -> tuple[int, tuple[Any, ...] | None, Any]:
+def _xlsx_header_and_rows(
+    row_iter: Any, metadata: Mapping[str, Any] | None = None
+) -> tuple[int, tuple[Any, ...] | None, Any]:
+    required = _xlsx_required_value_columns(metadata or {})
+    if required:
+        # Published workbooks can place the table after several pages of notes.
+        # Match declared columns, rather than choosing a populated note/data row.
+        for number, values in enumerate(row_iter, 1):
+            row = tuple(values)
+            if _non_empty_count(row) > 1 and set(required) & set(_xlsx_headers(row)):
+                return number, row, row_iter
+            if number >= 512:
+                break
+        raise ValueError(f"XLSX header with required columns not found: {required}")
     preview: list[tuple[Any, ...]] = []
     for _ in range(XLSX_HEADER_SCAN_ROWS):
         try:

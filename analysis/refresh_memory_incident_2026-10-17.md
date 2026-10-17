@@ -70,3 +70,13 @@ checks are in `gleif-header-verification.json` in the same directory.
 
 The broad acquisition run remains interrupted at this repair checkpoint. Recheck
 processes and saved state before using the repaired driver with `--resume`.
+
+## Bounded resumption
+
+The broad acquisition resumed after the repair. At 12:18 PDT the supervised
+process group used 152,994,704 bytes, with a peak of 345,884,160 bytes under its
+2 GiB budget. The journal recorded 5,096 acquired documents and four failures.
+Filing discovery had checked 5,312 of 29,815 CIKs. These are progress observations,
+not final coverage. Recheck `data/refresh_2026-10-17/acquisition-resumed.log` and
+the SQLite queue for current state. The earlier stopped-state paragraphs describe
+the incident checkpoints, not a continuing prohibition on this bounded run.
