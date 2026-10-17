@@ -7,7 +7,8 @@ import argparse
 import json
 from pathlib import Path
 
-from bubble.ingestion.sources import acquire_source_catalog
+from bubble.ingestion.concurrency import FetchConcurrencyConfig
+from bubble.ingestion.sources.streaming import acquire_streamed_catalog
 
 
 def main() -> None:
@@ -25,26 +26,30 @@ def main() -> None:
     parser.add_argument("--no-resume", action="store_true")
     args = parser.parse_args()
 
-    batch = acquire_source_catalog(
+    result = acquire_streamed_catalog(
         args.catalog_csv,
         output_dir=args.output_dir,
         limit=args.limit,
-        max_workers=args.max_workers,
-        sec_requests_per_second=args.sec_requests_per_second,
-        sec_domain_concurrency=args.sec_domain_concurrency,
-        other_requests_per_second=args.other_requests_per_second,
-        other_domain_concurrency=args.other_domain_concurrency,
-        retry_attempts=args.retry_attempts,
-        retry_backoff_seconds=args.retry_backoff_seconds,
+        config=FetchConcurrencyConfig(
+            max_workers=args.max_workers,
+            sec_requests_per_second=args.sec_requests_per_second,
+            sec_domain_concurrency=args.sec_domain_concurrency,
+            other_requests_per_second=args.other_requests_per_second,
+            other_domain_concurrency=args.other_domain_concurrency,
+            retry_attempts=args.retry_attempts,
+            retry_backoff_seconds=args.retry_backoff_seconds,
+        ),
         resume=not args.no_resume,
-        write_outputs=False,
     )
-    outputs = batch.write_outputs(args.output_dir)
-    print(json.dumps(batch.summary.to_dict(), indent=2, sort_keys=True))
+    outputs = result["outputs"]
+    print(json.dumps(result["summary"], indent=2, sort_keys=True))
     print("\nOutputs:")
     for name, value in outputs.items():
         print(f"  {name}: {value}")
 
 
 if __name__ == "__main__":
+    from run_with_memory_budget import ensure_memory_budget
+
+    ensure_memory_budget()
     main()

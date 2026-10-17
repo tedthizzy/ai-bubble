@@ -680,9 +680,19 @@ def _parse_zip_xml_member(
 
 
 def _iter_xml_elements(source: Any, record_tag: str) -> Any:
-    for _event, element in ET.iterparse(source, events=("end",)):
+    parents: list[ET.Element] = []
+    for event, element in ET.iterparse(source, events=("start", "end")):
+        if event == "start":
+            parents.append(element)
+            continue
         if _xml_tag(element) == record_tag:
-            yield element
+            try:
+                yield element
+            finally:
+                element.clear()
+                if len(parents) > 1:
+                    parents[-2].remove(element)
+        parents.pop()
 
 
 def _flatten_xml_element(element: ET.Element) -> dict[str, str]:

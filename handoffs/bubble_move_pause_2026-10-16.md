@@ -1,6 +1,32 @@
 # Bubble move pause - 2026-10-16
 
 
+## Full refresh resumed - October 17, 2026
+
+Ted authorized the full data refresh, performance work, storage streamlining,
+and GitHub reconciliation after the move checkpoint. That authorization
+supersedes the earlier instruction to pause after moving.
+
+The first bulk refresh caused system memory pressure, and Ted had to reboot the
+Mac. The observed refresh child footprint reached 23.39 GiB on a 24 GiB host.
+The incident and verified repair are documented in
+[the memory incident record](../analysis/refresh_memory_incident_2026-10-17.md).
+The repaired import completed 4,101,539 GLEIF records at a 45.4 MiB peak. All
+heavy entry points now use the independent memory supervisor by default.
+
+The broad SEC acquisition is interrupted. Its 2,258 completed document journal
+entries remain in `data/refresh_2026-10-17/edgar_results.jsonl`. Completed finance,
+GPU pricing, FDIC, and public-source outputs remain in the same dated run.
+The repaired driver is `scripts/refresh_public_sources.py --as-of 2026-10-17
+--resume`; verify that no other copy is active before launching it. It uses a
+disk-backed document queue, batches filing discovery, and retains completed jobs.
+
+The visualization and storage work remain unfinished. A cached layout has been
+computed locally and pinned visualization libraries downloaded. The UI has not
+been changed or browser-tested, and no refresh or optimization has been pushed.
+The original 15 staged additions must remain separate from task commits.
+
+
 ## Move completed - 2026-10-17 10:21 PDT
 
 The sole project location is `/Users/ted/Projects/bubble`. The original `/Users/ted/Documents/dev-archive/bubble` is absent. Apple reports the new folder as outside iCloud. The project was moved with an exclusive same-filesystem directory rename. No recursive deletion of the original project ran. iCloud quota reduction has not been measured.
