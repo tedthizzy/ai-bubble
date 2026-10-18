@@ -58,7 +58,7 @@ h3, h4 { font-size: var(--text); margin: 0 0 10px; }
 .deal { padding: 10px 8px; border-radius: 4px; cursor: pointer; }
 .deal:hover { background: #233044; }
 .deal .dl { color: var(--ink); }
-.deal .dwhy { color: var(--muted); margin-top: 3px; }
+.deal .dwhy { display: block; color: var(--muted); margin-top: 3px; }
 #card { right: 20px; bottom: 20px; width: min(350px, calc(100vw - 40px)); max-height: 65vh; }
 #card .nm { font-size: var(--title); font-weight: 700; }
 #card .ty { color: var(--muted); margin: 2px 0 10px; }
