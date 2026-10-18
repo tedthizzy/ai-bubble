@@ -20,3 +20,14 @@ are separate from reporting periods.
 
 The implementation is awaiting browser verification and publication. A git
 commit alone does not establish the live site's runtime state.
+
+The October dated engine snapshot is
+[dated_engine_2026-10-17_v1.md](../analysis/dated_engine_2026-10-17_v1.md).
+It includes current deterministic market components, the financial panel,
+47,232 FERC source rows, 88 GPU quotes across four providers, and physical
+rollups from the selected current sources. It explicitly marks SEC acquisition
+incomplete. S1 is stale and S4 is unmeasured. It does not replace the June core.
+
+The FERC API-page identity bug and Modal pricing-page changes were repaired.
+The new normalized outputs retain their original source hashes and dates.
+Retained batch totals overlap and must not be added together.

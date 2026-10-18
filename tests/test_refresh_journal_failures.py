@@ -25,7 +25,7 @@ def test_resume_resolves_legacy_failure_key_and_retains_later_success(tmp_path: 
 
 def test_new_failure_journal_retains_the_requested_url(tmp_path: Path, monkeypatch):
     monkeypatch.setattr(refresh, "ROOT", tmp_path)
-    monkeypatch.setattr(refresh, "_acquire_edgar_manifest_row", lambda *_: SimpleNamespace(
+    monkeypatch.setattr(refresh, "_acquire_edgar_manifest_row", lambda *_, **__: SimpleNamespace(
         document=None, candidate=None, error_key="cik:accession:document", error="Temporary failure"))
     work = refresh.DocumentQueue(tmp_path, SimpleNamespace(get=lambda _: b""), set())
     work.enqueue([{"filing_url": "https://example.test/filing.htm"}], current=True)

@@ -83,3 +83,75 @@ ownership build stopped at its 1 GiB budget. The SQLite replacement completed
 at an 81.2 MiB peak. Initial source/header errors and conservative compression
 skips are recorded in the operations evidence. Earlier failed test invocations
 remain in the session records; corrected runs produced the results above.
+
+## Acquisition repair verification - 2026-10-17 17:04 PDT
+
+Changed files: src/bubble/ingestion/edgar/document_acquisition.py,
+scripts/refresh_public_sources.py, scripts/run_with_memory_budget.py,
+tests/ingestion/test_edgar_document_memory.py, the two queue/journal tests,
+and the existing incident, operations and handoff records.
+
+Command:
+    .venv/bin/python -B scripts/run_with_memory_budget.py --budget-mib 512 --report data/refresh_2026-10-17/document-fix-final-tests-v2-memory.jsonl -- .venv/bin/python -B -m pytest -o addopts='' --no-cov -q tests/test_refresh_public_sources.py tests/test_refresh_journal_failures.py tests/ingestion/test_edgar_document_acquisition.py tests/ingestion/test_edgar_document_memory.py tests/test_memory_budget.py
+
+Observed output: 45 passed in 3.61s. The supervisor exited 0.
+Mypy: Success: no issues found in 1 source file.
+Ruff: All checks passed!
+
+The real saved-document probe imported the production worker and processed both
+saved interrupted fund filings, using a fetcher that raises on any network call.
+Output: verification_complete, documents 2; supervisor exit 0;
+peak_bytes 1095075160. The probe is retained as
+/tmp/bubble-real-document-verification-20261017.py and copied into the repo
+evidence directory. Logs: real-saved-filing-final-verification.log and
+real-saved-filing-final-memory.jsonl in the dated refresh directory.
+The 124.5 MiB source retained 71,658,264 normalized characters.
+The global production threshold stays at 2 GiB.
+
+The initial new-normalizer probes stopped at a deliberately smaller 768 MiB
+threshold. A test run also exposed an EPERM/zombie measurement race; its failed
+log remains. A documentation patch found no matching context and changed
+nothing. Corrected implementation and verification results are recorded above.
+
+The broad acquisition resumed after validating the entire journal and retaining
+a SQLite backup. Final coverage, the current capital graph and engine report,
+browser checks, and GitHub publication remain outstanding. The original staged
+diff hash remains df66eae0573bd34899df7e4451677d9050f1db80625921296cb8651112e2bf7d.
+
+## Public-source checkpoint verification - 2026-10-17 17:18 PDT
+
+The combined focused suite reported 91 passed in 3.82s under 512 MiB,
+with a 362,955,736-byte peak. It covered the acquisition, normalization,
+supervisor, catalog identity, physical rollups, GPU parsers, Pacific date,
+continuation stop conditions, merge provenance, URL coverage and existing
+September runner. One added relative-log regression then passed with its
+three queue tests: 4 passed in 0.23s. Mypy passed for five changed source
+modules. Ruff and diff checks are re-run before the checkpoint commit.
+
+Evidence:
+- repair-checkpoint-tests.log and repair-checkpoint-tests-memory.jsonl
+- repair-checkpoint-types.log and repair-checkpoint-lint.log
+- dynamic_catalog_repair/repair-reconciliation.json
+- derived_public_current/input_manifest.json
+- current-ferc-graph.log and current-engine-report.log
+- gpu-prices-reparsed.log
+- finish-refresh.log
+
+All paths above are under data/refresh_2026-10-17. The current FERC-only graph
+and the dated engine v1 completed with explicit incomplete-SEC status.
+The original provider count check first used the wrong CSV field and returned
+None; the corrected provider_or_marketplace check exposed Modal's zero-row
+parse. All four providers are present after the parser repair.
+
+The first Pacific-date test exposed a standalone-script import-path issue;
+the initial relative-import fix then failed mypy's namespace handling.
+The script now uses the repository's explicit script-directory import pattern,
+and both the test and mypy pass. Two documentation/driver patches failed to
+match context and changed nothing; fresh reads preceded corrected edits.
+No failed acquisition was blindly replayed.
+
+Remaining: full SEC acquisition and its queued postprocessing; unresolved
+source errors after retry; current adjudication; browser rendering and measured
+interaction performance; publication. The whole-history pre-push check finds
+130 older AI-attributed commits and conflicts with its zero-match requirement.
+The new commits contain no attribution. Published history was not rewritten.

@@ -120,3 +120,80 @@ additions. The staged raw-diff check is:
 
 Before adding this pass's files, and after committing only this pass's files,
 its expected hash is df66eae0573bd34899df7e4451677d9050f1db80625921296cb8651112e2bf7d.
+
+## Current acquisition log - 2026-10-17 17:04 PDT
+
+The earlier resumed log records a safe budget stop at 14:11:25 PDT.
+The document-memory repair and complete queue audit are in the incident record.
+The subsequent main refresh uses:
+    data/refresh_2026-10-17/acquisition-resumed-document-fix.log
+
+This supersedes acquisition-resumed.log as the current progress log.
+Check the private workload PID in its supervisor event before any resume.
+The 2 GiB threshold is unchanged. Large documents run under a byte-weighted
+text-processing reservation; downloads stream to disk. Completed raw sources,
+failed response parts, prior results and every checkpoint remain retained.
+The stopped queue and original edited files are backed up in
+.codex/refresh-2026-10-17/before-document-memory-fix-1792281345903613000/.
+
+## Public-source and continuation checkpoint - 2026-10-17 17:18 PDT
+
+Dynamic source identity now includes request and revision metadata. The previous
+URI-only check dropped FERC pages at the same API endpoint. Latest discovery
+contained 47,232 FERC records; the older catalog acquired 46,669. A repair batch
+acquired 476 artifacts with zero source errors: all 473 current FERC pages,
+the current PJM cycle export and two current FracTracker pages. All 476 saved
+artifacts passed full SHA-256 checks. The normalized FERC IDs are unique and
+exactly match the discovered total. The earlier artifacts remain unchanged.
+
+The repair wrapper failed only while relativizing its log path after acquisition.
+Fresh inspection verified the completed outputs; the acquisition was not replayed.
+The child exit code was not captured by the failed wrapper. The retained
+repair-reconciliation.json records that distinction. A regression now verifies
+the relative-log-path case.
+
+The public derivation completed under 1 GiB at a 277,529,344-byte peak.
+It retains 18,322 queue records after replacing 908 PJM serial rows represented
+in the current cycle; all 105,405 equipment reference rows; and current tracker
+records. It produces 47,046 pending PPA candidates from 47,232 source rows.
+Its immutable input/output hashes and selection counts are in:
+    data/refresh_2026-10-17/derived_public_current/input_manifest.json
+
+The current FERC-only capital graph completed under 2 GiB at a
+753,173,464-byte peak. Its 47,046 deals remain pending review. The current
+ownership graph remains separate. These are not additive debt totals.
+
+Modal's new page includes accessible static prices plus animated duplicate
+digits and a changed CPU heading. The old parser silently returned no rows.
+The parser now reads the static prices, supports T4 and records empty parses
+as errors. Reprocessing all four saved snapshots produced 88 quotes, zero errors,
+and a 57,606,648-byte peak. The new raw directory uses relative symlinks to the
+saved originals; source acquisition dates and hashes remain unchanged.
+    data/refresh_2026-10-17/gpu_prices_reparsed/
+
+The dated engine v1 ran the existing deterministic market, financial,
+physical-capacity and compute functions. It explicitly records incomplete SEC
+acquisition, stale S1 and unmeasured S4. It adds no new bubble probability.
+The June adjudicated core remains historical.
+
+The supervised continuation is running:
+    data/refresh_2026-10-17/finish-refresh.log
+It waits for the exact observed acquisition PID to exit, rejects PID reuse,
+requires a valid completion record and a drained queue, then runs one gap retry,
+the production merge with full raw-byte hashing, the exact URL coverage audit,
+the complete capital graph and the v2 dated engine report. Stage errors stop
+later stages and retain their results. A stopped acquisition is never restarted
+automatically. The continuation does not publish or rewrite Git history.
+
+Source freshness uses Pacific dates for saved SEC panels even after UTC
+midnight. Its regression covers 00:30 UTC while the Pacific date is still
+October 17.
+
+Git fetched successfully. Before this checkpoint, origin/main had no incoming
+commits and local main was ahead by three. The required whole-history attribution
+check returned 136 matching lines across 130 older commits, all with existing
+Co-Authored-By trailers. None belongs to this work's new commits. History remains
+unchanged. This conflicts with Projects/AGENTS.md:244, which requires zero matches
+before pushing; an explicit exception or a separate authorized history decision
+is needed before publication. Browser control also remains pending the required
+confirmation under Projects/AGENTS.md:303. No push or deployment ran.

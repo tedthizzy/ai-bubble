@@ -6,15 +6,18 @@ from __future__ import annotations
 import argparse
 import gzip
 import json
-from datetime import UTC, date, datetime, timedelta
+import sys
+from datetime import date, datetime, timedelta
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 import refresh_live_overlay as overlay
 
 
 def saved_counts(panel_path: Path, raw: Path) -> dict[str, dict[str, int]]:
     panel = json.loads(panel_path.read_text())
-    today = datetime.now(UTC).date()
+    today = datetime.now(ZoneInfo("America/Los_Angeles")).date()
     if date.fromisoformat(panel["as_of"]) != today:
         raise ValueError("Saved SEC panel must have today's acquisition date")
     cutoff = (today - timedelta(days=7)).isoformat()

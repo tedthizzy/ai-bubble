@@ -10,14 +10,18 @@ from __future__ import annotations
 
 import csv
 import gzip
+import hashlib
 import html
+import io
 import json
 import os
 import re
 import tempfile
+import threading
 from collections import Counter
-from collections.abc import Callable, Mapping, Sequence
+from collections.abc import Callable, Iterator, Mapping, Sequence
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from contextlib import contextmanager
 from dataclasses import asdict, dataclass
 from datetime import UTC, date, datetime
 from pathlib import Path
@@ -31,10 +35,60 @@ from bubble.ingestion.concurrency import (
     FetchConcurrencyConfig,
     fetch_with_retries,
 )
-from bubble.models.base import DealType, HumanReviewStatus, Provenance, SourceType
+from bubble.models.base import DealType, HumanReviewStatus, SourceType
 
 FetchBytes = Callable[[str], bytes]
+FetchToFile = Callable[[str, Path], None]
 ManifestRow = dict[str, str]
+
+
+class DocumentMemoryBudget:
+    """Reserve estimated text working memory before reading a saved document."""
+
+    def __init__(self, capacity: int = 512 * 1024**2) -> None:
+        self.capacity = capacity
+        self.available = capacity
+        self.condition = threading.Condition()
+
+    @contextmanager
+    def reserve(self, byte_count: int) -> Iterator[None]:
+        # HTML normalization retains the input and output strings. Large files
+        # run alone; workers waiting here retain paths, not document payloads.
+        reservation = min(self.capacity, max(4 * 1024**2, byte_count * 8))
+        with self.condition:
+            self.condition.wait_for(lambda: self.available >= reservation)
+            self.available -= reservation
+        try:
+            yield
+        finally:
+            with self.condition:
+                self.available += reservation
+                self.condition.notify_all()
+
+
+DOCUMENT_MEMORY = DocumentMemoryBudget()
+
+
+def _saved_document_metadata(path: Path) -> tuple[int, str]:
+    digest = hashlib.sha256()
+    byte_count = 0
+    opener = gzip.open if path.suffix == ".gz" else open
+    with opener(path, "rb") as stream:
+        for block in iter(lambda: stream.read(1024 * 1024), b""):
+            digest.update(block)
+            byte_count += len(block)
+    return byte_count, digest.hexdigest()
+
+
+def _read_saved_document_text(path: Path) -> str:
+    opener = gzip.open if path.suffix == ".gz" else open
+    try:
+        with opener(path, "rt", encoding="utf-8", newline="") as stream:
+            return stream.read()
+    except UnicodeDecodeError:
+        with opener(path, "rt", encoding="latin-1", errors="ignore", newline="") as stream:
+            return stream.read()
+
 
 AGREEMENT_RULES: tuple[tuple[DealType, tuple[str, ...], str], ...] = (
     (
@@ -678,6 +732,8 @@ def _acquire_edgar_manifest_row(
     retry_backoff_seconds: float,
     resume: bool,
     compress_raw: bool,
+    *,
+    fetch_to_file: FetchToFile | None = None,
 ) -> _EdgarDocumentResult:
     filing_url = row.get("filing_url", "")
     record_key = _record_key(row)
@@ -699,11 +755,14 @@ def _acquire_edgar_manifest_row(
         elif resume and compressed_path.exists():
             local_path = compressed_path
         resumed = resume and local_path.exists()
-        if resumed:
-            stored = local_path.read_bytes()
-            raw = gzip.decompress(stored) if local_path.suffix == ".gz" else stored
-            downloaded_at = datetime.fromtimestamp(local_path.stat().st_mtime, UTC).isoformat()
-        else:
+        if not resumed and fetch_to_file is not None:
+            local_path.parent.mkdir(parents=True, exist_ok=True)
+            fetch_with_retries(
+                lambda: limiter.run(filing_url, lambda: fetch_to_file(filing_url, local_path)),
+                attempts=retry_attempts,
+                backoff_seconds=retry_backoff_seconds,
+            )
+        elif not resumed:
             raw = fetch_with_retries(
                 lambda: limiter.run(
                     filing_url,
@@ -720,16 +779,24 @@ def _acquire_edgar_manifest_row(
                     suffix=".part",
                     delete=False,
                 ) as staged:
-                    staged.write(gzip.compress(raw, compresslevel=3, mtime=0))
+                    with gzip.GzipFile(
+                        fileobj=staged, mode="wb", compresslevel=3, mtime=0
+                    ) as compressed:
+                        compressed.write(raw)
                     staged.flush()
                     os.fsync(staged.fileno())
                 os.replace(staged.name, local_path)
             else:
                 local_path.write_bytes(raw)
-            downloaded_at = datetime.now(UTC).isoformat()
+            del raw
 
-        content_hash = Provenance.compute_content_hash(raw)
-        text = normalize_document_text(raw)
+        downloaded_at = datetime.fromtimestamp(local_path.stat().st_mtime, UTC).isoformat()
+        byte_count, content_hash = _saved_document_metadata(local_path)
+        with DOCUMENT_MEMORY.reserve(byte_count):
+            text = _normalize_decoded_document_text(_read_saved_document_text(local_path))
+            text_char_count = len(text)
+            candidate = extract_deal_candidate(row, text, content_hash, local_path)
+            del text
         document = EdgarDocumentRecord(
             cik=row.get("cik", ""),
             company_name=row.get("company_name", ""),
@@ -742,8 +809,8 @@ def _acquire_edgar_manifest_row(
             filing_url=filing_url,
             local_path=str(local_path),
             content_hash=content_hash,
-            byte_count=len(raw),
-            text_char_count=len(text),
+            byte_count=byte_count,
+            text_char_count=text_char_count,
             relevance_score=_int(row.get("relevance_score"), default=0),
             relevance_reasons=_split(row.get("relevance_reasons")),
             downloaded_at=downloaded_at,
@@ -751,7 +818,7 @@ def _acquire_edgar_manifest_row(
         return _EdgarDocumentResult(
             index=index,
             document=document,
-            candidate=extract_deal_candidate(row, text, content_hash, local_path),
+            candidate=candidate,
             resumed=resumed,
             error_key=None,
             error=None,
@@ -2471,13 +2538,61 @@ def normalize_document_text(raw: bytes) -> str:
         decoded = raw.decode("utf-8")
     except UnicodeDecodeError:
         decoded = raw.decode("latin-1", errors="ignore")
-    decoded = re.sub(r"(?is)<(script|style).*?>.*?</\1>", " ", decoded)
-    decoded = re.sub(r"(?i)<\s*br\s*/?\s*>|</\s*p\s*>|</\s*div\s*>", "\n", decoded)
-    decoded = re.sub(r"(?s)<[^>]+>", " ", decoded)
-    decoded = html.unescape(decoded)
-    decoded = re.sub(r"[ \t\r\f\v]+", " ", decoded)
-    decoded = re.sub(r"\n\s+", "\n", decoded)
+    return _normalize_decoded_document_text(decoded)
+
+
+def _normalize_decoded_document_text(decoded: str) -> str:
+    decoded = _sub_document_text(r"(?is)<(script|style).*?>.*?</\1>", " ", decoded)
+    decoded = _sub_document_text(r"(?i)<\s*br\s*/?\s*>|</\s*p\s*>|</\s*div\s*>", "\n", decoded)
+    decoded = _sub_document_text(r"(?s)<[^>]+>", " ", decoded)
+    # Same character-reference pattern as Python 3.12 html.unescape. Call the
+    # public decoder per match to retain HTML5 rules without its full match list.
+    decoded = _sub_document_text(
+        r"&(#[0-9]+;?|#[xX][0-9a-fA-F]+;?|[^\t\n\f <&#;]{1,32};?)",
+        lambda match: html.unescape(match.group()),
+        decoded,
+    )
+    decoded = _sub_document_text(r"[ \t\r\f\v]+", " ", decoded)
+    decoded = _sub_document_text(r"\n\s+", "\n", decoded)
     return decoded.strip()
+
+
+def _sub_document_text(
+    pattern: str, replacement: str | Callable[[re.Match[str]], str], text: str
+) -> str:
+    if len(text) < 1024**2:
+        return re.sub(pattern, replacement, text)
+    # re.sub retains a Python list of every matched text fragment before joining
+    # it. Fund filings can contain millions of tags. StringIO flushes fragments
+    # into a text buffer without retaining that per-match list.
+    # Keep StringIO small too: its writable buffer uses four bytes per character
+    # even for ASCII. Coalesce small fragments into bounded chunks before join.
+    chunks: list[str] = []
+    output = io.StringIO()
+    buffered = 0
+
+    def append(value: str, start: int = 0, stop: int | None = None) -> None:
+        nonlocal output, buffered
+        end = len(value) if stop is None else stop
+        for offset in range(start, end, 64 * 1024):
+            block = value[offset : min(end, offset + 64 * 1024)]
+            output.write(block)
+            buffered += len(block)
+            if buffered >= 64 * 1024:
+                chunks.append(output.getvalue())
+                output = io.StringIO()
+                buffered = 0
+
+    previous = 0
+    for match in re.finditer(pattern, text):
+        append(text, previous, match.start())
+        append(replacement(match) if callable(replacement) else replacement)
+        previous = match.end()
+    if previous == 0:
+        return text
+    append(text, previous)
+    chunks.append(output.getvalue())
+    return "".join(chunks)
 
 
 def _candidate_confidence(

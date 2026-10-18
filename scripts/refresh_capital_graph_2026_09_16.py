@@ -120,8 +120,10 @@ def _load_deals(path: Path) -> list[Deal]:
     if not path.is_file():
         raise FileNotFoundError(path)
     with path.open(newline="") as stream:
-        return [_deal_from_row({key: (value or "").strip() for key, value in row.items()})
-                for row in csv.DictReader(stream)]
+        return [
+            _deal_from_row({key: (value or "").strip() for key, value in row.items()})
+            for row in csv.DictReader(stream)
+        ]
 
 
 def load_ferc_deals(path: Path) -> list[Deal]:
@@ -176,8 +178,7 @@ def select_deals(sources: list[tuple[str, list[Deal]]]) -> tuple[list[Deal], dic
             deal.provenance.human_review_status in REVIEWED for deal in selected
         ),
         "pending_graph_deals": sum(
-            deal.provenance.human_review_status == HumanReviewStatus.PENDING
-            for deal in selected
+            deal.provenance.human_review_status == HumanReviewStatus.PENDING for deal in selected
         ),
     }
 
@@ -258,6 +259,7 @@ def main() -> None:
     parser.add_argument("--edgar-deals", type=Path, default=DEFAULT_EDGAR)
     parser.add_argument("--gleif-dir", type=Path, default=DEFAULT_GLEIF)
     parser.add_argument("--output-root", type=Path, default=DEFAULT_OUTPUT)
+    parser.add_argument("--as-of", type=date.fromisoformat, default=date.fromisoformat(DATE))
     args = parser.parse_args()
     if args.layer in {"capital", "both"}:
         result = build_capital(
@@ -265,10 +267,13 @@ def main() -> None:
             ferc_path=args.ferc_deals,
             edgar_path=args.edgar_deals,
             output_root=args.output_root,
+            as_of=args.as_of.isoformat(),
         )
         print(json.dumps({"capital": result["selection"], "mode": args.mode}, sort_keys=True))
     if args.layer in {"ownership", "both"}:
-        result = build_ownership(gleif_dir=args.gleif_dir, output_root=args.output_root)
+        result = build_ownership(
+            gleif_dir=args.gleif_dir, output_root=args.output_root, as_of=args.as_of.isoformat()
+        )
         print(json.dumps({"ownership": result["graph_summary"]}, sort_keys=True))
 
 

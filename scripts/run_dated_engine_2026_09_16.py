@@ -144,8 +144,9 @@ def evaluate_dated_market(
     }
 
 
-def summarize_financials(panel: dict[str, Any]) -> dict[str, Any]:
-    _assert_date(panel, "as_of", Path("analysis/case_zero_financials_2026-09-16_v4.json"))
+def summarize_financials(panel: dict[str, Any], *, as_of: str = AS_OF) -> dict[str, Any]:
+    if panel.get("as_of") != as_of:
+        raise ValueError(f"Financial panel expected as_of={as_of}, got {panel.get('as_of')!r}")
     entities = panel["entities"]
     if len(entities) != panel["target_count"]:
         raise ValueError("SEC financial panel count disagrees with its entity rows")

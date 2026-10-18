@@ -60,7 +60,7 @@ def test_resume_retains_journal_and_prioritizes_current_filings(
     )
     calls = []
 
-    def acquire(_index, record, *_args):
+    def acquire(_index, record, *_args, **_kwargs):
         calls.append(record["filing_url"])
         document = SimpleNamespace(to_csv_row=lambda: {"filing_url": record["filing_url"]})
         return SimpleNamespace(document=document, candidate=None, error_key=None, error=None)
@@ -117,3 +117,13 @@ def test_real_extraction_exports_original_byte_provenance(tmp_path: Path) -> Non
         document = next(csv.DictReader(source))
     assert document["content_hash"] == hashlib.sha256(payload).hexdigest()
     assert gzip.decompress(Path(document["local_path"]).read_bytes()) == payload
+
+
+def test_source_command_records_relative_log_after_success(tmp_path: Path, monkeypatch) -> None:
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.setattr(refresh, "ROOT", tmp_path)
+    Path("run").mkdir()
+    result = refresh.command(Path("run"), "probe", ["-c", "print('completed')"])
+    assert result["exit_code"] == 0
+    assert result["log"] == "run/probe.log"
+    assert Path(result["log"]).read_text().strip() == "completed"

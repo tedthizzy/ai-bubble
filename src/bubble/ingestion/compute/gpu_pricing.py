@@ -63,7 +63,7 @@ ARTIFACT_FIELDS = [
 
 GPU_NAME_RE = re.compile(
     r"\b("
-    r"B300|GB300|B200|GB200|H200|GH200|H100|A100|V100|A10|L40S|L40|L4|"
+    r"B300|GB300|B200|GB200|H200|GH200|H100|A100|V100|T4|A10|L40S|L40|L4|"
     r"RTX\s+PRO\s+6000|RTX\s+6000\s+ADA|RTX\s+A6000|A6000|RTX\s+5090|"
     r"RTX\s+4090|RTX\s+3090|RTX\s+A5000|A40"
     r")\b",
@@ -358,6 +358,8 @@ def _acquire_one_source(
             retrieved_at=retrieved_at,
             content_hash=content_hash,
         )
+        if not observations:
+            raise ValueError(f"No GPU prices parsed; raw snapshot retained at {local_path}")
         artifact = GpuPricingArtifact(
             source_id=source.source_id,
             provider=source.provider,
@@ -528,11 +530,14 @@ def _parse_coreweave_pricing(raw: bytes) -> list[dict[str, Any]]:
 def _parse_modal_pricing(raw: bytes) -> list[dict[str, Any]]:
     """Convert GPU-only second rates; Modal bills CPU and memory separately."""
     soup = BeautifulSoup(raw.decode("utf-8", errors="ignore"), "lxml")
+    for animated in soup.select('[aria-hidden="true"]'):
+        animated.decompose()
     text = _clean_text(soup.get_text(" ", strip=True))
     start = text.find("GPU Tasks")
-    end = text.find("CPU Physical core", start)
-    if start < 0 or end < 0:
+    boundary = re.search(r"\bCPU\b", text[start:]) if start >= 0 else None
+    if boundary is None:
         return []
+    end = start + boundary.start()
     section = text[start:end]
     price_pattern = re.compile(
         r"(Nvidia\s+[A-Za-z0-9 ,]+?)\s+\$\s*(\d+(?:\.\d+)?)\s*/\s*sec", re.IGNORECASE

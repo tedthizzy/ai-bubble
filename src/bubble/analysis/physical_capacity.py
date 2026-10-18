@@ -12,7 +12,7 @@ from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
-    from collections.abc import Iterable, Mapping, Sequence
+    from collections.abc import Iterable, Iterator, Mapping, Sequence
 
 REGION_ALIASES = {
     "AECI": "AECI",
@@ -364,11 +364,10 @@ def _source_row_csvs(roots: Sequence[Path], filename: str) -> list[Path]:
     return sorted(files)
 
 
-def _read_csv(path: Path) -> list[dict[str, str]]:
+def _read_csv(path: Path) -> Iterator[dict[str, str]]:
     with path.open(newline="") as f:
-        return [
-            {key: (value or "").strip() for key, value in row.items()} for row in csv.DictReader(f)
-        ]
+        for row in csv.DictReader(f):
+            yield {key: (value or "").strip() for key, value in row.items()}
 
 
 def _queue_capacity_mw(row: Mapping[str, str]) -> float | None:

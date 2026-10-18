@@ -1,4 +1,40 @@
 # Bubble move pause - 2026-10-16
+## Continued public refresh - 2026-10-17 17:18 PDT
+
+The main acquisition and its supervised finishing process are active.
+Inspect acquisition-resumed-document-fix.log and finish-refresh.log under
+data/refresh_2026-10-17. Do not launch duplicates or raise budgets after a stop.
+The continuation checks the acquisition PID, completion record and queue,
+then merges, verifies every source hash, audits coverage, builds the complete
+capital graph and writes dated_engine_2026-10-17_v2.
+
+The current FERC PPA corpus has 47,232 rows. The repaired Modal parser restores
+all four providers and 88 GPU observations. Current physical derivation and
+the FERC-only capital graph completed. The new dated_engine_2026-10-17_v1
+records current deterministic components and explicitly incomplete SEC coverage.
+The June adjudicated core remains historical.
+
+Browser control is still awaiting required confirmation. Git has 130 older
+AI-attributed commits, which conflict with the zero-match whole-history push
+rule. New commits have no attribution. Preserve published history and the
+15 original staged analysis additions. See the operations and verification
+records for exact evidence and the remaining publication decisions.
+## Document-memory checkpoint - 2026-10-17 17:04 PDT
+
+The former resumed SEC run stopped safely at its 2 GiB budget at 14:11 PDT.
+The repaired production worker completed the actual 124.5 MiB saved fund filing
+under that same budget, with full text and original-byte hashes retained.
+A focused 45-test run passed. Streaming downloads and byte-weighted text parsing
+preserve the full queue. The main run resumed once at 17:01 PDT after an audit.
+Its latest log is data/refresh_2026-10-17/acquisition-resumed-document-fix.log.
+Verify processes and this log before any restart. The previous checkpoint
+paragraphs below describe older observations.
+
+See the appended acquisition verification in
+[refresh_validation_2026-10-17.md](../analysis/refresh_validation_2026-10-17.md).
+Final source reconciliation, current capital/engine outputs, browser checks and
+GitHub publication remain outstanding. Do not include the 15 original staged
+analysis additions in this work's commits.
 
 ## Verified refresh checkpoint - October 17, 2026
 

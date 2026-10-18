@@ -80,3 +80,54 @@ Filing discovery had checked 5,312 of 29,815 CIKs. These are progress observatio
 not final coverage. Recheck `data/refresh_2026-10-17/acquisition-resumed.log` and
 the SQLite queue for current state. The earlier stopped-state paragraphs describe
 the incident checkpoints, not a continuing prohibition on this bounded run.
+
+## Document acquisition repair - 2026-10-17 17:04 PDT
+
+Ted reported that Scout's ranking process also contributed to the outage.
+Scout's RUNBOOK.md, line 29 when opened on October 17, attributes PID 10186's
+42.267 GiB footprint to Scout and reports a completed 5.896 GiB replacement run.
+That attribution is from Scout's runbook. Bubble's separate 23.39 GiB footprint
+remains supported by its previously identified child PID in the OS report.
+The evidence does not establish a unique initiator of the system failure.
+
+The first bounded SEC resumption stopped at 14:11:25 PDT above its unchanged
+2 GiB budget. The footprint was 2,166,557,216 bytes. Both owned processes were
+absent afterward, and the Mac reported normal memory pressure. The queue retained
+32,910 acquired documents, 44 failed documents, seven in-flight records and
+194,432 queued records. All 32,954 journal lines parsed. No non-URL queue keys
+were present. Discovery completed all 29,815 CIKs with zero failed CIKs.
+
+Two interrupted fund filings were already saved and passed gzip validation.
+The largest expanded to 130,544,556 bytes despite a 10,478,305-byte manifest
+size. Downloaded XSL-rendered fund filings can greatly exceed that size.
+Text normalization retained large regex fragment lists and full intermediate
+strings. StringIO also uses a wide writable buffer, so an unbounded StringIO
+replacement was insufficient. Initial conservative 768 MiB stress probes stopped
+safely; their logs remain under the dated refresh directory.
+
+PublicClient now streams decoded HTTP bytes into gzip files, retaining failed
+parts and refusing to replace a saved source. Text parsing waits on a shared
+byte-weighted reservation before reading saved sources. Normalization coalesces
+regex fragments in 64 KiB buffers, including HTML entities. Small documents keep
+the native regex fast path. The exact legacy normalization output is preserved
+in tests, including Unicode, malformed markup and buffer boundaries.
+Source hashes are calculated incrementally from original decompressed bytes.
+
+The final real-source check processed both interrupted saved filings with no
+network fetches, retained their complete text counts and hashes, and exited 0.
+It peaked at 1,095,075,160 bytes under the existing 2 GiB production threshold.
+The largest document retained all 71,658,264 normalized characters.
+This is measured stress-test evidence, not a promise that every future document
+fits below budget. The process-group supervisor remains active.
+
+A focused test invocation exposed a macOS rusage exit-transition race: the OS
+can return EPERM for a zombie. The supervisor now ignores only a PID confirmed
+absent or zombie by ps; a live unmeasurable PID still fails closed. The corrected
+45-test run passed in 3.61 seconds at a 358,859,688-byte peak. Mypy passed for
+document_acquisition.py. Ruff passed on the changed code and tests.
+
+The audited queue resumed once at 17:01 PDT. Its current log is
+data/refresh_2026-10-17/acquisition-resumed-document-fix.log. Its observed peak
+passed 1.5 GiB while making progress beyond the old stop. Inspect this log,
+the owned process group and the queue before any later resume. Never start
+a second main refresh or raise the 2 GiB budget to bypass a stop.

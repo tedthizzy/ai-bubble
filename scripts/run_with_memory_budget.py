@@ -47,6 +47,19 @@ def footprint(pid: int) -> int:
             error = ctypes.get_errno()
             if error == errno.ESRCH:
                 return 0
+            if error == errno.EPERM:
+                # macOS can deny rusage for a child between exit and reaping.
+                # Only ignore a confirmed zombie or an already absent PID.
+                state = subprocess.run(
+                    ["ps", "-p", str(pid), "-o", "stat="],
+                    text=True,
+                    capture_output=True,
+                    check=False,
+                )
+                if state.returncode == 1 or (
+                    state.returncode == 0 and state.stdout.strip().startswith("Z")
+                ):
+                    return 0
             raise OSError(error, "Cannot measure workload memory")
         return int(usage.phys_footprint)
     status = Path(f"/proc/{pid}/status")

@@ -1,5 +1,5 @@
 {
-  "snapshot_at_pacific": "2026-10-17T12:52:11.647888-07:00",
+  "snapshot_at_pacific": "2026-10-17T17:17:42.475482-07:00",
   "refresh_as_of": "2026-10-17",
   "complete": false,
   "report": {
@@ -81,14 +81,18 @@
   },
   "sec_acquisition": {
     "new_run_queue": {
-      "acquired": 10713,
-      "failed": 27,
+      "acquired": 37798,
+      "failed": 44,
       "inflight": 8,
-      "queued": 194235
+      "queued": 189543
     },
     "baseline_inventory": 41589,
     "recovered_failures": 27,
-    "unresolved_source_errors": 0,
+    "unresolved_source_errors": 17,
+    "filing_discovery": {
+      "ciks": 29815,
+      "failed_ciks": 0
+    },
     "note": "Queue counts exclude the retained baseline. Downloads are not unique obligations.",
     "status": "incomplete"
   },
@@ -118,6 +122,12 @@
       "batch": "queue_corrections",
       "artifacts": 2,
       "rows": 11052,
+      "errors": []
+    },
+    {
+      "batch": "dynamic_catalog_repair/acquired",
+      "artifacts": 476,
+      "rows": 50743,
       "errors": []
     }
   ],
@@ -156,12 +166,19 @@
       "observation_date": "10/17/2026",
       "published": null,
       "next_release": null
+    },
+    {
+      "source": "FERC Entities to PPAs",
+      "source_uri": "https://data.ferc.gov/api/v1/dataset/17/",
+      "observation_date": "2026-10-17T16:13:08.049Z",
+      "discovered_records": 47232
     }
   ],
   "fdic": {
     "period": "2026-06-30",
     "institutions": 4313
   },
+  "public_batch_note": "Batch counts include retained prior attempts and replacements; their rows must not be added together.",
   "source_corrections": [
     "The July EIA URL failed; the latest August workbook was acquired.",
     "The first PJM serial export lacked the anonymous public header; a corrected full export was acquired.",

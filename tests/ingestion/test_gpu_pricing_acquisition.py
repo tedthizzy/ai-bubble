@@ -212,3 +212,39 @@ def test_acquire_gpu_pricing_resumes_existing_raw_artifact(tmp_path: Path) -> No
     assert second.summary.sources_resumed == 1
     assert second.summary.sources_acquired == 1
     assert second.summary.observations_extracted == 2
+
+
+def test_modal_animated_digits_use_accessible_price_and_current_cpu_boundary() -> None:
+    raw = b"""
+    <h2>GPU Tasks</h2>
+    <li>Nvidia B300 $<span class="sr-only">0.001972</span>
+      <span aria-hidden="true">0 . 0 0 1 9 7 2</span> / sec</li>
+    <li>Nvidia B200 $<span class="sr-only">0.001736</span>
+      <span aria-hidden="true">0 . 0 0 1 7 3 6</span> / sec</li>
+    <li>Nvidia T4 $<span class="sr-only">0.000164</span>
+      <span aria-hidden="true">0 . 0 0 0 1 6 4</span> / sec</li>
+    <h3>CPU</h3> $0.0000131 / core / sec Physical core (2 vCPU equivalent)
+    """
+    rows = parse_gpu_pricing_snapshot(
+        provider="Modal",
+        raw=raw,
+        source_uri="https://modal.com/pricing",
+        retrieved_at="2026-10-17T19:00:00+00:00",
+        content_hash=Provenance.compute_content_hash(raw),
+    )
+    assert [(r["gpu_generation"], r["observed_cloud_rental_rate_usd_per_hour"]) for r in rows] == [
+        ("B300", 7.0992),
+        ("B200", 6.2496),
+        ("T4", 0.5904),
+    ]
+
+
+def test_empty_pricing_parse_records_an_error_and_retains_raw_source(tmp_path: Path) -> None:
+    result = acquire_gpu_pricing(
+        output_dir=tmp_path,
+        sources=(GpuPricingSource("modal-pricing", "Modal", "https://modal.com/pricing"),),
+        fetch_bytes=lambda _: b"<html>Layout changed; no price rows.</html>",
+    )
+    assert result.summary.sources_acquired == 0
+    assert "No GPU prices parsed" in result.summary.errors["modal-pricing"]
+    assert len(list((tmp_path / "raw_gpu_pricing").glob("modal-pricing-*.html"))) == 1

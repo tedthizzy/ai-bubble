@@ -19,10 +19,12 @@ import re
 import sqlite3
 import subprocess
 import sys
+import tempfile
 import threading
 import time
 import urllib.error
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from contextlib import contextmanager
 from datetime import UTC, date, datetime
 from pathlib import Path
 from typing import Any
@@ -94,7 +96,8 @@ class PublicClient:
         )
         self.calls = 0
 
-    def get(self, url: str) -> bytes:
+    @contextmanager
+    def response(self, url: str):
         host = httpx.URL(url).host
         sec = host == "sec.gov" or host.endswith(".sec.gov")
         if sec:
@@ -104,20 +107,49 @@ class PublicClient:
                 self.next_sec = max(now, self.next_sec) + self.interval
             if delay:
                 time.sleep(delay)
-        response = self.client.get(url)
-        if sec and response.status_code == 429:
-            wait = response.headers.get("Retry-After", "60")
-            seconds = float(wait) if wait.replace(".", "", 1).isdigit() else 60.0
-            with self.lock:
-                self.next_sec = max(self.next_sec, time.monotonic() + seconds)
-            emit("sec_rate_limit", retry_after_seconds=seconds)
-        response.raise_for_status()
+        with self.client.stream("GET", url) as response:
+            if sec and response.status_code == 429:
+                wait = response.headers.get("Retry-After", "60")
+                seconds = float(wait) if wait.replace(".", "", 1).isdigit() else 60.0
+                with self.lock:
+                    self.next_sec = max(self.next_sec, time.monotonic() + seconds)
+                emit("sec_rate_limit", retry_after_seconds=seconds)
+            response.raise_for_status()
+            yield response
         with self.lock:
             self.calls += 1
             count = self.calls
         if count % 250 == 0:
             emit("public_requests", successful=count)
-        return response.content
+
+    def get(self, url: str) -> bytes:
+        with self.response(url) as response:
+            return response.read()
+
+    def download(self, url: str, destination: Path) -> None:
+        """Stream decoded HTTP bytes into a saved document, retaining failed parts."""
+        if destination.exists():
+            raise FileExistsError(f"Refusing to replace saved source: {destination}")
+        with tempfile.NamedTemporaryFile(
+            dir=destination.parent, prefix=destination.name + ".", suffix=".part", delete=False
+        ) as staged:
+            with self.response(url) as response:
+                if destination.suffix == ".gz":
+                    with gzip.GzipFile(
+                        fileobj=staged, mode="wb", compresslevel=3, mtime=0
+                    ) as compressed:
+                        for block in response.iter_bytes(chunk_size=1024 * 1024):
+                            compressed.write(block)
+                else:
+                    for block in response.iter_bytes(chunk_size=1024 * 1024):
+                        staged.write(block)
+            staged.flush()
+            os.fsync(staged.fileno())
+        # An interrupted response never becomes a completed cache entry.
+        os.link(staged.name, destination)
+        # Only retire this successful staging name. The exact same inode remains
+        # at destination; failed response parts and prior sources are retained.
+        os.unlink(staged.name)
 
     def json(self, url: str) -> Any:
         digest = hashlib.sha256(url.encode()).hexdigest()
@@ -192,7 +224,11 @@ class DocumentQueue:
                             f"Partial journal line {number}; preserved, not replayed"
                         ) from exc
                     document = entry.get("document")
-                    url = document["filing_url"] if document else entry.get("filing_url") or entry.get("error_url")
+                    url = (
+                        document["filing_url"]
+                        if document
+                        else entry.get("filing_url") or entry.get("error_url")
+                    )
                     if url and not url.startswith(("https://", "http://")):
                         # Older failure entries stored the record key under
                         # error_url. Recover its URL from the durable queue.
@@ -203,10 +239,13 @@ class DocumentQueue:
                                 """SELECT url FROM documents WHERE
                                 json_extract(record,'$.cik')=? AND
                                 json_extract(record,'$.accession_number')=? AND
-                                json_extract(record,'$.primary_document')=?""", parts
+                                json_extract(record,'$.primary_document')=?""",
+                                parts,
                             ).fetchall()
                         if len(matches) != 1:
-                            raise ValueError(f"Cannot resolve legacy failed record; journal preserved: {url}")
+                            raise ValueError(
+                                f"Cannot resolve legacy failed record; journal preserved: {url}"
+                            )
                         url = matches[0][0]
                     if url:
                         self.database.execute(
@@ -282,6 +321,7 @@ class DocumentQueue:
                 2.0,
                 True,
                 True,
+                fetch_to_file=getattr(self.client, "download", None),
             )
             document = result.document.to_csv_row() if result.document else None
             candidate = result.candidate
@@ -554,7 +594,7 @@ def command(run: Path, label: str, args: list[str]) -> dict:
         )
         emit("source_job_started", name=label, pid=process.pid)
         code = process.wait()
-    return {"command": args, "exit_code": code, "log": str(path.relative_to(ROOT))}
+    return {"command": args, "exit_code": code, "log": str(path.resolve().relative_to(ROOT))}
 
 
 def catalog_jobs(run: Path) -> dict:
@@ -624,20 +664,9 @@ def dynamic_catalog(run: Path) -> dict:
         )
         if discovery["exit_code"] != 0:
             return discovery
-    successful = set()
-    for name in ("public", "gleif"):
-        inventory = run / name / "source_artifact_inventory.csv"
-        if inventory.exists():
-            successful.update(row["source_uri"] for row in iter_rows(inventory))
     catalog = run / "dynamic_acquisition_catalog.csv"
     if not catalog.exists():
-        selected = [
-            row
-            for row in rows(path)
-            if row["source_uri"].startswith(("http://", "https://"))
-            and "sec.gov/" not in row["source_uri"]
-            and row["source_uri"] not in successful
-        ]
+        selected = missing_dynamic_sources(run, ("public", "gleif"))
         if not selected:
             return {"artifacts_added": 0}
         write_csv(catalog, selected)
@@ -656,6 +685,42 @@ def dynamic_catalog(run: Path) -> dict:
             "2",
         ],
     )
+
+
+def catalog_identity(row: dict[str, str], *, inventory: bool = False) -> tuple[str, ...]:
+    metadata = (
+        json.loads(row.get("metadata") or "{}")
+        if inventory
+        else {
+            key.removeprefix("meta_"): value
+            for key, value in row.items()
+            if key.startswith("meta_") and value
+        }
+    )
+    metadata = {key: value for key, value in metadata.items() if value not in (None, "")}
+    return (
+        row["source_uri"],
+        row["corpus"],
+        row["parser"],
+        json.dumps(metadata, sort_keys=True, separators=(",", ":")),
+    )
+
+
+def missing_dynamic_sources(run: Path, completed: tuple[str, ...]) -> list[dict[str, str]]:
+    # POST pages and source revisions share URLs. Their request and revision
+    # metadata are part of artifact identity; URI alone loses current pages.
+    successful = set()
+    for name in completed:
+        inventory = run / name / "source_artifact_inventory.csv"
+        if inventory.exists():
+            successful.update(catalog_identity(row, inventory=True) for row in iter_rows(inventory))
+    return [
+        row
+        for row in iter_rows(run / "dynamic_source_catalog.csv")
+        if row["source_uri"].startswith(("http://", "https://"))
+        and "sec.gov/" not in row["source_uri"]
+        and catalog_identity(row) not in successful
+    ]
 
 
 def resume_jobs(run: Path, jobs: dict[str, Any]) -> tuple[dict[str, Any], dict[str, Any]]:
