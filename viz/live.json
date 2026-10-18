@@ -169,72 +169,72 @@
  "edgar_errors": [],
  "edgar_last_observed": {
   "Applied Digital": {
-   "captured_utc": "2026-10-18T11:50:55.149306+00:00",
+   "captured_utc": "2026-10-18T15:47:13.794128+00:00",
    "new_8k_7d": 0,
    "observed_as_of": "2026-10-18"
   },
   "Bit Digital": {
-   "captured_utc": "2026-10-18T11:50:55.149326+00:00",
+   "captured_utc": "2026-10-18T15:47:13.794144+00:00",
    "new_8k_7d": 0,
    "observed_as_of": "2026-10-18"
   },
   "Bitdeer": {
-   "captured_utc": "2026-10-18T11:50:55.149328+00:00",
+   "captured_utc": "2026-10-18T15:47:13.794146+00:00",
    "new_8k_7d": 0,
    "observed_as_of": "2026-10-18"
   },
   "Cipher Mining": {
-   "captured_utc": "2026-10-18T11:50:55.149323+00:00",
+   "captured_utc": "2026-10-18T15:47:13.794142+00:00",
    "new_8k_7d": 3,
    "observed_as_of": "2026-10-18"
   },
   "CleanSpark": {
-   "captured_utc": "2026-10-18T11:50:55.149314+00:00",
+   "captured_utc": "2026-10-18T15:47:13.794135+00:00",
    "new_8k_7d": 0,
    "observed_as_of": "2026-10-18"
   },
   "Core Scientific": {
-   "captured_utc": "2026-10-18T11:50:55.149321+00:00",
+   "captured_utc": "2026-10-18T15:47:13.794140+00:00",
    "new_8k_7d": 0,
    "observed_as_of": "2026-10-18"
   },
   "CoreWeave": {
-   "captured_utc": "2026-10-18T11:50:55.149293+00:00",
+   "captured_utc": "2026-10-18T15:47:13.794117+00:00",
    "new_8k_7d": 0,
    "observed_as_of": "2026-10-18"
   },
   "Galaxy Digital": {
-   "captured_utc": "2026-10-18T11:50:55.149316+00:00",
+   "captured_utc": "2026-10-18T15:47:13.794137+00:00",
    "new_8k_7d": 0,
    "observed_as_of": "2026-10-18"
   },
   "Hut 8": {
-   "captured_utc": "2026-10-18T11:50:55.149309+00:00",
+   "captured_utc": "2026-10-18T15:47:13.794131+00:00",
    "new_8k_7d": 0,
    "observed_as_of": "2026-10-18"
   },
   "IREN": {
-   "captured_utc": "2026-10-18T11:50:55.149303+00:00",
+   "captured_utc": "2026-10-18T15:47:13.794126+00:00",
    "new_8k_7d": 0,
    "observed_as_of": "2026-10-18"
   },
   "MARA Holdings": {
-   "captured_utc": "2026-10-18T11:50:55.149311+00:00",
+   "captured_utc": "2026-10-18T15:47:13.794133+00:00",
    "new_8k_7d": 0,
    "observed_as_of": "2026-10-18"
   },
   "Nebius": {
-   "captured_utc": "2026-10-18T11:50:55.149318+00:00",
+   "captured_utc": "2026-10-18T15:47:13.794139+00:00",
    "new_8k_7d": 0,
    "observed_as_of": "2026-10-18"
   },
   "TeraWulf": {
-   "captured_utc": "2026-10-18T11:50:55.149300+00:00",
+   "captured_utc": "2026-10-18T15:47:13.794123+00:00",
    "new_8k_7d": 0,
    "observed_as_of": "2026-10-18"
   }
  },
- "generated_utc": "2026-10-18T11:50:55Z",
+ "generated_utc": "2026-10-18T15:47:13Z",
  "issuance_latest": {
   "amount_usd": 1120000000,
   "coupon_pct": 8.875,
