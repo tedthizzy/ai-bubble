@@ -1,5 +1,5 @@
 {
-  "checked_at_pacific": "2026-10-17T23:46:07.652486-07:00",
+  "checked_at_pacific": "2026-10-18T00:41:07.469578-07:00",
   "browser": "existing Chrome/155.0.8059.82",
   "preview": "http://127.0.0.1:8765/",
   "new_browser_launched": false,
@@ -62,93 +62,27 @@
     }
   ],
   "observed": {
-    "entities": 7715,
-    "core_entities": 28,
+    "core_entities": 41,
     "grey_points": 7687,
-    "links": 9612,
-    "css_fonts": [
-      "Arial, sans-serif / 14px",
-      "Arial, sans-serif / 18px"
-    ],
-    "desktop_css_viewport": [
-      1152,
-      720
-    ],
-    "desktop_physical_viewport": [
-      1440,
-      900
-    ],
-    "profile_zoom_percent": 125,
+    "entities": 7728,
+    "links": 9640,
+    "reported_issuer_debt_usd": 90184580000,
+    "report_as_of": "2026-10-17",
     "mobile_css_viewport": [
       390,
       844
     ],
-    "mobile_scroll_width": 390,
-    "coreweave_connections_shown": 18,
-    "largest_raw_entity_connections_shown": 459,
-    "largest_raw_entity_connections_expected": 459,
-    "keyboard_search_enter": "passed",
-    "raw_point_click": "raw entity card observed after actual click",
-    "deal_click": "NVIDIA / OpenAI; Press-only / non-binding",
-    "normal_cascade": {
-      "revealed": 10,
-      "expected": 10,
-      "timer_after_finish": null,
-      "paused_after_finish": true
-    },
-    "reduced_motion": {
-      "revealed": 10,
-      "expected": 10,
-      "timer": null
-    },
-    "ten_rapid_cascade_clicks": {
-      "cascade_on": false,
-      "timer": null
-    },
-    "unicode_long_name": {
-      "characters_js_utf16": 189,
-      "unsafe_img_or_script_elements": 0,
-      "horizontal_scroll": false
-    },
-    "failed_market_fetch": "Market overlay unavailable.",
-    "empty_graph": {
-      "status": "No entities in this dataset.",
-      "cascade_disabled": true
-    },
-    "throttled_network": {
-      "latency_ms": 150,
-      "bytes_per_second": 100000,
-      "blocked_resources": [
-        "graph_data.json",
-        "live.json",
-        "freshness.json"
-      ],
-      "fallback_entities": 28,
-      "fallback_grey_points": 0,
-      "status": "Saved core fallback. Full extracted data could not be loaded."
-    },
-    "tab_hide_and_return": "passed after resume fix",
-    "render_metrics": {
-      "settled_initial_idle_frames": 0,
-      "settled_initial_interval_ms": 5001.9,
-      "after_rapid_cascade_including_remaining_camera_tween_frames": 26,
-      "after_rapid_cascade_seconds": 5,
-      "draw_calls_after_cascade": 58,
-      "grey_points": 7687,
-      "geometries": 67,
-      "textures": 0,
-      "js_heap_bytes": 13735571,
-      "settled_after_cascade": {
-        "frames": 0,
-        "seconds": 5,
-        "paused_before": true,
-        "paused_after": true,
-        "last_frame_draw_calls": 56,
-        "points": 7687,
-        "textures": 0,
-        "js_heap_bytes": 12900476
-      }
-    }
+    "mobile_body_width": 390,
+    "css_fonts": [
+      "Arial, sans-serif / 14px",
+      "Arial, sans-serif / 18px"
+    ],
+    "source_snapshot_at_pacific": "2026-10-18T00:34:45.268090-07:00",
+    "source_snapshot_main_acquired": 227347,
+    "source_snapshot_main_queued": 0,
+    "recovered_source_errors": 46,
+    "verified_source_replacements": 2,
+    "unresolved_source_errors": 0
   },
   "text_contrast": [
     {
@@ -226,15 +160,15 @@
     "Initial emulated mobile click coordinates needed adjustment for the existing 125 percent Chrome zoom."
   ],
   "limits": [
-    "No before/after full legacy browser benchmark was run; avoided loading thousands of old label textures into the shared browser.",
-    "Frame counts describe observed frames, not a device-independent performance guarantee.",
-    "The June adjudicated financial core remains historical.",
-    "The UI is published. Full SEC acquisition and postprocessing remain in progress."
+    "The complete exhibit census and final replacement field remain pending.",
+    "The retained grey field observation cutoff is unverified.",
+    "Historical confidence judgments remain dated.",
+    "Earlier interaction and performance measurements retain their own source hashes and dates."
   ],
   "local_interaction_verified": true,
   "source_sha256": {
     "viz/index.html": "9f1cb2bbc19fcc04f1653e7d0a0a8bddfe77968c25371bd31662747a48701c2b",
-    "viz/explorer.js": "0b284ea84db7a59706483ef414f4a67fef6f1ba7a50c88897f1a246219a508b1",
+    "viz/explorer.js": "2bce6270d47bf89ba31ddd1a9778220a65a4a451d0fda7a3e96d0f1852d1f8b4",
     "viz/explorer.css": "c01b3ce2b0ad6fee9e2d9db37b303db73bf4dbabf5171e116bed0163f3d7726f"
   },
   "first_deployment": {
@@ -492,6 +426,156 @@
     },
     "limits": [
       "Full source acquisition and replacement grey field still pending."
+    ]
+  },
+  "initial_observed": {
+    "entities": 7715,
+    "core_entities": 28,
+    "grey_points": 7687,
+    "links": 9612,
+    "css_fonts": [
+      "Arial, sans-serif / 14px",
+      "Arial, sans-serif / 18px"
+    ],
+    "desktop_css_viewport": [
+      1152,
+      720
+    ],
+    "desktop_physical_viewport": [
+      1440,
+      900
+    ],
+    "profile_zoom_percent": 125,
+    "mobile_css_viewport": [
+      390,
+      844
+    ],
+    "mobile_scroll_width": 390,
+    "coreweave_connections_shown": 18,
+    "largest_raw_entity_connections_shown": 459,
+    "largest_raw_entity_connections_expected": 459,
+    "keyboard_search_enter": "passed",
+    "raw_point_click": "raw entity card observed after actual click",
+    "deal_click": "NVIDIA / OpenAI; Press-only / non-binding",
+    "normal_cascade": {
+      "revealed": 10,
+      "expected": 10,
+      "timer_after_finish": null,
+      "paused_after_finish": true
+    },
+    "reduced_motion": {
+      "revealed": 10,
+      "expected": 10,
+      "timer": null
+    },
+    "ten_rapid_cascade_clicks": {
+      "cascade_on": false,
+      "timer": null
+    },
+    "unicode_long_name": {
+      "characters_js_utf16": 189,
+      "unsafe_img_or_script_elements": 0,
+      "horizontal_scroll": false
+    },
+    "failed_market_fetch": "Market overlay unavailable.",
+    "empty_graph": {
+      "status": "No entities in this dataset.",
+      "cascade_disabled": true
+    },
+    "throttled_network": {
+      "latency_ms": 150,
+      "bytes_per_second": 100000,
+      "blocked_resources": [
+        "graph_data.json",
+        "live.json",
+        "freshness.json"
+      ],
+      "fallback_entities": 28,
+      "fallback_grey_points": 0,
+      "status": "Saved core fallback. Full extracted data could not be loaded."
+    },
+    "tab_hide_and_return": "passed after resume fix",
+    "render_metrics": {
+      "settled_initial_idle_frames": 0,
+      "settled_initial_interval_ms": 5001.9,
+      "after_rapid_cascade_including_remaining_camera_tween_frames": 26,
+      "after_rapid_cascade_seconds": 5,
+      "draw_calls_after_cascade": 58,
+      "grey_points": 7687,
+      "geometries": 67,
+      "textures": 0,
+      "js_heap_bytes": 13735571,
+      "settled_after_cascade": {
+        "frames": 0,
+        "seconds": 5,
+        "paused_before": true,
+        "paused_after": true,
+        "last_frame_draw_calls": 56,
+        "points": 7687,
+        "textures": 0,
+        "js_heap_bytes": 12900476
+      }
+    }
+  },
+  "initial_limits": [
+    "No before/after full legacy browser benchmark was run; avoided loading thousands of old label textures into the shared browser.",
+    "Frame counts describe observed frames, not a device-independent performance guarantee.",
+    "The June adjudicated financial core remains historical.",
+    "The UI is published. Full SEC acquisition and postprocessing remain in progress."
+  ],
+  "source_replacement_review": {
+    "checked_at_pacific": "2026-10-18T00:41:07.469578-07:00",
+    "source_sha256": {
+      "viz/index.html": "9f1cb2bbc19fcc04f1653e7d0a0a8bddfe77968c25371bd31662747a48701c2b",
+      "viz/explorer.js": "2bce6270d47bf89ba31ddd1a9778220a65a4a451d0fda7a3e96d0f1852d1f8b4",
+      "viz/explorer.css": "c01b3ce2b0ad6fee9e2d9db37b303db73bf4dbabf5171e116bed0163f3d7726f"
+    },
+    "screenshots_viewed": [
+      {
+        "path": "data/refresh_2026-10-17/browser-validation/replacement-status-mobile-390.png",
+        "sha256": "5e2e1f15ba0c3e97ed89e889b0968c8b55063d50b1f2aee16429e76c3dd38cda"
+      },
+      {
+        "path": "data/refresh_2026-10-17/browser-validation/replacement-status-time-mobile-390.png",
+        "sha256": "75b2123fdfc50d775933cd43a2a32690e3405fce671e067bf3d7f3bbea410801"
+      }
+    ],
+    "source_snapshot": "2026-10-18 00:34 Pacific",
+    "observed": {
+      "core_entities": 41,
+      "grey_points": 7687,
+      "entities": 7728,
+      "links": 9640,
+      "reported_issuer_debt_usd": 90184580000,
+      "report_as_of": "2026-10-17",
+      "mobile_css_viewport": [
+        390,
+        844
+      ],
+      "mobile_body_width": 390,
+      "css_fonts": [
+        "Arial, sans-serif / 14px",
+        "Arial, sans-serif / 18px"
+      ],
+      "source_snapshot_at_pacific": "2026-10-18T00:34:45.268090-07:00",
+      "source_snapshot_main_acquired": 227347,
+      "source_snapshot_main_queued": 0,
+      "recovered_source_errors": 46,
+      "verified_source_replacements": 2,
+      "unresolved_source_errors": 0
+    },
+    "minimum_contrast_unchanged_color_tokens": 6.0123,
+    "runtime_exceptions": 0,
+    "date_display": "Pacific date and minute; full precision remains in freshness.json.",
+    "restoration": {
+      "owned_tabs_closed": true,
+      "preview_and_controller_stopped": true,
+      "remote_debugging": false,
+      "enhanced_accessibility": false
+    },
+    "probe_errors": [
+      "The first preview capture used 312 CSS pixels under the profile zoom; 390 CSS pixels was then explicitly observed.",
+      "The first debugging checkbox press ran before settings loaded. A read of the actual checkbox confirmed false before the successful enable."
     ]
   }
 }

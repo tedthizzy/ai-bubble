@@ -16,6 +16,8 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
+from bubble.ingestion.edgar.source_replacements import verified_source_replacements
+
 DIMENSIONS = {
     "by_form": "form",
     "by_cik": "cik",
@@ -132,7 +134,15 @@ def _populate_inventory(db: sqlite3.Connection, inventory: Path) -> dict[str, in
             if not url:
                 stats["inventory_without_url"] += 1
                 continue
-            inserted = db.execute("INSERT OR IGNORE INTO acquired(url) VALUES (?)", (url,)).rowcount
+            inserted = db.execute(
+                "INSERT OR IGNORE INTO acquired VALUES (?,?,?,?)",
+                (
+                    url,
+                    row.get("content_hash", ""),
+                    row.get("local_path", ""),
+                    row.get("accession_number", ""),
+                ),
+            ).rowcount
             if not inserted:
                 stats["duplicate_inventory_urls"] += 1
     return stats
@@ -167,7 +177,7 @@ def audit_coverage(
     acquisition_summaries: list[Path] | None = None,
     retry_manifest: Path | None = None,
 ) -> dict[str, Any]:
-    """Return exact URL coverage; optionally write only unacquired manifest rows."""
+    """Audit selected documents, separating direct URLs from verified replacements."""
     if not manifests:
         raise ValueError("At least one manifest CSV is required")
     if retry_manifest and retry_manifest.exists():
@@ -180,13 +190,42 @@ def audit_coverage(
                 url TEXT PRIMARY KEY, cik TEXT, form TEXT, document_type TEXT,
                 filing_date TEXT, record_key TEXT, row_json TEXT
             );
-            CREATE TABLE acquired (url TEXT PRIMARY KEY);
+            CREATE TABLE acquired (url TEXT PRIMARY KEY, content_hash TEXT, local_path TEXT, accession_number TEXT);
             CREATE TABLE attempt_errors (record_key TEXT PRIMARY KEY, detail TEXT);
             CREATE INDEX requests_record_key ON requests(record_key);"""
         )
 
         retry_fields, manifest_stats = _populate_requests(db, manifests)
         inventory_stats = _populate_inventory(db, inventory)
+        direct_url_total = _counts(db)
+
+        def document(url: str) -> dict[str, str] | None:
+            row = db.execute(
+                "SELECT content_hash,local_path,accession_number FROM acquired WHERE url=?", (url,)
+            ).fetchone()
+            return (
+                dict(zip(("content_hash", "local_path", "accession_number"), row, strict=True))
+                if row
+                else None
+            )
+
+        replacements = verified_source_replacements(inventory.parent, document)
+        for row in replacements:
+            original = db.execute(
+                "SELECT 1 FROM requests WHERE url=?", (row["original_url"],)
+            ).fetchone()
+            if original:
+                acquired = document(row["replacement_url"])
+                assert acquired is not None
+                db.execute(
+                    "INSERT OR IGNORE INTO acquired VALUES (?,?,?,?)",
+                    (
+                        row["original_url"],
+                        acquired["content_hash"],
+                        acquired["local_path"],
+                        acquired["accession_number"],
+                    ),
+                )
 
         acquisition_errors: list[dict[str, str]] = []
         for path in acquisition_summaries or []:
@@ -217,11 +256,14 @@ def audit_coverage(
             "acquisition_summaries": [str(path) for path in acquisition_summaries or []],
             "inventory": str(inventory),
             "coverage_definition": (
-                "Acquired means filing_url appears in inventory; local file bytes are not checked. "
+                "Acquired means the selected document appears in inventory directly or through an explicit, hash-verified official source replacement. "
+                "direct_url_total separately records exact original-URL coverage. Replacement bytes and accession identity are verified; other local bytes are checked by the merger. "
                 "Missing includes rows with known acquisition errors; errors are a subset of missing. "
                 "Manifest discovery errors precede document requests and are reported separately."
             ),
             "total": _counts(db),
+            "direct_url_total": direct_url_total,
+            "source_document_replacements": replacements,
             "input_rows": {
                 **manifest_stats,
                 **inventory_stats,

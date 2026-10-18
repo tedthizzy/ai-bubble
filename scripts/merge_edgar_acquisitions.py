@@ -21,6 +21,7 @@ from typing import Any
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
+from bubble.ingestion.edgar.source_replacements import MANIFEST_NAME, verified_source_replacements
 from bubble.paths import resolve_local_path
 
 TABLES: dict[str, tuple[str, ...]] = {
@@ -205,6 +206,32 @@ def _validate_references(data: _MergedInputs, *, verify_bytes: bool) -> None:
                 raise ValueError(f"Tranche has no merged deal: {row['deal_id']}")
 
 
+def _collect_replacements(sources: list[Path], data: _MergedInputs) -> dict[str, dict[str, Any]]:
+    database = data.database
+
+    def document(url: str) -> dict[str, str] | None:
+        stored = database.execute(
+            "SELECT row_json FROM records WHERE table_name='edgar_document_inventory.csv' AND record_key=?",
+            (_key((url,)),),
+        ).fetchone()
+        return json.loads(stored[0]) if stored else None
+
+    replacements: dict[str, dict[str, Any]] = {}
+    for source, source_record in zip(sources, data.inputs, strict=True):
+        for row in verified_source_replacements(source, document):
+            original = row["original_url"]
+            if original in replacements and replacements[original] != row:
+                raise ValueError("Conflicting verified source replacements")
+            replacements[original] = row
+        path = source / MANIFEST_NAME
+        if path.is_file():
+            source_record["source_document_replacements"] = {
+                "path": str(path),
+                "sha256": _sha256(path),
+            }
+    return replacements
+
+
 def merge_acquisitions(
     input_dirs: list[Path], output_dir: Path, *, verify_bytes: bool = False
 ) -> dict[str, Any]:
@@ -226,6 +253,8 @@ def merge_acquisitions(
     try:
         data = _collect_sources(sources, database)
         _validate_references(data, verify_bytes=verify_bytes)
+
+        replacements = _collect_replacements(sources, data)
         report: dict[str, Any] = {
             "inputs": data.inputs,
             "verification": "raw_document_sha256" if verify_bytes else "local_path_exists",
@@ -240,8 +269,15 @@ def merge_acquisitions(
                 for name in TABLES
             },
             "source_local_paths_preserved": True,
+            "source_document_replacements": list(replacements.values()),
         }
         target.mkdir(parents=True, exist_ok=False)
+        if replacements:
+            with (target / MANIFEST_NAME).open("x") as stream:
+                json.dump(
+                    {"version": 1, "replacements": list(replacements.values())}, stream, indent=2
+                )
+                stream.write("\n")
         for name in TABLES:
             with (target / name).open("x", newline="") as stream:
                 writer = csv.DictWriter(stream, fieldnames=data.headers[name])

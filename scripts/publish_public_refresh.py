@@ -197,7 +197,9 @@ def publish(
     if (
         status["refresh_as_of"] != run.name.removeprefix("refresh_")
         or not status["complete"]
-        or not finished["all_manifest_urls_acquired"]
+        or not finished.get(
+            "all_manifest_documents_acquired", finished["all_manifest_urls_acquired"]
+        )
         or queue.get("queued")
         or queue.get("inflight")
     ):
@@ -244,6 +246,10 @@ def publish(
         "workflow": workflow,
         "deployed_sha256": deployed,
         "all_manifest_urls_acquired": finished["all_manifest_urls_acquired"],
+        "all_manifest_documents_acquired": finished.get(
+            "all_manifest_documents_acquired", finished["all_manifest_urls_acquired"]
+        ),
+        "source_document_replacements": finished.get("source_document_replacements", []),
         "coverage": finished["coverage"],
         "core_judgments": finished["core_judgments"],
         "original_staged_digest_preserved": index_digest() == expected_index,

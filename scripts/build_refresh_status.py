@@ -13,11 +13,27 @@ from pathlib import Path
 from typing import Any
 from zoneinfo import ZoneInfo
 
+from bubble.ingestion.edgar.source_replacements import verified_source_replacements
+
 ROOT = Path(__file__).resolve().parents[1]
 
 
 def read(path: Path) -> Any:
     return json.loads(path.read_text())
+
+
+def retry_recoveries(directory: Path) -> tuple[set[str], list[dict[str, Any]]]:
+    recovered: set[str] = set()
+    replacements = []
+    for result in directory.glob("*/retry-result.json"):
+        source = result.parent / "edgar"
+        with (source / "edgar_document_inventory.csv").open(newline="") as stream:
+            documents = {row["filing_url"]: row for row in csv.DictReader(stream)}
+        recovered.update(documents)
+        verified = verified_source_replacements(source, documents.get)
+        recovered.update(row["original_url"] for row in verified)
+        replacements.extend(verified)
+    return recovered, replacements
 
 
 def dated_market(root: Path, as_of: str) -> tuple[Path, dict[str, Any]]:
@@ -34,7 +50,7 @@ def dated_market(root: Path, as_of: str) -> tuple[Path, dict[str, Any]]:
     return path, live
 
 
-def build(run: Path) -> dict[str, Any]:  # noqa: PLR0915 - assemble independent source status records
+def build(run: Path) -> dict[str, Any]:
     graph = read(ROOT / "viz/graph_data.json")
     market_path, live = dated_market(ROOT, run.name.removeprefix("refresh_"))
     panel = read(
@@ -96,10 +112,7 @@ def build(run: Path) -> dict[str, Any]:  # noqa: PLR0915 - assemble independent 
         failed_urls = {
             row[0] for row in database.execute("SELECT url FROM documents WHERE status='failed'")
         }
-    recovered: set[str] = set()
-    for result in (run / "source_gap_retries").glob("*/retry-result.json"):
-        with (result.parent / "edgar/edgar_document_inventory.csv").open(newline="") as stream:
-            recovered.update(row["filing_url"] for row in csv.DictReader(stream))
+    recovered, source_replacements = retry_recoveries(run / "source_gap_retries")
     unresolved = len(failed_urls - recovered)
     exhibits: dict[str, Any] = {"status": "not_started", "complete": False}
     exhibit_root = run / "exhibit_completion"
@@ -119,12 +132,9 @@ def build(run: Path) -> dict[str, Any]:  # noqa: PLR0915 - assemble independent 
             failed_attachments = {
                 row[0] for row in db.execute("SELECT url FROM documents WHERE status='failed'")
             }
-        recovered_attachments: set[str] = set()
-        for inventory in (exhibit_root / "source_gap_retries").glob(
-            "*/edgar/edgar_document_inventory.csv"
-        ):
-            with inventory.open(newline="") as stream:
-                recovered_attachments.update(row["filing_url"] for row in csv.DictReader(stream))
+        recovered_attachments, exhibit_replacements = retry_recoveries(
+            exhibit_root / "source_gap_retries"
+        )
         unresolved_attachments = len(failed_attachments - recovered_attachments)
         exhibits = {
             "status": "acquiring",
@@ -141,6 +151,7 @@ def build(run: Path) -> dict[str, Any]:  # noqa: PLR0915 - assemble independent 
             and not unresolved_attachments,
             "recovered_source_errors": len(failed_attachments & recovered_attachments),
             "unresolved_source_errors": unresolved_attachments,
+            "source_document_replacements": exhibit_replacements,
             "selection": "Every selected exhibit-eligible filing; all relevant text exhibits, no per-filing cap.",
         }
         if exhibits["complete"]:
@@ -197,6 +208,7 @@ def build(run: Path) -> dict[str, Any]:  # noqa: PLR0915 - assemble independent 
             "baseline_inventory": baseline_count,
             "recovered_failures": len(failed_urls & recovered),
             "unresolved_source_errors": unresolved,
+            "source_document_replacements": source_replacements,
             "filing_discovery": {
                 "ciks": discovery.get("ciks"),
                 "failed_ciks": discovery.get("failed_ciks"),

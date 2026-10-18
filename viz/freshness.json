@@ -1,5 +1,5 @@
 {
-  "snapshot_at_pacific": "2026-10-17T23:25:42.478317-07:00",
+  "snapshot_at_pacific": "2026-10-18T00:34:45.268090-07:00",
   "refresh_as_of": "2026-10-17",
   "complete": false,
   "report": {
@@ -85,38 +85,69 @@
     "exhibits": {
       "status": "acquiring",
       "parents": {
-        "checked": 2837,
-        "failed": 959,
-        "queued": 93763
+        "checked": 17215,
+        "queued": 80344
       },
       "index_parsers": {
-        "sec_document_types_v1": 97559
+        "sec_document_types_v1": 2987,
+        "sec_document_types_v2": 94572
       },
       "documents": {
-        "acquired": 1545,
-        "inflight": 8,
-        "queued": 5
+        "acquired": 5574
       },
       "complete": false,
       "recovered_source_errors": 0,
       "unresolved_source_errors": 0,
+      "source_document_replacements": [],
       "selection": "Every selected exhibit-eligible filing; all relevant text exhibits, no per-filing cap."
     },
     "new_run_queue": {
-      "acquired": 206258,
-      "failed": 46,
-      "inflight": 8,
-      "queued": 21081
+      "acquired": 227347,
+      "failed": 46
     },
     "baseline_inventory": 41589,
-    "recovered_failures": 27,
-    "unresolved_source_errors": 19,
+    "recovered_failures": 46,
+    "unresolved_source_errors": 0,
+    "source_document_replacements": [
+      {
+        "original_url": "https://www.sec.gov/Archives/edgar/data/1847367/000110465926097468/xslSCHEDULE_13D_X02/primary_doc.xml",
+        "original_http_status": 404,
+        "replacement_url": "https://investors.alumis.com/node/8456/html",
+        "accession_number": "0001104659-26-097468",
+        "form": "SCHEDULE 13D",
+        "issuer_domain": "investors.alumis.com",
+        "representation": "issuer_filing_mirror",
+        "content_hash": "c34e018c50dcc7edc0f59cb9df02a98c6fc90f7727cb6f90fc4676f78eeecf5c",
+        "identity_markers": [
+          "0001104659-26-097468",
+          "Foresite Capital Fund VI LP",
+          "SCHEDULE 13D"
+        ],
+        "reason": "The selected SEC rendering URL returns 404. Preserve the same filing from its official issuer mirror or complete SEC submission, with its actual retrieval URL."
+      },
+      {
+        "original_url": "https://www.sec.gov/Archives/edgar/data/1583107/000187758926000002/xslF345X06/primary_doc.xml",
+        "original_http_status": 404,
+        "replacement_url": "https://www.sec.gov/Archives/edgar/data/1877589/0001877589-26-000002.txt",
+        "accession_number": "0001877589-26-000002",
+        "form": "4",
+        "issuer_domain": "www.sec.gov",
+        "representation": "sec_complete_submission",
+        "content_hash": "e9a428efbecc33b86cfb9927b8762e7b5498462c9a9d19df397523cd82d36e5e",
+        "identity_markers": [
+          "0001877589-26-000002",
+          "<ownershipDocument",
+          "<FILENAME>primary_doc.xml"
+        ],
+        "reason": "The selected SEC rendering URL returns 404. Preserve the same filing from its official issuer mirror or complete SEC submission, with its actual retrieval URL."
+      }
+    ],
     "filing_discovery": {
       "ciks": 29815,
       "failed_ciks": 0
     },
     "note": "Queue counts exclude the retained baseline. Downloads are not unique obligations.",
-    "status": "incomplete"
+    "status": "queue_drained"
   },
   "public_batches": [
     {

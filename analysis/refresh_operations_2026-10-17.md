@@ -1,5 +1,66 @@
 # Bubble refresh operations, October 17, 2026
 
+## Main acquisition complete and verified source copies, 2026-10-18T00:41:07.469578-07:00
+
+The original acquisition ended with exit code 0 at 00:10 PDT on October 18.
+It attempted 227,393 documents, acquired 227,347 and recorded 46 failures. The
+observed peak was 2,068,515,024 bytes under its unchanged 2 GiB budget. Earlier
+retries had recovered 27 failures. The resumed retry recovered 17 more; the two
+remaining original SEC rendering URLs return 404 in both HTTP clients and Chrome.
+
+The Theravance Form 4 complete SEC submission is available and contains the
+requested primary_doc.xml ownership document. The standalone XML endpoint
+returns zero bytes and is not counted as a recovered document. The Alumis
+Schedule 13D official issuer mirror contains its accession and filer. Plain HTTP
+clients received 403; the existing Chrome session returned HTTP 200. Its exact
+response body is retained. No authentication or account settings changed.
+The original failed URLs remain in the original manifests and error records.
+
+The two replacement rows are acquired under their actual retrieval URLs.
+Their source_document_replacements.json records original HTTP failures, source
+representations, accession identity markers and byte hashes. The merger verifies
+these bytes and retains the manifest. The coverage auditor reports selected
+document coverage separately from exact original-URL coverage. The final result
+will not claim that the two original HTTP URLs succeeded. The status builder and
+retry driver share the same verified recovery logic. No original data was removed.
+The recovery batch is source_gap_retries/20261018T072903.464955Z/.
+
+The main-corpus scaling pass verified every raw hash for 268,980 documents,
+81,775 extracted candidates and 20,624 tranches. Its capital build completed;
+the complete pass peaked at 449,709,280 bytes under 1.5 GiB supervision.
+The initial attempt stopped safely when a macOS child memory measurement failed.
+Its child group was confirmed absent. The partial retry held two in-flight and
+17 queued records, with no successful document. Its SQLite state was backed up
+before resuming. Explicit group admission in the continuation avoided redundant
+nested supervision. The next pass finished normally. The failed attempt remains.
+The extended recovery proof verifies 268,982 documents and both official copies;
+its selected-document coverage audit is recorded separately when completed.
+
+All 960 local candidate tests passed in 14.82s. Focused strict Mypy for the new
+source replacement validator passed. Ruff passed and all 299 files passed
+formatting. Eight Node visualization tests passed. The actual Chrome Sources
+panel shows 46 recovered failures, two verified source replacements and zero
+unresolved document gaps. Arial remains 14/18, and the observed 390px body has
+no horizontal overflow. The snapshot timestamp now displays Pacific date and
+minute. Full timestamp precision remains in the JSON. The viewed screenshot
+and exact source hashes are in viz_browser_validation_2026-10-17.json.
+Browser debugging and enhanced accessibility were restored false; only owned
+tabs and processes were closed. Source recovery probe failures are recorded in
+official-source-recovery/receipt.json, including an unavailable read-only SSH
+route and the unchanged source page CSP. No remote state changed.
+
+The pre-upgrade .venv snapshot is an APFS clone under
+.codex/security-snapshots/2026-10-17/venv-before-upgrades. All 59,169 files and
+symlinks match; verified logical bytes total 1,942,538,766. The snapshot's
+interpreter was not executed. Main .venv installation still waits for active
+source processing to end. This is an environment snapshot, not another checkout.
+
+The old waiting finisher 98015 and publisher 99024 were retired before any final
+stages ran. Finisher 93982 and publisher 94613 now retain the distinction between
+verified document completion and direct-URL completion. Their budgets remain
+2 GiB and 512 MiB. The exhibit workload 86908 continues; full-field replacement,
+final publication, environment installation and final browser checks remain.
+
 ## Financing correction and co-registrant repair, 2026-10-17T23:46:07.652486-07:00
 
 The 13-issuer USD-denominated borrowing measure is now $90.184580B. The previous
@@ -652,3 +713,11 @@ matches git. The original-limit pass returned 2 compressed,
 bytes saved. These large CSVs remain available uncompressed. The earlier
 43.7 GiB historical SEC compression savings remain the completed storage result.
 No budget was raised and no source was deleted. See gleif-csv-compression-stopped.json.
+
+Main-document coverage proof, 2026-10-18T00:43:15.064499-07:00:
+main_document_recovery_proof/coverage.json reports 265,099 selected documents
+acquired, zero missing and zero unresolved errors. Exact original-URL coverage
+is 265,097 of 265,099. The two official copies remain separately identified.
+The 268,982-document merge verified every raw byte hash at an 86,819,320-byte
+observed peak. The 960-test run peaked at 706,807,992 bytes. The full exhibit
+census remains pending; this is a main-corpus milestone, not final completion.

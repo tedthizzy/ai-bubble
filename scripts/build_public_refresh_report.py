@@ -76,6 +76,9 @@ def report(run: Path, root: Path) -> dict[str, Any]:
         expectations_path,
         gpu / "gpu_price_observations.csv",
     ]
+    replacements = run / "edgar_merged_current/source_document_replacements.json"
+    if replacements.exists():
+        inputs.append(replacements)
     for mode in ("complete", "ferc_only", "ownership_current"):
         path = root / "data" / f"capital_graph_refresh_{as_of}" / mode / "input_manifest.json"
         if path.exists():
@@ -120,6 +123,9 @@ def report(run: Path, root: Path) -> dict[str, Any]:
             ],
         },
         "sec_financial_panel": summarize_financials(read(panel_path), as_of=as_of),
+        "source_document_replacements": status["sec_acquisition"].get(
+            "source_document_replacements", []
+        ),
         "current_core_review": core,
         "subsequent_financing_events": read(events_path),
         "demand_review": read(root / "analysis/demand_trajectory.json").get("current_review"),
@@ -173,6 +179,7 @@ def markdown(value: dict[str, Any]) -> str:
         f"SEC new documents acquired: {sec.get('acquired', 0)}; queued/in-flight: "
         f"{sec.get('queued', 0) + sec.get('inflight', 0)}. "
         f"Unresolved source errors: {freshness['sec_acquisition']['unresolved_source_errors']}.",
+        f"Verified official source replacements: {len(value.get('source_document_replacements', []))}. Original URL failures remain recorded; actual retrieval URLs and hashes are preserved.",
         "",
         "Registered component results:",
         "",

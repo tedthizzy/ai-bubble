@@ -343,12 +343,13 @@ function applyFreshness(status) {
   const acquisition=status.sec_acquisition||{}, queue=acquisition.new_run_queue||{}, market=status.market||{};
   const dates=value => Array.isArray(value) ? value.join(', ') : 'Unavailable';
   const facts=[
-    ['Snapshot (Pacific)',status.snapshot_at_pacific||'Unavailable'],
+    ['Snapshot (Pacific)',String(status.snapshot_at_pacific||'Unavailable').slice(0,16).replace('T',' ')],
     ['Prices',dates(market.price_dates)],['Credit',dates(market.credit_dates)],
     ['Reported BDC NAV',dates(market.nav_periods)],
     ['SEC retained baseline',acquisition.baseline_inventory],['SEC new documents acquired',queue.acquired||0],
     ['SEC documents queued',(queue.queued||0)+(queue.inflight||0)],
     ['SEC recovered source errors',acquisition.recovered_failures||0],
+    ...((acquisition.source_document_replacements||[]).length ? [['Verified source replacements',acquisition.source_document_replacements.length]] : []),
     ['SEC unresolved source errors',acquisition.unresolved_source_errors ?? queue.failed ?? 0],
     ['Exhibit documents acquired',((acquisition.exhibits||{}).documents||{}).acquired||0],
     ['Exhibit completion',(acquisition.exhibits||{}).status||'Unavailable']

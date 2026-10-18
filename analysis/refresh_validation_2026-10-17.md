@@ -1,5 +1,22 @@
 # Refresh verification checkpoint, October 17, 2026
 
+Main-source recovery checkpoint, 2026-10-18T00:41:07.469578-07:00:
+
+- Original acquisition: exit 0; 227,347 acquired and 46 recorded failures.
+  Forty-four were recovered directly; two have hash-verified official copies.
+- Main-corpus scaling: all 268,980 raw hashes verified; capital build completed
+  at a 449,709,280-byte peak. The recovery merge includes 268,982 documents.
+  The full exhibit census remains pending.
+- Candidate tests: 960 passed in 14.82s. Focused source-replacement Mypy passed.
+  Ruff passed; 299 files passed formatting. Eight Node tests passed.
+- Actual Chrome: 390x844, Arial 14/18, zero horizontal overflow, two verified
+  replacements and zero unresolved main document gaps. Original URLs remain
+  recorded as failed. Pacific timestamp display was inspected after formatting.
+- Main environment snapshot: 59,169 files/symlinks match, 1,942,538,766 logical
+  bytes. Snapshot interpreter not executed. Installation remains pending.
+- All owned browser tabs/controllers/previews closed; debugging and enhanced
+  accessibility restored false. Data, logs and snapshots remain retained.
+
 Financing and parser checkpoint, 2026-10-17T23:46:07.652486-07:00:
 
 - 952 passed in 12.08s under 1.5 GiB supervision; observed peak 703,006,808 bytes.

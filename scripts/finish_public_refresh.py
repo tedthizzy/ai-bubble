@@ -63,6 +63,21 @@ def wait_for_acquisition(run: Path, pid: int, identity: str) -> None:
         )
 
 
+def acquisition_identity(run: Path, pid: int, record: Path | None) -> str:
+    current = process_identity(pid)
+    identity = current
+    if record is not None:
+        saved = json.loads(record.read_text())
+        identity = saved["process_identity"]
+        if saved["acquisition_pid"] != pid or not identity or (current and current != identity):
+            raise ValueError("Saved acquisition identity differs from the observed process")
+    if not identity:
+        raise ValueError("Acquisition is absent; its verified start record is required")
+    if not current:
+        wait_for_acquisition(run, pid, identity)
+    return identity
+
+
 def finish(run: Path) -> None:
     exhibit_run = wait_for_exhibits(run)
 
@@ -165,7 +180,10 @@ def finish(run: Path) -> None:
         run / "finish-result.json",
         {
             "coverage": audit["total"],
-            "all_manifest_urls_acquired": audit["total"]["missing"] == 0,
+            "all_manifest_documents_acquired": audit["total"]["missing"] == 0,
+            "all_manifest_urls_acquired": audit.get("direct_url_total", audit["total"])["missing"]
+            == 0,
+            "source_document_replacements": audit.get("source_document_replacements", []),
             "merged_inventory": str(merged),
             "publication": "pending the authorized publisher and observed deployment",
             "core_judgments": "Current issuer statements and reviewed relationships have an explicit cutoff; original June judgments remain historical. No calibrated bubble probability.",
@@ -193,11 +211,13 @@ def wait_for_exhibits(run: Path) -> Path | None:
             "Exhibit acquisition stopped without a completion record; inspect its log"
         )
     with sqlite3.connect(f"file:{destination / 'parents.sqlite3'}?mode=ro", uri=True) as db:
-        unfinished = db.execute(
-            "SELECT COUNT(*) FROM parents WHERE status!='checked'"
-        ).fetchone()[0]
+        unfinished = db.execute("SELECT COUNT(*) FROM parents WHERE status!='checked'").fetchone()[
+            0
+        ]
         if unfinished:
-            raise ValueError(f"Exhibit discovery has {unfinished} unchecked or failed parent indexes")
+            raise ValueError(
+                f"Exhibit discovery has {unfinished} unchecked or failed parent indexes"
+            )
     with sqlite3.connect(f"file:{destination / 'document_queue.sqlite3'}?mode=ro", uri=True) as db:
         if db.execute(
             "SELECT COUNT(*) FROM documents WHERE status IN ('queued','inflight')"
@@ -210,14 +230,13 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--run", type=Path, required=True)
     parser.add_argument("--acquisition-pid", type=int, required=True)
+    parser.add_argument("--acquisition-record", type=Path)
     parser.add_argument("--start-record", default="finish-start.json")
     args = parser.parse_args()
     run = args.run.resolve()
     if args.acquisition_pid <= 1 or args.acquisition_pid == os.getpid():
         parser.error("Expected the observed acquisition workload PID")
-    identity = process_identity(args.acquisition_pid)
-    if not identity:
-        parser.error("Acquisition process is absent; inspect saved state before continuing")
+    identity = acquisition_identity(run, args.acquisition_pid, args.acquisition_record)
     save(
         run / args.start_record,
         {

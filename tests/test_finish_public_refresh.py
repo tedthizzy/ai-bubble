@@ -13,6 +13,19 @@ def completed(run: Path, *, pending: bool = False) -> None:
         database.execute("INSERT INTO documents VALUES (?)", ("queued" if pending else "acquired",))
 
 
+def test_finished_acquisition_requires_its_saved_identity_and_drained_state(tmp_path, monkeypatch):
+    completed(tmp_path)
+    record = tmp_path / "observed.json"
+    record.write_text(json.dumps({"acquisition_pid": 123, "process_identity": "original"}))
+    monkeypatch.setattr(finish, "process_identity", lambda _: "")
+    assert finish.acquisition_identity(tmp_path, 123, record) == "original"
+    with pytest.raises(ValueError, match="required"):
+        finish.acquisition_identity(tmp_path, 123, None)
+    monkeypatch.setattr(finish, "process_identity", lambda _: "reused PID")
+    with pytest.raises(ValueError, match="identity"):
+        finish.acquisition_identity(tmp_path, 123, record)
+
+
 def test_continuation_waits_for_same_process_and_checks_completed_queue(
     tmp_path: Path, monkeypatch
 ):
