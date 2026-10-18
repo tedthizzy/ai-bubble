@@ -264,3 +264,34 @@ unchanged. This conflicts with Projects/AGENTS.md:244, which requires zero match
 before pushing; an explicit exception or a separate authorized history decision
 is needed before publication. Browser control also remains pending the required
 confirmation under Projects/AGENTS.md:303. No push or deployment ran.
+
+## Publication privacy repair - 2026-10-17 18:53 PDT
+
+The first actual push was rejected with GH007 because this task's five local
+commits used a private email address. A fresh fetch confirmed that no remote
+commit had changed. GitHub email protection remains enabled. The authenticated
+public profile identified Ted as tedthizzy, ID 21343243. GitHub's documented
+ID-based noreply address is now configured only in this repository. Global Git
+configuration and GitHub account settings were not changed.
+
+Only the five unpublished commits were recreated with noreply author/committer
+email metadata. Every tree and message is unchanged; only local parent hashes
+changed as required. The published origin/main anchor stayed
+058507182b198e80a2e662db126cc79c2ba8c264. The original commits are retained in
+.codex/refresh-2026-10-17/unpublished-email-repair-015311036443/original-main.bundle.
+Its bundle verification passed. The original index and repository config are
+retained beside it. The staged-diff digest is unchanged. No force push ran.
+The repair driver and measured memory trace are retained locally.
+
+An earlier publication preflight used system Python and could not import httpx.
+The local commit had already been created, but no push ran until the preflight
+was repeated successfully through .venv. That check scanned all 82 changed
+public files. Its single pattern match is the intentional private-key-header
+fixture in the publisher tests; no credential value matched. Exact UI source
+hashes matched browser evidence. Whole-history attribution remained 136,
+covered by Ted's exception; all new commit messages had zero matches.
+
+The privacy-preserving address follows [GitHub's email reference](https://docs.github.com/en/account-and-profile/reference/email-addresses-reference).
+Future commits, including the waiting final publisher, inherit the repository
+setting. Restore individual repository config values from the retained original
+only after checking fresh state; never overwrite unrelated later config edits.
