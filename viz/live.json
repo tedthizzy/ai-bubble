@@ -112,45 +112,8 @@
    "ytd_chg": 1.17
   }
  },
- "edgar": {
-  "Applied Digital": {
-   "new_8k_7d": 0
-  },
-  "Bit Digital": {
-   "new_8k_7d": 0
-  },
-  "Cipher Mining": {
-   "new_8k_7d": 3
-  },
-  "CleanSpark": {
-   "new_8k_7d": 0
-  },
-  "Core Scientific": {
-   "new_8k_7d": 0
-  },
-  "CoreWeave": {
-   "new_8k_7d": 0
-  },
-  "Galaxy Digital": {
-   "new_8k_7d": 0
-  },
-  "Hut 8": {
-   "new_8k_7d": 0
-  },
-  "IREN": {
-   "new_8k_7d": 0
-  },
-  "MARA Holdings": {
-   "new_8k_7d": 0
-  },
-  "Nebius": {
-   "new_8k_7d": 0
-  },
-  "TeraWulf": {
-   "new_8k_7d": 0
-  }
- },
- "generated_utc": "2026-10-17T19:24:20Z",
+ "edgar": {},
+ "generated_utc": "2026-10-18T03:25:01Z",
  "issuance_latest": {
   "amount_usd": 3900000000,
   "coupon_pct": 6.625,
@@ -305,7 +268,7 @@
   {
    "desc": "latest carded cluster print (QTS Central Issuer LLC / QTS TRS Central Issuer LLC (Blackstone-backed data-center SPVs) 2026-08-27) ~172bp over 5y UST; <=600bp = window open (contra), >=800bp = cracking (confirming); >45d old = stale, never contra",
    "id": "S1_new_issue_spread",
-   "print_age_days": 51,
+   "print_age_days": 52,
    "status": "stale",
    "value_bp": 172
   },
@@ -365,8 +328,21 @@
   },
   "edgar": {
    "expected": 12,
-   "missing": [],
-   "received": 12
+   "missing": [
+    "Applied Digital",
+    "Bit Digital",
+    "Cipher Mining",
+    "CleanSpark",
+    "Core Scientific",
+    "CoreWeave",
+    "Galaxy Digital",
+    "Hut 8",
+    "IREN",
+    "MARA Holdings",
+    "Nebius",
+    "TeraWulf"
+   ],
+   "received": 0
   },
   "quotes": {
    "expected": 19,
