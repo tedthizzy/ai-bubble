@@ -1,7 +1,7 @@
 {
-  "snapshot_at_pacific": "2026-10-18T00:34:45.268090-07:00",
+  "snapshot_at_pacific": "2026-10-18T04:29:45.370102-07:00",
   "refresh_as_of": "2026-10-17",
-  "complete": false,
+  "complete": true,
   "report": {
     "generated_from": "core_reassessment_2026-10-17",
     "financial_review_as_of": "2026-10-17",
@@ -83,19 +83,18 @@
   },
   "sec_acquisition": {
     "exhibits": {
-      "status": "acquiring",
+      "status": "complete",
       "parents": {
-        "checked": 17215,
-        "queued": 80344
+        "checked": 97559
       },
       "index_parsers": {
         "sec_document_types_v1": 2987,
         "sec_document_types_v2": 94572
       },
       "documents": {
-        "acquired": 5574
+        "acquired": 38026
       },
-      "complete": false,
+      "complete": true,
       "recovered_source_errors": 0,
       "unresolved_source_errors": 0,
       "source_document_replacements": [],
