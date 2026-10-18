@@ -346,3 +346,26 @@ redundant Sources introduction was removed. Loading and actual error states
 remain available. Desktop/mobile screenshots were viewed; six Node tests passed.
 The exact UI hashes in the browser evidence were updated for the waiting final
 publisher. The copied June report data remains historical.
+
+## Copy feedback deployed - 2026-10-17T20:41:05.920684-07:00
+
+Commit a02fffcc94e66dd1ef033a2a0b9d0a6bca4cf4bd deployed through the unchanged
+workflow in successful run 39093958460. HTTP hashes matched local index.html,
+explorer.js and explorer.css. The public page was rendered and viewed again
+on desktop and mobile. It has no tagline or successful-load instructions.
+Search still selected NVIDIA; all 7,715 entities remain available.
+
+The preview server and browser driver were stopped by their verified owned
+PIDs. Remote debugging was switched off. The accessibility setter reported
+-25208 after the settings tab closed, but its returned state and a separate
+fresh AX probe both showed the original false state. Initial restoration
+attempts stopped before changes because the guard expected DevTools; the
+observed title was Inspect with Chrome Developer Tools. The corrected helper
+and observed results are retained with browser-validation evidence.
+
+The GitHub runner returned zero fresh EDGAR filing counts while other market
+sources succeeded. Its source_status lists all twelve missing. The original
+September public baseline also had zero EDGAR counts. Earlier twelve-count
+observations and all saved submissions remain retained locally and in Git.
+Do not claim current SEC filing counts are available on the deployed overlay.
+Broad acquisition, the finisher and its final publisher remain active.

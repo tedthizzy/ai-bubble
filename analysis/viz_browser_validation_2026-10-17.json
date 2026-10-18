@@ -229,7 +229,7 @@
     "No before/after full legacy browser benchmark was run; avoided loading thousands of old label textures into the shared browser.",
     "Frame counts describe observed frames, not a device-independent performance guarantee.",
     "The June adjudicated financial core remains historical.",
-    "Publication and full SEC acquisition are separate pending stages."
+    "The UI is published. Full SEC acquisition and postprocessing remain in progress."
   ],
   "local_interaction_verified": true,
   "source_sha256": {
@@ -281,6 +281,50 @@
         "path": "data/refresh_2026-10-17/browser-validation/trim-mobile.png",
         "sha256": "e38052afe2076829b9b5899da2bdbed66c7a2fa1244f466394e1f9d438cc73eb"
       }
-    ]
+    ],
+    "live_deployment": {
+      "checked_at_pacific": "2026-10-17T20:41:05.920684-07:00",
+      "url": "https://tedthizzy.github.io/ai-bubble/",
+      "commit": "a02fffcc94e66dd1ef033a2a0b9d0a6bca4cf4bd",
+      "workflow_id": 39093958460,
+      "workflow_conclusion": "success",
+      "live_tagline_present": false,
+      "live_instruction_status": "",
+      "live_instruction_display": "none",
+      "search_placeholder": "Search",
+      "entities": 7715,
+      "mobile_width": 390,
+      "mobile_scroll_width": 390,
+      "runtime_exceptions": 0,
+      "screenshots": [
+        {
+          "path": "data/refresh_2026-10-17/browser-validation/deployed-copy-mobile.png",
+          "sha256": "ff000b834cfab942d3200c10a61c0f4f3f92f127e6092a733b2b99d7970d1782"
+        },
+        {
+          "path": "data/refresh_2026-10-17/browser-validation/deployed-copy-desktop.png",
+          "sha256": "d5df38538f3cfe732d8bab07df9f8f74298ae0d1b0ff3ae0fae57bb17e88603f"
+        }
+      ],
+      "browser_restore": {
+        "remote_debugging_checkbox": false,
+        "enhanced_accessibility_observed": false,
+        "enhanced_setter_status": -25208,
+        "owned_preview_and_live_tabs_closed": true,
+        "owned_settings_tab_close_requested": true,
+        "preview_server_and_cdp_driver_stopped": true
+      },
+      "sec_queue": {
+        "acquired": 129629,
+        "failed": 44,
+        "inflight": 8,
+        "queued": 97712
+      },
+      "limits": [
+        "Full SEC acquisition and postprocessing continue.",
+        "The adjudicated June core remains historical.",
+        "The GitHub runner produced no fresh SEC filing counts; source_status records all twelve missing. The original public baseline also had zero filing counts. Saved submissions and earlier observations remain retained."
+      ]
+    }
   }
 }
