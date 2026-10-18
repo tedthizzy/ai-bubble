@@ -22,7 +22,13 @@ ROOT = Path(__file__).resolve().parent.parent
 
 def test_registered_signal_recalculation_matches_dated_observations() -> None:
     market = json.loads((ROOT / "analysis/market_close_2026-09-16.json").read_text())
-    cards = json.loads((ROOT / "analysis/issuance_cards.json").read_text())["deals"]
+    cards_path = ROOT / "analysis/issuance_cards_2026-09-16.json"
+    cards = json.loads(cards_path.read_text())["deals"]
+    original = json.loads((ROOT / "analysis/dated_engine_2026-09-16_v6.json").read_text())
+    assert (
+        hashlib.sha256(cards_path.read_bytes()).hexdigest()
+        == original["input_records"]["issuance_cards"]["sha256"]
+    )
     result = evaluate_dated_market(market, cards)
     statuses = {item["id"]: item["status"] for item in result["registered_components"]}
     assert statuses == {
@@ -110,7 +116,7 @@ def test_full_dated_run_executes_physical_and_compute_without_new_probability(
         "case_zero_financials_2026-09-16_v4.json",
         "source_refresh_2026-09-16.json",
         "gpu_pricing_delta_2026-09-16.json",
-        "issuance_cards.json",
+        "issuance_cards_2026-09-16.json",
     ):
         shutil.copyfile(ROOT / "analysis" / name, analysis / name)
 

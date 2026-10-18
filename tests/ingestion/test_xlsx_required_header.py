@@ -20,10 +20,13 @@ def test_required_table_header_after_thirty_rows_keeps_all_projects():
     small.append(["B1", "Project three", 3])
     stream = BytesIO()
     workbook.save(stream)
-    rows = _parse_xlsx(stream.getvalue(), metadata={
-        "xlsx_required_value_columns": "INR|Project Name",
-        "xlsx_sheet_name_prefix": "Project Details -",
-    })
+    rows = _parse_xlsx(
+        stream.getvalue(),
+        metadata={
+            "xlsx_required_value_columns": "INR|Project Name",
+            "xlsx_sheet_name_prefix": "Project Details -",
+        },
+    )
     assert [row["INR"] for row in rows] == ["A1", "A2", "B1"]
     assert [row["source_row_number"] for row in rows] == [32, 33, 2]
 

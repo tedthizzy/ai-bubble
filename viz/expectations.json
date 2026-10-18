@@ -1,111 +1,149 @@
 {
- "as_of": "2026-06-12",
+ "as_of": "2026-10-17",
+ "input_record": {
+  "path": "src/bubble/expectations/inputs_2026-10-17.json",
+  "sha256": "2c19b5092fdacc2b784de9044fd93e57e56ab78eaa02a2af76002eabafdc7f9e"
+ },
+ "limits": [
+  "The implied revenue multiple uses a Gordon-growth perpetuity with immediate steady-state cash flows. It does not model the ramp or near-term funding needs.",
+  "Renewal-dependent share of EV is the share beyond modeled contracted cash-flow PV. New customers, expansion or other businesses can supply that value. This calculation cannot identify actual renewal dependence.",
+  "Revenue uses consolidated reported trailing 12 months for every issuer. Contract measures differ between GAAP RPO, combined lease value and gross base-term rent. These measures are not directly interchangeable.",
+  "Backlog is recognized uniformly over the stated assumed horizon. Construction delays, default losses and incremental capex funding are not separately modeled. The same hypothetical FCF margin grid applies to clouds and the landlord.",
+  "EV and net debt use the market provider's definitions, including its lease treatment. They differ from the issuer borrowing and note carrying amounts in the financial review.",
+  "These sensitivities do not measure GPU economic life, default probabilities or a calibrated bubble probability."
+ ],
+ "market_close": "2026-10-16",
  "results": [
   {
-   "annual_backlog_vs_current_revenue_x": 1.99,
-   "backlog_tenor_years": 4.0,
-   "backlog_usd_b": 99.4,
-   "current_annualized_revenue_usd_b": 12.5,
-   "ev_usd_b": 87.74,
+   "annual_backlog_vs_current_revenue_x": 2.1,
+   "backlog_basis": "$103.7B unsatisfied GAAP RPO at June 30. 41% expected within 24 months, 39% in months 25-48, remainder in months 49-78. Later announced commitments are separate.",
+   "backlog_observed_as_of": "2026-06-30",
+   "backlog_tenor_years": 6.5,
+   "backlog_usd_b": 103.7,
+   "current_annualized_revenue_usd_b": 7.59,
+   "ev_usd_b": 79.89,
    "implied_revenue_multiple": {
-    "high": 5.15,
-    "low": 1.2,
-    "median": 2.25
+    "high": 7.72,
+    "low": 1.8,
+    "median": 3.37
    },
    "is_landlord": false,
+   "market_date": "2026-10-16",
    "name": "CoreWeave",
-   "notes": "GPU cloud. $35.15B debt (post-quarter DDTL 4.0 + converts) inside a $87.7B EV. Backlog is the entire bull case: large, take-or-pay-weighted, but concentrated (OpenAI is the fragile demand leg).",
+   "net_debt_usd_b": 46.03,
+   "notes": "6.5-year uniform recognition assumption uses the disclosed final 78-month horizon; actual recognition is earlier-weighted. EV uses the provider's debt and cash definitions. Uniform FCF margins are model assumptions; the uncovered EV share can also depend on new customers or other businesses.",
    "renewal_dependent_share": {
-    "high": 0.879,
-    "low": 0.686,
-    "median": 0.785
+    "high": 0.881,
+    "low": 0.677,
+    "median": 0.783
    },
-   "revenue_basis": "FY2026 company revenue guidance midpoint ($12-13B); Q1-2026 run-rate ~$8.3B (Q1 $2.078B x4). Using the midpoint UNDERSTATES the multiple vs the trailing run-rate; on the Q1 run-rate the implied multiples rise ~50%.",
+   "revenue_basis": "Consolidated trailing 12-month reported revenue through 2026-06-30; annual plus current period minus the same prior-year period, or the latest complete fiscal year. Includes any non-AI businesses.",
+   "revenue_period_end": "2026-06-30",
    "sources": {
-    "ev_financials": "https://stockanalysis.com/stocks/crwv/statistics/",
-    "revenue_backlog_capacity": "https://www.theglobeandmail.com/investing/markets/stocks/CRWV/pressreleases/1808417/"
+    "contract_and_interim_statement": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000366/crwv-20260630.htm",
+    "market": "https://stockanalysis.com/stocks/crwv/statistics/",
+    "revenue_companyfacts": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001769628.json"
    },
    "ticker": "CRWV"
   },
   {
-   "annual_backlog_vs_current_revenue_x": 1.26,
+   "annual_backlog_vs_current_revenue_x": 5.53,
+   "backlog_basis": "$37.4906B unsatisfied RPO at June 30. 36% expected within 24 months, 40% in months 25-48, remainder thereafter. Includes estimated variable consideration; excludes original terms of one year or less. Broader $40B customer commitments are separate.",
+   "backlog_observed_as_of": "2026-06-30",
    "backlog_tenor_years": 5.0,
-   "backlog_usd_b": 12.0,
-   "current_annualized_revenue_usd_b": 1.9,
-   "ev_usd_b": 59.71,
+   "backlog_usd_b": 37.4906,
+   "current_annualized_revenue_usd_b": 1.3551,
+   "ev_usd_b": 47.51,
    "implied_revenue_multiple": {
-    "high": 23.05,
-    "low": 5.39,
-    "median": 10.06
+    "high": 25.71,
+    "low": 6.01,
+    "median": 11.22
    },
    "is_landlord": false,
+   "market_date": "2026-10-16",
    "name": "Nebius",
-   "notes": "Cleanest balance sheet of the four (essentially net cash). Q1 GAAP net income is inflated by a noncash ClickHouse mark -- ignored. Backlog is the most conservatively carded (committed only).",
+   "net_debt_usd_b": 2.15,
+   "notes": "Five-year uniform recognition assumption; disclosed recognition is 76% within four years and the remainder thereafter. Final duration is not independently reconciled. EV uses the provider's debt and cash definitions. Uniform FCF margins are model assumptions; the uncovered EV share can also depend on new customers or other businesses.",
    "renewal_dependent_share": {
-    "high": 0.98,
-    "low": 0.947,
-    "median": 0.964
+    "high": 0.921,
+    "low": 0.791,
+    "median": 0.858
    },
-   "revenue_basis": "Nebius AI ARR run-rate $1.9B (Q1-2026). FY2026 guide is $3.0-3.4B and exit ARR $7-9B; using the current ARR OVERSTATES the multiple vs the forward guide (on $3.2B the multiples roughly halve).",
+   "revenue_basis": "Consolidated trailing 12-month reported revenue through 2026-06-30; annual plus current period minus the same prior-year period, or the latest complete fiscal year. Includes any non-AI businesses.",
+   "revenue_period_end": "2026-06-30",
    "sources": {
-    "ev_financials": "https://stockanalysis.com/stocks/nbis/statistics/",
-    "revenue_backlog_capacity": "https://www.fool.com/earnings/call-transcripts/2026/05/13/nebius-nbis-q1-2026-earnings-transcript/"
+    "contract_and_interim_statement": "https://www.sec.gov/Archives/edgar/data/1513845/000110465926094844/nbis-20260812xex99d2.htm",
+    "market": "https://stockanalysis.com/stocks/nbis/statistics/",
+    "revenue_companyfacts": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001513845.json"
    },
    "ticker": "NBIS"
   },
   {
-   "annual_backlog_vs_current_revenue_x": 0.85,
+   "annual_backlog_vs_current_revenue_x": 4.7,
+   "backlog_basis": "$16.6B company-reported combined June 30 ASC 606 RPO and ASC 842 contracted lease value. Separately rounded components are $5.1B and $11.4B. This combined measure is broader than GAAP RPO.",
+   "backlog_observed_as_of": "2026-06-30",
    "backlog_tenor_years": 5.0,
-   "backlog_usd_b": 13.1,
-   "current_annualized_revenue_usd_b": 3.1,
-   "ev_usd_b": 23.43,
+   "backlog_usd_b": 16.6,
+   "current_annualized_revenue_usd_b": 0.707007,
+   "ev_usd_b": 12.58,
    "implied_revenue_multiple": {
-    "high": 5.54,
-    "low": 1.3,
-    "median": 2.42
+    "high": 13.05,
+    "low": 3.05,
+    "median": 5.69
    },
    "is_landlord": false,
+   "market_date": "2026-10-16",
    "name": "IREN",
-   "notes": "GPU cloud mid-transition from Bitcoin. ~$3.7-3.96B converts; net-debt sign is ambiguous across sources (modest net cash to mild net debt). NVIDIA warrant (30M @ $70) is dilution overhang. The revenue series is the trap -- do not annualize the falling reported quarter. FILING FLAG (2026-06-13, 10-Q): IREN's GAAP RPO is only $710.3M as of 2026-03-31, vs the ~$13.1B total-contract-value basis used here -- so the FIRM contracted backlog is a small fraction of the headline, and IREN's renewal-dependent share is UNDERSTATED. On a $0.71B RPO basis it would be ~99%. See analysis/filing_verifications.md.",
+   "net_debt_usd_b": 1.94,
+   "notes": "Five-year uniform recognition assumption; the stated RPO schedule ends at month 60. The lease component is a separate accounting measure. EV uses the provider's debt and cash definitions. Uniform FCF margins are model assumptions; the uncovered EV share can also depend on new customers or other businesses.",
    "renewal_dependent_share": {
-    "high": 0.944,
-    "low": 0.852,
-    "median": 0.899
+    "high": 0.867,
+    "low": 0.65,
+    "median": 0.762
    },
-   "revenue_basis": "Contracted AI-cloud ARR $3.1B used as the forward run-rate. Reported revenue is FALLING ($144.8M fiscal Q3, from $184.7M) as legacy Bitcoin mining winds down faster than AI cloud ramps, so a trailing-quarter annualization (~$0.58B) would badly misstate the forward business -- contracted ARR is the honest basis.",
+   "revenue_basis": "Consolidated trailing 12-month reported revenue through 2026-06-30; annual plus current period minus the same prior-year period, or the latest complete fiscal year. Includes any non-AI businesses.",
+   "revenue_period_end": "2026-06-30",
    "sources": {
-    "ev_financials": "https://stockanalysis.com/stocks/iren/statistics/",
-    "revenue_backlog_capacity": "https://iren.gcs-web.com/news-releases/news-release-details/iren-secures-97bn-ai-cloud-contract-microsoft"
+    "contract_and_interim_statement": "https://www.sec.gov/Archives/edgar/data/1878848/000187884826000052/iren-20260630.htm",
+    "market": "https://stockanalysis.com/stocks/iren/statistics/",
+    "revenue_companyfacts": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001878848.json"
    },
    "ticker": "IREN"
   },
   {
-   "annual_backlog_vs_current_revenue_x": 2.61,
-   "backlog_tenor_years": 12.0,
-   "backlog_usd_b": 16.0,
-   "current_annualized_revenue_usd_b": 0.51,
-   "ev_usd_b": 13.3,
+   "annual_backlog_vs_current_revenue_x": 2.75,
+   "backlog_basis": "Approximately $36B base-term contracted lease revenue disclosed October 7. Excludes the $86B total conditional on all renewal options. Gross original lease value is not GAAP RPO or an audited remaining rent balance.",
+   "backlog_observed_as_of": "2026-10-07",
+   "backlog_tenor_years": 15.0,
+   "backlog_usd_b": 36.0,
+   "current_annualized_revenue_usd_b": 0.872252,
+   "ev_usd_b": 8.99,
    "implied_revenue_multiple": {
-    "high": 19.12,
-    "low": 4.47,
-    "median": 8.35
+    "high": 7.56,
+    "low": 1.77,
+    "median": 3.3
    },
    "is_landlord": true,
+   "market_date": "2026-10-16",
    "name": "Applied Digital",
-   "notes": "Different model: a data-center LANDLORD. Long leases mean the contracted backlog covers more of its (smaller) EV -> lower renewal dependence than the GPU clouds. BUT ~$11B of the $16B backlog is CoreWeave, so CRWV counterparty risk is embedded here -- a neocloud leasing from a landlord whose backlog is another neocloud (recursion).",
+   "net_debt_usd_b": 3.53,
+   "notes": "15-year uniform recognition assumption follows the disclosed new lease base terms. Construction start delays and individual remaining lease schedules are not modeled. EV uses the provider's debt and cash definitions. Uniform FCF margins are model assumptions; the uncovered EV share can also depend on new customers or other businesses.",
    "renewal_dependent_share": {
-    "high": 0.918,
-    "low": 0.761,
-    "median": 0.845
+    "high": 0.766,
+    "low": 0.289,
+    "median": 0.545
    },
-   "revenue_basis": "Fiscal Q3-2026 revenue $126.6M annualized (x4 = $0.51B). A landlord ramping capacity; lease revenue steps up as buildings deliver.",
+   "revenue_basis": "Consolidated trailing 12-month reported revenue through 2026-08-31; annual plus current period minus the same prior-year period, or the latest complete fiscal year. Includes any non-AI businesses.",
+   "revenue_period_end": "2026-08-31",
    "sources": {
-    "ev_financials": "https://stockanalysis.com/stocks/apld/statistics/",
-    "revenue_backlog_capacity": "https://www.stocktitan.net/news/APLD/applied-digital-reports-fiscal-third-quarter-2026-29zuud06n6m3.html"
+    "contract_and_interim_statement": "https://www.sec.gov/Archives/edgar/data/1144879/000114487926000057/apldq127earningsrelease.htm",
+    "market": "https://stockanalysis.com/stocks/apld/statistics/",
+    "revenue_companyfacts": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001144879.json"
    },
    "ticker": "APLD"
   }
  ],
+ "revenue_basis": "Consolidated reported trailing 12 months for all four issuers.",
  "scenario_grid": {
   "discount_rates": [
    0.1,

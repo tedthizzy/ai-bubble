@@ -669,3 +669,8 @@ See `justfile` for the full command surface and the implementation plan for the 
 Open research — every claim carries provenance, everything publishes by default (including mistakes and corrections; that's part of the discipline). All scraping respects robots.txt and published rate limits. FOIA and regulatory requests must go through proper legal channels. No unauthorized access to private data rooms or systems. Nothing here is investment advice.
 
 Built with extreme prejudice toward hidden risk and optimistic narrative.
+
+Valuation inputs: [October 17 source review](analysis/expectations_inversion.md).
+Dependency checks: [October 17 audit](analysis/dependency_security_audit_2026-10-17.md).
+The complete-source acquisition and final local dependency installation remain
+in progress; see the dated operations record above.

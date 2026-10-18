@@ -32,11 +32,15 @@ def report(run: Path, root: Path) -> dict[str, Any]:
     status = build(run)
     live_path, live = dated_market(root, as_of)
     panel_path = root / "analysis" / f"case_zero_financials_{as_of}_v4.json"
-    cards_path = root / "analysis/issuance_cards.json"
+    cards_path = root / "analysis" / f"issuance_cards_{as_of}.json"
     physical_path = run / "derived_public_current/physical_capacity_summary.json"
     derived_manifest = run / "derived_public_current/input_manifest.json"
     core_path = root / "analysis" / f"core_reassessment_{as_of}.json"
     events_path = root / "analysis" / f"core_financing_events_{as_of}.json"
+    expectations_path = root / "viz/expectations.json"
+    expectations = read(expectations_path)
+    if expectations["as_of"] != as_of or expectations["market_close"] > as_of:
+        raise ValueError("Valuation inputs disagree with the report cutoff")
     core = read(core_path)
     if core["as_of"] != as_of:
         raise ValueError("Current core review date differs from the report cutoff")
@@ -69,6 +73,7 @@ def report(run: Path, root: Path) -> dict[str, Any]:
         derived_manifest,
         core_path,
         events_path,
+        expectations_path,
         gpu / "gpu_price_observations.csv",
     ]
     for mode in ("complete", "ferc_only", "ownership_current"):
@@ -118,6 +123,7 @@ def report(run: Path, root: Path) -> dict[str, Any]:
         "current_core_review": core,
         "subsequent_financing_events": read(events_path),
         "demand_review": read(root / "analysis/demand_trajectory.json").get("current_review"),
+        "expectations": expectations,
         "physical_capacity": read(physical_path),
         "public_derivation": read(derived_manifest)["source_selection"],
         "compute_economics": compute,

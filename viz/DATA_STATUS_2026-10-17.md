@@ -1,5 +1,10 @@
 # Explorer source status, October 17, 2026
 
+Current valuation inputs are reviewed through October 17 with October 16 market
+observations. The record page states each model assumption and retains the
+June 3 structural judgment as historical. This does not complete the pending
+SEC exhibit census or establish a new calibrated probability.
+
 ## Current financial review, 21:50 PDT
 
 This checkpoint supersedes the June-core statements below. The current review

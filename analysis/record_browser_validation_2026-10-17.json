@@ -1,0 +1,81 @@
+{
+  "checked_at_pacific": "2026-10-17T23:07:35.321866-07:00",
+  "browser": "existing Chrome/155.0.8059.82",
+  "new_browser_launched": false,
+  "source_sha256": {
+    "viz/track_record.html": "95790b996cddb457597638cc0b6662369394564fa872e34a0f6cf46ca2e27192",
+    "viz/expectations.json": "a25b7cf52a0dc4f65671415f934ea4bcc469b5b49f382b372814546913f3edae"
+  },
+  "screenshots_viewed": [
+    {
+      "path": "data/refresh_2026-10-17/browser-validation/record-current-final-desktop.png",
+      "sha256": "f352398334a8fa5755a18399f857f4eab6a71e7c7b44e35f0f4d4ca77abd7927"
+    },
+    {
+      "path": "data/refresh_2026-10-17/browser-validation/record-current-mobile-signals.png",
+      "sha256": "7fb581aa2ffa37a3daa4996ef39932fada3e19503b8e2085b06bb879a2e8843c"
+    },
+    {
+      "path": "data/refresh_2026-10-17/browser-validation/record-mobile-numbers-fixed.png",
+      "sha256": "4b3e37f9b4dfb7e681a86545831b3dc4af2916ee9d658b2988b8a126aec11cdc"
+    },
+    {
+      "path": "data/refresh_2026-10-17/browser-validation/record-mobile-long-1001.png",
+      "sha256": "9b583df7354f84789c876dd909177f9977b2cdd01d8ce7eee45da26920d5ada1"
+    },
+    {
+      "path": "data/refresh_2026-10-17/browser-validation/record-mobile-empty-failed-market.png",
+      "sha256": "ed7270c6ca42849107cb0908281eb4ac6669475056115899ee391369643b395e"
+    }
+  ],
+  "observed": {
+    "fonts": [
+      "Arial, sans-serif / 14px",
+      "Arial, sans-serif / 18px"
+    ],
+    "mobile_css_viewport": [
+      390,
+      844
+    ],
+    "normal_rows": 4,
+    "signals": 4,
+    "normal_horizontal_body_scroll": false,
+    "numeric_values_wrap": false,
+    "input_disclosure_actual_click": "opened",
+    "minimum_text_contrast": 9.209496376474931,
+    "contrast_checks": 91,
+    "contrast_failures": 0,
+    "stress_rows": 1001,
+    "stress_disclosures": 1001,
+    "stress_name_characters_js_utf16": 158,
+    "stress_emoji_rtl_cjk": true,
+    "stress_unsafe_img_script_elements": 0,
+    "stress_horizontal_body_scroll": false,
+    "empty_expectations": "Expectations inputs unavailable.",
+    "blocked_market": "Signals unavailable.",
+    "calendar_still_visible": 4,
+    "throttled_latency_ms": 150,
+    "throttled_bytes_per_second": 100000,
+    "application_exceptions": 0
+  },
+  "repairs": [
+    "Use flexible signal rows to prevent word-by-word status wrapping.",
+    "Keep numeric valuation cells on one line."
+  ],
+  "probe_errors": [
+    "The first contrast helper URL was outside the preview server root and returned HTML 404; eval raised SyntaxError. Direct computed-style probes then completed.",
+    "Diagnostic DATA/frames identifiers were incorrect on the explorer; corrected probes used its actual globals."
+  ],
+  "restoration": {
+    "all_owned_test_tabs_closed": true,
+    "fetch_overrides_removed": true,
+    "network_blocks_cleared": true,
+    "network_throttling_cleared": true,
+    "browser_settings_restoration": "observed restored",
+    "remote_debugging_checkbox": false,
+    "enhanced_accessibility_observed": false,
+    "enhanced_setter_status": -25208,
+    "owned_settings_tab_close_requested": true,
+    "cdp_controller_stopped": true
+  }
+}

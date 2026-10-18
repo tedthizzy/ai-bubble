@@ -1,5 +1,35 @@
 # Refresh verification checkpoint, October 17, 2026
 
+Valuation and dependency checkpoint, October 17 at 23:09 PDT:
+
+- Full candidate dependencies: 947 tests passed in 22.33 seconds; peak
+  705,775,728 bytes. All 301 locked PyPI versions were acquired and checked.
+- Ruff: All checks passed across src and tests. Format: 296 files already
+  formatted. Eight formatting-only repairs have identical Python ASTs.
+- Focused strict Mypy: Success, no issues in four expectations/verdict source
+  files. The full-source invocation stopped at its unchanged 768 MiB budget;
+  complete remote CI remains pending the next publication.
+- Source-card generator: four issuers; trailing revenue CRWV $7.590B,
+  NBIS $1.3551B, IREN $707.007M, APLD $872.252M. All raw and normalized hashes,
+  accession-specific prior-year periods and frozen market quotes were checked.
+- The built wheel contains the exact packaged valuation card. Dated issuance
+  snapshots preserve the original September input hash and October cutoff.
+- Existing Chrome: Arial 14/18, no mobile body overflow, input disclosure click,
+  1,001 Unicode/HTML-shaped rows, empty inputs and blocked/throttled market
+  checks passed. Contrast minimum 9.2095:1 over 91 visible text checks.
+- Financial review publication: Pages run 39101477259 succeeded; deployed HTML,
+  JS, CSS and graph hashes match the current local checkpoint. Real browser
+  observation confirmed the 36 core entities and the October report date.
+- Browser debugging and enhanced accessibility restored false. Owned QA tabs,
+  controller and preview server closed. No new browser instance was launched.
+
+Remaining: broad acquisition and final URL coverage, complete capital graph and
+field, final financing-event review, dependency installation in the main .venv,
+next checkpoint publication and complete remote CI. Earlier failed test, audit,
+format and memory-supervised type attempts remain retained and described in the
+operations and dependency security records.
+
+
 Current review checkpoint, October 17 at 22:40 PDT. This entry supersedes the
 older unfinished-browser and historical-core statements below. Publication and
 complete selected-source coverage remain pending at this checkpoint.

@@ -87,7 +87,10 @@ def evaluate_dated_market(
     priced_cards = [card for card in cards if card.get("status", "priced") == "priced"]
     latest_card = max(priced_cards, key=lambda card: card.get("date", "")) if priced_cards else None
     treasury = credit.get("ust5y_pct")
-    if treasury is not None and credit.get("ust5y_observation_date") != market["credit_observation_date"]:
+    if (
+        treasury is not None
+        and credit.get("ust5y_observation_date") != market["credit_observation_date"]
+    ):
         raise ValueError("Five-year Treasury observation does not match dated credit observation")
     if latest_card and treasury is not None and latest_card.get("coupon_pct") is not None:
         latest_card = {
@@ -104,8 +107,7 @@ def evaluate_dated_market(
         expected.add("S1b_failed_print")
     if latest_card and (
         latest_card.get("spread_vs_5y_bp") is not None
-        or (date.fromisoformat(AS_OF) - date.fromisoformat(latest_card["date"])).days
-        > STALE_DAYS
+        or (date.fromisoformat(AS_OF) - date.fromisoformat(latest_card["date"])).days > STALE_DAYS
     ):
         expected.add("S1_new_issue_spread")
     if set(by_id) != expected:
@@ -307,7 +309,7 @@ def run(
     finance_path = root / f"analysis/case_zero_financials_{AS_OF}_v4.json"
     source_path = root / f"analysis/source_refresh_{AS_OF}.json"
     gpu_delta_path = root / f"analysis/gpu_pricing_delta_{AS_OF}.json"
-    issuance_path = root / "analysis/issuance_cards.json"
+    issuance_path = root / "analysis/issuance_cards_2026-09-16.json"
     sources = _json(source_path)
     _assert_date(sources, "as_of_pacific_date", source_path)
     gpu_delta = _json(gpu_delta_path)
@@ -327,7 +329,9 @@ def run(
     }
     if coverage_audit is not None:
         inputs["sec_coverage_audit"] = _file_record(coverage_audit, root)
-    selected_sec_inventory = sec_inventory or root / f"data/edgar_acquisition_{AS_OF}/edgar_document_inventory.csv"
+    selected_sec_inventory = (
+        sec_inventory or root / f"data/edgar_acquisition_{AS_OF}/edgar_document_inventory.csv"
+    )
     if not selected_sec_inventory.is_absolute():
         selected_sec_inventory = root / selected_sec_inventory
     if selected_sec_inventory.is_file():
@@ -455,7 +459,9 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, default=Path(__file__).resolve().parent.parent)
     parser.add_argument("--coverage-audit", type=Path, help="Exact URL coverage-audit JSON, if run")
-    parser.add_argument("--sec-inventory", type=Path, help="Saved SEC inventory to summarize and audit")
+    parser.add_argument(
+        "--sec-inventory", type=Path, help="Saved SEC inventory to summarize and audit"
+    )
     parser.add_argument(
         "--output-prefix",
         type=Path,

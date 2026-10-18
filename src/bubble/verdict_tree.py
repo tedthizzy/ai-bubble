@@ -1,11 +1,10 @@
 """Verdict decomposition tree (WS1.3) — shadow mode until [TED] promotes it.
 
-The published core verdict is a flat `bubble_dynamics_present @ 0.67`. That number is a
-*structural-confidence* measurement (filings-derived; not killable by price — see the scope
-guard in analysis/preregistered_signals.md). It is NOT a forecast that resolves on a date, so
-it is not Brier-scoreable as written. Conflating a structural confidence with a realization
-forecast was a latent imprecision; this module fixes it by giving the **forecastable**
-quantity its own decomposed, signal-wired estimate. The 2026-Q4 TIMING-KILL adjudication
+The June 3 core report recorded structural confidence of 0.67. It is a historical
+judgment and is not a current measurement or a calibrated probability. This module
+retains the separately registered, signal-wired realization forecast and its original
+leaf priors. The October financial review does not re-estimate those priors.
+The 2026-Q4 TIMING-KILL adjudication
 tests a separate registered criterion; P_real resolves on a qualifying issuer event through
 2027-Q3 or, if no event occurs, after that window closes with complete event coverage.
 
@@ -36,7 +35,8 @@ from datetime import date
 from typing import Any
 
 PROMOTED = False  # shadow mode: the gated report keeps the flat 0.67 until [TED] flips this
-STRUCTURAL_CONFIDENCE = 0.67  # the engine's measurement; kept separate, NOT a forecast
+STRUCTURAL_CONFIDENCE = 0.67  # historical judgment; kept separate from the event forecast
+STRUCTURAL_JUDGMENT_AS_OF = "2026-06-03"
 P_REAL_WINDOW_START = date(2025, 7, 1)
 P_REAL_WINDOW_END = date(2027, 9, 30)
 TIMING_KILL_ADJUDICATION_QUARTER = "2026-Q4"
@@ -151,6 +151,9 @@ def realization_forecast(signal_status: dict[str, str] | None = None) -> dict[st
     return {
         "promoted": PROMOTED,
         "structural_confidence_unchanged": STRUCTURAL_CONFIDENCE,
+        "structural_judgment_as_of": STRUCTURAL_JUDGMENT_AS_OF,
+        "structural_confidence_is_current_measurement": False,
+        "leaf_priors_status": "Original registered judgments; not re-estimated by the October financial review.",
         "p_real": round(p_real, 4),
         "p_real_outcome_window_end": P_REAL_WINDOW_END.isoformat(),
         "timing_kill_adjudication_quarter": TIMING_KILL_ADJUDICATION_QUARTER,
@@ -166,10 +169,10 @@ def realization_forecast(signal_status: dict[str, str] | None = None) -> dict[st
             }
             for k, lf in LEAVES.items()
         },
-        "note": "Shadow mode: this forecast runs ALONGSIDE the gated 0.67 structural confidence "
-        "and does not replace it until promoted. 2026-Q4 adjudicates TIMING-KILL, not p_real. "
-        "The p_real outcome window runs through 2027-09-30; the flat 0.67 is a structural "
-        "measurement, not a forecast.",
+        "note": "The 0.67 structural confidence is a June 3 historical judgment. "
+        "The shadow event forecast retains the original registered leaf priors and applies "
+        "the registered signal adjustments. Its outcome window ends 2027-09-30. "
+        "2026-Q4 TIMING-KILL is a separate criterion. Neither value is a calibrated bubble probability.",
     }
 
 

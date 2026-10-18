@@ -36,4 +36,8 @@ def public_export_headers(fetch: Callable[[str], str] | None = None) -> dict[str
         raise ValueError("Anonymous PJM export header was not found in the public application")
     # This identifier is served to every anonymous visitor. Do not log or store
     # it in catalog metadata; resolve it again on the next acquisition.
-    return {"api-subscription-key": match[1], "Origin": "https://www.pjm.com", "Referer": "https://www.pjm.com/"}
+    return {
+        "api-subscription-key": match[1],
+        "Origin": "https://www.pjm.com",
+        "Referer": "https://www.pjm.com/",
+    }

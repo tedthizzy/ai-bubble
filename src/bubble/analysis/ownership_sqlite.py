@@ -56,23 +56,31 @@ def write_ownership_graph_from_rows(
                 totals["direct_consolidation_edges"] += direct
                 totals["ultimate_consolidation_edges"] += ultimate
                 totals["other_relationship_edges"] += not (direct or ultimate)
-                totals["fully_corroborated_relationships"] += edge.validation_sources == "FULLY_CORROBORATED"
+                totals["fully_corroborated_relationships"] += (
+                    edge.validation_sources == "FULLY_CORROBORATED"
+                )
                 totals["quantified_relationships"] += edge.quantifier_amount is not None
                 # Insert child first, matching the original first-observed node type.
-                database.executemany("""
+                database.executemany(
+                    """
                     INSERT INTO nodes VALUES (?,?,?,?,?,?)
                     ON CONFLICT(node_id) DO UPDATE SET
                       parent_count=parent_count+excluded.parent_count,
                       child_count=child_count+excluded.child_count,
                       first_parent=COALESCE(first_parent,excluded.first_parent),
                       first_child=COALESCE(first_child,excluded.first_child)
-                """, [
-                    (edge.child_id, edge.child_id_type, 0, 1, None, number),
-                    (edge.parent_id, edge.parent_id_type, 1, 0, number, None),
-                ])
+                """,
+                    [
+                        (edge.child_id, edge.child_id_type, 0, 1, None, number),
+                        (edge.parent_id, edge.parent_id_type, 1, 0, number, None),
+                    ],
+                )
                 database.executemany(
                     "INSERT OR IGNORE INTO provenance VALUES (?,?,?)",
-                    [(node, edge.source_uri, edge.content_hash) for node in (edge.child_id, edge.parent_id)],
+                    [
+                        (node, edge.source_uri, edge.content_hash)
+                        for node in (edge.child_id, edge.parent_id)
+                    ],
                 )
                 if number % 1000 == 0:
                     database.commit()
@@ -104,14 +112,18 @@ def write_ownership_graph_from_rows(
                 if number == 0:
                     writer.writeheader()
                 writer.writerow(dict(row))
+
         def scalar(query: str) -> int:
             return int(database.execute(query).fetchone()[0])
 
         def top(role: str) -> list[dict[str, str | int]]:
-            return [{"node_id": row[0], "relationship_count": row[1]} for row in database.execute(
-                f"SELECT node_id,{role}_count FROM nodes WHERE {role}_count>0 "
-                f"ORDER BY {role}_count DESC,first_{role} ASC LIMIT 25"
-            )]
+            return [
+                {"node_id": row[0], "relationship_count": row[1]}
+                for row in database.execute(
+                    f"SELECT node_id,{role}_count FROM nodes WHERE {role}_count>0 "
+                    f"ORDER BY {role}_count DESC,first_{role} ASC LIMIT 25"
+                )
+            ]
 
         summary = OwnershipGraphSummary(
             rows_scanned=totals["rows_scanned"],
@@ -127,17 +139,26 @@ def write_ownership_graph_from_rows(
             nodes=scalar("SELECT COUNT(*) FROM nodes"),
             lei_nodes=scalar("SELECT COUNT(*) FROM nodes WHERE node_id_type='LEI'"),
             named_nodes=scalar("SELECT COUNT(*) FROM reference WHERE legal_name!=''"),
-            active_legal_entity_nodes=scalar("SELECT COUNT(*) FROM reference WHERE entity_status='ACTIVE'"),
-            source_uri_count=scalar("SELECT COUNT(DISTINCT source_uri) FROM provenance WHERE source_uri!=''"),
-            content_hash_count=scalar("SELECT COUNT(DISTINCT content_hash) FROM provenance WHERE content_hash!=''"),
+            active_legal_entity_nodes=scalar(
+                "SELECT COUNT(*) FROM reference WHERE entity_status='ACTIVE'"
+            ),
+            source_uri_count=scalar(
+                "SELECT COUNT(DISTINCT source_uri) FROM provenance WHERE source_uri!=''"
+            ),
+            content_hash_count=scalar(
+                "SELECT COUNT(DISTINCT content_hash) FROM provenance WHERE content_hash!=''"
+            ),
             top_parents_by_child_count=top("parent"),
             top_children_by_parent_count=top("child"),
         )
         summary_path = out / "ownership_graph_summary.json"
         with summary_path.open("x") as stream:
             json.dump(summary.to_dict(), stream, indent=2, sort_keys=True)
-        return summary, {"nodes_csv": str(nodes_path), "edges_csv": str(edges_path),
-                         "summary_json": str(summary_path)}
+        return summary, {
+            "nodes_csv": str(nodes_path),
+            "edges_csv": str(edges_path),
+            "summary_json": str(summary_path),
+        }
     finally:
         database.close()
 
@@ -149,10 +170,20 @@ def _add_references(database: sqlite3.Connection, lei_rows: Iterable[Mapping[str
         if lei not in allowed:
             continue
         record = _lei_reference([row])[lei]
-        database.execute("""
+        database.execute(
+            """
             INSERT OR REPLACE INTO reference VALUES (?,?,?,?,?,?,?)
-        """, (lei, record["legal_name"], record["entity_status"], record["registration_status"],
-              record["legal_jurisdiction"], record["source_uri"], record["content_hash"]))
+        """,
+            (
+                lei,
+                record["legal_name"],
+                record["entity_status"],
+                record["registration_status"],
+                record["legal_jurisdiction"],
+                record["source_uri"],
+                record["content_hash"],
+            ),
+        )
         if number % 1000 == 0:
             database.commit()
     del allowed

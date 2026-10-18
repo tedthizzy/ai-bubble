@@ -398,6 +398,29 @@
       "viz/index.html": "940cc1ccefdf08336d0f634e4f1e8a7772149e63f79ce922fb794e73617296b8",
       "viz/explorer.js": "f65b0c911ba37154b33fe3351d78190843df32470f1c4e874bf1aad0b7822cfc",
       "viz/explorer.css": "c01b3ce2b0ad6fee9e2d9db37b303db73bf4dbabf5171e116bed0163f3d7726f"
+    },
+    "publication": {
+      "commit": "0afb9b6f4de6b86df40d5031e87517e1b3201d4f",
+      "workflow": 39101477259,
+      "workflow_conclusion": "success",
+      "deployed_sha256": {
+        "viz/index.html": "eed3dc4aae42f9038d3d001688f452bb5e9d9ac0d85f4c87794e4637fcc18c14",
+        "viz/explorer.js": "f558e4648adff7a9edbca615601946c5d2a66dc2436678c9837d04de0ce29d0f",
+        "viz/explorer.css": "c01b3ce2b0ad6fee9e2d9db37b303db73bf4dbabf5171e116bed0163f3d7726f",
+        "viz/graph_data.json": "72e6f1d1c00fbcfa6111082de6c8106510b0bbe62e5e437c15fae9aff1fb9048"
+      },
+      "browser_observed": {
+        "core_entities": 36,
+        "grey_points": 7687,
+        "as_of": "2026-10-17",
+        "reported_issuer_debt_usd": 90302128000,
+        "paused": true,
+        "camera_z": 1885.0122678110956,
+        "screenshot": {
+          "path": "data/refresh_2026-10-17/browser-validation/published-financial-review.png",
+          "sha256": "5239341ced6a8357356986e95869109edecaa2dab17a1f162b9a6b34b92f0856"
+        }
+      }
     }
   }
 }

@@ -13,7 +13,7 @@ dependencies = [
     # SEC EDGAR (production choice per plan)
     "edgartools>=2.10",
     # Document intelligence (2026 gold standard for PDFs/tables/layout)
-    "docling>=2.96.0",
+    "docling>=2.132.0",
     # LLM structured extraction (instructor for Pydantic enforcement)
     "instructor>=1.7",
     "anthropic>=0.45",
@@ -85,19 +85,28 @@ packages = ["src/bubble"]
 Homepage = "https://github.com/your-org/bubble"
 
 [tool.uv]
-# Security minimums for transitive dependencies, verified 2026-09-17.
+# Security minimums for transitive dependencies, reviewed 2026-10-17.
 # Accelerate has no verified fix; the EDGAR converter accepts HTML only.
 constraint-dependencies = [
     "aiohttp>=3.14.3",
+    "anyio>=4.14.2",
     "cryptography>=50.0.1",
+    "docling-slim>=2.132.0",
+    "fsspec>=2026.6.0",
     "gitpython>=3.1.62",
     "h2>=4.4.1",
+    "langgraph-sdk>=0.4.4",
+    "multidict>=6.9.1",
+    "oauthlib>=4.0.0",
     "pillow>=12.3.0",
     "python-multipart>=0.0.31",
     "setuptools>=83.0.0",
+    "soupsieve>=2.9.0",
     "starlette>=1.3.1",
     "torch>=2.13.0",
     "transformers>=5.10.1",
+    "urllib3>=2.8.0",
+    "virtualenv>=21.7.12",
 ]
 # Modern dependency groups (2026 uv standard)
 [dependency-groups]

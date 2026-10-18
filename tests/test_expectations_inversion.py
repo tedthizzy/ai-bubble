@@ -110,12 +110,8 @@ class TestCardedNames:
             assert not math.isinf(r["implied_revenue_multiple"]["low"])
 
     def test_every_carded_name_is_majority_renewal_dependent(self) -> None:
-        # The thesis-level finding: across all four, the median renewal-dependent share of EV
-        # exceeds 50% -- the price rests mostly on re-contracting, not the signed backlog.
-        # (Note: under EQUAL margins the long-tenor landlord APLD is NOT mechanically lower than
-        # the GPU clouds -- a long tenor spreads rent thin per year and discounts it more; the
-        # honest caveat about a landlord's higher true margin is carded in the doc, not asserted
-        # here.)
+        # This is a result of the current input cards and assumed margin grid.
+        # It does not establish actual renewal dependence or a calibrated probability.
         for r in invert_all(NAMES):
             assert r["renewal_dependent_share"]["median"] > 0.50
 

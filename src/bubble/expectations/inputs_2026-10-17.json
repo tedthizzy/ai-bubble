@@ -1,0 +1,375 @@
+{
+  "as_of": "2026-10-17",
+  "evidence": {
+    "APLD": {
+      "backlog_basis": "Approximately $36B base-term contracted lease revenue disclosed October 7. Excludes the $86B total conditional on all renewal options. Gross original lease value is not GAAP RPO or an audited remaining rent balance.",
+      "companyfacts": {
+        "path": "data/refresh_2026-10-17/financial_raw/CIK0001144879-companyfacts.json.gz",
+        "sha256": "67d7bc9a560cac8dde71b44f04a783c4983bbe0310cd252e8718440f7d32e740",
+        "state": "fetched",
+        "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001144879.json"
+      },
+      "contract_and_interim_statement": {
+        "accession": "0001144879-26-000057",
+        "document_type": "exhibit",
+        "filing_date": "2026-10-07",
+        "form": "8-K",
+        "normalized_path": "data/refresh_2026-10-17/core_review_v7/APLD-000114487926000057-b4abb00be928.txt",
+        "normalized_sha256": "87fc154b10729bafcd845fe8ee14be3c3f20efab477c40ce87909ed2f98405a5",
+        "report_date": "2026-10-07",
+        "role": "issuer",
+        "source_path": "data/refresh_2026-10-17/exhibit_completion/edgar/documents/0001144879/000114487926000057/apldq127earningsrelease.htm.gz",
+        "source_sha256": "696ac9387a48ddd50f8f36626c472f1d89ce2f422ca9faabfbf6f4cc27f906a7",
+        "status": "hash_verified",
+        "ticker": "APLD",
+        "url": "https://www.sec.gov/Archives/edgar/data/1144879/000114487926000057/apldq127earningsrelease.htm"
+      },
+      "market": {
+        "basis": "Provider enterprise value and net debt, including its lease/debt definitions; not pro-forma October 17 issuer balances.",
+        "close_usd": 18.05,
+        "ev_usd_b": 8.99,
+        "market_date": "2026-10-16",
+        "net_debt_usd_b": 3.53,
+        "source": {
+          "bytes": 122983,
+          "id": "APLD-statistics",
+          "path": "data/refresh_2026-10-17/expectations_market_v2/db857ee58758592e51357804cc880e468c66e43682ea1f000ff66fa9613a6bcb.raw",
+          "retrieved_utc": "2026-10-18T05:08:54.506176+00:00",
+          "sha256": "2d23aa7933ae3a2fa6d7ff7fc803874c839dfdf56fd90746a70d11f26dbb0ae8",
+          "status": "acquired",
+          "url": "https://stockanalysis.com/stocks/apld/statistics/"
+        }
+      },
+      "revenue_components": [
+        {
+          "accession": "0001144879-26-000048",
+          "end": "2026-05-31",
+          "filed": "2026-07-29",
+          "form": "10-K",
+          "matches_latest_periodic_report": false,
+          "namespace": "us-gaap",
+          "period_days": 365,
+          "sign": 1,
+          "start": "2025-06-01",
+          "tag": "Revenues",
+          "value_usd": 611311000
+        },
+        {
+          "accession": "0001144879-26-000059",
+          "end": "2026-08-31",
+          "filed": "2026-10-07",
+          "form": "10-Q",
+          "matches_latest_periodic_report": true,
+          "namespace": "us-gaap",
+          "period_days": 92,
+          "sign": 1,
+          "start": "2026-06-01",
+          "tag": "Revenues",
+          "value_usd": 341875000
+        },
+        {
+          "accession": "0001144879-26-000059",
+          "end": "2025-08-31",
+          "filed": "2026-10-07",
+          "form": "10-Q",
+          "matches_latest_periodic_report": true,
+          "namespace": "us-gaap",
+          "period_days": 92,
+          "sign": -1,
+          "start": "2025-06-01",
+          "tag": "Revenues",
+          "value_usd": 80934000
+        }
+      ],
+      "revenue_period_end": "2026-08-31",
+      "timing_assumption": "15-year uniform recognition assumption follows the disclosed new lease base terms. Construction start delays and individual remaining lease schedules are not modeled.",
+      "ttm_revenue_usd": 872252000
+    },
+    "CRWV": {
+      "backlog_basis": "$103.7B unsatisfied GAAP RPO at June 30. 41% expected within 24 months, 39% in months 25-48, remainder in months 49-78. Later announced commitments are separate.",
+      "companyfacts": {
+        "path": "data/refresh_2026-10-17/financial_raw/CIK0001769628-companyfacts.json.gz",
+        "sha256": "c0af16143fd615e9d4d3066226d81722fcbb49de9ee4125f038b1f47e285026f",
+        "state": "fetched",
+        "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001769628.json"
+      },
+      "contract_and_interim_statement": {
+        "accession": "0001769628-26-000366",
+        "filing_date": "2026-08-12",
+        "form": "10-Q",
+        "normalized_path": "data/refresh_2026-10-17/core_review_v7/CRWV-000176962826000366-50de019fb5b7.txt",
+        "normalized_sha256": "253df781a8e454687ba5895a2f99f8f6c29483a966d3b6f4233048903c67c9c2",
+        "report_date": "2026-06-30",
+        "role": "issuer",
+        "source_path": "data/edgar_acquisition_2026-09-16/documents/0001769628/000176962826000366/crwv-20260630.htm",
+        "source_sha256": "5ef1bddf52a356c5c8a77ebba2b53b35a7c35ac669b27e8fa7842f1f301124e7",
+        "status": "hash_verified",
+        "ticker": "CRWV",
+        "url": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000366/crwv-20260630.htm"
+      },
+      "market": {
+        "basis": "Provider enterprise value and net debt, including its lease/debt definitions; not pro-forma October 17 issuer balances.",
+        "close_usd": 61.39,
+        "ev_usd_b": 79.89,
+        "market_date": "2026-10-16",
+        "net_debt_usd_b": 46.03,
+        "source": {
+          "bytes": 122444,
+          "id": "CRWV-statistics",
+          "path": "data/refresh_2026-10-17/expectations_market_v2/8ccd0967363696469cac503ff8e6cb5e2c1c6a8cb10d2ad8d346c1483f0b278b.raw",
+          "retrieved_utc": "2026-10-18T05:08:54.505589+00:00",
+          "sha256": "dcea3247bbdad972ceb07b83d096c96e33332cb8b27b093a131f6177dae299b1",
+          "status": "acquired",
+          "url": "https://stockanalysis.com/stocks/crwv/statistics/"
+        }
+      },
+      "revenue_components": [
+        {
+          "accession": "0001769628-26-000104",
+          "end": "2025-12-31",
+          "filed": "2026-03-02",
+          "form": "10-K",
+          "matches_latest_periodic_report": false,
+          "namespace": "us-gaap",
+          "period_days": 365,
+          "sign": 1,
+          "start": "2025-01-01",
+          "tag": "RevenueFromContractWithCustomerExcludingAssessedTax",
+          "value_usd": 5131000000
+        },
+        {
+          "accession": "0001769628-26-000366",
+          "end": "2026-06-30",
+          "filed": "2026-08-12",
+          "form": "10-Q",
+          "matches_latest_periodic_report": true,
+          "namespace": "us-gaap",
+          "period_days": 181,
+          "sign": 1,
+          "start": "2026-01-01",
+          "tag": "RevenueFromContractWithCustomerExcludingAssessedTax",
+          "value_usd": 4653000000
+        },
+        {
+          "accession": "0001769628-26-000366",
+          "end": "2025-06-30",
+          "filed": "2026-08-12",
+          "form": "10-Q",
+          "matches_latest_periodic_report": true,
+          "namespace": "us-gaap",
+          "period_days": 181,
+          "sign": -1,
+          "start": "2025-01-01",
+          "tag": "RevenueFromContractWithCustomerExcludingAssessedTax",
+          "value_usd": 2194000000
+        }
+      ],
+      "revenue_period_end": "2026-06-30",
+      "timing_assumption": "6.5-year uniform recognition assumption uses the disclosed final 78-month horizon; actual recognition is earlier-weighted.",
+      "ttm_revenue_usd": 7590000000
+    },
+    "IREN": {
+      "backlog_basis": "$16.6B company-reported combined June 30 ASC 606 RPO and ASC 842 contracted lease value. Separately rounded components are $5.1B and $11.4B. This combined measure is broader than GAAP RPO.",
+      "companyfacts": {
+        "path": "data/refresh_2026-10-17/financial_raw/CIK0001878848-companyfacts.json.gz",
+        "sha256": "c7b7e43e891a4841b90ed9cb5f99bed209c784147629aaea2bb27801966f6f5b",
+        "state": "fetched",
+        "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001878848.json"
+      },
+      "contract_and_interim_statement": {
+        "accession": "0001878848-26-000052",
+        "filing_date": "2026-08-27",
+        "form": "10-K",
+        "normalized_path": "data/refresh_2026-10-17/core_review_v7/IREN-000187884826000052-775a39b47b03.txt",
+        "normalized_sha256": "e8b8d0451ca48acb1dfbc61b30e51cba04dcd7cb7e911a4d0e667ea3f91d5262",
+        "report_date": "2026-06-30",
+        "role": "issuer",
+        "source_path": "data/edgar_acquisition_2026-09-16/documents/0001878848/000187884826000052/iren-20260630.htm",
+        "source_sha256": "a0c02f6ad5f72623df78646240b43087c5e81c510e2c9a2bf291bab57127c994",
+        "status": "hash_verified",
+        "ticker": "IREN",
+        "url": "https://www.sec.gov/Archives/edgar/data/1878848/000187884826000052/iren-20260630.htm"
+      },
+      "market": {
+        "basis": "Provider enterprise value and net debt, including its lease/debt definitions; not pro-forma October 17 issuer balances.",
+        "close_usd": 26.99,
+        "ev_usd_b": 12.58,
+        "market_date": "2026-10-16",
+        "net_debt_usd_b": 1.94,
+        "source": {
+          "bytes": 122433,
+          "id": "IREN-statistics",
+          "path": "data/refresh_2026-10-17/expectations_market_v2/539feff4440a7835c300d2dd4b92dfea80241f8061b5b05d8da8368f2142482e.raw",
+          "retrieved_utc": "2026-10-18T05:08:54.506116+00:00",
+          "sha256": "929149cede4ca9eacd2afca71a873a8c5df63dfc73856862ec15783adf2defa3",
+          "status": "acquired",
+          "url": "https://stockanalysis.com/stocks/iren/statistics/"
+        }
+      },
+      "revenue_components": [
+        {
+          "accession": "0001878848-26-000052",
+          "end": "2026-06-30",
+          "filed": "2026-08-27",
+          "form": "10-K",
+          "matches_latest_periodic_report": true,
+          "namespace": "us-gaap",
+          "period_days": 365,
+          "sign": 1,
+          "start": "2025-07-01",
+          "tag": "Revenues",
+          "value_usd": 707007000
+        }
+      ],
+      "revenue_period_end": "2026-06-30",
+      "timing_assumption": "Five-year uniform recognition assumption; the stated RPO schedule ends at month 60. The lease component is a separate accounting measure.",
+      "ttm_revenue_usd": 707007000
+    },
+    "NBIS": {
+      "backlog_basis": "$37.4906B unsatisfied RPO at June 30. 36% expected within 24 months, 40% in months 25-48, remainder thereafter. Includes estimated variable consideration; excludes original terms of one year or less. Broader $40B customer commitments are separate.",
+      "companyfacts": {
+        "path": "data/refresh_2026-10-17/financial_raw/CIK0001513845-companyfacts.json.gz",
+        "sha256": "7e21951ecf0fed0fb2a26b5e2464c7b15d69bcdd1928d8cda52a875a29ca04f7",
+        "state": "fetched",
+        "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001513845.json"
+      },
+      "contract_and_interim_statement": {
+        "accession": "0001104659-26-094844",
+        "document_type": "exhibit",
+        "filing_date": "2026-08-12",
+        "form": "6-K",
+        "normalized_path": "data/refresh_2026-10-17/core_review_v7/NBIS-000110465926094844-96a803c8bd7e.txt",
+        "normalized_sha256": "2806d6d08e26b44fcac54fb091d2df4ccbb654f58ee2125945e0b50ec1391607",
+        "report_date": "2026-08-12",
+        "role": "issuer",
+        "source_path": "data/refresh_2026-10-17/exhibit_completion/edgar/documents/0001513845/000110465926094844/nbis-20260812xex99d2.htm.gz",
+        "source_sha256": "a6ad01678b6defa17c407a16790df58d67f3f57647736b691a7c66b3d65432cb",
+        "status": "hash_verified",
+        "ticker": "NBIS",
+        "url": "https://www.sec.gov/Archives/edgar/data/1513845/000110465926094844/nbis-20260812xex99d2.htm"
+      },
+      "market": {
+        "basis": "Provider enterprise value and net debt, including its lease/debt definitions; not pro-forma October 17 issuer balances.",
+        "close_usd": 165.47,
+        "ev_usd_b": 47.51,
+        "market_date": "2026-10-16",
+        "net_debt_usd_b": 2.15,
+        "source": {
+          "bytes": 124643,
+          "id": "NBIS-statistics",
+          "path": "data/refresh_2026-10-17/expectations_market_v2/f574337f9f71dfed65e3df25c31bd44e6ccc41c1c12c18f52469b03086559627.raw",
+          "retrieved_utc": "2026-10-18T05:08:54.506023+00:00",
+          "sha256": "8c8198bf553e1abf8b96c02baa268348e27e1184e1e8375a060dcdb64869d1a9",
+          "status": "acquired",
+          "url": "https://stockanalysis.com/stocks/nbis/statistics/"
+        }
+      },
+      "revenue_components": [
+        {
+          "accession": "0001104659-26-052948",
+          "end": "2025-12-31",
+          "filed": "2026-04-30",
+          "form": "20-F",
+          "matches_latest_periodic_report": true,
+          "namespace": "us-gaap",
+          "period_days": 365,
+          "sign": 1,
+          "start": "2025-01-01",
+          "tag": "Revenues",
+          "value_usd": 529800000
+        },
+        {
+          "end": "2026-06-30",
+          "sign": 1,
+          "start": "2026-01-01",
+          "value_usd": 981300000
+        },
+        {
+          "end": "2025-06-30",
+          "sign": -1,
+          "start": "2025-01-01",
+          "value_usd": 156000000
+        }
+      ],
+      "revenue_period_end": "2026-06-30",
+      "timing_assumption": "Five-year uniform recognition assumption; disclosed recognition is 76% within four years and the remainder thereafter. Final duration is not independently reconciled.",
+      "ttm_revenue_usd": 1355100000
+    }
+  },
+  "inputs": [
+    {
+      "backlog_basis": "$103.7B unsatisfied GAAP RPO at June 30. 41% expected within 24 months, 39% in months 25-48, remainder in months 49-78. Later announced commitments are separate.",
+      "backlog_tenor_years": 6.5,
+      "backlog_usd_b": 103.7,
+      "current_annualized_revenue_usd_b": 7.59,
+      "ev_usd_b": 79.89,
+      "is_landlord": false,
+      "name": "CoreWeave",
+      "net_debt_usd_b": 46.03,
+      "notes": "6.5-year uniform recognition assumption uses the disclosed final 78-month horizon; actual recognition is earlier-weighted. EV uses the provider's debt and cash definitions. Uniform FCF margins are model assumptions; the uncovered EV share can also depend on new customers or other businesses.",
+      "revenue_basis": "Consolidated trailing 12-month reported revenue through 2026-06-30; annual plus current period minus the same prior-year period, or the latest complete fiscal year. Includes any non-AI businesses.",
+      "sources": {
+        "contract_and_interim_statement": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000366/crwv-20260630.htm",
+        "market": "https://stockanalysis.com/stocks/crwv/statistics/",
+        "revenue_companyfacts": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001769628.json"
+      },
+      "ticker": "CRWV"
+    },
+    {
+      "backlog_basis": "$37.4906B unsatisfied RPO at June 30. 36% expected within 24 months, 40% in months 25-48, remainder thereafter. Includes estimated variable consideration; excludes original terms of one year or less. Broader $40B customer commitments are separate.",
+      "backlog_tenor_years": 5.0,
+      "backlog_usd_b": 37.4906,
+      "current_annualized_revenue_usd_b": 1.3551,
+      "ev_usd_b": 47.51,
+      "is_landlord": false,
+      "name": "Nebius",
+      "net_debt_usd_b": 2.15,
+      "notes": "Five-year uniform recognition assumption; disclosed recognition is 76% within four years and the remainder thereafter. Final duration is not independently reconciled. EV uses the provider's debt and cash definitions. Uniform FCF margins are model assumptions; the uncovered EV share can also depend on new customers or other businesses.",
+      "revenue_basis": "Consolidated trailing 12-month reported revenue through 2026-06-30; annual plus current period minus the same prior-year period, or the latest complete fiscal year. Includes any non-AI businesses.",
+      "sources": {
+        "contract_and_interim_statement": "https://www.sec.gov/Archives/edgar/data/1513845/000110465926094844/nbis-20260812xex99d2.htm",
+        "market": "https://stockanalysis.com/stocks/nbis/statistics/",
+        "revenue_companyfacts": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001513845.json"
+      },
+      "ticker": "NBIS"
+    },
+    {
+      "backlog_basis": "$16.6B company-reported combined June 30 ASC 606 RPO and ASC 842 contracted lease value. Separately rounded components are $5.1B and $11.4B. This combined measure is broader than GAAP RPO.",
+      "backlog_tenor_years": 5.0,
+      "backlog_usd_b": 16.6,
+      "current_annualized_revenue_usd_b": 0.707007,
+      "ev_usd_b": 12.58,
+      "is_landlord": false,
+      "name": "IREN",
+      "net_debt_usd_b": 1.94,
+      "notes": "Five-year uniform recognition assumption; the stated RPO schedule ends at month 60. The lease component is a separate accounting measure. EV uses the provider's debt and cash definitions. Uniform FCF margins are model assumptions; the uncovered EV share can also depend on new customers or other businesses.",
+      "revenue_basis": "Consolidated trailing 12-month reported revenue through 2026-06-30; annual plus current period minus the same prior-year period, or the latest complete fiscal year. Includes any non-AI businesses.",
+      "sources": {
+        "contract_and_interim_statement": "https://www.sec.gov/Archives/edgar/data/1878848/000187884826000052/iren-20260630.htm",
+        "market": "https://stockanalysis.com/stocks/iren/statistics/",
+        "revenue_companyfacts": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001878848.json"
+      },
+      "ticker": "IREN"
+    },
+    {
+      "backlog_basis": "Approximately $36B base-term contracted lease revenue disclosed October 7. Excludes the $86B total conditional on all renewal options. Gross original lease value is not GAAP RPO or an audited remaining rent balance.",
+      "backlog_tenor_years": 15.0,
+      "backlog_usd_b": 36.0,
+      "current_annualized_revenue_usd_b": 0.872252,
+      "ev_usd_b": 8.99,
+      "is_landlord": true,
+      "name": "Applied Digital",
+      "net_debt_usd_b": 3.53,
+      "notes": "15-year uniform recognition assumption follows the disclosed new lease base terms. Construction start delays and individual remaining lease schedules are not modeled. EV uses the provider's debt and cash definitions. Uniform FCF margins are model assumptions; the uncovered EV share can also depend on new customers or other businesses.",
+      "revenue_basis": "Consolidated trailing 12-month reported revenue through 2026-08-31; annual plus current period minus the same prior-year period, or the latest complete fiscal year. Includes any non-AI businesses.",
+      "sources": {
+        "contract_and_interim_statement": "https://www.sec.gov/Archives/edgar/data/1144879/000114487926000057/apldq127earningsrelease.htm",
+        "market": "https://stockanalysis.com/stocks/apld/statistics/",
+        "revenue_companyfacts": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001144879.json"
+      },
+      "ticker": "APLD"
+    }
+  ],
+  "market_close": "2026-10-16",
+  "revenue_basis": "Consolidated reported trailing 12 months for all four issuers."
+}

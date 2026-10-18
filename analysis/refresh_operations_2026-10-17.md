@@ -1,5 +1,63 @@
 # Bubble refresh operations, October 17, 2026
 
+## Published financial review and valuation checkpoint, 23:09 PDT
+
+Commit 0afb9b6f4de6b86df40d5031e87517e1b3201d4f reached origin/main.
+Pages workflow 39101477259 succeeded. The deployed HTML, JavaScript, CSS and
+graph hashes match the verified local files. The existing Chrome session showed
+the current 36-node core, $90.302128B issuer balances and October 17 report date.
+The retained grey field cutoff remains unverified. Full-source replacement is
+still pending. financial-review-publication.json records the HTTP hashes;
+viz_browser_validation_2026-10-17.json records the real browser observation.
+The first CI run stopped at eight existing formatting failures. Those eight
+files now pass formatting with unchanged ASTs. Complete remote CI for the next
+checkpoint remains pending.
+
+The four valuation input cards now use October 16 EV observations and reported
+consolidated trailing revenue on a common basis. Source rows and exact prior-year
+periods are checked. APLD's prior-year quarter is $80.934M, producing $872.252M
+trailing revenue. Nebius's later formal June 30 statement reports $37.4906B RPO;
+the broader $40B customer-commitment figure is separate. IREN's $16.6B combined
+RPO and lease value remains a different accounting measure. APLD's $36B gross
+base-term rent excludes renewal options. Assumed timing and FCF margins are
+explicit. No new bubble probability or measured GPU lifetime is claimed.
+The source card is bundled inside the Python package; a built wheel contains
+identical card bytes. The original June inputs remain in git and snapshots.
+
+The September issuance snapshot exactly matches the SHA-256 recorded in the
+original September report. The October snapshot freezes the current registry.
+Each dated runner now uses its own snapshot. The mutable overlay can continue
+to read the current registry without making older reports fail or use later
+prints. The original registered forecast priors and arithmetic remain unchanged.
+Its 0.67 structural confidence is labeled as a June 3 historical judgment.
+
+The record page now uses Arial at 14px and 18px. Actual Chrome checks covered
+390px mobile and desktop, input disclosures, 1,001 long-name rows with emoji,
+RTL/CJK and HTML-shaped text, empty data, a blocked market file and throttled
+network. No unsafe image/script elements or horizontal body overflow appeared.
+Computed contrast was at least 9.2095:1 over 91 visible text checks. Signal rows
+and numeric wrapping were corrected after viewing the rendered page. All test
+fetch overrides, blocks and throttling were removed. All owned test tabs closed;
+remote debugging and enhanced accessibility were observed false after restore.
+The owned preview server and CDP controller stopped. The record browser evidence
+is in record_browser_validation_2026-10-17.json.
+
+The full dependency candidate passes 947 tests at a 705,775,728-byte observed
+peak. All 301 locked PyPI registry versions were checked with zero acquisition
+errors; Accelerate remains the affected package under its known advisory. The
+HTML-only converter restriction remains enforced. The candidate is tested in an
+isolated overlay. The active acquisition environment has not changed. Its final
+installation, with a retained snapshot, remains required after acquisition.
+See dependency_security_audit_2026-10-17.md for package and verification details.
+
+At 23:08 PDT the original acquisition had 198,054 acquired, 46 failed, eight in
+flight and 29,286 queued documents. Its observed peak remains below 2 GiB. The
+auxiliary exhibit census continues at the shared SEC rate. The finisher and
+publisher still wait for both acquisitions; no complete-source claim is made.
+The additional financing-context census is under review and has already found
+further facilities to add before the final current report.
+
+
 ## Typed exhibit indexes and current browser checkpoint, 22:40 PDT
 
 This entry corrects the 21:57 checkpoint below. SEC exhibit selection now reads

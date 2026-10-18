@@ -1,0 +1,319 @@
+{
+  "checked_at_pacific": "2026-10-17T23:08:48.536689-07:00",
+  "lock_sha256": "722f490ae3a274f818d5f3cdf3341b6a6250f7e6d68d2f6ac62cd4c1f560920b",
+  "lock_registry_versions_checked": 301,
+  "pypi_failures": 0,
+  "pypi_affected": [
+    {
+      "name": "accelerate",
+      "version": "1.13.0",
+      "advisories": [
+        {
+          "aliases": [
+            "CVE-2026-69112"
+          ],
+          "details": "Hugging Face Accelerate through 1.14.0 contains a path traversal vulnerability in load_checkpoint_in_model and load_checkpoint_and_dispatch functions that fail to sanitize weight_map entries from sharded checkpoint indexes. Attackers can supply relative paths with ../ sequences or absolute paths to read arbitrary files, or point shard entries at named pipes to cause indefinite blocking and denial of service.",
+          "fixed_in": [],
+          "id": "GHSA-4j2p-28q2-5m79",
+          "link": "https://osv.dev/vulnerability/GHSA-4j2p-28q2-5m79",
+          "source": "osv",
+          "summary": null,
+          "withdrawn": null
+        },
+        {
+          "aliases": [
+            "CVE-2026-69112",
+            "GHSA-4j2p-28q2-5m79"
+          ],
+          "details": "Hugging Face Accelerate through 1.14.0 contains a path traversal vulnerability in load_checkpoint_in_model and load_checkpoint_and_dispatch functions that fail to sanitize weight_map entries from sharded checkpoint indexes. Attackers can supply relative paths with ../ sequences or absolute paths to read arbitrary files, or point shard entries at named pipes to cause indefinite blocking and denial of service.",
+          "fixed_in": [],
+          "id": "PYSEC-2026-3804",
+          "link": "https://osv.dev/vulnerability/PYSEC-2026-3804",
+          "source": "osv",
+          "summary": null,
+          "withdrawn": null
+        }
+      ]
+    }
+  ],
+  "github_alerts_before_publication": [
+    {
+      "number": 70,
+      "package": "virtualenv",
+      "ghsa": "GHSA-94p9-xgh2-xp45",
+      "severity": "high",
+      "fixed": {
+        "identifier": "21.7.12"
+      }
+    },
+    {
+      "number": 69,
+      "package": "virtualenv",
+      "ghsa": "GHSA-9h9j-4vrj-gf7g",
+      "severity": "medium",
+      "fixed": {
+        "identifier": "21.7.11"
+      }
+    },
+    {
+      "number": 68,
+      "package": "urllib3",
+      "ghsa": "GHSA-gh4c-6fx4-qh6g",
+      "severity": "medium",
+      "fixed": {
+        "identifier": "2.8.0"
+      }
+    },
+    {
+      "number": 67,
+      "package": "urllib3",
+      "ghsa": "GHSA-vxq7-64xx-v4gw",
+      "severity": "high",
+      "fixed": {
+        "identifier": "2.8.0"
+      }
+    },
+    {
+      "number": 66,
+      "package": "urllib3",
+      "ghsa": "GHSA-8988-9cw3-xx77",
+      "severity": "high",
+      "fixed": {
+        "identifier": "2.8.0"
+      }
+    },
+    {
+      "number": 65,
+      "package": "oauthlib",
+      "ghsa": "GHSA-xpv3-w29h-x7cv",
+      "severity": "medium",
+      "fixed": {
+        "identifier": "4.0.0"
+      }
+    },
+    {
+      "number": 64,
+      "package": "oauthlib",
+      "ghsa": "GHSA-hj66-6f7g-4r5v",
+      "severity": "medium",
+      "fixed": {
+        "identifier": "4.0.0"
+      }
+    },
+    {
+      "number": 63,
+      "package": "anyio",
+      "ghsa": "GHSA-82r6-8w77-94w6",
+      "severity": "critical",
+      "fixed": {
+        "identifier": "4.14.2"
+      }
+    },
+    {
+      "number": 62,
+      "package": "anyio",
+      "ghsa": "GHSA-5p39-cfhj-2xmp",
+      "severity": "medium",
+      "fixed": {
+        "identifier": "4.14.2"
+      }
+    },
+    {
+      "number": 61,
+      "package": "soupsieve",
+      "ghsa": "GHSA-gjv8-xp57-g29c",
+      "severity": "medium",
+      "fixed": {
+        "identifier": "2.9.0"
+      }
+    },
+    {
+      "number": 60,
+      "package": "soupsieve",
+      "ghsa": "GHSA-j934-xhv5-fg8f",
+      "severity": "medium",
+      "fixed": {
+        "identifier": "2.9.0"
+      }
+    },
+    {
+      "number": 54,
+      "package": "accelerate",
+      "ghsa": "GHSA-4j2p-28q2-5m79",
+      "severity": "medium",
+      "fixed": null
+    }
+  ],
+  "candidate_installed_changes": [
+    {
+      "name": "anyio",
+      "before": "4.13.0",
+      "after": "4.15.1"
+    },
+    {
+      "name": "doclang",
+      "before": null,
+      "after": "0.7.3"
+    },
+    {
+      "name": "docling",
+      "before": "2.96.0",
+      "after": "2.140.0"
+    },
+    {
+      "name": "docling-core",
+      "before": "2.78.0",
+      "after": "2.102.0"
+    },
+    {
+      "name": "docling-ibm-models",
+      "before": "3.13.2",
+      "after": "4.0.3"
+    },
+    {
+      "name": "docling-parse",
+      "before": "6.2.0",
+      "after": "7.22.3"
+    },
+    {
+      "name": "docling-slim",
+      "before": "2.96.0",
+      "after": "2.140.0"
+    },
+    {
+      "name": "fsspec",
+      "before": "2026.4.0",
+      "after": "2026.9.0"
+    },
+    {
+      "name": "httpcore2",
+      "before": null,
+      "after": "2.13.1"
+    },
+    {
+      "name": "httpx2",
+      "before": null,
+      "after": "2.13.1"
+    },
+    {
+      "name": "idna",
+      "before": "3.17",
+      "after": "3.20"
+    },
+    {
+      "name": "langchain-core",
+      "before": "1.4.0",
+      "after": "1.6.12"
+    },
+    {
+      "name": "langchain-protocol",
+      "before": "0.0.16",
+      "after": "0.0.19"
+    },
+    {
+      "name": "langcodes",
+      "before": null,
+      "after": "3.5.1"
+    },
+    {
+      "name": "langgraph",
+      "before": "1.2.2",
+      "after": "1.2.16"
+    },
+    {
+      "name": "langgraph-checkpoint",
+      "before": "4.1.1",
+      "after": "4.3.0"
+    },
+    {
+      "name": "langgraph-sdk",
+      "before": "0.3.15",
+      "after": "0.4.8"
+    },
+    {
+      "name": "langsmith",
+      "before": "0.8.18",
+      "after": "0.14.11"
+    },
+    {
+      "name": "mail-parser",
+      "before": null,
+      "after": "4.8.0"
+    },
+    {
+      "name": "multidict",
+      "before": "6.7.1",
+      "after": "6.9.1"
+    },
+    {
+      "name": "oauthlib",
+      "before": "3.3.1",
+      "after": "4.0.0"
+    },
+    {
+      "name": "olefile",
+      "before": null,
+      "after": "0.47"
+    },
+    {
+      "name": "opencv-python-headless",
+      "before": null,
+      "after": "5.0.0.93"
+    },
+    {
+      "name": "python-discovery",
+      "before": "1.4.0",
+      "after": "1.6.3"
+    },
+    {
+      "name": "python-oxmsg",
+      "before": null,
+      "after": "0.0.2"
+    },
+    {
+      "name": "rapidocr",
+      "before": "3.8.1",
+      "after": "3.10.0"
+    },
+    {
+      "name": "soupsieve",
+      "before": "2.8.4",
+      "after": "3.0.3"
+    },
+    {
+      "name": "typing-extensions",
+      "before": "4.15.0",
+      "after": "4.16.0"
+    },
+    {
+      "name": "urllib3",
+      "before": "2.7.0",
+      "after": "2.8.0"
+    },
+    {
+      "name": "virtualenv",
+      "before": "21.4.2",
+      "after": "21.14.5"
+    }
+  ],
+  "isolated_runtime_tests": {
+    "command": "PYTHONPATH=.codex/security-validation-complete-2026-10-17:src .venv/bin/python -B -m pytest -o 'addopts=-ra --strict-markers' --ignore-glob='* 2.py' --no-cov -p no:cacheprovider -q tests",
+    "output": "947 passed in 22.33s",
+    "observed_peak_bytes": 705775728,
+    "log": "data/refresh_2026-10-17/dependency-complete-tests.log"
+  },
+  "main_environment_installation": "pending active acquisition completion; unchanged so far",
+  "accelerate": {
+    "advisory": "https://github.com/advisories/GHSA-4j2p-28q2-5m79",
+    "github_fixed_release": null,
+    "latest_pypi": "1.15.0",
+    "latest_pypi_omits_advisory": true,
+    "status": "Retain the explicit HTML-only converter, disabled fetch/render options and passing real converter security checks. The September source inspection found no verified upstream fix in 1.15.0; latest release remains 1.15.0. No alert was dismissed."
+  },
+  "verification_limits": [
+    "The combined script type checks stopped at their 512 MiB budgets. A separate full-source CI invocation stopped at 820200480 bytes under its 768 MiB supervision budget. The original limits were retained; remote full-source CI remains pending.",
+    "The new expectations and verdict modules passed focused strict Mypy in four source files.",
+    "The first PyPI audit rejected cuda-toolkit 13.0.3.0 versus canonical 13.0.3. PEP 440 version and package-name normalization corrected the check; the new complete audit includes all 301 versions.",
+    "PyPI and GitHub advisories report known affected ranges. They cannot establish absence of vulnerabilities."
+  ]
+}

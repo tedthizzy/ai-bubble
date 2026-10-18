@@ -7,18 +7,23 @@ from scripts.refresh_public_sources import catalog_identity, missing_dynamic_sou
 
 def source(start: int, revision: str = "current") -> dict[str, str]:
     return {
-        "source_id": f"page-{start}", "source_uri": "https://example.test/api/dataset/17",
-        "corpus": "ppas", "parser": "json",
-        "meta_http_method": "POST", "meta_http_body": json.dumps({"startRow": start}),
-        "meta_data_last_updated": revision, "meta_empty": "",
+        "source_id": f"page-{start}",
+        "source_uri": "https://example.test/api/dataset/17",
+        "corpus": "ppas",
+        "parser": "json",
+        "meta_http_method": "POST",
+        "meta_http_body": json.dumps({"startRow": start}),
+        "meta_data_last_updated": revision,
+        "meta_empty": "",
     }
 
 
 def inventory(row: dict[str, str]) -> dict[str, str]:
     return {
         **{key: value for key, value in row.items() if not key.startswith("meta_")},
-        "metadata": json.dumps({key[5:]: value for key, value in row.items()
-                                if key.startswith("meta_") and value}),
+        "metadata": json.dumps(
+            {key[5:]: value for key, value in row.items() if key.startswith("meta_") and value}
+        ),
     }
 
 

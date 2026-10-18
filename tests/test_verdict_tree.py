@@ -27,6 +27,9 @@ class TestShadowMode:
         assert out["structural_confidence_unchanged"] == STRUCTURAL_CONFIDENCE == 0.67
         # the forecast is a DIFFERENT quantity, and lower than the structural confidence
         assert out["p_real"] < out["structural_confidence_unchanged"]
+        assert out["structural_judgment_as_of"] == "2026-06-03"
+        assert out["structural_confidence_is_current_measurement"] is False
+        assert "not re-estimated" in out["leaf_priors_status"]
 
 
 class TestFactorization:

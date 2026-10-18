@@ -31,4 +31,6 @@ def test_saved_panel_date_uses_pacific_after_utc_midnight(tmp_path: Path, monkey
             },
             stream,
         )
-    assert refresh.saved_counts(panel, tmp_path) == {"node": {"new_8k_7d": 2}}
+    assert refresh.saved_counts(panel, tmp_path) == {
+        "node": {"new_8k_7d": 2, "observed_as_of": "2026-10-17"}
+    }
