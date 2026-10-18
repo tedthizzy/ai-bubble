@@ -1,5 +1,44 @@
 # Explorer source status, October 17, 2026
 
+## Completed October 17 source refresh, 2026-10-18T04:44:21.915754-07:00
+
+The selected-source refresh is complete. The v2 report and full raw field were
+published in 152245c32a72975bf311e21af79525923da8bd0c; Pages 39123486180 and
+CI 39123486171 succeeded, and deployed file hashes matched.
+
+Coverage includes 306,838 selected documents with zero missing. All 97,559
+selected exhibit-eligible filing entries were checked, and 38,026 additional
+exhibits were acquired without a recorded failure. Two unavailable SEC rendering
+URLs have verified official copies. Their original 404s and retrieval URLs remain
+recorded. This is the selected corpus, with the form and date selection retained.
+
+The final field has 19,928 extracted entities and 8,723 raw connections, with
+33 core matches. The reviewed core has 107 entities and 161 connections.
+The browser keeps 19,895 unmatched grey points in one batched point layer and
+one batched line layer. Search and click selection remain available for all.
+Grey points skip continuous raycasting and force simulation. Settled rendering
+pauses. The deployed browser produced zero frames during a five-second idle check.
+
+The [v2 report](../analysis/dated_engine_2026-10-17_v2.md) uses October 16 market
+closes and October 15 credit observations. Financial statements retain their
+reported period ends, mostly June 30 and Applied Digital August 31. The reviewed
+13-issuer loan and note carrying total is $90.184580B, presented in USD.
+Current funding installments, commitments and undrawn facility roles remain
+separate measures. Raw notionals remain unadjudicated and are not additive debt.
+
+The registered demand basket still lacks a comparable current observation, so
+S4 remains unmeasured. Historical confidence and cascade judgments retain their
+original dates. The completed acquisition does not create a calibrated bubble
+probability or an exhaustive private-issuance census.
+
+The runtime dependency update is installed and passes all 970 Python tests.
+Actual desktop and mobile interaction evidence is in
+[the browser record](../analysis/viz_browser_validation_2026-10-17.json).
+The source, runtime and storage verification is in
+[the verification record](../analysis/refresh_validation_2026-10-17.md).
+
+Earlier dated checkpoints are retained below. Their pending states are superseded by this completion entry.
+
 ## Current private capital and compute review, 2026-10-18T01:24:28.051277-07:00
 
 The review now has 147 verified or explicitly historical relationships, 107 core

@@ -1,5 +1,84 @@
 # Bubble refresh operations, October 17, 2026
 
+## Completed refresh and environment operation, 2026-10-18T04:44:21.915754-07:00
+
+The final selected-document merge and source audit completed with 306,838 of
+306,838 selected documents and zero missing. It retains 307,008 inventory rows.
+The exhibit census checked 97,559 filing entries and acquired 38,026 documents
+with zero failures. The complete capital graph, full raw visualization field,
+freshness output and dated_engine_2026-10-17_v2 report all completed under the
+2 GiB process-group budget. The observed final-processing peak was 497,370,384
+bytes. The selected document and original URL measures remain separate because
+two unavailable rendering URLs have verified official copies.
+
+Publication 152245c32a72975bf311e21af79525923da8bd0c reached origin/main.
+Pages 39123486180 and complete CI 39123486171 succeeded. publication-result.json
+records matching deployed file hashes and the preserved original staged digest.
+The main and auxiliary jobs have exited. No acquisition restart is pending.
+
+### Project environment: check, undo and reapply
+
+The active .venv now matches the reviewed uv.lock. The installer used the
+verified temporary uv 0.13.1 binary, with --locked --all-extras. It changed 33
+installed distribution records; actual before/final package inventories are in
+security-environment-application-v3/. This supersedes the candidate count of 31.
+The lock SHA256 remains
+12d8ceca048c78b60b401e39b057ecd794c46358e4f3364f411b80337b595bc6.
+No system package, shell configuration, authentication scope or global setting
+was changed. API credentials were stripped from the install and test environments.
+
+The retained restoration archive is
+.codex/security-snapshots/2026-10-17/post-publication-20261018T113450.369821Z/.
+venv-before and venv-updated are immutable restore sources. The operation renamed
+the active environment into the archive, cloned FROM venv-before into .venv,
+verified it, retained that restored active copy by rename, and cloned FROM
+venv-updated into .venv. It then verified the final locked package inventory.
+Both undo and reapply were executed at the real active path. No snapshot's
+interpreter ran. Every file byte, symlink target, mode, filesystem flag and
+modification time matched; directory metadata also matched. The executable
+sequence is retained in verification_drivers/apply_locked_environment.py under
+the refresh directory. Its result and four byte manifests are in
+security-environment-application-v3/. The environment supervisor peaked at
+133,842,768 bytes under 512 MiB.
+
+The first copy stopped because cp -cRp could not preserve hidden Python symlink
+flags. Its partial snapshot is retained untouched. The next host-Python attempt
+stopped on a transitive httpx import before environment writes. The corrected
+standalone driver uses cp -cR and copystat with follow_symlinks=False. A scratch
+check proved all three links retained their target, mode, flags and modification
+time before the full operation ran. No failed mutation was blindly replayed.
+
+The final test command, with credential variables removed and PYTHONPATH=src,
+was:
+
+    .venv/bin/python -B scripts/run_with_memory_budget.py --budget-mib 1536 --report data/refresh_2026-10-17/installed-environment-tests-memory.jsonl -- .venv/bin/python -B -m pytest -o 'addopts=-ra --strict-markers' --ignore-glob='* 2.py' --no-cov -p no:cacheprovider -q
+
+Output: 970 passed in 50.80s. Observed peak: 709,511,304 bytes. Validation
+overlays were absent. Eleven Node tests passed. Ruff passed; 304 required files
+passed formatting. A broader legacy-generator formatting check did not pass;
+those pre-existing cosmetic differences were retained. The first scratch link
+probe had a syntax error before execution; its corrected probe passed.
+
+### Storage and remaining evidence limits
+
+The historical SEC compression receipt still records 55,395 files, zero errors
+and 46,908,620,800 fewer allocated bytes. Four large GLEIF CSVs remain normal
+files after a supervised trial stopped before replacement. All source bytes,
+logs and rollback copies remain retained. The project root is only
+/Users/ted/Projects/bubble; /Users/ted/Documents/dev-archive/bubble is absent.
+The rechecked project root inode is 70378520. Volume free space is read from
+/System/Volumes/Data and is separate from the per-file compression savings.
+
+No selected document gaps remain. Original 404 responses remain recorded.
+The current registered demand basket is unmeasured; extracted SEC/FERC candidates
+still require instrument review. Historical confidence values are dated judgments.
+The live GitHub advisory still lists no patched Accelerate release. The active
+HTML-only converter and its actual security checks passed. No alert was dismissed.
+The web text reader could not open the Pages site; direct HTTP and actual Chrome
+verified it. Owned browser controls and their restoration are recorded separately.
+
+Earlier dated checkpoints are retained below. Their pending states are superseded by this completion entry.
+
 ## Currency description and market source checks, 2026-10-18T00:56:58.505344-07:00
 
 The $90.184580B measure presents reported loan and note carrying amounts in USD.

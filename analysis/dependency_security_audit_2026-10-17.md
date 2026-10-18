@@ -1,5 +1,43 @@
 # Dependency security review, October 17, 2026
 
+## Installed environment verification, 2026-10-18T04:44:21.915754-07:00
+
+The reviewed lock is installed in the active .venv. All 970 Python tests passed
+in 50.80 seconds with PYTHONPATH=src and no validation overlays. Peak process-group
+memory was 709,511,304 bytes under 1.5 GiB. CI 39123486171 passed full strict Mypy
+and the runtime suite for the refreshed source report.
+
+The actual sync changed 33 distribution records. This supersedes the isolated
+candidate's 31-record count. jsonlines was unrequired by the lock; OpenCV moved
+to its locked headless distribution. No jsonlines or cv2 imports were found in
+src or scripts. The real HTML converter and security checks passed.
+
+The successful receipt is
+`data/refresh_2026-10-17/security-environment-application-v3/result.json`.
+Its before, updated, undo and reapply manifests verify every file byte, symlink,
+mode, filesystem flag and modification time. Directory metadata also matches.
+The driver copied FROM snapshots into the active path during actual undo and
+reapply. It retained both displaced environments and never ran a snapshot's
+interpreter. The 512 MiB supervisor observed a 133,842,768-byte peak.
+
+The first snapshot attempt stopped on macOS cp -p symlink flag errors before
+installation. A host-Python attempt then stopped on an imported httpx dependency
+before environment writes. Both logs and the partial snapshot remain retained.
+The corrected standalone driver uses cp -cR, followed by copystat without
+following symlinks. Its successful output is a new directory; no failed pass
+was replayed over existing state.
+
+GitHub now reports one open alert: [Accelerate GHSA-4j2p-28q2-5m79](https://github.com/advisories/GHSA-4j2p-28q2-5m79).
+Its primary advisory lists no patched release. A final live PyPI check still
+reports 1.15.0 and omits the advisory. The explicit HTML-only boundary remains
+in force. No alert was dismissed and no system package or global setting changed.
+
+The driver and tested restoration sequence are retained at
+`data/refresh_2026-10-17/verification_drivers/apply_locked_environment.py`.
+The operations record names the archive and verification commands.
+
+Earlier dated checkpoints are retained below. Their pending states are superseded by this completion entry.
+
 ## Current verification and local environment continuation
 
 The lock remains the reviewed security candidate. Complete CI 39111714173 passed

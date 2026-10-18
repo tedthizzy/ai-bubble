@@ -326,8 +326,7 @@ function sourcePanel(data,fallback) {
     ['Ecosystem confidence (historical judgment)',meta.historical_ecosystem_confidence ?? meta.ecosystem_confidence],
     ['Extracted entities',(data.field||{}).entities||fieldNodes.length],
     ['Extracted deals',(data.field||{}).deals||0],
-    ['Extracted field cutoff',(data.field||{}).evidence_date||'Unverified / retained field'],
-    ['Layout',data.layout ? data.layout.algorithm : 'Deterministic fallback placement']
+    ['Extracted field cutoff',(data.field||{}).evidence_date||'Unverified / retained field']
   ];
   $('panel').innerHTML='<h2>Sources and dates</h2>'+
     '<dl>'+facts.map(([key,value]) => '<dt>'+esc(key)+'</dt><dd>'+esc(value==null?'Unavailable':value)+'</dd>').join('')+'</dl>'+

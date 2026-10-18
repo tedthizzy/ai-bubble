@@ -1,7 +1,7 @@
 {
-  "checked_at_pacific": "2026-10-18T02:19:05.789244-07:00",
+  "checked_at_pacific": "2026-10-18T04:49:24.989391-07:00",
   "browser": "existing Chrome/155.0.8059.82",
-  "preview": "http://127.0.0.1:8765/",
+  "preview": "https://tedthizzy.github.io/ai-bubble/",
   "new_browser_launched": false,
   "screenshots": [
     {
@@ -59,13 +59,62 @@
     {
       "path": "data/refresh_2026-10-17/browser-validation/optimized-sources-stacked.png",
       "sha256": "e2d5335d31839df3dab05c2a9aa430724f2f9e738be68691c5c15c5c948d38da"
+    },
+    {
+      "path": "data/refresh_2026-10-17/browser-validation/final-deployed-desktop.png",
+      "sha256": "1fc2b128189882d580b67a18f033f91938114e2431f94086720c897215f63c66"
+    },
+    {
+      "path": "data/refresh_2026-10-17/browser-validation/final-deployed-desktop-current.png",
+      "sha256": "57fe36d416f2f41898affd9dd3cd4c2dc8d0a235acd527ddc2984aee87b579bc"
+    },
+    {
+      "path": "data/refresh_2026-10-17/browser-validation/final-deployed-sources-mobile.png",
+      "sha256": "ad4c8872b94fe1bbdc0cbdbfaa9e5bba76d4d603668614ec9cd8292324e1b650"
+    },
+    {
+      "path": "data/refresh_2026-10-17/browser-validation/final-deployed-amazon-mobile.png",
+      "sha256": "805babdb7f90e9e8456300f31757417c0a92f09e7799ce24c7fc783e0b691a78"
+    },
+    {
+      "path": "data/refresh_2026-10-17/browser-validation/final-deployed-funded-deal-mobile.png",
+      "sha256": "90ec9794336fd877ddc179f70e84b7327614a4bc75ca1f59e3f6c1bc9158b3fe"
+    },
+    {
+      "path": "data/refresh_2026-10-17/browser-validation/final-deployed-raw-selected-mobile.png",
+      "sha256": "cde680a9ef6c06299eb78c91be193b705738ea786abfa650839d2d5f77465aee"
+    },
+    {
+      "path": "data/refresh_2026-10-17/browser-validation/final-deployed-connections-mobile.png",
+      "sha256": "4c1d5b04941e5e3f89f5fab49efd6b86666dafdfb31ba521bc5fe800f117be90"
+    },
+    {
+      "path": "data/refresh_2026-10-17/browser-validation/final-deployed-completion-mobile.png",
+      "sha256": "7d3f13f928572249f1fc21b1369d182b6b1157a7e1e7dbaaea39361d70c0aa40"
+    },
+    {
+      "path": "data/refresh_2026-10-17/browser-validation/final-deployed-deals-spacing-mobile.png",
+      "sha256": "fe08e776ab0a36915d19d4e9decc156b0e351c81e6e682c7ab2933c40907582e"
+    },
+    {
+      "path": "data/refresh_2026-10-17/browser-validation/final-deals-spacing-mobile.png",
+      "sha256": "0242b798bf023aa66ae5a278068b5865a2c0ae029759390571b17c5ba2b0320e"
+    },
+    {
+      "path": "data/refresh_2026-10-17/browser-validation/final-sources-no-layout-mobile-v2.png",
+      "sha256": "cfe369a66aa409d016361963e304ef6cef9d0c0574ac393c0363a3cf40a988fb"
     }
   ],
   "observed": {
+    "dataset_scope": "Completed selected-source corpus including all acquired auxiliary exhibits; published full field",
     "core_entities": 107,
-    "grey_points": 17753,
-    "entities": 17860,
-    "links": 8094,
+    "grey_points": 19895,
+    "entities": 20002,
+    "links": 8884,
+    "field_entities": 19928,
+    "field_deals": 143621,
+    "field_links": 8723,
+    "matched_core": 33,
     "reported_issuer_debt_usd": 90184580000,
     "report_as_of": "2026-10-17",
     "mobile_css_viewport": [
@@ -73,108 +122,60 @@
       844
     ],
     "mobile_body_width": 390,
+    "desktop_css_viewport": [
+      1440,
+      900
+    ],
+    "desktop_body_width": 1440,
     "css_fonts": [
       "Arial, sans-serif / 14px",
       "Arial, sans-serif / 18px"
     ],
-    "source_snapshot_at_pacific": "2026-10-18T00:34:45.268090-07:00",
+    "source_snapshot_at_pacific": "2026-10-18T04:29:45.370102-07:00",
     "source_snapshot_main_acquired": 227347,
     "source_snapshot_main_queued": 0,
-    "recovered_source_errors": 46,
+    "source_snapshot_exhibits_acquired": 38026,
+    "source_snapshot_exhibits_complete": true,
     "verified_source_replacements": 2,
     "unresolved_source_errors": 0,
-    "dataset_scope": "Completed main-corpus preflight; auxiliary exhibit census excluded; not published",
-    "desktop_css_viewport": [
-      1291,
-      724
-    ],
-    "desktop_body_width": 1291
+    "selected_documents_acquired": 306838,
+    "selected_documents_missing": 0
   },
-  "text_contrast": [
-    {
-      "text": "#e6edf3",
-      "background": "#05070c",
-      "contrast": 17.0536
-    },
-    {
-      "text": "#e6edf3",
-      "background": "#0c1420",
-      "contrast": 15.6372
-    },
-    {
-      "text": "#e6edf3",
-      "background": "#233044",
-      "contrast": 11.2647
-    },
-    {
-      "text": "#e6edf3",
-      "background": "#1a2637",
-      "contrast": 12.9129
-    },
-    {
-      "text": "#adb8c8",
-      "background": "#05070c",
-      "contrast": 10.0437
-    },
-    {
-      "text": "#adb8c8",
-      "background": "#0c1420",
-      "contrast": 9.2095
-    },
-    {
-      "text": "#adb8c8",
-      "background": "#233044",
-      "contrast": 6.6343
-    },
-    {
-      "text": "#adb8c8",
-      "background": "#1a2637",
-      "contrast": 7.605
-    },
-    {
-      "text": "#cba978",
-      "background": "#05070c",
-      "contrast": 9.102
-    },
-    {
-      "text": "#cba978",
-      "background": "#0c1420",
-      "contrast": 8.346
-    },
-    {
-      "text": "#cba978",
-      "background": "#233044",
-      "contrast": 6.0123
-    },
-    {
-      "text": "#cba978",
-      "background": "#1a2637",
-      "contrast": 6.892
-    }
-  ],
-  "minimum_text_contrast": 6.0123,
+  "text_contrast": {
+    "checked_text_elements": 485,
+    "minimum_ratio": 9.209496376474931,
+    "placeholder_ratio": 9.209496376474931,
+    "below_4_5": 0,
+    "method": "Computed foreground and declared surface colors for visible text; final spacing cleanup retains those colors."
+  },
+  "minimum_text_contrast": 9.209496376474931,
   "repairs_found_by_browser": [
     "Set paused=false before synchronous resumeAnimation to prevent recursive controls-change wake.",
     "Close report dl before the market and acquisition sections.",
     "Hide empty library tooltip; normalize empty library info message font.",
     "Reduce background line opacity and dim it during selection.",
-    "Give header and legend opaque backgrounds for contrast."
+    "Give header and legend opaque backgrounds for contrast.",
+    "Deal review labels now start on a separate line from amounts.",
+    "The Sources panel omits the implementation-only layout algorithm string."
   ],
   "known_probe_errors": [
     "An early diagnostic referenced undefined renderPaused.",
     "A throttled-load probe ran before explorer.js loaded; a later probe verified fallback.",
-    "Initial emulated mobile click coordinates needed adjustment for the existing 125 percent Chrome zoom."
+    "Initial emulated mobile click coordinates needed adjustment for the existing 125 percent Chrome zoom.",
+    "A final search probe assumed data-id on result buttons; the actual result buttons use data-result. The corrected real search click passed.",
+    "A projected grey point shared its screen position with a nearer core node. The actual click correctly selected the core node. A separate unobstructed grey point was then selected through mouseMoved, mousePressed and mouseReleased.",
+    "The first local presentation-cleanup view reused cached JS. Cache-disabled reload showed no Layout row and the exact new source hash. No cached view was treated as passing evidence."
   ],
   "limits": [
-    "The complete auxiliary exhibit census and final field/publication remain pending.",
-    "This runtime measurement uses the completed main-corpus preflight, excluding the unfinished auxiliary exhibits.",
-    "Historical confidence judgments and colors retain their original evidence dates."
+    "Extracted candidate amounts remain unadjudicated and can repeat across filings.",
+    "Historical fragility colors and confidence are dated judgments, not calibrated probabilities.",
+    "The full field was checked on the deployed site. The final removal of the implementation-only Layout row was then rendered locally against the exact source hashes above; final HTTP publication proof is recorded separately."
   ],
   "local_interaction_verified": true,
   "source_sha256": {
     "viz/index.html": "f413ee64164a67696abc95a516bb9c2444ec87813be6bdbaf3679223c423c532",
-    "viz/explorer.js": "0cc29afea2715f8092d20bb9f58f1a1a20f1252154696a0ce76066ef0aa948d8",
-    "viz/explorer.css": "c01b3ce2b0ad6fee9e2d9db37b303db73bf4dbabf5171e116bed0163f3d7726f"
+    "viz/explorer.js": "e77c3ac2a429fc0f07d665ad8b27b4c23dc850ef0eedabbb1556076edee292c6",
+    "viz/explorer.css": "d0a56a3e99a25cfa7f3b0ccd77fe2f0c00e64e0aa0c231dfb8e67ad4bce17809"
   },
   "first_deployment": {
     "commit": "0a7ff8c86cb7446bf250cf95c45c1f19662de360",
@@ -782,6 +783,209 @@
       {
         "path": "data/refresh_2026-10-17/browser-validation/main-field-google-quote-mobile.png",
         "sha256": "5d609bcd3f6e18d9e614fa36f53093d46a5a03693358e483db8f49fc23a1e6ac"
+      }
+    ]
+  },
+  "before_final_full_refresh_observed": {
+    "core_entities": 107,
+    "grey_points": 17753,
+    "entities": 17860,
+    "links": 8094,
+    "reported_issuer_debt_usd": 90184580000,
+    "report_as_of": "2026-10-17",
+    "mobile_css_viewport": [
+      390,
+      844
+    ],
+    "mobile_body_width": 390,
+    "css_fonts": [
+      "Arial, sans-serif / 14px",
+      "Arial, sans-serif / 18px"
+    ],
+    "source_snapshot_at_pacific": "2026-10-18T00:34:45.268090-07:00",
+    "source_snapshot_main_acquired": 227347,
+    "source_snapshot_main_queued": 0,
+    "recovered_source_errors": 46,
+    "verified_source_replacements": 2,
+    "unresolved_source_errors": 0,
+    "dataset_scope": "Completed main-corpus preflight; auxiliary exhibit census excluded; not published",
+    "desktop_css_viewport": [
+      1291,
+      724
+    ],
+    "desktop_body_width": 1291
+  },
+  "before_final_full_refresh_limits": [
+    "The complete auxiliary exhibit census and final field/publication remain pending.",
+    "This runtime measurement uses the completed main-corpus preflight, excluding the unfinished auxiliary exhibits.",
+    "Historical confidence judgments and colors retain their original evidence dates."
+  ],
+  "before_final_full_refresh_text_contrast": [
+    {
+      "text": "#e6edf3",
+      "background": "#05070c",
+      "contrast": 17.0536
+    },
+    {
+      "text": "#e6edf3",
+      "background": "#0c1420",
+      "contrast": 15.6372
+    },
+    {
+      "text": "#e6edf3",
+      "background": "#233044",
+      "contrast": 11.2647
+    },
+    {
+      "text": "#e6edf3",
+      "background": "#1a2637",
+      "contrast": 12.9129
+    },
+    {
+      "text": "#adb8c8",
+      "background": "#05070c",
+      "contrast": 10.0437
+    },
+    {
+      "text": "#adb8c8",
+      "background": "#0c1420",
+      "contrast": 9.2095
+    },
+    {
+      "text": "#adb8c8",
+      "background": "#233044",
+      "contrast": 6.6343
+    },
+    {
+      "text": "#adb8c8",
+      "background": "#1a2637",
+      "contrast": 7.605
+    },
+    {
+      "text": "#cba978",
+      "background": "#05070c",
+      "contrast": 9.102
+    },
+    {
+      "text": "#cba978",
+      "background": "#0c1420",
+      "contrast": 8.346
+    },
+    {
+      "text": "#cba978",
+      "background": "#233044",
+      "contrast": 6.0123
+    },
+    {
+      "text": "#cba978",
+      "background": "#1a2637",
+      "contrast": 6.892
+    }
+  ],
+  "final_full_refresh_review": {
+    "checked_at_pacific": "2026-10-18T04:49:24.989391-07:00",
+    "data_commit": "152245c32a72975bf311e21af79525923da8bd0c",
+    "deployed_css_commit": "106dcd5cec5f0f53b6aae65c3759b8277ea18016",
+    "pages_run": 39124269262,
+    "ci_run": 39124269305,
+    "deployed_sha256": {
+      "viz/index.html": "f413ee64164a67696abc95a516bb9c2444ec87813be6bdbaf3679223c423c532",
+      "viz/graph_data.json": "f40f41d0ba786af1b6c1dfae78db422ea85a0d50f73c07800440fd0c4a9413e3",
+      "viz/explorer.js": "0cc29afea2715f8092d20bb9f58f1a1a20f1252154696a0ce76066ef0aa948d8",
+      "viz/explorer.css": "d0a56a3e99a25cfa7f3b0ccd77fe2f0c00e64e0aa0c231dfb8e67ad4bce17809",
+      "viz/freshness.json": "68f047cf13f08284c5467e5b5f6e07ad93bdb67d983656a4ebd0ac980e8d0236"
+    },
+    "current_source_sha256": {
+      "viz/index.html": "f413ee64164a67696abc95a516bb9c2444ec87813be6bdbaf3679223c423c532",
+      "viz/explorer.js": "e77c3ac2a429fc0f07d665ad8b27b4c23dc850ef0eedabbb1556076edee292c6",
+      "viz/explorer.css": "d0a56a3e99a25cfa7f3b0ccd77fe2f0c00e64e0aa0c231dfb8e67ad4bce17809"
+    },
+    "graph_sha256": "f40f41d0ba786af1b6c1dfae78db422ea85a0d50f73c07800440fd0c4a9413e3",
+    "real_interactions": [
+      "Search selected Amazon, its complete connection disclosure, and the $50B funded OpenAI investment card.",
+      "Mouse selection opened raw entity f0: 01 Advisors 04, L.P.; amount unmeasured was displayed.",
+      "Search selected PACIFIC GAS AND ELECTRIC COMPANY. All 464 saved connections rendered.",
+      "Sources showed zero unresolved source errors, two official replacements and complete exhibit acquisition.",
+      "Deals and entity selection isolated their panels. Mobile width remained 390px.",
+      "Reduced motion revealed all ten cascade participants without an active interval."
+    ],
+    "visible_settled_render": {
+      "elapsed_ms": 5002.89999999851,
+      "frames": 0,
+      "start_hidden": false,
+      "end_hidden": false,
+      "start_paused": true,
+      "end_paused": true,
+      "heap_bytes": 16657758
+    },
+    "earlier_mobile_settled_render": {
+      "elapsed_ms": 5001.19999999553,
+      "frames": 0,
+      "paused": true,
+      "heap_bytes": 20176939
+    },
+    "graph_transfer": {
+      "encoded_body_bytes": 552562,
+      "decoded_body_bytes": 1725053,
+      "transfer_bytes": 552862
+    },
+    "application_runtime_exception_events": [],
+    "presentation_cleanup": {
+      "deal_tags_on_separate_lines": "rendered locally and on the deployed site",
+      "layout_implementation_row_removed": "rendered locally with cache disabled; source function and DOM both lack the row"
+    },
+    "restoration": {
+      "all_owned_targets_closed": true,
+      "controller_stopped": true,
+      "owned_preview_servers_stopped": true,
+      "remote_debugging_after": false,
+      "enhanced_accessibility_after": false,
+      "new_browser_launched": false
+    },
+    "screenshots": [
+      {
+        "path": "data/refresh_2026-10-17/browser-validation/final-deployed-desktop.png",
+        "sha256": "1fc2b128189882d580b67a18f033f91938114e2431f94086720c897215f63c66"
+      },
+      {
+        "path": "data/refresh_2026-10-17/browser-validation/final-deployed-desktop-current.png",
+        "sha256": "57fe36d416f2f41898affd9dd3cd4c2dc8d0a235acd527ddc2984aee87b579bc"
+      },
+      {
+        "path": "data/refresh_2026-10-17/browser-validation/final-deployed-sources-mobile.png",
+        "sha256": "ad4c8872b94fe1bbdc0cbdbfaa9e5bba76d4d603668614ec9cd8292324e1b650"
+      },
+      {
+        "path": "data/refresh_2026-10-17/browser-validation/final-deployed-amazon-mobile.png",
+        "sha256": "805babdb7f90e9e8456300f31757417c0a92f09e7799ce24c7fc783e0b691a78"
+      },
+      {
+        "path": "data/refresh_2026-10-17/browser-validation/final-deployed-funded-deal-mobile.png",
+        "sha256": "90ec9794336fd877ddc179f70e84b7327614a4bc75ca1f59e3f6c1bc9158b3fe"
+      },
+      {
+        "path": "data/refresh_2026-10-17/browser-validation/final-deployed-raw-selected-mobile.png",
+        "sha256": "cde680a9ef6c06299eb78c91be193b705738ea786abfa650839d2d5f77465aee"
+      },
+      {
+        "path": "data/refresh_2026-10-17/browser-validation/final-deployed-connections-mobile.png",
+        "sha256": "4c1d5b04941e5e3f89f5fab49efd6b86666dafdfb31ba521bc5fe800f117be90"
+      },
+      {
+        "path": "data/refresh_2026-10-17/browser-validation/final-deployed-completion-mobile.png",
+        "sha256": "7d3f13f928572249f1fc21b1369d182b6b1157a7e1e7dbaaea39361d70c0aa40"
+      },
+      {
+        "path": "data/refresh_2026-10-17/browser-validation/final-deployed-deals-spacing-mobile.png",
+        "sha256": "fe08e776ab0a36915d19d4e9decc156b0e351c81e6e682c7ab2933c40907582e"
+      },
+      {
+        "path": "data/refresh_2026-10-17/browser-validation/final-deals-spacing-mobile.png",
+        "sha256": "0242b798bf023aa66ae5a278068b5865a2c0ae029759390571b17c5ba2b0320e"
+      },
+      {
+        "path": "data/refresh_2026-10-17/browser-validation/final-sources-no-layout-mobile-v2.png",
+        "sha256": "cfe369a66aa409d016361963e304ef6cef9d0c0574ac393c0363a3cf40a988fb"
       }
     ]
   }

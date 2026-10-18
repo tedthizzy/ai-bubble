@@ -1,5 +1,56 @@
 # Refresh verification checkpoint, October 17, 2026
 
+## Completed source and runtime verification, 2026-10-18T04:44:21.915754-07:00
+
+The October 17 selected-source refresh completed and was published in
+152245c32a72975bf311e21af79525923da8bd0c. Pages 39123486180 and CI 39123486171
+succeeded. Live graph, freshness, JS and CSS hashes matched that publication.
+The final deal-label spacing change has separate browser and publication evidence.
+
+- Coverage: 306,838 selected documents acquired, zero missing. The merged
+  inventory retains 307,008 rows, including additional retained documents.
+  All merged source hashes were checked. Two failed rendering URLs have
+  verified official copies; the original 404 records remain visible.
+- Exhibit census: all 97,559 selected parent entries checked; 38,026 exhibits
+  acquired, zero failures. Shared-accession caching avoided 7,635 duplicate
+  index requests. Peak memory was 313,803,664 bytes under 2 GiB.
+- Final merge, coverage, capital graph, raw field, status and v2 report all
+  exited 0. The supervisor observed a 497,370,384-byte peak under 2 GiB.
+- Final source sanity: all acquired queue records and all 307,008 inventory
+  rows have no empty-source candidates. No zero-text acquired queue records,
+  post-cutoff filing dates, negative raw amounts or nonfinite raw amounts
+  were found. See final-source-sanity.json and its supervision log.
+- Final graph: 107 core entities, 161 core connections, 19,928 extracted
+  entities, 8,723 raw connections and 33 matched core entities. Chrome shows
+  19,895 grey points and 20,002 total searchable entities.
+- Installed environment: 970 tests passed in 50.80s without overlays; peak
+  709,511,304 bytes under 1.5 GiB. All eleven Node interaction tests passed.
+  Ruff passed; 304 required source/test/driver files passed formatting.
+  An additional check found existing formatting differences in the legacy
+  visualization generator. Those cosmetic changes were left outside this work.
+- Actual deployed Chrome: desktop and 390x844 mobile screenshots viewed;
+  grey-point selection, search, evidence cards and all 464 connections on
+  the largest raw neighborhood worked. Body width stayed at 390px.
+  Arial 14/18 remained the only rendered font sizes. The inspected text
+  and placeholder contrast minimum was 9.2095:1 over 485 text checks.
+- Settled deployed observation: zero render frames in 5001.2 ms, paused true,
+  20,176,939-byte JS heap. The 1,725,053-byte graph transferred as a
+  552,562-byte encoded body. Reduced motion completed without an interval.
+- Environment snapshot, install, actual undo and actual reapply passed byte,
+  link and metadata checks. All data, failed passes, logs and snapshots remain.
+
+Current evidence: publication-result.json, finish-result.json,
+final-source-sanity.json, installed-environment-tests.log,
+security-environment-application-v3/result.json and
+[viz_browser_validation_2026-10-17.json](viz_browser_validation_2026-10-17.json).
+The dated [v2 report](dated_engine_2026-10-17_v2.md) retains October 16 prices,
+October 15 credit data and each issuer's actual statement period. S4 remains
+unmeasured. Historical confidence and cascade judgments remain explicitly dated.
+One upstream Accelerate advisory has no verified fixed release; the HTML-only
+converter security boundary passes. No unresolved selected-document gap remains.
+
+Earlier dated checkpoints are retained below. Their pending states are superseded by this completion entry.
+
 Latest code and browser checkpoint, 2026-10-18T02:19:05.789244-07:00:
 
 - Python: 970 passed in 13.65s; peak 702,924,960 bytes under 1.5 GiB.
