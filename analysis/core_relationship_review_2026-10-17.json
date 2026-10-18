@@ -744,6 +744,2158 @@
           "source_sha256": "0d8253ec2e084cdff6bf975ddefe64b47a4d5c5c94c93baf7cb5b55bd2da299d"
         }
       ]
+    },
+    {
+      "from": "Amazon",
+      "to": "OpenAI",
+      "type": "equity_investment",
+      "usd": 50000000000.0,
+      "amount_label": "funded investment cost",
+      "tier": "filing_verified",
+      "note": "Q2 filing: $28.7B invested by June 30 and the remaining $21.3B invested subsequently. This completes the February $50B commitment; it is not a new $50B on top of that commitment.",
+      "sources": [
+        {
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1018724/000101872426000026/amzn-20260630.htm",
+          "published": "2026-07-31",
+          "source_sha256": "e2397820a55b6790b5e6f5e563a0ad0cbcaa8379702a68795fc6b34e4cf68d0f"
+        },
+        {
+          "source_uri": "https://openai.com/index/amazon-partnership/",
+          "published": "2026-02-27",
+          "source_sha256": "46259072618ad70b7497893e14bde869118d8d4db4c4d5b7866e9cbbeff9585c"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "funded_by_period_end_usd": 28700000000.0,
+      "funded_subsequently_usd": 21300000000.0
+    },
+    {
+      "from": "SoftBank",
+      "to": "OpenAI",
+      "type": "equity_investment",
+      "usd": 64600000000.0,
+      "amount_label": "cumulative funded investment cost",
+      "tier": "issuer_announced",
+      "note": "October 1: final $10B tranche completed the $30B 2026 follow-on. Cumulative investment is $64.6B, with approximately 13% ownership. Cumulative investment is transaction cost, not current stake value.",
+      "sources": [
+        {
+          "source_uri": "https://group.softbank/en/news/press/20261001",
+          "published": "2026-10-01",
+          "source_sha256": "e4ea14c42816c11b513507112ba326d633f0876a1b467198a936c237af44ad48"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "funded_2026_follow_on_usd": 30000000000.0
+    },
+    {
+      "from": "Amazon",
+      "to": "Anthropic",
+      "type": "funding_arrangement",
+      "usd": 18000000000.0,
+      "amount_label": "cumulative funded investment cost",
+      "tier": "filing_verified",
+      "note": "Q2 filing: prior $8B plus $5B Series G and $5B Series H investments. The separate $20B milestone-linked facility has $15B remaining after the Series H investment. Remaining capacity is conditional, not funded cash or debt already drawn.",
+      "sources": [
+        {
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1018724/000101872426000026/amzn-20260630.htm",
+          "published": "2026-07-31",
+          "source_sha256": "e2397820a55b6790b5e6f5e563a0ad0cbcaa8379702a68795fc6b34e4cf68d0f"
+        },
+        {
+          "source_uri": "https://www.anthropic.com/news/anthropic-amazon-compute",
+          "published": "2026-04-20",
+          "source_sha256": "705c6d827a804638c1990e84a045a799091e09c7a5592469a49c898651710820"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "funded_prior_usd": 8000000000.0,
+      "funded_q2_usd": 10000000000.0,
+      "remaining_conditional_facility_usd": 15000000000.0
+    },
+    {
+      "from": "OpenAI",
+      "to": "Amazon",
+      "type": "cloud_services_contract",
+      "usd": 100000000000.0,
+      "amount_label": "incremental eight-year contract commitment",
+      "tier": "filing_verified",
+      "note": "February expansion adds $100B over eight years to the prior $38B arrangement, including approximately 2 GW of Trainium. This is incremental contract value, not remaining AWS backlog, investment cash or a statement debt balance.",
+      "sources": [
+        {
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1018724/000101872426000026/amzn-20260630.htm",
+          "published": "2026-07-31",
+          "source_sha256": "e2397820a55b6790b5e6f5e563a0ad0cbcaa8379702a68795fc6b34e4cf68d0f"
+        },
+        {
+          "source_uri": "https://openai.com/index/amazon-partnership/",
+          "published": "2026-02-27",
+          "source_sha256": "46259072618ad70b7497893e14bde869118d8d4db4c4d5b7866e9cbbeff9585c"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "prior_announced_contract_usd": 38000000000.0
+    },
+    {
+      "from": "Anthropic",
+      "to": "Amazon",
+      "type": "cloud_services_contract",
+      "usd": 100000000000.0,
+      "amount_label": "more than this ten-year incremental commitment",
+      "tier": "filing_verified",
+      "note": "More than $100B incremental AWS commitment over ten years, for up to 5 GW. Delivery milestones and chip performance obligations apply. $100B is a lower bound, not a precise remaining obligation or funded investment.",
+      "sources": [
+        {
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1018724/000101872426000026/amzn-20260630.htm",
+          "published": "2026-07-31",
+          "source_sha256": "e2397820a55b6790b5e6f5e563a0ad0cbcaa8379702a68795fc6b34e4cf68d0f"
+        },
+        {
+          "source_uri": "https://www.anthropic.com/news/anthropic-amazon-compute",
+          "published": "2026-04-20",
+          "source_sha256": "705c6d827a804638c1990e84a045a799091e09c7a5592469a49c898651710820"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "amount_is_lower_bound": true
+    },
+    {
+      "from": "NVIDIA",
+      "to": "Anthropic",
+      "type": "announced_investment",
+      "usd": 10000000000.0,
+      "amount_label": "investment commitment ceiling",
+      "tier": "issuer_announced",
+      "note": "November 2025 ceiling; the February Series G includes a portion of previously announced NVIDIA and Microsoft investments. Separate funded installments are not reconciled by these announcements.",
+      "sources": [
+        {
+          "source_uri": "https://www.anthropic.com/news/microsoft-nvidia-anthropic-announce-strategic-partnerships",
+          "published": "2025-11-18",
+          "source_sha256": "e570fce3d07eff4ca8c49d4dc8be68e9941bd92099d7d7d9ed7dfb6bf358c54d"
+        },
+        {
+          "source_uri": "https://www.anthropic.com/news/anthropic-raises-30-billion-series-g-funding-380-billion-post-money-valuation",
+          "published": "2026-02-12",
+          "source_sha256": "727d719994d617bfdee6de5255154c0550c753ec21b5f8522cfeeb7f51315d2c"
+        }
+      ],
+      "review_as_of": "2026-10-17"
+    },
+    {
+      "from": "Microsoft",
+      "to": "Anthropic",
+      "type": "announced_investment",
+      "usd": 5000000000.0,
+      "amount_label": "investment commitment ceiling",
+      "tier": "issuer_announced",
+      "note": "November 2025 ceiling; the February Series G includes a portion of previously announced Microsoft and NVIDIA investments. Do not add the ceiling again to the Series G round.",
+      "sources": [
+        {
+          "source_uri": "https://www.anthropic.com/news/microsoft-nvidia-anthropic-announce-strategic-partnerships",
+          "published": "2025-11-18",
+          "source_sha256": "e570fce3d07eff4ca8c49d4dc8be68e9941bd92099d7d7d9ed7dfb6bf358c54d"
+        },
+        {
+          "source_uri": "https://www.anthropic.com/news/anthropic-raises-30-billion-series-g-funding-380-billion-post-money-valuation",
+          "published": "2026-02-12",
+          "source_sha256": "727d719994d617bfdee6de5255154c0550c753ec21b5f8522cfeeb7f51315d2c"
+        }
+      ],
+      "review_as_of": "2026-10-17"
+    },
+    {
+      "from": "Anthropic",
+      "to": "Microsoft",
+      "type": "cloud_services_contract",
+      "usd": 30000000000.0,
+      "amount_label": "announced Azure purchase commitment",
+      "tier": "issuer_announced",
+      "note": "November 2025 Azure compute commitment, alongside plans to contract up to an additional gigawatt. It is not current recognized revenue, funded equity or issuer debt.",
+      "sources": [
+        {
+          "source_uri": "https://www.anthropic.com/news/microsoft-nvidia-anthropic-announce-strategic-partnerships",
+          "published": "2025-11-18",
+          "source_sha256": "e570fce3d07eff4ca8c49d4dc8be68e9941bd92099d7d7d9ed7dfb6bf358c54d"
+        }
+      ],
+      "review_as_of": "2026-10-17"
+    },
+    {
+      "from": "Anthropic",
+      "to": "NVIDIA",
+      "type": "gpu_purchase",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "NVIDIA architecture partnership and initial compute commitment up to 1 GW. Current delivered capacity and direct hardware spending are unmeasured.",
+      "sources": [
+        {
+          "source_uri": "https://www.anthropic.com/news/microsoft-nvidia-anthropic-announce-strategic-partnerships",
+          "published": "2025-11-18",
+          "source_sha256": "e570fce3d07eff4ca8c49d4dc8be68e9941bd92099d7d7d9ed7dfb6bf358c54d"
+        }
+      ],
+      "review_as_of": "2026-10-17"
+    },
+    {
+      "from": "OpenAI",
+      "to": "Microsoft",
+      "type": "cloud_services_contract",
+      "usd": 250000000000.0,
+      "amount_label": "incremental Azure contract announcement",
+      "tier": "issuer_announced",
+      "note": "October 2025 incremental Azure services contract. April 27 amendment retains Azure as primary cloud partner, permits all products across cloud providers and makes the IP license non-exclusive. Remaining contract balance is unmeasured.",
+      "sources": [
+        {
+          "source_uri": "https://openai.com/index/next-chapter-of-microsoft-openai-partnership/",
+          "published": "2025-10-28",
+          "source_sha256": "f52d225c9eae66c7fe2c040017eedbc78b13eb49284a4bcd4af594338cbe246c"
+        },
+        {
+          "source_uri": "https://openai.com/index/next-phase-of-microsoft-partnership/",
+          "published": "2026-04-27",
+          "source_sha256": "a3f8a48f2cc817fa81ea299afc3679c7d666dc01e124065e742a2e4220d1d35e"
+        }
+      ],
+      "review_as_of": "2026-10-17"
+    },
+    {
+      "from": "Anthropic",
+      "to": "Google",
+      "type": "compute_capacity_agreement",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "Google and Broadcom agreement: 5 GW of next-generation TPU capacity, expected to begin coming online in 2027. Capacity and announced dollar commitments are distinct; no current delivered capacity is inferred.",
+      "sources": [
+        {
+          "source_uri": "https://www.anthropic.com/news/series-h",
+          "published": "2026-05-28",
+          "source_sha256": "ae6c2dab32952e08cdafedce39e4a2f9af805be24d5ac358f90c215a83fe7729"
+        },
+        {
+          "source_uri": "https://www.anthropic.com/news/google-broadcom-partnership-compute",
+          "published": "2026-04-06",
+          "source_sha256": "fff6fc9a3ffd7c39f5bb6b43c7f3f13ab03bd28e9364d8824cbbac41df6d6332"
+        }
+      ],
+      "review_as_of": "2026-10-17"
+    },
+    {
+      "from": "Anthropic",
+      "to": "Broadcom",
+      "type": "compute_capacity_agreement",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "Named partner in the same Google/Broadcom 5 GW TPU agreement. This is one shared agreement; the two partner connections do not double its capacity.",
+      "sources": [
+        {
+          "source_uri": "https://www.anthropic.com/news/series-h",
+          "published": "2026-05-28",
+          "source_sha256": "ae6c2dab32952e08cdafedce39e4a2f9af805be24d5ac358f90c215a83fe7729"
+        },
+        {
+          "source_uri": "https://www.anthropic.com/news/google-broadcom-partnership-compute",
+          "published": "2026-04-06",
+          "source_sha256": "fff6fc9a3ffd7c39f5bb6b43c7f3f13ab03bd28e9364d8824cbbac41df6d6332"
+        }
+      ],
+      "review_as_of": "2026-10-17"
+    },
+    {
+      "from": "Anthropic",
+      "to": "SpaceX",
+      "type": "compute_capacity_agreement",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "May agreement grants access to all Colossus 1 compute: more than 300 MW and over 220,000 NVIDIA GPUs. May 28 also names Colossus 2. Dollar value, current utilization and delivered incremental capacity are unmeasured.",
+      "sources": [
+        {
+          "source_uri": "https://www.anthropic.com/news/higher-limits-spacex",
+          "published": "2026-05-06",
+          "source_sha256": "daa6ab58abc149fa22012a18df0e9478d957f43599ca0f2ea8d36276f9702ee2"
+        },
+        {
+          "source_uri": "https://www.anthropic.com/news/series-h",
+          "published": "2026-05-28",
+          "source_sha256": "ae6c2dab32952e08cdafedce39e4a2f9af805be24d5ac358f90c215a83fe7729"
+        }
+      ],
+      "review_as_of": "2026-10-17"
+    },
+    {
+      "from": "Anthropic",
+      "to": "Fluidstack",
+      "type": "infrastructure_development",
+      "usd": 50000000000.0,
+      "amount_label": "announced infrastructure program",
+      "tier": "issuer_announced",
+      "note": "November 2025 American infrastructure program with Fluidstack in Texas and New York, with sites planned throughout 2026. Program size is not a measured Fluidstack receivable, financed cash, issuer debt or remaining backlog.",
+      "sources": [
+        {
+          "source_uri": "https://www.anthropic.com/news/anthropic-invests-50-billion-in-american-ai-infrastructure",
+          "published": "2025-11-12",
+          "source_sha256": "aa63944ed67bb2ec92096c138124ddddcf89440655aef91079f35ae4c3cc97bc"
+        }
+      ],
+      "review_as_of": "2026-10-17"
+    },
+    {
+      "from": "OpenAI",
+      "to": "Oracle",
+      "type": "compute_capacity_agreement",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "July 2025 agreement for 4.5 GW of additional Stargate development; Oracle remains a named March 2026 cloud partner. The reviewed company announcements do not establish a dollar contract balance.",
+      "sources": [
+        {
+          "source_uri": "https://openai.com/index/stargate-advances-with-partnership-with-oracle/",
+          "published": "2025-07-22",
+          "source_sha256": "74d0fa364bcad85e9338840aaf529b36d2b2188bd12c7e0fb83dc054fe4d964c"
+        },
+        {
+          "source_uri": "https://openai.com/index/accelerating-the-next-phase-ai/",
+          "published": "2026-03-31",
+          "source_sha256": "44ddaeb48533036b12c714c5ab562084f6faa49bcec69ee274dd13473efb145d"
+        }
+      ],
+      "review_as_of": "2026-10-17"
+    },
+    {
+      "from": "OpenAI",
+      "to": "Broadcom",
+      "type": "compute_capacity_agreement",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "10 GW custom accelerator collaboration, with initial deployments targeted for the second half of 2026 and completion by end-2029. This announcement does not verify delivery or dollar spending.",
+      "sources": [
+        {
+          "source_uri": "https://openai.com/index/openai-and-broadcom-announce-strategic-collaboration/",
+          "published": "2025-10-13",
+          "source_sha256": "59920c503b641cdb9b52fbc3e165356bcf9dac2fdc363b29bdc6dd4cb4f2b7dc"
+        }
+      ],
+      "review_as_of": "2026-10-17"
+    },
+    {
+      "from": "OpenAI",
+      "to": "AMD",
+      "type": "compute_capacity_agreement",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "6 GW multi-generation GPU agreement; initial 1 GW planned for the second half of 2026. AMD issued a warrant for up to 160M shares that vests against deployment and other milestones. No exercised shares, delivered capacity or market value is inferred.",
+      "sources": [
+        {
+          "source_uri": "https://ir.amd.com/news-events/press-releases/detail/1260/amd-and-openai-announce-strategic-partnership-to-deploy-6-gigawatts-of-amd-gpus",
+          "published": "2025-10-06",
+          "source_sha256": "5ee500c834266d18d2257d48722b2b6a94abc504754571c464d50eb6e507aee0"
+        }
+      ],
+      "review_as_of": "2026-10-17"
+    },
+    {
+      "from": "OpenAI",
+      "to": "Cerebras",
+      "type": "compute_capacity_agreement",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "750 MW multi-year wafer-scale deployment agreement, rolling out in stages beginning in 2026. Current delivered capacity and dollar contract value are unmeasured.",
+      "sources": [
+        {
+          "source_uri": "https://www.cerebras.ai/blog/openai-partners-with-cerebras-to-bring-high-speed-inference-to-the-mainstream",
+          "published": "2026-01-14",
+          "source_sha256": "0a86d9b05ed58847f406402298b6f0e9343b54a1c56d2cbed4510dbb770a5f41"
+        }
+      ],
+      "review_as_of": "2026-10-17"
+    },
+    {
+      "from": "OpenAI",
+      "to": "Google",
+      "type": "cloud_provider_relationship",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "Named cloud partner in OpenAI's March 31 company disclosure. Individual contract value is undisclosed.",
+      "sources": [
+        {
+          "source_uri": "https://openai.com/index/accelerating-the-next-phase-ai/",
+          "published": "2026-03-31",
+          "source_sha256": "44ddaeb48533036b12c714c5ab562084f6faa49bcec69ee274dd13473efb145d"
+        }
+      ],
+      "review_as_of": "2026-10-17"
+    },
+    {
+      "from": "Google",
+      "to": "Anthropic",
+      "type": "historical_equity_investment",
+      "usd": null,
+      "amount_label": null,
+      "tier": "historical",
+      "note": "Google is named in the May 2023 Series C. Current funded investment and stake are unmeasured here. The June 2026 Alphabet filing uses an unnamed private company and cannot independently attribute that company's balances to Anthropic.",
+      "sources": [
+        {
+          "source_uri": "https://www.anthropic.com/news/anthropic-series-c",
+          "published": "2023-05-23",
+          "source_sha256": "36cccbe1130fc3f057d4c7fdb36d21ca0e1613375efd2ada378116ac0c46185a"
+        },
+        {
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1652044/000165204426000071/goog-20260630.htm",
+          "published": "2026-07-23",
+          "source_sha256": "72980c23944813e47074e432ed0a02c3d39b7ea8e23bc63327f8f58219e634f3"
+        }
+      ],
+      "review_as_of": "2026-10-17"
+    },
+    {
+      "from": "a16z",
+      "to": "OpenAI",
+      "type": "funding_round_participant",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "March 2026 round participant; individual allocation undisclosed.",
+      "sources": [
+        {
+          "source_uri": "https://openai.com/index/accelerating-the-next-phase-ai/",
+          "published": "2026-03-31",
+          "source_sha256": "44ddaeb48533036b12c714c5ab562084f6faa49bcec69ee274dd13473efb145d"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "round_ids": [
+        "openai-2026-march"
+      ]
+    },
+    {
+      "from": "D. E. Shaw Ventures",
+      "to": "OpenAI",
+      "type": "funding_round_participant",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "March 2026 round participant; individual allocation undisclosed.",
+      "sources": [
+        {
+          "source_uri": "https://openai.com/index/accelerating-the-next-phase-ai/",
+          "published": "2026-03-31",
+          "source_sha256": "44ddaeb48533036b12c714c5ab562084f6faa49bcec69ee274dd13473efb145d"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "round_ids": [
+        "openai-2026-march"
+      ]
+    },
+    {
+      "from": "MGX",
+      "to": "OpenAI",
+      "type": "funding_round_participant",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "March 2026 round participant; individual allocation undisclosed.",
+      "sources": [
+        {
+          "source_uri": "https://openai.com/index/accelerating-the-next-phase-ai/",
+          "published": "2026-03-31",
+          "source_sha256": "44ddaeb48533036b12c714c5ab562084f6faa49bcec69ee274dd13473efb145d"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "round_ids": [
+        "openai-2026-march"
+      ]
+    },
+    {
+      "from": "TPG",
+      "to": "OpenAI",
+      "type": "funding_round_participant",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "March 2026 round participant; individual allocation undisclosed.",
+      "sources": [
+        {
+          "source_uri": "https://openai.com/index/accelerating-the-next-phase-ai/",
+          "published": "2026-03-31",
+          "source_sha256": "44ddaeb48533036b12c714c5ab562084f6faa49bcec69ee274dd13473efb145d"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "round_ids": [
+        "openai-2026-march"
+      ]
+    },
+    {
+      "from": "T. Rowe Price Associates accounts",
+      "to": "OpenAI",
+      "type": "funding_round_participant",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "March 2026 round participant; individual allocation undisclosed.",
+      "sources": [
+        {
+          "source_uri": "https://openai.com/index/accelerating-the-next-phase-ai/",
+          "published": "2026-03-31",
+          "source_sha256": "44ddaeb48533036b12c714c5ab562084f6faa49bcec69ee274dd13473efb145d"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "round_ids": [
+        "openai-2026-march"
+      ]
+    },
+    {
+      "from": "Altimeter Capital",
+      "to": "OpenAI",
+      "type": "funding_round_participant",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "March 2026 round participant; individual allocation undisclosed.",
+      "sources": [
+        {
+          "source_uri": "https://openai.com/index/accelerating-the-next-phase-ai/",
+          "published": "2026-03-31",
+          "source_sha256": "44ddaeb48533036b12c714c5ab562084f6faa49bcec69ee274dd13473efb145d"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "round_ids": [
+        "openai-2026-march"
+      ]
+    },
+    {
+      "from": "Appaloosa LP",
+      "to": "OpenAI",
+      "type": "funding_round_participant",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "March 2026 round participant; individual allocation undisclosed.",
+      "sources": [
+        {
+          "source_uri": "https://openai.com/index/accelerating-the-next-phase-ai/",
+          "published": "2026-03-31",
+          "source_sha256": "44ddaeb48533036b12c714c5ab562084f6faa49bcec69ee274dd13473efb145d"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "round_ids": [
+        "openai-2026-march"
+      ]
+    },
+    {
+      "from": "ARK Invest",
+      "to": "OpenAI",
+      "type": "funding_round_participant",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "March 2026 round participant; individual allocation undisclosed.",
+      "sources": [
+        {
+          "source_uri": "https://openai.com/index/accelerating-the-next-phase-ai/",
+          "published": "2026-03-31",
+          "source_sha256": "44ddaeb48533036b12c714c5ab562084f6faa49bcec69ee274dd13473efb145d"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "round_ids": [
+        "openai-2026-march"
+      ]
+    },
+    {
+      "from": "BlackRock affiliated funds",
+      "to": "OpenAI",
+      "type": "funding_round_participant",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "March 2026 round participant; individual allocation undisclosed.",
+      "sources": [
+        {
+          "source_uri": "https://openai.com/index/accelerating-the-next-phase-ai/",
+          "published": "2026-03-31",
+          "source_sha256": "44ddaeb48533036b12c714c5ab562084f6faa49bcec69ee274dd13473efb145d"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "round_ids": [
+        "openai-2026-march"
+      ]
+    },
+    {
+      "from": "Blackstone",
+      "to": "OpenAI",
+      "type": "funding_round_participant",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "March 2026 round participant; individual allocation undisclosed.",
+      "sources": [
+        {
+          "source_uri": "https://openai.com/index/accelerating-the-next-phase-ai/",
+          "published": "2026-03-31",
+          "source_sha256": "44ddaeb48533036b12c714c5ab562084f6faa49bcec69ee274dd13473efb145d"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "round_ids": [
+        "openai-2026-march"
+      ]
+    },
+    {
+      "from": "Coatue",
+      "to": "OpenAI",
+      "type": "funding_round_participant",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "March 2026 round participant; individual allocation undisclosed.",
+      "sources": [
+        {
+          "source_uri": "https://openai.com/index/accelerating-the-next-phase-ai/",
+          "published": "2026-03-31",
+          "source_sha256": "44ddaeb48533036b12c714c5ab562084f6faa49bcec69ee274dd13473efb145d"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "round_ids": [
+        "openai-2026-march"
+      ]
+    },
+    {
+      "from": "D1 Capital Partners",
+      "to": "OpenAI",
+      "type": "funding_round_participant",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "March 2026 round participant; individual allocation undisclosed.",
+      "sources": [
+        {
+          "source_uri": "https://openai.com/index/accelerating-the-next-phase-ai/",
+          "published": "2026-03-31",
+          "source_sha256": "44ddaeb48533036b12c714c5ab562084f6faa49bcec69ee274dd13473efb145d"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "round_ids": [
+        "openai-2026-march"
+      ]
+    },
+    {
+      "from": "Dragoneer",
+      "to": "OpenAI",
+      "type": "funding_round_participant",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "March 2026 round participant; individual allocation undisclosed.",
+      "sources": [
+        {
+          "source_uri": "https://openai.com/index/accelerating-the-next-phase-ai/",
+          "published": "2026-03-31",
+          "source_sha256": "44ddaeb48533036b12c714c5ab562084f6faa49bcec69ee274dd13473efb145d"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "round_ids": [
+        "openai-2026-march"
+      ]
+    },
+    {
+      "from": "Fidelity Management & Research",
+      "to": "OpenAI",
+      "type": "funding_round_participant",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "March 2026 round participant; individual allocation undisclosed.",
+      "sources": [
+        {
+          "source_uri": "https://openai.com/index/accelerating-the-next-phase-ai/",
+          "published": "2026-03-31",
+          "source_sha256": "44ddaeb48533036b12c714c5ab562084f6faa49bcec69ee274dd13473efb145d"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "round_ids": [
+        "openai-2026-march"
+      ]
+    },
+    {
+      "from": "Goanna Capital",
+      "to": "OpenAI",
+      "type": "funding_round_participant",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "March 2026 round participant; individual allocation undisclosed.",
+      "sources": [
+        {
+          "source_uri": "https://openai.com/index/accelerating-the-next-phase-ai/",
+          "published": "2026-03-31",
+          "source_sha256": "44ddaeb48533036b12c714c5ab562084f6faa49bcec69ee274dd13473efb145d"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "round_ids": [
+        "openai-2026-march"
+      ]
+    },
+    {
+      "from": "The Paragon Group",
+      "to": "OpenAI",
+      "type": "funding_round_participant",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "March 2026 round participant; individual allocation undisclosed.",
+      "sources": [
+        {
+          "source_uri": "https://openai.com/index/accelerating-the-next-phase-ai/",
+          "published": "2026-03-31",
+          "source_sha256": "44ddaeb48533036b12c714c5ab562084f6faa49bcec69ee274dd13473efb145d"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "round_ids": [
+        "openai-2026-march"
+      ]
+    },
+    {
+      "from": "Sands Capital",
+      "to": "OpenAI",
+      "type": "funding_round_participant",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "March 2026 round participant; individual allocation undisclosed.",
+      "sources": [
+        {
+          "source_uri": "https://openai.com/index/accelerating-the-next-phase-ai/",
+          "published": "2026-03-31",
+          "source_sha256": "44ddaeb48533036b12c714c5ab562084f6faa49bcec69ee274dd13473efb145d"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "round_ids": [
+        "openai-2026-march"
+      ]
+    },
+    {
+      "from": "Sequoia Capital",
+      "to": "OpenAI",
+      "type": "funding_round_participant",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "March 2026 round participant; individual allocation undisclosed.",
+      "sources": [
+        {
+          "source_uri": "https://openai.com/index/accelerating-the-next-phase-ai/",
+          "published": "2026-03-31",
+          "source_sha256": "44ddaeb48533036b12c714c5ab562084f6faa49bcec69ee274dd13473efb145d"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "round_ids": [
+        "openai-2026-march"
+      ]
+    },
+    {
+      "from": "Sound Ventures",
+      "to": "OpenAI",
+      "type": "funding_round_participant",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "March 2026 round participant; individual allocation undisclosed.",
+      "sources": [
+        {
+          "source_uri": "https://openai.com/index/accelerating-the-next-phase-ai/",
+          "published": "2026-03-31",
+          "source_sha256": "44ddaeb48533036b12c714c5ab562084f6faa49bcec69ee274dd13473efb145d"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "round_ids": [
+        "openai-2026-march"
+      ]
+    },
+    {
+      "from": "Temasek",
+      "to": "OpenAI",
+      "type": "funding_round_participant",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "March 2026 round participant; individual allocation undisclosed.",
+      "sources": [
+        {
+          "source_uri": "https://openai.com/index/accelerating-the-next-phase-ai/",
+          "published": "2026-03-31",
+          "source_sha256": "44ddaeb48533036b12c714c5ab562084f6faa49bcec69ee274dd13473efb145d"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "round_ids": [
+        "openai-2026-march"
+      ]
+    },
+    {
+      "from": "Thrive Capital",
+      "to": "OpenAI",
+      "type": "funding_round_participant",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "March 2026 round participant; individual allocation undisclosed.",
+      "sources": [
+        {
+          "source_uri": "https://openai.com/index/accelerating-the-next-phase-ai/",
+          "published": "2026-03-31",
+          "source_sha256": "44ddaeb48533036b12c714c5ab562084f6faa49bcec69ee274dd13473efb145d"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "round_ids": [
+        "openai-2026-march"
+      ]
+    },
+    {
+      "from": "UC Investments",
+      "to": "OpenAI",
+      "type": "funding_round_participant",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "March 2026 round participant; individual allocation undisclosed.",
+      "sources": [
+        {
+          "source_uri": "https://openai.com/index/accelerating-the-next-phase-ai/",
+          "published": "2026-03-31",
+          "source_sha256": "44ddaeb48533036b12c714c5ab562084f6faa49bcec69ee274dd13473efb145d"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "round_ids": [
+        "openai-2026-march"
+      ]
+    },
+    {
+      "from": "Winslow Capital",
+      "to": "OpenAI",
+      "type": "funding_round_participant",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "March 2026 round participant; individual allocation undisclosed.",
+      "sources": [
+        {
+          "source_uri": "https://openai.com/index/accelerating-the-next-phase-ai/",
+          "published": "2026-03-31",
+          "source_sha256": "44ddaeb48533036b12c714c5ab562084f6faa49bcec69ee274dd13473efb145d"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "round_ids": [
+        "openai-2026-march"
+      ]
+    },
+    {
+      "from": "Insight Partners",
+      "to": "OpenAI",
+      "type": "funding_round_participant",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "March 2026 round participant; individual allocation undisclosed.",
+      "sources": [
+        {
+          "source_uri": "https://openai.com/index/accelerating-the-next-phase-ai/",
+          "published": "2026-03-31",
+          "source_sha256": "44ddaeb48533036b12c714c5ab562084f6faa49bcec69ee274dd13473efb145d"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "round_ids": [
+        "openai-2026-march"
+      ]
+    },
+    {
+      "from": "AMP PBC",
+      "to": "Anthropic",
+      "type": "funding_round_participant",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "Series G; Series H participant; individual allocation undisclosed.",
+      "sources": [
+        {
+          "source_uri": "https://www.anthropic.com/news/anthropic-raises-30-billion-series-g-funding-380-billion-post-money-valuation",
+          "published": "2026-02-12",
+          "source_sha256": "727d719994d617bfdee6de5255154c0550c753ec21b5f8522cfeeb7f51315d2c"
+        },
+        {
+          "source_uri": "https://www.anthropic.com/news/series-h",
+          "published": "2026-05-28",
+          "source_sha256": "ae6c2dab32952e08cdafedce39e4a2f9af805be24d5ac358f90c215a83fe7729"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "round_ids": [
+        "anthropic-2026-series-g",
+        "anthropic-2026-series-h"
+      ]
+    },
+    {
+      "from": "Accel",
+      "to": "Anthropic",
+      "type": "funding_round_participant",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "Series G participant; individual allocation undisclosed.",
+      "sources": [
+        {
+          "source_uri": "https://www.anthropic.com/news/anthropic-raises-30-billion-series-g-funding-380-billion-post-money-valuation",
+          "published": "2026-02-12",
+          "source_sha256": "727d719994d617bfdee6de5255154c0550c753ec21b5f8522cfeeb7f51315d2c"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "round_ids": [
+        "anthropic-2026-series-g"
+      ]
+    },
+    {
+      "from": "Addition",
+      "to": "Anthropic",
+      "type": "funding_round_participant",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "Series G participant; individual allocation undisclosed.",
+      "sources": [
+        {
+          "source_uri": "https://www.anthropic.com/news/anthropic-raises-30-billion-series-g-funding-380-billion-post-money-valuation",
+          "published": "2026-02-12",
+          "source_sha256": "727d719994d617bfdee6de5255154c0550c753ec21b5f8522cfeeb7f51315d2c"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "round_ids": [
+        "anthropic-2026-series-g"
+      ]
+    },
+    {
+      "from": "Alpha Wave Global",
+      "to": "Anthropic",
+      "type": "funding_round_participant",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "Series G participant; individual allocation undisclosed.",
+      "sources": [
+        {
+          "source_uri": "https://www.anthropic.com/news/anthropic-raises-30-billion-series-g-funding-380-billion-post-money-valuation",
+          "published": "2026-02-12",
+          "source_sha256": "727d719994d617bfdee6de5255154c0550c753ec21b5f8522cfeeb7f51315d2c"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "round_ids": [
+        "anthropic-2026-series-g"
+      ]
+    },
+    {
+      "from": "Altimeter Capital",
+      "to": "Anthropic",
+      "type": "funding_round_participant",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "Series G; Series H participant; individual allocation undisclosed.",
+      "sources": [
+        {
+          "source_uri": "https://www.anthropic.com/news/anthropic-raises-30-billion-series-g-funding-380-billion-post-money-valuation",
+          "published": "2026-02-12",
+          "source_sha256": "727d719994d617bfdee6de5255154c0550c753ec21b5f8522cfeeb7f51315d2c"
+        },
+        {
+          "source_uri": "https://www.anthropic.com/news/series-h",
+          "published": "2026-05-28",
+          "source_sha256": "ae6c2dab32952e08cdafedce39e4a2f9af805be24d5ac358f90c215a83fe7729"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "round_ids": [
+        "anthropic-2026-series-g",
+        "anthropic-2026-series-h"
+      ]
+    },
+    {
+      "from": "Appaloosa LP",
+      "to": "Anthropic",
+      "type": "funding_round_participant",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "Series G participant; individual allocation undisclosed.",
+      "sources": [
+        {
+          "source_uri": "https://www.anthropic.com/news/anthropic-raises-30-billion-series-g-funding-380-billion-post-money-valuation",
+          "published": "2026-02-12",
+          "source_sha256": "727d719994d617bfdee6de5255154c0550c753ec21b5f8522cfeeb7f51315d2c"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "round_ids": [
+        "anthropic-2026-series-g"
+      ]
+    },
+    {
+      "from": "Baillie Gifford",
+      "to": "Anthropic",
+      "type": "funding_round_participant",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "Series G; Series H participant; individual allocation undisclosed.",
+      "sources": [
+        {
+          "source_uri": "https://www.anthropic.com/news/anthropic-raises-30-billion-series-g-funding-380-billion-post-money-valuation",
+          "published": "2026-02-12",
+          "source_sha256": "727d719994d617bfdee6de5255154c0550c753ec21b5f8522cfeeb7f51315d2c"
+        },
+        {
+          "source_uri": "https://www.anthropic.com/news/series-h",
+          "published": "2026-05-28",
+          "source_sha256": "ae6c2dab32952e08cdafedce39e4a2f9af805be24d5ac358f90c215a83fe7729"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "round_ids": [
+        "anthropic-2026-series-g",
+        "anthropic-2026-series-h"
+      ]
+    },
+    {
+      "from": "Bessemer Venture Partners",
+      "to": "Anthropic",
+      "type": "funding_round_participant",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "Series G participant; individual allocation undisclosed.",
+      "sources": [
+        {
+          "source_uri": "https://www.anthropic.com/news/anthropic-raises-30-billion-series-g-funding-380-billion-post-money-valuation",
+          "published": "2026-02-12",
+          "source_sha256": "727d719994d617bfdee6de5255154c0550c753ec21b5f8522cfeeb7f51315d2c"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "round_ids": [
+        "anthropic-2026-series-g"
+      ]
+    },
+    {
+      "from": "BlackRock affiliated funds",
+      "to": "Anthropic",
+      "type": "funding_round_participant",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "Series G participant; individual allocation undisclosed.",
+      "sources": [
+        {
+          "source_uri": "https://www.anthropic.com/news/anthropic-raises-30-billion-series-g-funding-380-billion-post-money-valuation",
+          "published": "2026-02-12",
+          "source_sha256": "727d719994d617bfdee6de5255154c0550c753ec21b5f8522cfeeb7f51315d2c"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "round_ids": [
+        "anthropic-2026-series-g"
+      ]
+    },
+    {
+      "from": "Blackstone",
+      "to": "Anthropic",
+      "type": "funding_round_participant",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "Series G; Series H participant; individual allocation undisclosed.",
+      "sources": [
+        {
+          "source_uri": "https://www.anthropic.com/news/anthropic-raises-30-billion-series-g-funding-380-billion-post-money-valuation",
+          "published": "2026-02-12",
+          "source_sha256": "727d719994d617bfdee6de5255154c0550c753ec21b5f8522cfeeb7f51315d2c"
+        },
+        {
+          "source_uri": "https://www.anthropic.com/news/series-h",
+          "published": "2026-05-28",
+          "source_sha256": "ae6c2dab32952e08cdafedce39e4a2f9af805be24d5ac358f90c215a83fe7729"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "round_ids": [
+        "anthropic-2026-series-g",
+        "anthropic-2026-series-h"
+      ]
+    },
+    {
+      "from": "Brookfield",
+      "to": "Anthropic",
+      "type": "funding_round_participant",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "Series H participant; individual allocation undisclosed.",
+      "sources": [
+        {
+          "source_uri": "https://www.anthropic.com/news/series-h",
+          "published": "2026-05-28",
+          "source_sha256": "ae6c2dab32952e08cdafedce39e4a2f9af805be24d5ac358f90c215a83fe7729"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "round_ids": [
+        "anthropic-2026-series-h"
+      ]
+    },
+    {
+      "from": "Capital Group",
+      "to": "Anthropic",
+      "type": "funding_round_participant",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "Series H participant; individual allocation undisclosed.",
+      "sources": [
+        {
+          "source_uri": "https://www.anthropic.com/news/series-h",
+          "published": "2026-05-28",
+          "source_sha256": "ae6c2dab32952e08cdafedce39e4a2f9af805be24d5ac358f90c215a83fe7729"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "round_ids": [
+        "anthropic-2026-series-h"
+      ]
+    },
+    {
+      "from": "Coatue",
+      "to": "Anthropic",
+      "type": "funding_round_participant",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "Series G; Series H participant; individual allocation undisclosed.",
+      "sources": [
+        {
+          "source_uri": "https://www.anthropic.com/news/anthropic-raises-30-billion-series-g-funding-380-billion-post-money-valuation",
+          "published": "2026-02-12",
+          "source_sha256": "727d719994d617bfdee6de5255154c0550c753ec21b5f8522cfeeb7f51315d2c"
+        },
+        {
+          "source_uri": "https://www.anthropic.com/news/series-h",
+          "published": "2026-05-28",
+          "source_sha256": "ae6c2dab32952e08cdafedce39e4a2f9af805be24d5ac358f90c215a83fe7729"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "round_ids": [
+        "anthropic-2026-series-g",
+        "anthropic-2026-series-h"
+      ]
+    },
+    {
+      "from": "D. E. Shaw Ventures",
+      "to": "Anthropic",
+      "type": "funding_round_participant",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "Series G; Series H participant; individual allocation undisclosed.",
+      "sources": [
+        {
+          "source_uri": "https://www.anthropic.com/news/anthropic-raises-30-billion-series-g-funding-380-billion-post-money-valuation",
+          "published": "2026-02-12",
+          "source_sha256": "727d719994d617bfdee6de5255154c0550c753ec21b5f8522cfeeb7f51315d2c"
+        },
+        {
+          "source_uri": "https://www.anthropic.com/news/series-h",
+          "published": "2026-05-28",
+          "source_sha256": "ae6c2dab32952e08cdafedce39e4a2f9af805be24d5ac358f90c215a83fe7729"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "round_ids": [
+        "anthropic-2026-series-g",
+        "anthropic-2026-series-h"
+      ]
+    },
+    {
+      "from": "D1 Capital Partners",
+      "to": "Anthropic",
+      "type": "funding_round_participant",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "Series G; Series H participant; individual allocation undisclosed.",
+      "sources": [
+        {
+          "source_uri": "https://www.anthropic.com/news/anthropic-raises-30-billion-series-g-funding-380-billion-post-money-valuation",
+          "published": "2026-02-12",
+          "source_sha256": "727d719994d617bfdee6de5255154c0550c753ec21b5f8522cfeeb7f51315d2c"
+        },
+        {
+          "source_uri": "https://www.anthropic.com/news/series-h",
+          "published": "2026-05-28",
+          "source_sha256": "ae6c2dab32952e08cdafedce39e4a2f9af805be24d5ac358f90c215a83fe7729"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "round_ids": [
+        "anthropic-2026-series-g",
+        "anthropic-2026-series-h"
+      ]
+    },
+    {
+      "from": "DST Global",
+      "to": "Anthropic",
+      "type": "funding_round_participant",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "Series H participant; individual allocation undisclosed.",
+      "sources": [
+        {
+          "source_uri": "https://www.anthropic.com/news/series-h",
+          "published": "2026-05-28",
+          "source_sha256": "ae6c2dab32952e08cdafedce39e4a2f9af805be24d5ac358f90c215a83fe7729"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "round_ids": [
+        "anthropic-2026-series-h"
+      ]
+    },
+    {
+      "from": "Dragoneer",
+      "to": "Anthropic",
+      "type": "funding_round_participant",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "Series G; Series H participant; individual allocation undisclosed.",
+      "sources": [
+        {
+          "source_uri": "https://www.anthropic.com/news/anthropic-raises-30-billion-series-g-funding-380-billion-post-money-valuation",
+          "published": "2026-02-12",
+          "source_sha256": "727d719994d617bfdee6de5255154c0550c753ec21b5f8522cfeeb7f51315d2c"
+        },
+        {
+          "source_uri": "https://www.anthropic.com/news/series-h",
+          "published": "2026-05-28",
+          "source_sha256": "ae6c2dab32952e08cdafedce39e4a2f9af805be24d5ac358f90c215a83fe7729"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "round_ids": [
+        "anthropic-2026-series-g",
+        "anthropic-2026-series-h"
+      ]
+    },
+    {
+      "from": "Fidelity Management & Research",
+      "to": "Anthropic",
+      "type": "funding_round_participant",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "Series G; Series H participant; individual allocation undisclosed.",
+      "sources": [
+        {
+          "source_uri": "https://www.anthropic.com/news/anthropic-raises-30-billion-series-g-funding-380-billion-post-money-valuation",
+          "published": "2026-02-12",
+          "source_sha256": "727d719994d617bfdee6de5255154c0550c753ec21b5f8522cfeeb7f51315d2c"
+        },
+        {
+          "source_uri": "https://www.anthropic.com/news/series-h",
+          "published": "2026-05-28",
+          "source_sha256": "ae6c2dab32952e08cdafedce39e4a2f9af805be24d5ac358f90c215a83fe7729"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "round_ids": [
+        "anthropic-2026-series-g",
+        "anthropic-2026-series-h"
+      ]
+    },
+    {
+      "from": "Founders Fund",
+      "to": "Anthropic",
+      "type": "funding_round_participant",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "Series G participant; individual allocation undisclosed.",
+      "sources": [
+        {
+          "source_uri": "https://www.anthropic.com/news/anthropic-raises-30-billion-series-g-funding-380-billion-post-money-valuation",
+          "published": "2026-02-12",
+          "source_sha256": "727d719994d617bfdee6de5255154c0550c753ec21b5f8522cfeeb7f51315d2c"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "round_ids": [
+        "anthropic-2026-series-g"
+      ]
+    },
+    {
+      "from": "GIC",
+      "to": "Anthropic",
+      "type": "funding_round_participant",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "Series G; Series H participant; individual allocation undisclosed.",
+      "sources": [
+        {
+          "source_uri": "https://www.anthropic.com/news/anthropic-raises-30-billion-series-g-funding-380-billion-post-money-valuation",
+          "published": "2026-02-12",
+          "source_sha256": "727d719994d617bfdee6de5255154c0550c753ec21b5f8522cfeeb7f51315d2c"
+        },
+        {
+          "source_uri": "https://www.anthropic.com/news/series-h",
+          "published": "2026-05-28",
+          "source_sha256": "ae6c2dab32952e08cdafedce39e4a2f9af805be24d5ac358f90c215a83fe7729"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "round_ids": [
+        "anthropic-2026-series-g",
+        "anthropic-2026-series-h"
+      ]
+    },
+    {
+      "from": "General Catalyst",
+      "to": "Anthropic",
+      "type": "funding_round_participant",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "Series G; Series H participant; individual allocation undisclosed.",
+      "sources": [
+        {
+          "source_uri": "https://www.anthropic.com/news/anthropic-raises-30-billion-series-g-funding-380-billion-post-money-valuation",
+          "published": "2026-02-12",
+          "source_sha256": "727d719994d617bfdee6de5255154c0550c753ec21b5f8522cfeeb7f51315d2c"
+        },
+        {
+          "source_uri": "https://www.anthropic.com/news/series-h",
+          "published": "2026-05-28",
+          "source_sha256": "ae6c2dab32952e08cdafedce39e4a2f9af805be24d5ac358f90c215a83fe7729"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "round_ids": [
+        "anthropic-2026-series-g",
+        "anthropic-2026-series-h"
+      ]
+    },
+    {
+      "from": "Goldman Sachs Alternatives",
+      "to": "Anthropic",
+      "type": "funding_round_participant",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "Series G participant; individual allocation undisclosed.",
+      "sources": [
+        {
+          "source_uri": "https://www.anthropic.com/news/anthropic-raises-30-billion-series-g-funding-380-billion-post-money-valuation",
+          "published": "2026-02-12",
+          "source_sha256": "727d719994d617bfdee6de5255154c0550c753ec21b5f8522cfeeb7f51315d2c"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "round_ids": [
+        "anthropic-2026-series-g"
+      ]
+    },
+    {
+      "from": "Greenoaks",
+      "to": "Anthropic",
+      "type": "funding_round_participant",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "Series G; Series H participant; individual allocation undisclosed.",
+      "sources": [
+        {
+          "source_uri": "https://www.anthropic.com/news/anthropic-raises-30-billion-series-g-funding-380-billion-post-money-valuation",
+          "published": "2026-02-12",
+          "source_sha256": "727d719994d617bfdee6de5255154c0550c753ec21b5f8522cfeeb7f51315d2c"
+        },
+        {
+          "source_uri": "https://www.anthropic.com/news/series-h",
+          "published": "2026-05-28",
+          "source_sha256": "ae6c2dab32952e08cdafedce39e4a2f9af805be24d5ac358f90c215a83fe7729"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "round_ids": [
+        "anthropic-2026-series-g",
+        "anthropic-2026-series-h"
+      ]
+    },
+    {
+      "from": "ICONIQ",
+      "to": "Anthropic",
+      "type": "funding_round_participant",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "Series G; Series H participant; individual allocation undisclosed.",
+      "sources": [
+        {
+          "source_uri": "https://www.anthropic.com/news/anthropic-raises-30-billion-series-g-funding-380-billion-post-money-valuation",
+          "published": "2026-02-12",
+          "source_sha256": "727d719994d617bfdee6de5255154c0550c753ec21b5f8522cfeeb7f51315d2c"
+        },
+        {
+          "source_uri": "https://www.anthropic.com/news/series-h",
+          "published": "2026-05-28",
+          "source_sha256": "ae6c2dab32952e08cdafedce39e4a2f9af805be24d5ac358f90c215a83fe7729"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "round_ids": [
+        "anthropic-2026-series-g",
+        "anthropic-2026-series-h"
+      ]
+    },
+    {
+      "from": "Insight Partners",
+      "to": "Anthropic",
+      "type": "funding_round_participant",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "Series G; Series H participant; individual allocation undisclosed.",
+      "sources": [
+        {
+          "source_uri": "https://www.anthropic.com/news/anthropic-raises-30-billion-series-g-funding-380-billion-post-money-valuation",
+          "published": "2026-02-12",
+          "source_sha256": "727d719994d617bfdee6de5255154c0550c753ec21b5f8522cfeeb7f51315d2c"
+        },
+        {
+          "source_uri": "https://www.anthropic.com/news/series-h",
+          "published": "2026-05-28",
+          "source_sha256": "ae6c2dab32952e08cdafedce39e4a2f9af805be24d5ac358f90c215a83fe7729"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "round_ids": [
+        "anthropic-2026-series-g",
+        "anthropic-2026-series-h"
+      ]
+    },
+    {
+      "from": "JPMorgan Chase investment programs",
+      "to": "Anthropic",
+      "type": "funding_round_participant",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "Series G participant; individual allocation undisclosed.",
+      "sources": [
+        {
+          "source_uri": "https://www.anthropic.com/news/anthropic-raises-30-billion-series-g-funding-380-billion-post-money-valuation",
+          "published": "2026-02-12",
+          "source_sha256": "727d719994d617bfdee6de5255154c0550c753ec21b5f8522cfeeb7f51315d2c"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "round_ids": [
+        "anthropic-2026-series-g"
+      ]
+    },
+    {
+      "from": "Jane Street",
+      "to": "Anthropic",
+      "type": "funding_round_participant",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "Series G; Series H participant; individual allocation undisclosed.",
+      "sources": [
+        {
+          "source_uri": "https://www.anthropic.com/news/anthropic-raises-30-billion-series-g-funding-380-billion-post-money-valuation",
+          "published": "2026-02-12",
+          "source_sha256": "727d719994d617bfdee6de5255154c0550c753ec21b5f8522cfeeb7f51315d2c"
+        },
+        {
+          "source_uri": "https://www.anthropic.com/news/series-h",
+          "published": "2026-05-28",
+          "source_sha256": "ae6c2dab32952e08cdafedce39e4a2f9af805be24d5ac358f90c215a83fe7729"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "round_ids": [
+        "anthropic-2026-series-g",
+        "anthropic-2026-series-h"
+      ]
+    },
+    {
+      "from": "Lightspeed Venture Partners",
+      "to": "Anthropic",
+      "type": "funding_round_participant",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "Series G; Series H participant; individual allocation undisclosed.",
+      "sources": [
+        {
+          "source_uri": "https://www.anthropic.com/news/anthropic-raises-30-billion-series-g-funding-380-billion-post-money-valuation",
+          "published": "2026-02-12",
+          "source_sha256": "727d719994d617bfdee6de5255154c0550c753ec21b5f8522cfeeb7f51315d2c"
+        },
+        {
+          "source_uri": "https://www.anthropic.com/news/series-h",
+          "published": "2026-05-28",
+          "source_sha256": "ae6c2dab32952e08cdafedce39e4a2f9af805be24d5ac358f90c215a83fe7729"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "round_ids": [
+        "anthropic-2026-series-g",
+        "anthropic-2026-series-h"
+      ]
+    },
+    {
+      "from": "MGX",
+      "to": "Anthropic",
+      "type": "funding_round_participant",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "Series G; Series H participant; individual allocation undisclosed.",
+      "sources": [
+        {
+          "source_uri": "https://www.anthropic.com/news/anthropic-raises-30-billion-series-g-funding-380-billion-post-money-valuation",
+          "published": "2026-02-12",
+          "source_sha256": "727d719994d617bfdee6de5255154c0550c753ec21b5f8522cfeeb7f51315d2c"
+        },
+        {
+          "source_uri": "https://www.anthropic.com/news/series-h",
+          "published": "2026-05-28",
+          "source_sha256": "ae6c2dab32952e08cdafedce39e4a2f9af805be24d5ac358f90c215a83fe7729"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "round_ids": [
+        "anthropic-2026-series-g",
+        "anthropic-2026-series-h"
+      ]
+    },
+    {
+      "from": "Menlo Ventures",
+      "to": "Anthropic",
+      "type": "funding_round_participant",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "Series G participant; individual allocation undisclosed.",
+      "sources": [
+        {
+          "source_uri": "https://www.anthropic.com/news/anthropic-raises-30-billion-series-g-funding-380-billion-post-money-valuation",
+          "published": "2026-02-12",
+          "source_sha256": "727d719994d617bfdee6de5255154c0550c753ec21b5f8522cfeeb7f51315d2c"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "round_ids": [
+        "anthropic-2026-series-g"
+      ]
+    },
+    {
+      "from": "Micron",
+      "to": "Anthropic",
+      "type": "funding_round_participant",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "Series H participant; individual allocation undisclosed.",
+      "sources": [
+        {
+          "source_uri": "https://www.anthropic.com/news/series-h",
+          "published": "2026-05-28",
+          "source_sha256": "ae6c2dab32952e08cdafedce39e4a2f9af805be24d5ac358f90c215a83fe7729"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "round_ids": [
+        "anthropic-2026-series-h"
+      ]
+    },
+    {
+      "from": "Morgan Stanley Investment Management",
+      "to": "Anthropic",
+      "type": "funding_round_participant",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "Series G participant; individual allocation undisclosed.",
+      "sources": [
+        {
+          "source_uri": "https://www.anthropic.com/news/anthropic-raises-30-billion-series-g-funding-380-billion-post-money-valuation",
+          "published": "2026-02-12",
+          "source_sha256": "727d719994d617bfdee6de5255154c0550c753ec21b5f8522cfeeb7f51315d2c"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "round_ids": [
+        "anthropic-2026-series-g"
+      ]
+    },
+    {
+      "from": "NTTVC",
+      "to": "Anthropic",
+      "type": "funding_round_participant",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "Series H participant; individual allocation undisclosed.",
+      "sources": [
+        {
+          "source_uri": "https://www.anthropic.com/news/series-h",
+          "published": "2026-05-28",
+          "source_sha256": "ae6c2dab32952e08cdafedce39e4a2f9af805be24d5ac358f90c215a83fe7729"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "round_ids": [
+        "anthropic-2026-series-h"
+      ]
+    },
+    {
+      "from": "NX1 Capital",
+      "to": "Anthropic",
+      "type": "funding_round_participant",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "Series G; Series H participant; individual allocation undisclosed.",
+      "sources": [
+        {
+          "source_uri": "https://www.anthropic.com/news/anthropic-raises-30-billion-series-g-funding-380-billion-post-money-valuation",
+          "published": "2026-02-12",
+          "source_sha256": "727d719994d617bfdee6de5255154c0550c753ec21b5f8522cfeeb7f51315d2c"
+        },
+        {
+          "source_uri": "https://www.anthropic.com/news/series-h",
+          "published": "2026-05-28",
+          "source_sha256": "ae6c2dab32952e08cdafedce39e4a2f9af805be24d5ac358f90c215a83fe7729"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "round_ids": [
+        "anthropic-2026-series-g",
+        "anthropic-2026-series-h"
+      ]
+    },
+    {
+      "from": "Qatar Investment Authority",
+      "to": "Anthropic",
+      "type": "funding_round_participant",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "Series G participant; individual allocation undisclosed.",
+      "sources": [
+        {
+          "source_uri": "https://www.anthropic.com/news/anthropic-raises-30-billion-series-g-funding-380-billion-post-money-valuation",
+          "published": "2026-02-12",
+          "source_sha256": "727d719994d617bfdee6de5255154c0550c753ec21b5f8522cfeeb7f51315d2c"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "round_ids": [
+        "anthropic-2026-series-g"
+      ]
+    },
+    {
+      "from": "SK hynix",
+      "to": "Anthropic",
+      "type": "funding_round_participant",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "Series H participant; individual allocation undisclosed.",
+      "sources": [
+        {
+          "source_uri": "https://www.anthropic.com/news/series-h",
+          "published": "2026-05-28",
+          "source_sha256": "ae6c2dab32952e08cdafedce39e4a2f9af805be24d5ac358f90c215a83fe7729"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "round_ids": [
+        "anthropic-2026-series-h"
+      ]
+    },
+    {
+      "from": "Samsung",
+      "to": "Anthropic",
+      "type": "funding_round_participant",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "Series H participant; individual allocation undisclosed.",
+      "sources": [
+        {
+          "source_uri": "https://www.anthropic.com/news/series-h",
+          "published": "2026-05-28",
+          "source_sha256": "ae6c2dab32952e08cdafedce39e4a2f9af805be24d5ac358f90c215a83fe7729"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "round_ids": [
+        "anthropic-2026-series-h"
+      ]
+    },
+    {
+      "from": "Sands Capital",
+      "to": "Anthropic",
+      "type": "funding_round_participant",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "Series G participant; individual allocation undisclosed.",
+      "sources": [
+        {
+          "source_uri": "https://www.anthropic.com/news/anthropic-raises-30-billion-series-g-funding-380-billion-post-money-valuation",
+          "published": "2026-02-12",
+          "source_sha256": "727d719994d617bfdee6de5255154c0550c753ec21b5f8522cfeeb7f51315d2c"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "round_ids": [
+        "anthropic-2026-series-g"
+      ]
+    },
+    {
+      "from": "Sequoia Capital",
+      "to": "Anthropic",
+      "type": "funding_round_participant",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "Series G; Series H participant; individual allocation undisclosed.",
+      "sources": [
+        {
+          "source_uri": "https://www.anthropic.com/news/anthropic-raises-30-billion-series-g-funding-380-billion-post-money-valuation",
+          "published": "2026-02-12",
+          "source_sha256": "727d719994d617bfdee6de5255154c0550c753ec21b5f8522cfeeb7f51315d2c"
+        },
+        {
+          "source_uri": "https://www.anthropic.com/news/series-h",
+          "published": "2026-05-28",
+          "source_sha256": "ae6c2dab32952e08cdafedce39e4a2f9af805be24d5ac358f90c215a83fe7729"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "round_ids": [
+        "anthropic-2026-series-g",
+        "anthropic-2026-series-h"
+      ]
+    },
+    {
+      "from": "Situational Awareness LP",
+      "to": "Anthropic",
+      "type": "funding_round_participant",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "Series H participant; individual allocation undisclosed.",
+      "sources": [
+        {
+          "source_uri": "https://www.anthropic.com/news/series-h",
+          "published": "2026-05-28",
+          "source_sha256": "ae6c2dab32952e08cdafedce39e4a2f9af805be24d5ac358f90c215a83fe7729"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "round_ids": [
+        "anthropic-2026-series-h"
+      ]
+    },
+    {
+      "from": "T. Rowe Price Associates accounts",
+      "to": "Anthropic",
+      "type": "funding_round_participant",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "Series H participant; individual allocation undisclosed.",
+      "sources": [
+        {
+          "source_uri": "https://www.anthropic.com/news/series-h",
+          "published": "2026-05-28",
+          "source_sha256": "ae6c2dab32952e08cdafedce39e4a2f9af805be24d5ac358f90c215a83fe7729"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "round_ids": [
+        "anthropic-2026-series-h"
+      ]
+    },
+    {
+      "from": "T. Rowe Price Investment Management",
+      "to": "Anthropic",
+      "type": "funding_round_participant",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "Series H participant; individual allocation undisclosed.",
+      "sources": [
+        {
+          "source_uri": "https://www.anthropic.com/news/series-h",
+          "published": "2026-05-28",
+          "source_sha256": "ae6c2dab32952e08cdafedce39e4a2f9af805be24d5ac358f90c215a83fe7729"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "round_ids": [
+        "anthropic-2026-series-h"
+      ]
+    },
+    {
+      "from": "TPG",
+      "to": "Anthropic",
+      "type": "funding_round_participant",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "Series G participant; individual allocation undisclosed.",
+      "sources": [
+        {
+          "source_uri": "https://www.anthropic.com/news/anthropic-raises-30-billion-series-g-funding-380-billion-post-money-valuation",
+          "published": "2026-02-12",
+          "source_sha256": "727d719994d617bfdee6de5255154c0550c753ec21b5f8522cfeeb7f51315d2c"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "round_ids": [
+        "anthropic-2026-series-g"
+      ]
+    },
+    {
+      "from": "Temasek",
+      "to": "Anthropic",
+      "type": "funding_round_participant",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "Series G; Series H participant; individual allocation undisclosed.",
+      "sources": [
+        {
+          "source_uri": "https://www.anthropic.com/news/anthropic-raises-30-billion-series-g-funding-380-billion-post-money-valuation",
+          "published": "2026-02-12",
+          "source_sha256": "727d719994d617bfdee6de5255154c0550c753ec21b5f8522cfeeb7f51315d2c"
+        },
+        {
+          "source_uri": "https://www.anthropic.com/news/series-h",
+          "published": "2026-05-28",
+          "source_sha256": "ae6c2dab32952e08cdafedce39e4a2f9af805be24d5ac358f90c215a83fe7729"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "round_ids": [
+        "anthropic-2026-series-g",
+        "anthropic-2026-series-h"
+      ]
+    },
+    {
+      "from": "TowerBrook",
+      "to": "Anthropic",
+      "type": "funding_round_participant",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "Series G participant; individual allocation undisclosed.",
+      "sources": [
+        {
+          "source_uri": "https://www.anthropic.com/news/anthropic-raises-30-billion-series-g-funding-380-billion-post-money-valuation",
+          "published": "2026-02-12",
+          "source_sha256": "727d719994d617bfdee6de5255154c0550c753ec21b5f8522cfeeb7f51315d2c"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "round_ids": [
+        "anthropic-2026-series-g"
+      ]
+    },
+    {
+      "from": "Whale Rock Capital",
+      "to": "Anthropic",
+      "type": "funding_round_participant",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "Series G participant; individual allocation undisclosed.",
+      "sources": [
+        {
+          "source_uri": "https://www.anthropic.com/news/anthropic-raises-30-billion-series-g-funding-380-billion-post-money-valuation",
+          "published": "2026-02-12",
+          "source_sha256": "727d719994d617bfdee6de5255154c0550c753ec21b5f8522cfeeb7f51315d2c"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "round_ids": [
+        "anthropic-2026-series-g"
+      ]
+    },
+    {
+      "from": "XN",
+      "to": "Anthropic",
+      "type": "funding_round_participant",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "Series G; Series H participant; individual allocation undisclosed.",
+      "sources": [
+        {
+          "source_uri": "https://www.anthropic.com/news/anthropic-raises-30-billion-series-g-funding-380-billion-post-money-valuation",
+          "published": "2026-02-12",
+          "source_sha256": "727d719994d617bfdee6de5255154c0550c753ec21b5f8522cfeeb7f51315d2c"
+        },
+        {
+          "source_uri": "https://www.anthropic.com/news/series-h",
+          "published": "2026-05-28",
+          "source_sha256": "ae6c2dab32952e08cdafedce39e4a2f9af805be24d5ac358f90c215a83fe7729"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "round_ids": [
+        "anthropic-2026-series-g",
+        "anthropic-2026-series-h"
+      ]
+    },
+    {
+      "from": "OpenAI",
+      "to": "JPMorgan Chase",
+      "type": "undrawn_credit_facility_role",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "Participant in one shared approximately $4.7B revolver, undrawn at March 31 close. Individual allocation and subsequent draws unmeasured.",
+      "sources": [
+        {
+          "source_uri": "https://openai.com/index/accelerating-the-next-phase-ai/",
+          "published": "2026-03-31",
+          "source_sha256": "44ddaeb48533036b12c714c5ab562084f6faa49bcec69ee274dd13473efb145d"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "shared_facility_id": "openai-2026-march-revolver"
+    },
+    {
+      "from": "OpenAI",
+      "to": "Citi",
+      "type": "undrawn_credit_facility_role",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "Participant in one shared approximately $4.7B revolver, undrawn at March 31 close. Individual allocation and subsequent draws unmeasured.",
+      "sources": [
+        {
+          "source_uri": "https://openai.com/index/accelerating-the-next-phase-ai/",
+          "published": "2026-03-31",
+          "source_sha256": "44ddaeb48533036b12c714c5ab562084f6faa49bcec69ee274dd13473efb145d"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "shared_facility_id": "openai-2026-march-revolver"
+    },
+    {
+      "from": "OpenAI",
+      "to": "Goldman Sachs",
+      "type": "undrawn_credit_facility_role",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "Participant in one shared approximately $4.7B revolver, undrawn at March 31 close. Individual allocation and subsequent draws unmeasured.",
+      "sources": [
+        {
+          "source_uri": "https://openai.com/index/accelerating-the-next-phase-ai/",
+          "published": "2026-03-31",
+          "source_sha256": "44ddaeb48533036b12c714c5ab562084f6faa49bcec69ee274dd13473efb145d"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "shared_facility_id": "openai-2026-march-revolver"
+    },
+    {
+      "from": "OpenAI",
+      "to": "Morgan Stanley",
+      "type": "undrawn_credit_facility_role",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "Participant in one shared approximately $4.7B revolver, undrawn at March 31 close. Individual allocation and subsequent draws unmeasured.",
+      "sources": [
+        {
+          "source_uri": "https://openai.com/index/accelerating-the-next-phase-ai/",
+          "published": "2026-03-31",
+          "source_sha256": "44ddaeb48533036b12c714c5ab562084f6faa49bcec69ee274dd13473efb145d"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "shared_facility_id": "openai-2026-march-revolver"
+    },
+    {
+      "from": "OpenAI",
+      "to": "Wells Fargo",
+      "type": "undrawn_credit_facility_role",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "Participant in one shared approximately $4.7B revolver, undrawn at March 31 close. Individual allocation and subsequent draws unmeasured.",
+      "sources": [
+        {
+          "source_uri": "https://openai.com/index/accelerating-the-next-phase-ai/",
+          "published": "2026-03-31",
+          "source_sha256": "44ddaeb48533036b12c714c5ab562084f6faa49bcec69ee274dd13473efb145d"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "shared_facility_id": "openai-2026-march-revolver"
+    },
+    {
+      "from": "OpenAI",
+      "to": "Mizuho",
+      "type": "undrawn_credit_facility_role",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "Participant in one shared approximately $4.7B revolver, undrawn at March 31 close. Individual allocation and subsequent draws unmeasured.",
+      "sources": [
+        {
+          "source_uri": "https://openai.com/index/accelerating-the-next-phase-ai/",
+          "published": "2026-03-31",
+          "source_sha256": "44ddaeb48533036b12c714c5ab562084f6faa49bcec69ee274dd13473efb145d"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "shared_facility_id": "openai-2026-march-revolver"
+    },
+    {
+      "from": "OpenAI",
+      "to": "Royal Bank of Canada",
+      "type": "undrawn_credit_facility_role",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "Participant in one shared approximately $4.7B revolver, undrawn at March 31 close. Individual allocation and subsequent draws unmeasured.",
+      "sources": [
+        {
+          "source_uri": "https://openai.com/index/accelerating-the-next-phase-ai/",
+          "published": "2026-03-31",
+          "source_sha256": "44ddaeb48533036b12c714c5ab562084f6faa49bcec69ee274dd13473efb145d"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "shared_facility_id": "openai-2026-march-revolver"
+    },
+    {
+      "from": "OpenAI",
+      "to": "SMBC",
+      "type": "undrawn_credit_facility_role",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "Participant in one shared approximately $4.7B revolver, undrawn at March 31 close. Individual allocation and subsequent draws unmeasured.",
+      "sources": [
+        {
+          "source_uri": "https://openai.com/index/accelerating-the-next-phase-ai/",
+          "published": "2026-03-31",
+          "source_sha256": "44ddaeb48533036b12c714c5ab562084f6faa49bcec69ee274dd13473efb145d"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "shared_facility_id": "openai-2026-march-revolver"
+    },
+    {
+      "from": "OpenAI",
+      "to": "UBS",
+      "type": "undrawn_credit_facility_role",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "Participant in one shared approximately $4.7B revolver, undrawn at March 31 close. Individual allocation and subsequent draws unmeasured.",
+      "sources": [
+        {
+          "source_uri": "https://openai.com/index/accelerating-the-next-phase-ai/",
+          "published": "2026-03-31",
+          "source_sha256": "44ddaeb48533036b12c714c5ab562084f6faa49bcec69ee274dd13473efb145d"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "shared_facility_id": "openai-2026-march-revolver"
+    },
+    {
+      "from": "OpenAI",
+      "to": "HSBC",
+      "type": "undrawn_credit_facility_role",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "Participant in one shared approximately $4.7B revolver, undrawn at March 31 close. Individual allocation and subsequent draws unmeasured.",
+      "sources": [
+        {
+          "source_uri": "https://openai.com/index/accelerating-the-next-phase-ai/",
+          "published": "2026-03-31",
+          "source_sha256": "44ddaeb48533036b12c714c5ab562084f6faa49bcec69ee274dd13473efb145d"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "shared_facility_id": "openai-2026-march-revolver"
+    },
+    {
+      "from": "OpenAI",
+      "to": "Santander",
+      "type": "undrawn_credit_facility_role",
+      "usd": null,
+      "amount_label": null,
+      "tier": "issuer_announced",
+      "note": "Participant in one shared approximately $4.7B revolver, undrawn at March 31 close. Individual allocation and subsequent draws unmeasured.",
+      "sources": [
+        {
+          "source_uri": "https://openai.com/index/accelerating-the-next-phase-ai/",
+          "published": "2026-03-31",
+          "source_sha256": "44ddaeb48533036b12c714c5ab562084f6faa49bcec69ee274dd13473efb145d"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "shared_facility_id": "openai-2026-march-revolver"
     }
   ],
   "unconfirmed_existing_pairs": [
@@ -774,8 +2926,437 @@
   "limits": [
     "Agent, arranger and trustee roles do not identify beneficial lenders or ultimate loss bearers.",
     "Contract ceilings, financing commitments, equity proceeds and contingent guarantees are separate measures and cannot be added to issuer debt.",
-    "Historical graph relationships remain available with their original claims and dates."
+    "Historical graph relationships remain available with their original claims and dates.",
+    "Funding round totals overlap participant commitments and funded installments. Each has its own date and basis; they cannot be summed as incremental capital or debt.",
+    "The OpenAI revolver is one shared facility. Its bank connections show roles, with no invented individual allocations or assumed subsequent draws.",
+    "Named round participants include advised accounts and managed funds. Their participation does not establish parent-company exposure or ultimate beneficial ownership.",
+    "Planned gigawatts are not verified delivered capacity. Different vendor and infrastructure agreements can overlap and cannot be summed as deployed capacity.",
+    "Current Google-to-Anthropic funding and the reported Nscale contract are not quantified: the reviewed primary disclosures do not reconcile those named dollar balances."
   ],
   "additional_source_manifest": "data/refresh_2026-10-17/core_review_v7/manifest.json",
-  "additional_source_manifest_sha256": "af8570cea47d9dd8d5f5da51ad7033c38bb9e804dcb978702606c033a4cd3fdb"
+  "additional_source_manifest_sha256": "af8570cea47d9dd8d5f5da51ad7033c38bb9e804dcb978702606c033a4cd3fdb",
+  "participants": [
+    {
+      "id": "Amazon",
+      "type": "supplier_offtaker",
+      "note": "Amazon parent, including AWS. Investment cash, future financing capacity and AWS sales commitments use separate measures. The historical Amazon Energy scenarios remain separate."
+    },
+    {
+      "id": "SoftBank",
+      "type": "investor",
+      "note": "SoftBank Group, through Vision Fund 2: $64.6B cumulative OpenAI investment following its October 1 tranche. The March bridge facility is fully repaid and canceled; it is not current bridge debt."
+    },
+    {
+      "id": "OpenAI",
+      "type": "compute_customer",
+      "note": "March 31 round: $122B committed capital at $852B post-money. Amazon later reports completing its $50B investment; SoftBank reports $64.6B cumulative investment on October 1. Commitments and actual investment cost remain separate from current liquidity and stake value."
+    },
+    {
+      "id": "Anthropic",
+      "type": "compute_customer",
+      "note": "May 28 Series H: $65B at $965B post-money, including $15B of previously committed hyperscaler investments. February Series G was $30B. Round totals overlap strategic commitments; they cannot be added to those commitments or to issuer debt."
+    },
+    {
+      "id": "Oracle",
+      "type": "supplier_offtaker",
+      "note": "Named OpenAI cloud partner and party to a 4.5 GW additional Stargate development agreement. That capacity agreement does not establish a disclosed dollar contract value."
+    },
+    {
+      "id": "Broadcom",
+      "type": "supplier_offtaker",
+      "note": "Custom silicon and network partner for OpenAI, and TPU infrastructure partner with Google for Anthropic. Announced gigawatts are planned capacity, not current delivered capacity or debt."
+    },
+    {
+      "id": "Cerebras",
+      "type": "supplier_offtaker",
+      "note": "Named OpenAI inference systems partner under a 750 MW staged deployment agreement beginning in 2026. Disclosed capacity is separate from dollar revenue and delivered capacity."
+    },
+    {
+      "id": "SpaceX",
+      "type": "supplier_offtaker",
+      "note": "Named financing participant. Individual allocation and current stake value are unmeasured."
+    },
+    {
+      "id": "a16z",
+      "type": "investor",
+      "note": "Named financing participant. Individual allocation and current stake value are unmeasured."
+    },
+    {
+      "id": "D. E. Shaw Ventures",
+      "type": "investor",
+      "note": "Named financing participant. Individual allocation and current stake value are unmeasured."
+    },
+    {
+      "id": "MGX",
+      "type": "investor",
+      "note": "Named financing participant. Individual allocation and current stake value are unmeasured."
+    },
+    {
+      "id": "TPG",
+      "type": "investor",
+      "note": "Named financing participant. Individual allocation and current stake value are unmeasured."
+    },
+    {
+      "id": "T. Rowe Price Associates accounts",
+      "type": "investor",
+      "note": "Named financing participant. Individual allocation and current stake value are unmeasured."
+    },
+    {
+      "id": "Altimeter Capital",
+      "type": "investor",
+      "note": "Named financing participant. Individual allocation and current stake value are unmeasured."
+    },
+    {
+      "id": "Appaloosa LP",
+      "type": "investor",
+      "note": "Named financing participant. Individual allocation and current stake value are unmeasured."
+    },
+    {
+      "id": "ARK Invest",
+      "type": "investor",
+      "note": "Named financing participant. Individual allocation and current stake value are unmeasured."
+    },
+    {
+      "id": "BlackRock affiliated funds",
+      "type": "investor",
+      "note": "Named financing participant. Individual allocation and current stake value are unmeasured."
+    },
+    {
+      "id": "D1 Capital Partners",
+      "type": "investor",
+      "note": "Named financing participant. Individual allocation and current stake value are unmeasured."
+    },
+    {
+      "id": "Dragoneer",
+      "type": "investor",
+      "note": "Named financing participant. Individual allocation and current stake value are unmeasured."
+    },
+    {
+      "id": "Fidelity Management & Research",
+      "type": "investor",
+      "note": "Named financing participant. Individual allocation and current stake value are unmeasured."
+    },
+    {
+      "id": "Goanna Capital",
+      "type": "investor",
+      "note": "Named financing participant. Individual allocation and current stake value are unmeasured."
+    },
+    {
+      "id": "The Paragon Group",
+      "type": "investor",
+      "note": "Named financing participant. Individual allocation and current stake value are unmeasured."
+    },
+    {
+      "id": "Sands Capital",
+      "type": "investor",
+      "note": "Named financing participant. Individual allocation and current stake value are unmeasured."
+    },
+    {
+      "id": "Sequoia Capital",
+      "type": "investor",
+      "note": "Named financing participant. Individual allocation and current stake value are unmeasured."
+    },
+    {
+      "id": "Sound Ventures",
+      "type": "investor",
+      "note": "Named financing participant. Individual allocation and current stake value are unmeasured."
+    },
+    {
+      "id": "Temasek",
+      "type": "investor",
+      "note": "Named financing participant. Individual allocation and current stake value are unmeasured."
+    },
+    {
+      "id": "Thrive Capital",
+      "type": "investor",
+      "note": "Named financing participant. Individual allocation and current stake value are unmeasured."
+    },
+    {
+      "id": "UC Investments",
+      "type": "investor",
+      "note": "Named financing participant. Individual allocation and current stake value are unmeasured."
+    },
+    {
+      "id": "Winslow Capital",
+      "type": "investor",
+      "note": "Named financing participant. Individual allocation and current stake value are unmeasured."
+    },
+    {
+      "id": "Insight Partners",
+      "type": "investor",
+      "note": "Named financing participant. Individual allocation and current stake value are unmeasured."
+    },
+    {
+      "id": "AMP PBC",
+      "type": "investor",
+      "note": "Named financing participant. Individual allocation and current stake value are unmeasured."
+    },
+    {
+      "id": "Accel",
+      "type": "investor",
+      "note": "Named financing participant. Individual allocation and current stake value are unmeasured."
+    },
+    {
+      "id": "Addition",
+      "type": "investor",
+      "note": "Named financing participant. Individual allocation and current stake value are unmeasured."
+    },
+    {
+      "id": "Alpha Wave Global",
+      "type": "investor",
+      "note": "Named financing participant. Individual allocation and current stake value are unmeasured."
+    },
+    {
+      "id": "Baillie Gifford",
+      "type": "investor",
+      "note": "Named financing participant. Individual allocation and current stake value are unmeasured."
+    },
+    {
+      "id": "Bessemer Venture Partners",
+      "type": "investor",
+      "note": "Named financing participant. Individual allocation and current stake value are unmeasured."
+    },
+    {
+      "id": "Brookfield",
+      "type": "investor",
+      "note": "Named financing participant. Individual allocation and current stake value are unmeasured."
+    },
+    {
+      "id": "Capital Group",
+      "type": "investor",
+      "note": "Named financing participant. Individual allocation and current stake value are unmeasured."
+    },
+    {
+      "id": "DST Global",
+      "type": "investor",
+      "note": "Named financing participant. Individual allocation and current stake value are unmeasured."
+    },
+    {
+      "id": "Founders Fund",
+      "type": "investor",
+      "note": "Named financing participant. Individual allocation and current stake value are unmeasured."
+    },
+    {
+      "id": "GIC",
+      "type": "investor",
+      "note": "Named financing participant. Individual allocation and current stake value are unmeasured."
+    },
+    {
+      "id": "General Catalyst",
+      "type": "investor",
+      "note": "Named financing participant. Individual allocation and current stake value are unmeasured."
+    },
+    {
+      "id": "Goldman Sachs Alternatives",
+      "type": "investor",
+      "note": "Named financing participant. Individual allocation and current stake value are unmeasured."
+    },
+    {
+      "id": "Greenoaks",
+      "type": "investor",
+      "note": "Named financing participant. Individual allocation and current stake value are unmeasured."
+    },
+    {
+      "id": "ICONIQ",
+      "type": "investor",
+      "note": "Named financing participant. Individual allocation and current stake value are unmeasured."
+    },
+    {
+      "id": "JPMorgan Chase investment programs",
+      "type": "investor",
+      "note": "Named financing participant. Individual allocation and current stake value are unmeasured."
+    },
+    {
+      "id": "Jane Street",
+      "type": "investor",
+      "note": "Named financing participant. Individual allocation and current stake value are unmeasured."
+    },
+    {
+      "id": "Lightspeed Venture Partners",
+      "type": "investor",
+      "note": "Named financing participant. Individual allocation and current stake value are unmeasured."
+    },
+    {
+      "id": "Menlo Ventures",
+      "type": "investor",
+      "note": "Named financing participant. Individual allocation and current stake value are unmeasured."
+    },
+    {
+      "id": "Micron",
+      "type": "investor",
+      "note": "Named financing participant. Individual allocation and current stake value are unmeasured."
+    },
+    {
+      "id": "Morgan Stanley Investment Management",
+      "type": "investor",
+      "note": "Named financing participant. Individual allocation and current stake value are unmeasured."
+    },
+    {
+      "id": "NTTVC",
+      "type": "investor",
+      "note": "Named financing participant. Individual allocation and current stake value are unmeasured."
+    },
+    {
+      "id": "NX1 Capital",
+      "type": "investor",
+      "note": "Named financing participant. Individual allocation and current stake value are unmeasured."
+    },
+    {
+      "id": "Qatar Investment Authority",
+      "type": "investor",
+      "note": "Named financing participant. Individual allocation and current stake value are unmeasured."
+    },
+    {
+      "id": "SK hynix",
+      "type": "investor",
+      "note": "Named financing participant. Individual allocation and current stake value are unmeasured."
+    },
+    {
+      "id": "Samsung",
+      "type": "investor",
+      "note": "Named financing participant. Individual allocation and current stake value are unmeasured."
+    },
+    {
+      "id": "Situational Awareness LP",
+      "type": "investor",
+      "note": "Named financing participant. Individual allocation and current stake value are unmeasured."
+    },
+    {
+      "id": "T. Rowe Price Investment Management",
+      "type": "investor",
+      "note": "Named financing participant. Individual allocation and current stake value are unmeasured."
+    },
+    {
+      "id": "TowerBrook",
+      "type": "investor",
+      "note": "Named financing participant. Individual allocation and current stake value are unmeasured."
+    },
+    {
+      "id": "Whale Rock Capital",
+      "type": "investor",
+      "note": "Named financing participant. Individual allocation and current stake value are unmeasured."
+    },
+    {
+      "id": "XN",
+      "type": "investor",
+      "note": "Named financing participant. Individual allocation and current stake value are unmeasured."
+    },
+    {
+      "id": "Citi",
+      "type": "lender",
+      "note": "Named financing participant. Individual allocation and current stake value are unmeasured."
+    },
+    {
+      "id": "Wells Fargo",
+      "type": "lender",
+      "note": "Named financing participant. Individual allocation and current stake value are unmeasured."
+    },
+    {
+      "id": "Mizuho",
+      "type": "lender",
+      "note": "Named financing participant. Individual allocation and current stake value are unmeasured."
+    },
+    {
+      "id": "SMBC",
+      "type": "lender",
+      "note": "Named financing participant. Individual allocation and current stake value are unmeasured."
+    },
+    {
+      "id": "UBS",
+      "type": "lender",
+      "note": "Named financing participant. Individual allocation and current stake value are unmeasured."
+    },
+    {
+      "id": "HSBC",
+      "type": "lender",
+      "note": "Named financing participant. Individual allocation and current stake value are unmeasured."
+    },
+    {
+      "id": "Santander",
+      "type": "lender",
+      "note": "Named financing participant. Individual allocation and current stake value are unmeasured."
+    }
+  ],
+  "capital_rounds": [
+    {
+      "id": "openai-2026-march",
+      "issuer": "OpenAI",
+      "date": "2026-03-31",
+      "usd": 122000000000.0,
+      "basis": "committed capital",
+      "post_money_valuation_usd": 852000000000.0,
+      "sources": [
+        {
+          "source_uri": "https://openai.com/index/accelerating-the-next-phase-ai/",
+          "published": "2026-03-31",
+          "source_sha256": "44ddaeb48533036b12c714c5ab562084f6faa49bcec69ee274dd13473efb145d"
+        }
+      ]
+    },
+    {
+      "id": "anthropic-2026-series-g",
+      "issuer": "Anthropic",
+      "date": "2026-02-12",
+      "usd": 30000000000.0,
+      "basis": "company-announced round; includes portions of earlier Microsoft/NVIDIA commitments",
+      "post_money_valuation_usd": 380000000000.0,
+      "sources": [
+        {
+          "source_uri": "https://www.anthropic.com/news/anthropic-raises-30-billion-series-g-funding-380-billion-post-money-valuation",
+          "published": "2026-02-12",
+          "source_sha256": "727d719994d617bfdee6de5255154c0550c753ec21b5f8522cfeeb7f51315d2c"
+        }
+      ]
+    },
+    {
+      "id": "anthropic-2026-series-h",
+      "issuer": "Anthropic",
+      "date": "2026-05-28",
+      "usd": 65000000000.0,
+      "basis": "company-announced round; includes $15B of earlier hyperscaler commitments",
+      "previously_committed_included_usd": 15000000000.0,
+      "post_money_valuation_usd": 965000000000.0,
+      "sources": [
+        {
+          "source_uri": "https://www.anthropic.com/news/series-h",
+          "published": "2026-05-28",
+          "source_sha256": "ae6c2dab32952e08cdafedce39e4a2f9af805be24d5ac358f90c215a83fe7729"
+        }
+      ]
+    }
+  ],
+  "credit_facilities": [
+    {
+      "id": "openai-2026-march-revolver",
+      "issuer": "OpenAI",
+      "date": "2026-03-31",
+      "commitment_usd": 4700000000.0,
+      "approximate": true,
+      "drawn_at_close_usd": 0,
+      "subsequent_draws_usd": null,
+      "participants": [
+        "JPMorgan Chase",
+        "Citi",
+        "Goldman Sachs",
+        "Morgan Stanley",
+        "Wells Fargo",
+        "Mizuho",
+        "Royal Bank of Canada",
+        "SMBC",
+        "UBS",
+        "HSBC",
+        "Santander"
+      ],
+      "individual_allocations_usd": null,
+      "sources": [
+        {
+          "source_uri": "https://openai.com/index/accelerating-the-next-phase-ai/",
+          "published": "2026-03-31",
+          "source_sha256": "44ddaeb48533036b12c714c5ab562084f6faa49bcec69ee274dd13473efb145d"
+        }
+      ]
+    }
+  ],
+  "private_capital_source_manifest": "data/refresh_2026-10-17/lab_relationship_review/manifest.json",
+  "private_capital_source_manifest_sha256": "baf02ce5a00a93c5eb1bb4ca17a78463c6ef1ff8fa724c5482c81b238e59da7d"
 }

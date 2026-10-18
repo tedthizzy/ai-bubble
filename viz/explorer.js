@@ -135,8 +135,8 @@ function dealTags(l) {
   if (l.press) tags.push('Non-binding / press-only');
   if (l.circular) tags.push('Potential vendor round-trip');
   const a=byId[lid(l)], b=byId[ltd(l)];
-  if (a && b && a.frg>.7 && b.frg>.7) tags.push('Fragile at both ends');
-  else if (a && b && Math.max(a.frg,b.frg)>.8) tags.push('Fragile counterparty');
+  if (a && b && a.frg>.7 && b.frg>.7) tags.push('Historical fragility at both ends');
+  else if (a && b && Math.max(a.frg,b.frg)>.8) tags.push('Historical counterparty fragility');
   return tags;
 }
 function dealCard(l) {
@@ -466,7 +466,7 @@ function boot(data,fallback=false) {
   };
   $('info').onclick=() => toggle($('info'),$('panel'));
   const deals=links.filter(l => !l.field).sort((a,b) => b.risk-a.risk || b.usd-a.usd);
-  $('dpanel').innerHTML='<h2>Deal exposures</h2><p>Ordered by fragility, evidence tier, and circularity. These are review priorities.</p>'+
+  $('dpanel').innerHTML='<h2>Deal exposures</h2>'+
     deals.map(l => '<button class="connection deal" data-link="'+l.index+'"><span class="dl">'+esc(l.fromLabel)+
       ' / '+esc(l.toLabel)+(l.usd ? ' / $'+fmtB(l.usd) : '')+'</span><span class="dwhy">'+
       esc(dealTags(l).join(' / '))+'</span></button>').join('');

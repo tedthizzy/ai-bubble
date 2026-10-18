@@ -1,5 +1,5 @@
 {
-  "checked_at_pacific": "2026-10-18T00:41:07.469578-07:00",
+  "checked_at_pacific": "2026-10-18T01:25:59.633455-07:00",
   "browser": "existing Chrome/155.0.8059.82",
   "preview": "http://127.0.0.1:8765/",
   "new_browser_launched": false,
@@ -62,10 +62,10 @@
     }
   ],
   "observed": {
-    "core_entities": 41,
+    "core_entities": 107,
     "grey_points": 7687,
-    "entities": 7728,
-    "links": 9640,
+    "entities": 7794,
+    "links": 9742,
     "reported_issuer_debt_usd": 90184580000,
     "report_as_of": "2026-10-17",
     "mobile_css_viewport": [
@@ -167,8 +167,8 @@
   ],
   "local_interaction_verified": true,
   "source_sha256": {
-    "viz/index.html": "9f1cb2bbc19fcc04f1653e7d0a0a8bddfe77968c25371bd31662747a48701c2b",
-    "viz/explorer.js": "2bce6270d47bf89ba31ddd1a9778220a65a4a451d0fda7a3e96d0f1852d1f8b4",
+    "viz/index.html": "89397c6869e998696c246ba89eab52fc54fc37585fda54ba0f8c8f32fce0ddbb",
+    "viz/explorer.js": "ccd4374572ef9594e9d16a480eb3ba9f813280c584ada9a5ca2c5ac9394cc941",
     "viz/explorer.css": "c01b3ce2b0ad6fee9e2d9db37b303db73bf4dbabf5171e116bed0163f3d7726f"
   },
   "first_deployment": {
@@ -577,5 +577,96 @@
       "The first preview capture used 312 CSS pixels under the profile zoom; 390 CSS pixels was then explicitly observed.",
       "The first debugging checkbox press ran before settings loaded. A read of the actual checkbox confirmed false before the successful enable."
     ]
+  },
+  "private_capital_review": {
+    "checked_at_pacific": "2026-10-18T01:25:59.633455-07:00",
+    "source_sha256": {
+      "viz/index.html": "89397c6869e998696c246ba89eab52fc54fc37585fda54ba0f8c8f32fce0ddbb",
+      "viz/explorer.js": "ccd4374572ef9594e9d16a480eb3ba9f813280c584ada9a5ca2c5ac9394cc941",
+      "viz/explorer.css": "c01b3ce2b0ad6fee9e2d9db37b303db73bf4dbabf5171e116bed0163f3d7726f"
+    },
+    "observed": {
+      "core_entities": 107,
+      "grey_points": 7687,
+      "entities": 7794,
+      "links": 9742,
+      "reported_issuer_debt_usd": 90184580000,
+      "report_as_of": "2026-10-17",
+      "mobile_css_viewport": [
+        390,
+        844
+      ],
+      "mobile_body_width": 390,
+      "css_fonts": [
+        "Arial, sans-serif / 14px",
+        "Arial, sans-serif / 18px"
+      ],
+      "source_snapshot_at_pacific": "2026-10-18T00:34:45.268090-07:00",
+      "source_snapshot_main_acquired": 227347,
+      "source_snapshot_main_queued": 0,
+      "recovered_source_errors": 46,
+      "verified_source_replacements": 2,
+      "unresolved_source_errors": 0
+    },
+    "actual_search_paths": [
+      "Amazon search result, connection disclosure, $50B investment evidence card",
+      "SoftBank search result, October 1 cumulative investment source",
+      "Sources opens while selection and Deals close"
+    ],
+    "mobile_viewport_css": [
+      390,
+      844
+    ],
+    "mobile_body_width": 390,
+    "desktop_viewport_css": [
+      1291,
+      724
+    ],
+    "desktop_body_width": 1291,
+    "font_families": [
+      "Arial, sans-serif"
+    ],
+    "font_sizes_px": [
+      14,
+      18
+    ],
+    "placeholder_color": "rgb(173, 184, 200)",
+    "placeholder_background": "rgb(12, 20, 32)",
+    "placeholder_contrast": 9.2095,
+    "minimum_unchanged_color_token_contrast": 6.0123,
+    "idle_observation": {
+      "milliseconds": 5002.9,
+      "frames": 0,
+      "paused": true,
+      "draw_calls_when_rendered": 269,
+      "javascript_heap_bytes": 12912817
+    },
+    "runtime_exceptions": 0,
+    "screenshots_viewed": [
+      {
+        "path": "data/refresh_2026-10-17/browser-validation/lab-softbank-mobile-current.png",
+        "sha256": "2bd3680f0e7487dd7be06f5d25c88f275275abc6d15d4600fe1e1dae2289c8b2"
+      },
+      {
+        "path": "data/refresh_2026-10-17/browser-validation/lab-funded-investment-mobile-current.png",
+        "sha256": "55f630637c87d44c0d0e86a65e5e0db3e4a696c1fa349e14091f03a04d455f61"
+      },
+      {
+        "path": "data/refresh_2026-10-17/browser-validation/lab-sources-mobile-current.png",
+        "sha256": "b532be1a3bb0d3a5cb6714bec0e7222b43737a6be07347c90e5c1fbb5f98d2f7"
+      },
+      {
+        "path": "data/refresh_2026-10-17/browser-validation/lab-desktop-fresh-current.png",
+        "sha256": "0f2d5974e1dc67755ce3245ce8a05b8ed466cf98299b52c523172128b6fc5570"
+      }
+    ],
+    "restoration": {
+      "owned_tabs_closed": true,
+      "preview_and_controller_stopped": true,
+      "remote_debugging": false,
+      "enhanced_accessibility": false,
+      "accessibility_setter_status": -25208,
+      "accessibility_readback": false
+    }
   }
 }

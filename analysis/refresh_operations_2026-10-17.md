@@ -763,3 +763,48 @@ measurement-guard-full-tests.log with their memory JSONL reports. Tests cover
 transient EPERM, persistent EPERM, absent and zombie processes, and real group
 budget enforcement. Local tests use the staged security package overlays;
 installation into the active environment follows completion of source jobs.
+
+## Private capital and compute reconciliation, 2026-10-18T01:24:28.051805-07:00
+
+The relationship review now contains 147 reviewed pairs. The graph has 107 core
+entities and 160 retained connections. All original graph participants and the
+historical_core remain. The current financial total is unchanged. Source
+provenance is retained in lab_relationship_review/manifest.json: 22 sources
+with original and normalized SHA256 hashes, including seven exact HTTP 200
+response bodies acquired through the existing Chrome session. HTTP 403 attempts
+and the original 404 Series C catalog guess remain retained; the actual company
+Series C page was then located and acquired. No login, cookie export, account
+setting or CSP change was needed.
+
+Later Amazon and SoftBank disclosures supersede announced-capital readings.
+Amazon OpenAI funding is $50B complete. Amazon Anthropic investment cost is $18B
+at June 30; $15B separate milestone-linked capacity remains. SoftBank investment
+cost is $64.6B cumulative after October 1. The repaid and canceled March bridge
+is not portrayed as current debt. The shared OpenAI revolver has eleven named
+banks, no invented individual allocations, and zero drawn at its March close.
+Current draws remain unmeasured. Round totals retain overlaps with strategic
+commitments. The source review does not attribute Alphabet's anonymously named
+private-company balances to Anthropic. The reported Nscale contract is also
+unquantified. Vendor gigawatts remain planned agreements, not verified delivery.
+
+The supervised full Python suite passed: 966 passed in 13.52s, peak 704,514,208
+bytes under 1.5 GiB. Node interactions passed all eight tests. Ruff passed src,
+tests and the changed producer; formatting passed 300 files. A broader optional
+Ruff pass over all scripts reported 42 pre-existing findings in unrelated
+historical drivers; those files were not edited. One source-inspection command
+initially lacked PYTHONPATH and stopped at import before any write. The corrected
+command verified the source hashes before inspection.
+
+Actual Chrome checks rendered the expanded 107-core graph at desktop 1291x724
+and mobile 390x844 CSS pixels. Search opened Amazon and SoftBank, then the Amazon
+$50B evidence connection. Sources closed the active evidence card. All views
+retained Arial at 14px and 18px. Body width matched each viewport. The placeholder
+used rgb(173,184,200) on rgb(12,20,32), contrast 9.2095:1. The unchanged full
+color-token minimum is 6.0123:1. Screenshots were opened and viewed. A 5002.9 ms
+idle observation had zero rendered frames, rendering paused, 269 draw calls when
+rendered and 12,912,817 bytes of JavaScript heap. No runtime exceptions were
+observed. Prior graph measurements retain their own dates.
+
+Owned browser tabs, controller and preview PID 63356 were closed. Remote
+debugging returned false. The accessibility setter again returned -25208 after
+the settings tab closed; actual readback was false. No other tabs were closed.

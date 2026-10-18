@@ -65,7 +65,7 @@ def apply_review(  # noqa: PLR0912, PLR0915 - one reviewed reconciliation of the
         "ecosystem_confidence": None,
         "reported_issuer_debt_usd": review["reported_issuer_debt_usd"],
         "issuer_count": review["issuer_count"],
-        "debt_measure": "Consolidated USD borrowing and note carrying amounts; latest reported period per issuer.",
+        "debt_measure": "Consolidated borrowing and note carrying amounts, reported in USD; latest reported period per issuer.",
         "cashflow_observations": review["cashflow_observations"],
         "negative_cash_after_capex": review["negative_cash_after_capex"],
         "historical_report": history_date,
@@ -218,8 +218,24 @@ def apply_review(  # noqa: PLR0912, PLR0915 - one reviewed reconciliation of the
             graph["nodes"].append(node)
             by_id[identifier] = node
         by_id[identifier]["note"] = note
-    for node in graph["nodes"]:
-        node["sources"] = list({row["source_uri"]: row for row in node.get("sources", [])}.values())
+    for participant in relationships.get("participants", []):
+        identifier = participant["id"]
+        if identifier not in by_id:
+            node = {
+                "id": identifier,
+                "label": identifier,
+                "type": participant["type"],
+                "fragility": None,
+                "usd": None,
+                "amount_label": None,
+                "sources": [],
+            }
+            graph["nodes"].append(node)
+            by_id[identifier] = node
+        by_id[identifier].update(
+            note=participant["note"],
+            review_as_of=as_of,
+        )
     updates = {(row["from"], row["to"]): row for row in relationships["relationships"]}
     seen = set()
     for index, edge in enumerate(graph["edges"]):
@@ -237,6 +253,13 @@ def apply_review(  # noqa: PLR0912, PLR0915 - one reviewed reconciliation of the
                 + relationships["unconfirmed_scope"],
             )
     graph["edges"].extend(copy.deepcopy(value) for key, value in updates.items() if key not in seen)
+    for edge in relationships["relationships"]:
+        for identifier in (edge["from"], edge["to"]):
+            by_id[identifier]["sources"].extend(copy.deepcopy(edge.get("sources", [])))
+    for node in graph["nodes"]:
+        node["sources"] = list({row["source_uri"]: row for row in node.get("sources", [])}.values())
+    graph["capital_rounds"] = copy.deepcopy(relationships.get("capital_rounds", []))
+    graph["credit_facilities"] = copy.deepcopy(relationships.get("credit_facilities", []))
     graph["cascade"] = {
         "trigger": "OpenAI",
         "trigger_note": "Scenario: OpenAI demand withdraws.",
@@ -297,6 +320,7 @@ def apply_review(  # noqa: PLR0912, PLR0915 - one reviewed reconciliation of the
         tenant="Tenant / named affiliates",
         compute_customer="Compute customer",
         supplier_offtaker="Hardware supplier / capacity customer",
+        investor="Named round participant; individual allocation may be undisclosed",
     )
     graph["legend"]["edge_tiers"].update(
         issuer_announced="Issuer announcement; measure stated separately",

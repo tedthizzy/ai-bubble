@@ -1,5 +1,32 @@
 # Explorer source status, October 17, 2026
 
+## Current private capital and compute review, 2026-10-18T01:24:28.051277-07:00
+
+The review now has 147 verified or explicitly historical relationships, 107 core
+entities and 160 retained connections. Unknown allocations remain unmeasured.
+The reported 13-issuer borrowing and note total remains $90.184580B.
+
+Amazon reports completing its $50B OpenAI investment, including $21.3B after
+June 30. Its Anthropic investments total $18B at June 30, with $15B of separate
+conditional financing capacity remaining. SoftBank reports $64.6B invested
+cumulatively in OpenAI after its October 1 final tranche. Original commitment
+announcements and actual payments retain their own dates and measures.
+
+The graph includes OpenAI and Anthropic round participants, compute agreements
+and all eleven named banks in OpenAI's shared approximately $4.7B revolver.
+The revolver was undrawn at its March close. The source does not establish later
+draws or individual bank allocations. Funding rounds overlap strategic investor
+commitments. Their totals cannot be added together as new capital or issuer debt.
+The primary private-capital source manifest has 22 hash-verified sources.
+
+New participants retain unknown fragility. Connection badges explicitly identify
+historical fragility. Planned capacity remains separate from current delivery.
+Google-to-Anthropic current funding and the reported Nscale contract remain
+unquantified because the reviewed primary sources do not reconcile those named
+dollar balances. The complete exhibit census and final raw field remain pending.
+
+## Earlier financing checkpoint, retained for context
+
 The total is reported in USD and includes loans contracted in other currencies,
 including Bit Digital's CAD loans. Bitcoin borrowing remains separate. Earlier
 entries describing the aggregate as "USD-denominated" are superseded by this
