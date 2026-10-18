@@ -115,126 +115,126 @@
  "edgar": {
   "Applied Digital": {
    "new_8k_7d": 0,
-   "observed_as_of": "2026-10-17"
+   "observed_as_of": "2026-10-18"
   },
   "Bit Digital": {
    "new_8k_7d": 0,
-   "observed_as_of": "2026-10-17"
+   "observed_as_of": "2026-10-18"
   },
   "Bitdeer": {
    "new_8k_7d": 0,
-   "observed_as_of": "2026-10-17"
+   "observed_as_of": "2026-10-18"
   },
   "Cipher Mining": {
    "new_8k_7d": 3,
-   "observed_as_of": "2026-10-17"
+   "observed_as_of": "2026-10-18"
   },
   "CleanSpark": {
    "new_8k_7d": 0,
-   "observed_as_of": "2026-10-17"
+   "observed_as_of": "2026-10-18"
   },
   "Core Scientific": {
    "new_8k_7d": 0,
-   "observed_as_of": "2026-10-17"
+   "observed_as_of": "2026-10-18"
   },
   "CoreWeave": {
    "new_8k_7d": 0,
-   "observed_as_of": "2026-10-17"
+   "observed_as_of": "2026-10-18"
   },
   "Galaxy Digital": {
    "new_8k_7d": 0,
-   "observed_as_of": "2026-10-17"
+   "observed_as_of": "2026-10-18"
   },
   "Hut 8": {
    "new_8k_7d": 0,
-   "observed_as_of": "2026-10-17"
+   "observed_as_of": "2026-10-18"
   },
   "IREN": {
    "new_8k_7d": 0,
-   "observed_as_of": "2026-10-17"
+   "observed_as_of": "2026-10-18"
   },
   "MARA Holdings": {
    "new_8k_7d": 0,
-   "observed_as_of": "2026-10-17"
+   "observed_as_of": "2026-10-18"
   },
   "Nebius": {
    "new_8k_7d": 0,
-   "observed_as_of": "2026-10-17"
+   "observed_as_of": "2026-10-18"
   },
   "TeraWulf": {
    "new_8k_7d": 0,
-   "observed_as_of": "2026-10-17"
+   "observed_as_of": "2026-10-18"
   }
  },
  "edgar_errors": [],
  "edgar_last_observed": {
   "Applied Digital": {
-   "captured_utc": "2026-10-18T06:54:17.344789+00:00",
+   "captured_utc": "2026-10-18T07:44:01.457362+00:00",
    "new_8k_7d": 0,
-   "observed_as_of": "2026-10-17"
+   "observed_as_of": "2026-10-18"
   },
   "Bit Digital": {
-   "captured_utc": "2026-10-18T06:54:17.344804+00:00",
+   "captured_utc": "2026-10-18T07:44:01.457376+00:00",
    "new_8k_7d": 0,
-   "observed_as_of": "2026-10-17"
+   "observed_as_of": "2026-10-18"
   },
   "Bitdeer": {
-   "captured_utc": "2026-10-18T06:54:17.344805+00:00",
+   "captured_utc": "2026-10-18T07:44:01.457378+00:00",
    "new_8k_7d": 0,
-   "observed_as_of": "2026-10-17"
+   "observed_as_of": "2026-10-18"
   },
   "Cipher Mining": {
-   "captured_utc": "2026-10-18T06:54:17.344802+00:00",
+   "captured_utc": "2026-10-18T07:44:01.457374+00:00",
    "new_8k_7d": 3,
-   "observed_as_of": "2026-10-17"
+   "observed_as_of": "2026-10-18"
   },
   "CleanSpark": {
-   "captured_utc": "2026-10-18T06:54:17.344795+00:00",
+   "captured_utc": "2026-10-18T07:44:01.457368+00:00",
    "new_8k_7d": 0,
-   "observed_as_of": "2026-10-17"
+   "observed_as_of": "2026-10-18"
   },
   "Core Scientific": {
-   "captured_utc": "2026-10-18T06:54:17.344801+00:00",
+   "captured_utc": "2026-10-18T07:44:01.457373+00:00",
    "new_8k_7d": 0,
-   "observed_as_of": "2026-10-17"
+   "observed_as_of": "2026-10-18"
   },
   "CoreWeave": {
-   "captured_utc": "2026-10-18T06:54:17.344779+00:00",
+   "captured_utc": "2026-10-18T07:44:01.457351+00:00",
    "new_8k_7d": 0,
-   "observed_as_of": "2026-10-17"
+   "observed_as_of": "2026-10-18"
   },
   "Galaxy Digital": {
-   "captured_utc": "2026-10-18T06:54:17.344797+00:00",
+   "captured_utc": "2026-10-18T07:44:01.457369+00:00",
    "new_8k_7d": 0,
-   "observed_as_of": "2026-10-17"
+   "observed_as_of": "2026-10-18"
   },
   "Hut 8": {
-   "captured_utc": "2026-10-18T06:54:17.344791+00:00",
+   "captured_utc": "2026-10-18T07:44:01.457364+00:00",
    "new_8k_7d": 0,
-   "observed_as_of": "2026-10-17"
+   "observed_as_of": "2026-10-18"
   },
   "IREN": {
-   "captured_utc": "2026-10-18T06:54:17.344787+00:00",
+   "captured_utc": "2026-10-18T07:44:01.457360+00:00",
    "new_8k_7d": 0,
-   "observed_as_of": "2026-10-17"
+   "observed_as_of": "2026-10-18"
   },
   "MARA Holdings": {
-   "captured_utc": "2026-10-18T06:54:17.344794+00:00",
+   "captured_utc": "2026-10-18T07:44:01.457366+00:00",
    "new_8k_7d": 0,
-   "observed_as_of": "2026-10-17"
+   "observed_as_of": "2026-10-18"
   },
   "Nebius": {
-   "captured_utc": "2026-10-18T06:54:17.344799+00:00",
+   "captured_utc": "2026-10-18T07:44:01.457371+00:00",
    "new_8k_7d": 0,
-   "observed_as_of": "2026-10-17"
+   "observed_as_of": "2026-10-18"
   },
   "TeraWulf": {
-   "captured_utc": "2026-10-18T06:54:17.344785+00:00",
+   "captured_utc": "2026-10-18T07:44:01.457358+00:00",
    "new_8k_7d": 0,
-   "observed_as_of": "2026-10-17"
+   "observed_as_of": "2026-10-18"
   }
  },
- "generated_utc": "2026-10-18T06:54:17Z",
+ "generated_utc": "2026-10-18T07:44:01Z",
  "issuance_latest": {
   "amount_usd": 1120000000,
   "coupon_pct": 8.875,
@@ -403,7 +403,7 @@
   {
    "desc": "latest carded cluster print (DDC 01 Propco LLC (Digital Drive, CoreWeave-leased data-center SPV) 2026-09-23) ~396bp over 5y UST; <=600bp = window open (contra), >=800bp = cracking (confirming); >45d old = stale, never contra",
    "id": "S1_new_issue_spread",
-   "print_age_days": 24,
+   "print_age_days": 25,
    "status": "contra",
    "value_bp": 396
   },
