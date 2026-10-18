@@ -27,6 +27,29 @@ def read(path: Path) -> Any:
     return json.loads(path.read_text())
 
 
+def relationship_summary(root: Path, as_of: str) -> tuple[dict[str, Any], list[Path]]:
+    path = root / "analysis" / f"core_relationship_review_{as_of}.json"
+    review = read(path)
+    if review["as_of"] != as_of:
+        raise ValueError("Relationship review date differs from the report cutoff")
+    manifest_path = root / review["private_capital_source_manifest"]
+    if file_record(manifest_path)["sha256"] != review["private_capital_source_manifest_sha256"]:
+        raise ValueError("Private capital source manifest changed after review")
+    manifest = read(manifest_path)
+    if manifest["as_of"] != as_of or any(
+        source["published"] > as_of for source in manifest["sources"]
+    ):
+        raise ValueError("Private capital source postdates the report cutoff")
+    return {
+        "as_of": as_of,
+        "reviewed_relationships": len(review["relationships"]),
+        "private_capital_sources": len(manifest["sources"]),
+        "capital_rounds": review.get("capital_rounds", []),
+        "credit_facilities": review.get("credit_facilities", []),
+        "limits": review["limits"],
+    }, [path, manifest_path]
+
+
 def report(run: Path, root: Path) -> dict[str, Any]:
     as_of = run.name.removeprefix("refresh_")
     status = build(run)
@@ -44,6 +67,8 @@ def report(run: Path, root: Path) -> dict[str, Any]:
     core = read(core_path)
     if core["as_of"] != as_of:
         raise ValueError("Current core review date differs from the report cutoff")
+    relationships, relationship_inputs = relationship_summary(root, as_of)
+    demand_path = root / "analysis/demand_trajectory.json"
     cards = read(cards_path)["deals"]
     if any(card.get("date", "") > as_of for card in cards):
         raise ValueError("Issuance card postdates this report")
@@ -75,6 +100,8 @@ def report(run: Path, root: Path) -> dict[str, Any]:
         events_path,
         expectations_path,
         gpu / "gpu_price_observations.csv",
+        demand_path,
+        *relationship_inputs,
     ]
     replacements = run / "edgar_merged_current/source_document_replacements.json"
     if replacements.exists():
@@ -127,8 +154,9 @@ def report(run: Path, root: Path) -> dict[str, Any]:
             "source_document_replacements", []
         ),
         "current_core_review": core,
+        "current_relationship_review": relationships,
         "subsequent_financing_events": read(events_path),
-        "demand_review": read(root / "analysis/demand_trajectory.json").get("current_review"),
+        "demand_review": read(demand_path).get("current_review"),
         "expectations": expectations,
         "physical_capacity": read(physical_path),
         "public_derivation": read(derived_manifest)["source_selection"],
@@ -167,8 +195,11 @@ def markdown(value: dict[str, Any]) -> str:
         f"Financial panel: {financials['panel_entities']} entities. "
         f"Issuer cash-flow/capex arithmetic is checked against each latest report.",
         f"Primary statement reconciliation: {core['issuer_count']} issuers; "
-        f"${core['reported_issuer_debt_usd'] / 1e9:.3f}B of reported USD borrowing and note carrying amounts. "
+        f"${core['reported_issuer_debt_usd'] / 1e9:.3f}B of reported borrowing and note carrying amounts, presented in USD. "
         "These consolidated balances include non-AI activities and retain their original reporting periods.",
+        f"Reviewed relationships: {value['current_relationship_review']['reviewed_relationships']}; "
+        f"private-capital primary sources: {value['current_relationship_review']['private_capital_sources']}. "
+        "Funded investments, round commitments and undrawn facility roles retain separate dates and measures.",
         f"Matched current cash-flow and capital-purchase observations: {core['cashflow_observations']}; "
         f"negative cash after capex: {core['negative_cash_after_capex']}. This does not establish insolvency.",
         f"Current FERC PPA records: {derived['ppas']['source_rows']}; "

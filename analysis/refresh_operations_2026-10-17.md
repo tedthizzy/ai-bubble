@@ -808,3 +808,19 @@ observed. Prior graph measurements retain their own dates.
 Owned browser tabs, controller and preview PID 63356 were closed. Remote
 debugging returned false. The accessibility setter again returned -25208 after
 the settings tab closed; actual readback was false. No other tabs were closed.
+
+## Report provenance and published private capital, 2026-10-18T01:30:32.115699-07:00
+
+The final dated report now hashes the relationship review, its private-capital
+source manifest and the consumed demand review. It includes separately dated
+funding rounds and shared credit-facility records. A changed manifest or source
+published after October 17 stops report generation. The actual saved manifest
+passed: 147 reviewed relationships and 22 private-capital sources. The full
+local suite passed: 969 passed in 12.02s, peak 706,873,504 bytes under 1.5 GiB.
+Ruff passed src, tests and the changed report builder; all 301 checked files
+passed formatting. The waiting finisher will execute the updated builder.
+
+Commit a3414b05878645219c68c99901d541c6e17b92e8 reached origin/main. Pages
+39111487353 and complete CI 39111487391 both succeeded, including full strict
+source Mypy. The deployed index, JavaScript, CSS and graph hashes match the
+actual Chrome-verified checkpoint. The HTTP receipt is private-capital-publication.json.
