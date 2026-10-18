@@ -310,3 +310,21 @@ and deployment are not complete. The exact checkpoint is recorded in
 data/refresh_2026-10-17/publication-auth-block.json. The finishing process and
 its waiting publisher remain active; a later push cannot succeed with a workflow
 change until GitHub authorization is resolved. Inspect fresh state before retry.
+
+## Sign-in request withdrawn - 2026-10-17 20:24 PDT
+
+The sign-in was avoidable. The existing published workflow already deploys
+main pushes and retains saved market data after refresh failures. The optional
+edit only improved warning presentation and changed a generated commit message.
+The task now retains the published workflow byte for byte. No additional GitHub
+permission or browser login is required for the visualization and source updates.
+The GitHub sign-in tab opened by this task was closed.
+
+Only this task's seven unpublished commit trees were adjusted to retain that
+one workflow file. Every other tree entry is unchanged. Published history and
+Ted's original staged-diff digest are unchanged. Original commits, the improved
+workflow and an applyable patch remain under
+.codex/refresh-2026-10-17/retained-workflow-032315773473/.
+No source data, UI behavior or deployment trigger was removed. The waiting
+final publisher can use the existing repository-write credential after this
+checkpoint is pushed. Its queue and exact-PID checks remain unchanged.

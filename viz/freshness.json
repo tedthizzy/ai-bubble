@@ -1,5 +1,5 @@
 {
-  "snapshot_at_pacific": "2026-10-17T18:51:16.014482-07:00",
+  "snapshot_at_pacific": "2026-10-17T20:23:28.435978-07:00",
   "refresh_as_of": "2026-10-17",
   "complete": false,
   "report": {
@@ -81,10 +81,10 @@
   },
   "sec_acquisition": {
     "new_run_queue": {
-      "acquired": 77669,
+      "acquired": 121171,
       "failed": 44,
       "inflight": 8,
-      "queued": 149672
+      "queued": 106170
     },
     "baseline_inventory": 41589,
     "recovered_failures": 27,
