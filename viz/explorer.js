@@ -14,6 +14,9 @@ const ltd = l => typeof l.target === 'object' ? l.target.id : l.target;
 const mix = (a,b,t) => 'rgb('+a.map((v,i) => Math.round(v+(b[i]-v)*t)).join(',')+')';
 const frgColor = f => f < .5 ? mix([63,185,80],[210,153,34],f*2) :
   mix([210,153,34],[248,81,73],(f-.5)*2);
+const sourceLinks = item => (item.sources||[]).filter(s => /^https:\/\//.test(s.source_uri||''))
+  .map((s,i) => '<a href="'+esc(s.source_uri)+'" target="_blank" rel="noopener noreferrer">Source'+
+    ((item.sources||[]).length>1 ? ' '+(i+1) : '')+(s.filing_date ? ' / '+esc(s.filing_date) : '')+'</a>').join(' / ');
 const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
 let G, meta={}, types={}, byId={}, nodes=[], links=[], fieldNodes=[], fieldLinks=[];
 let live={}, sel=null, hovered=null, active=null, cascadeOn=false, cascadeTimer=null;
@@ -87,17 +90,19 @@ function focusDeal(l) {
 function otherEnd(n,l) { return byId[lid(l)===n.id ? ltd(l) : lid(l)]; }
 function nodeButton(n) { return '<button class="cpc" data-id="'+esc(n.id)+'">'+esc(n.label)+'</button>'; }
 function showCard(n) {
-  const q=(live.quotes||{})[n.id], filing=(live.edgar||{})[n.id];
+  const q=(live.quotes||{})[n.id], filing=(live.edgar||{})[n.id]||(live.edgar_last_observed||{})[n.id];
   const neighbors=[...new Set(n.neighbors)].sort((a,b) => b.usd-a.usd).slice(0,5);
   $('card').innerHTML='<div class="nm" dir="auto">'+esc(n.label)+'</div>'+
     '<div class="ty">'+esc(n.field ? 'Extracted party / raw layer' : types[n.type]||n.type||'Entity')+'</div>'+
     (n.note ? '<div class="nt" dir="auto">'+esc(n.note)+'</div>' : '')+
-    (n.usd ? '<div class="usd">$'+fmtB(n.usd)+' committed</div>' : '')+
+    (n.usd ? '<div class="usd">$'+fmtB(n.usd)+' '+esc(n.amount_label||'amount; see evidence date')+'</div>' : '')+
+    (sourceLinks(n) ? '<div class="fl">'+sourceLinks(n)+'</div>' : '')+
     (n.fieldDeals ? '<div class="fl">'+n.fieldDeals.toLocaleString('en-US')+' extracted deals / $'+
       fmtB(n.fieldUsd)+' raw, unadjudicated</div>' : '')+
     (q && Number.isFinite(q.chg_pct) ? '<div class="pl">'+esc(q.sym)+' $'+finite(q.close).toFixed(2)+
       ' / '+(q.chg_pct>=0?'+':'')+q.chg_pct.toFixed(1)+'% / '+esc(q.date)+'</div>' : '')+
-    (filing && filing.new_8k_7d ? '<div class="fl">'+finite(filing.new_8k_7d)+' new 8-K in 7 days</div>' : '')+
+    (filing && filing.new_8k_7d ? '<div class="fl">'+finite(filing.new_8k_7d)+' new 8-K in 7 days'+
+      (filing.observed_as_of ? ' / observed '+esc(filing.observed_as_of) : '')+'</div>' : '')+
     (neighbors.length ? '<div class="cps">'+neighbors.map(nodeButton).join('')+'</div>' : '')+
     (n.nlinks.length ? '<details id="connections"><summary>All connections ('+n.nlinks.length+
       ')</summary><div id="connection-list"></div></details>' : '<div class="fl">No saved connections.</div>');
@@ -126,20 +131,22 @@ function showCard(n) {
 function dealTags(l) {
   const tags=[];
   if (l.press) tags.push('Non-binding / press-only');
-  if (l.circular) tags.push('Circular / vendor round-trip');
+  if (l.circular) tags.push('Potential vendor round-trip');
   const a=byId[lid(l)], b=byId[ltd(l)];
   if (a && b && a.frg>.7 && b.frg>.7) tags.push('Fragile at both ends');
   else if (a && b && Math.max(a.frg,b.frg)>.8) tags.push('Fragile counterparty');
   return tags;
 }
 function dealCard(l) {
-  const badge=l.field ? 'Raw extracted / unadjudicated' : l.tier==='filing_verified' ? 'Filing-verified' :
-    l.press ? 'Press-only / non-binding' : 'Source-backed';
+  const badge=l.field ? 'Raw extracted / unadjudicated' : l.tier==='filing_verified' ? 'Filing-verified role / measure' :
+    l.tier==='issuer_announced' ? 'Issuer announcement' : l.tier==='historical' ? 'Historical relationship' :
+    l.tier==='unconfirmed' ? 'Unconfirmed current relationship / scenario' : l.press ? 'Press-only / non-binding' : 'Source-backed';
   $('card').innerHTML='<div class="nm" dir="auto">'+esc(l.fromLabel)+' / '+esc(l.toLabel)+'</div>'+
     '<div class="ty">'+esc(l.field ? 'Collapsed deal link / obligor to risk-bearer' : l.type.replace(/_/g,' '))+'</div>'+
     '<span class="bdg">'+esc(badge)+'</span>'+dealTags(l).map(t => '<span class="bdg">'+esc(t)+'</span>').join('')+
-    (l.usd ? '<div class="usd">$'+fmtB(l.usd)+(l.field ? ' raw / '+l.count+' extracted deals' : '')+'</div>' : '')+
+    (l.usd ? '<div class="usd">$'+fmtB(l.usd)+(l.field ? ' raw / '+l.count+' extracted deals' : ' '+esc(l.amount_label||'amount; see source'))+'</div>' : '')+
     (l.note ? '<div class="nt" dir="auto">'+esc(l.note)+'</div>' : '')+
+    (sourceLinks(l) ? '<div class="fl">'+sourceLinks(l)+'</div>' : '')+
     '<div class="cps">'+[byId[lid(l)],byId[ltd(l)]].filter(Boolean).map(nodeButton).join('')+'</div>';
   $('card').style.display='block';
 }
@@ -160,19 +167,18 @@ function playCascade() {
   $('ccline').style.opacity=1;
   const finish=() => {
     clearInterval(cascadeTimer); cascadeTimer=null;
-    $('ccline').textContent='Cascade gross upper bound: $'+fmtB(meta.cascade_debt_at_risk_usd||0)+'.';
+    $('ccline').textContent='Scenario / CoreWeave total reported debt: $'+fmtB(meta.cascade_debt_at_risk_usd||0)+'. Loss allocation unmeasured.';
     refresh();
   };
   if (motion.matches) { cascadeIds.forEach(id => revealed.add(id)); finish(); return; }
   let step=0;
-  $('ccline').textContent=(byId[trigger]||{label:trigger}).label+' withdraws';
+  $('ccline').textContent='Scenario / '+(byId[trigger]||{label:trigger}).label+' withdraws';
   wake(1100); G.zoomToFit(900,100,n => cascadeIds.has(n.id));
   cascadeTimer=setInterval(() => {
     if (step>=hops.length) { finish(); return; }
     const hop=hops[step++];
     (hop.nodes||[]).forEach(id => revealed.add(id));
-    $('ccline').textContent='Hop '+hop.hop+': '+(hop.nodes||[]).map(id => (byId[id]||{label:id}).label).join(', ')+
-      (hop.usd ? ' / $'+fmtB(hop.usd) : '');
+    $('ccline').textContent='Scenario / '+(hop.label||'Hop '+hop.hop)+(hop.usd ? ' / $'+fmtB(hop.usd) : '');
     refresh();
   },1200);
   refresh();
@@ -180,7 +186,7 @@ function playCascade() {
 motion.addEventListener('change',() => {
   if (motion.matches && cascadeOn) {
     clearInterval(cascadeTimer); cascadeTimer=null; cascadeIds.forEach(id => revealed.add(id));
-    $('ccline').textContent='Cascade gross upper bound: $'+fmtB(meta.cascade_debt_at_risk_usd||0)+'.';
+    $('ccline').textContent='Scenario / CoreWeave total reported debt: $'+fmtB(meta.cascade_debt_at_risk_usd||0)+'. Loss allocation unmeasured.';
     refresh();
   }
 });
@@ -285,17 +291,20 @@ function sourcePanel(data,fallback) {
   const date=meta.as_of||meta.report_as_of||(origin.match(/20\d{6}/)||[])[0];
   const label=date && /^\d{8}$/.test(date) ? date.slice(0,4)+'-'+date.slice(4,6)+'-'+date.slice(6) : date||origin;
   $('reportdate').textContent=label;
-  $('m1').textContent='$'+fmtB(meta.committed_core_usd||0);
-  $('c_core').title='Adjudicated core debt. Including infrastructure: $'+fmtB(meta.committed_incl_infra_usd||0)+'.';
+  $('m1').textContent='$'+fmtB(meta.reported_issuer_debt_usd ?? meta.committed_core_usd ?? 0);
+  $('c_core').firstChild.textContent=meta.current_review ? 'Issuer debt ' : 'Core debt ';
+  $('c_core').title=meta.debt_measure||'Historical adjudicated core debt.';
   const facts=[
-    ['Report',label],['Core verdict',meta.core_verdict||'Unavailable'],
-    ['Core confidence (historical judgment)',meta.core_confidence],
-    ['Ecosystem confidence (historical judgment)',meta.ecosystem_confidence],
-    ['Original headline basis','$'+fmtB(meta.original_inflated_basis_usd||0)],
-    ['Over-count removed',finite(meta.over_count_removed_pct)+'%'],
-    ['Cluster share',finite(meta.cluster_share_pct)+'%'],['Crack window',meta.crack_window||'Unavailable'],
+    ['Report',label],['Core verdict',meta.core_verdict_label||meta.core_verdict||'Unavailable'],
+    ['Reviewed issuers',meta.issuer_count],
+    ['Debt measure',meta.debt_measure||'Historical committed-debt census'],
+    ['Negative cash after capex',meta.negative_cash_after_capex==null ? null : meta.negative_cash_after_capex+' of '+meta.cashflow_observations],
+    ['Historical report',meta.historical_as_of||meta.historical_report||origin],
+    ['Core confidence (historical judgment)',meta.historical_core_confidence ?? meta.core_confidence],
+    ['Ecosystem confidence (historical judgment)',meta.historical_ecosystem_confidence ?? meta.ecosystem_confidence],
     ['Extracted entities',(data.field||{}).entities||fieldNodes.length],
     ['Extracted deals',(data.field||{}).deals||0],
+    ['Extracted field cutoff',(data.field||{}).evidence_date||'Unverified / retained field'],
     ['Layout',data.layout ? data.layout.algorithm : 'Deterministic fallback placement']
   ];
   $('panel').innerHTML='<h2>Sources and dates</h2>'+
@@ -320,7 +329,7 @@ function applyLive(value) {
   const signal=(live.signals||[]).find(s => s.id==='S3_bdc_discount_differential');
   if (signal && Number.isFinite(signal.differential_pp)) bits.push('AI-BDC discount differential: '+signal.differential_pp.toFixed(1)+'pp vs control');
   const issuance=live.issuance_latest;
-  if (issuance && Number.isFinite(issuance.spread_vs_5y_bp)) bits.push('Latest carded issuance: +'+issuance.spread_vs_5y_bp+'bp');
+  if (issuance && Number.isFinite(issuance.spread_vs_5y_bp)) bits.push('Latest coupon proxy: +'+issuance.spread_vs_5y_bp+'bp ('+issuance.date+')');
   $('credit-details').innerHTML='<h3>Market overlay</h3><ul>'+bits.map(b => '<li>'+esc(b)+'</li>').join('')+'</ul>'+
     '<p>Market observations and the BDC comparison are separate from adjudicated evidence. Signal definitions and amendments remain in the repository.</p>';
 }
@@ -334,12 +343,14 @@ function applyFreshness(status) {
     ['SEC retained baseline',acquisition.baseline_inventory],['SEC new documents acquired',queue.acquired||0],
     ['SEC documents queued',(queue.queued||0)+(queue.inflight||0)],
     ['SEC recovered source errors',acquisition.recovered_failures||0],
-    ['SEC unresolved source errors',acquisition.unresolved_source_errors ?? queue.failed ?? 0]
+    ['SEC unresolved source errors',acquisition.unresolved_source_errors ?? queue.failed ?? 0],
+    ['Exhibit documents acquired',((acquisition.exhibits||{}).documents||{}).acquired||0],
+    ['Exhibit completion',(acquisition.exhibits||{}).status||'Unavailable']
   ];
   $('freshness-details').innerHTML='<h3>Evidence refresh</h3><dl>'+facts.map(([label,value]) =>
     '<dt>'+esc(label)+'</dt><dd>'+esc(value==null?'Unavailable':value)+'</dd>').join('')+'</dl>'+
     '<p>'+esc(acquisition.note||'')+'</p>'+
-    (status.complete ? '' : '<p>This acquisition snapshot is incomplete. The report keeps its original evidence date.</p>');
+    (status.complete ? '' : '<p>The broad acquisition is incomplete. Current financial measurements retain their stated period ends.</p>');
 }
 function place(n,position,index,total,field=false) {
   const angle=index*2.399963229728653, radius=field ? 200+350*Math.sqrt((index+1)/Math.max(total,1)) : 100;
@@ -353,17 +364,20 @@ function boot(data,fallback=false) {
   const layout=data.layout||{};
   nodes=data.nodes.map((n,i) => {
     const frg=Math.max(0,Math.min(1,finite(n.fragility)));
-    const node={...n,label:String(n.label||n.id),usd:finite(n.usd),frg,color:frgColor(frg),
+    const node={...n,label:String(n.label||n.id),usd:finite(n.usd),frg,color:n.fragility==null ? '#78889c' : frgColor(frg),
       val:Math.max(1.2,Math.sqrt(Math.max(0,finite(n.usd))/1e9)*1.7),neighbors:[],nlinks:[]};
     place(node,(layout.core||{})[node.id],i,data.nodes.length); return node;
   });
   byId=Object.assign(Object.create(null),Object.fromEntries(nodes.map(n => [n.id,n])));
   links=data.edges.filter(e => byId[e.from] && byId[e.to]).map(e => {
     const a=byId[e.from], b=byId[e.to], press=e.tier==='press_reported';
-    const circular=e.type==='gpu_purchase' || (e.from==='NVIDIA' && ['equity_investment','framework_commitment'].includes(e.type));
+    const vendorFunding=['equity_investment','announced_investment','framework_commitment','cloud_services_contract','conditional_guarantee'];
+    const circular=(e.from==='NVIDIA' && vendorFunding.includes(e.type)) ||
+      (e.to==='NVIDIA' && e.type==='gpu_purchase' && data.edges.some(other =>
+        other.from==='NVIDIA' && other.to===e.from && vendorFunding.includes(other.type)));
     const risk=Math.min(1,.25*(a.frg+b.frg)+.35*Number(press)+.15*Number(circular));
     return {...e,source:e.from,target:e.to,type:e.type||'exposure',usd:finite(e.usd),press,circular,risk,
-      fromLabel:a.label,toLabel:b.label,color:mix([72,89,112],[178,76,86],risk),
+      fromLabel:a.label,toLabel:b.label,color:['unconfirmed','historical'].includes(e.tier) ? '#687b94' : mix([72,89,112],[178,76,86],risk),
       width:press ? .6 : Math.min(3.2,Math.max(.5,Math.sqrt(finite(e.usd)/1e9)*.45))};
   });
   const field=data.field||{}, fieldIds=[];
@@ -408,7 +422,16 @@ function boot(data,fallback=false) {
   controls.addEventListener('end',() => { dragging=false; wake(); });
   controls.addEventListener('change',() => wake());
   sceneField=fieldLayer();
-  let autoCamera=true;
+  let autoCamera=true, initialFitPending=true;
+  const fitInitial=() => {
+    if (!initialFitPending || !autoCamera || document.hidden) return;
+    initialFitPending=false;
+    wake(1100);
+    requestAnimationFrame(() => {
+      if (document.hidden) { initialFitPending=true; return; }
+      if (autoCamera && nodes.some(n => !n.field)) G.zoomToFit(motion.matches ? 0 : 900,100);
+    });
+  };
   ['pointerdown','pointermove','wheel','touchstart','keydown'].forEach(name => {
     $('g').addEventListener(name,() => {
       if (name!=='pointermove') autoCamera=false;
@@ -420,12 +443,10 @@ function boot(data,fallback=false) {
   window.addEventListener('pointercancel',() => { dragging=false; wake(); });
   window.addEventListener('resize',() => { G.width(window.innerWidth).height(window.innerHeight); wake(); });
   document.addEventListener('visibilitychange',() => {
-    if (document.hidden) { G.pauseAnimation(); paused=true; } else wake();
+    if (document.hidden) { G.pauseAnimation(); paused=true; }
+    else { wake(); fitInitial(); }
   });
-  setTimeout(() => {
-    wake(1100);
-    if (autoCamera && nodes.some(n => !n.field)) G.zoomToFit(motion.matches ? 0 : 900,100);
-  },100);
+  setTimeout(fitInitial,100);
   sourcePanel(data,fallback); bindSearch();
   $('play').disabled=!trigger || !hops.length || !byId[trigger];
   $('play').onclick=playCascade;

@@ -6,14 +6,50 @@ from datetime import date
 from threading import Lock
 from typing import TYPE_CHECKING, Any
 
+import pytest
+
 from bubble.ingestion.edgar.filing_manifest import (
+    _candidate_exhibit_items,
     build_edgar_exhibit_manifest_from_manifest,
     build_edgar_filing_manifest,
+    filing_document_table_url,
+    parse_filing_document_table,
     score_filing_relevance,
 )
 
 if TYPE_CHECKING:
     from pathlib import Path
+
+
+def test_document_table_types_find_earnings_release_without_an_exhibit_filename():
+    uri = "https://www.sec.gov/Archives/edgar/data/123/000000012326000001/0000000123-26-000001-index.html"
+    raw = b"""<table summary="Document Format Files">
+    <tr><td>1</td><td>8-K</td><td><a href="/ix?doc=/Archives/edgar/data/123/000000012326000001/report.htm">report.htm</a></td><td>8-K</td><td>100</td></tr>
+    <tr><td>2</td><td>Earnings release</td><td><a href="results.htm">results.htm</a></td><td>EX-99.1</td><td>200</td></tr>
+    <tr><td>3</td><td>Agreement</td><td><a href="agreement.htm">agreement.htm</a></td><td>EX-10.1</td><td>300</td></tr>
+    <tr><td>4</td><td>XBRL</td><td><a href="ex101.htm">ex101.htm</a></td><td>EX-101.INS</td><td>400</td></tr>
+    <tr><td>5</td><td>Image</td><td><a href="ex991.jpg">ex991.jpg</a></td><td>GRAPHIC</td><td>500</td></tr>
+    </table>"""
+    parsed = parse_filing_document_table(raw, uri)
+    assert parsed["index_parser"] == "sec_document_types_v1"
+    assert [
+        row["name"] for row in _candidate_exhibit_items(parsed, primary_document="report.htm")
+    ] == ["results.htm", "agreement.htm"]
+    assert filing_document_table_url(uri.rsplit("/", 1)[0] + "/index.json") == uri
+    assert filing_document_table_url("https://data.sec.gov/submissions/CIK0000000123.json") is None
+
+
+def test_block_page_and_outside_accession_link_cannot_be_a_successful_empty_index():
+    uri = "https://www.sec.gov/Archives/edgar/data/123/000000012326000001/0000000123-26-000001-index.html"
+    with pytest.raises(ValueError, match="no Document Format Files"):
+        parse_filing_document_table(b"<html>Request rate threshold exceeded</html>", uri)
+    with pytest.raises(ValueError, match="outside its"):
+        parse_filing_document_table(
+            b"""<table summary="Document Format Files"><tr>
+        <td>1</td><td>Results</td><td><a href="https://other.example/results.htm">results.htm</a></td>
+        <td>EX-99.1</td><td>200</td></tr></table>""",
+            uri,
+        )
 
 
 def _sample_submission() -> dict[str, Any]:

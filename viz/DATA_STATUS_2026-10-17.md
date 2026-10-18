@@ -1,5 +1,43 @@
 # Explorer source status, October 17, 2026
 
+## Current financial review, 21:50 PDT
+
+This checkpoint supersedes the June-core statements below. The current review
+reconciles 13 issuers against their latest public statements. They report
+$90.302B of consolidated USD borrowing and note carrying amounts. Most balances
+end June 30; Applied Digital ends August 31. This measure includes non-AI
+businesses and differs from the old committed-debt instrument census.
+All 13 have negative cash after capex over their stated reporting periods.
+That measures a funding requirement and does not establish insolvency.
+
+The visualization now uses those period-specific balances. Connections separate
+contract values, investments and conditional guarantees. Agent and trustee
+roles do not establish beneficial creditor ownership. The former Core Scientific
+merger and term-loan claims are corrected. CoreWeave's largest Q2 customer is
+36%, anonymously identified. The original June graph remains in historical_core.
+
+Seven later financing events are recorded separately, including Nebius's
+$5.75B August convertible offering and Cipher Digital's October 16 offering.
+Gross issuance and commitments are not added to statement carrying amounts.
+See [the financial review](../analysis/core_reassessment_2026-10-17.md),
+[the event ledger](../analysis/core_financing_events_2026-10-17.json), and
+[the relationship review](../analysis/core_relationship_review_2026-10-17.json).
+
+September issuance cards replace the stale June S1 input. The displayed spread
+is the registered coupon proxy. The October review leaves S4 unmeasured because
+the comparable primary-source demand basket has no fresh eligible observation.
+The October 17 market snapshot is frozen with its original observation dates.
+
+The broad SEC filing and exhibit acquisition remains incomplete. The grey
+background field retains the old snapshot at this checkpoint. Its independent
+observation cutoff was not recorded; the June report date is separate. The
+supervised continuation will merge the complete selected corpus, audit URL
+coverage, and rebuild this field from the dated capital graph. It retains all
+named obligor-to-risk-bearer pairs without the old four-party cap. Final field
+and deployed-file verification remain outstanding.
+
+## Earlier checkpoint, retained for context
+
 The market overlay contains October 16 closing prices and October 15 credit
 observations. The NAV denominators are the latest reported June 30 quarterly
 values found in saved SEC periodic filings.

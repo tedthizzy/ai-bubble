@@ -1,0 +1,346 @@
+{
+  "as_of": "2026-10-17",
+  "cards": [
+    {
+      "ticker": "CRWV",
+      "entity": "CoreWeave",
+      "period_end": "2026-06-30",
+      "filing_date": "2026-08-12",
+      "source_uri": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000366/crwv-20260630.htm",
+      "units_usd": 1000000,
+      "components": [
+        {
+          "label": "Recourse debt, current",
+          "reported_value": "6,235",
+          "sign": 1
+        },
+        {
+          "label": "Non-recourse debt, current",
+          "reported_value": "1,278",
+          "sign": 1
+        },
+        {
+          "label": "Recourse debt, non-current",
+          "reported_value": "25,170",
+          "sign": 1
+        },
+        {
+          "label": "Non-recourse debt, non-current",
+          "reported_value": "2,385",
+          "sign": 1
+        }
+      ],
+      "basis": "Reported USD borrowing and note carrying amounts; exclude leases, warrant derivatives and crypto-denominated borrowing.",
+      "note": null
+    },
+    {
+      "ticker": "WULF",
+      "entity": "TeraWulf",
+      "period_end": "2026-06-30",
+      "filing_date": "2026-08-05",
+      "source_uri": "https://www.sec.gov/Archives/edgar/data/1083301/000108330126000166/wulf-20260630.htm",
+      "units_usd": 1000,
+      "components": [
+        {
+          "label": "Current portion of long-term debt",
+          "reported_value": "90,718",
+          "sign": 1
+        },
+        {
+          "label": "Short-term convertible notes",
+          "reported_value": "1,101,976",
+          "sign": 1
+        },
+        {
+          "label": "Long-term debt",
+          "reported_value": "3,019,335",
+          "sign": 1
+        },
+        {
+          "label": "Convertible notes",
+          "reported_value": "1,001,083",
+          "sign": 1
+        }
+      ],
+      "basis": "Reported USD borrowing and note carrying amounts; exclude leases, warrant derivatives and crypto-denominated borrowing.",
+      "note": null
+    },
+    {
+      "ticker": "IREN",
+      "entity": "IREN",
+      "period_end": "2026-06-30",
+      "filing_date": "2026-08-27",
+      "source_uri": "https://www.sec.gov/Archives/edgar/data/1878848/000187884826000052/iren-20260630.htm",
+      "units_usd": 1000,
+      "components": [
+        {
+          "label": "Total debt, net of unamortized issuance costs",
+          "reported_value": "7,592,944",
+          "sign": 1
+        }
+      ],
+      "basis": "Reported USD borrowing and note carrying amounts; exclude leases, warrant derivatives and crypto-denominated borrowing.",
+      "note": null
+    },
+    {
+      "ticker": "APLD",
+      "entity": "Applied Digital",
+      "period_end": "2026-08-31",
+      "filing_date": "2026-10-07",
+      "source_uri": "https://www.sec.gov/Archives/edgar/data/1144879/000114487926000059/apld-20260831.htm",
+      "units_usd": 1000,
+      "components": [
+        {
+          "label": "Long-term debt, net",
+          "reported_value": "6,263,947",
+          "sign": 1
+        },
+        {
+          "label": "Less: Current portion of debt",
+          "reported_value": "112,645",
+          "sign": 1
+        }
+      ],
+      "basis": "Reported USD borrowing and note carrying amounts; exclude leases, warrant derivatives and crypto-denominated borrowing.",
+      "note": null
+    },
+    {
+      "ticker": "HUT",
+      "entity": "Hut 8",
+      "period_end": "2026-06-30",
+      "filing_date": "2026-08-04",
+      "source_uri": "https://www.sec.gov/Archives/edgar/data/1964789/000110465926090025/hut-20260630x10q.htm",
+      "units_usd": 1000,
+      "components": [
+        {
+          "label": "Total carrying amount",
+          "reported_value": "7,638,441",
+          "sign": 1
+        },
+        {
+          "label": "Other financial liability",
+          "reported_value": "3,303",
+          "sign": -1
+        }
+      ],
+      "basis": "Reported USD borrowing and note carrying amounts; exclude leases, warrant derivatives and crypto-denominated borrowing.",
+      "note": "Other financial liability is excluded; USD borrowing balances remain."
+    },
+    {
+      "ticker": "MARA",
+      "entity": "MARA Holdings",
+      "period_end": "2026-06-30",
+      "filing_date": "2026-08-06",
+      "source_uri": "https://www.sec.gov/Archives/edgar/data/1507605/000150760526000022/mara-20260630.htm",
+      "units_usd": 1000,
+      "components": [
+        {
+          "label": "Notes payable, current portion",
+          "reported_value": "335,397",
+          "sign": 1
+        },
+        {
+          "label": "Line of credit, current portion",
+          "reported_value": "150,000",
+          "sign": 1
+        },
+        {
+          "label": "Notes payable, net of current portion",
+          "reported_value": "1,932,352",
+          "sign": 1
+        }
+      ],
+      "basis": "Reported USD borrowing and note carrying amounts; exclude leases, warrant derivatives and crypto-denominated borrowing.",
+      "note": null
+    },
+    {
+      "ticker": "CLSK",
+      "entity": "CleanSpark",
+      "period_end": "2026-06-30",
+      "filing_date": "2026-08-06",
+      "source_uri": "https://www.sec.gov/Archives/edgar/data/827876/000119312526338382/clsk-20260630.htm",
+      "units_usd": 1000,
+      "components": [
+        {
+          "label": "Total debt outstanding, net of debt discounts and debt issuance costs",
+          "reported_value": "1,782,364",
+          "sign": 1
+        }
+      ],
+      "basis": "Reported USD borrowing and note carrying amounts; exclude leases, warrant derivatives and crypto-denominated borrowing.",
+      "note": null
+    },
+    {
+      "ticker": "GLXY",
+      "entity": "Galaxy Digital",
+      "period_end": "2026-06-30",
+      "filing_date": "2026-08-10",
+      "source_uri": "https://www.sec.gov/Archives/edgar/data/1859392/000185939226000091/glxy-20260630.htm",
+      "units_usd": 1000,
+      "components": [
+        {
+          "label": "Loans payable",
+          "reported_value": "286,715",
+          "sign": 1
+        },
+        {
+          "label": "Notes payable, current",
+          "reported_value": "436,985",
+          "sign": 1
+        },
+        {
+          "label": "Notes payable",
+          "reported_value": "2,825,773",
+          "sign": 1
+        }
+      ],
+      "basis": "Reported USD borrowing and note carrying amounts; exclude leases, warrant derivatives and crypto-denominated borrowing.",
+      "note": "Digital assets borrowed ($1.514469B) and collateral payable are separate; this figure covers fiat loans and notes."
+    },
+    {
+      "ticker": "NBIS",
+      "entity": "Nebius",
+      "period_end": "2026-06-30",
+      "filing_date": "2026-08-12",
+      "source_uri": "https://www.sec.gov/Archives/edgar/data/1513845/000110465926094568/tm2622968d1_ex99-1.htm",
+      "units_usd": 1000000,
+      "components": [
+        {
+          "label": "Debt, current",
+          "reported_value": "46.7",
+          "sign": 1,
+          "reported_columns": [
+            "24.5",
+            "46.7"
+          ],
+          "selected_column": 1
+        },
+        {
+          "label": "Debt, non-current",
+          "reported_value": "8,499.0",
+          "sign": 1,
+          "reported_columns": [
+            "4,103.2",
+            "8,499.0"
+          ],
+          "selected_column": 1
+        }
+      ],
+      "basis": "Reported USD borrowing and note carrying amounts; exclude leases, warrant derivatives and crypto-denominated borrowing.",
+      "note": null,
+      "column_periods": [
+        "2025-12-31",
+        "2026-06-30"
+      ]
+    },
+    {
+      "ticker": "CORZ",
+      "entity": "Core Scientific",
+      "period_end": "2026-06-30",
+      "filing_date": "2026-07-28",
+      "source_uri": "https://www.sec.gov/Archives/edgar/data/1839341/000183934126000014/core-20260630.htm",
+      "units_usd": 1000,
+      "components": [
+        {
+          "label": "Long-term debt",
+          "reported_value": "4,297,967",
+          "sign": 1
+        }
+      ],
+      "basis": "Reported USD borrowing and note carrying amounts; exclude leases, warrant derivatives and crypto-denominated borrowing.",
+      "note": null
+    },
+    {
+      "ticker": "CIFR",
+      "entity": "Cipher Mining",
+      "period_end": "2026-06-30",
+      "filing_date": "2026-08-04",
+      "source_uri": "https://www.sec.gov/Archives/edgar/data/1819989/000181998926000041/cifr-20260630.htm",
+      "units_usd": 1000,
+      "components": [
+        {
+          "label": "Short-term borrowings",
+          "reported_value": "94,484",
+          "sign": 1
+        },
+        {
+          "label": "Long-term borrowings, net",
+          "reported_value": "5,446,866",
+          "sign": 1
+        }
+      ],
+      "basis": "Reported USD borrowing and note carrying amounts; exclude leases, warrant derivatives and crypto-denominated borrowing.",
+      "note": null
+    },
+    {
+      "ticker": "BTBT",
+      "entity": "Bit Digital",
+      "period_end": "2026-06-30",
+      "filing_date": "2026-08-13",
+      "source_uri": "https://www.sec.gov/Archives/edgar/data/1710350/000121390026088709/ea0300693-10q_bitdigital.htm",
+      "units_usd": 1000,
+      "components": [
+        {
+          "label": "Short-term debt and current portion of long-term debt, net",
+          "reported_value": "78,436",
+          "sign": 1
+        },
+        {
+          "label": "Long-term debt, net",
+          "reported_value": "25,464",
+          "sign": 1
+        },
+        {
+          "label": "Convertible notes payable, net",
+          "reported_value": "336,155",
+          "sign": 1
+        }
+      ],
+      "basis": "Reported USD borrowing and note carrying amounts; exclude leases, warrant derivatives and crypto-denominated borrowing.",
+      "note": null
+    },
+    {
+      "ticker": "BTDR",
+      "entity": "Bitdeer",
+      "period_end": "2026-06-30",
+      "filing_date": "2026-08-10",
+      "source_uri": "https://www.sec.gov/Archives/edgar/data/1899123/000121390026086938/ea030131301ex99-1.htm",
+      "units_usd": 1000,
+      "components": [
+        {
+          "label": "Short-term borrowings",
+          "reported_value": "26,000",
+          "sign": 1
+        },
+        {
+          "label": "Current portion of long-term borrowings",
+          "reported_value": "99",
+          "sign": 1
+        },
+        {
+          "label": "Current portion of long-term borrowings from a related party",
+          "reported_value": "491,048",
+          "sign": 1
+        },
+        {
+          "label": "Long-term borrowings",
+          "reported_value": "1,182,454",
+          "sign": 1
+        },
+        {
+          "label": "Long-term borrowings from a related party",
+          "reported_value": "142,083",
+          "sign": 1
+        }
+      ],
+      "basis": "Reported USD borrowing and note carrying amounts; exclude leases, warrant derivatives and crypto-denominated borrowing.",
+      "note": null
+    }
+  ],
+  "limits": [
+    "Latest reported balances have different period ends; they are not an October 17 closing balance.",
+    "Consolidated issuer borrowing includes non-AI activities.",
+    "Post-report financing announcements are separate events and are not blindly added to reported balances.",
+    "These carrying amounts replace neither the historical committed-debt instrument census nor a mark-to-market loss estimate."
+  ]
+}

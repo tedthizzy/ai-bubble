@@ -26,17 +26,25 @@ import urllib.error
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from contextlib import contextmanager
 from datetime import UTC, date, datetime
+from email.message import Message
 from pathlib import Path
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 import httpx
+
+if TYPE_CHECKING:
+    from collections.abc import Iterator
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
 from bubble.ingestion.concurrency import DomainFetchLimiter, FetchConcurrencyConfig  # noqa: E402
 from bubble.ingestion.edgar.document_acquisition import _acquire_edgar_manifest_row  # noqa: E402
-from bubble.ingestion.edgar.filing_manifest import build_edgar_filing_manifest  # noqa: E402
+from bubble.ingestion.edgar.filing_manifest import (  # noqa: E402
+    build_edgar_filing_manifest,
+    filing_document_table_url,
+    parse_filing_document_table,
+)
 
 IDENTITY = "ai-bubble research ted1508@gmail.com"
 OLD_MANIFESTS = (
@@ -71,6 +79,14 @@ def rows(path: Path) -> list[dict[str, str]]:
     return list(iter_rows(path))
 
 
+def csv_fields(path: Path) -> list[str]:
+    with path.open(newline="") as source:
+        fields = csv.DictReader(source).fieldnames
+    if fields is None:
+        raise ValueError(f"Missing CSV header: {path}")
+    return list(fields)
+
+
 def write_csv(path: Path, records: list[dict[str, Any]]) -> None:
     if not records:
         return
@@ -97,7 +113,7 @@ class PublicClient:
         self.calls = 0
 
     @contextmanager
-    def response(self, url: str):
+    def response(self, url: str) -> Iterator[httpx.Response]:
         host = httpx.URL(url).host
         sec = host == "sec.gov" or host.endswith(".sec.gov")
         if sec:
@@ -152,6 +168,9 @@ class PublicClient:
         os.unlink(staged.name)
 
     def json(self, url: str) -> Any:
+        document_table_url = filing_document_table_url(url)
+        if document_table_url:
+            return self.filing_document_table(document_table_url, parse_filing_document_table)
         digest = hashlib.sha256(url.encode()).hexdigest()
         path = self.run / "sec_json" / (digest + ".json.gz")
         path.parent.mkdir(exist_ok=True)
@@ -177,6 +196,30 @@ class PublicClient:
                     },
                 )
         return json.loads(payload)
+
+    def filing_document_table(self, url: str, parser: Any) -> Any:
+        digest = hashlib.sha256(url.encode()).hexdigest()
+        path = self.run / "sec_json" / (digest + ".html.gz")
+        path.parent.mkdir(exist_ok=True)
+        if path.exists():
+            with gzip.open(path, "rb") as stream:
+                return parser(stream.read(), url)
+        payload = self.get(url)
+        result = parser(payload, url)
+        with self.lock:
+            if not path.exists():
+                with path.open("xb") as stream:
+                    stream.write(gzip.compress(payload, mtime=0))
+                save(
+                    path.with_suffix(".source.json"),
+                    {
+                        "url": url,
+                        "retrieved_at": datetime.now(UTC).isoformat(),
+                        "sha256": hashlib.sha256(payload).hexdigest(),
+                        "index_parser": "sec_document_types_v1",
+                    },
+                )
+        return result
 
 
 class DocumentQueue:
@@ -372,8 +415,7 @@ class DocumentQueue:
             if destination.exists():
                 raise FileExistsError(f"Inspect existing export before replacing it: {destination}")
             baseline = OLD_INVENTORY if key == "document" else OLD_INVENTORY.parent / filename
-            with baseline.open(newline="") as source:
-                fields = csv.DictReader(source).fieldnames
+            fields = csv_fields(baseline)
             with destination.open("x", newline="") as stream:
                 writer = csv.DictWriter(stream, fieldnames=fields)
                 writer.writeheader()
@@ -416,7 +458,9 @@ def load_script(name: str) -> Any:
     return module
 
 
-def discover(run: Path, as_of: date, client: PublicClient, documents: DocumentQueue) -> dict:
+def discover(
+    run: Path, as_of: date, client: PublicClient, documents: DocumentQueue
+) -> dict[str, Any]:
     universe = run / "discovery_universe.json"
     if universe.exists():
         state = json.loads(universe.read_text())
@@ -465,7 +509,7 @@ def discover(run: Path, as_of: date, client: PublicClient, documents: DocumentQu
     emit("filing_discovery_started", ciks=len(ciks), official_rows=census_count)
     batches = run / "filing_batches"
     batches.mkdir(exist_ok=True)
-    summaries = []
+    summaries: list[dict[str, Any]] = []
     added = total_records = 0
     for offset in range(0, len(ciks), 64):
         stem = batches / f"{offset:06d}"
@@ -480,6 +524,8 @@ def discover(run: Path, as_of: date, client: PublicClient, documents: DocumentQu
                 since=date(2026, 9, 16),
                 until=as_of,
                 max_filings_per_cik=None,
+                include_exhibits=True,
+                max_exhibits_per_filing=None,
                 max_workers=8,
                 sec_requests_per_second=0,
                 retry_attempts=3,
@@ -500,10 +546,9 @@ def discover(run: Path, as_of: date, client: PublicClient, documents: DocumentQu
     combined = run / "current_filing_manifest.csv"
     if not combined.exists():
         paths = sorted(batches.glob("*.csv"))
-        with paths[0].open(newline="") as first:
-            fields = csv.DictReader(first).fieldnames
+        headers = csv_fields(paths[0])
         with combined.open("x", newline="") as stream:
-            writer = csv.DictWriter(stream, fieldnames=fields)
+            writer = csv.DictWriter(stream, fieldnames=headers)
             writer.writeheader()
             for path in paths:
                 writer.writerows(iter_rows(path))
@@ -518,7 +563,7 @@ def discover(run: Path, as_of: date, client: PublicClient, documents: DocumentQu
     return result
 
 
-def finance(run: Path, as_of: date, client: PublicClient) -> dict:
+def finance(run: Path, as_of: date, client: PublicClient) -> dict[str, Any]:
     module = load_script("refresh_case_zero_financials")
 
     class Sec:
@@ -526,8 +571,11 @@ def finance(run: Path, as_of: date, client: PublicClient) -> dict:
             try:
                 return client.get(url)
             except httpx.HTTPStatusError as exc:
+                headers = Message()
+                for name, value in exc.response.headers.items():
+                    headers[name] = value
                 raise urllib.error.HTTPError(
-                    url, exc.response.status_code, str(exc), {}, None
+                    url, exc.response.status_code, str(exc), headers, None
                 ) from exc
             except httpx.HTTPError as exc:
                 raise urllib.error.URLError(str(exc)) from exc
@@ -574,7 +622,7 @@ def finance(run: Path, as_of: date, client: PublicClient) -> dict:
     }
 
 
-def command(run: Path, label: str, args: list[str]) -> dict:
+def command(run: Path, label: str, args: list[str]) -> dict[str, Any]:
     env = {
         k: v
         for k, v in os.environ.items()
@@ -597,7 +645,7 @@ def command(run: Path, label: str, args: list[str]) -> dict:
     return {"command": args, "exit_code": code, "log": str(path.resolve().relative_to(ROOT))}
 
 
-def catalog_jobs(run: Path) -> dict:
+def catalog_jobs(run: Path) -> dict[str, Any]:
     results = {}
     with ThreadPoolExecutor(max_workers=2) as executor:
         jobs = {}
@@ -647,7 +695,7 @@ def catalog_jobs(run: Path) -> dict:
     return results
 
 
-def dynamic_catalog(run: Path) -> dict:
+def dynamic_catalog(run: Path) -> dict[str, Any]:
     path = run / "dynamic_source_catalog.csv"
     if not path.exists():
         discovery = command(
@@ -709,7 +757,7 @@ def catalog_identity(row: dict[str, str], *, inventory: bool = False) -> tuple[s
 def missing_dynamic_sources(run: Path, completed: tuple[str, ...]) -> list[dict[str, str]]:
     # POST pages and source revisions share URLs. Their request and revision
     # metadata are part of artifact identity; URI alone loses current pages.
-    successful = set()
+    successful: set[tuple[str, ...]] = set()
     for name in completed:
         inventory = run / name / "source_artifact_inventory.csv"
         if inventory.exists():

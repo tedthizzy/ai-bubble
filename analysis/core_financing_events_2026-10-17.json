@@ -1,0 +1,80 @@
+{
+  "as_of": "2026-10-17",
+  "events": [
+    {
+      "ticker": "CRWV",
+      "date": "2026-08-07",
+      "filing_date": "2026-08-10",
+      "type": "facility_commitment",
+      "amount_usd": 2600000000,
+      "note": "DDTL 5.5 signed for $2.6B to support customer-contract capital spending. Commitment capacity does not establish drawn debt.",
+      "source_uri": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000357/crwv-20260807.htm",
+      "source_sha256": "ab4a10e6eee2740453f37d91b05aa2361b727d1b4b5bda70ed53c013e88d7339"
+    },
+    {
+      "ticker": "CRWV",
+      "date": "2026-09-22",
+      "filing_date": "2026-09-22",
+      "type": "note_issuance",
+      "amount_usd": 4200000000,
+      "note": "Closed $4.2B of 2.875% convertible notes due 2033, including the exercised option. Principal issuance is separate from June carrying balances.",
+      "source_uri": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000432/crwv-20260917.htm",
+      "source_sha256": "9c32b58a6d992376017b13af74ed33d3db87a4cf5460ab3348f95c183b5953f6"
+    },
+    {
+      "ticker": "HUT",
+      "date": "2026-09-24",
+      "filing_date": "2026-09-28",
+      "type": "facility_commitment",
+      "amount_usd": 1070000000,
+      "note": "Signed a $1.07B senior secured revolving facility. Draws and letters of credit are not measured by the commitment amount.",
+      "source_uri": "https://www.sec.gov/Archives/edgar/data/1964789/000110465926111154/tm2625691d1_8k.htm",
+      "source_sha256": "addcb0a31b4222660fb10e63ae76fc23b88dd7b652c5a644957bf11d99475c01"
+    },
+    {
+      "ticker": "CLSK",
+      "date": "2026-09-25",
+      "filing_date": "2026-09-25",
+      "type": "note_issuance",
+      "amount_usd": 2276000000,
+      "note": "CSDC Finance I closed $2.276B of 7.875% secured project notes due 2031 at 98.5. This financing occurred after the June financial statements.",
+      "source_uri": "https://www.sec.gov/Archives/edgar/data/827876/000119312526402944/clsk-20260925.htm",
+      "source_sha256": "282d65519aa32df3618c63cf4607f85b342f2d8d200ee24ba52c6999460b9efc"
+    },
+    {
+      "ticker": "GLXY",
+      "date": "2026-07-28",
+      "filing_date": "2026-07-28",
+      "type": "note_issuance",
+      "amount_usd": 3507000000,
+      "note": "Galaxy Helios Data Centers II issued $3.507B of 9.875% secured notes due 2031 to fund additional Helios construction.",
+      "source_uri": "https://www.sec.gov/Archives/edgar/data/1859392/000185939226000079/glxy-20260728.htm",
+      "source_sha256": "c4ba2e218ac882796d5d8f5c5a39b380561fb016d8ddf0ec72b2c07a83ddd2a8"
+    },
+    {
+      "ticker": "NBIS",
+      "date": "2026-08-24",
+      "filing_date": "2026-08-24",
+      "type": "note_issuance",
+      "amount_usd": 5750000000,
+      "note": "Closed $5.75B of 0.50% notes due 2030 and 4.50% notes due 2034. Separately exchanged $400M of 2029 notes and $400M of 2031 notes for shares and cash. The gross new issuance is not a net debt change.",
+      "source_uri": "https://www.sec.gov/Archives/edgar/data/1513845/000110465926100347/tm2623863d1_ex99-1.htm",
+      "source_sha256": "98535c858f9588b34c4866b9c553039d2d9ae2cc64f5f583545db70bead79d49"
+    },
+    {
+      "ticker": "CIFR",
+      "date": "2026-10-16",
+      "filing_date": "2026-10-16",
+      "type": "note_issuance",
+      "amount_usd": 850000000,
+      "note": "Cipher Digital issued $850M of 0% convertible notes due 2032. Its concurrent exchange retired $165.9M of 2030 notes. The remaining $150M purchaser option was not established as exercised at this cutoff.",
+      "source_uri": "https://www.sec.gov/Archives/edgar/data/1819989/000119312526424297/d313847d8k.htm",
+      "source_sha256": "f6491f48b49504a901d8b8e5636a64738ab4c149ee3b137e8ca7a2b2739a1641"
+    }
+  ],
+  "limits": [
+    "Selected material financing events verified in the saved primary statements and event filings.",
+    "Gross issue principal, facility commitments and statement carrying amounts have different definitions and cannot be summed into an October 17 closing balance.",
+    "June statement debt remains period-specific; subsequent amortization, drawdowns, exchanges, fees and currencies require reconciliation."
+  ]
+}

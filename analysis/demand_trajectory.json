@@ -68,5 +68,59 @@
     }
    ]
   }
- ]
+ ],
+ "current_review": {
+  "as_of": "2026-10-17",
+  "registered_growth_eligible": false,
+  "reason": "The reviewed primary sources do not establish a new comparable roughly annual basket. The June growth calculation remains a historical observation.",
+  "components": [
+   {
+    "entity": "OpenAI",
+    "latest_total_company_statement_date": "2026-03-31",
+    "value_usd_b": 24,
+    "source": "https://openai.com/index/accelerating-the-next-phase-ai/",
+    "measurement": "March monthly revenue pace annualized; not a current October print",
+    "later_component_source": "https://openai.com/index/expanding-access-to-ai-with-chatgpt-ads/",
+    "later_component_date": "2026-08-31",
+    "later_component_value_usd_b": 1,
+    "later_component_exclusion": "Advertising component; cannot replace or be added to total company revenue."
+   },
+   {
+    "entity": "Anthropic",
+    "latest_total_company_statement_date": "2026-05-28",
+    "value_usd_b_lower_bound": 47,
+    "source": "https://www.anthropic.com/news/series-h",
+    "later_checks": [
+     "https://www.anthropic.com/news",
+     "https://www.anthropic.com/news/confidential-draft-s1-sec"
+    ],
+    "measurement": "Company-stated run-rate floor; private investor reports remain separate."
+   },
+   {
+    "entity": "Microsoft AI",
+    "latest_total_company_statement_date": "2026-04-29",
+    "value_usd_b_lower_bound": 37,
+    "source": "https://www.microsoft.com/en-us/investor/earnings/FY-2026-Q3/press-release-webcast",
+    "later_check": "https://www.microsoft.com/en-us/investor/events/fy-2026/earnings-fy-2026-q4",
+    "measurement": "Company-defined AI business run rate; Cloud revenue and Foundry usage are different measures."
+   }
+  ],
+  "later_reported_context": [
+   {
+    "entity": "OpenAI",
+    "reported_date": "2026-10-08",
+    "reported_run_rate_usd_b": 50,
+    "earlier_comparability_figure_usd_b": 70,
+    "source": "https://www.axios.com/2026/10/08/openai-50-billion-arr-anthropic-revenue-accounting",
+    "tier": "original_journalism",
+    "use": "Context only. Different partner-revenue accounting prevents substitution into the registered company-stated basket."
+   }
+  ],
+  "limits": [
+   "Company statement dates remain separate from this review date.",
+   "The fixed basket and registered thresholds are unchanged.",
+   "Later private investor figures require primary disclosure and comparable gross/net accounting before a new S4 calculation.",
+   "Search and reviewed company pages do not prove that a newer disclosure cannot exist."
+  ]
+ }
 }

@@ -1,5 +1,137 @@
 # Bubble refresh operations, October 17, 2026
 
+## Typed exhibit indexes and current browser checkpoint, 22:40 PDT
+
+This entry corrects the 21:57 checkpoint below. SEC exhibit selection now reads
+Document Type from the official filing document table. Filename-only selection
+missed the CoreWeave and Applied Digital earnings releases. Both releases are
+now acquired. All 3,029 indexes checked by the earlier filename method were
+retained in previous_index_pass and requeued for the typed parser. The migration
+used a SQLite backup. No acquired document was removed.
+
+The exhibit job now uses four index executor workers with its four index slots.
+Sixteen workers previously competed for those slots and let later baseline
+filings pass pending current core filings. The current core parent indexes are
+now all checked. The active log is exhibit-completion-priority.log. The prior
+workers were stopped by their verified exact PIDs; all logs and markers remain.
+The current prepared core library is core_review_v7/manifest.json: 415 verified
+sources and zero missing selected core documents. Each financial card retains
+its own immutable source hash and library reference.
+
+The retained grey field has no independently verified observation cutoff.
+June 3 is the historical report context, not proof of the field's date. The
+viewer now says Unverified / retained field until the complete dated capital
+graph replaces it. That replacement remains pending acquisition completion.
+
+The real existing Chrome session rendered the 36-node current core and retained
+7,687 grey points. Mobile Sources, debt cards, source links, search and cascade
+interactions were inspected. The current page uses Arial at 14px and 18px,
+shows no horizontal mobile overflow, and rendered zero additional frames during
+a five-second settled observation. The observed JS heap was 13,034,251 bytes.
+The unchanged color tokens retain a minimum checked text contrast of 6.0123:1.
+An actual hidden-tab reload exposed an early initial camera fit; fitting now
+waits for visibility and a rendered frame. Background-to-visible rendering was
+checked again. Some paused CDP captures omitted a compositor layer. A native
+view and an active Sources capture showed the complete page; failed captures
+and the diagnostic ReferenceError remain retained as probe errors.
+
+analysis/viz_browser_validation_2026-10-17.json records the exact current HTML,
+JavaScript and CSS hashes fetched in Chrome and the viewed screenshot hashes.
+The guarded publisher will reject sources changed after that check.
+
+At 22:38 PDT the original acquisition had 184,155 acquired, 45 failed, eight in
+flight and 43,186 queued documents. Its observed peak remained 2,068,515,024
+bytes under its 2 GiB budget. The exhibit workload used about 148 MB. These
+counts are dated observations; read the SQLite queues and supervisor logs for
+live state. The complete-source finisher and publisher remain waiting.
+
+
+## Current financial review and complete-source continuation, 21:57 PDT
+
+This checkpoint supersedes the earlier June-core and continuation descriptions.
+The October core review now verifies 13 issuer statement balances against saved
+primary rows and raw/normalized SHA-256 hashes. It includes convertible notes
+that partial XBRL debt tags omitted. The reported carrying amounts total
+$90.302128B. They retain June 30 period ends, except Applied Digital August 31,
+and include non-AI businesses. The seven later financing events are a separate
+ledger. Gross issue principal and commitments are not silently added to those
+balances. All 13 matched cash-flow periods show negative cash after capex.
+
+The relationship review contains 38 source-supported connections. It corrects
+the CoreWeave 67% Microsoft claim, the terminated Core Scientific merger,
+the repaid Core Scientific term loan and Hut 8's converted Coatue note. It
+separates trustee and agent roles from beneficial lending. It adds named
+customer leases and lease-payment backstops. NVIDIA's conditional $105B PORTS
+guarantee is separate from funded debt. Current NVIDIA 13F tables do not list
+Applied Digital; that check does not cover every possible economic interest.
+Unconfirmed historical connections remain qualified, with the original graph
+preserved in historical_core. Current probabilities are unmeasured.
+
+September priced-bond cards now supply S1. Convertible issues remain separate
+from that registered coupon proxy. The October demand review preserves the
+original basket and records why S4 has no fresh comparable primary observation.
+analysis/market_snapshot_2026-10-17.json freezes the market inputs, retaining
+October 16 prices and October 15 credit dates. An overnight completion cannot
+use later observations under the October 17 cutoff.
+
+The original filing discovery omitted exhibits. The auxiliary complete-exhibit
+job repairs this coverage gap across every selected eligible parent filing,
+including retained baseline parents. It has no per-filing exhibit cap. Its
+97,559-parent census and independent document queue are under
+data/refresh_2026-10-17/exhibit_completion/. It shares one SEC request/second
+while the original eight-request producer runs, then uses eight after that
+observed process exits. Discovery and downloads have separate semaphores to
+keep the document workers fed. Both retain the authentic declared SEC contact.
+PDF-only exhibits remain outside the current text-exhibit ingester.
+
+At 21:57 PDT, the original queue held 164,764 acquired, 45 failed, eight in
+flight and 62,576 queued documents. The exhibit queue had 747 acquired and no
+failed documents; 2,332 parent indexes were checked and 95,227 remained. These
+counts are dated observations. Recheck the queues and logs before acting.
+
+The merge now uses disk-backed SQLite for deduplication and streams its output.
+The full retained 41,589-document baseline passed every raw-document byte hash,
+with a 35,537,376-byte observed peak. The capital builder now streams Deal
+objects, keeps duplicate checks on disk, releases accumulators, indexes edges
+by connected component and streams CSV serialization. Its full 74,805-row
+baseline/current-FERC preflight finished at a 275,825,288-byte peak. All four
+CSV outputs match the previous production graph logic byte for byte; the entire
+serialized summary also matches. The reference check initially compared Python
+tuples against JSON lists. Comparing both serialized documents resolved that
+verification error without changing production results. The old retained-object
+preflight stopped at its 1 GiB supervision budget. That partial attempt remains.
+
+The complete field builder consumes only the explicit dated capital graph and
+verifies its input hashes. It retains all named entities and every named
+obligor-to-risk-bearer pair without the old four-party cap. Each pair counts an
+extracted deal once. Existing positions survive by name; new positions are
+deterministic. No browser force simulation runs for the raw field. The preflight
+used 38,617,568 bytes and retained 5,746 entities and 6,977 pairs from that
+74,805-row input. These are test-input counts, not the finished current corpus.
+
+The previous waiting publisher (6502) and finisher (6278) were retired after
+confirming that no postprocessing or publication had started. Their markers and
+logs remain. The replacement finisher is recorded in
+finish-start-current-review.json. It waits for the original acquisition and
+the exact exhibit workload, retries recorded document gaps, verifies the merged
+bytes, audits all selected URLs, builds the complete capital graph and raw
+visualization field, then writes current freshness and dated engine v2.
+The replacement publisher is recorded in publication-start-current-review.json.
+It commits the current graph along with freshness and engine v2, preserves
+Ted's original 15 staged additions and verifies the deployed graph hash too.
+Both retain their supervision budgets and never restart a stopped acquisition.
+
+Check the current continuation logs:
+
+    tail -n 6 data/refresh_2026-10-17/acquisition-resumed-document-fix.log
+    tail -n 6 data/refresh_2026-10-17/exhibit-completion-resumed.log
+    tail -n 6 data/refresh_2026-10-17/finish-refresh-current-review.log
+    tail -n 6 data/refresh_2026-10-17/publish-refresh-current-review.log
+
+The financial review is current to the stated public cutoff. The broad source
+acquisition and grey field remain incomplete at this checkpoint. Their final
+coverage audit and observed deployment remain required work.
+
 ## Browser and publication checkpoint - 2026-10-17 18:50 PDT
 
 The later dated checkpoints supersede the earlier pending states below.

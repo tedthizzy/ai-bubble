@@ -1,5 +1,35 @@
 # Refresh verification checkpoint, October 17, 2026
 
+Current review checkpoint, October 17 at 22:40 PDT. This entry supersedes the
+older unfinished-browser and historical-core statements below. Publication and
+complete selected-source coverage remain pending at this checkpoint.
+
+- current-review-checkpoint-tests.log: 92 tests passed in 0.92 seconds; the
+  supervisor observed 136,823,432 bytes at peak.
+- current-review-analysis-tests.log: all 363 analysis tests passed in 3.68
+  seconds; peak 297,763,752 bytes.
+- node --test tests/viz/explorer.test.cjs: seven tests passed, including initial
+  camera fitting after a hidden-tab load. Actual browser evidence is separate.
+- The 41,589-document baseline merge verified every source byte hash at a
+  35,537,376-byte peak. capital-equivalence-result.json records exact byte
+  equality for all four full 74,805-input capital CSVs and equality of the
+  entire serialized summary against the previous production logic.
+- Current typed document-index tests cover descriptive exhibit filenames,
+  false exhibit-number matches, SEC challenge pages and external links.
+- Regenerating viz/build_viz_data.py reproduced graph_data.json and index.html
+  byte for byte after restoring common null fields on new nodes. The retained
+  first comparison identified those differences; it was not a passing result.
+- The existing Chrome session showed 36 core entities, 7,687 retained grey
+  points, 9,633 total links, current debt cards and source links. Sources and
+  dates at 390x844 showed Arial at 14px and 18px, with no horizontal overflow.
+  A five-second idle observation produced zero frames and a 13,034,251-byte
+  JS heap reading. Screenshots were viewed. The exact fetched source hashes
+  are in viz_browser_validation_2026-10-17.json.
+- The retained field cutoff is unverified. Full SEC acquisition, final source
+  coverage, replacement capital graph/field, valuation inputs, publication and
+  deployed verification remain required work.
+
+
 The browser/publication checkpoint at 18:50 PDT in the operations record
 supersedes the earlier pending browser statements below. Actual Chrome
 observations and screenshot/source hashes are in
@@ -179,3 +209,14 @@ source errors after retry; current adjudication; browser rendering and measured
 interaction performance; publication. The whole-history pre-push check finds
 130 older AI-attributed commits and conflicts with its zero-match requirement.
 The new commits contain no attribution. Published history was not rewritten.
+
+Additional verification limits, 22:45 PDT: a combined 17-file Mypy check
+stopped at its 512 MiB supervision budget (546,046,840 bytes observed). A
+four-file source-aware group also stopped at the same budget (539,968,352
+bytes). The budgets were not raised. An intervening invocation without the
+repository source path reported 18 untyped local-import errors; it was an
+invocation error and did not establish source failures. The earlier focused
+type results remain retained. Current Ruff, seven Node tests and the saved
+92 plus 363 Python test runs passed. These do not establish a passing combined
+17-file type check. A checkpoint preflight first used system Python without
+httpx and stopped before any write; it then ran in the existing .venv.

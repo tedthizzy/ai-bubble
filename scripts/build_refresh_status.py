@@ -20,9 +20,23 @@ def read(path: Path) -> Any:
     return json.loads(path.read_text())
 
 
-def build(run: Path) -> dict[str, Any]:
+def dated_market(root: Path, as_of: str) -> tuple[Path, dict[str, Any]]:
+    """Keep an overnight completion from using market observations after its cutoff."""
+    path = root / "analysis" / f"market_snapshot_{as_of}.json"
+    snapshot = read(path)
+    if snapshot["as_of_pacific"] != as_of:
+        raise ValueError("Market snapshot cutoff differs from the report")
+    live = snapshot["live"]
+    for group in ("quotes", "credit", "bdc", "adjacent"):
+        for row in live.get(group, {}).values():
+            if isinstance(row, dict) and row.get("date", "") > as_of:
+                raise ValueError(f"Market observation postdates the cutoff: {group}")
+    return path, live
+
+
+def build(run: Path) -> dict[str, Any]:  # noqa: PLR0915 - assemble independent source status records
     graph = read(ROOT / "viz/graph_data.json")
-    live = read(ROOT / "viz/live.json")
+    market_path, live = dated_market(ROOT, run.name.removeprefix("refresh_"))
     panel = read(
         ROOT / "analysis" / f"case_zero_financials_{run.name.removeprefix('refresh_')}_v4.json"
     )
@@ -87,6 +101,49 @@ def build(run: Path) -> dict[str, Any]:
         with (result.parent / "edgar/edgar_document_inventory.csv").open(newline="") as stream:
             recovered.update(row["filing_url"] for row in csv.DictReader(stream))
     unresolved = len(failed_urls - recovered)
+    exhibits: dict[str, Any] = {"status": "not_started", "complete": False}
+    exhibit_root = run / "exhibit_completion"
+    if (exhibit_root / "parents.sqlite3").is_file():
+        with sqlite3.connect(f"file:{exhibit_root / 'parents.sqlite3'}?mode=ro", uri=True) as db:
+            parents = dict(db.execute("SELECT status,COUNT(*) FROM parents GROUP BY status"))
+            columns = {row[1] for row in db.execute("PRAGMA table_info(parents)")}
+            index_parsers = (
+                dict(db.execute("SELECT index_parser,COUNT(*) FROM parents GROUP BY index_parser"))
+                if "index_parser" in columns
+                else {"filename_inference": sum(parents.values())}
+            )
+        with sqlite3.connect(
+            f"file:{exhibit_root / 'document_queue.sqlite3'}?mode=ro", uri=True
+        ) as db:
+            attachments = dict(db.execute("SELECT status,COUNT(*) FROM documents GROUP BY status"))
+            failed_attachments = {
+                row[0] for row in db.execute("SELECT url FROM documents WHERE status='failed'")
+            }
+        recovered_attachments: set[str] = set()
+        for inventory in (exhibit_root / "source_gap_retries").glob(
+            "*/edgar/edgar_document_inventory.csv"
+        ):
+            with inventory.open(newline="") as stream:
+                recovered_attachments.update(row["filing_url"] for row in csv.DictReader(stream))
+        unresolved_attachments = len(failed_attachments - recovered_attachments)
+        exhibits = {
+            "status": "acquiring",
+            "parents": parents,
+            "index_parsers": index_parsers,
+            "documents": attachments,
+            "complete": (exhibit_root / "run-result.json").is_file()
+            and not parents.get("queued")
+            and not parents.get("failed")
+            and set(index_parsers) == {"sec_document_types_v1"}
+            and not attachments.get("queued")
+            and not attachments.get("inflight")
+            and not unresolved_attachments,
+            "recovered_source_errors": len(failed_attachments & recovered_attachments),
+            "unresolved_source_errors": unresolved_attachments,
+            "selection": "Every selected exhibit-eligible filing; all relevant text exhibits, no per-filing cap.",
+        }
+        if exhibits["complete"]:
+            exhibits["status"] = "complete"
     discovery_path = run / "filing_discovery_result.json"
     discovery = read(discovery_path) if discovery_path.exists() else {}
     latest = [
@@ -105,13 +162,16 @@ def build(run: Path) -> dict[str, Any]:
         and not counts.get("queued")
         and not counts.get("inflight")
         and not unresolved
+        and exhibits["complete"]
         and discovery.get("failed_ciks") == 0,
         "report": {
             "generated_from": graph.get("meta", {}).get("generated_from"),
-            "current_verdict_recomputed": False,
-            "reason": "The adjudicated core and its judgments retain their original evidence date.",
+            "financial_review_as_of": graph.get("meta", {}).get("as_of"),
+            "current_verdict_recomputed": bool(graph.get("meta", {}).get("current_review")),
+            "reason": "Current statement measurements retain their original period ends. Historical confidence judgments remain dated and are not probabilities.",
         },
         "market": {
+            "dated_snapshot": str(market_path.relative_to(ROOT)),
             "generated_utc": live["generated_utc"],
             "price_dates": sorted({v["date"] for v in live.get("quotes", {}).values()}),
             "credit_dates": sorted(
@@ -131,6 +191,7 @@ def build(run: Path) -> dict[str, Any]:
             "periods": sorted({v["report_date"] for v in latest if v.get("report_date")}),
         },
         "sec_acquisition": {
+            "exhibits": exhibits,
             "new_run_queue": counts,
             "baseline_inventory": baseline_count,
             "recovered_failures": len(failed_urls & recovered),

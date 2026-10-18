@@ -1,0 +1,915 @@
+{
+  "as_of": "2026-10-17",
+  "source_manifest": "data/refresh_2026-10-17/core_review_v4/manifest.json",
+  "source_manifest_sha256": "dfc5402cdcec3f19c7a1a836c350909a7ca4d1ee7711afdffb12d91318d6e4a8",
+  "debt_cards_sha256": "8de562d75ce17eb4f562f878a3c69d7beec43cbd5c61d9bcfcd31167d9e52e56",
+  "issuer_observations": [
+    {
+      "ticker": "CRWV",
+      "entity": "CoreWeave",
+      "period_end": "2026-06-30",
+      "filing_date": "2026-08-12",
+      "source_uri": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000366/crwv-20260630.htm",
+      "units_usd": 1000000,
+      "components": [
+        {
+          "label": "Recourse debt, current",
+          "reported_value": "6,235",
+          "sign": 1
+        },
+        {
+          "label": "Non-recourse debt, current",
+          "reported_value": "1,278",
+          "sign": 1
+        },
+        {
+          "label": "Recourse debt, non-current",
+          "reported_value": "25,170",
+          "sign": 1
+        },
+        {
+          "label": "Non-recourse debt, non-current",
+          "reported_value": "2,385",
+          "sign": 1
+        }
+      ],
+      "basis": "Reported USD borrowing and note carrying amounts; exclude leases, warrant derivatives and crypto-denominated borrowing.",
+      "note": null,
+      "reported_debt_usd": 35068000000,
+      "source_sha256": "5ef1bddf52a356c5c8a77ebba2b53b35a7c35ac669b27e8fa7842f1f301124e7",
+      "verification": "primary_statement_rows",
+      "cash_after_capex": {
+        "value_usd": -10454000000,
+        "start": "2026-01-01",
+        "end": "2026-06-30",
+        "operating_cash_flow_usd": 3663000000,
+        "cash_capex_usd": 14117000000
+      },
+      "interest_coverage_proxies": {
+        "quarter_interest_coverage": {
+          "value": -0.088,
+          "method": "operating_income",
+          "start": "2026-04-01",
+          "end": "2026-06-30",
+          "earnings_proxy_usd": -49000000,
+          "interest_expense_usd": 558000000
+        },
+        "year_to_date_interest_coverage": {
+          "value": 2.383,
+          "method": "operating_income_plus_depreciation_amortization",
+          "start": "2026-01-01",
+          "end": "2026-06-30",
+          "earnings_proxy_usd": 2347000000,
+          "interest_expense_usd": 985000000
+        }
+      },
+      "post_report_current_filings": [
+        {
+          "form": "8-K",
+          "filing_date": "2026-09-22",
+          "report_date": "2026-09-17",
+          "accession": "0001769628-26-000432",
+          "url": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000432/crwv-20260917.htm"
+        },
+        {
+          "form": "8-K",
+          "filing_date": "2026-09-17",
+          "report_date": "2026-09-17",
+          "accession": "0001769628-26-000429",
+          "url": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000429/crwv-20260917.htm"
+        }
+      ]
+    },
+    {
+      "ticker": "WULF",
+      "entity": "TeraWulf",
+      "period_end": "2026-06-30",
+      "filing_date": "2026-08-05",
+      "source_uri": "https://www.sec.gov/Archives/edgar/data/1083301/000108330126000166/wulf-20260630.htm",
+      "units_usd": 1000,
+      "components": [
+        {
+          "label": "Current portion of long-term debt",
+          "reported_value": "90,718",
+          "sign": 1
+        },
+        {
+          "label": "Short-term convertible notes",
+          "reported_value": "1,101,976",
+          "sign": 1
+        },
+        {
+          "label": "Long-term debt",
+          "reported_value": "3,019,335",
+          "sign": 1
+        },
+        {
+          "label": "Convertible notes",
+          "reported_value": "1,001,083",
+          "sign": 1
+        }
+      ],
+      "basis": "Reported USD borrowing and note carrying amounts; exclude leases, warrant derivatives and crypto-denominated borrowing.",
+      "note": null,
+      "reported_debt_usd": 5213112000,
+      "source_sha256": "55e5167df92fceb69039c846234bd631ccb3eb1df5d3afc12f789b858281f212",
+      "verification": "primary_statement_rows",
+      "cash_after_capex": {
+        "value_usd": -1532814000,
+        "start": "2026-01-01",
+        "end": "2026-06-30",
+        "operating_cash_flow_usd": -154300000,
+        "cash_capex_usd": 1378514000
+      },
+      "interest_coverage_proxies": {
+        "quarter_interest_coverage": {
+          "value": -2.491,
+          "method": "operating_income",
+          "start": "2026-04-01",
+          "end": "2026-06-30",
+          "earnings_proxy_usd": -140450000,
+          "interest_expense_usd": 56389000
+        },
+        "year_to_date_interest_coverage": {
+          "value": -2.451,
+          "method": "operating_income",
+          "start": "2026-01-01",
+          "end": "2026-06-30",
+          "earnings_proxy_usd": -302592000,
+          "interest_expense_usd": 123460000
+        }
+      },
+      "post_report_current_filings": [
+        {
+          "form": "8-K",
+          "filing_date": "2026-10-05",
+          "report_date": "2026-10-01",
+          "accession": "0001628280-26-064757",
+          "url": "https://www.sec.gov/Archives/edgar/data/1083301/000162828026064757/wulf-20261001.htm"
+        }
+      ]
+    },
+    {
+      "ticker": "IREN",
+      "entity": "IREN",
+      "period_end": "2026-06-30",
+      "filing_date": "2026-08-27",
+      "source_uri": "https://www.sec.gov/Archives/edgar/data/1878848/000187884826000052/iren-20260630.htm",
+      "units_usd": 1000,
+      "components": [
+        {
+          "label": "Total debt, net of unamortized issuance costs",
+          "reported_value": "7,592,944",
+          "sign": 1
+        }
+      ],
+      "basis": "Reported USD borrowing and note carrying amounts; exclude leases, warrant derivatives and crypto-denominated borrowing.",
+      "note": null,
+      "reported_debt_usd": 7592944000,
+      "source_sha256": "a0c02f6ad5f72623df78646240b43087c5e81c510e2c9a2bf291bab57127c994",
+      "verification": "primary_statement_rows",
+      "cash_after_capex": {
+        "value_usd": -897588000,
+        "start": "2025-07-01",
+        "end": "2026-06-30",
+        "operating_cash_flow_usd": 2100418000,
+        "cash_capex_usd": 2998006000
+      },
+      "interest_coverage_proxies": {
+        "annual_interest_coverage": {
+          "value": -13.505,
+          "method": "operating_income_plus_depreciation_amortization",
+          "start": "2025-07-01",
+          "end": "2026-06-30",
+          "earnings_proxy_usd": -628985000,
+          "interest_expense_usd": 46574000
+        }
+      },
+      "post_report_current_filings": []
+    },
+    {
+      "ticker": "APLD",
+      "entity": "Applied Digital",
+      "period_end": "2026-08-31",
+      "filing_date": "2026-10-07",
+      "source_uri": "https://www.sec.gov/Archives/edgar/data/1144879/000114487926000059/apld-20260831.htm",
+      "units_usd": 1000,
+      "components": [
+        {
+          "label": "Long-term debt, net",
+          "reported_value": "6,263,947",
+          "sign": 1
+        },
+        {
+          "label": "Less: Current portion of debt",
+          "reported_value": "112,645",
+          "sign": 1
+        }
+      ],
+      "basis": "Reported USD borrowing and note carrying amounts; exclude leases, warrant derivatives and crypto-denominated borrowing.",
+      "note": null,
+      "reported_debt_usd": 6376592000,
+      "source_sha256": "d535985f817d266b082da5a935b0040c0bac280fa1eb1b69b2102f306fa5ebfc",
+      "verification": "primary_statement_rows",
+      "cash_after_capex": {
+        "value_usd": -2010777000,
+        "start": "2026-06-01",
+        "end": "2026-08-31",
+        "operating_cash_flow_usd": 63921000,
+        "cash_capex_usd": 2074698000
+      },
+      "interest_coverage_proxies": {
+        "quarter_interest_coverage": {
+          "value": -0.264,
+          "method": "operating_income_plus_depreciation_amortization",
+          "start": "2026-06-01",
+          "end": "2026-08-31",
+          "earnings_proxy_usd": -20467000,
+          "interest_expense_usd": 77383000
+        }
+      },
+      "post_report_current_filings": []
+    },
+    {
+      "ticker": "HUT",
+      "entity": "Hut 8",
+      "period_end": "2026-06-30",
+      "filing_date": "2026-08-04",
+      "source_uri": "https://www.sec.gov/Archives/edgar/data/1964789/000110465926090025/hut-20260630x10q.htm",
+      "units_usd": 1000,
+      "components": [
+        {
+          "label": "Total carrying amount",
+          "reported_value": "7,638,441",
+          "sign": 1
+        },
+        {
+          "label": "Other financial liability",
+          "reported_value": "3,303",
+          "sign": -1
+        }
+      ],
+      "basis": "Reported USD borrowing and note carrying amounts; exclude leases, warrant derivatives and crypto-denominated borrowing.",
+      "note": "Other financial liability is excluded; USD borrowing balances remain.",
+      "reported_debt_usd": 7635138000,
+      "source_sha256": "6ff91fa5854bd585a3c5f01c34fe160870699c64afbbfdd7c3207e3666f3a489",
+      "verification": "primary_statement_rows",
+      "cash_after_capex": {
+        "value_usd": -649027000,
+        "start": "2026-01-01",
+        "end": "2026-06-30",
+        "operating_cash_flow_usd": -32845000,
+        "cash_capex_usd": 616182000
+      },
+      "interest_coverage_proxies": {
+        "quarter_interest_coverage": {
+          "value": -3.257,
+          "method": "operating_income_plus_depreciation_amortization",
+          "start": "2026-04-01",
+          "end": "2026-06-30",
+          "earnings_proxy_usd": -166603000,
+          "interest_expense_usd": 51160000
+        },
+        "year_to_date_interest_coverage": {
+          "value": -8.253,
+          "method": "operating_income_plus_depreciation_amortization",
+          "start": "2026-01-01",
+          "end": "2026-06-30",
+          "earnings_proxy_usd": -498531000,
+          "interest_expense_usd": 60403000
+        }
+      },
+      "post_report_current_filings": [
+        {
+          "form": "8-K",
+          "filing_date": "2026-09-28",
+          "report_date": "2026-09-24",
+          "accession": "0001104659-26-111154",
+          "url": "https://www.sec.gov/Archives/edgar/data/1964789/000110465926111154/tm2625691d1_8k.htm"
+        }
+      ]
+    },
+    {
+      "ticker": "MARA",
+      "entity": "MARA Holdings",
+      "period_end": "2026-06-30",
+      "filing_date": "2026-08-06",
+      "source_uri": "https://www.sec.gov/Archives/edgar/data/1507605/000150760526000022/mara-20260630.htm",
+      "units_usd": 1000,
+      "components": [
+        {
+          "label": "Notes payable, current portion",
+          "reported_value": "335,397",
+          "sign": 1
+        },
+        {
+          "label": "Line of credit, current portion",
+          "reported_value": "150,000",
+          "sign": 1
+        },
+        {
+          "label": "Notes payable, net of current portion",
+          "reported_value": "1,932,352",
+          "sign": 1
+        }
+      ],
+      "basis": "Reported USD borrowing and note carrying amounts; exclude leases, warrant derivatives and crypto-denominated borrowing.",
+      "note": null,
+      "reported_debt_usd": 2417749000,
+      "source_sha256": "88b216ba4b97228ccdd86f955b438d3aad2fd54736c2f2080e7566c2b35c7e14",
+      "verification": "primary_statement_rows",
+      "cash_after_capex": {
+        "value_usd": -565560000,
+        "start": "2026-01-01",
+        "end": "2026-06-30",
+        "operating_cash_flow_usd": -471257000,
+        "cash_capex_usd": 94303000
+      },
+      "interest_coverage_proxies": {
+        "quarter_interest_coverage": {
+          "value": -83.185,
+          "method": "operating_income",
+          "start": "2026-04-01",
+          "end": "2026-06-30",
+          "earnings_proxy_usd": -521070000,
+          "interest_expense_usd": 6264000
+        },
+        "year_to_date_interest_coverage": {
+          "value": -71.617,
+          "method": "operating_income_plus_depreciation_amortization",
+          "start": "2026-01-01",
+          "end": "2026-06-30",
+          "earnings_proxy_usd": -1216346000,
+          "interest_expense_usd": 16984000
+        }
+      },
+      "post_report_current_filings": [
+        {
+          "form": "8-K",
+          "filing_date": "2026-09-25",
+          "report_date": "2026-09-21",
+          "accession": "0000950142-26-002607",
+          "url": "https://www.sec.gov/Archives/edgar/data/1507605/000095014226002607/eh260835247_8k.htm"
+        }
+      ]
+    },
+    {
+      "ticker": "CLSK",
+      "entity": "CleanSpark",
+      "period_end": "2026-06-30",
+      "filing_date": "2026-08-06",
+      "source_uri": "https://www.sec.gov/Archives/edgar/data/827876/000119312526338382/clsk-20260630.htm",
+      "units_usd": 1000,
+      "components": [
+        {
+          "label": "Total debt outstanding, net of debt discounts and debt issuance costs",
+          "reported_value": "1,782,364",
+          "sign": 1
+        }
+      ],
+      "basis": "Reported USD borrowing and note carrying amounts; exclude leases, warrant derivatives and crypto-denominated borrowing.",
+      "note": null,
+      "reported_debt_usd": 1782364000,
+      "source_sha256": "161f69fcbe030302c2efaf0e927581def8fcc2b2444a8f29f1f203dd96ac9ca5",
+      "verification": "primary_statement_rows",
+      "cash_after_capex": {
+        "value_usd": -489917000,
+        "start": "2025-10-01",
+        "end": "2026-06-30",
+        "operating_cash_flow_usd": -409297000,
+        "cash_capex_usd": 80620000
+      },
+      "interest_coverage_proxies": {
+        "quarter_interest_coverage": {
+          "value": -59.491,
+          "method": "operating_income_plus_depreciation_amortization",
+          "start": "2026-04-01",
+          "end": "2026-06-30",
+          "earnings_proxy_usd": -121362000,
+          "interest_expense_usd": 2040000
+        },
+        "year_to_date_interest_coverage": {
+          "value": -72.067,
+          "method": "operating_income_plus_depreciation_amortization",
+          "start": "2025-10-01",
+          "end": "2026-06-30",
+          "earnings_proxy_usd": -561403000,
+          "interest_expense_usd": 7790000
+        }
+      },
+      "post_report_current_filings": [
+        {
+          "form": "8-K",
+          "filing_date": "2026-09-25",
+          "report_date": "2026-09-25",
+          "accession": "0001193125-26-402944",
+          "url": "https://www.sec.gov/Archives/edgar/data/827876/000119312526402944/clsk-20260925.htm"
+        },
+        {
+          "form": "8-K",
+          "filing_date": "2026-09-18",
+          "report_date": "2026-09-18",
+          "accession": "0001193125-26-395727",
+          "url": "https://www.sec.gov/Archives/edgar/data/827876/000119312526395727/clsk-20260918.htm"
+        },
+        {
+          "form": "8-K",
+          "filing_date": "2026-09-17",
+          "report_date": "2026-09-17",
+          "accession": "0001193125-26-393758",
+          "url": "https://www.sec.gov/Archives/edgar/data/827876/000119312526393758/clsk-20260917.htm"
+        }
+      ]
+    },
+    {
+      "ticker": "GLXY",
+      "entity": "Galaxy Digital",
+      "period_end": "2026-06-30",
+      "filing_date": "2026-08-10",
+      "source_uri": "https://www.sec.gov/Archives/edgar/data/1859392/000185939226000091/glxy-20260630.htm",
+      "units_usd": 1000,
+      "components": [
+        {
+          "label": "Loans payable",
+          "reported_value": "286,715",
+          "sign": 1
+        },
+        {
+          "label": "Notes payable, current",
+          "reported_value": "436,985",
+          "sign": 1
+        },
+        {
+          "label": "Notes payable",
+          "reported_value": "2,825,773",
+          "sign": 1
+        }
+      ],
+      "basis": "Reported USD borrowing and note carrying amounts; exclude leases, warrant derivatives and crypto-denominated borrowing.",
+      "note": "Digital assets borrowed ($1.514469B) and collateral payable are separate; this figure covers fiat loans and notes.",
+      "reported_debt_usd": 3549473000,
+      "source_sha256": "f7539d263a08a1a2b0eff70da1d7b7aa38e37578e3d4523daa89c2f0c33aa72e",
+      "verification": "primary_statement_rows",
+      "cash_after_capex": {
+        "value_usd": -448029000,
+        "start": "2026-01-01",
+        "end": "2026-06-30",
+        "operating_cash_flow_usd": 288645000,
+        "cash_capex_usd": 736674000
+      },
+      "interest_coverage_proxies": {},
+      "post_report_current_filings": [
+        {
+          "form": "8-K",
+          "filing_date": "2026-09-23",
+          "report_date": "2026-09-22",
+          "accession": "0001859392-26-000105",
+          "url": "https://www.sec.gov/Archives/edgar/data/1859392/000185939226000105/glxy-20260922.htm"
+        }
+      ]
+    },
+    {
+      "ticker": "NBIS",
+      "entity": "Nebius",
+      "period_end": "2026-06-30",
+      "filing_date": "2026-08-12",
+      "source_uri": "https://www.sec.gov/Archives/edgar/data/1513845/000110465926094568/tm2622968d1_ex99-1.htm",
+      "units_usd": 1000000,
+      "components": [
+        {
+          "label": "Debt, current",
+          "reported_value": "46.7",
+          "sign": 1,
+          "reported_columns": [
+            "24.5",
+            "46.7"
+          ],
+          "selected_column": 1
+        },
+        {
+          "label": "Debt, non-current",
+          "reported_value": "8,499.0",
+          "sign": 1,
+          "reported_columns": [
+            "4,103.2",
+            "8,499.0"
+          ],
+          "selected_column": 1
+        }
+      ],
+      "basis": "Reported USD borrowing and note carrying amounts; exclude leases, warrant derivatives and crypto-denominated borrowing.",
+      "note": null,
+      "column_periods": [
+        "2025-12-31",
+        "2026-06-30"
+      ],
+      "reported_debt_usd": 8545700000,
+      "source_sha256": "7b1d10e22f847ed0543f628cf473a7b27dca9a06adb21afa7ddbb4724873f24f",
+      "verification": "primary_statement_rows",
+      "cash_after_capex": {
+        "start": "2026-01-01",
+        "end": "2026-06-30",
+        "operating_cash_flow_usd": 4504100000,
+        "cash_capex_usd": 8130300000,
+        "value_usd": -3626200000,
+        "capex_definition": "Property, plant/equipment and intangible-asset cash purchases.",
+        "source_uri": "https://www.sec.gov/Archives/edgar/data/1513845/000110465926094568/tm2622968d1_ex99-1.htm",
+        "source_sha256": "7b1d10e22f847ed0543f628cf473a7b27dca9a06adb21afa7ddbb4724873f24f"
+      },
+      "interest_coverage_proxies": {},
+      "post_report_current_filings": [
+        {
+          "form": "6-K",
+          "filing_date": "2026-10-01",
+          "report_date": "2026-10-01",
+          "accession": "0001104659-26-112824",
+          "url": "https://www.sec.gov/Archives/edgar/data/1513845/000110465926112824/tm2626792d1_6k.htm"
+        },
+        {
+          "form": "6-K",
+          "filing_date": "2026-09-08",
+          "report_date": "2026-09-08",
+          "accession": "0001104659-26-105749",
+          "url": "https://www.sec.gov/Archives/edgar/data/1513845/000110465926105749/tm2624958d1_6k.htm"
+        },
+        {
+          "form": "6-K",
+          "filing_date": "2026-08-26",
+          "report_date": "2026-08-26",
+          "accession": "0001104659-26-101076",
+          "url": "https://www.sec.gov/Archives/edgar/data/1513845/000110465926101076/tm2624077d1_6k.htm"
+        },
+        {
+          "form": "6-K",
+          "filing_date": "2026-08-24",
+          "report_date": "2026-08-24",
+          "accession": "0001104659-26-100347",
+          "url": "https://www.sec.gov/Archives/edgar/data/1513845/000110465926100347/tm2623863d1_6k.htm"
+        },
+        {
+          "form": "6-K",
+          "filing_date": "2026-08-20",
+          "report_date": "2026-08-20",
+          "accession": "0001104659-26-098924",
+          "url": "https://www.sec.gov/Archives/edgar/data/1513845/000110465926098924/tm2623617d1_6k.htm"
+        },
+        {
+          "form": "6-K",
+          "filing_date": "2026-08-19",
+          "report_date": "2026-08-19",
+          "accession": "0001104659-26-098590",
+          "url": "https://www.sec.gov/Archives/edgar/data/1513845/000110465926098590/tm2623513d1_6k.htm"
+        }
+      ]
+    },
+    {
+      "ticker": "CORZ",
+      "entity": "Core Scientific",
+      "period_end": "2026-06-30",
+      "filing_date": "2026-07-28",
+      "source_uri": "https://www.sec.gov/Archives/edgar/data/1839341/000183934126000014/core-20260630.htm",
+      "units_usd": 1000,
+      "components": [
+        {
+          "label": "Long-term debt",
+          "reported_value": "4,297,967",
+          "sign": 1
+        }
+      ],
+      "basis": "Reported USD borrowing and note carrying amounts; exclude leases, warrant derivatives and crypto-denominated borrowing.",
+      "note": null,
+      "reported_debt_usd": 4297967000,
+      "source_sha256": "b903e654cb41bdd6c247e446cb38b9604954a660b2f07c268e2e0fe9d5fb2da0",
+      "verification": "primary_statement_rows",
+      "cash_after_capex": {
+        "value_usd": -723295000,
+        "start": "2026-01-01",
+        "end": "2026-06-30",
+        "operating_cash_flow_usd": 230949000,
+        "cash_capex_usd": 954244000
+      },
+      "interest_coverage_proxies": {
+        "quarter_interest_coverage": {
+          "value": -1.93,
+          "method": "operating_income",
+          "start": "2026-04-01",
+          "end": "2026-06-30",
+          "earnings_proxy_usd": -78468000,
+          "interest_expense_usd": 40647000
+        },
+        "year_to_date_interest_coverage": {
+          "value": -7.311,
+          "method": "operating_income_plus_depreciation_amortization",
+          "start": "2026-01-01",
+          "end": "2026-06-30",
+          "earnings_proxy_usd": -356744000,
+          "interest_expense_usd": 48793000
+        }
+      },
+      "post_report_current_filings": [
+        {
+          "form": "8-K",
+          "filing_date": "2026-09-10",
+          "report_date": "2026-09-10",
+          "accession": "0001839341-26-000023",
+          "url": "https://www.sec.gov/Archives/edgar/data/1839341/000183934126000023/core-20260910.htm"
+        },
+        {
+          "form": "8-K",
+          "filing_date": "2026-08-27",
+          "report_date": "2026-08-25",
+          "accession": "0001839341-26-000021",
+          "url": "https://www.sec.gov/Archives/edgar/data/1839341/000183934126000021/core-20260825.htm"
+        },
+        {
+          "form": "8-K",
+          "filing_date": "2026-08-14",
+          "report_date": "2026-08-13",
+          "accession": "0001839341-26-000018",
+          "url": "https://www.sec.gov/Archives/edgar/data/1839341/000183934126000018/core-20260813.htm"
+        },
+        {
+          "form": "8-K",
+          "filing_date": "2026-07-29",
+          "report_date": "2026-07-29",
+          "accession": "0001839341-26-000016",
+          "url": "https://www.sec.gov/Archives/edgar/data/1839341/000183934126000016/core-20260729.htm"
+        }
+      ]
+    },
+    {
+      "ticker": "CIFR",
+      "entity": "Cipher Mining",
+      "period_end": "2026-06-30",
+      "filing_date": "2026-08-04",
+      "source_uri": "https://www.sec.gov/Archives/edgar/data/1819989/000181998926000041/cifr-20260630.htm",
+      "units_usd": 1000,
+      "components": [
+        {
+          "label": "Short-term borrowings",
+          "reported_value": "94,484",
+          "sign": 1
+        },
+        {
+          "label": "Long-term borrowings, net",
+          "reported_value": "5,446,866",
+          "sign": 1
+        }
+      ],
+      "basis": "Reported USD borrowing and note carrying amounts; exclude leases, warrant derivatives and crypto-denominated borrowing.",
+      "note": null,
+      "reported_debt_usd": 5541350000,
+      "source_sha256": "df8223234da73b4f5d681e268f86df6040e4ed2eba8258819c5bc9261dd64156",
+      "verification": "primary_statement_rows",
+      "cash_after_capex": {
+        "value_usd": -1116268000,
+        "start": "2026-01-01",
+        "end": "2026-06-30",
+        "operating_cash_flow_usd": -152007000,
+        "cash_capex_usd": 964261000
+      },
+      "interest_coverage_proxies": {
+        "quarter_interest_coverage": {
+          "value": -0.887,
+          "method": "operating_income_plus_depreciation_amortization",
+          "start": "2026-04-01",
+          "end": "2026-06-30",
+          "earnings_proxy_usd": -59171000,
+          "interest_expense_usd": 66736000
+        },
+        "year_to_date_interest_coverage": {
+          "value": -1.229,
+          "method": "operating_income_plus_depreciation_amortization",
+          "start": "2026-01-01",
+          "end": "2026-06-30",
+          "earnings_proxy_usd": -154726000,
+          "interest_expense_usd": 125894000
+        }
+      },
+      "post_report_current_filings": [
+        {
+          "form": "8-K",
+          "filing_date": "2026-10-16",
+          "report_date": "2026-10-13",
+          "accession": "0001193125-26-424297",
+          "url": "https://www.sec.gov/Archives/edgar/data/1819989/000119312526424297/d313847d8k.htm"
+        },
+        {
+          "form": "8-K",
+          "filing_date": "2026-10-14",
+          "report_date": "2026-10-14",
+          "accession": "0001193125-26-421035",
+          "url": "https://www.sec.gov/Archives/edgar/data/1819989/000119312526421035/d77312d8k.htm"
+        },
+        {
+          "form": "8-K",
+          "filing_date": "2026-10-13",
+          "report_date": "2026-10-13",
+          "accession": "0001193125-26-419743",
+          "url": "https://www.sec.gov/Archives/edgar/data/1819989/000119312526419743/d134900d8k.htm"
+        },
+        {
+          "form": "8-K",
+          "filing_date": "2026-09-25",
+          "report_date": "2026-09-24",
+          "accession": "0001819989-26-000043",
+          "url": "https://www.sec.gov/Archives/edgar/data/1819989/000181998926000043/cifr-20260924.htm"
+        }
+      ]
+    },
+    {
+      "ticker": "BTBT",
+      "entity": "Bit Digital",
+      "period_end": "2026-06-30",
+      "filing_date": "2026-08-13",
+      "source_uri": "https://www.sec.gov/Archives/edgar/data/1710350/000121390026088709/ea0300693-10q_bitdigital.htm",
+      "units_usd": 1000,
+      "components": [
+        {
+          "label": "Short-term debt and current portion of long-term debt, net",
+          "reported_value": "78,436",
+          "sign": 1
+        },
+        {
+          "label": "Long-term debt, net",
+          "reported_value": "25,464",
+          "sign": 1
+        },
+        {
+          "label": "Convertible notes payable, net",
+          "reported_value": "336,155",
+          "sign": 1
+        }
+      ],
+      "basis": "Reported USD borrowing and note carrying amounts; exclude leases, warrant derivatives and crypto-denominated borrowing.",
+      "note": null,
+      "reported_debt_usd": 440055000,
+      "source_sha256": "701c77303aeb9af678d714104e52ead18e1e0687159091c1527b9f83083019e8",
+      "verification": "primary_statement_rows",
+      "cash_after_capex": {
+        "value_usd": -297942000,
+        "start": "2026-01-01",
+        "end": "2026-06-30",
+        "operating_cash_flow_usd": 46770000,
+        "cash_capex_usd": 344712000
+      },
+      "interest_coverage_proxies": {
+        "quarter_interest_coverage": {
+          "value": -725.25,
+          "method": "operating_income_plus_depreciation_amortization",
+          "start": "2026-04-01",
+          "end": "2026-06-30",
+          "earnings_proxy_usd": -72525000,
+          "interest_expense_usd": 100000
+        },
+        "year_to_date_interest_coverage": {
+          "value": -1027.0,
+          "method": "operating_income_plus_depreciation_amortization",
+          "start": "2026-01-01",
+          "end": "2026-06-30",
+          "earnings_proxy_usd": -205400000,
+          "interest_expense_usd": 200000
+        }
+      },
+      "post_report_current_filings": [
+        {
+          "form": "8-K",
+          "filing_date": "2026-09-09",
+          "report_date": "2026-09-09",
+          "accession": "0001213900-26-098132",
+          "url": "https://www.sec.gov/Archives/edgar/data/1710350/000121390026098132/ea0304730-8k_bitdigital.htm"
+        }
+      ]
+    },
+    {
+      "ticker": "BTDR",
+      "entity": "Bitdeer",
+      "period_end": "2026-06-30",
+      "filing_date": "2026-08-10",
+      "source_uri": "https://www.sec.gov/Archives/edgar/data/1899123/000121390026086938/ea030131301ex99-1.htm",
+      "units_usd": 1000,
+      "components": [
+        {
+          "label": "Short-term borrowings",
+          "reported_value": "26,000",
+          "sign": 1
+        },
+        {
+          "label": "Current portion of long-term borrowings",
+          "reported_value": "99",
+          "sign": 1
+        },
+        {
+          "label": "Current portion of long-term borrowings from a related party",
+          "reported_value": "491,048",
+          "sign": 1
+        },
+        {
+          "label": "Long-term borrowings",
+          "reported_value": "1,182,454",
+          "sign": 1
+        },
+        {
+          "label": "Long-term borrowings from a related party",
+          "reported_value": "142,083",
+          "sign": 1
+        }
+      ],
+      "basis": "Reported USD borrowing and note carrying amounts; exclude leases, warrant derivatives and crypto-denominated borrowing.",
+      "note": null,
+      "reported_debt_usd": 1841684000,
+      "source_sha256": "6505ff83a7d12375cc944c87f90fafacb26805b01662aaca83af0bf0e6101e66",
+      "verification": "primary_statement_rows",
+      "cash_after_capex": {
+        "start": "2026-01-01",
+        "end": "2026-06-30",
+        "operating_cash_flow_usd": -505417000,
+        "cash_capex_usd": 359740000,
+        "value_usd": -865157000,
+        "capex_definition": "Property, plant/equipment and intangible-asset cash purchases.",
+        "source_uri": "https://www.sec.gov/Archives/edgar/data/1899123/000121390026086938/ea030131301ex99-1.htm",
+        "source_sha256": "6505ff83a7d12375cc944c87f90fafacb26805b01662aaca83af0bf0e6101e66"
+      },
+      "interest_coverage_proxies": {},
+      "post_report_current_filings": [
+        {
+          "form": "6-K",
+          "filing_date": "2026-10-08",
+          "report_date": "2026-10-08",
+          "accession": "0001213900-26-107955",
+          "url": "https://www.sec.gov/Archives/edgar/data/1899123/000121390026107955/ea0307821-6k_bitdeer.htm"
+        },
+        {
+          "form": "6-K",
+          "filing_date": "2026-10-02",
+          "report_date": "2026-10-02",
+          "accession": "0001213900-26-106360",
+          "url": "https://www.sec.gov/Archives/edgar/data/1899123/000121390026106360/ea0307497-6k_bitdeer.htm"
+        },
+        {
+          "form": "6-K",
+          "filing_date": "2026-09-29",
+          "report_date": "2026-06-30",
+          "accession": "0001213900-26-104638",
+          "url": "https://www.sec.gov/Archives/edgar/data/1899123/000121390026104638/ea0306473-6k_bitdeer.htm"
+        },
+        {
+          "form": "6-K",
+          "filing_date": "2026-09-16",
+          "report_date": "2026-09-16",
+          "accession": "0001213900-26-100537",
+          "url": "https://www.sec.gov/Archives/edgar/data/1899123/000121390026100537/ea0305235-6k_bitdeer.htm"
+        },
+        {
+          "form": "6-K",
+          "filing_date": "2026-09-02",
+          "report_date": "2026-09-02",
+          "accession": "0001213900-26-096425",
+          "url": "https://www.sec.gov/Archives/edgar/data/1899123/000121390026096425/ea0304021-6k_bitdeer.htm"
+        },
+        {
+          "form": "6-K",
+          "filing_date": "2026-08-26",
+          "report_date": "2026-08-26",
+          "accession": "0001213900-26-093742",
+          "url": "https://www.sec.gov/Archives/edgar/data/1899123/000121390026093742/ea0303441-6k_bitdeer.htm"
+        }
+      ]
+    }
+  ],
+  "reported_issuer_debt_usd": 90302128000,
+  "issuer_count": 13,
+  "cashflow_observations": 13,
+  "negative_cash_after_capex": 13,
+  "current_findings": {
+    "financing_dependence": "The selected issuer cohort spends more cash on capital purchases than it generates in operating cash flow. This is a funding requirement, not a default finding.",
+    "coreweave_largest_customer": {
+      "period": "2026-Q2",
+      "share_pct": 36,
+      "identity": "anonymized; cannot be assigned to Microsoft",
+      "h1_share_pct": 40,
+      "source_uri": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000366/crwv-20260630.htm"
+    },
+    "core_scientific_single_customer": {
+      "period": "2026-Q2",
+      "total_revenue_share_pct": 83.23274523297665,
+      "derivation": "Colocation revenue divided by total revenue; the filing says the colocation segment has one customer.",
+      "source_uri": "https://www.sec.gov/Archives/edgar/data/1839341/000183934126000014/core-20260630.htm"
+    },
+    "core_scientific_old_term_loan": "Repaid and terminated in May 2026; do not show the former $1B facility as outstanding.",
+    "gpu_economic_life": "Current rental quote pages do not measure asset economic life; the June two-year assumption is not recertified by a new retrieval date.",
+    "current_bubble_probability": null,
+    "bubble_classification": "Financing dependence and customer concentration are observed. Public measurements do not support a new calibrated bubble probability or an economy-wide bubble classification."
+  },
+  "limits": [
+    "Latest reported balances have different period ends; they are not an October 17 closing balance.",
+    "Consolidated issuer borrowing includes non-AI activities.",
+    "Post-report financing announcements are separate events and are not blindly added to reported balances.",
+    "These carrying amounts replace neither the historical committed-debt instrument census nor a mark-to-market loss estimate.",
+    "Negative cash after capex is common during expansion and does not establish insolvency.",
+    "Interest-coverage proxies use their stated earnings definitions; EBIT and EBITDA are not interchangeable.",
+    "The cohort is selected and cannot estimate economy-wide prevalence.",
+    "Raw extraction candidates still require instrument-level review; their notionals are not summed into this balance-sheet total.",
+    "The old committed-debt census and June confidence judgments remain historical artifacts."
+  ]
+}

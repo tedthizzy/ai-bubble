@@ -17,9 +17,9 @@ from bubble.ingestion.compute.loader import load_compute_economics
 from bubble.market_signals import evaluate_signals
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from build_refresh_status import build
+from build_refresh_status import build, dated_market
 from derive_public_refresh import file_record
-from refresh_live_overlay import _issuance_latest
+from refresh_live_overlay import _demand_baskets, _issuance_latest
 from run_dated_engine_2026_09_16 import summarize_financials
 
 
@@ -30,12 +30,16 @@ def read(path: Path) -> Any:
 def report(run: Path, root: Path) -> dict[str, Any]:
     as_of = run.name.removeprefix("refresh_")
     status = build(run)
-    live_path = root / "viz/live.json"
+    live_path, live = dated_market(root, as_of)
     panel_path = root / "analysis" / f"case_zero_financials_{as_of}_v4.json"
     cards_path = root / "analysis/issuance_cards.json"
     physical_path = run / "derived_public_current/physical_capacity_summary.json"
     derived_manifest = run / "derived_public_current/input_manifest.json"
-    live = read(live_path)
+    core_path = root / "analysis" / f"core_reassessment_{as_of}.json"
+    events_path = root / "analysis" / f"core_financing_events_{as_of}.json"
+    core = read(core_path)
+    if core["as_of"] != as_of:
+        raise ValueError("Current core review date differs from the report cutoff")
     cards = read(cards_path)["deals"]
     if any(card.get("date", "") > as_of for card in cards):
         raise ValueError("Issuance card postdates this report")
@@ -44,7 +48,7 @@ def report(run: Path, root: Path) -> dict[str, Any]:
         live["bdc"],
         cards,
         _issuance_latest(cards, live["credit"]),
-        [],
+        _demand_baskets(date.fromisoformat(as_of)),
         date.fromisoformat(as_of),
     )
     coverage = {signal["id"] for signal in signals}
@@ -63,6 +67,8 @@ def report(run: Path, root: Path) -> dict[str, Any]:
         cards_path,
         physical_path,
         derived_manifest,
+        core_path,
+        events_path,
         gpu / "gpu_price_observations.csv",
     ]
     for mode in ("complete", "ferc_only", "ownership_current"):
@@ -103,12 +109,15 @@ def report(run: Path, root: Path) -> dict[str, Any]:
             ),
             "limits": [
                 "Registered components use the existing thresholds and basket memberships.",
-                "Issuance cards remain selected historical observations; no exhaustive current issuance census is claimed.",
-                "The annual end-demand basket has not been recarded, so S4 is unmeasured.",
+                "Issuance cards include reviewed September prints; no exhaustive private issuance census is claimed.",
+                "The October primary-source demand review does not establish a comparable annual basket; S4 remains unmeasured.",
                 "Compound confirm/kill criteria require the registered adjudication; component output alone does not settle them.",
             ],
         },
         "sec_financial_panel": summarize_financials(read(panel_path), as_of=as_of),
+        "current_core_review": core,
+        "subsequent_financing_events": read(events_path),
+        "demand_review": read(root / "analysis/demand_trajectory.json").get("current_review"),
         "physical_capacity": read(physical_path),
         "public_derivation": read(derived_manifest)["source_selection"],
         "compute_economics": compute,
@@ -118,7 +127,7 @@ def report(run: Path, root: Path) -> dict[str, Any]:
         "bubble_probability": None,
         "limits": [
             "Source retrieval dates and observation dates remain separate.",
-            "The June adjudicated core has not been recarded as a current judgment.",
+            "The dated core review reconciles current issuer statement rows; June confidence judgments are historical and are not recalibrated probabilities.",
             "SEC extraction and FERC candidates remain pending review.",
             "Queue requests, generator capacity and tracker capacity are separate measures.",
             "Contract edge notional repeats across relationships and is not additive debt.",
@@ -133,6 +142,7 @@ def markdown(value: dict[str, Any]) -> str:
     sec = freshness["sec_acquisition"]["new_run_queue"]
     financials = value["sec_financial_panel"]
     derived = value["public_derivation"]
+    core = value["current_core_review"]
     lines = [
         f"# Bubble dated engine: {value['as_of_pacific']}",
         "",
@@ -144,6 +154,11 @@ def markdown(value: dict[str, Any]) -> str:
         f"Reported BDC NAV periods: {', '.join(freshness['market']['nav_periods'])}.",
         f"Financial panel: {financials['panel_entities']} entities. "
         f"Issuer cash-flow/capex arithmetic is checked against each latest report.",
+        f"Primary statement reconciliation: {core['issuer_count']} issuers; "
+        f"${core['reported_issuer_debt_usd'] / 1e9:.3f}B of reported USD borrowing and note carrying amounts. "
+        "These consolidated balances include non-AI activities and retain their original reporting periods.",
+        f"Matched current cash-flow and capital-purchase observations: {core['cashflow_observations']}; "
+        f"negative cash after capex: {core['negative_cash_after_capex']}. This does not establish insolvency.",
         f"Current FERC PPA records: {derived['ppas']['source_rows']}; "
         f"pending extraction candidates: {derived['ppas']['deals_written']}.",
         f"Deduplicated queue records: {derived['queue_combination']['combined_rows']}.",

@@ -1,0 +1,660 @@
+{
+  "as_of": "2026-10-17",
+  "source_manifest": "data/refresh_2026-10-17/core_review_v4/manifest.json",
+  "source_manifest_sha256": "dfc5402cdcec3f19c7a1a836c350909a7ca4d1ee7711afdffb12d91318d6e4a8",
+  "relationships": [
+    {
+      "from": "NVIDIA",
+      "to": "CoreWeave",
+      "type": "equity_investment",
+      "usd": 2000000000.0,
+      "tier": "filing_verified",
+      "note": "January 2026 equity purchase proceeds. This is transaction cost, not current stake value.",
+      "sources": [
+        {
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000366/crwv-20260630.htm",
+          "filing_date": "2026-08-12",
+          "source_sha256": "5ef1bddf52a356c5c8a77ebba2b53b35a7c35ac669b27e8fa7842f1f301124e7"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "amount_label": "equity proceeds"
+    },
+    {
+      "from": "CoreWeave",
+      "to": "NVIDIA",
+      "type": "gpu_purchase",
+      "usd": null,
+      "tier": "filing_verified",
+      "note": "The latest quarterly filing says every GPU in its infrastructure is NVIDIA hardware.",
+      "sources": [
+        {
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000366/crwv-20260630.htm",
+          "filing_date": "2026-08-12",
+          "source_sha256": "5ef1bddf52a356c5c8a77ebba2b53b35a7c35ac669b27e8fa7842f1f301124e7"
+        }
+      ],
+      "review_as_of": "2026-10-17"
+    },
+    {
+      "from": "NVIDIA",
+      "to": "Nebius",
+      "type": "equity_investment",
+      "usd": 2000000000.0,
+      "tier": "issuer_announced",
+      "note": "March 2026 investment announced alongside NVIDIA-system deployment. The $2B amount is investment funding, not current market value.",
+      "sources": [
+        {
+          "source_uri": "https://nebius.com/newsroom/nvidia-and-nebius-partner-to-scale-full-stack-ai-cloud",
+          "published": "2026-03-11",
+          "verification": "primary_publication_read"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "amount_label": "announced investment"
+    },
+    {
+      "from": "Nebius",
+      "to": "NVIDIA",
+      "type": "gpu_purchase",
+      "usd": null,
+      "tier": "filing_verified",
+      "note": "The Q2 shareholder letter describes its NVIDIA GPU fleet and planned Vera Rubin deployment.",
+      "sources": [
+        {
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1513845/000110465926094568/tm2622968d1_ex99-2.htm",
+          "filing_date": "2026-08-12",
+          "source_sha256": "a56ddb95cc340d0cb8d1fbc4623d74d553cb0928f8565fec8c6886b4a5ebe556"
+        }
+      ],
+      "review_as_of": "2026-10-17"
+    },
+    {
+      "from": "NVIDIA",
+      "to": "Applied Digital",
+      "type": "historical_equity_investment",
+      "usd": null,
+      "tier": "historical",
+      "note": "Historical PIPE relationship. Applied Digital is absent from NVIDIA's complete June 30, 2026 and December 31, 2025 13F information tables. These tables cover reportable securities, not every possible economic interest.",
+      "sources": [
+        {
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000065/information_table.xml",
+          "source_sha256": "82b6070ef760ccf7944af329e4dd1c79cf36bed29e3d345ba2dcf769e0e0c1c3"
+        },
+        {
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000011/information_table.xml",
+          "source_sha256": "55331732c7399cc9fa3ee9e9ec2f4dce8c0a21b950adb344118615db2f51eec7"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "current_holding_verified": false
+    },
+    {
+      "from": "NVIDIA",
+      "to": "OpenAI",
+      "type": "announced_investment",
+      "usd": 30000000000.0,
+      "tier": "issuer_announced",
+      "note": "OpenAI announced $30B from NVIDIA in its February 2026 funding round. Funded installments are not established by that announcement. The old $100B framework is retained in the historical record.",
+      "sources": [
+        {
+          "source_uri": "https://openai.com/index/scaling-ai-for-everyone/",
+          "published": "2026-02-27",
+          "verification": "primary_publication_read"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "amount_label": "announced investment"
+    },
+    {
+      "from": "OpenAI",
+      "to": "CoreWeave",
+      "type": "purchase_commitment",
+      "usd": 22400000000.0,
+      "tier": "issuer_announced",
+      "note": "Total announced contract values up to $22.4B in September 2025. This is a contract ceiling, not remaining backlog or a current revenue share.",
+      "sources": [
+        {
+          "source_uri": "https://www.coreweave.com/news/coreweave-expands-agreement-with-openai-by-up-to-6-5b",
+          "published": "2025-09-25",
+          "verification": "primary_publication_read"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "amount_label": "contract ceiling"
+    },
+    {
+      "from": "Meta",
+      "to": "CoreWeave",
+      "type": "purchase_commitment",
+      "usd": 21000000000.0,
+      "tier": "issuer_announced",
+      "note": "April 2026 agreement for about $21B of capacity through December 2032. Earlier agreements are separate; this amount is not a reconciled remaining-backlog total.",
+      "sources": [
+        {
+          "source_uri": "https://www.coreweave.com/news/coreweave-and-meta-announce-21-billion-expanded-ai-infrastructure-agreement",
+          "published": "2026-04-09",
+          "verification": "primary_publication_read"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "amount_label": "announced contract value"
+    },
+    {
+      "from": "Microsoft",
+      "to": "CoreWeave",
+      "type": "customer_revenue",
+      "usd": null,
+      "tier": "filing_verified",
+      "note": "Microsoft remains a named significant customer. The Q2 largest-customer share is 36%, anonymously reported; the filing does not assign that percentage to Microsoft.",
+      "sources": [
+        {
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000366/crwv-20260630.htm",
+          "filing_date": "2026-08-12",
+          "source_sha256": "5ef1bddf52a356c5c8a77ebba2b53b35a7c35ac669b27e8fa7842f1f301124e7"
+        }
+      ],
+      "review_as_of": "2026-10-17"
+    },
+    {
+      "from": "Microsoft",
+      "to": "OpenAI",
+      "type": "equity_investment",
+      "usd": 13000000000.0,
+      "tier": "filing_verified",
+      "note": "Microsoft reports $13B of funding commitments and $11.9B funded as of June 30, 2026.",
+      "sources": [
+        {
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/789019/000119312526323660/msft-20260630.htm",
+          "filing_date": "2026-07-29",
+          "source_sha256": "4bcf2da2871acc19e32c5a62f36f6d83d6aae03cdc4aaa9a86a9a21ee8223f02"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "amount_label": "funding commitment"
+    },
+    {
+      "from": "CoreWeave",
+      "to": "Morgan Stanley",
+      "type": "administrative_agent",
+      "usd": null,
+      "tier": "filing_verified",
+      "note": "Administrative agent for the $3.1B DDTL 5.0 facility. Agent status does not establish retained lender exposure.",
+      "sources": [
+        {
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000366/crwv-20260630.htm",
+          "filing_date": "2026-08-12",
+          "source_sha256": "5ef1bddf52a356c5c8a77ebba2b53b35a7c35ac669b27e8fa7842f1f301124e7"
+        }
+      ],
+      "review_as_of": "2026-10-17"
+    },
+    {
+      "from": "CoreWeave",
+      "to": "Magnetar",
+      "type": "lender",
+      "usd": 189000000.0,
+      "tier": "filing_verified",
+      "note": "MagAI capacity obligation: $189M carrying amount at June 30 after a $100M partial settlement. This is one facility, already included in issuer debt.",
+      "sources": [
+        {
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000366/crwv-20260630.htm",
+          "filing_date": "2026-08-12",
+          "source_sha256": "5ef1bddf52a356c5c8a77ebba2b53b35a7c35ac669b27e8fa7842f1f301124e7"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "amount_label": "reported facility carrying amount"
+    },
+    {
+      "from": "TeraWulf",
+      "to": "Morgan Stanley",
+      "type": "arranger_and_agent",
+      "usd": null,
+      "tier": "filing_verified",
+      "note": "Initial-purchaser representative and credit-facility administrative/collateral agent. These roles do not establish ultimate note ownership.",
+      "sources": [
+        {
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1083301/000108330126000166/wulf-20260630.htm",
+          "filing_date": "2026-08-05",
+          "source_sha256": "55e5167df92fceb69039c846234bd631ccb3eb1df5d3afc12f789b858281f212"
+        }
+      ],
+      "review_as_of": "2026-10-17"
+    },
+    {
+      "from": "TeraWulf",
+      "to": "Wilmington Trust",
+      "type": "trustee",
+      "usd": null,
+      "tier": "filing_verified",
+      "note": "Trustee for named note series. Trustee status does not establish beneficial ownership.",
+      "sources": [
+        {
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1083301/000108330126000166/wulf-20260630.htm",
+          "filing_date": "2026-08-05",
+          "source_sha256": "55e5167df92fceb69039c846234bd631ccb3eb1df5d3afc12f789b858281f212"
+        }
+      ],
+      "review_as_of": "2026-10-17"
+    },
+    {
+      "from": "Applied Digital",
+      "to": "Wilmington Trust",
+      "type": "trustee",
+      "usd": null,
+      "tier": "filing_verified",
+      "note": "Trustee and collateral agent for ComputeCo 3 senior secured notes due 2031.",
+      "sources": [
+        {
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1144879/000114487926000059/apld-20260831.htm",
+          "filing_date": "2026-10-07",
+          "source_sha256": "d535985f817d266b082da5a935b0040c0bac280fa1eb1b69b2102f306fa5ebfc"
+        }
+      ],
+      "review_as_of": "2026-10-17"
+    },
+    {
+      "from": "Hut 8",
+      "to": "Coatue",
+      "type": "converted_note",
+      "usd": null,
+      "tier": "historical",
+      "note": "The full $159.3M principal converted into 9,715,476 shares in May 2026. No principal remained on that note after conversion; current share ownership is not established here.",
+      "sources": [
+        {
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1964789/000110465926090025/hut-20260630x10q.htm",
+          "filing_date": "2026-08-04",
+          "source_sha256": "6ff91fa5854bd585a3c5f01c34fe160870699c64afbbfdd7c3207e3666f3a489"
+        }
+      ],
+      "review_as_of": "2026-10-17"
+    },
+    {
+      "from": "Hut 8",
+      "to": "Goldman Sachs",
+      "type": "arranger",
+      "usd": null,
+      "tier": "filing_verified",
+      "note": "Joint lead arranger and bookrunner on the September 2026 revolving facility. The agreement does not assign the entire $1.07B commitment to Goldman Sachs.",
+      "sources": [
+        {
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1964789/000110465926111154/tm2625691d1_ex10-1.htm",
+          "filing_date": "2026-09-28",
+          "source_sha256": "1f88e026260d9efcc8e37b3d416bbf579b3d05c3c706070fc28387b168ee3299"
+        }
+      ],
+      "review_as_of": "2026-10-17"
+    },
+    {
+      "from": "Galaxy Digital",
+      "to": "Deutsche Bank",
+      "type": "lender",
+      "usd": 1300000000.0,
+      "tier": "filing_verified",
+      "note": "Helios construction facility: $1.3B drawn at June 30 against a $1.4B commitment. Already included in issuer debt; July project notes are a separate subsequent event.",
+      "sources": [
+        {
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1859392/000185939226000091/glxy-20260630.htm",
+          "filing_date": "2026-08-10",
+          "source_sha256": "f7539d263a08a1a2b0eff70da1d7b7aa38e37578e3d4523daa89c2f0c33aa72e"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "amount_label": "drawn principal at June 30"
+    },
+    {
+      "from": "Hut 8",
+      "to": "JPMorgan Chase",
+      "type": "administrative_agent",
+      "usd": null,
+      "tier": "filing_verified",
+      "note": "Administrative and collateral agent for the $1.07B revolving facility signed September 24, 2026. Undrawn capacity is separate from reported debt.",
+      "sources": [
+        {
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1964789/000110465926111154/tm2625691d1_ex10-1.htm",
+          "filing_date": "2026-09-28",
+          "source_sha256": "1f88e026260d9efcc8e37b3d416bbf579b3d05c3c706070fc28387b168ee3299"
+        }
+      ],
+      "review_as_of": "2026-10-17"
+    },
+    {
+      "from": "NVIDIA",
+      "to": "SB Energy",
+      "type": "conditional_guarantee",
+      "usd": 105000000000.0,
+      "tier": "filing_verified",
+      "note": "August 2026 guarantees for land, power and shell leases serving an OpenAI affiliate at PORTS. Aggregate cap $105B; phases become effective at lease commencement, expected from fiscal 2029. This is contingent credit support, separate from funded debt.",
+      "sources": [
+        {
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000075/nvda-20260726.htm",
+          "filing_date": "2026-08-26",
+          "source_sha256": "e2634e509c241c5f45e3f6c115dc38a85645e5fdbee760b4a04f5e9035f6f7a9"
+        }
+      ],
+      "review_as_of": "2026-10-17",
+      "amount_label": "conditional guarantee cap"
+    },
+    {
+      "from": "OpenAI",
+      "to": "SB Energy",
+      "type": "lease",
+      "usd": null,
+      "tier": "filing_verified",
+      "note": "OpenAI-affiliate tenant for roughly 4.25GW under 20-year PORTS leases. NVIDIA guarantees specified obligations when conditions are satisfied; the full lease value is not measured here.",
+      "sources": [
+        {
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000075/nvda-20260726.htm",
+          "filing_date": "2026-08-26",
+          "source_sha256": "e2634e509c241c5f45e3f6c115dc38a85645e5fdbee760b4a04f5e9035f6f7a9"
+        }
+      ],
+      "review_as_of": "2026-10-17"
+    },
+    {
+      "from": "CoreWeave",
+      "to": "Core Scientific",
+      "type": "colocation_services",
+      "usd": null,
+      "tier": "filing_verified",
+      "review_as_of": "2026-10-17",
+      "note": "Current colocation customer. The June-quarter filing names CoreWeave and reports $180.9M of H1 capex funded by that customer. The former merger was terminated; the service relationship continues.",
+      "sources": [
+        {
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1839341/000183934126000014/core-20260630.htm",
+          "filing_date": "2026-07-28",
+          "source_sha256": "b903e654cb41bdd6c247e446cb38b9604954a660b2f07c268e2e0fe9d5fb2da0"
+        }
+      ]
+    },
+    {
+      "from": "CoreWeave",
+      "to": "Applied Digital",
+      "type": "lease_and_warrants",
+      "usd": null,
+      "tier": "filing_verified",
+      "review_as_of": "2026-10-17",
+      "note": "The August-quarter filing confirms data-center leases with CoreWeave and 21,455,832 associated warrant shares outstanding. Lease value, warrants and funded debt are separate measures.",
+      "sources": [
+        {
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1144879/000114487926000059/apld-20260831.htm",
+          "filing_date": "2026-10-07",
+          "source_sha256": "d535985f817d266b082da5a935b0040c0bac280fa1eb1b69b2102f306fa5ebfc"
+        }
+      ]
+    },
+    {
+      "from": "Microsoft",
+      "to": "IREN",
+      "type": "cloud_services_contract",
+      "usd": 9700000000,
+      "tier": "filing_verified",
+      "review_as_of": "2026-10-17",
+      "note": "Contract value approximately $9.7B through 2031, with tranche delivery and acceptance conditions. Twenty percent of each tranche value is prepaid under the stated terms. This is a contract value, not funded issuer debt.",
+      "sources": [
+        {
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1878848/000187884826000052/iren-20260630.htm",
+          "filing_date": "2026-08-27",
+          "source_sha256": "a0c02f6ad5f72623df78646240b43087c5e81c510e2c9a2bf291bab57127c994"
+        }
+      ],
+      "amount_label": "reported total contract value"
+    },
+    {
+      "from": "NVIDIA",
+      "to": "IREN",
+      "type": "cloud_services_contract",
+      "usd": 3400000000,
+      "tier": "filing_verified",
+      "review_as_of": "2026-10-17",
+      "note": "Five-year cloud-services contract signed in May 2026 for NVIDIA internal AI and research workloads. Approximately $3.4B of total contract value, separate from hardware purchases and equity.",
+      "sources": [
+        {
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1878848/000187884826000052/iren-20260630.htm",
+          "filing_date": "2026-08-27",
+          "source_sha256": "a0c02f6ad5f72623df78646240b43087c5e81c510e2c9a2bf291bab57127c994"
+        }
+      ],
+      "amount_label": "reported total contract value"
+    },
+    {
+      "from": "IREN",
+      "to": "NVIDIA",
+      "type": "gpu_purchase",
+      "usd": null,
+      "tier": "filing_verified",
+      "review_as_of": "2026-10-17",
+      "note": "The annual filing describes installed and ordered NVIDIA GPUs across several generations. It also includes AMD hardware; the fleet is not exclusively NVIDIA.",
+      "sources": [
+        {
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1878848/000187884826000052/iren-20260630.htm",
+          "filing_date": "2026-08-27",
+          "source_sha256": "a0c02f6ad5f72623df78646240b43087c5e81c510e2c9a2bf291bab57127c994"
+        }
+      ]
+    },
+    {
+      "from": "IREN",
+      "to": "AMD",
+      "type": "gpu_purchase",
+      "usd": null,
+      "tier": "filing_verified",
+      "review_as_of": "2026-10-17",
+      "note": "The annual filing lists installed and ordered AMD MI350X GPUs alongside NVIDIA systems.",
+      "sources": [
+        {
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1878848/000187884826000052/iren-20260630.htm",
+          "filing_date": "2026-08-27",
+          "source_sha256": "a0c02f6ad5f72623df78646240b43087c5e81c510e2c9a2bf291bab57127c994"
+        }
+      ]
+    },
+    {
+      "from": "Microsoft",
+      "to": "Nebius",
+      "type": "cloud_services_contract",
+      "usd": null,
+      "tier": "filing_verified",
+      "review_as_of": "2026-10-17",
+      "note": "The Q2 shareholder letter says every contracted Microsoft capacity tranche had been delivered as of that letter. The remaining contract value is not reconciled here.",
+      "sources": [
+        {
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1513845/000110465926094568/tm2622968d1_ex99-2.htm",
+          "filing_date": "2026-08-12",
+          "source_sha256": "a56ddb95cc340d0cb8d1fbc4623d74d553cb0928f8565fec8c6886b4a5ebe556"
+        }
+      ]
+    },
+    {
+      "from": "Meta",
+      "to": "Nebius",
+      "type": "cloud_services_contract",
+      "usd": null,
+      "tier": "filing_verified",
+      "review_as_of": "2026-10-17",
+      "note": "The Q2 shareholder letter describes buildout for a second Meta agreement, with capacity expected in early 2027. Remaining contract value is not measured here.",
+      "sources": [
+        {
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1513845/000110465926094568/tm2622968d1_ex99-2.htm",
+          "filing_date": "2026-08-12",
+          "source_sha256": "a56ddb95cc340d0cb8d1fbc4623d74d553cb0928f8565fec8c6886b4a5ebe556"
+        }
+      ]
+    },
+    {
+      "from": "Fluidstack",
+      "to": "TeraWulf",
+      "type": "lease",
+      "usd": null,
+      "tier": "filing_verified",
+      "review_as_of": "2026-10-17",
+      "note": "Named tenant and joint-venture partner in reviewed HPC arrangements. Lease capacity, financing proceeds and Google credit support remain separate measures.",
+      "sources": [
+        {
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1083301/000108330126000166/wulf-20260630.htm",
+          "filing_date": "2026-08-05",
+          "source_sha256": "55e5167df92fceb69039c846234bd631ccb3eb1df5d3afc12f789b858281f212"
+        }
+      ]
+    },
+    {
+      "from": "Google",
+      "to": "TeraWulf",
+      "type": "lease_backstop",
+      "usd": null,
+      "tier": "filing_verified",
+      "review_as_of": "2026-10-17",
+      "note": "The Q2 filing describes conditional Google lease-payment backstops and associated warrants. A financing principal amount or warrant fair value is not the guarantee cap.",
+      "sources": [
+        {
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1083301/000108330126000166/wulf-20260630.htm",
+          "filing_date": "2026-08-05",
+          "source_sha256": "55e5167df92fceb69039c846234bd631ccb3eb1df5d3afc12f789b858281f212"
+        }
+      ]
+    },
+    {
+      "from": "Anthropic",
+      "to": "TeraWulf",
+      "type": "lease",
+      "usd": null,
+      "tier": "filing_verified",
+      "review_as_of": "2026-10-17",
+      "note": "July 2026 Justified Data Campus lease for approximately 401 MW of critical IT load, with a 20-year initial term from premises delivery. Capacity is not converted into a debt amount.",
+      "sources": [
+        {
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1083301/000108330126000166/wulf-20260630.htm",
+          "filing_date": "2026-08-05",
+          "source_sha256": "55e5167df92fceb69039c846234bd631ccb3eb1df5d3afc12f789b858281f212"
+        }
+      ]
+    },
+    {
+      "from": "Fluidstack",
+      "to": "Hut 8",
+      "type": "lease",
+      "usd": null,
+      "tier": "filing_verified",
+      "review_as_of": "2026-10-17",
+      "note": "River Bend tenant. Lease rent is the expected primary cash source for project-note debt service.",
+      "sources": [
+        {
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1964789/000110465926090025/hut-20260630x10q.htm",
+          "filing_date": "2026-08-04",
+          "source_sha256": "6ff91fa5854bd585a3c5f01c34fe160870699c64afbbfdd7c3207e3666f3a489"
+        }
+      ]
+    },
+    {
+      "from": "Google",
+      "to": "Hut 8",
+      "type": "lease_backstop",
+      "usd": null,
+      "tier": "filing_verified",
+      "review_as_of": "2026-10-17",
+      "note": "Backstop covers specified tenant lease obligations. The filing explicitly says the River Bend notes are not guaranteed by the company, tenant or lease guarantor.",
+      "sources": [
+        {
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1964789/000110465926090025/hut-20260630x10q.htm",
+          "filing_date": "2026-08-04",
+          "source_sha256": "6ff91fa5854bd585a3c5f01c34fe160870699c64afbbfdd7c3207e3666f3a489"
+        }
+      ]
+    },
+    {
+      "from": "Fluidstack",
+      "to": "Cipher Mining",
+      "type": "lease",
+      "usd": null,
+      "tier": "filing_verified",
+      "review_as_of": "2026-10-17",
+      "note": "Barber Lake tenant named in the latest quarterly filing; operating and delivery conditions remain in the underlying agreement.",
+      "sources": [
+        {
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1819989/000181998926000041/cifr-20260630.htm",
+          "filing_date": "2026-08-04",
+          "source_sha256": "df8223234da73b4f5d681e268f86df6040e4ed2eba8258819c5bc9261dd64156"
+        }
+      ]
+    },
+    {
+      "from": "Google",
+      "to": "Cipher Mining",
+      "type": "lease_backstop",
+      "usd": null,
+      "tier": "filing_verified",
+      "review_as_of": "2026-10-17",
+      "note": "Lease-payment support if Fluidstack fails to perform, with associated Google warrants. Warrant fair value is separate from the amount of contingent support.",
+      "sources": [
+        {
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1819989/000181998926000041/cifr-20260630.htm",
+          "filing_date": "2026-08-04",
+          "source_sha256": "df8223234da73b4f5d681e268f86df6040e4ed2eba8258819c5bc9261dd64156"
+        }
+      ]
+    },
+    {
+      "from": "CoreWeave",
+      "to": "Galaxy Digital",
+      "type": "lease",
+      "usd": null,
+      "tier": "filing_verified",
+      "review_as_of": "2026-10-17",
+      "note": "Helios: 133 MW of initial critical IT load under a 15-year lease. Another 393 MW is contracted under later phases, expected from Q2 2027. Approved power and operating IT capacity differ.",
+      "sources": [
+        {
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1859392/000185939226000091/glxy-20260630.htm",
+          "filing_date": "2026-08-10",
+          "source_sha256": "f7539d263a08a1a2b0eff70da1d7b7aa38e37578e3d4523daa89c2f0c33aa72e"
+        }
+      ]
+    },
+    {
+      "from": "AMD",
+      "to": "Core Scientific",
+      "type": "lease",
+      "usd": null,
+      "tier": "filing_verified",
+      "review_as_of": "2026-10-17",
+      "note": "July 27, 2026 agreements cover 377 MW of critical IT capacity at specified sites. A separate 152 MW neocloud tenant is unnamed in the filing and is not assigned an identity here.",
+      "sources": [
+        {
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1839341/000183934126000014/core-20260630.htm",
+          "filing_date": "2026-07-28",
+          "source_sha256": "b903e654cb41bdd6c247e446cb38b9604954a660b2f07c268e2e0fe9d5fb2da0"
+        }
+      ]
+    }
+  ],
+  "unconfirmed_existing_pairs": [
+    [
+      "CoreWeave",
+      "Blackstone"
+    ],
+    [
+      "CoreWeave",
+      "Wilmington Trust"
+    ],
+    [
+      "Galaxy Digital",
+      "Goldman Sachs"
+    ],
+    [
+      "Core Scientific",
+      "Morgan Stanley"
+    ]
+  ],
+  "unconfirmed_scope": "No supporting named relationship was found in the selected latest periodic statements and saved current-event filings and exhibits listed in the hash-verified source manifest. Earlier contracts and undisclosed positions remain outside that check.",
+  "scenario_edge_types": [
+    "private_credit_funding",
+    "policyholder_exposure",
+    "syndication",
+    "power_procurement"
+  ],
+  "limits": [
+    "Agent, arranger and trustee roles do not identify beneficial lenders or ultimate loss bearers.",
+    "Contract ceilings, financing commitments, equity proceeds and contingent guarantees are separate measures and cannot be added to issuer debt.",
+    "Historical graph relationships remain available with their original claims and dates."
+  ]
+}

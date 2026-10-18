@@ -8,7 +8,13 @@ import json
 from typing import TYPE_CHECKING
 
 import pytest
-from scripts.refresh_capital_graph_2026_09_16 import build_capital, load_ferc_deals, select_deals
+from scripts.refresh_capital_graph_2026_09_16 import (
+    build_capital,
+    iter_selected_deals,
+    load_edgar_deals,
+    load_ferc_deals,
+    select_deals,
+)
 
 if TYPE_CHECKING:
     from pathlib import Path
@@ -98,3 +104,30 @@ def test_duplicate_source_rows_are_removed_but_conflicts_fail(tmp_path: Path) ->
     _write_deals(ferc, [row, conflicting])
     with pytest.raises(ValueError, match="Conflicting duplicate source row"):
         select_deals([("ferc", load_ferc_deals(ferc))])
+
+
+def test_streaming_selection_preserves_duplicates_review_filter_and_counts(tmp_path: Path):
+    ferc = tmp_path / "ppa.csv"
+    edgar = tmp_path / "deals.csv"
+    first = _row("ppa-1", "ferc", "pending")
+    _write_deals(ferc, [first, first, _row("ppa-2", "ferc", "rejected")])
+    _write_deals(edgar, [_row("debt-1", "sec_edgar", "approved")])
+    expected, counts = select_deals(
+        [("ferc", load_ferc_deals(ferc)), ("edgar", load_edgar_deals(edgar))]
+    )
+    streamed_counts = {}
+    streamed = list(iter_selected_deals([("ferc", ferc), ("edgar", edgar)], streamed_counts))
+    assert [d.source_deal_id for d in streamed] == [d.source_deal_id for d in expected]
+    assert streamed_counts == counts
+    _write_deals(ferc, [first, {**first, "content_hash": "f" * 64}])
+    with pytest.raises(ValueError, match="Conflicting duplicate"):
+        list(iter_selected_deals([("ferc", ferc)], {}))
+
+
+def test_streaming_selection_rejects_cross_source_id_collision(tmp_path: Path):
+    ferc = tmp_path / "ppa.csv"
+    edgar = tmp_path / "debt.csv"
+    _write_deals(ferc, [_row("same", "ferc", "pending")])
+    _write_deals(edgar, [_row("same", "sec_edgar", "pending")])
+    with pytest.raises(ValueError, match="Source deal ID collision"):
+        list(iter_selected_deals([("ferc", ferc), ("edgar", edgar)], {}))

@@ -1,14 +1,16 @@
 {
-  "snapshot_at_pacific": "2026-10-17T20:23:28.435978-07:00",
+  "snapshot_at_pacific": "2026-10-17T22:35:08.087439-07:00",
   "refresh_as_of": "2026-10-17",
   "complete": false,
   "report": {
-    "generated_from": "BURRY_REPORT_EvidenceGated_20260603-2312",
-    "current_verdict_recomputed": false,
-    "reason": "The adjudicated core and its judgments retain their original evidence date."
+    "generated_from": "core_reassessment_2026-10-17",
+    "financial_review_as_of": "2026-10-17",
+    "current_verdict_recomputed": true,
+    "reason": "Current statement measurements retain their original period ends. Historical confidence judgments remain dated and are not probabilities."
   },
   "market": {
-    "generated_utc": "2026-10-17T19:24:20Z",
+    "dated_snapshot": "analysis/market_snapshot_2026-10-17.json",
+    "generated_utc": "2026-10-18T04:26:46Z",
     "price_dates": [
       "2026-10-16"
     ],
@@ -80,15 +82,33 @@
     ]
   },
   "sec_acquisition": {
+    "exhibits": {
+      "status": "acquiring",
+      "parents": {
+        "checked": 1012,
+        "failed": 190,
+        "queued": 96357
+      },
+      "index_parsers": {
+        "sec_document_types_v1": 97559
+      },
+      "documents": {
+        "acquired": 1104
+      },
+      "complete": false,
+      "recovered_source_errors": 0,
+      "unresolved_source_errors": 0,
+      "selection": "Every selected exhibit-eligible filing; all relevant text exhibits, no per-filing cap."
+    },
     "new_run_queue": {
-      "acquired": 121171,
-      "failed": 44,
+      "acquired": 182581,
+      "failed": 45,
       "inflight": 8,
-      "queued": 106170
+      "queued": 44759
     },
     "baseline_inventory": 41589,
     "recovered_failures": 27,
-    "unresolved_source_errors": 17,
+    "unresolved_source_errors": 18,
     "filing_discovery": {
       "ciks": 29815,
       "failed_ciks": 0

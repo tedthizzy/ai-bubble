@@ -112,22 +112,134 @@
    "ytd_chg": 1.17
   }
  },
- "edgar": {},
- "generated_utc": "2026-10-18T03:41:43Z",
+ "edgar": {
+  "Applied Digital": {
+   "new_8k_7d": 0,
+   "observed_as_of": "2026-10-17"
+  },
+  "Bit Digital": {
+   "new_8k_7d": 0,
+   "observed_as_of": "2026-10-17"
+  },
+  "Cipher Mining": {
+   "new_8k_7d": 3,
+   "observed_as_of": "2026-10-17"
+  },
+  "CleanSpark": {
+   "new_8k_7d": 0,
+   "observed_as_of": "2026-10-17"
+  },
+  "Core Scientific": {
+   "new_8k_7d": 0,
+   "observed_as_of": "2026-10-17"
+  },
+  "CoreWeave": {
+   "new_8k_7d": 0,
+   "observed_as_of": "2026-10-17"
+  },
+  "Galaxy Digital": {
+   "new_8k_7d": 0,
+   "observed_as_of": "2026-10-17"
+  },
+  "Hut 8": {
+   "new_8k_7d": 0,
+   "observed_as_of": "2026-10-17"
+  },
+  "IREN": {
+   "new_8k_7d": 0,
+   "observed_as_of": "2026-10-17"
+  },
+  "MARA Holdings": {
+   "new_8k_7d": 0,
+   "observed_as_of": "2026-10-17"
+  },
+  "Nebius": {
+   "new_8k_7d": 0,
+   "observed_as_of": "2026-10-17"
+  },
+  "TeraWulf": {
+   "new_8k_7d": 0,
+   "observed_as_of": "2026-10-17"
+  }
+ },
+ "edgar_errors": [],
+ "edgar_last_observed": {
+  "Applied Digital": {
+   "captured_utc": "2026-10-18T04:26:46.615050+00:00",
+   "new_8k_7d": 0,
+   "observed_as_of": "2026-10-17"
+  },
+  "Bit Digital": {
+   "captured_utc": "2026-10-18T04:26:46.615060+00:00",
+   "new_8k_7d": 0,
+   "observed_as_of": "2026-10-17"
+  },
+  "Cipher Mining": {
+   "captured_utc": "2026-10-18T04:26:46.615059+00:00",
+   "new_8k_7d": 3,
+   "observed_as_of": "2026-10-17"
+  },
+  "CleanSpark": {
+   "captured_utc": "2026-10-18T04:26:46.615053+00:00",
+   "new_8k_7d": 0,
+   "observed_as_of": "2026-10-17"
+  },
+  "Core Scientific": {
+   "captured_utc": "2026-10-18T04:26:46.615058+00:00",
+   "new_8k_7d": 0,
+   "observed_as_of": "2026-10-17"
+  },
+  "CoreWeave": {
+   "captured_utc": "2026-10-18T04:26:46.615045+00:00",
+   "new_8k_7d": 0,
+   "observed_as_of": "2026-10-17"
+  },
+  "Galaxy Digital": {
+   "captured_utc": "2026-10-18T04:26:46.615054+00:00",
+   "new_8k_7d": 0,
+   "observed_as_of": "2026-10-17"
+  },
+  "Hut 8": {
+   "captured_utc": "2026-10-18T04:26:46.615051+00:00",
+   "new_8k_7d": 0,
+   "observed_as_of": "2026-10-17"
+  },
+  "IREN": {
+   "captured_utc": "2026-10-18T04:26:46.615049+00:00",
+   "new_8k_7d": 0,
+   "observed_as_of": "2026-10-17"
+  },
+  "MARA Holdings": {
+   "captured_utc": "2026-10-18T04:26:46.615052+00:00",
+   "new_8k_7d": 0,
+   "observed_as_of": "2026-10-17"
+  },
+  "Nebius": {
+   "captured_utc": "2026-10-18T04:26:46.615057+00:00",
+   "new_8k_7d": 0,
+   "observed_as_of": "2026-10-17"
+  },
+  "TeraWulf": {
+   "captured_utc": "2026-10-18T04:26:46.615047+00:00",
+   "new_8k_7d": 0,
+   "observed_as_of": "2026-10-17"
+  }
+ },
+ "generated_utc": "2026-10-18T04:26:46Z",
  "issuance_latest": {
-  "amount_usd": 3900000000,
-  "coupon_pct": 6.625,
-  "coupon_source": "https://carboncollectivefunds.com/ccsb/",
-  "date": "2026-08-27",
-  "date_basis": "Offering closed August 27 per transaction counsel; August 18-20 marketing and pricing were reported, but exact pricing date was not issuer-confirmed",
-  "issuer": "QTS Central Issuer LLC / QTS TRS Central Issuer LLC (Blackstone-backed data-center SPVs)",
-  "maturity": "2031-09-01",
-  "pricing": "Rule 144A / Regulation S senior secured construction notes; issue price and issue yield absent from public issuer/counsel record. Do not use the 2026-09-10 98.90 secondary fund mark as issue price",
-  "source": "https://www.stblaw.com/about-us/news/view/2026/09/01/qts-completes-inaugural-construction-rule-144a-notes-offering",
-  "spread_vs_5y_bp": 172,
+  "amount_usd": 1120000000,
+  "coupon_pct": 8.875,
+  "date": "2026-09-23",
+  "date_basis": "Original CreditFlow new-issue tape pricing date, not settlement date.",
+  "issuer": "DDC 01 Propco LLC (Digital Drive, CoreWeave-leased data-center SPV)",
+  "maturity": "2031-09-30",
+  "pricing": "98.500% of principal; CreditFlow reports 9.257% issue yield. S1 retains the registered coupon-minus-current-five-year-Treasury proxy.",
+  "scope_source": "https://www.marketscreener.com/news/fitch-expects-to-rate-ddc-01-propco-llc-bb-exp-outlook-positive-ce785ad9de8ef724",
+  "source": "https://creditflowresearch.com/issuer/31643/ddc-01-propco-llc-digital-drive",
+  "spread_vs_5y_bp": 396,
   "status": "priced",
   "tenor_yrs": 5,
-  "tier": "transaction_counsel_primary_plus_holder_primary; coupon from holder portfolio"
+  "tier": "original_market_tape; issuer offering memorandum not independently acquired"
  },
  "quotes": {
   "Apollo / Athene": {
@@ -266,11 +378,11 @@
  },
  "signals": [
   {
-   "desc": "latest carded cluster print (QTS Central Issuer LLC / QTS TRS Central Issuer LLC (Blackstone-backed data-center SPVs) 2026-08-27) ~172bp over 5y UST; <=600bp = window open (contra), >=800bp = cracking (confirming); >45d old = stale, never contra",
+   "desc": "latest carded cluster print (DDC 01 Propco LLC (Digital Drive, CoreWeave-leased data-center SPV) 2026-09-23) ~396bp over 5y UST; <=600bp = window open (contra), >=800bp = cracking (confirming); >45d old = stale, never contra",
    "id": "S1_new_issue_spread",
-   "print_age_days": 52,
-   "status": "stale",
-   "value_bp": 172
+   "print_age_days": 24,
+   "status": "contra",
+   "value_bp": 396
   },
   {
    "desc": "any carded cluster print postponed/pulled/failed = confirming event (issuance windows historically gap shut rather than taper); all prints priced = neutral",
@@ -299,15 +411,6 @@
    "status": "contra",
    "worst": "BXSL",
    "worst_discount_pct": 6.5
-  },
-  {
-   "base_as_of": "2025-07-01",
-   "desc": "carded AI end-demand basket +252.9% YoY ($31B -> $108B); <50%/yr = demand leg cannot close the capex equation (confirming), >=100%/yr = bull path intact (contra)",
-   "id": "S4_demand_trajectory",
-   "latest_as_of": "2026-06-12",
-   "latest_total_usd_b": 108.0,
-   "status": "contra",
-   "yoy_growth_pct": 252.9
   }
  ],
  "source_status": {
@@ -328,21 +431,8 @@
   },
   "edgar": {
    "expected": 12,
-   "missing": [
-    "Applied Digital",
-    "Bit Digital",
-    "Cipher Mining",
-    "CleanSpark",
-    "Core Scientific",
-    "CoreWeave",
-    "Galaxy Digital",
-    "Hut 8",
-    "IREN",
-    "MARA Holdings",
-    "Nebius",
-    "TeraWulf"
-   ],
-   "received": 0
+   "missing": [],
+   "received": 12
   },
   "quotes": {
    "expected": 19,
@@ -369,7 +459,7 @@
    "op_distress": {
     "base_p": 0.7,
     "label": "operational distress (zero-shock coverage breach bites as cash) by 2027-Q3",
-    "p": 0.65,
+    "p": 0.7,
     "prior": "failure-sequence stage 2 (most-levered fringe bleeds first); telecom/shale both",
     "signals": [
      "S4_demand_trajectory"
@@ -388,7 +478,7 @@
    "window_closes_given_op": {
     "base_p": 0.45,
     "label": "funding window closes on a stressed name | it is already operationally distressed",
-    "p": 0.5,
+    "p": 0.45,
     "prior": "capex-peak\u2192default lag ~6-8 quarters; access withdrawn from the fringe first",
     "signals": [
      "S1_new_issue_spread",
@@ -397,10 +487,10 @@
    }
   },
   "note": "Shadow mode: this forecast runs ALONGSIDE the gated 0.67 structural confidence and does not replace it until promoted. 2026-Q4 adjudicates TIMING-KILL, not p_real. The p_real outcome window runs through 2027-09-30; the flat 0.67 is a structural measurement, not a forecast.",
-  "p_real": 0.4265,
+  "p_real": 0.4203,
   "p_real_outcome_window_end": "2027-09-30",
   "pathway_funding_first": 0.225,
-  "pathway_operations_first": 0.26,
+  "pathway_operations_first": 0.252,
   "promoted": false,
   "structural_confidence_unchanged": 0.67,
   "timing_kill_adjudication_quarter": "2026-Q4"

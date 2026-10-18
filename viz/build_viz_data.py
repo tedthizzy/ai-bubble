@@ -1,29 +1,32 @@
 #!/usr/bin/env python
-"""Assemble the verified financed-core dataset that every Burry-viz variant renders.
+"""Rebuild the visualization from explicitly dated saved evidence.
 
-Single source of truth: pulls the honest, red-team-hardened scalars live from the
-latest evidence-gated report, and lays out the scoped financed-core graph (the
-~4% cluster + its suppliers/investors/offtakers/lenders/end-holders + the energy
-chokepoints) with primary-source-verified amounts, PLUS the full extracted contract
-universe as a background "field" layer (raw, unadjudicated -- labeled as such).
-Writes viz/graph_data.json.
-
-The red-team fixes are first-class here so the visuals cannot paper over them:
-coverage 1.35x is a masking artifact (negative ex-CoreWeave); the cascade $ is a
-GROSS UPPER BOUND (CoreWeave's whole debt, not OpenAI-apportioned); fragility is 2
-of the first-principles tipping conditions cleanly met; execution/satellite is
-magnitude-only (confounded); the ecosystem gate is held at 0.25 by design.
+Apply current issuer statements and reviewed relationships after loading the
+historical report. Preserve its original judgments separately. Keep the retained
+raw field until a complete dated capital graph is available, then rebuild every
+named raw connection. Snapshot the existing artifacts before writing.
 """
 
 from __future__ import annotations
 
+import csv
 import glob
 import json
 import os
+import shutil
+import sys
+import time
+from collections import defaultdict
 from pathlib import Path
 from typing import Any
 
 ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT / "scripts"))
+from refresh_visualization_field import build_field as build_current_field  # noqa: E402
+from update_current_visualization import update  # noqa: E402
+
+previous_path = ROOT / "viz/graph_data.json"
+previous_graph = json.loads(previous_path.read_text()) if previous_path.is_file() else {}
 
 
 def _latest_report() -> dict[str, Any]:
@@ -256,9 +259,10 @@ CORE_ENTITY_PATTERNS: dict[str, list[str]] = {
 }
 
 
-def _build_field() -> dict[str, Any]:
-    import csv
-    from collections import defaultdict
+def _build_field() -> dict[str, Any]:  # noqa: PLR0912, PLR0915 - preserve the legacy projection until a complete dated graph is available
+
+    if previous_graph.get("meta", {}).get("current_review") and previous_graph.get("field"):
+        return previous_graph["field"]
 
     nodes_csv = ROOT / "data/reports/capital_contract_nodes.csv"
     edges_csv = ROOT / "data/reports/capital_contract_edges.csv"
@@ -373,13 +377,25 @@ out = {
     },
 }
 
-(ROOT / "viz" / "graph_data.json").write_text(json.dumps(out, separators=(",", ":")))
-print(f"wrote viz/graph_data.json from {report_name}")
-fld = out["field"] or {}
-print(f"  core nodes={len(nodes)} edges={len(edges)} | field entities={fld.get('entities', 0)} "
-      f"deals={fld.get('deals', 0)} links={len(fld.get('links') or [])} "
-      f"core-matched={fld.get('matched_core', 0)}")
-print(f"  core_conf={meta['core_confidence']} eco_conf={meta['ecosystem_confidence']} "
-      f"| cascade=${(meta['cascade_debt_at_risk_usd'] or 0)/1e9:.1f}B")
-print(f"  committed core=${(meta['committed_core_usd'] or 0)/1e9:.1f}B incl=${(meta['committed_incl_infra_usd'] or 0)/1e9:.1f}B "
-      f"over-count={meta['over_count_removed_pct']}% fragility_met={meta['fragility_conditions_met']}")
+reviews = sorted((ROOT / "analysis").glob("core_reassessment_????-??-??.json"))
+if previous_graph.get("historical_core"):
+    out["historical_core"] = previous_graph["historical_core"]
+if previous_graph.get("layout") and out["field"].get("nodes") == previous_graph.get("field", {}).get("nodes"):
+    out["layout"] = previous_graph["layout"]
+if reviews:
+    review_date = reviews[-1].stem.removeprefix("core_reassessment_")
+    complete = ROOT / "data" / f"capital_graph_refresh_{review_date}" / "complete"
+    if (complete / "input_manifest.json").is_file():
+        out["field"], out["layout"] = build_current_field(complete, out, review_date)
+if reviews:
+    update(ROOT, review_date, out)
+else:
+    if previous_path.is_file():
+        snapshot = ROOT / ".codex" / "viz-build-snapshots" / str(time.time_ns())
+        snapshot.mkdir(parents=True)
+        shutil.copy2(previous_path, snapshot / previous_path.name)
+    previous_path.write_text(json.dumps(out, separators=(",", ":")))
+print(json.dumps({"generated_from": out["meta"]["generated_from"], "core_nodes": len(out["nodes"]),
+                  "core_edges": len(out["edges"]), "field_entities": out["field"].get("entities", 0),
+                  "field_evidence_date": out["field"].get("evidence_date"),
+                  "reported_issuer_debt_usd": out["meta"].get("reported_issuer_debt_usd")}))

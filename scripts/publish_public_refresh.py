@@ -207,6 +207,7 @@ def publish(
     as_of = run.name.removeprefix("refresh_")
     paths = [
         "viz/freshness.json",
+        "viz/graph_data.json",
         f"analysis/dated_engine_{as_of}_v2.json",
         f"analysis/dated_engine_{as_of}_v2.md",
     ]
@@ -233,7 +234,7 @@ def publish(
         raise RuntimeError("The remote does not contain the published commit")
     workflow = wait_for_pages(sha, run)
     deployed = verify_deployed_files(
-        ["viz/freshness.json", "viz/explorer.js", "viz/explorer.css"], run
+        ["viz/freshness.json", "viz/graph_data.json", "viz/explorer.js", "viz/explorer.css"], run
     )
     return {
         "commit": sha,
@@ -255,12 +256,13 @@ def main() -> None:
     parser.add_argument("--expected-index", required=True)
     parser.add_argument("--attribution-anchor", required=True)
     parser.add_argument("--approved-historical-attribution-lines", required=True, type=int)
+    parser.add_argument("--start-record", default="publication-start.json")
     args = parser.parse_args()
     run = args.run.resolve()
     identity = process_identity(args.finisher_pid)
     if args.finisher_pid <= 1 or not identity:
         parser.error("Expected the observed, active finisher PID")
-    start = run / "publication-start.json"
+    start = run / args.start_record
     with start.open("x") as stream:
         json.dump(
             {

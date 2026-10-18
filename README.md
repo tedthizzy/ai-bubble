@@ -649,6 +649,13 @@ This preserves the tracker source URI, raw artifact hash, local raw artifact pat
 
 ## Current Status
 
+The October 17, 2026 refresh now includes a primary-statement review of 13
+issuers and a separate ledger of later financing events. See
+[current financial measurements](analysis/core_reassessment_2026-10-17.md) and
+[source status](viz/DATA_STATUS_2026-10-17.md). The broad filing and exhibit
+acquisition is still running at this checkpoint. Its completion record and
+coverage audit must be checked before claiming complete selected-source coverage.
+
 This is an evidence-gated prototype, not a completed Burry-grade system. Current ecosystem-scale reports are treated as directional hypotheses until the evidence gate can prove the key claims with measured, corroborated, and LLM-adjudicated sources.
 
 The report generator now caps confidence when a major claim is inferred or unsupported. This is intentional: the system should be skeptical of its own outputs before it is skeptical of the market narrative.

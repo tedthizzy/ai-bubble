@@ -11,9 +11,11 @@ import argparse
 import csv
 import hashlib
 import json
+import sqlite3
 from collections import Counter
 from datetime import date
 from pathlib import Path
+from typing import TYPE_CHECKING, Any
 
 from bubble.analysis.capital_exposure_graph import (
     build_capital_exposure_graph,
@@ -27,6 +29,9 @@ from bubble.analysis.ownership_sqlite import write_ownership_graph_from_rows
 from bubble.models.base import DealType, HumanReviewStatus, Provenance, SourceType
 from bubble.models.deal import Deal
 from bubble.quality.source_invariants import assert_source_row
+
+if TYPE_CHECKING:
+    from collections.abc import Iterator
 
 DATE = "2026-09-16"
 DEFAULT_FERC = Path(f"data/source_acquisition_{DATE}/derived/ppa_deals.csv")
@@ -142,13 +147,13 @@ def load_edgar_deals(path: Path) -> list[Deal]:
     return deals
 
 
-def select_deals(sources: list[tuple[str, list[Deal]]]) -> tuple[list[Deal], dict]:
+def select_deals(sources: list[tuple[str, list[Deal]]]) -> tuple[list[Deal], dict[str, Any]]:
     """Reject conflicting source IDs; collapse exact row repeats only."""
     seen: dict[tuple[str, str], str] = {}
     source_by_id: dict[str, str] = {}
     selected: list[Deal] = []
-    review = Counter()
-    source_rows = Counter()
+    review: Counter[str] = Counter()
+    source_rows: Counter[str] = Counter()
     duplicate_rows = 0
     for source_name, deals in sources:
         for deal in deals:
@@ -189,6 +194,74 @@ def ensure_new_output(path: Path) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
 
 
+def iter_selected_deals(
+    sources: list[tuple[str, Path]], selection: dict[str, Any]
+) -> Iterator[Deal]:
+    """Use the existing selection rules without retaining every Deal object."""
+    review: Counter[str] = Counter()
+    source_rows: Counter[str] = Counter()
+    duplicate_rows = selected = reviewed = pending = 0
+    with sqlite3.connect("") as database:
+        database.execute("PRAGMA cache_size=-4096")
+        database.execute("CREATE TABLE origins(deal_id TEXT PRIMARY KEY, source TEXT)")
+        database.execute(
+            "CREATE TABLE seen(deal_id TEXT, uri TEXT, hash TEXT, PRIMARY KEY(deal_id,uri))"
+        )
+        for source_name, path in sources:
+            with path.open(newline="") as stream:
+                for row in csv.DictReader(stream):
+                    deal = _deal_from_row(
+                        {key: (value or "").strip() for key, value in row.items()}
+                    )
+                    expected = SourceType.FERC if source_name == "ferc" else SourceType.SEC_EDGAR
+                    if deal.provenance.source_type != expected or (
+                        source_name == "ferc" and deal.deal_type != DealType.PPA
+                    ):
+                        raise ValueError(
+                            f"Unexpected {source_name} row type: {deal.source_deal_id}"
+                        )
+                    source_rows[source_name] += 1
+                    prior = database.execute(
+                        "SELECT source FROM origins WHERE deal_id=?", (deal.source_deal_id,)
+                    ).fetchone()
+                    if prior and prior[0] != source_name:
+                        raise ValueError(f"Source deal ID collision: {deal.source_deal_id}")
+                    database.execute(
+                        "INSERT OR IGNORE INTO origins VALUES (?,?)",
+                        (deal.source_deal_id, source_name),
+                    )
+                    key = (deal.source_deal_id, deal.provenance.source_uri)
+                    previous = database.execute(
+                        "SELECT hash FROM seen WHERE deal_id=? AND uri=?", key
+                    ).fetchone()
+                    if previous:
+                        if previous[0] != deal.provenance.content_hash:
+                            raise ValueError(f"Conflicting duplicate source row: {key}")
+                        duplicate_rows += 1
+                        continue
+                    database.execute(
+                        "INSERT INTO seen VALUES (?,?,?)", (*key, deal.provenance.content_hash)
+                    )
+                    status = deal.provenance.human_review_status
+                    review[status.value] += 1
+                    if status == HumanReviewStatus.REJECTED:
+                        continue
+                    selected += 1
+                    reviewed += status in REVIEWED
+                    pending += status == HumanReviewStatus.PENDING
+                    yield deal
+        selection.update(
+            {
+                "source_rows": dict(sorted(source_rows.items())),
+                "exact_duplicate_rows_removed": duplicate_rows,
+                "review_status_before_rejection_filter": dict(sorted(review.items())),
+                "graph_deals": selected,
+                "reviewed_graph_deals": reviewed,
+                "pending_graph_deals": pending,
+            }
+        )
+
+
 def build_capital(
     *,
     mode: str,
@@ -196,16 +269,16 @@ def build_capital(
     edgar_path: Path,
     output_root: Path,
     as_of: str = DATE,
-) -> dict:
+) -> dict[str, Any]:
     out = output_root / mode.replace("-", "_")
     ensure_new_output(out)
     inputs = {"ferc_ppa_deals": file_record(ferc_path)}
-    sources = [("ferc", load_ferc_deals(ferc_path))]
+    sources = [("ferc", ferc_path)]
     if mode == "complete":
         inputs["edgar_deals"] = file_record(edgar_path)
-        sources.append(("edgar", load_edgar_deals(edgar_path)))
-    deals, selection = select_deals(sources)
-    graph = build_capital_exposure_graph(deals)
+        sources.append(("edgar", edgar_path))
+    selection: dict[str, Any] = {}
+    graph = build_capital_exposure_graph(iter_selected_deals(sources, selection))
     paths = write_capital_exposure_graph(graph, out)
     manifest = {
         "as_of": as_of,
@@ -225,7 +298,7 @@ def build_capital(
     return manifest
 
 
-def build_ownership(*, gleif_dir: Path, output_root: Path, as_of: str = DATE) -> dict:
+def build_ownership(*, gleif_dir: Path, output_root: Path, as_of: str = DATE) -> dict[str, Any]:
     out = output_root / "ownership_current"
     ensure_new_output(out)
     relationship_path = gleif_dir / "ownership_records.csv"

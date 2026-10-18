@@ -1,5 +1,5 @@
 {
-  "checked_at_pacific": "2026-10-17T18:46:17.236125-07:00",
+  "checked_at_pacific": "2026-10-17T22:40:24.673853-07:00",
   "browser": "existing Chrome/155.0.8059.82",
   "preview": "http://127.0.0.1:8765/",
   "new_browser_launched": false,
@@ -233,8 +233,8 @@
   ],
   "local_interaction_verified": true,
   "source_sha256": {
-    "viz/index.html": "940cc1ccefdf08336d0f634e4f1e8a7772149e63f79ce922fb794e73617296b8",
-    "viz/explorer.js": "f65b0c911ba37154b33fe3351d78190843df32470f1c4e874bf1aad0b7822cfc",
+    "viz/index.html": "eed3dc4aae42f9038d3d001688f452bb5e9d9ac0d85f4c87794e4637fcc18c14",
+    "viz/explorer.js": "f558e4648adff7a9edbca615601946c5d2a66dc2436678c9837d04de0ce29d0f",
     "viz/explorer.css": "c01b3ce2b0ad6fee9e2d9db37b303db73bf4dbabf5171e116bed0163f3d7726f"
   },
   "first_deployment": {
@@ -325,6 +325,79 @@
         "The adjudicated June core remains historical.",
         "The GitHub runner produced no fresh SEC filing counts; source_status records all twelve missing. The original public baseline also had zero filing counts. Saved submissions and earlier observations remain retained."
       ]
+    }
+  },
+  "current_review": {
+    "checked_at_pacific": "2026-10-17T22:40:24.673853-07:00",
+    "local_interaction_verified": true,
+    "source_sha256": {
+      "viz/index.html": "eed3dc4aae42f9038d3d001688f452bb5e9d9ac0d85f4c87794e4637fcc18c14",
+      "viz/explorer.js": "f558e4648adff7a9edbca615601946c5d2a66dc2436678c9837d04de0ce29d0f",
+      "viz/explorer.css": "c01b3ce2b0ad6fee9e2d9db37b303db73bf4dbabf5171e116bed0163f3d7726f"
+    },
+    "graph_sha256": "72e6f1d1c00fbcfa6111082de6c8106510b0bbe62e5e437c15fae9aff1fb9048",
+    "screenshots_viewed": [
+      {
+        "path": "data/refresh_2026-10-17/browser-validation/current-review-checkpoint-mobile.png",
+        "sha256": "67b3e4312edc41916965cba9341d8c655c63beecfa99ffe4538afc2f44a4ceb2"
+      },
+      {
+        "path": "data/refresh_2026-10-17/browser-validation/current-review-fixed-36-mobile-view.png",
+        "sha256": "930d547f5715f0041ae9e8337be23eb2394efd25f790b41a025e001c38cba32b"
+      },
+      {
+        "path": "data/refresh_2026-10-17/browser-validation/current-review-mobile-corz.png",
+        "sha256": "90e58e81075b7fe815fe20c6a6d4a7ce4a1e04d99cf24a5737557b073059c8d4"
+      },
+      {
+        "path": "data/refresh_2026-10-17/browser-validation/current-review-core-card.png",
+        "sha256": "98bbbce924c00dcfa497019ebd43277d59f412195fcb122fcadc6af549f76043"
+      },
+      {
+        "path": "data/refresh_2026-10-17/browser-validation/current-review-banner-complete.png",
+        "sha256": "33216adda18db8f306ae0c27196e288f6c6c0f20bef6bab10623dbcea2a3865b"
+      }
+    ],
+    "observed": {
+      "core_entities": 36,
+      "grey_points": 7687,
+      "links": 9633,
+      "field_links": 9582,
+      "report_as_of": "2026-10-17",
+      "reported_issuer_debt_usd": 90302128000,
+      "mobile_css_viewport": [
+        390,
+        844
+      ],
+      "horizontal_scroll": false,
+      "css_fonts": [
+        "Arial, sans-serif / 14px",
+        "Arial, sans-serif / 18px"
+      ],
+      "idle_frames": 0,
+      "idle_seconds": 5,
+      "paused": true,
+      "js_heap_bytes": 13034251,
+      "latest_frame_draw_calls": 89
+    },
+    "real_interactions": [
+      "CoreWeave and Core Scientific financial cards and source links",
+      "NVIDIA conditional guarantee and dated observations",
+      "Keyboard entity search",
+      "Ten rapid cascade clicks and reduced motion",
+      "Sources and dates on mobile"
+    ],
+    "repair": "Defer initial camera fitting until the page is visible and a rendered frame is available. A real hidden reload followed by bringing the page forward confirmed the fitted camera.",
+    "limits": [
+      "Broad SEC acquisition and replacement grey field remain pending. The retained field cutoff is unverified.",
+      "Some paused CDP screenshots omitted a browser compositor layer. Native view and an active Sources capture showed the complete page. Failed probes remain retained.",
+      "A diagnostic used undefined DATA/frames names and raised ReferenceError. The corrected probe used the actual explorer globals; this was a probe error.",
+      "No before/after full legacy browser benchmark was run."
+    ],
+    "previous_source_sha256": {
+      "viz/index.html": "940cc1ccefdf08336d0f634e4f1e8a7772149e63f79ce922fb794e73617296b8",
+      "viz/explorer.js": "f65b0c911ba37154b33fe3351d78190843df32470f1c4e874bf1aad0b7822cfc",
+      "viz/explorer.css": "c01b3ce2b0ad6fee9e2d9db37b303db73bf4dbabf5171e116bed0163f3d7726f"
     }
   }
 }

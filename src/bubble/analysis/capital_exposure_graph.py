@@ -155,7 +155,7 @@ WATCHLIST_ENTITY_PATTERNS = {
 }
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class CapitalExposureNode:
     """An entity node in the source-backed exposure network."""
 
@@ -170,7 +170,7 @@ class CapitalExposureNode:
         return asdict(self)
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class CapitalExposureEdge:
     """Aggregated exposure relationship between two named entities."""
 
@@ -194,7 +194,7 @@ class CapitalExposureEdge:
         return asdict(self)
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class CapitalContractNode:
     """Source-backed deal/tranche/collateral/project structure node."""
 
@@ -217,7 +217,7 @@ class CapitalContractNode:
         return asdict(self)
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class CapitalContractEdge:
     """Source-backed structural relationship inside a capital contract."""
 
@@ -445,7 +445,7 @@ def _merge_deal_edge(
     )
 
 
-def build_capital_exposure_graph(deals: list[Deal]) -> CapitalExposureGraph:
+def build_capital_exposure_graph(deals: Iterable[Deal]) -> CapitalExposureGraph:
     """Build a source-backed exposure graph from capital deal evidence."""
 
     node_acc: dict[str, _NodeAccumulator] = {}
@@ -457,10 +457,12 @@ def build_capital_exposure_graph(deals: list[Deal]) -> CapitalExposureGraph:
     ] = {}
     generic_skipped = 0
     deals_with_edges = 0
+    deals_scanned = 0
     high_notional_unmapped: list[dict[str, Any]] = []
     all_source_uris: set[str] = set()
 
     for deal in deals:
+        deals_scanned += 1
         all_source_uris.add(deal.provenance.source_uri)
         contract_nodes, contract_edges, _contract_skipped = _contract_graph_for_deal(deal)
         for node in contract_nodes:
@@ -514,12 +516,16 @@ def build_capital_exposure_graph(deals: list[Deal]) -> CapitalExposureGraph:
     edges.sort(
         key=lambda edge: (edge.notional_usd, edge.deal_count, edge.ppa_capacity_mw), reverse=True
     )
+    node_acc.clear()
+    edge_acc.clear()
     contract_nodes = list(contract_node_acc.values())
+    contract_node_acc.clear()
     contract_nodes.sort(
         key=lambda node: (node.notional_usd, node.node_type == "tranche", node.name),
         reverse=True,
     )
     contract_edges = list(contract_edge_acc.values())
+    contract_edge_acc.clear()
     contract_edges.sort(
         key=lambda edge: (edge.notional_usd, edge.relationship_type, edge.source_name),
         reverse=True,
@@ -540,7 +546,7 @@ def build_capital_exposure_graph(deals: list[Deal]) -> CapitalExposureGraph:
     contagion_hubs = _contagion_hubs(edges, nodes)
 
     summary = _build_capital_exposure_summary(
-        deals_scanned=len(deals),
+        deals_scanned=deals_scanned,
         deals_with_edges=deals_with_edges,
         generic_skipped=generic_skipped,
         all_source_uris=all_source_uris,
@@ -741,10 +747,10 @@ def write_capital_exposure_graph(
     contract_edges_path = out / "capital_contract_edges.csv"
     summary_path = out / "capital_exposure_graph_summary.json"
 
-    _write_csv(nodes_path, [node.to_dict() for node in graph.nodes])
-    _write_csv(edges_path, [edge.to_dict() for edge in graph.edges])
-    _write_csv(contract_nodes_path, [node.to_dict() for node in graph.contract_nodes])
-    _write_csv(contract_edges_path, [edge.to_dict() for edge in graph.contract_edges])
+    _write_csv(nodes_path, (node.to_dict() for node in graph.nodes))
+    _write_csv(edges_path, (edge.to_dict() for edge in graph.edges))
+    _write_csv(contract_nodes_path, (node.to_dict() for node in graph.contract_nodes))
+    _write_csv(contract_edges_path, (edge.to_dict() for edge in graph.contract_edges))
     summary_path.write_text(json.dumps(graph.summary.to_dict(), indent=2))
     return {
         "nodes_csv": str(nodes_path),
@@ -1947,11 +1953,17 @@ def _component_risks(
     nodes: list[CapitalExposureNode],
 ) -> list[CapitalExposureComponentRisk]:
     node_by_id = {node.node_id: node for node in nodes}
+    component_for_node = {
+        node_id: index for index, component in enumerate(components) for node_id in component
+    }
+    edges_by_component: dict[int, list[CapitalExposureEdge]] = defaultdict(list)
+    for edge in edges:
+        index = component_for_node.get(edge.source_id)
+        if index is not None and component_for_node.get(edge.target_id) == index:
+            edges_by_component[index].append(edge)
     risks: list[CapitalExposureComponentRisk] = []
-    for component in components:
-        component_edges = [
-            edge for edge in edges if edge.source_id in component and edge.target_id in component
-        ]
+    for index, component in enumerate(components):
+        component_edges = edges_by_component.get(index, [])
         source_uris = {uri for edge in component_edges for uri in edge.source_uris if uri}
         top_nodes = sorted(
             (node_by_id[node_id] for node_id in component if node_id in node_by_id),
@@ -2575,15 +2587,18 @@ def _deal_type_values(deal_types: set[DealType]) -> set[str]:
     return {deal_type.value for deal_type in deal_types}
 
 
-def _write_csv(path: Path, rows: list[dict[str, Any]]) -> None:
-    if not rows:
+def _write_csv(path: Path, rows: Iterable[dict[str, Any]]) -> None:
+    iterator = iter(rows)
+    first = next(iterator, None)
+    if first is None:
         path.write_text("")
         return
-    fieldnames = list(rows[0])
+    fieldnames = list(first)
     with path.open("w", newline="") as f:
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
-        for row in rows:
+        writer.writerow({key: _csv_value(value) for key, value in first.items()})
+        for row in iterator:
             writer.writerow({key: _csv_value(value) for key, value in row.items()})
 
 

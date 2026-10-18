@@ -8,20 +8,21 @@ const root=path.resolve(__dirname,'../..');
 const source=fs.readFileSync(path.join(root,'viz/explorer.js'),'utf8').replace(/\nstart\(\);\s*$/,'');
 const data=JSON.parse(fs.readFileSync(path.join(root,'viz/graph_data.json'),'utf8'));
 
-function load(input=data,reduced=false) {
+function load(input=data,reduced=false,hidden=false) {
   const elements=new Map(), callbacks=new Map();
   let time=0, timerId=0;
   class Element {
-    constructor() { this.style={}; this.dataset={}; this.attrs={}; this.events={}; this.innerHTML=''; this.value=''; this.hidden=false; this.isConnected=true; }
+    constructor() { this.style={}; this.dataset={}; this.attrs={}; this.events={}; this.innerHTML=''; this.value=''; this.hidden=false; this.isConnected=true; this.firstChild={textContent:''}; }
     setAttribute(k,v) { this.attrs[k]=v; }
     removeAttribute(k) { delete this.attrs[k]; }
     addEventListener(k,f) { this.events[k]=f; }
     insertAdjacentHTML(_,value) { this.innerHTML+=value; }
     getBoundingClientRect() { return {left:0,top:0,width:1200,height:800}; }
   }
-  const document={body:new Element(),hidden:false,
+  const documentEvents=new Map();
+  const document={body:new Element(),hidden,
     getElementById(id) { if(!elements.has(id)) elements.set(id,new Element()); return elements.get(id); },
-    addEventListener() {}};
+    addEventListener(name,handler) {documentEvents.set(name,handler);}};
   const scene=new THREE.Scene(), camera=new THREE.PerspectiveCamera(75,1.5,.1,5000);
   camera.position.z=1000; camera.updateProjectionMatrix();camera.updateMatrixWorld();
   const state={scene,camera}, controls={addEventListener(){}};
@@ -35,6 +36,7 @@ function load(input=data,reduced=false) {
       if(name==='graphData' && args.length) state.graphData=args[0];
       if(name==='cameraPosition') state.cameraArgs=args;
       if(name==='pauseAnimation') state.pauses=(state.pauses||0)+1;
+      if(name==='zoomToFit') state.fits=(state.fits||0)+1;
       if(name==='resumeAnimation') {
         state.resumes=(state.resumes||0)+1;
         state.onResume?.();
@@ -56,7 +58,7 @@ function load(input=data,reduced=false) {
   });
   vm.runInContext(source,context);
   vm.runInContext('boot(input)',context);
-  return {context,state,elements,callbacks,timers,eval:s=>vm.runInContext(s,context),
+  return {context,state,elements,callbacks,timers,documentEvents,eval:s=>vm.runInContext(s,context),
     settle() { for(let i=0;i<5;i++) { time+=2000; const batch=[...timers.values()];timers.clear();batch.forEach(f=>f()); } }};
 }
 
@@ -64,13 +66,14 @@ test('all saved entities and links remain accessible while only core enters the 
   const app=load();
   assert.equal(app.state.graphData.nodes.length,data.nodes.length);
   assert.equal(app.state.graphData.links.length,data.edges.length);
-  assert.equal(app.eval('nodes.length'),7715);
-  assert.equal(app.eval('fieldNodes.length'),7687);
+  const unmapped=data.field.nodes.filter(row => !row[3] || !data.nodes.some(n=>n.id===row[3])).length;
+  assert.equal(app.eval('nodes.length'),data.nodes.length+unmapped);
+  assert.equal(app.eval('fieldNodes.length'),unmapped);
   assert.equal(app.eval('links.length'),data.edges.length+data.field.links.length);
   const field=app.state.scene.children[0];
   assert.equal(field.children.filter(x=>x.isPoints).length,1);
   assert.equal(field.children.filter(x=>x.isLineSegments).length,1);
-  assert.equal(field.children[0].geometry.attributes.position.count,7687);
+  assert.equal(field.children[0].geometry.attributes.position.count,unmapped);
   app.settle();
   assert.ok(app.state.pauses>0,'idle rendering pauses');
   app.eval('wake()');
@@ -85,6 +88,21 @@ test('resuming can emit a synchronous controls change without recursively resumi
   app.eval('wake()');
   assert.equal(app.state.resumes,before+1);
   assert.equal(app.eval('paused'),false);
+});
+
+test('loading while hidden waits for a visible frame before the first camera fit',() => {
+  const app=load(data,false,true);
+  app.settle();
+  assert.equal(app.state.fits||0,0);
+  app.eval('document.hidden=false');
+  app.documentEvents.get('visibilitychange')();
+  assert.equal(app.state.fits,1);
+  app.settle();
+  app.eval('document.hidden=true');
+  app.documentEvents.get('visibilitychange')();
+  app.eval('document.hidden=false');
+  app.documentEvents.get('visibilitychange')();
+  assert.equal(app.state.fits,1,'returning to an explored graph preserves its camera');
 });
 
 test('search reaches raw entities and every selected connection can open its evidence card',() => {

@@ -53,3 +53,30 @@ def test_failed_merge_keeps_results_and_prevents_later_graph_publication(
     assert calls == ["finish-retry-gaps", "finish-merge"]
     assert (tmp_path / "finish-merge-result.json").exists()
     assert not (tmp_path / "finish-result.json").exists()
+
+
+@pytest.mark.parametrize("case", ["complete", "interrupted", "unfinished", "reused_pid"])
+def test_exhibit_corpus_must_complete_with_its_observed_process(tmp_path, monkeypatch, case):
+    (tmp_path / "exhibit-completion-start.json").write_text(
+        json.dumps({"pid": 456, "identity": "owned"})
+    )
+    extra = tmp_path / "exhibit_completion"
+    extra.mkdir()
+    monkeypatch.setattr(
+        finish, "process_identity", lambda _: "other" if case == "reused_pid" else ""
+    )
+    if case == "interrupted":
+        with pytest.raises(RuntimeError, match="without a completion record"):
+            finish.wait_for_exhibits(tmp_path)
+        return
+    (extra / "run-result.json").write_text("{}")
+    with sqlite3.connect(extra / "document_queue.sqlite3") as db:
+        db.execute("CREATE TABLE documents(status TEXT)")
+        db.execute(
+            "INSERT INTO documents VALUES (?)", ("queued" if case == "unfinished" else "acquired",)
+        )
+    if case == "complete":
+        assert finish.wait_for_exhibits(tmp_path) == extra
+    else:
+        with pytest.raises((RuntimeError, ValueError)):
+            finish.wait_for_exhibits(tmp_path)

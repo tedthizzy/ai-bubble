@@ -29,10 +29,11 @@ import sys
 import time
 import urllib.parse
 import urllib.request
-from datetime import UTC, datetime, timedelta
+from datetime import UTC, date, datetime, timedelta
 from pathlib import Path
 from typing import Any
 from xml.sax.saxutils import escape
+from zoneinfo import ZoneInfo
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "src"))
@@ -51,7 +52,7 @@ HISTORY = ROOT / "viz" / "history.jsonl"
 CALENDAR = ROOT / "viz" / "calendar.json"
 UA = {"User-Agent": "ai-bubble-live-overlay/1.0 (+https://github.com/tedthizzy/ai-bubble)"}
 # SEC fair-access policy wants a declared tool with a contact in the User-Agent.
-SEC_UA = {"User-Agent": "ai-bubble tedthizzy@users.noreply.github.com"}
+SEC_UA = {"User-Agent": "ai-bubble research ted1508@gmail.com"}
 
 # node id (must match viz/graph_data.json core nodes) -> (stooq symbol, yahoo symbol)
 TICKERS: dict[str, tuple[str, str]] = {
@@ -233,16 +234,33 @@ def _edgar_ciks() -> dict[str, str]:
     return {t: f"{by_ticker[t]:010d}" for t in EDGAR_TICKERS.values() if t in by_ticker}
 
 
-def _edgar_counts() -> dict[str, dict[str, int]]:
-    cutoff = (datetime.now(UTC).date() - timedelta(days=7)).isoformat()
-    out: dict[str, dict[str, int]] = {}
+def _edgar_counts(
+    *, today: date | None = None, errors: list[dict[str, Any]] | None = None
+) -> dict[str, dict[str, Any]]:
+    today = today or datetime.now(ZoneInfo("America/Los_Angeles")).date()
+    cutoff = (today - timedelta(days=7)).isoformat()
+    out: dict[str, dict[str, Any]] = {}
+
+    def failed(stage: str, error: Exception, node: str | None = None) -> None:
+        detail = {
+            "stage": stage,
+            "node": node,
+            "error_type": type(error).__name__,
+            "http_status": getattr(error, "code", None),
+        }
+        if errors is not None:
+            errors.append(detail)
+        print(json.dumps({"event": "edgar_source_error", **detail}), file=sys.stderr)
+
     try:
         ciks = _edgar_ciks()
-    except Exception:
-        return out  # SEC unreachable from this network; overlay degrades to quotes-only
+    except Exception as error:
+        failed("ticker_table", error)
+        return out
     for node_id, ticker in EDGAR_TICKERS.items():
         cik = ciks.get(ticker)
         if not cik:
+            failed("ticker_resolution", ValueError("Unresolved ticker"), node_id)
             continue
         try:
             recent = json.loads(
@@ -250,12 +268,12 @@ def _edgar_counts() -> dict[str, dict[str, int]]:
             )["filings"]["recent"]
             count = sum(
                 1
-                for form, fdate in zip(recent["form"], recent["filingDate"], strict=False)
-                if form.startswith("8-K") and fdate >= cutoff
+                for form, fdate in zip(recent["form"], recent["filingDate"], strict=True)
+                if form.startswith("8-K") and cutoff <= fdate <= today.isoformat()
             )
-            out[node_id] = {"new_8k_7d": count}
-        except Exception:
-            pass  # missing counts are simply omitted
+            out[node_id] = {"new_8k_7d": count, "observed_as_of": today.isoformat()}
+        except Exception as error:
+            failed("submissions", error, node_id)
         time.sleep(0.35)
     return out
 
@@ -342,14 +360,30 @@ def _issuance_latest(deals: list[dict[str, Any]], credit: dict[str, Any]) -> dic
     return latest
 
 
-def _demand_baskets() -> list[dict[str, Any]]:
+def _demand_baskets(as_of: date | None = None) -> list[dict[str, Any]]:
     """Carded S4 demand-trajectory baskets (analysis/demand_trajectory.json)."""
     path = ROOT / "analysis" / "demand_trajectory.json"
     try:
-        baskets = json.loads(path.read_text())["baskets"]
+        payload = json.loads(path.read_text())
+        baskets = payload["baskets"]
     except Exception:
         return []
-    return baskets if isinstance(baskets, list) else []
+    if not isinstance(baskets, list):
+        return []
+    review = payload.get("current_review") or {}
+    today = as_of or datetime.now(ZoneInfo("America/Los_Angeles")).date()
+    baskets = [
+        basket
+        for basket in baskets
+        if isinstance(basket, dict) and basket.get("as_of", "9999") <= today.isoformat()
+    ]
+    if (
+        review.get("as_of", "9999") <= today.isoformat()
+        and review.get("registered_growth_eligible") is False
+        and max((basket.get("as_of", "") for basket in baskets), default="") <= review["as_of"]
+    ):
+        return []
+    return baskets
 
 
 def _banner_svg(
@@ -371,28 +405,52 @@ def _banner_svg(
     for name, label in (("hy_oas", "HY"), ("ccc_oas", "CCC")):
         point = (credit or {}).get(name, {})
         if point.get("value") is not None:
-            credit_bits.append(f"{label} {point['value']:.2f}% ({point.get('date', 'unknown date')})")
+            credit_bits.append(
+                f"{label} {point['value']:.2f}% ({point.get('date', 'unknown date')})"
+            )
     movers = sorted(quotes.values(), key=lambda q: -abs(q.get("chg_pct", 0)))[:4]
+    debt = meta.get("reported_issuer_debt_usd", meta.get("committed_core_usd"))
+    debt_label = "issuer debt" if meta.get("current_review") else "core debt"
+    amount = (
+        f"${debt / 1e9:.1f}B {debt_label}" if isinstance(debt, int | float) else "Debt unavailable"
+    )
     rows = [
-        f"Report {report} / ${(meta.get('committed_core_usd', 0)/1e9):.1f}B core debt / {field.get('entities', 0):,} extracted entities",
+        f"Report {report} / {amount} / {field.get('entities', 0):,} extracted entities",
         f"Market {market}" + (" / " + " / ".join(credit_bits) if credit_bits else ""),
         " / ".join(f"{q.get('sym', '')} {q.get('chg_pct', 0):+.1f}%" for q in movers),
-        "Report judgments retain their evidence date. Market observations have separate dates.",
     ]
     return (
-        '<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="182" viewBox="0 0 1000 182">\n'
-        '<rect x="1" y="1" width="998" height="180" rx="10" fill="#0c1420" stroke="#354252"/>\n'
+        '<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="151" viewBox="0 0 1000 151">\n'
+        '<rect x="1" y="1" width="998" height="149" rx="10" fill="#0c1420" stroke="#354252"/>\n'
         '<text x="24" y="32" font-family="Arial,sans-serif" font-size="18" font-weight="700" fill="#e6edf3">Bubble</text>\n'
         + "".join(
-            f'<text x="24" y="{59+i*31}" font-family="Arial,sans-serif" font-size="14" fill="#adb8c8">{escape(row)}</text>\n'
+            f'<text x="24" y="{59 + i * 31}" font-family="Arial,sans-serif" font-size="14" fill="#adb8c8">{escape(row)}</text>\n'
             for i, row in enumerate(rows)
-        ) + "</svg>\n"
+        )
+        + "</svg>\n"
     )
 
 
-def main(*, saved_edgar: dict[str, dict[str, int]] | None = None) -> int:
+def _last_observed_edgar(
+    previous: dict[str, Any], fresh: dict[str, dict[str, Any]]
+) -> dict[str, dict[str, Any]]:
+    """Keep dated observations when a later network request cannot refresh them."""
+    retained = dict(previous.get("edgar_last_observed") or {})
+    for node, record in (previous.get("edgar") or {}).items():
+        retained[node] = {
+            **record,
+            "captured_utc": record.get("captured_utc") or previous.get("generated_utc"),
+        }
+    for node, record in fresh.items():
+        retained[node] = {**record, "captured_utc": datetime.now(UTC).isoformat()}
+    return retained
+
+
+def main(*, saved_edgar: dict[str, dict[str, Any]] | None = None) -> int:
+    previous = json.loads(OUT.read_text()) if OUT.is_file() else {}
+    edgar_errors: list[dict[str, Any]] = []
     quotes = _quotes()
-    edgar = _edgar_counts() if saved_edgar is None else saved_edgar
+    edgar = _edgar_counts(errors=edgar_errors) if saved_edgar is None else saved_edgar
     credit = _credit()
     bdc = _bdc()
     adjacent = _quotes_for(ADJACENT_TICKERS)
@@ -401,14 +459,15 @@ def main(*, saved_edgar: dict[str, dict[str, int]] | None = None) -> int:
     if not quotes and not edgar and not credit and not bdc:
         print("live overlay: every source failed; leaving existing live.json untouched")
         return 1
-    signals = evaluate_signals(
-        credit, bdc, deals, latest_deal, _demand_baskets(), datetime.now(UTC).date()
-    )
+    today = datetime.now(ZoneInfo("America/Los_Angeles")).date()
+    signals = evaluate_signals(credit, bdc, deals, latest_deal, _demand_baskets(today), today)
     signal_status = {s["id"]: s["status"] for s in signals if "id" in s and "status" in s}
     payload = {
         "generated_utc": datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "quotes": quotes,
         "edgar": edgar,
+        "edgar_last_observed": _last_observed_edgar(previous, edgar),
+        "edgar_errors": edgar_errors,
         "credit": credit,
         "bdc": bdc,
         "adjacent": adjacent,
@@ -430,7 +489,9 @@ def main(*, saved_edgar: dict[str, dict[str, int]] | None = None) -> int:
             )
         },
     }
-    snapshot = ROOT / ".codex" / "overlay-snapshots" / datetime.now(UTC).strftime("%Y%m%dT%H%M%S.%fZ")
+    snapshot = (
+        ROOT / ".codex" / "overlay-snapshots" / datetime.now(UTC).strftime("%Y%m%dT%H%M%S.%fZ")
+    )
     snapshot.mkdir(parents=True, exist_ok=False)
     for path in (OUT, ROOT / "viz/banner.svg", HISTORY, CALENDAR):
         if path.exists():

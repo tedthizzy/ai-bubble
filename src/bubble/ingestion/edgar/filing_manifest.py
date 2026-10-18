@@ -10,6 +10,7 @@ from.
 from __future__ import annotations
 
 import csv
+import hashlib
 import json
 import os
 import re
@@ -20,8 +21,10 @@ from dataclasses import asdict, dataclass
 from datetime import date
 from pathlib import Path
 from typing import Any, cast
+from urllib.parse import parse_qs, unquote, urljoin, urlsplit
 
 import httpx
+from bs4 import BeautifulSoup, Tag
 
 from bubble.ingestion.concurrency import (
     DomainFetchLimiter,
@@ -272,13 +275,76 @@ class SecSubmissionsClient:
         self.timeout_seconds = timeout_seconds
 
     def fetch_json(self, url: str) -> Mapping[str, Any]:
+        document_table_url = filing_document_table_url(url)
         headers = {"User-Agent": self.identity, "Accept-Encoding": "gzip, deflate"}
         with httpx.Client(
             headers=headers, timeout=self.timeout_seconds, follow_redirects=True
         ) as client:
-            response = client.get(url)
+            response = client.get(document_table_url or url)
             response.raise_for_status()
+            if document_table_url:
+                return parse_filing_document_table(response.content, document_table_url)
             return cast("Mapping[str, Any]", response.json())
+
+
+def filing_document_table_url(url: str) -> str | None:
+    """Resolve the SEC filing table, whose types do not depend on filenames."""
+    parts = urlsplit(url)
+    folder = parts.path.rsplit("/", 1)[0]
+    accession = folder.rsplit("/", 1)[-1]
+    if (
+        parts.hostname not in {"www.sec.gov", "sec.gov"}
+        or not folder.startswith("/Archives/edgar/data/")
+        or not re.fullmatch(r"\d{18}", accession)
+    ):
+        return None
+    if parts.path.endswith("-index.html"):
+        return url
+    if not parts.path.endswith("/index.json"):
+        return None
+    dashed = f"{accession[:10]}-{accession[10:12]}-{accession[12:]}"
+    return f"{parts.scheme}://{parts.netloc}{folder}/{dashed}-index.html"
+
+
+def parse_filing_document_table(raw: bytes, source_uri: str) -> Mapping[str, Any]:
+    """Parse the official Document Format Files table and retain its authority."""
+    soup = BeautifulSoup(raw, "html.parser")
+    table = soup.find("table", attrs={"summary": "Document Format Files"})
+    if not isinstance(table, Tag):
+        raise ValueError("SEC response has no Document Format Files table")
+    folder = urlsplit(source_uri).path.rsplit("/", 1)[0] + "/"
+    items = []
+    for row in table.find_all("tr"):
+        cells = row.find_all("td")
+        if len(cells) < 5:
+            continue
+        document_type = cells[3].get_text(" ", strip=True)
+        link = cells[2].find("a", href=True)
+        if not document_type or link is None:
+            continue
+        target = urlsplit(urljoin(source_uri, str(link["href"])))
+        if target.hostname not in {"sec.gov", "www.sec.gov"}:
+            raise ValueError("SEC document table references a file outside its origin")
+        document = parse_qs(target.query).get("doc", [target.path])[0]
+        path = unquote(urlsplit(document).path)
+        if not path.startswith(folder):
+            raise ValueError("SEC document table references a file outside its accession")
+        items.append(
+            {
+                "name": path.removeprefix(folder),
+                "document_type": document_type,
+                "description": cells[1].get_text(" ", strip=True),
+                "size": cells[4].get_text(" ", strip=True),
+            }
+        )
+    if not items:
+        raise ValueError("SEC document table has no typed documents")
+    return {
+        "source_uri": source_uri,
+        "source_sha256": hashlib.sha256(raw).hexdigest(),
+        "index_parser": "sec_document_types_v1",
+        "directory": {"name": folder, "item": items},
+    }
 
 
 def build_edgar_filing_manifest(
@@ -797,7 +863,8 @@ def _fetch_exhibit_records_for_filing(
 
     items = _candidate_exhibit_items(payload, primary_document=filing.primary_document)
     selected = items if max_exhibits_per_filing is None else items[:max_exhibits_per_filing]
-    return index, [_exhibit_record(filing, item, index_url) for item in selected], None
+    evidence_uri = str(payload.get("source_uri") or index_url)
+    return index, [_exhibit_record(filing, item, evidence_uri) for item in selected], None
 
 
 def _exhibit_record(
@@ -806,7 +873,9 @@ def _exhibit_record(
     index_url: str,
 ) -> FilingRecord:
     document_name = str(item["name"])
-    document_description = f"SEC exhibit {document_name}"
+    document_description = f"SEC {item.get('document_type') or 'exhibit'} {document_name}: {item.get('description') or ''}".rstrip(
+        ": "
+    )
     score, reasons = score_filing_relevance(
         form=filing.form,
         items=filing.items,
@@ -905,7 +974,8 @@ def _candidate_exhibit_items(
         if not isinstance(raw_item, Mapping):
             continue
         name = _optional_string(raw_item.get("name"))
-        if name and _is_candidate_exhibit_document(name, primary_document):
+        document_type = _optional_string(raw_item.get("document_type"))
+        if name and _is_candidate_exhibit_document(name, primary_document, document_type):
             items.append(cast("Mapping[str, Any]", raw_item))
     return items
 
@@ -913,16 +983,20 @@ def _candidate_exhibit_items(
 def _is_candidate_exhibit_document(
     document_name: str,
     primary_document: str | None,
+    document_type: str | None = None,
 ) -> bool:
     normalized = document_name.strip().lower()
     if not normalized or normalized.endswith("/"):
         return False
     if primary_document and normalized == primary_document.strip().lower():
         return False
-    if any(normalized.startswith(prefix) for prefix in IGNORED_EXHIBIT_PREFIXES):
-        return False
     suffix = Path(normalized).suffix
     if suffix and suffix not in EXHIBIT_TEXT_SUFFIXES:
+        return False
+    if document_type is not None:
+        typed = re.match(r"^EX-(\d+)(?:[.\s(]|$)", document_type.strip().upper())
+        return bool(typed and typed.group(1) in EXHIBIT_RELEVANCE)
+    if any(normalized.startswith(prefix) for prefix in IGNORED_EXHIBIT_PREFIXES):
         return False
     return _exhibit_number(document_name) in EXHIBIT_RELEVANCE
 

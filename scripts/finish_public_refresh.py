@@ -64,6 +64,8 @@ def wait_for_acquisition(run: Path, pid: int, identity: str) -> None:
 
 
 def finish(run: Path) -> None:
+    exhibit_run = wait_for_exhibits(run)
+
     def stage(name: str, arguments: list[str]) -> None:
         result = command(run, "finish-" + name, arguments)
         save(run / ("finish-" + name + "-result.json"), result)
@@ -72,11 +74,22 @@ def finish(run: Path) -> None:
         emit("refresh_stage_finished", stage=name)
 
     stage("retry-gaps", ["scripts/retry_refresh_source_gaps.py", "--run", str(run)])
+    if exhibit_run is not None:
+        stage(
+            "retry-exhibit-gaps",
+            ["scripts/retry_refresh_source_gaps.py", "--run", str(exhibit_run)],
+        )
     batches = [OLD_INVENTORY.parent, run / "edgar"]
     batches.extend(
         result.parent / "edgar"
         for result in sorted((run / "source_gap_retries").glob("*/retry-result.json"))
     )
+    if exhibit_run is not None:
+        batches.append(exhibit_run / "edgar")
+        batches.extend(
+            result.parent / "edgar"
+            for result in sorted((exhibit_run / "source_gap_retries").glob("*/retry-result.json"))
+        )
     merged = run / "edgar_merged_current"
     stage(
         "merge",
@@ -89,6 +102,8 @@ def finish(run: Path) -> None:
         ],
     )
     manifests = [*OLD_MANIFESTS, *sorted((run / "filing_batches").glob("*.csv"))]
+    if exhibit_run is not None:
+        manifests.append(exhibit_run / "exhibits.csv")
     coverage = run / "coverage-current.json"
     stage(
         "coverage",
@@ -122,6 +137,16 @@ def finish(run: Path) -> None:
             str(ROOT / "data" / f"capital_graph_refresh_{as_of}"),
         ],
     )
+    stage(
+        "visualization-field",
+        [
+            "scripts/refresh_visualization_field.py",
+            "--capital-dir",
+            str(ROOT / "data" / f"capital_graph_refresh_{as_of}" / "complete"),
+            "--as-of",
+            as_of,
+        ],
+    )
     stage("freshness", ["scripts/build_refresh_status.py", "--run", str(run)])
     stage(
         "report",
@@ -140,17 +165,44 @@ def finish(run: Path) -> None:
             "coverage": audit["total"],
             "all_manifest_urls_acquired": audit["total"]["missing"] == 0,
             "merged_inventory": str(merged),
-            "publication": "pending required browser confirmation, render and interaction checks",
-            "core_judgments": "historical until recarded; no new bubble probability",
+            "publication": "pending the authorized publisher and observed deployment",
+            "core_judgments": "Current issuer statements and reviewed relationships have an explicit cutoff; original June judgments remain historical. No calibrated bubble probability.",
         },
     )
     emit("refresh_postprocessing_finished", coverage=audit["total"])
+
+
+def wait_for_exhibits(run: Path) -> Path | None:
+    marker = run / "exhibit-completion-start.json"
+    if not marker.is_file():
+        return None
+    record = json.loads(marker.read_text())
+    next_update = 0.0
+    while current := process_identity(record["pid"]):
+        if current != record["identity"]:
+            raise RuntimeError("Exhibit acquisition PID was reused; inspect saved state")
+        if time.monotonic() >= next_update:
+            emit("waiting_for_exhibits", pid=record["pid"])
+            next_update = time.monotonic() + 1200
+        time.sleep(30)
+    destination = run / "exhibit_completion"
+    if not (destination / "run-result.json").is_file():
+        raise RuntimeError(
+            "Exhibit acquisition stopped without a completion record; inspect its log"
+        )
+    with sqlite3.connect(f"file:{destination / 'document_queue.sqlite3'}?mode=ro", uri=True) as db:
+        if db.execute(
+            "SELECT COUNT(*) FROM documents WHERE status IN ('queued','inflight')"
+        ).fetchone()[0]:
+            raise ValueError("Exhibit completion record disagrees with unfinished URLs")
+    return destination
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--run", type=Path, required=True)
     parser.add_argument("--acquisition-pid", type=int, required=True)
+    parser.add_argument("--start-record", default="finish-start.json")
     args = parser.parse_args()
     run = args.run.resolve()
     if args.acquisition_pid <= 1 or args.acquisition_pid == os.getpid():
@@ -159,7 +211,7 @@ def main() -> None:
     if not identity:
         parser.error("Acquisition process is absent; inspect saved state before continuing")
     save(
-        run / "finish-start.json",
+        run / args.start_record,
         {
             "acquisition_pid": args.acquisition_pid,
             "process_identity": identity,

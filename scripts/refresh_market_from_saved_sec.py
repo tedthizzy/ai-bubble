@@ -15,7 +15,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import refresh_live_overlay as overlay
 
 
-def saved_counts(panel_path: Path, raw: Path) -> dict[str, dict[str, int]]:
+def saved_counts(panel_path: Path, raw: Path) -> dict[str, dict[str, int | str]]:
     panel = json.loads(panel_path.read_text())
     today = datetime.now(ZoneInfo("America/Los_Angeles")).date()
     if date.fromisoformat(panel["as_of"]) != today:
@@ -29,10 +29,11 @@ def saved_counts(panel_path: Path, raw: Path) -> dict[str, dict[str, int]]:
         with gzip.open(raw / f"CIK{ciks[ticker]}-submissions.json.gz", "rt") as stream:
             recent = json.load(stream)["filings"]["recent"]
         result[node] = {
+            "observed_as_of": today.isoformat(),
             "new_8k_7d": sum(
                 form.startswith("8-K") and cutoff <= filed <= today.isoformat()
                 for form, filed in zip(recent["form"], recent["filingDate"], strict=True)
-            )
+            ),
         }
     return result
 
