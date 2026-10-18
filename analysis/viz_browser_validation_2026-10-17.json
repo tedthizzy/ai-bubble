@@ -233,8 +233,54 @@
   ],
   "local_interaction_verified": true,
   "source_sha256": {
-    "viz/index.html": "6d8359279a38b3660a8e6a1ed68b269087f8c890b248616d66ae0952c9efa16f",
-    "viz/explorer.js": "385716af290d67160231c0fe22e69fd71ae1152d0dadce67f04d9f25629deb32",
-    "viz/explorer.css": "90d29de99fcfaaf0b3a07cf7a0a11d5536d80e57a4f170f873e7ac5af52d64cb"
+    "viz/index.html": "940cc1ccefdf08336d0f634e4f1e8a7772149e63f79ce922fb794e73617296b8",
+    "viz/explorer.js": "f65b0c911ba37154b33fe3351d78190843df32470f1c4e874bf1aad0b7822cfc",
+    "viz/explorer.css": "c01b3ce2b0ad6fee9e2d9db37b303db73bf4dbabf5171e116bed0163f3d7726f"
+  },
+  "first_deployment": {
+    "commit": "0a7ff8c86cb7446bf250cf95c45c1f19662de360",
+    "workflow_id": 39093503858,
+    "workflow_conclusion": "success",
+    "url": "https://tedthizzy.github.io/ai-bubble/",
+    "source_sha256": {
+      "viz/index.html": "6d8359279a38b3660a8e6a1ed68b269087f8c890b248616d66ae0952c9efa16f",
+      "viz/explorer.js": "385716af290d67160231c0fe22e69fd71ae1152d0dadce67f04d9f25629deb32",
+      "viz/explorer.css": "90d29de99fcfaaf0b3a07cf7a0a11d5536d80e57a4f170f873e7ac5af52d64cb"
+    },
+    "live_browser_observations": {
+      "nodes": 7715,
+      "grey_entities": 7687,
+      "fonts": [
+        "Arial, sans-serif / 14px",
+        "Arial, sans-serif / 18px"
+      ],
+      "coreweave_card": true,
+      "connections": 18,
+      "idle_frames": 0,
+      "idle_seconds": 5,
+      "mobile_width": 390,
+      "mobile_scroll_width": 390,
+      "runtime_exceptions": 0
+    }
+  },
+  "copy_feedback": {
+    "checked_at_pacific": "2026-10-17T20:31:37.168541-07:00",
+    "tagline_removed": true,
+    "success_instructions_removed": true,
+    "title": "Bubble",
+    "search_placeholder": "Search",
+    "success_status_display": "none",
+    "desktop_and_mobile_screenshots_viewed": true,
+    "node_tests_passed": 6,
+    "screenshots": [
+      {
+        "path": "data/refresh_2026-10-17/browser-validation/trim-desktop.png",
+        "sha256": "53dbaeb4b58841c72e356f5a6f339037cbea6215530d8a67f20a469c253e0812"
+      },
+      {
+        "path": "data/refresh_2026-10-17/browser-validation/trim-mobile.png",
+        "sha256": "e38052afe2076829b9b5899da2bdbed66c7a2fa1244f466394e1f9d438cc73eb"
+      }
+    ]
   }
 }

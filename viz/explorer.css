@@ -26,7 +26,6 @@ h3, h4 { font-size: var(--text); margin: 0 0 10px; }
 .ov { position: fixed; z-index: 5; }
 #brand { top: 16px; left: 20px; max-width: calc(100vw - 140px); pointer-events: none; background: var(--background); box-shadow: 0 0 12px 10px var(--background); }
 #brand h1 { font-weight: 700; }
-#brand .s { color: var(--muted); }
 #brand .chips { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 8px; }
 .chip { color: var(--muted); }
 .chip b, .chip span { color: var(--ink); }
@@ -38,6 +37,7 @@ h3, h4 { font-size: var(--text); margin: 0 0 10px; }
 #search-results button:hover, #search-results button[aria-selected=true] { background: #233044; }
 .search-count { color: var(--muted); padding: 5px 8px; }
 #load-status { color: var(--muted); margin-top: 6px; max-width: 540px; }
+#load-status:empty { display: none; }
 #info { top: 20px; right: 20px; }
 .btn { border: 1px solid var(--border); background: var(--surface); padding: 8px 12px; border-radius: 6px; }
 .btn:hover { background: #1a2637; }

@@ -328,3 +328,21 @@ workflow and an applyable patch remain under
 No source data, UI behavior or deployment trigger was removed. The waiting
 final publisher can use the existing repository-write credential after this
 checkpoint is pushed. Its queue and exact-PID checks remain unchanged.
+
+## Live verification and copy feedback - 2026-10-17T20:31:37.168541-07:00
+
+The normal push succeeded using the existing credential. Pages workflow
+39093503858 completed successfully. The deployed explorer JS, CSS and freshness
+bytes matched the local checkpoint. Actual Chrome checks on the public URL
+confirmed 7,715 entities, two Arial sizes, a working CoreWeave search/card with
+18 connections, and zero rendered frames in a settled five-second interval.
+The 390px view had no horizontal overflow, and the session reported no runtime
+exceptions. The market overlay bot commit was fast-forwarded without changing
+Ted's original staged work.
+
+Ted then requested removal of explanatory subtitles. The tagline and successful
+load instructions were removed, the search placeholder is Search, and the
+redundant Sources introduction was removed. Loading and actual error states
+remain available. Desktop/mobile screenshots were viewed; six Node tests passed.
+The exact UI hashes in the browser evidence were updated for the waiting final
+publisher. The copied June report data remains historical.

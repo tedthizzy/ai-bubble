@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Bubble | financial fragility and exposure</title>
+<title>Bubble</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Ccircle cx='8' cy='8' r='6' fill='none' stroke='%23cba978' stroke-width='2'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="explorer.css">
 <script defer src="vendor/three-0.150.1.min.js"></script>
@@ -14,7 +14,6 @@
 <div id="g" aria-label="Financial exposure visualization"></div>
 <header class="ov" id="brand">
   <h1>Bubble</h1>
-  <div class="s">Financial fragility and exposure</div>
   <div class="chips">
     <span class="chip" id="c_core">Core debt <b id="m1">Loading</b></span>
     <span class="chip" id="reportchip">Report <span id="reportdate">Loading</span></span>
@@ -22,10 +21,10 @@
   </div>
   <div class="search">
     <label for="entity-search" class="sr-only">Find an entity</label>
-    <input id="entity-search" type="search" placeholder="Find an entity" autocomplete="off" role="combobox" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false">
+    <input id="entity-search" type="search" placeholder="Search" autocomplete="off" role="combobox" aria-autocomplete="list" aria-controls="search-results" aria-expanded="false">
     <div id="search-results" role="listbox" hidden></div>
   </div>
-  <div id="load-status" role="status" aria-live="polite">Loading the saved evidence.</div>
+  <div id="load-status" role="status" aria-live="polite">Loading...</div>
 </header>
 <button class="ov btn" id="info" aria-controls="panel" aria-expanded="false">Sources</button>
 <aside class="ov" id="panel" aria-label="Sources and report details"></aside>

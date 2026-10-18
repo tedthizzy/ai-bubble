@@ -298,13 +298,13 @@ function sourcePanel(data,fallback) {
     ['Extracted deals',(data.field||{}).deals||0],
     ['Layout',data.layout ? data.layout.algorithm : 'Deterministic fallback placement']
   ];
-  $('panel').innerHTML='<h2>Sources and dates</h2><p>Report judgments retain their evidence date. Market observations have separate dates.</p>'+
+  $('panel').innerHTML='<h2>Sources and dates</h2>'+
     '<dl>'+facts.map(([key,value]) => '<dt>'+esc(key)+'</dt><dd>'+esc(value==null?'Unavailable':value)+'</dd>').join('')+'</dl>'+
     '<div id="credit-details"></div><div id="freshness-details"></div>'+
     '<h3>Evidence limits</h3><ul>'+[...(meta.honest_caveats||[]),...((data.field||{}).note ? [data.field.note] : [])]
       .map(c => '<li>'+esc(c)+'</li>').join('')+'</ul>';
   $('load-status').textContent=fallback ? 'Saved core fallback. Full extracted data could not be loaded.' :
-    nodes.length ? 'Search all '+nodes.length.toLocaleString('en-US')+' entities. Select a dot to inspect its evidence.' : 'No entities in this dataset.';
+    nodes.length ? '' : 'No entities in this dataset.';
 }
 function applyLive(value) {
   live=value||{};
