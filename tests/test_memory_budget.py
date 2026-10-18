@@ -1,11 +1,69 @@
 from __future__ import annotations
 
+import ctypes
+import errno
 import json
 import subprocess
 import sys
 from pathlib import Path
+from types import SimpleNamespace
+
+import pytest
+from scripts import run_with_memory_budget as memory
 
 SUPERVISOR = Path(__file__).resolve().parents[1] / "scripts/run_with_memory_budget.py"
+
+
+def fake_mac_usage(monkeypatch, errors, *, state="S", returncode=0):
+    calls, sleeps = [], []
+    outcomes = iter(errors)
+
+    class ReadUsage:
+        def __call__(self, pid, _version, usage):
+            calls.append(pid)
+            error = next(outcomes)
+            if error:
+                ctypes.set_errno(error)
+                return -1
+            usage._obj.phys_footprint = 123456
+            return 0
+
+    monkeypatch.setattr(
+        memory.ctypes,
+        "CDLL",
+        lambda *_args, **_kwargs: SimpleNamespace(proc_pid_rusage=ReadUsage()),
+    )
+    monkeypatch.setattr(
+        memory.subprocess,
+        "run",
+        lambda *_args, **_kwargs: SimpleNamespace(returncode=returncode, stdout=state),
+    )
+    monkeypatch.setattr(memory.time, "sleep", sleeps.append)
+    return calls, sleeps
+
+
+def test_running_mac_process_is_remeasured_after_permission_error(monkeypatch):
+    calls, sleeps = fake_mac_usage(monkeypatch, [errno.EPERM, 0])
+    assert memory._mac_footprint(123) == 123456
+    assert calls == [123, 123]
+    assert sleeps == [0.01]
+
+
+def test_persistent_mac_measurement_error_never_becomes_unmeasured_zero(monkeypatch):
+    calls, sleeps = fake_mac_usage(monkeypatch, [errno.EPERM] * 3)
+    with pytest.raises(OSError, match="PID 123") as error:
+        memory._mac_footprint(123)
+    assert error.value.errno == errno.EPERM
+    assert calls == [123, 123, 123]
+    assert sleeps == [0.01, 0.01]
+
+
+@pytest.mark.parametrize("returncode,state", [(1, ""), (0, "Z+")])
+def test_only_confirmed_exited_mac_process_uses_zero(monkeypatch, returncode, state):
+    calls, sleeps = fake_mac_usage(monkeypatch, [errno.EPERM], state=state, returncode=returncode)
+    assert memory._mac_footprint(123) == 0
+    assert calls == [123]
+    assert sleeps == []
 
 
 def test_isolated_process_has_observable_memory() -> None:

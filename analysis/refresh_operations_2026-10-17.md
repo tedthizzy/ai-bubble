@@ -1,5 +1,31 @@
 # Bubble refresh operations, October 17, 2026
 
+## Currency description and market source checks, 2026-10-18T00:56:58.505344-07:00
+
+The $90.184580B measure presents reported loan and note carrying amounts in USD.
+It includes loans contracted in other currencies, including Bit Digital's CAD
+credit facilities in its June 30 statement. Earlier entries describing the
+aggregate as "USD-denominated" are superseded. Bitdeer's Bitcoin-denominated
+borrowing remains separate. The source component balances and total are retained.
+The primary Bit Digital filing is
+https://www.sec.gov/Archives/edgar/data/1710350/000121390026088709/ea0300693-10q_bitdigital.htm.
+
+The CleanSpark primary September 18 pricing notice and September 25 closing
+notice were checked against their verified normalized-source hashes. Pricing
+and closing remain distinct. The later DDC September 23 card remains the latest
+registered coupon proxy. It retains its original-market-tape evidence tier;
+its issuer offering memorandum was not independently acquired. Coupon and
+issue yield remain separate.
+
+FRED's public DGS5 and HY OAS pages still show October 15 observations, published
+October 16, with the next release October 19. Those original frozen inputs remain
+appropriate for October 17. Microsoft's Q4 release/transcript checks did not
+supply a new comparable AI-business run-rate observation. Foundry token rates
+and total Cloud revenue remain separate measures. The Anthropic and OpenAI
+primary-page searches did not establish a new eligible registered demand basket.
+No universal absence claim is made. The source checks are retained in
+market-signal-revalidation.json. The original market snapshot is unchanged.
+
 ## Main acquisition complete and verified source copies, 2026-10-18T00:41:07.469578-07:00
 
 The original acquisition ended with exit code 0 at 00:10 PDT on October 18.
@@ -721,3 +747,19 @@ is 265,097 of 265,099. The two official copies remain separately identified.
 The 268,982-document merge verified every raw byte hash at an 86,819,320-byte
 observed peak. The 960-test run peaked at 706,807,992 bytes. The full exhibit
 census remains pending; this is a main-corpus milestone, not final completion.
+
+## Memory measurement guard, 2026-10-18T01:14:43.773543-07:00
+
+The macOS physical-footprint measurement retries a transient EPERM twice, with
+10 ms waits. Persistent measurement failure still stops the workload. A zero
+measurement requires an absent process or confirmed zombie. Failed measurements
+record the exact PID and errno without process arguments. Memory budgets remain
+unchanged. Existing running supervisors retain their originally loaded code.
+
+The supervised focused memory tests passed: 8 passed in 1.45s. The complete
+local suite passed: 964 passed in 14.67s, peak 703,334,536 bytes under 1.5 GiB.
+The commands and reports are retained as measurement-guard-tests.log and
+measurement-guard-full-tests.log with their memory JSONL reports. Tests cover
+transient EPERM, persistent EPERM, absent and zombie processes, and real group
+budget enforcement. Local tests use the staged security package overlays;
+installation into the active environment follows completion of source jobs.

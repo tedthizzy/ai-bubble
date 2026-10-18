@@ -37,31 +37,39 @@ class MacUsage(ctypes.Structure):
     ]
 
 
+def _mac_footprint(pid: int) -> int:
+    library = ctypes.CDLL("/usr/lib/libproc.dylib", use_errno=True)
+    library.proc_pid_rusage.argtypes = [ctypes.c_int, ctypes.c_int, ctypes.c_void_p]
+    library.proc_pid_rusage.restype = ctypes.c_int
+    usage = MacUsage()
+    for attempt in range(3):
+        if library.proc_pid_rusage(pid, 0, ctypes.byref(usage)) == 0:
+            return int(usage.phys_footprint)
+        error = ctypes.get_errno()
+        if error == errno.ESRCH:
+            return 0
+        if error == errno.EPERM:
+            # Re-measure a live child briefly; never assign it an unmeasured zero.
+            state = subprocess.run(
+                ["ps", "-p", str(pid), "-o", "stat="],
+                text=True,
+                capture_output=True,
+                check=False,
+            )
+            if state.returncode == 1 or (
+                state.returncode == 0 and state.stdout.strip().startswith("Z")
+            ):
+                return 0
+            if attempt < 2:
+                time.sleep(0.01)
+                continue
+        raise OSError(error, f"Cannot measure workload memory for PID {pid}")
+    raise AssertionError("Unreachable memory measurement state")
+
+
 def footprint(pid: int) -> int:
     if sys.platform == "darwin":
-        library = ctypes.CDLL("/usr/lib/libproc.dylib", use_errno=True)
-        library.proc_pid_rusage.argtypes = [ctypes.c_int, ctypes.c_int, ctypes.c_void_p]
-        library.proc_pid_rusage.restype = ctypes.c_int
-        usage = MacUsage()
-        if library.proc_pid_rusage(pid, 0, ctypes.byref(usage)) != 0:
-            error = ctypes.get_errno()
-            if error == errno.ESRCH:
-                return 0
-            if error == errno.EPERM:
-                # macOS can deny rusage for a child between exit and reaping.
-                # Only ignore a confirmed zombie or an already absent PID.
-                state = subprocess.run(
-                    ["ps", "-p", str(pid), "-o", "stat="],
-                    text=True,
-                    capture_output=True,
-                    check=False,
-                )
-                if state.returncode == 1 or (
-                    state.returncode == 0 and state.stdout.strip().startswith("Z")
-                ):
-                    return 0
-            raise OSError(error, "Cannot measure workload memory")
-        return int(usage.phys_footprint)
+        return _mac_footprint(pid)
     status = Path(f"/proc/{pid}/status")
     try:
         fields = {
@@ -152,7 +160,13 @@ def supervise(command: list[str], budget: int, report: Any) -> int:
     try:
         while process.poll() is None:
             pids = group_pids(process.pid)
-            measured = [{"pid": pid, "bytes": footprint(pid)} for pid in pids]
+            measured = []
+            for pid in pids:
+                try:
+                    measured.append({"pid": pid, "bytes": footprint(pid)})
+                except OSError as error:
+                    event("memory_measurement_failed", pid=pid, errno=error.errno)
+                    raise
             total = sum(item["bytes"] for item in measured)
             peak = max(peak, total)
             if total > budget:

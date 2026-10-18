@@ -1,6 +1,11 @@
 # Explorer source status, October 17, 2026
 
-The current 13-issuer USD-denominated debt measure is $90.184580B. This corrects
+The total is reported in USD and includes loans contracted in other currencies,
+including Bit Digital's CAD loans. Bitcoin borrowing remains separate. Earlier
+entries describing the aggregate as "USD-denominated" are superseded by this
+currency clarification. The individual source cards retain their components.
+
+The current 13-issuer borrowing and note carrying amounts total $90.184580B. This corrects
 $117.548M of Bitdeer BTC borrowing included in the earlier $90.302128B total.
 BTC principal remains separately recorded. The financing ledger has 19 entries;
 45 reviewed relationships produce 41 core entities and 58 connections. New
