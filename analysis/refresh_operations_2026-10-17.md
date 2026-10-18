@@ -295,3 +295,18 @@ The privacy-preserving address follows [GitHub's email reference](https://docs.g
 Future commits, including the waiting final publisher, inherit the repository
 setting. Restore individual repository config values from the retained original
 only after checking fresh state; never overwrite unrelated later config edits.
+
+## Authentication checkpoint - 2026-10-17T18:57:02.539976-07:00
+
+The privacy-repaired push reached a separate GitHub authorization block:
+OAuth credentials lack workflow scope for .github/workflows/refresh-and-deploy.yml.
+The CLI scopes are gist, read:org and repo. Existing SSH authentication returned
+Permission denied (publickey). The existing Chrome session reached GitHub's
+sign-in page. Ted was asked to sign in while acquisition continues. No account
+protection was disabled, new key created, or token printed. Fresh fetches show
+that origin/main is unchanged and the six local commits are unpublished.
+The workflow edit remains retained with the other requested work. Publication
+and deployment are not complete. The exact checkpoint is recorded in
+data/refresh_2026-10-17/publication-auth-block.json. The finishing process and
+its waiting publisher remain active; a later push cannot succeed with a workflow
+change until GitHub authorization is resolved. Inspect fresh state before retry.
