@@ -28,7 +28,7 @@ def test_report_retains_overlapping_rounds_and_undrawn_facilities_as_separate_me
     saved_review(tmp_path)
     summary, inputs = relationship_summary(tmp_path, "2026-10-17")
     assert len(inputs) == 2
-    assert summary["reviewed_relationships"] == 147
+    assert summary["reviewed_relationships"] == 148
     assert summary["capital_rounds"][0]["basis"] == "committed capital"
     assert summary["credit_facilities"][0]["drawn_at_close_usd"] == 0
     assert summary["credit_facilities"][0]["subsequent_draws_usd"] is None

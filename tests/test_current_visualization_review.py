@@ -2,9 +2,10 @@ from __future__ import annotations
 
 import copy
 import json
+import shutil
 from pathlib import Path
 
-from scripts.update_current_visualization import apply_review
+from scripts.update_current_visualization import apply_review, update
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -30,6 +31,30 @@ def test_reapplying_review_preserves_sources_field_and_history_without_growth():
     assert graph == first
     assert graph["field"] == field
     assert graph["historical_core"] == history
+
+
+def test_field_projection_sees_current_counterparties_when_rebuilding_from_history(tmp_path):
+    graph, _, _, _ = inputs()
+    graph["nodes"] = copy.deepcopy(graph["historical_core"]["nodes"])
+    graph["edges"] = copy.deepcopy(graph["historical_core"]["edges"])
+    for name in (
+        "viz/graph_data.json",
+        "viz/index.html",
+        "analysis/core_reassessment_2026-10-17.json",
+        "analysis/core_relationship_review_2026-10-17.json",
+        "analysis/core_financing_events_2026-10-17.json",
+    ):
+        destination = tmp_path / name
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(ROOT / name, destination)
+
+    def project(current):
+        ids = {node["id"] for node in current["nodes"]}
+        assert {"Google", "Anthropic", "AMD", "Amazon", "SoftBank"} <= ids
+        assert current["meta"]["current_review"]
+        return current["field"], current["layout"]
+
+    update(tmp_path, "2026-10-17", graph, field_builder=project)
 
 
 def test_different_financial_measures_and_terminated_relationships_stay_separate():

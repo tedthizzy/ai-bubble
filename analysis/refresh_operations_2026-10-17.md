@@ -824,3 +824,68 @@ Commit a3414b05878645219c68c99901d541c6e17b92e8 reached origin/main. Pages
 39111487353 and complete CI 39111487391 both succeeded, including full strict
 source Mypy. The deployed index, JavaScript, CSS and graph hashes match the
 actual Chrome-verified checkpoint. The HTTP receipt is private-capital-publication.json.
+
+## Vendor relationships and full main-field rehearsal, 2026-10-18T02:19:05.789244-07:00
+
+The relationship review now has 148 reviewed pairs and 161 retained graph
+connections across 107 core entities. The additional OpenAI/NVIDIA connection
+records the primary February 27 3 GW inference and 2 GW training announcement.
+The July NVIDIA filing explicitly requires exclusive NVIDIA infrastructure at
+the guaranteed PORTS site, subject to limited exceptions. The first annotation
+attempt stopped at an assertion because the existing note lacked that phrase;
+fresh state still showed 147 pairs. The actual hash-verified filing was then
+checked before the source-backed annotation was applied.
+
+Vendor review flags now use current reciprocal funding/purchase relationships
+and explicitly documented hardware exclusivity. The NVIDIA-only checks are
+removed. Historical Google investment and undrawn bank roles do not establish
+current vendor purchase loops. These are review flags, not traced dollar flows.
+SpaceX and Google cards now show their existing dated adjacent market quotes.
+No new quote provider or API call was added. Raw candidates with no measured
+amount display amount unmeasured, preserving the original raw source values.
+
+The completed main-corpus field rehearsal used the production field builder.
+It retained 17,786 entities, 128,821 extracted candidates and 7,933 connections,
+with 33 core matches and a 51,331,552-byte peak under 512 MiB. Its 17,786 raw
+display names are unique. This artifact is not published and excludes the
+auxiliary exhibit census. A filter-only Node diagnostic on 17,860 total
+entities returned a 1.112 ms p95 over 1,100 searches. A cached version saved
+less than a millisecond; no additional search cache was added. This is not a
+browser latency result. The benchmark retained identical query results.
+
+Actual Chrome rendered the larger field at 390x844 and 1291x724 CSS pixels.
+Arial remained the sole declared family, at 14px and 18px. Body widths matched
+the viewports. Sources closed the evidence card. Google displayed the existing
+GOOGL quote; Amazon displayed its current investment source and vendor flag.
+A grey-point click opened raw-party evidence. Initial pointer probes missed;
+DOM event capture measured a 1.25 coordinate factor from the existing profile
+zoom. The full pointermove/down/up sequence with explicit button states then
+selected raw parties. The production picking code was unchanged. A settling
+probe counted 15 frames after clearSelection; the settled 5002.4 ms observation
+counted zero frames, with rendering paused and 15,999,685 bytes of JavaScript
+heap. No runtime exceptions were observed. The unchanged text-token minimum
+remains 6.0123:1. Updated screenshots were opened and viewed.
+
+The general visualization rebuild now applies the current core review before
+matching raw parties. Its new regression checks that current counterparties
+exist when field projection runs. The real generator reproduced graph_data.json
+and index.html byte for byte. The supervised full suite passed 970 tests in
+13.65 seconds at a 702,924,960-byte peak under 1.5 GiB. All eleven Node tests
+passed. Ruff passed src, tests and the changed producers; 302 files passed
+formatting. The initial Callable import lint finding was corrected with a
+type-checking import before the passing run.
+
+All owned QA tabs, controller and preview PID 19001 were closed. Remote debugging
+and enhanced accessibility read back false. The accessibility setter returned
+-25208 after the settings tab closed; actual readback was false.
+
+The latest saved live refresh received all 21 quotes, 13 filing counts, four
+credit series, eight BDC marks and two adjacent quotes, with no reported source
+errors. Earlier missing filing-count observations remain historical. The
+revalidation is retained in live-source-status-revalidation.json. No refresh
+authentication or network mechanism changed.
+
+The local environment continuation remains supervised at 512 MiB and waits for
+successful final publication. Main .venv installation and its actual undo/reapply
+checks remain pending. The original project path was rechecked absent, with the
+current checkout inode 70378520. No second checkout was created.

@@ -1,5 +1,40 @@
 # Dependency security review, October 17, 2026
 
+## Current verification and local environment continuation
+
+The lock remains the reviewed security candidate. Complete CI 39111714173 passed
+for e61edda6b787fb4041fc40fdc9852f6461d13199, including strict source Mypy.
+The latest local suite passed 969 tests in 15.00 seconds under 1.5 GiB; its
+observed peak was 708,216,992 bytes. The active .venv remains unchanged while
+source acquisition, final processing and publication continue.
+
+The retained driver is
+`data/refresh_2026-10-17/verification_drivers/apply_locked_environment.py`.
+Its syntax check passed. Its supervised continuation is waiting for publisher
+94613 and a successful publication-result.json. It requires complete document
+coverage, unchanged uv.lock SHA256, retained staged work and ended source jobs
+before any environment write. This is a project .venv change; it does not
+install system packages or modify global environment settings.
+
+The driver creates a new APFS snapshot under
+`.codex/security-snapshots/2026-10-17/post-publication-<UTC timestamp>/`.
+It compares every file byte and symlink, then runs the verified temporary uv
+binary with `sync --locked --all-extras`. It retains an updated snapshot and
+both displaced active environments. The undo check copies FROM venv-before
+into the active .venv path and compares its bytes and package metadata. The
+reapply check copies FROM venv-updated into the active path and repeats those
+comparisons. It never executes an interpreter inside a snapshot or prunes one.
+These install/undo/reapply steps remain unverified until the continuation runs.
+
+Check `data/refresh_2026-10-17/security-environment-application/events.jsonl`,
+its result.json and security-environment-apply-memory.jsonl. The process-group
+budget is 512 MiB and has no automatic retry. If a step stops, inspect the last
+journal phase and current active-path package metadata before any mutation.
+The full runtime suite must then run against the active environment without
+validation overlays; that is a separate 1.5 GiB supervised step.
+
+## Earlier review and validation evidence, retained
+
 The candidate lockfile has been checked against PyPI advisory records for all
 301 locked registry versions. All requests succeeded. Accelerate 1.13.0 is the
 remaining affected package in those records; its GHSA and PYSEC entries describe

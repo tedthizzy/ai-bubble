@@ -1,5 +1,26 @@
 # Refresh verification checkpoint, October 17, 2026
 
+Latest code and browser checkpoint, 2026-10-18T02:19:05.789244-07:00:
+
+- Python: 970 passed in 13.65s; peak 702,924,960 bytes under 1.5 GiB.
+- Node: eleven interaction tests passed. Ruff passed; 302 files passed formatting.
+- Current relationships: 148 reviewed pairs, 107 core entities, 161 connections.
+  The statement carrying amount total remains $90.184580B.
+- Main-only field rehearsal: 17,786 raw entities, 128,821 extracted candidates,
+  7,933 connections, 33 core matches; peak 51,331,552 bytes under 512 MiB.
+- Actual Chrome on that unpublished rehearsal: Arial 14/18, no body overflow,
+  working evidence cards and raw-dot clicking, zero settled frames in 5002.4 ms,
+  15,999,685 bytes JavaScript heap. Screenshot and source hashes are retained.
+- Missing raw amounts display amount unmeasured. Current vendor flags use
+  documented relationships. The general generator reproduces the current
+  graph and fallback HTML byte for byte.
+- Owned browser controls and preview are stopped; debugging and enhanced
+  accessibility read back false.
+- Remaining: complete auxiliary exhibits, final selected-document coverage and
+  field/report publication, active .venv installation and final deployed QA.
+
+Earlier checkpoint evidence follows.
+
 Main-source recovery checkpoint, 2026-10-18T00:41:07.469578-07:00:
 
 - Original acquisition: exit 0; 227,347 acquired and 46 recorded failures.

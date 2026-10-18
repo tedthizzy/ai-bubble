@@ -17,6 +17,7 @@ import shutil
 import sys
 import time
 from collections import defaultdict
+from functools import partial
 from pathlib import Path
 from typing import Any
 
@@ -385,10 +386,11 @@ if previous_graph.get("layout") and out["field"].get("nodes") == previous_graph.
 if reviews:
     review_date = reviews[-1].stem.removeprefix("core_reassessment_")
     complete = ROOT / "data" / f"capital_graph_refresh_{review_date}" / "complete"
-    if (complete / "input_manifest.json").is_file():
-        out["field"], out["layout"] = build_current_field(complete, out, review_date)
-if reviews:
-    update(ROOT, review_date, out)
+    field_builder = (
+        partial(build_current_field, complete, as_of=review_date)
+        if (complete / "input_manifest.json").is_file() else None
+    )
+    update(ROOT, review_date, out, field_builder=field_builder)
 else:
     if previous_path.is_file():
         snapshot = ROOT / ".codex" / "viz-build-snapshots" / str(time.time_ns())

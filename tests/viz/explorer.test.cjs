@@ -166,6 +166,38 @@ test('empty data and failed market fetch keep the page usable',async() => {
 });
 
 
+test('raw candidates without a measured amount do not show a zero-dollar exposure',() => {
+  const fixture=structuredClone(data);
+  const raw=fixture.field.nodes.find(row=>!row[3]||!fixture.nodes.some(n=>n.id===row[3]));
+  raw[1]=0;raw[2]=27;
+  const app=load(fixture);
+  app.eval('showCard(fieldNodes[0])');
+  assert.match(app.elements.get('card').innerHTML,/27 extracted deals \/ amount unmeasured/);
+  assert.ok(!app.elements.get('card').innerHTML.includes('$0 raw'));
+});
+
+test('new core counterparties can use existing dated adjacent quotes',() => {
+  const app=load();
+  app.eval('live={adjacent:{SpaceX:{sym:"SPCX",close:100,chg_pct:1,date:"2026-10-16"},Alphabet:{sym:"GOOGL",close:200,chg_pct:2,date:"2026-10-16"}}}');
+  app.eval('showCard(byId.SpaceX)');
+  assert.match(app.elements.get('card').innerHTML,/SPCX \$100\.00/);
+  app.eval('showCard(byId.Google)');
+  assert.match(app.elements.get('card').innerHTML,/GOOGL \$200\.00/);
+  assert.match(app.elements.get('card').innerHTML,/2026-10-16/);
+});
+
+test('vendor funding flags cover reviewed reciprocal purchases across suppliers',() => {
+  const app=load();
+  for (const [vendor,customer] of [['Amazon','OpenAI'],['Amazon','Anthropic'],['Microsoft','OpenAI'],['Microsoft','Anthropic'],['NVIDIA','Anthropic'],['NVIDIA','OpenAI'],['NVIDIA','IREN']]) {
+    app.context.vendor=vendor;app.context.customer=customer;
+    assert.equal(app.eval('links.find(e=>e.from===vendor && e.to===customer).circular'),true);
+    assert.equal(app.eval('links.find(e=>e.from===customer && e.to===vendor).circular'),true);
+  }
+  assert.equal(app.eval('links.find(e=>e.from==="Google" && e.to==="Anthropic").circular'),false,'historical investment does not establish a current funding loop');
+  assert.equal(app.eval('links.find(e=>e.from==="OpenAI" && e.to==="JPMorgan Chase").circular'),false,'undrawn bank participation does not establish a vendor purchase');
+  assert.equal(app.eval('links.find(e=>e.from==="NVIDIA" && e.to==="SB Energy").circular'),true,'the primary filing explicitly requires exclusive vendor hardware');
+});
+
 test('sources, deals and selection remain readable without overlapping panels',() => {
   const app=load();
   app.eval('focusNode(nodes[0])');

@@ -187,7 +187,7 @@ def markdown(value: dict[str, Any]) -> str:
         f"# Bubble dated engine: {value['as_of_pacific']}",
         "",
         "This snapshot uses refreshed public evidence and the existing deterministic components.",
-        f"Full SEC acquisition complete: {value['acquisition_complete']}.",
+        f"Selected SEC document acquisition complete: {value['acquisition_complete']}.",
         "",
         f"Market closes: {', '.join(freshness['market']['price_dates'])}. "
         f"Credit observations: {', '.join(freshness['market']['credit_dates'])}. "

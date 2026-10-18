@@ -11,7 +11,10 @@ import re
 import shutil
 import time
 from pathlib import Path
-from typing import Any
+from typing import TYPE_CHECKING, Any
+
+if TYPE_CHECKING:
+    from collections.abc import Callable
 
 ROOT = Path(__file__).resolve().parents[1]
 ISSUERS = {
@@ -344,7 +347,13 @@ def apply_review(  # noqa: PLR0912, PLR0915 - one reviewed reconciliation of the
         )
 
 
-def update(root: Path, as_of: str, graph: dict[str, Any] | None = None) -> None:
+def update(
+    root: Path,
+    as_of: str,
+    graph: dict[str, Any] | None = None,
+    *,
+    field_builder: Callable[[dict[str, Any]], tuple[dict[str, Any], dict[str, Any]]] | None = None,
+) -> None:
     graph_path = root / "viz/graph_data.json"
     if graph is None:
         graph = json.loads(graph_path.read_text())
@@ -357,6 +366,8 @@ def update(root: Path, as_of: str, graph: dict[str, Any] | None = None) -> None:
         json.loads(relationships_path.read_text()),
         json.loads(events_path.read_text()),
     )
+    if field_builder is not None:
+        graph["field"], graph["layout"] = field_builder(graph)
     graph["meta"]["review_sha256"] = hashlib.sha256(review_path.read_bytes()).hexdigest()
     graph["meta"]["relationship_review_sha256"] = hashlib.sha256(
         relationships_path.read_bytes()

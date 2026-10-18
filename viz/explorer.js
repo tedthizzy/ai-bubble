@@ -90,17 +90,33 @@ function focusDeal(l) {
   }
 }
 function otherEnd(n,l) { return byId[lid(l)===n.id ? ltd(l) : lid(l)]; }
+function vendorConnections(edges) {
+  const funding=new Set(['equity_investment','announced_investment','framework_commitment','funding_arrangement','conditional_guarantee','cloud_services_contract']);
+  const purchases=new Set(['gpu_purchase','cloud_services_contract','purchase_commitment','compute_capacity_agreement']);
+  const current=edges.filter(e => ['filing_verified','issuer_announced'].includes(e.tier));
+  const key=(a,b) => JSON.stringify([a,b]);
+  const purchasePairs=new Set(current.filter(e => purchases.has(e.type)).map(e => key(e.from,e.to)));
+  const paired=new Set();
+  current.forEach(e => {
+    if (funding.has(e.type) && purchasePairs.has(key(e.to,e.from))) {
+      paired.add(key(e.from,e.to)); paired.add(key(e.to,e.from));
+    }
+  });
+  return paired;
+}
 function nodeButton(n) { return '<button class="cpc" data-id="'+esc(n.id)+'">'+esc(n.label)+'</button>'; }
 function showCard(n) {
-  const q=(live.quotes||{})[n.id], filing=(live.edgar||{})[n.id]||(live.edgar_last_observed||{})[n.id];
+  const quoteId=n.id==='Google' ? 'Alphabet' : n.id;
+  const q=(live.quotes||{})[n.id]||(live.adjacent||{})[quoteId];
+  const filing=(live.edgar||{})[n.id]||(live.edgar_last_observed||{})[n.id];
   const neighbors=[...new Set(n.neighbors)].sort((a,b) => b.usd-a.usd).slice(0,5);
   $('card').innerHTML='<div class="nm" dir="auto">'+esc(n.label)+'</div>'+
     '<div class="ty">'+esc(n.field ? 'Extracted party / raw layer' : types[n.type]||n.type||'Entity')+'</div>'+
     (n.note ? '<div class="nt" dir="auto">'+esc(n.note)+'</div>' : '')+
     (n.usd ? '<div class="usd">$'+fmtB(n.usd)+' '+esc(n.amount_label||'amount; see evidence date')+'</div>' : '')+
     (sourceLinks(n) ? '<div class="fl">'+sourceLinks(n)+'</div>' : '')+
-    (n.fieldDeals ? '<div class="fl">'+n.fieldDeals.toLocaleString('en-US')+' extracted deals / $'+
-      fmtB(n.fieldUsd)+' raw, unadjudicated</div>' : '')+
+    (n.fieldDeals ? '<div class="fl">'+n.fieldDeals.toLocaleString('en-US')+' extracted deals / '+
+      (n.fieldUsd>0 ? '$'+fmtB(n.fieldUsd)+' raw, unadjudicated' : 'amount unmeasured')+'</div>' : '')+
     (q && Number.isFinite(q.chg_pct) ? '<div class="pl">'+esc(q.sym)+' $'+finite(q.close).toFixed(2)+
       ' / '+(q.chg_pct>=0?'+':'')+q.chg_pct.toFixed(1)+'% / '+esc(q.date)+'</div>' : '')+
     (filing && filing.new_8k_7d ? '<div class="fl">'+finite(filing.new_8k_7d)+' new 8-K in 7 days'+
@@ -376,12 +392,11 @@ function boot(data,fallback=false) {
     place(node,(layout.core||{})[node.id],i,data.nodes.length); return node;
   });
   byId=Object.assign(Object.create(null),Object.fromEntries(nodes.map(n => [n.id,n])));
+  const vendorPairs=vendorConnections(data.edges);
   links=data.edges.filter(e => byId[e.from] && byId[e.to]).map(e => {
     const a=byId[e.from], b=byId[e.to], press=e.tier==='press_reported';
-    const vendorFunding=['equity_investment','announced_investment','framework_commitment','cloud_services_contract','conditional_guarantee'];
-    const circular=(e.from==='NVIDIA' && vendorFunding.includes(e.type)) ||
-      (e.to==='NVIDIA' && e.type==='gpu_purchase' && data.edges.some(other =>
-        other.from==='NVIDIA' && other.to===e.from && vendorFunding.includes(other.type)));
+    const circular=vendorPairs.has(JSON.stringify([e.from,e.to])) ||
+      Boolean(e.vendor_hardware_exclusivity && ['filing_verified','issuer_announced'].includes(e.tier));
     const risk=Math.min(1,.25*(a.frg+b.frg)+.35*Number(press)+.15*Number(circular));
     return {...e,source:e.from,target:e.to,type:e.type||'exposure',usd:finite(e.usd),press,circular,risk,
       fromLabel:a.label,toLabel:b.label,color:['unconfirmed','historical'].includes(e.tier) ? '#687b94' : mix([72,89,112],[178,76,86],risk),

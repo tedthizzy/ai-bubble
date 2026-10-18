@@ -1,5 +1,5 @@
 {
-  "checked_at_pacific": "2026-10-18T01:25:59.633455-07:00",
+  "checked_at_pacific": "2026-10-18T02:19:05.789244-07:00",
   "browser": "existing Chrome/155.0.8059.82",
   "preview": "http://127.0.0.1:8765/",
   "new_browser_launched": false,
@@ -63,9 +63,9 @@
   ],
   "observed": {
     "core_entities": 107,
-    "grey_points": 7687,
-    "entities": 7794,
-    "links": 9742,
+    "grey_points": 17753,
+    "entities": 17860,
+    "links": 8094,
     "reported_issuer_debt_usd": 90184580000,
     "report_as_of": "2026-10-17",
     "mobile_css_viewport": [
@@ -82,7 +82,13 @@
     "source_snapshot_main_queued": 0,
     "recovered_source_errors": 46,
     "verified_source_replacements": 2,
-    "unresolved_source_errors": 0
+    "unresolved_source_errors": 0,
+    "dataset_scope": "Completed main-corpus preflight; auxiliary exhibit census excluded; not published",
+    "desktop_css_viewport": [
+      1291,
+      724
+    ],
+    "desktop_body_width": 1291
   },
   "text_contrast": [
     {
@@ -160,15 +166,14 @@
     "Initial emulated mobile click coordinates needed adjustment for the existing 125 percent Chrome zoom."
   ],
   "limits": [
-    "The complete exhibit census and final replacement field remain pending.",
-    "The retained grey field observation cutoff is unverified.",
-    "Historical confidence judgments remain dated.",
-    "Earlier interaction and performance measurements retain their own source hashes and dates."
+    "The complete auxiliary exhibit census and final field/publication remain pending.",
+    "This runtime measurement uses the completed main-corpus preflight, excluding the unfinished auxiliary exhibits.",
+    "Historical confidence judgments and colors retain their original evidence dates."
   ],
   "local_interaction_verified": true,
   "source_sha256": {
-    "viz/index.html": "89397c6869e998696c246ba89eab52fc54fc37585fda54ba0f8c8f32fce0ddbb",
-    "viz/explorer.js": "ccd4374572ef9594e9d16a480eb3ba9f813280c584ada9a5ca2c5ac9394cc941",
+    "viz/index.html": "f413ee64164a67696abc95a516bb9c2444ec87813be6bdbaf3679223c423c532",
+    "viz/explorer.js": "0cc29afea2715f8092d20bb9f58f1a1a20f1252154696a0ce76066ef0aa948d8",
     "viz/explorer.css": "c01b3ce2b0ad6fee9e2d9db37b303db73bf4dbabf5171e116bed0163f3d7726f"
   },
   "first_deployment": {
@@ -668,5 +673,116 @@
       "accessibility_setter_status": -25208,
       "accessibility_readback": false
     }
+  },
+  "before_main_field_preflight_observed": {
+    "core_entities": 107,
+    "grey_points": 7687,
+    "entities": 7794,
+    "links": 9742,
+    "reported_issuer_debt_usd": 90184580000,
+    "report_as_of": "2026-10-17",
+    "mobile_css_viewport": [
+      390,
+      844
+    ],
+    "mobile_body_width": 390,
+    "css_fonts": [
+      "Arial, sans-serif / 14px",
+      "Arial, sans-serif / 18px"
+    ],
+    "source_snapshot_at_pacific": "2026-10-18T00:34:45.268090-07:00",
+    "source_snapshot_main_acquired": 227347,
+    "source_snapshot_main_queued": 0,
+    "recovered_source_errors": 46,
+    "verified_source_replacements": 2,
+    "unresolved_source_errors": 0
+  },
+  "main_corpus_preflight_review": {
+    "checked_at_pacific": "2026-10-18T02:19:05.789244-07:00",
+    "source_sha256": {
+      "viz/index.html": "f413ee64164a67696abc95a516bb9c2444ec87813be6bdbaf3679223c423c532",
+      "viz/explorer.js": "0cc29afea2715f8092d20bb9f58f1a1a20f1252154696a0ce76066ef0aa948d8",
+      "viz/explorer.css": "c01b3ce2b0ad6fee9e2d9db37b303db73bf4dbabf5171e116bed0163f3d7726f"
+    },
+    "graph_file": "data/refresh_2026-10-17/main-field-preflight/graph_data-v2.json",
+    "graph_sha256": "a3c700bb7a96ac6d499d9b5abefe91d3bc1227f231193ac76dab557289c94530",
+    "published": false,
+    "scope": "Completed main corpus only; auxiliary exhibits still pending",
+    "observed": {
+      "core_entities": 107,
+      "grey_points": 17753,
+      "entities": 17860,
+      "links": 8094,
+      "reported_issuer_debt_usd": 90184580000,
+      "report_as_of": "2026-10-17",
+      "mobile_css_viewport": [
+        390,
+        844
+      ],
+      "mobile_body_width": 390,
+      "css_fonts": [
+        "Arial, sans-serif / 14px",
+        "Arial, sans-serif / 18px"
+      ],
+      "source_snapshot_at_pacific": "2026-10-18T00:34:45.268090-07:00",
+      "source_snapshot_main_acquired": 227347,
+      "source_snapshot_main_queued": 0,
+      "recovered_source_errors": 46,
+      "verified_source_replacements": 2,
+      "unresolved_source_errors": 0,
+      "dataset_scope": "Completed main-corpus preflight; auxiliary exhibit census excluded; not published",
+      "desktop_css_viewport": [
+        1291,
+        724
+      ],
+      "desktop_body_width": 1291
+    },
+    "settled_idle": {
+      "milliseconds": 5002.4,
+      "rendered_frames": 0,
+      "paused": true,
+      "javascript_heap_bytes": 15999685,
+      "draw_calls_in_observed_view": 270
+    },
+    "minimum_unchanged_color_token_contrast": 6.0123,
+    "raw_point_click_verified": true,
+    "raw_missing_amount_label": "amount unmeasured",
+    "vendor_flags": "Reviewed reciprocal funding/purchase relationships or explicitly documented hardware exclusivity; historical equity and undrawn bank roles do not establish a current vendor loop.",
+    "adjacent_quotes_visible": [
+      "SpaceX / SPCX",
+      "Google / GOOGL (Alphabet)"
+    ],
+    "runtime_exceptions": 0,
+    "probe_limits": [
+      "Initial pointer probes missed. Captured DOM coordinates were 1.25 times the CDP inputs under the existing Chrome profile zoom.",
+      "A full pointermove/down/up sequence with explicit button states selected raw parties. The production picking code was unchanged.",
+      "An idle probe started immediately after clearSelection counted 15 settling frames; a later settled five-second observation counted zero."
+    ],
+    "restoration": {
+      "owned_tabs_closed": true,
+      "controller_and_preview_stopped": true,
+      "remote_debugging": false,
+      "enhanced_accessibility": false,
+      "accessibility_setter_status": -25208,
+      "accessibility_readback": false
+    },
+    "screenshots_viewed": [
+      {
+        "path": "data/refresh_2026-10-17/browser-validation/main-field-amount-unmeasured-mobile.png",
+        "sha256": "74d6f5b62087343295fef590af61f46fe11151c1f4e7a8638d643f11ae5a84fa"
+      },
+      {
+        "path": "data/refresh_2026-10-17/browser-validation/main-field-final-vendor-mobile.png",
+        "sha256": "4772963321079b307671bd3b5924d69bb83bf4ee2a3989b0e932119e064ffad8"
+      },
+      {
+        "path": "data/refresh_2026-10-17/browser-validation/main-field-final-desktop.png",
+        "sha256": "25117358d76dc97831542fad0c38c1adb41c8d93a951ff6c5bb66cf0718ae619"
+      },
+      {
+        "path": "data/refresh_2026-10-17/browser-validation/main-field-google-quote-mobile.png",
+        "sha256": "5d609bcd3f6e18d9e614fa36f53093d46a5a03693358e483db8f49fc23a1e6ac"
+      }
+    ]
   }
 }

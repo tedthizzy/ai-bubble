@@ -325,7 +325,7 @@
       "type": "conditional_guarantee",
       "usd": 105000000000.0,
       "tier": "filing_verified",
-      "note": "August 2026 guarantees for land, power and shell leases serving an OpenAI affiliate at PORTS. Aggregate cap $105B; phases become effective at lease commencement, expected from fiscal 2029. This is contingent credit support, separate from funded debt.",
+      "note": "August 2026 guarantees for land, power and shell leases serving an OpenAI affiliate at PORTS. Aggregate cap $105B; phases become effective at lease commencement, expected from fiscal 2029. This is contingent credit support, separate from funded debt. The guaranteed site exclusively hosts NVIDIA AI infrastructure, with limited exceptions.",
       "sources": [
         {
           "source_uri": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000075/nvda-20260726.htm",
@@ -334,7 +334,8 @@
         }
       ],
       "review_as_of": "2026-10-17",
-      "amount_label": "conditional guarantee cap"
+      "amount_label": "conditional guarantee cap",
+      "vendor_hardware_exclusivity": true
     },
     {
       "from": "OpenAI",
@@ -2896,6 +2897,23 @@
       ],
       "review_as_of": "2026-10-17",
       "shared_facility_id": "openai-2026-march-revolver"
+    },
+    {
+      "from": "OpenAI",
+      "to": "NVIDIA",
+      "type": "compute_capacity_agreement",
+      "usd": null,
+      "tier": "issuer_announced",
+      "amount_label": null,
+      "note": "February 27 collaboration names 3 GW of dedicated inference and 2 GW of training on Vera Rubin systems. Existing Hopper and Blackwell use spans Microsoft, OCI and CoreWeave. These are capacity arrangements; current delivery, direct purchases and remaining dollar obligations are unmeasured.",
+      "sources": [
+        {
+          "source_uri": "https://openai.com/index/scaling-ai-for-everyone/",
+          "published": "2026-02-27",
+          "source_sha256": "3fee583cf639a13755024a17862d25cfd5bc6316b78eedf9e5211c84134186bf"
+        }
+      ],
+      "review_as_of": "2026-10-17"
     }
   ],
   "unconfirmed_existing_pairs": [

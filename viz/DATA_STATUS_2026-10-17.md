@@ -118,3 +118,14 @@ incomplete. S1 is stale and S4 is unmeasured. It does not replace the June core.
 The FERC API-page identity bug and Modal pricing-page changes were repaired.
 The new normalized outputs retain their original source hashes and dates.
 Retained batch totals overlap and must not be added together.
+
+## Rebuild and review update, 2026-10-18T02:19:05.789244-07:00
+
+There are now 148 reviewed relationships and 161 retained connections across
+107 core entities. The OpenAI/NVIDIA February capacity announcement is recorded
+with its own measure. Vendor review flags apply to documented reciprocal
+relationships across suppliers. Historical holdings and undrawn bank roles
+remain separate. Unmeasured raw amounts no longer appear as dollar-zero
+exposures. Raw values remain retained. The general rebuild matches parties
+after loading the current core review. Complete auxiliary exhibits and the
+final raw field remain pending. The larger main-only rehearsal is not deployed.
