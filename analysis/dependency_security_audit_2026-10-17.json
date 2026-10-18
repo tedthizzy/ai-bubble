@@ -1,13 +1,18 @@
 {
-  "checked_at_pacific": "2026-10-17T23:08:48.536689-07:00",
-  "lock_sha256": "722f490ae3a274f818d5f3cdf3341b6a6250f7e6d68d2f6ac62cd4c1f560920b",
+  "checked_at_pacific": "2026-10-17T23:51:08.162147-07:00",
+  "lock_sha256": "12d8ceca048c78b60b401e39b057ecd794c46358e4f3364f411b80337b595bc6",
   "lock_registry_versions_checked": 301,
   "pypi_failures": 0,
   "pypi_affected": [
     {
       "name": "accelerate",
       "version": "1.13.0",
-      "advisories": [
+      "source_uri": "https://pypi.org/pypi/accelerate/1.13.0/json",
+      "status": "acquired",
+      "path": "data/refresh_2026-10-17/dependency-pypi-audit-v3/accelerate-1.13.0.json.gz",
+      "sha256": "3548d8c10b230328eefec5935baa1a09fb6f077ab944faa4b753033ae0974aaf",
+      "retrieved_utc": "2026-10-18T06:48:31.755535+00:00",
+      "vulnerabilities": [
         {
           "aliases": [
             "CVE-2026-69112"
@@ -241,6 +246,11 @@
       "after": "4.8.0"
     },
     {
+      "name": "mako",
+      "before": "1.3.12",
+      "after": "1.4.3"
+    },
+    {
       "name": "multidict",
       "before": "6.7.1",
       "after": "6.9.1"
@@ -297,10 +307,11 @@
     }
   ],
   "isolated_runtime_tests": {
-    "command": "PYTHONPATH=.codex/security-validation-complete-2026-10-17:src .venv/bin/python -B -m pytest -o 'addopts=-ra --strict-markers' --ignore-glob='* 2.py' --no-cov -p no:cacheprovider -q tests",
-    "output": "947 passed in 22.33s",
-    "observed_peak_bytes": 705775728,
-    "log": "data/refresh_2026-10-17/dependency-complete-tests.log"
+    "command": "PYTHONPATH=.codex/security-validation-mako-2026-10-17:.codex/security-validation-complete-2026-10-17:src .venv/bin/python -B scripts/run_with_memory_budget.py --budget-mib 1536 --report data/refresh_2026-10-17/mako-complete-tests-memory.jsonl -- .venv/bin/python -B -m pytest -o 'addopts=-ra --strict-markers' --ignore-glob='* 2.py' --no-cov -p no:cacheprovider -q",
+    "passed": 952,
+    "seconds": 13.7,
+    "peak_bytes": 704497800,
+    "log": "data/refresh_2026-10-17/mako-complete-tests.log"
   },
   "main_environment_installation": "pending active acquisition completion; unchanged so far",
   "accelerate": {
@@ -311,9 +322,28 @@
     "status": "Retain the explicit HTML-only converter, disabled fetch/render options and passing real converter security checks. The September source inspection found no verified upstream fix in 1.15.0; latest release remains 1.15.0. No alert was dismissed."
   },
   "verification_limits": [
-    "The combined script type checks stopped at their 512 MiB budgets. A separate full-source CI invocation stopped at 820200480 bytes under its 768 MiB supervision budget. The original limits were retained; remote full-source CI remains pending.",
-    "The new expectations and verdict modules passed focused strict Mypy in four source files.",
     "The first PyPI audit rejected cuda-toolkit 13.0.3.0 versus canonical 13.0.3. PEP 440 version and package-name normalization corrected the check; the new complete audit includes all 301 versions.",
-    "PyPI and GitHub advisories report known affected ranges. They cannot establish absence of vulnerabilities."
-  ]
+    "PyPI and GitHub advisories report known affected ranges. They cannot establish absence of vulnerabilities.",
+    "The 301-version PyPI audit omits the verified Mako GitHub advisory. Both sources were checked; the selected Mako release is patched. Main environment installation remains pending."
+  ],
+  "pypi_audit": "data/refresh_2026-10-17/dependency-pypi-audit-v3/audit.json",
+  "mako": {
+    "advisory": "GHSA-5639-2j2p-m4mx",
+    "url": "https://github.com/advisories/GHSA-5639-2j2p-m4mx",
+    "affected": "<=1.4.1",
+    "first_patched": "1.4.2",
+    "selected": "1.4.3",
+    "pypi_latest_response_omits_advisory": true,
+    "discovered_in": "GitHub Dependabot alert 71 after initial security publication",
+    "isolated_overlay": ".codex/security-validation-mako-2026-10-17"
+  },
+  "remote_ci": {
+    "commit": "24ab2703507e0e35eeb7269d950d0c7b406b7177",
+    "run_id": 39105258023,
+    "conclusion": "success",
+    "strict_source_mypy": "success",
+    "tests": "success",
+    "platform_skips": 5,
+    "mako_patch_included": false
+  }
 }

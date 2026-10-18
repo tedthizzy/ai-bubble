@@ -69,3 +69,20 @@ candidate suite passed 952 tests in 12.08s at 703,006,808 bytes. Ruff passed and
 297 files passed formatting. Main .venv installation remains pending acquisition.
 The initial local override accidentally collected retained '* 2.py' files;
 the corrected command keeps the configured ignore glob. Both logs are retained.
+
+Mako correction, 2026-10-17T23:51:08.162147-07:00: GitHub alert 71 reports
+[GHSA-5639-2j2p-m4mx](https://github.com/advisories/GHSA-5639-2j2p-m4mx),
+a Windows template path issue affecting Mako through 1.4.1. PyPI's current Mako
+metadata omits this advisory. The lock now selects 1.4.3, above the verified
+1.4.2 fixed release. The minimum is encoded in pyproject.toml. The Mac candidate
+now changes 31 packages. The new 301-version PyPI audit again has zero errors;
+that source alone cannot establish the complete advisory set. GitHub alerts
+are checked separately. The candidate including Mako passes 952 tests in
+13.70 seconds at a 704,497,800-byte observed peak. The new overlay is
+.codex/security-validation-mako-2026-10-17, layered ahead of the complete overlay.
+
+CI 39105258023 for 24ab270 succeeded, including full strict source Mypy and the
+runtime suite. Five Linux platform checks were skipped. That run predates this
+Mako patch. Pages 39105258021 succeeded; all four deployed explorer hashes match
+the actual browser-verified financing checkpoint. Main .venv remains unchanged
+while acquisition continues. Its installation is still required.

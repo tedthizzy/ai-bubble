@@ -622,3 +622,33 @@ September public baseline also had zero EDGAR counts. Earlier twelve-count
 observations and all saved submissions remain retained locally and in Git.
 Do not claim current SEC filing counts are available on the deployed overlay.
 Broad acquisition, the finisher and its final publisher remain active.
+
+## Financing deployment and security follow-up, 2026-10-17T23:51:08.162147-07:00
+
+Commit 24ab2703507e0e35eeb7269d950d0c7b406b7177 reached origin/main.
+Pages 39105258021 and complete CI 39105258023 succeeded. The deployed HTML,
+JavaScript, CSS and graph hashes match the reviewed financing checkpoint.
+The complete CI passed strict Mypy and tests with five platform skips. The
+initial publication helper used system Python and stopped at its import of
+httpx before any mutation. Fresh git state was checked, and the project .venv
+interpreter completed publication. Ted's original staged digest is unchanged.
+
+GitHub's post-push alert set added the Mako advisory omitted from PyPI metadata.
+The fixed release is 1.4.2; the revised lock selects 1.4.3 and only changes Mako.
+All 301 locked registry versions were rechecked with zero acquisition errors.
+The full Mac candidate including Mako passes 952 tests at a 704,497,800-byte
+peak. Main-environment installation remains pending acquisition completion.
+The original lock and all previous audit records remain in git and snapshots.
+
+Storage trial, 2026-10-17T23:53:19.705356-07:00: the
+large immutable GLEIF CSV trial stopped at the unchanged 512 MiB budget, with
+642,123,000 bytes observed. Native ditto was in the measured workload. The
+attempted source's SHA-256, size and modification time still match the saved
+pre-action record. No replacement action completed. Partial files and the
+original record remain under .codex/storage-compaction/2026-10-17/current-gleif-csv.
+The eligibility maximum was restored to its original 256 MiB; the script again
+matches git. The original-limit pass returned 2 compressed,
+4 skipped, 0 errors and 37613568 allocated
+bytes saved. These large CSVs remain available uncompressed. The earlier
+43.7 GiB historical SEC compression savings remain the completed storage result.
+No budget was raised and no source was deleted. See gleif-csv-compression-stopped.json.
