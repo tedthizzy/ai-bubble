@@ -68,6 +68,8 @@ TICKERS: dict[str, tuple[str, str]] = {
     "Core Scientific": ("corz.us", "CORZ"),
     "Cipher Mining": ("cifr.us", "CIFR"),
     "Bit Digital": ("btbt.us", "BTBT"),
+    "Bitdeer": ("btdr.us", "BTDR"),
+    "Royal Bank of Canada": ("ry.us", "RY"),
     "NVIDIA": ("nvda.us", "NVDA"),
     "Microsoft": ("msft.us", "MSFT"),
     "Meta": ("meta.us", "META"),
@@ -92,6 +94,7 @@ EDGAR_TICKERS: dict[str, str] = {
     "Core Scientific": "CORZ",
     "Cipher Mining": "CIFR",
     "Bit Digital": "BTBT",
+    "Bitdeer": "BTDR",
 }
 
 # Adjacency-extension tickers (analysis/spacex_adjacency.md) -- NOT cluster nodes; quoted

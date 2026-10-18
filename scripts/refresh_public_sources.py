@@ -216,7 +216,7 @@ class PublicClient:
                         "url": url,
                         "retrieved_at": datetime.now(UTC).isoformat(),
                         "sha256": hashlib.sha256(payload).hexdigest(),
-                        "index_parser": "sec_document_types_v1",
+                        "index_parser": result["index_parser"],
                     },
                 )
         return result

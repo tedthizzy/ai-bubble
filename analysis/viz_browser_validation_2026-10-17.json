@@ -1,5 +1,5 @@
 {
-  "checked_at_pacific": "2026-10-17T22:40:24.673853-07:00",
+  "checked_at_pacific": "2026-10-17T23:46:07.652486-07:00",
   "browser": "existing Chrome/155.0.8059.82",
   "preview": "http://127.0.0.1:8765/",
   "new_browser_launched": false,
@@ -233,8 +233,8 @@
   ],
   "local_interaction_verified": true,
   "source_sha256": {
-    "viz/index.html": "eed3dc4aae42f9038d3d001688f452bb5e9d9ac0d85f4c87794e4637fcc18c14",
-    "viz/explorer.js": "f558e4648adff7a9edbca615601946c5d2a66dc2436678c9837d04de0ce29d0f",
+    "viz/index.html": "9f1cb2bbc19fcc04f1653e7d0a0a8bddfe77968c25371bd31662747a48701c2b",
+    "viz/explorer.js": "0b284ea84db7a59706483ef414f4a67fef6f1ba7a50c88897f1a246219a508b1",
     "viz/explorer.css": "c01b3ce2b0ad6fee9e2d9db37b303db73bf4dbabf5171e116bed0163f3d7726f"
   },
   "first_deployment": {
@@ -422,5 +422,76 @@
         }
       }
     }
+  },
+  "financing_review": {
+    "checked_at_pacific": "2026-10-17T23:46:07.652486-07:00",
+    "source_sha256": {
+      "viz/index.html": "9f1cb2bbc19fcc04f1653e7d0a0a8bddfe77968c25371bd31662747a48701c2b",
+      "viz/explorer.js": "0b284ea84db7a59706483ef414f4a67fef6f1ba7a50c88897f1a246219a508b1",
+      "viz/explorer.css": "c01b3ce2b0ad6fee9e2d9db37b303db73bf4dbabf5171e116bed0163f3d7726f"
+    },
+    "graph_sha256": "42929e2c0f55a334d15dabe8d69b76dd3cbf12c607759715900d1d16c01b9f5e",
+    "screenshots_viewed": [
+      {
+        "path": "data/refresh_2026-10-17/browser-validation/finance-corrected-bitdeer-mobile.png",
+        "sha256": "6aa00d5f286eca003a0229b3abfbf3cfe450b70ee45ecf1967a5208fc004a63f"
+      },
+      {
+        "path": "data/refresh_2026-10-17/browser-validation/finance-sources-mobile-fixed.png",
+        "sha256": "cdace5a0f814488a9b19f0ec24f9118175598c13225ac1b0e61dab569e3fc4ae"
+      },
+      {
+        "path": "data/refresh_2026-10-17/browser-validation/finance-desktop-final.png",
+        "sha256": "2c460392314f732f1090d6d54adad2ab630296d68b0a359a6558af277a9ebf85"
+      },
+      {
+        "path": "data/refresh_2026-10-17/browser-validation/finance-rbc-evidence.png",
+        "sha256": "252cf8f1249a832db7295162f96ef77df97523cda8bf5b6287b4903aff4a5965"
+      }
+    ],
+    "observed": {
+      "core_entities": 41,
+      "grey_points": 7687,
+      "links": 9640,
+      "reported_issuer_debt_usd": 90184580000,
+      "financing_events": 19,
+      "reviewed_relationships": 45,
+      "mobile_css_viewport": [
+        390,
+        844
+      ],
+      "mobile_body_overflow": false,
+      "desktop_css_width": 1024,
+      "desktop_body_overflow": false,
+      "fonts": [
+        "Arial, sans-serif / 14px",
+        "Arial, sans-serif / 18px"
+      ],
+      "idle_frames": 0,
+      "idle_seconds": 5,
+      "js_heap_bytes": 13176229,
+      "last_frame_draw_calls": 99
+    },
+    "interactions": [
+      "Bitdeer keyboard search opens corrected debt, separate BTC exposure and current financing card.",
+      "Royal Bank of Canada keyboard search shows October 16 quote and named financing role.",
+      "Sources hides selected card; Deals hides Sources; choosing RBC/Bit Digital hides Deals and opens source-backed connection."
+    ],
+    "minimum_text_contrast_unchanged_tokens": 6.0123,
+    "runtime_exception_events": 0,
+    "probe_errors": [
+      "One diagnostic used undefined coreNodes; the later nodes/fieldNodes probe returned the counts.",
+      "The first Sources screenshot exposed an overlapping selection card; current panel logic and viewed fixed screenshot correct it."
+    ],
+    "restoration": {
+      "owned_tabs_closed": true,
+      "controller_stopped": true,
+      "preview_pid_stopped": 69504,
+      "remote_debugging": false,
+      "enhanced_accessibility": false
+    },
+    "limits": [
+      "Full source acquisition and replacement grey field still pending."
+    ]
   }
 }

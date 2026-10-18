@@ -1,5 +1,68 @@
 # Bubble refresh operations, October 17, 2026
 
+## Financing correction and co-registrant repair, 2026-10-17T23:46:07.652486-07:00
+
+The 13-issuer USD-denominated borrowing measure is now $90.184580B. The previous
+$90.302128B included Bitdeer's $117.548M USD carrying amount of BTC-denominated
+borrowing. That borrowing remains separately recorded. Bitdeer's June 30
+USD-denominated balance is $1.724136B. The later formal September 29 statement
+and its note columns are verified against the retained source. The separate
+September 29 BTC principal is 3,669 BTC; no current USD equivalent is invented.
+
+The reviewed event ledger now has 19 entries. It adds CoreWeave facility draws,
+Nebius secured financing, Core Scientific's undrawn revolving/LC facilities,
+MARA's USD facilities secured by BTC, Bit Digital's CAD facility and subsequent
+draw/equity, and Bitdeer's USD facility, BTC facility and equity disclosures.
+Commitments, draws, refinancing and later balances remain distinct. The review
+has 45 relationships and the graph has 41 core entities with 58 connections.
+Five new counterparties retain unknown fragility. RBC and JPMorgan roles do
+not invent retained lender allocations. Volta's lease termination and conditional
+backstop terms remain explicit. All new references use verified retained hashes.
+
+The real Chrome session rendered 41 core entities, 7,687 retained grey points
+and 9,640 total links. Search, Bitdeer's corrected card, the RBC facility card,
+source links and mobile Sources were inspected. Sources and Deals now hide
+other panels and selected cards; opening an evidence card closes those panels.
+Viewed desktop/mobile screenshots show no body overflow. Arial remains 14/18.
+The settled five-second observation rendered zero additional frames with a
+13,176,229-byte JS heap. Eight Node interaction tests passed. Browser debugging
+and enhanced accessibility were restored false; owned tabs and processes closed.
+Exact source and screenshot hashes are in viz_browser_validation_2026-10-17.json.
+
+SEC accession 0001918704-26-031708 proves that a co-registrant filing index can
+link documents under a different CIK within the same accession. Parser v2
+retains that canonical SEC URL while rejecting foreign origins, other
+accessions and traversal segments. A SQLite backup and cofiler_rejections table
+preserve the 960 previous path rejections before requeue. The new workload PID
+86908 uses the same 2 GiB budget. Its log is exhibit-completion-cofilers.log.
+An accession cache verifies retained raw bytes and avoids duplicate HTTP index
+requests for co-filers. The census has 97,559 parents and 89,924 accessions.
+The new pass has no failed parent indexes at this observation.
+
+The supervised candidate suite returned 952 passed in 12.08s, with a
+703,006,808-byte observed peak. Ruff passed; 297 files passed formatting.
+An earlier invocation overrode the configured ignore glob and collected the
+retained iCloud '* 2.py' copies. It returned 976 passed and two stale duplicate
+failures. The corrected invocation restores the existing ignore glob; none of
+those retained files was edited or deleted. Both logs remain.
+
+Remote CI 39103139050 passed dependency installation, security checks, Ruff,
+formatting and full strict source Mypy. Its two test failures were portability
+issues: a process-footprint check included the Linux ML imports, and an exporter
+test relied on ignored local acquisition files. The check now uses an isolated
+child under the same threshold; the exporter supplies baseline schemas from
+actual fixture extraction. Local full tests pass. Next remote CI is pending.
+
+The finisher now rejects unchecked/failed exhibit parent indexes and an
+incomplete freshness report. The publisher requires complete source coverage.
+The old waiting publisher 93528 and finisher 93485 were retired by verified PID
+before any stages ran. Current finisher 98015 and publisher 99024 wait under
+their unchanged budgets. No acquisition was restarted for this guard update.
+
+At 2026-10-17T23:46:07.652486-07:00, the main queue was {'acquired': 215945, 'failed': 46, 'inflight': 8, 'queued': 11394}; parent indexes were {'checked': 4261, 'queued': 93298}.
+Full byte verification, complete capital graph/field, final dated report,
+publication and main-environment dependency installation remain outstanding.
+
 ## Published financial review and valuation checkpoint, 23:09 PDT
 
 Commit 0afb9b6f4de6b86df40d5031e87517e1b3201d4f reached origin/main.

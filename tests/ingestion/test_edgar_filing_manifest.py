@@ -10,6 +10,7 @@ import pytest
 
 from bubble.ingestion.edgar.filing_manifest import (
     _candidate_exhibit_items,
+    _exhibit_record,
     build_edgar_exhibit_manifest_from_manifest,
     build_edgar_filing_manifest,
     filing_document_table_url,
@@ -31,7 +32,7 @@ def test_document_table_types_find_earnings_release_without_an_exhibit_filename(
     <tr><td>5</td><td>Image</td><td><a href="ex991.jpg">ex991.jpg</a></td><td>GRAPHIC</td><td>500</td></tr>
     </table>"""
     parsed = parse_filing_document_table(raw, uri)
-    assert parsed["index_parser"] == "sec_document_types_v1"
+    assert parsed["index_parser"] == "sec_document_types_v2"
     assert [
         row["name"] for row in _candidate_exhibit_items(parsed, primary_document="report.htm")
     ] == ["results.htm", "agreement.htm"]
@@ -50,6 +51,30 @@ def test_block_page_and_outside_accession_link_cannot_be_a_successful_empty_inde
         <td>EX-99.1</td><td>200</td></tr></table>""",
             uri,
         )
+
+
+def test_cofiler_document_uses_the_same_accession_and_canonical_company_folder():
+    primary = build_edgar_filing_manifest(
+        ["123"],
+        fetch_json=lambda _url: _sample_submission(),
+        max_filings_per_cik=1,
+        sec_requests_per_second=0,
+    ).records[0]
+    accession = primary.accession_number.replace("-", "")
+    uri = f"https://www.sec.gov/Archives/edgar/data/123/{accession}/{primary.accession_number}-index.html"
+    target = f"https://www.sec.gov/Archives/edgar/data/456/{accession}/results.htm"
+    raw = f'''<table summary="Document Format Files"><tr>
+    <td>1</td><td>Results</td><td><a href="{target}">results.htm</a></td>
+    <td>EX-99.1</td><td>200</td></tr></table>'''.encode()
+    parsed = parse_filing_document_table(raw, uri)
+    item = _candidate_exhibit_items(parsed, primary_document=primary.primary_document)[0]
+    exhibit = _exhibit_record(primary, item, uri)
+    assert exhibit.filing_url == target
+    assert exhibit.cik == primary.cik
+    assert exhibit.primary_document == "results.htm"
+    invalid = raw.replace(accession.encode(), b"000000000026999999")
+    with pytest.raises(ValueError, match="outside its accession"):
+        parse_filing_document_table(invalid, uri)
 
 
 def _sample_submission() -> dict[str, Any]:

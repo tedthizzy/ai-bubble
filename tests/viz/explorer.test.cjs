@@ -164,3 +164,19 @@ test('empty data and failed market fetch keep the page usable',async() => {
   await new Promise(resolve=>setImmediate(resolve));
   assert.match(app.elements.get('credit-details').textContent,/unavailable/);
 });
+
+
+test('sources, deals and selection remain readable without overlapping panels',() => {
+  const app=load();
+  app.eval('focusNode(nodes[0])');
+  assert.equal(app.elements.get('card').style.display,'block');
+  app.elements.get('info').onclick();
+  assert.equal(app.elements.get('card').style.display,'none');
+  assert.equal(app.elements.get('panel').style.display,'block');
+  app.elements.get('deals').onclick();
+  assert.equal(app.elements.get('panel').style.display,'none');
+  assert.equal(app.elements.get('dpanel').style.display,'block');
+  app.eval('focusDeal(links[0])');
+  assert.equal(app.elements.get('dpanel').style.display,'none');
+  assert.equal(app.elements.get('card').style.display,'block');
+});

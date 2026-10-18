@@ -148,6 +148,8 @@ def finish(run: Path) -> None:
         ],
     )
     stage("freshness", ["scripts/build_refresh_status.py", "--run", str(run)])
+    if not json.loads((ROOT / "viz/freshness.json").read_text())["complete"]:
+        raise ValueError("Source refresh remains incomplete; inspect discovery and source errors")
     stage(
         "report",
         [
@@ -190,6 +192,12 @@ def wait_for_exhibits(run: Path) -> Path | None:
         raise RuntimeError(
             "Exhibit acquisition stopped without a completion record; inspect its log"
         )
+    with sqlite3.connect(f"file:{destination / 'parents.sqlite3'}?mode=ro", uri=True) as db:
+        unfinished = db.execute(
+            "SELECT COUNT(*) FROM parents WHERE status!='checked'"
+        ).fetchone()[0]
+        if unfinished:
+            raise ValueError(f"Exhibit discovery has {unfinished} unchecked or failed parent indexes")
     with sqlite3.connect(f"file:{destination / 'document_queue.sqlite3'}?mode=ro", uri=True) as db:
         if db.execute(
             "SELECT COUNT(*) FROM documents WHERE status IN ('queued','inflight')"

@@ -1,6 +1,6 @@
 # Current core review, 2026-10-17
 
-The 13 selected issuers report $90.302B of USD borrowing and note carrying amounts across their latest financial statements.
+The 13 selected issuers report $90.185B of USD borrowing and note carrying amounts across their latest financial statements.
 These are consolidated issuer balances with their original period ends. They include non-AI businesses. Lease and guarantee amounts are separate.
 
 - CoreWeave: $35.068B reported debt at 2026-06-30. Cash after capex -$10.454B (2026-01-01 to 2026-06-30). [Primary statement](https://www.sec.gov/Archives/edgar/data/1769628/000176962826000366/crwv-20260630.htm).
@@ -15,13 +15,15 @@ These are consolidated issuer balances with their original period ends. They inc
 - Core Scientific: $4.298B reported debt at 2026-06-30. Cash after capex -$0.723B (2026-01-01 to 2026-06-30). [Primary statement](https://www.sec.gov/Archives/edgar/data/1839341/000183934126000014/core-20260630.htm).
 - Cipher Mining: $5.541B reported debt at 2026-06-30. Cash after capex -$1.116B (2026-01-01 to 2026-06-30). [Primary statement](https://www.sec.gov/Archives/edgar/data/1819989/000181998926000041/cifr-20260630.htm).
 - Bit Digital: $0.440B reported debt at 2026-06-30. Cash after capex -$0.298B (2026-01-01 to 2026-06-30). [Primary statement](https://www.sec.gov/Archives/edgar/data/1710350/000121390026088709/ea0300693-10q_bitdigital.htm).
-- Bitdeer: $1.842B reported debt at 2026-06-30. Cash after capex -$0.865B (2026-01-01 to 2026-06-30). [Primary statement](https://www.sec.gov/Archives/edgar/data/1899123/000121390026086938/ea030131301ex99-1.htm).
+- Bitdeer: $1.724B reported debt at 2026-06-30. Cash after capex -$0.865B (2026-01-01 to 2026-06-30). [Primary statement](https://www.sec.gov/Archives/edgar/data/1899123/000121390026104638/ea030647301ex99-1.htm).
 
 The current review corrects the old CoreWeave 67% Microsoft concentration claim. Its Q2 largest customer is 36%, anonymously identified. Core Scientific's single colocation customer represents about 83.2% of total Q2 revenue, so concentrated demand remains a measured risk elsewhere in the cohort.
 
 Core Scientific repaid and terminated its former $1B term loan in May 2026. The current debt card includes its later note balances.
 
 Financing dependence and customer concentration are observed. Public measurements do not support a new calibrated bubble probability or an economy-wide bubble classification.
+
+Correction: BTDR USD-denominated debt is $1.724136B. The earlier total included $117.548M of Bitcoin-denominated borrowing. That exposure remains separately recorded.
 
 Measurement limits:
 

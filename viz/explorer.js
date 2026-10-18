@@ -73,6 +73,7 @@ function cameraTo(point,distance=160) {
 }
 function focusNode(n) {
   if (!n) return;
+  closePanels();
   showCard(n);
   cameraTo(n);
   if (!cascadeOn) { hovered=null; sel=neighborhood(n); active=sel; refresh(); }
@@ -80,6 +81,7 @@ function focusNode(n) {
 }
 function focusDeal(l) {
   if (!l) return;
+  closePanels();
   dealCard(l);
   const a=byId[lid(l)], b=byId[ltd(l)];
   if (a && b) {
@@ -153,6 +155,10 @@ function dealCard(l) {
 function clearSelection() {
   $('card').style.display='none'; sel=null; active=null; hovered=null;
   if (!cascadeOn) refresh();
+}
+function closePanels() {
+  ['panel','dpanel'].forEach(id => { $(id).style.display='none'; });
+  $('info').setAttribute('aria-expanded','false'); $('deals').setAttribute('aria-expanded','false');
 }
 function stopCascade() {
   clearInterval(cascadeTimer); cascadeTimer=null; cascadeOn=false; revealed.clear();
@@ -451,7 +457,10 @@ function boot(data,fallback=false) {
   $('play').disabled=!trigger || !hops.length || !byId[trigger];
   $('play').onclick=playCascade;
   const toggle=(button,panel) => {
-    const open=panel.style.display!=='block'; panel.style.display=open ? 'block' : 'none';
+    const open=panel.style.display!=='block';
+    closePanels();
+    if (open) clearSelection();
+    panel.style.display=open ? 'block' : 'none';
     button.setAttribute('aria-expanded',String(open));
   };
   $('info').onclick=() => toggle($('info'),$('panel'));
@@ -469,8 +478,7 @@ function boot(data,fallback=false) {
   document.addEventListener('keydown',event => {
     if (event.key!=='Escape') return;
     closeSearch(); clearSelection();
-    ['panel','dpanel'].forEach(id => { $(id).style.display='none'; });
-    $('info').setAttribute('aria-expanded','false'); $('deals').setAttribute('aria-expanded','false');
+    closePanels();
   });
   fetch('live.json',{cache:'no-cache'}).then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
     .then(applyLive).catch(() => { $('credit-details').textContent='Market overlay unavailable.'; });

@@ -1,8 +1,18 @@
 {
   "as_of": "2026-10-17",
-  "source_manifest": "data/refresh_2026-10-17/core_review_v4/manifest.json",
-  "source_manifest_sha256": "dfc5402cdcec3f19c7a1a836c350909a7ca4d1ee7711afdffb12d91318d6e4a8",
-  "debt_cards_sha256": "8de562d75ce17eb4f562f878a3c69d7beec43cbd5c61d9bcfcd31167d9e52e56",
+  "source_manifest": "data/refresh_2026-10-17/core_review_v7/manifest.json",
+  "source_manifest_sha256": "af8570cea47d9dd8d5f5da51ad7033c38bb9e804dcb978702606c033a4cd3fdb",
+  "debt_cards_sha256": "9c9b856689084feeda9cb962b9ac1d16bad524b0491396f1d81a96e005eac7ae",
+  "measurement_corrections": [
+    {
+      "as_of": "2026-10-17",
+      "ticker": "BTDR",
+      "previous_debt_usd": 1841684000,
+      "corrected_debt_usd": 1724136000,
+      "excluded_crypto_carrying_amount_usd": 117548000,
+      "basis": "Later formal statement separates the Bitcoin-denominated loan; original source and interim output remain in git and snapshots."
+    }
+  ],
   "issuer_observations": [
     {
       "ticker": "CRWV",
@@ -785,40 +795,88 @@
       "ticker": "BTDR",
       "entity": "Bitdeer",
       "period_end": "2026-06-30",
-      "filing_date": "2026-08-10",
-      "source_uri": "https://www.sec.gov/Archives/edgar/data/1899123/000121390026086938/ea030131301ex99-1.htm",
+      "filing_date": "2026-09-29",
+      "source_uri": "https://www.sec.gov/Archives/edgar/data/1899123/000121390026104638/ea030647301ex99-1.htm",
       "units_usd": 1000,
       "components": [
         {
           "label": "Short-term borrowings",
           "reported_value": "26,000",
-          "sign": 1
+          "sign": 1,
+          "reported_columns": [
+            "13",
+            "26,000",
+            "26,000"
+          ],
+          "selected_column": 1
         },
         {
           "label": "Current portion of long-term borrowings",
           "reported_value": "99",
-          "sign": 1
+          "sign": 1,
+          "reported_columns": [
+            "13",
+            "99",
+            "13"
+          ],
+          "selected_column": 1
         },
         {
           "label": "Current portion of long-term borrowings from a related party",
-          "reported_value": "491,048",
-          "sign": 1
+          "reported_value": "373,500",
+          "sign": 1,
+          "reported_columns": [
+            "20",
+            "373,500",
+            "275,000"
+          ],
+          "selected_column": 1
         },
         {
           "label": "Long-term borrowings",
           "reported_value": "1,182,454",
-          "sign": 1
+          "sign": 1,
+          "reported_columns": [
+            "13",
+            "1,182,454",
+            "947,183"
+          ],
+          "selected_column": 1
         },
         {
           "label": "Long-term borrowings from a related party",
           "reported_value": "142,083",
-          "sign": 1
+          "sign": 1,
+          "reported_columns": [
+            "20",
+            "142,083",
+            "246,831"
+          ],
+          "selected_column": 1
         }
       ],
       "basis": "Reported USD borrowing and note carrying amounts; exclude leases, warrant derivatives and crypto-denominated borrowing.",
-      "note": null,
-      "reported_debt_usd": 1841684000,
-      "source_sha256": "6505ff83a7d12375cc944c87f90fafacb26805b01662aaca83af0bf0e6101e66",
+      "note": "The September 29 formal June statement separates USD related-party borrowing from the BTC loan. The interim earnings release combined both in its current related-party row. The previous card included the $117.548M BTC carrying amount; this card excludes it and retains the exposure separately.",
+      "column_periods": [
+        "note_reference",
+        "2026-06-30",
+        "2025-12-31"
+      ],
+      "excluded_components": [
+        {
+          "label": "Short-term borrowings from a related party",
+          "reported_value": "117,548",
+          "reported_columns": [
+            "20",
+            "117,548"
+          ],
+          "selected_column": 1,
+          "currency_of_obligation": "BTC",
+          "reason": "1,953.84 BTC outstanding at June 30. Its USD carrying amount is excluded from the USD-denominated borrowing measure."
+        }
+      ],
+      "reported_debt_usd": 1724136000,
+      "source_sha256": "5dc325e9019f70113ffa8005d95a4353e273c691e19069f4af157e6a2ffa5625",
       "verification": "primary_statement_rows",
       "cash_after_capex": {
         "start": "2026-01-01",
@@ -827,8 +885,8 @@
         "cash_capex_usd": 359740000,
         "value_usd": -865157000,
         "capex_definition": "Property, plant/equipment and intangible-asset cash purchases.",
-        "source_uri": "https://www.sec.gov/Archives/edgar/data/1899123/000121390026086938/ea030131301ex99-1.htm",
-        "source_sha256": "6505ff83a7d12375cc944c87f90fafacb26805b01662aaca83af0bf0e6101e66"
+        "source_uri": "https://www.sec.gov/Archives/edgar/data/1899123/000121390026104638/ea030647301ex99-1.htm",
+        "source_sha256": "5dc325e9019f70113ffa8005d95a4353e273c691e19069f4af157e6a2ffa5625"
       },
       "interest_coverage_proxies": {},
       "post_report_current_filings": [
@@ -845,39 +903,11 @@
           "report_date": "2026-10-02",
           "accession": "0001213900-26-106360",
           "url": "https://www.sec.gov/Archives/edgar/data/1899123/000121390026106360/ea0307497-6k_bitdeer.htm"
-        },
-        {
-          "form": "6-K",
-          "filing_date": "2026-09-29",
-          "report_date": "2026-06-30",
-          "accession": "0001213900-26-104638",
-          "url": "https://www.sec.gov/Archives/edgar/data/1899123/000121390026104638/ea0306473-6k_bitdeer.htm"
-        },
-        {
-          "form": "6-K",
-          "filing_date": "2026-09-16",
-          "report_date": "2026-09-16",
-          "accession": "0001213900-26-100537",
-          "url": "https://www.sec.gov/Archives/edgar/data/1899123/000121390026100537/ea0305235-6k_bitdeer.htm"
-        },
-        {
-          "form": "6-K",
-          "filing_date": "2026-09-02",
-          "report_date": "2026-09-02",
-          "accession": "0001213900-26-096425",
-          "url": "https://www.sec.gov/Archives/edgar/data/1899123/000121390026096425/ea0304021-6k_bitdeer.htm"
-        },
-        {
-          "form": "6-K",
-          "filing_date": "2026-08-26",
-          "report_date": "2026-08-26",
-          "accession": "0001213900-26-093742",
-          "url": "https://www.sec.gov/Archives/edgar/data/1899123/000121390026093742/ea0303441-6k_bitdeer.htm"
         }
       ]
     }
   ],
-  "reported_issuer_debt_usd": 90302128000,
+  "reported_issuer_debt_usd": 90184580000,
   "issuer_count": 13,
   "cashflow_observations": 13,
   "negative_cash_after_capex": 13,

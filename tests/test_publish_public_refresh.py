@@ -107,6 +107,32 @@ def test_missing_completion_stops_before_git(
         module.publish(tmp_path, tmp_path / "evidence.json", "digest", "anchor", 0)
 
 
+def test_incomplete_source_census_stops_before_any_git_mutation(tmp_path, monkeypatch):
+    (tmp_path / "viz").mkdir()
+    run = tmp_path / "refresh_2026-10-17"
+    run.mkdir()
+    (run / "finish-result.json").write_text(json.dumps({"all_manifest_urls_acquired": True}))
+    (tmp_path / "viz/freshness.json").write_text(
+        json.dumps(
+            {
+                "refresh_as_of": "2026-10-17",
+                "complete": False,
+                "sec_acquisition": {"new_run_queue": {"acquired": 10}},
+            }
+        )
+    )
+    calls = []
+    monkeypatch.setattr(module, "ROOT", tmp_path)
+    monkeypatch.setattr(
+        module,
+        "git",
+        lambda *args, **kwargs: calls.append(args) or type("Result", (), {"stdout": "main"})(),
+    )
+    with pytest.raises(ValueError, match="complete source coverage"):
+        module.publish(run, tmp_path / "evidence.json", "digest", "anchor", 0)
+    assert calls == [("branch", "--show-current")]
+
+
 @pytest.mark.parametrize("counts,changed", [("1 1", ""), ("0 1", "src/changed.py")])
 def test_remote_divergence_and_unrelated_updates_stop_before_merge(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch, counts: str, changed: str

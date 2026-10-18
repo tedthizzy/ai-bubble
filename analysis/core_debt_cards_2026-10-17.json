@@ -303,38 +303,86 @@
       "ticker": "BTDR",
       "entity": "Bitdeer",
       "period_end": "2026-06-30",
-      "filing_date": "2026-08-10",
-      "source_uri": "https://www.sec.gov/Archives/edgar/data/1899123/000121390026086938/ea030131301ex99-1.htm",
+      "filing_date": "2026-09-29",
+      "source_uri": "https://www.sec.gov/Archives/edgar/data/1899123/000121390026104638/ea030647301ex99-1.htm",
       "units_usd": 1000,
       "components": [
         {
           "label": "Short-term borrowings",
           "reported_value": "26,000",
-          "sign": 1
+          "sign": 1,
+          "reported_columns": [
+            "13",
+            "26,000",
+            "26,000"
+          ],
+          "selected_column": 1
         },
         {
           "label": "Current portion of long-term borrowings",
           "reported_value": "99",
-          "sign": 1
+          "sign": 1,
+          "reported_columns": [
+            "13",
+            "99",
+            "13"
+          ],
+          "selected_column": 1
         },
         {
           "label": "Current portion of long-term borrowings from a related party",
-          "reported_value": "491,048",
-          "sign": 1
+          "reported_value": "373,500",
+          "sign": 1,
+          "reported_columns": [
+            "20",
+            "373,500",
+            "275,000"
+          ],
+          "selected_column": 1
         },
         {
           "label": "Long-term borrowings",
           "reported_value": "1,182,454",
-          "sign": 1
+          "sign": 1,
+          "reported_columns": [
+            "13",
+            "1,182,454",
+            "947,183"
+          ],
+          "selected_column": 1
         },
         {
           "label": "Long-term borrowings from a related party",
           "reported_value": "142,083",
-          "sign": 1
+          "sign": 1,
+          "reported_columns": [
+            "20",
+            "142,083",
+            "246,831"
+          ],
+          "selected_column": 1
         }
       ],
       "basis": "Reported USD borrowing and note carrying amounts; exclude leases, warrant derivatives and crypto-denominated borrowing.",
-      "note": null
+      "note": "The September 29 formal June statement separates USD related-party borrowing from the BTC loan. The interim earnings release combined both in its current related-party row. The previous card included the $117.548M BTC carrying amount; this card excludes it and retains the exposure separately.",
+      "column_periods": [
+        "note_reference",
+        "2026-06-30",
+        "2025-12-31"
+      ],
+      "excluded_components": [
+        {
+          "label": "Short-term borrowings from a related party",
+          "reported_value": "117,548",
+          "reported_columns": [
+            "20",
+            "117,548"
+          ],
+          "selected_column": 1,
+          "currency_of_obligation": "BTC",
+          "reason": "1,953.84 BTC outstanding at June 30. Its USD carrying amount is excluded from the USD-denominated borrowing measure."
+        }
+      ]
     }
   ],
   "limits": [
@@ -342,5 +390,15 @@
     "Consolidated issuer borrowing includes non-AI activities.",
     "Post-report financing announcements are separate events and are not blindly added to reported balances.",
     "These carrying amounts replace neither the historical committed-debt instrument census nor a mark-to-market loss estimate."
+  ],
+  "corrections": [
+    {
+      "as_of": "2026-10-17",
+      "ticker": "BTDR",
+      "previous_debt_usd": 1841684000,
+      "corrected_debt_usd": 1724136000,
+      "excluded_crypto_carrying_amount_usd": 117548000,
+      "basis": "Later formal statement separates the Bitcoin-denominated loan; original source and interim output remain in git and snapshots."
+    }
   ]
 }

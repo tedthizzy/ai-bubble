@@ -70,11 +70,162 @@
       "note": "Cipher Digital issued $850M of 0% convertible notes due 2032. Its concurrent exchange retired $165.9M of 2030 notes. The remaining $150M purchaser option was not established as exercised at this cutoff.",
       "source_uri": "https://www.sec.gov/Archives/edgar/data/1819989/000119312526424297/d313847d8k.htm",
       "source_sha256": "f6491f48b49504a901d8b8e5636a64738ab4c149ee3b137e8ca7a2b2739a1641"
+    },
+    {
+      "ticker": "CRWV",
+      "date": "2026-08-12",
+      "filing_date": "2026-08-12",
+      "type": "facility_draw",
+      "amount_usd": 1200000000,
+      "note": "August subsequent-event disclosure: $1.2B drawn under DDTL 5.5 by the filing date. The draw belongs to the $2.6B commitment; it is not another facility.",
+      "source_uri": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000366/crwv-20260630.htm",
+      "source_sha256": "5ef1bddf52a356c5c8a77ebba2b53b35a7c35ac669b27e8fa7842f1f301124e7",
+      "date_basis": "Disclosure date; exact August draw day not stated.",
+      "facility": "DDTL 5.5"
+    },
+    {
+      "ticker": "CRWV",
+      "date": "2026-08-12",
+      "filing_date": "2026-08-12",
+      "type": "facility_draw",
+      "amount_usd": 1200000000,
+      "note": "August disclosure: a separate $1.2B draw under the revolving facility. Neither August draw is included in the June 30 carrying balance.",
+      "source_uri": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000366/crwv-20260630.htm",
+      "source_sha256": "5ef1bddf52a356c5c8a77ebba2b53b35a7c35ac669b27e8fa7842f1f301124e7",
+      "date_basis": "Disclosure date; exact August draw day not stated.",
+      "facility": "Revolver"
+    },
+    {
+      "ticker": "NBIS",
+      "date": "2026-07-17",
+      "filing_date": "2026-07-17",
+      "type": "facility_commitment",
+      "amount_usd": 775000000,
+      "note": "Announced roughly $775M secured GPU/customer-contract financing at SOFR plus 2.50%, maturing October 31, 2030. The announcement does not reconcile drawn principal to June.",
+      "source_uri": "https://www.sec.gov/Archives/edgar/data/1513845/000110465926084452/tm2620683d1_ex99-1.htm",
+      "source_sha256": "d3eea004ea6d6327d9303af69c26ba1559445039edc7f9711a25abf67829cb8c",
+      "date_basis": "Issuer announcement date; exact signing and draw date not disclosed."
+    },
+    {
+      "ticker": "CORZ",
+      "date": "2026-08-25",
+      "filing_date": "2026-08-27",
+      "type": "facility_commitment",
+      "amount_usd": 600000000,
+      "note": "Signed $100M revolving capacity plus $500M letter-of-credit capacity, both undrawn at closing. JPMorgan is administrative and collateral agent. This commitment is not funded debt or JPMorgan retained exposure.",
+      "source_uri": "https://www.sec.gov/Archives/edgar/data/1839341/000183934126000021/core-20260825.htm",
+      "source_sha256": "c65c3563a6158dc0e373220a12e40cb8f2ed01e5b055db5e071ff6bc8d1394b8",
+      "revolver_capacity_usd": 100000000,
+      "letter_of_credit_capacity_usd": 500000000
+    },
+    {
+      "ticker": "MARA",
+      "date": "2026-08-04",
+      "filing_date": "2026-08-06",
+      "type": "facility_commitment",
+      "amount_usd": 750000000,
+      "note": "Coinbase and Two Prime bitcoin-backed USD facilities provide $600M incremental capacity. Coinbase refinances $150M and adds $300M; Two Prime adds $300M. Initial collateral was 18,750 BTC.",
+      "source_uri": "https://www.sec.gov/Archives/edgar/data/1507605/000150760526000022/mara-20260630.htm",
+      "source_sha256": "88b216ba4b97228ccdd86f955b438d3aad2fd54736c2f2080e7566c2b35c7e14",
+      "incremental_capacity_usd": 600000000,
+      "refinanced_existing_principal_usd": 150000000,
+      "amount_basis": "Combined facility sizes, including refinanced principal."
+    },
+    {
+      "ticker": "BTBT",
+      "date": "2026-07-06",
+      "filing_date": "2026-08-13",
+      "type": "facility_commitment",
+      "amount_usd": 80800000,
+      "note": "Enovum/WhiteFiber signed a CAD115M RBC syndicated facility, approximately $80.8M using the issuer-disclosed equivalent. The conditional CAD25M accordion is excluded. It refinances the prior RBC facility.",
+      "source_uri": "https://www.sec.gov/Archives/edgar/data/1710350/000121390026088709/ea0300693-10q_bitdigital.htm",
+      "source_sha256": "701c77303aeb9af678d714104e52ead18e1e0687159091c1527b9f83083019e8",
+      "currency": "CAD",
+      "amount_native": 115000000,
+      "conditional_accordion_native": 25000000
+    },
+    {
+      "ticker": "BTBT",
+      "date": "2026-07-15",
+      "filing_date": "2026-08-13",
+      "type": "facility_draw",
+      "amount_usd": 26200000,
+      "note": "Enovum drew CAD36.8M, approximately $26.2M using the issuer-disclosed equivalent, under the new RBC facility. The draw cannot be added to its full commitment.",
+      "source_uri": "https://www.sec.gov/Archives/edgar/data/1710350/000121390026088709/ea0300693-10q_bitdigital.htm",
+      "source_sha256": "701c77303aeb9af678d714104e52ead18e1e0687159091c1527b9f83083019e8",
+      "currency": "CAD",
+      "amount_native": 36800000
+    },
+    {
+      "ticker": "BTBT",
+      "date": "2026-08-13",
+      "filing_date": "2026-08-13",
+      "type": "equity_issuance",
+      "amount_usd": 12500000,
+      "note": "Post-June ATM sales generated about $12.5M gross and $12.3M net by the filing date. Exact sale days were not disclosed.",
+      "source_uri": "https://www.sec.gov/Archives/edgar/data/1710350/000121390026088709/ea0300693-10q_bitdigital.htm",
+      "source_sha256": "701c77303aeb9af678d714104e52ead18e1e0687159091c1527b9f83083019e8",
+      "date_basis": "Disclosure date; sales occurred after June 30.",
+      "net_proceeds_usd": 12300000
+    },
+    {
+      "ticker": "BTDR",
+      "date": "2026-09-29",
+      "filing_date": "2026-09-29",
+      "type": "facility_renewal",
+      "amount_usd": 26000000,
+      "note": "July repayment and renewal of a $26M unsecured facility, followed by a $26M redraw at 10.31%, maturing December 2026. Gross repayment and redraw do not establish a net debt increase.",
+      "source_uri": "https://www.sec.gov/Archives/edgar/data/1899123/000121390026104638/ea030647301ex99-2.htm",
+      "source_sha256": "0d8253ec2e084cdff6bf975ddefe64b47a4d5c5c94c93baf7cb5b55bd2da299d",
+      "date_basis": "Disclosure date; exact July renewal and redraw days not stated.",
+      "event_month": "2026-07"
+    },
+    {
+      "ticker": "BTDR",
+      "date": "2026-09-29",
+      "filing_date": "2026-09-29",
+      "type": "facility_commitment",
+      "amount_usd": 45000000,
+      "note": "An additional $45M BIT Group USD facility was agreed in August. Aggregate USD facility principal outstanding was about $423.3M on September 29. The BTC facility is separate.",
+      "source_uri": "https://www.sec.gov/Archives/edgar/data/1899123/000121390026104638/ea030647301ex99-2.htm",
+      "source_sha256": "0d8253ec2e084cdff6bf975ddefe64b47a4d5c5c94c93baf7cb5b55bd2da299d",
+      "date_basis": "Disclosure date; exact August signing day not stated.",
+      "event_month": "2026-08",
+      "aggregate_facilities_outstanding_usd": 423300000
+    },
+    {
+      "ticker": "BTDR",
+      "date": "2026-09-29",
+      "filing_date": "2026-09-29",
+      "type": "crypto_borrowing_observation",
+      "amount_usd": null,
+      "note": "The BTC facility became revolving in August, capped at 6,000 BTC. September 29 balance: about 3,669 BTC, after roughly 3,900 BTC draws and 2,185 BTC repayments since July 1. No current USD equivalent is asserted.",
+      "source_uri": "https://www.sec.gov/Archives/edgar/data/1899123/000121390026104638/ea030647301ex99-1.htm",
+      "source_sha256": "5dc325e9019f70113ffa8005d95a4353e273c691e19069f4af157e6a2ffa5625",
+      "currency": "BTC",
+      "amount_native": 3669,
+      "facility_limit_native": 6000,
+      "date_basis": "Reported balance date; amendment occurred in August."
+    },
+    {
+      "ticker": "BTDR",
+      "date": "2026-09-29",
+      "filing_date": "2026-09-29",
+      "type": "equity_issuance",
+      "amount_usd": 58000000,
+      "note": "July 1 to September 29 sales of 4,367,199 Class A shares generated $58M net proceeds. The $8.4M under the August 10 prospectus is a subset.",
+      "source_uri": "https://www.sec.gov/Archives/edgar/data/1899123/000121390026104638/ea030647301ex99-1.htm",
+      "source_sha256": "5dc325e9019f70113ffa8005d95a4353e273c691e19069f4af157e6a2ffa5625",
+      "date_basis": "End of the disclosed July 1 to September 29 sale period.",
+      "amount_basis": "Net proceeds."
     }
   ],
   "limits": [
     "Selected material financing events verified in the saved primary statements and event filings.",
     "Gross issue principal, facility commitments and statement carrying amounts have different definitions and cannot be summed into an October 17 closing balance.",
-    "June statement debt remains period-specific; subsequent amortization, drawdowns, exchanges, fees and currencies require reconciliation."
-  ]
+    "June statement debt remains period-specific; subsequent amortization, drawdowns, exchanges, fees and currencies require reconciliation.",
+    "Month-only events use the dated filing or announcement observation and state the actual event month. Draws belong to facilities; equity proceeds, BTC liabilities and loan commitments remain distinct."
+  ],
+  "source_manifest": "data/refresh_2026-10-17/core_review_v7/manifest.json",
+  "source_manifest_sha256": "af8570cea47d9dd8d5f5da51ad7033c38bb9e804dcb978702606c033a4cd3fdb"
 }

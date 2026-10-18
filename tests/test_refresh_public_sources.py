@@ -90,7 +90,7 @@ def test_resume_retains_journal_and_prioritizes_current_filings(
     close(work)
 
 
-def test_real_extraction_exports_original_byte_provenance(tmp_path: Path) -> None:
+def test_real_extraction_exports_original_byte_provenance(tmp_path: Path, monkeypatch) -> None:
     payload = b"<html><body>Example Corp issued $300 million of senior unsecured notes due 2030.</body></html>"
     work = refresh.DocumentQueue(tmp_path, SimpleNamespace(get=lambda _url: payload), set())
     work.enqueue(
@@ -110,6 +110,19 @@ def test_real_extraction_exports_original_byte_provenance(tmp_path: Path) -> Non
     )
     work.done.set()
     work.worker()
+    # Supply baseline CSV schemas from this real extraction, so a clean clone
+    # exercises the exporter without relying on Ted's ignored acquisition cache.
+    record = json.loads(work.database.execute("SELECT result FROM documents").fetchone()[0])
+    baseline = tmp_path / "baseline"
+    baseline.mkdir()
+    for filename, row in (
+        ("edgar_document_inventory.csv", record["document"]),
+        ("deals.csv", record["deal"]),
+        ("tranches.csv", record["tranches"][0] if record["tranches"] else {"id": ""}),
+    ):
+        with (baseline / filename).open("w", newline="") as stream:
+            csv.DictWriter(stream, fieldnames=list(row)).writeheader()
+    monkeypatch.setattr(refresh, "OLD_INVENTORY", baseline / "edgar_document_inventory.csv")
     result = work.finish()
     assert result["acquired"] == 1
     assert result["failed"] == 0

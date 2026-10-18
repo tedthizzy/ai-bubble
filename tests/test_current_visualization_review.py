@@ -37,7 +37,7 @@ def test_different_financial_measures_and_terminated_relationships_stay_separate
     apply_review(graph, review, relationships, events)
     nodes = {n["id"]: n for n in graph["nodes"]}
     edges = {(e["from"], e["to"]): e for e in graph["edges"]}
-    assert sum(n["usd"] for n in nodes.values() if n["type"] == "issuer") == 90_302_128_000
+    assert sum(n["usd"] for n in nodes.values() if n["type"] == "issuer") == 90_184_580_000
     assert edges["NVIDIA", "SB Energy"]["usd"] == 105_000_000_000
     assert nodes["SB Energy"]["usd"] is None
     assert edges["Hut 8", "Coatue"]["usd"] is None

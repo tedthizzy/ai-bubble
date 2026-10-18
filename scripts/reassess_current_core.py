@@ -40,7 +40,9 @@ def verify_debt_card(card: dict[str, Any], source: dict[str, Any], text: str) ->
     if card["filing_date"] != source["filing_date"]:
         raise ValueError(f"Debt card filing date mismatch: {card['ticker']}")
     total = Decimal(0)
-    for component in card["components"]:
+    rows = [(True, row) for row in card["components"]]
+    rows.extend((False, row) for row in card.get("excluded_components", []))
+    for included, component in rows:
         label = re.escape(component["label"]).replace(r"\ ", r"\s+")
         value = re.escape(component["reported_value"])
         # Ignore footnote markers and accounting parentheses, while requiring
@@ -57,7 +59,8 @@ def verify_debt_card(card: dict[str, Any], source: dict[str, Any], text: str) ->
             require_sequence(text, component["label"], columns)
         elif re.search(pattern, text, re.I) is None:
             raise ValueError(f"Unverified debt row: {card['ticker']} {component['label']}")
-        total += Decimal(component["reported_value"].replace(",", "")) * component["sign"]
+        if included:
+            total += Decimal(component["reported_value"].replace(",", "")) * component["sign"]
     amount = total * card["units_usd"]
     if amount != amount.to_integral_value():
         raise ValueError("Debt card is not an integral USD amount")
@@ -112,12 +115,12 @@ def reassess(run: Path, manifest: Path, as_of: str) -> dict[str, Any]:
     require_sequence(
         bitdeer,
         "Net cash used in operating activities",
-        ["158,523", "336,752", "505,417", "622,025"],
+        ["505,417", "622,025"],
     )
     require_sequence(
         bitdeer,
         "Purchase of property, plant and equipment and intangible assets",
-        ["265,994", "111,480", "359,740", "157,205"],
+        ["359,740", "157,205"],
     )
     supplements = {
         "NBIS": (4_504_100_000, 8_130_300_000),
@@ -185,6 +188,7 @@ def reassess(run: Path, manifest: Path, as_of: str) -> dict[str, Any]:
         "source_manifest": str(manifest.relative_to(ROOT)),
         "source_manifest_sha256": hashlib.sha256(manifest.read_bytes()).hexdigest(),
         "debt_cards_sha256": hashlib.sha256(cards_path.read_bytes()).hexdigest(),
+        "measurement_corrections": cards.get("corrections", []),
         "issuer_observations": observations,
         "reported_issuer_debt_usd": sum(row["reported_debt_usd"] for row in observations),
         "issuer_count": len(observations),
@@ -245,6 +249,11 @@ def markdown(value: dict[str, Any]) -> str:
         "Core Scientific repaid and terminated its former $1B term loan in May 2026. The current debt card includes its later note balances.",
         "",
         value["current_findings"]["bubble_classification"],
+        "",
+        *[
+            f"Correction: {row['ticker']} USD-denominated debt is ${row['corrected_debt_usd'] / 1e9:.6f}B. The earlier total included ${row['excluded_crypto_carrying_amount_usd'] / 1e6:.3f}M of Bitcoin-denominated borrowing. That exposure remains separately recorded."
+            for row in value.get("measurement_corrections", [])
+        ],
         "",
         "Measurement limits:",
         "",

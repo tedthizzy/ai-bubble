@@ -62,3 +62,10 @@ Commands and retained evidence:
 The temporary uv binary came from its verified PyPI wheel and lives under
 /tmp/bubble-uv-20261017. It was not installed globally. No GitHub authentication,
 scope, app or workflow setting changed.
+
+Verification update, 2026-10-17T23:46:07.652486-07:00: remote CI 39103139050 passed full strict source
+Mypy. Its two Linux test portability failures are repaired locally. The latest
+candidate suite passed 952 tests in 12.08s at 703,006,808 bytes. Ruff passed and
+297 files passed formatting. Main .venv installation remains pending acquisition.
+The initial local override accidentally collected retained '* 2.py' files;
+the corrected command keeps the configured ignore glob. Both logs are retained.

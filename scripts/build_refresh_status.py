@@ -134,7 +134,8 @@ def build(run: Path) -> dict[str, Any]:  # noqa: PLR0915 - assemble independent 
             "complete": (exhibit_root / "run-result.json").is_file()
             and not parents.get("queued")
             and not parents.get("failed")
-            and set(index_parsers) == {"sec_document_types_v1"}
+            and bool(index_parsers)
+            and set(index_parsers) <= {"sec_document_types_v1", "sec_document_types_v2"}
             and not attachments.get("queued")
             and not attachments.get("inflight")
             and not unresolved_attachments,

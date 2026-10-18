@@ -1,5 +1,21 @@
 # Refresh verification checkpoint, October 17, 2026
 
+Financing and parser checkpoint, 2026-10-17T23:46:07.652486-07:00:
+
+- 952 passed in 12.08s under 1.5 GiB supervision; observed peak 703,006,808 bytes.
+  Log: data/refresh_2026-10-17/cofiler-financing-full-tests-v2.log. Command used
+  PYTHONPATH=.codex/security-validation-complete-2026-10-17:src and pytest
+  -o 'addopts=-ra --strict-markers' --ignore-glob='* 2.py' --no-cov -p no:cacheprovider -q.
+- Ruff src/tests: All checks passed. Format: 297 files already formatted.
+- node --test tests/viz/explorer.test.cjs: eight passed.
+- Actual Chrome: 41 core entities, corrected $90.184580B measure, 7,687 grey
+  points, 9,640 links, Arial 14/18, no mobile/desktop body overflow, zero idle
+  frames over five seconds. Fixed overlapping panels and inspected new sources.
+- Remote CI 39103139050: full strict Mypy and security checks passed. Two
+  test portability repairs pass locally; complete next remote run is pending.
+- Full source acquisition and final report/field remain pending. Main .venv
+  dependency installation remains pending. Original logs and snapshots remain.
+
 Valuation and dependency checkpoint, October 17 at 23:09 PDT:
 
 - Full candidate dependencies: 947 tests passed in 22.33 seconds; peak

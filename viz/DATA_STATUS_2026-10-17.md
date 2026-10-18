@@ -1,5 +1,13 @@
 # Explorer source status, October 17, 2026
 
+The current 13-issuer USD-denominated debt measure is $90.184580B. This corrects
+$117.548M of Bitdeer BTC borrowing included in the earlier $90.302128B total.
+BTC principal remains separately recorded. The financing ledger has 19 entries;
+45 reviewed relationships produce 41 core entities and 58 connections. New
+counterparties retain unknown fragility. A facility amount does not establish
+individual lender exposure. Sources, Deals and selected evidence now open
+without covering each other. Full source completion remains pending.
+
 Current valuation inputs are reviewed through October 17 with October 16 market
 observations. The record page states each model assumption and retains the
 June 3 structural judgment as historical. This does not complete the pending

@@ -1,18 +1,26 @@
 from __future__ import annotations
 
 import json
-import os
 import subprocess
 import sys
 from pathlib import Path
 
-from scripts.run_with_memory_budget import footprint
-
 SUPERVISOR = Path(__file__).resolve().parents[1] / "scripts/run_with_memory_budget.py"
 
 
-def test_current_process_has_observable_memory() -> None:
-    assert 0 < footprint(os.getpid()) < 1024**3
+def test_isolated_process_has_observable_memory() -> None:
+    # The full suite can already have large ML libraries loaded on Linux.
+    # Measure the same lightweight process on every host, retaining the cap.
+    measured = subprocess.check_output(
+        [
+            sys.executable,
+            "-B",
+            "-c",
+            "import os; from scripts.run_with_memory_budget import footprint; print(footprint(os.getpid()))",
+        ],
+        text=True,
+    )
+    assert 0 < int(measured) < 1024**3
 
 
 def test_small_workload_finishes_and_reports_peak(tmp_path: Path) -> None:

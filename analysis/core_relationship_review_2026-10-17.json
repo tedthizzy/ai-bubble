@@ -625,6 +625,125 @@
           "source_sha256": "b903e654cb41bdd6c247e446cb38b9604954a660b2f07c268e2e0fe9d5fb2da0"
         }
       ]
+    },
+    {
+      "from": "JPMorgan Chase",
+      "to": "Core Scientific",
+      "type": "administrative_agent",
+      "usd": null,
+      "amount_label": "Agent / allocation unmeasured",
+      "tier": "filing_verified",
+      "note": "Named administrative and collateral agent on the August 25 facilities: $100M revolver and $500M letters of credit, both undrawn at closing. Agent status does not establish beneficial lender exposure.",
+      "review_as_of": "2026-10-17",
+      "sources": [
+        {
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1839341/000183934126000021/core-20260825.htm",
+          "filing_date": "2026-08-27",
+          "source_sha256": "c65c3563a6158dc0e373220a12e40cb8f2ed01e5b055db5e071ff6bc8d1394b8"
+        }
+      ]
+    },
+    {
+      "from": "Coinbase Credit",
+      "to": "MARA Holdings",
+      "type": "credit_facility",
+      "usd": 450000000,
+      "amount_label": "Facility size / August 4",
+      "tier": "filing_verified",
+      "note": "MARA disclosed an August 4 bitcoin-backed USD facility refinancing its $150M Coinbase line and providing $300M additional funding. The $450M total is facility size, not a verified October balance.",
+      "review_as_of": "2026-10-17",
+      "sources": [
+        {
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1507605/000150760526000022/mara-20260630.htm",
+          "filing_date": "2026-08-06",
+          "source_sha256": "88b216ba4b97228ccdd86f955b438d3aad2fd54736c2f2080e7566c2b35c7e14"
+        }
+      ]
+    },
+    {
+      "from": "Two Prime Lending",
+      "to": "MARA Holdings",
+      "type": "credit_facility",
+      "usd": 300000000,
+      "amount_label": "Facility size / August 4",
+      "tier": "filing_verified",
+      "note": "MARA disclosed an August 4 $300M bitcoin-backed USD facility at 7.65%, maturing August 3, 2028. Facility size is separate from its June carrying amount.",
+      "review_as_of": "2026-10-17",
+      "sources": [
+        {
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1507605/000150760526000022/mara-20260630.htm",
+          "filing_date": "2026-08-06",
+          "source_sha256": "88b216ba4b97228ccdd86f955b438d3aad2fd54736c2f2080e7566c2b35c7e14"
+        }
+      ]
+    },
+    {
+      "from": "Royal Bank of Canada",
+      "to": "Bit Digital",
+      "type": "financing_participant",
+      "usd": null,
+      "amount_label": "Named financing role / allocation unmeasured",
+      "tier": "filing_verified",
+      "note": "The June statement discloses a July 6 CAD115M RBC syndicated facility for Enovum, a WhiteFiber subsidiary. A conditional CAD25M accordion is separate; individual RBC retained exposure is unmeasured. CAD36.8M was drawn July 15.",
+      "review_as_of": "2026-10-17",
+      "sources": [
+        {
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1710350/000121390026088709/ea0300693-10q_bitdigital.htm",
+          "filing_date": "2026-08-13",
+          "source_sha256": "701c77303aeb9af678d714104e52ead18e1e0687159091c1527b9f83083019e8"
+        }
+      ]
+    },
+    {
+      "from": "BIT Group",
+      "to": "Bitdeer",
+      "type": "related_party_financing",
+      "usd": 423300000,
+      "amount_label": "USD loans outstanding / September 29",
+      "tier": "filing_verified",
+      "note": "USD facilities had about $423.3M principal outstanding on September 29, including additional August capacity. The separate BTC loan had about 3,669 BTC outstanding that date; it is excluded from the USD debt total.",
+      "review_as_of": "2026-10-17",
+      "sources": [
+        {
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1899123/000121390026104638/ea030647301ex99-2.htm",
+          "filing_date": "2026-09-29",
+          "source_sha256": "0d8253ec2e084cdff6bf975ddefe64b47a4d5c5c94c93baf7cb5b55bd2da299d"
+        }
+      ]
+    },
+    {
+      "from": "Volta Tydal",
+      "to": "Bitdeer",
+      "type": "colocation_lease",
+      "usd": 4700000000,
+      "amount_label": "Base-term value / terminable at year ten",
+      "tier": "filing_verified",
+      "note": "Tydal Data Center AS leased 121 IT MW to Volta Tydal AS. The reported $4.7B value spans a 16-year base term with a no-fee tenant termination right at year ten. The $8B value with renewal options is excluded.",
+      "review_as_of": "2026-10-17",
+      "sources": [
+        {
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1899123/000121390026104638/ea030647301ex99-2.htm",
+          "filing_date": "2026-09-29",
+          "source_sha256": "0d8253ec2e084cdff6bf975ddefe64b47a4d5c5c94c93baf7cb5b55bd2da299d"
+        }
+      ]
+    },
+    {
+      "from": "JPMorgan Chase",
+      "to": "Volta Tydal",
+      "type": "anticipated_credit_support",
+      "usd": null,
+      "amount_label": "Anticipated conditional credit support",
+      "tier": "issuer_announced",
+      "note": "The issuer anticipates roughly $1.3B combined letters of credit from JPMorgan affiliates and another unnamed institution, subject to conditions. Neither issuance nor JPMorgan allocation is established. This is separate from funded issuer debt.",
+      "review_as_of": "2026-10-17",
+      "sources": [
+        {
+          "source_uri": "https://www.sec.gov/Archives/edgar/data/1899123/000121390026104638/ea030647301ex99-2.htm",
+          "filing_date": "2026-09-29",
+          "source_sha256": "0d8253ec2e084cdff6bf975ddefe64b47a4d5c5c94c93baf7cb5b55bd2da299d"
+        }
+      ]
     }
   ],
   "unconfirmed_existing_pairs": [
@@ -656,5 +775,7 @@
     "Agent, arranger and trustee roles do not identify beneficial lenders or ultimate loss bearers.",
     "Contract ceilings, financing commitments, equity proceeds and contingent guarantees are separate measures and cannot be added to issuer debt.",
     "Historical graph relationships remain available with their original claims and dates."
-  ]
+  ],
+  "additional_source_manifest": "data/refresh_2026-10-17/core_review_v7/manifest.json",
+  "additional_source_manifest_sha256": "af8570cea47d9dd8d5f5da51ad7033c38bb9e804dcb978702606c033a4cd3fdb"
 }

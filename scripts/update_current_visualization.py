@@ -112,6 +112,8 @@ def apply_review(  # noqa: PLR0912, PLR0915 - one reviewed reconciliation of the
             review_as_of=as_of,
             sources=[{"source_uri": item["source_uri"], "filing_date": item["filing_date"]}],
         )
+        if item.get("excluded_components"):
+            node["note"] += " " + " ".join(row["reason"] for row in item["excluded_components"])
     by_id["CoreWeave"]["note"] += (
         " Largest Q2 customer: 36%, anonymously disclosed. The old Microsoft 67% claim does not describe this quarter."
     )
@@ -158,7 +160,7 @@ def apply_review(  # noqa: PLR0912, PLR0915 - one reviewed reconciliation of the
         (
             "JPMorgan Chase",
             "lender",
-            "Administrative and collateral agent for Hut 8's September 2026 revolving facility.",
+            "Named agent for Hut 8 and Core Scientific facilities. Expected Bitdeer/Volta credit support is conditional; beneficial lending allocations are not measured.",
         ),
         (
             "Google",
@@ -180,6 +182,27 @@ def apply_review(  # noqa: PLR0912, PLR0915 - one reviewed reconciliation of the
             "supplier_offtaker",
             "Compute hardware supplier and named Core Scientific datacenter lease customer.",
         ),
+        ("Coinbase Credit", "lender", "Named lender on MARA's August bitcoin-backed USD facility."),
+        (
+            "Two Prime Lending",
+            "lender",
+            "Named lender on MARA's August bitcoin-backed USD facility.",
+        ),
+        (
+            "Royal Bank of Canada",
+            "lender",
+            "Named participant in Enovum/WhiteFiber's RBC syndicated financing. Individual lender allocation is not measured.",
+        ),
+        (
+            "BIT Group",
+            "lender",
+            "Related-party lender named by Bitdeer. Its USD facilities and Bitcoin loan are separate obligations.",
+        ),
+        (
+            "Volta Tydal",
+            "tenant",
+            "Named Bitdeer Tydal tenant. The 16-year base lease permits termination at year ten; anticipated credit support remains conditional.",
+        ),
     ]:
         if identifier not in by_id:
             node = {
@@ -195,6 +218,8 @@ def apply_review(  # noqa: PLR0912, PLR0915 - one reviewed reconciliation of the
             graph["nodes"].append(node)
             by_id[identifier] = node
         by_id[identifier]["note"] = note
+    for node in graph["nodes"]:
+        node["sources"] = list({row["source_uri"]: row for row in node.get("sources", [])}.values())
     updates = {(row["from"], row["to"]): row for row in relationships["relationships"]}
     seen = set()
     for index, edge in enumerate(graph["edges"]):

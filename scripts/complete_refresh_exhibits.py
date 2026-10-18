@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import gzip
 import hashlib
 import json
 import os
@@ -17,8 +18,10 @@ from contextlib import contextmanager
 from datetime import date
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
+from urllib.parse import urlsplit
 
 if TYPE_CHECKING:
+    from _thread import LockType
     from collections.abc import Iterator
 
     import httpx
@@ -28,6 +31,8 @@ from bubble.ingestion.edgar.filing_manifest import (
     FilingRecord,
     _fetch_exhibit_records_for_filing,
     _should_fetch_exhibit_index,
+    filing_document_table_url,
+    parse_filing_document_table,
 )
 from bubble.models.base import Provenance, SourceType
 
@@ -90,6 +95,42 @@ class SharedClient(PublicClient):
         self.main_identity = identity
         self.next_probe = 0.0
         self.main_active = True
+        self.index_sources: dict[str, tuple[str, str]] = {}
+        self.index_locks: dict[str, LockType] = {}
+        self.index_state_lock = threading.Lock()
+        self.index_cache_hits = 0
+        for receipt in (run / "sec_json").glob("*.html.source.json"):
+            record = json.loads(receipt.read_text())
+            accession = urlsplit(record["url"]).path.split("/")[-2]
+            self.index_sources.setdefault(accession, (record["url"], record["sha256"]))
+
+    def json(self, url: str) -> Any:
+        """An accession identifies one submission even when several CIKs co-file."""
+        index_url = filing_document_table_url(url)
+        if index_url is None:
+            return super().json(url)
+        accession = urlsplit(index_url).path.split("/")[-2]
+        with self.index_state_lock:
+            lock = self.index_locks.setdefault(accession, threading.Lock())
+        with lock:
+            if accession in self.index_sources:
+                source_uri, expected_hash = self.index_sources[accession]
+                path = (
+                    self.run
+                    / "sec_json"
+                    / (hashlib.sha256(source_uri.encode()).hexdigest() + ".html.gz")
+                )
+                with gzip.open(path, "rb") as stream:
+                    raw = stream.read()
+                if hashlib.sha256(raw).hexdigest() != expected_hash:
+                    raise ValueError("Changed cached SEC document index")
+                payload = parse_filing_document_table(raw, source_uri)
+                with self.index_state_lock:
+                    self.index_cache_hits += 1
+                return payload
+            payload = super().json(url)
+            self.index_sources[accession] = (payload["source_uri"], payload["source_sha256"])
+            return payload
 
     @contextmanager
     def response(self, url: str) -> Iterator[httpx.Response]:
@@ -157,6 +198,33 @@ def upgrade_parent_indexes(db: sqlite3.Connection, destination: Path) -> None:
     emit("exhibit_indexes_requeued_for_document_types", rechecked=checked, snapshot=str(snapshot))
 
 
+def upgrade_cofiler_indexes(db: sqlite3.Connection, destination: Path) -> None:
+    """Retain the rejected pass, then retry same-accession co-registrant links."""
+    pending = db.execute(
+        "SELECT COUNT(*) FROM parents WHERE status='queued' AND index_parser!='sec_document_types_v2'"
+    ).fetchone()[0]
+    failed = db.execute(
+        "SELECT COUNT(*) FROM parents WHERE status='failed' AND error=?",
+        ("SEC document table references a file outside its accession",),
+    ).fetchone()[0]
+    if not pending and not failed:
+        return
+    stamp = time.time_ns()
+    snapshot = destination / f"parents-before-cofilers-{stamp}.sqlite3"
+    with sqlite3.connect(snapshot) as backup:
+        db.backup(backup)
+    with db:
+        db.execute(
+            f"CREATE TABLE cofiler_rejections_{stamp} AS SELECT url,status,error,index_parser FROM parents WHERE status='failed'"
+        )
+        db.execute(
+            "UPDATE parents SET status='queued',error=NULL WHERE status='failed' AND error=?",
+            ("SEC document table references a file outside its accession",),
+        )
+        db.execute("UPDATE parents SET index_parser='sec_document_types_v2' WHERE status='queued'")
+    emit("cofiler_indexes_requeued", rejected=failed, pending=pending, snapshot=str(snapshot))
+
+
 def main() -> None:  # noqa: PLR0912, PLR0915 - bounded one-off source coordinator
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--run", required=True, type=Path)
@@ -177,12 +245,16 @@ def main() -> None:  # noqa: PLR0912, PLR0915 - bounded one-off source coordinat
         "selection": "Every exhibit-eligible selected primary filing, with no per-filing exhibit cap.",
         "budget_mib": 2048,
         "sec_rate_while_original_active": 1,
-        "index_parser": "sec_document_types_v1",
+        "index_parser": "sec_document_types_v2",
         "index_workers": 4,
-        "source_sha256": {name: hashlib.sha256((ROOT / name).read_bytes()).hexdigest() for name in (
-            "scripts/complete_refresh_exhibits.py", "scripts/refresh_public_sources.py",
-            "src/bubble/ingestion/edgar/filing_manifest.py",
-        )},
+        "source_sha256": {
+            name: hashlib.sha256((ROOT / name).read_bytes()).hexdigest()
+            for name in (
+                "scripts/complete_refresh_exhibits.py",
+                "scripts/refresh_public_sources.py",
+                "src/bubble/ingestion/edgar/filing_manifest.py",
+            )
+        },
     }
     marker = run / "exhibit-completion-start.json"
     if marker.exists():
@@ -217,6 +289,7 @@ def main() -> None:  # noqa: PLR0912, PLR0915 - bounded one-off source coordinat
         if not args.resume:
             seed_parents(run, db)
         upgrade_parent_indexes(db, destination)
+        upgrade_cofiler_indexes(db, destination)
         count = db.execute("SELECT COUNT(*) FROM parents").fetchone()[0]
         emit("exhibit_parent_census", parents=count)
         rows = iter(
@@ -290,6 +363,10 @@ def main() -> None:  # noqa: PLR0912, PLR0915 - bounded one-off source coordinat
             worker.join()
         result = work.finish()
         result["parents"] = dict(db.execute("SELECT status,COUNT(*) FROM parents GROUP BY status"))
+        result["index_cache"] = {
+            "unique_accessions": len(client.index_sources),
+            "reused": client.index_cache_hits,
+        }
     save(destination / "run-result.json", result)
     emit("exhibit_completion_finished", **result)
 

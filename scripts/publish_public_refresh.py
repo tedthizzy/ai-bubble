@@ -196,10 +196,12 @@ def publish(
     queue = status["sec_acquisition"]["new_run_queue"]
     if (
         status["refresh_as_of"] != run.name.removeprefix("refresh_")
+        or not status["complete"]
+        or not finished["all_manifest_urls_acquired"]
         or queue.get("queued")
         or queue.get("inflight")
     ):
-        raise ValueError("Finisher output does not describe a drained queue for this run")
+        raise ValueError("Finisher output does not describe complete source coverage for this run")
     verify_browser_evidence(evidence)
     if index_digest() != expected_index:
         raise RuntimeError("Staged work changed while waiting")

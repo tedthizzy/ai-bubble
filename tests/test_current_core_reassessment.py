@@ -59,6 +59,40 @@ def test_current_column_can_follow_the_prior_year_without_selecting_it() -> None
         review.verify_debt_card(wrong, source, "Debt, current 24.5 46.7")
 
 
+def test_crypto_denominated_loan_is_verified_but_excluded_from_usd_debt() -> None:
+    card = {
+        "ticker": "BTDR",
+        "filing_date": "2026-09-29",
+        "period_end": "2026-06-30",
+        "column_periods": ["note_reference", "2026-06-30", "2025-12-31"],
+        "units_usd": 1000,
+        "components": [
+            {
+                "label": "USD loans",
+                "reported_value": "373,500",
+                "sign": 1,
+                "reported_columns": ["20", "373,500", "275,000"],
+                "selected_column": 1,
+            }
+        ],
+        "excluded_components": [
+            {
+                "label": "BTC loans",
+                "reported_value": "117,548",
+                "reported_columns": ["20", "117,548"],
+                "selected_column": 1,
+            }
+        ],
+    }
+    source = {"filing_date": "2026-09-29", "source_sha256": "fixture"}
+    result = review.verify_debt_card(
+        card, source, "USD loans 20 373,500 275,000 BTC loans 20 117,548 -"
+    )
+    assert result["reported_debt_usd"] == 373_500_000
+    with pytest.raises(ValueError, match="Unverified financial table"):
+        review.verify_debt_card(card, source, "USD loans 20 373,500 275,000 BTC loans 20 999 -")
+
+
 def test_changed_or_unverifiable_row_stops_the_financial_total() -> None:
     card = {
         "ticker": "issuer",

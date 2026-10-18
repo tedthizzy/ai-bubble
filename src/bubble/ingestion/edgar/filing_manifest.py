@@ -313,6 +313,9 @@ def parse_filing_document_table(raw: bytes, source_uri: str) -> Mapping[str, Any
     if not isinstance(table, Tag):
         raise ValueError("SEC response has no Document Format Files table")
     folder = urlsplit(source_uri).path.rsplit("/", 1)[0] + "/"
+    accession = folder.rstrip("/").rsplit("/", 1)[-1]
+    if re.fullmatch(r"\d{18}", accession) is None:
+        raise ValueError("SEC document table has no valid accession folder")
     items = []
     for row in table.find_all("tr"):
         cells = row.find_all("td")
@@ -327,11 +330,17 @@ def parse_filing_document_table(raw: bytes, source_uri: str) -> Mapping[str, Any
             raise ValueError("SEC document table references a file outside its origin")
         document = parse_qs(target.query).get("doc", [target.path])[0]
         path = unquote(urlsplit(document).path)
-        if not path.startswith(folder):
+        document_path = re.fullmatch(r"/Archives/edgar/data/\d+/(\d{18})/(.+)", path)
+        if (
+            document_path is None
+            or document_path.group(1) != accession
+            or any(part in {"", ".", ".."} for part in document_path.group(2).split("/"))
+        ):
             raise ValueError("SEC document table references a file outside its accession")
         items.append(
             {
-                "name": path.removeprefix(folder),
+                "name": document_path.group(2),
+                "document_url": "https://www.sec.gov" + path,
                 "document_type": document_type,
                 "description": cells[1].get_text(" ", strip=True),
                 "size": cells[4].get_text(" ", strip=True),
@@ -342,7 +351,7 @@ def parse_filing_document_table(raw: bytes, source_uri: str) -> Mapping[str, Any
     return {
         "source_uri": source_uri,
         "source_sha256": hashlib.sha256(raw).hexdigest(),
-        "index_parser": "sec_document_types_v1",
+        "index_parser": "sec_document_types_v2",
         "directory": {"name": folder, "item": items},
     }
 
@@ -919,7 +928,10 @@ def _exhibit_record(
         is_xbrl=False,
         is_inline_xbrl=False,
         source_uri=index_url,
-        filing_url=_filing_url(filing.cik, filing.accession_number, document_name),
+        filing_url=str(
+            item.get("document_url")
+            or _filing_url(filing.cik, filing.accession_number, document_name)
+        ),
         relevance_score=score,
         relevance_reasons=reasons,
         provenance=provenance,

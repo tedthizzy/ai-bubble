@@ -121,6 +121,10 @@
    "new_8k_7d": 0,
    "observed_as_of": "2026-10-17"
   },
+  "Bitdeer": {
+   "new_8k_7d": 0,
+   "observed_as_of": "2026-10-17"
+  },
   "Cipher Mining": {
    "new_8k_7d": 3,
    "observed_as_of": "2026-10-17"
@@ -165,67 +169,72 @@
  "edgar_errors": [],
  "edgar_last_observed": {
   "Applied Digital": {
-   "captured_utc": "2026-10-18T06:11:41.560178+00:00",
+   "captured_utc": "2026-10-18T06:24:09.030412+00:00",
    "new_8k_7d": 0,
    "observed_as_of": "2026-10-17"
   },
   "Bit Digital": {
-   "captured_utc": "2026-10-18T06:11:41.560198+00:00",
+   "captured_utc": "2026-10-18T06:24:09.030428+00:00",
+   "new_8k_7d": 0,
+   "observed_as_of": "2026-10-17"
+  },
+  "Bitdeer": {
+   "captured_utc": "2026-10-18T06:24:09.030430+00:00",
    "new_8k_7d": 0,
    "observed_as_of": "2026-10-17"
   },
   "Cipher Mining": {
-   "captured_utc": "2026-10-18T06:11:41.560195+00:00",
+   "captured_utc": "2026-10-18T06:24:09.030426+00:00",
    "new_8k_7d": 3,
    "observed_as_of": "2026-10-17"
   },
   "CleanSpark": {
-   "captured_utc": "2026-10-18T06:11:41.560186+00:00",
+   "captured_utc": "2026-10-18T06:24:09.030418+00:00",
    "new_8k_7d": 0,
    "observed_as_of": "2026-10-17"
   },
   "Core Scientific": {
-   "captured_utc": "2026-10-18T06:11:41.560193+00:00",
+   "captured_utc": "2026-10-18T06:24:09.030424+00:00",
    "new_8k_7d": 0,
    "observed_as_of": "2026-10-17"
   },
   "CoreWeave": {
-   "captured_utc": "2026-10-18T06:11:41.560166+00:00",
+   "captured_utc": "2026-10-18T06:24:09.030395+00:00",
    "new_8k_7d": 0,
    "observed_as_of": "2026-10-17"
   },
   "Galaxy Digital": {
-   "captured_utc": "2026-10-18T06:11:41.560188+00:00",
+   "captured_utc": "2026-10-18T06:24:09.030420+00:00",
    "new_8k_7d": 0,
    "observed_as_of": "2026-10-17"
   },
   "Hut 8": {
-   "captured_utc": "2026-10-18T06:11:41.560181+00:00",
+   "captured_utc": "2026-10-18T06:24:09.030414+00:00",
    "new_8k_7d": 0,
    "observed_as_of": "2026-10-17"
   },
   "IREN": {
-   "captured_utc": "2026-10-18T06:11:41.560176+00:00",
+   "captured_utc": "2026-10-18T06:24:09.030408+00:00",
    "new_8k_7d": 0,
    "observed_as_of": "2026-10-17"
   },
   "MARA Holdings": {
-   "captured_utc": "2026-10-18T06:11:41.560183+00:00",
+   "captured_utc": "2026-10-18T06:24:09.030416+00:00",
    "new_8k_7d": 0,
    "observed_as_of": "2026-10-17"
   },
   "Nebius": {
-   "captured_utc": "2026-10-18T06:11:41.560190+00:00",
+   "captured_utc": "2026-10-18T06:24:09.030422+00:00",
    "new_8k_7d": 0,
    "observed_as_of": "2026-10-17"
   },
   "TeraWulf": {
-   "captured_utc": "2026-10-18T06:11:41.560172+00:00",
+   "captured_utc": "2026-10-18T06:24:09.030404+00:00",
    "new_8k_7d": 0,
    "observed_as_of": "2026-10-17"
   }
  },
- "generated_utc": "2026-10-18T06:11:41Z",
+ "generated_utc": "2026-10-18T06:24:09Z",
  "issuance_latest": {
   "amount_usd": 1120000000,
   "coupon_pct": 8.875,
@@ -262,6 +271,13 @@
    "date": "2026-10-16",
    "prev_close": 1.0800000429153442,
    "sym": "BTBT"
+  },
+  "Bitdeer": {
+   "chg_pct": -8.04,
+   "close": 7.71999979019165,
+   "date": "2026-10-16",
+   "prev_close": 8.395000457763672,
+   "sym": "BTDR"
   },
   "Blackstone": {
    "chg_pct": -2.37,
@@ -368,6 +384,13 @@
    "prev_close": 188.41000366210938,
    "sym": "NBIS"
   },
+  "Royal Bank of Canada": {
+   "chg_pct": 0.57,
+   "close": 197.8000030517578,
+   "date": "2026-10-16",
+   "prev_close": 196.67999267578125,
+   "sym": "RY"
+  },
   "TeraWulf": {
    "chg_pct": -7.45,
    "close": 11.680000305175781,
@@ -430,14 +453,14 @@
    "received": 4
   },
   "edgar": {
-   "expected": 12,
+   "expected": 13,
    "missing": [],
-   "received": 12
+   "received": 13
   },
   "quotes": {
-   "expected": 19,
+   "expected": 21,
    "missing": [],
-   "received": 19
+   "received": 21
   }
  },
  "verdict_shadow": {
