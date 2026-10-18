@@ -1,0 +1,240 @@
+{
+  "checked_at_pacific": "2026-10-17T18:46:17.236125-07:00",
+  "browser": "existing Chrome/155.0.8059.82",
+  "preview": "http://127.0.0.1:8765/",
+  "new_browser_launched": false,
+  "screenshots": [
+    {
+      "path": "data/refresh_2026-10-17/browser-validation/optimized-core-card.png",
+      "sha256": "d2e50d35b9566183149c90c243a988e2f6747dfce4f4b8bf7a078c165ac94dca"
+    },
+    {
+      "path": "data/refresh_2026-10-17/browser-validation/optimized-desktop-fixed.png",
+      "sha256": "fbb62d2780c11ba62a75d7b0e57dbebcdbd34eaaf1a7fb3ea76651f841a436cb"
+    },
+    {
+      "path": "data/refresh_2026-10-17/browser-validation/optimized-desktop-initial.png",
+      "sha256": "d049a5dfceab75ce2ba5836be11a7a78abcb631236b8b961337e1dc4a11d60a0"
+    },
+    {
+      "path": "data/refresh_2026-10-17/browser-validation/optimized-desktop-sources-final.png",
+      "sha256": "fbb62d2780c11ba62a75d7b0e57dbebcdbd34eaaf1a7fb3ea76651f841a436cb"
+    },
+    {
+      "path": "data/refresh_2026-10-17/browser-validation/optimized-empty.png",
+      "sha256": "23dc191ea4cd8b8b39acf85249dd2dbfd1c7f4fbbc79ae6b1bd3c0e88ad70de3"
+    },
+    {
+      "path": "data/refresh_2026-10-17/browser-validation/optimized-fallback-throttled.png",
+      "sha256": "4d4a4b5f0d8a630dc66b896d0b64e08a52041bf4ef15f3b8f95494debe51743b"
+    },
+    {
+      "path": "data/refresh_2026-10-17/browser-validation/optimized-mobile-fixed.png",
+      "sha256": "2e226e35788c006fc2008d90d13f128337b82d06843136a37f3caee268ce2f56"
+    },
+    {
+      "path": "data/refresh_2026-10-17/browser-validation/optimized-mobile-sources-final.png",
+      "sha256": "b6270b8d35527fbd3067196e25f3629c2c99fb5de0351c469163385d60b5bd41"
+    },
+    {
+      "path": "data/refresh_2026-10-17/browser-validation/optimized-mobile-sources-open.png",
+      "sha256": "28018315b13c3c2229f07a218e4febe78a845a37fb9d870a3848e86fdb384ce8"
+    },
+    {
+      "path": "data/refresh_2026-10-17/browser-validation/optimized-mobile-sources.png",
+      "sha256": "2e226e35788c006fc2008d90d13f128337b82d06843136a37f3caee268ce2f56"
+    },
+    {
+      "path": "data/refresh_2026-10-17/browser-validation/optimized-mobile-unicode-error-verified.png",
+      "sha256": "860f8ab5a6dbaca50f77ab864dfe66269f762a651b24dac673ab138f3b810e3f"
+    },
+    {
+      "path": "data/refresh_2026-10-17/browser-validation/optimized-mobile-unicode-error.png",
+      "sha256": "97cd99b454e5e5b1f15ae1ba6767634bb27957061049958dd34cf367c4ce4452"
+    },
+    {
+      "path": "data/refresh_2026-10-17/browser-validation/optimized-mobile.png",
+      "sha256": "73f625aefb8e1c163cb0f41b36b06db2454e23f63f2b5751d6e3041433365d38"
+    },
+    {
+      "path": "data/refresh_2026-10-17/browser-validation/optimized-sources-stacked.png",
+      "sha256": "e2d5335d31839df3dab05c2a9aa430724f2f9e738be68691c5c15c5c948d38da"
+    }
+  ],
+  "observed": {
+    "entities": 7715,
+    "core_entities": 28,
+    "grey_points": 7687,
+    "links": 9612,
+    "css_fonts": [
+      "Arial, sans-serif / 14px",
+      "Arial, sans-serif / 18px"
+    ],
+    "desktop_css_viewport": [
+      1152,
+      720
+    ],
+    "desktop_physical_viewport": [
+      1440,
+      900
+    ],
+    "profile_zoom_percent": 125,
+    "mobile_css_viewport": [
+      390,
+      844
+    ],
+    "mobile_scroll_width": 390,
+    "coreweave_connections_shown": 18,
+    "largest_raw_entity_connections_shown": 459,
+    "largest_raw_entity_connections_expected": 459,
+    "keyboard_search_enter": "passed",
+    "raw_point_click": "raw entity card observed after actual click",
+    "deal_click": "NVIDIA / OpenAI; Press-only / non-binding",
+    "normal_cascade": {
+      "revealed": 10,
+      "expected": 10,
+      "timer_after_finish": null,
+      "paused_after_finish": true
+    },
+    "reduced_motion": {
+      "revealed": 10,
+      "expected": 10,
+      "timer": null
+    },
+    "ten_rapid_cascade_clicks": {
+      "cascade_on": false,
+      "timer": null
+    },
+    "unicode_long_name": {
+      "characters_js_utf16": 189,
+      "unsafe_img_or_script_elements": 0,
+      "horizontal_scroll": false
+    },
+    "failed_market_fetch": "Market overlay unavailable.",
+    "empty_graph": {
+      "status": "No entities in this dataset.",
+      "cascade_disabled": true
+    },
+    "throttled_network": {
+      "latency_ms": 150,
+      "bytes_per_second": 100000,
+      "blocked_resources": [
+        "graph_data.json",
+        "live.json",
+        "freshness.json"
+      ],
+      "fallback_entities": 28,
+      "fallback_grey_points": 0,
+      "status": "Saved core fallback. Full extracted data could not be loaded."
+    },
+    "tab_hide_and_return": "passed after resume fix",
+    "render_metrics": {
+      "settled_initial_idle_frames": 0,
+      "settled_initial_interval_ms": 5001.9,
+      "after_rapid_cascade_including_remaining_camera_tween_frames": 26,
+      "after_rapid_cascade_seconds": 5,
+      "draw_calls_after_cascade": 58,
+      "grey_points": 7687,
+      "geometries": 67,
+      "textures": 0,
+      "js_heap_bytes": 13735571,
+      "settled_after_cascade": {
+        "frames": 0,
+        "seconds": 5,
+        "paused_before": true,
+        "paused_after": true,
+        "last_frame_draw_calls": 56,
+        "points": 7687,
+        "textures": 0,
+        "js_heap_bytes": 12900476
+      }
+    }
+  },
+  "text_contrast": [
+    {
+      "text": "#e6edf3",
+      "background": "#05070c",
+      "contrast": 17.0536
+    },
+    {
+      "text": "#e6edf3",
+      "background": "#0c1420",
+      "contrast": 15.6372
+    },
+    {
+      "text": "#e6edf3",
+      "background": "#233044",
+      "contrast": 11.2647
+    },
+    {
+      "text": "#e6edf3",
+      "background": "#1a2637",
+      "contrast": 12.9129
+    },
+    {
+      "text": "#adb8c8",
+      "background": "#05070c",
+      "contrast": 10.0437
+    },
+    {
+      "text": "#adb8c8",
+      "background": "#0c1420",
+      "contrast": 9.2095
+    },
+    {
+      "text": "#adb8c8",
+      "background": "#233044",
+      "contrast": 6.6343
+    },
+    {
+      "text": "#adb8c8",
+      "background": "#1a2637",
+      "contrast": 7.605
+    },
+    {
+      "text": "#cba978",
+      "background": "#05070c",
+      "contrast": 9.102
+    },
+    {
+      "text": "#cba978",
+      "background": "#0c1420",
+      "contrast": 8.346
+    },
+    {
+      "text": "#cba978",
+      "background": "#233044",
+      "contrast": 6.0123
+    },
+    {
+      "text": "#cba978",
+      "background": "#1a2637",
+      "contrast": 6.892
+    }
+  ],
+  "minimum_text_contrast": 6.0123,
+  "repairs_found_by_browser": [
+    "Set paused=false before synchronous resumeAnimation to prevent recursive controls-change wake.",
+    "Close report dl before the market and acquisition sections.",
+    "Hide empty library tooltip; normalize empty library info message font.",
+    "Reduce background line opacity and dim it during selection.",
+    "Give header and legend opaque backgrounds for contrast."
+  ],
+  "known_probe_errors": [
+    "An early diagnostic referenced undefined renderPaused.",
+    "A throttled-load probe ran before explorer.js loaded; a later probe verified fallback.",
+    "Initial emulated mobile click coordinates needed adjustment for the existing 125 percent Chrome zoom."
+  ],
+  "limits": [
+    "No before/after full legacy browser benchmark was run; avoided loading thousands of old label textures into the shared browser.",
+    "Frame counts describe observed frames, not a device-independent performance guarantee.",
+    "The June adjudicated financial core remains historical.",
+    "Publication and full SEC acquisition are separate pending stages."
+  ],
+  "local_interaction_verified": true,
+  "source_sha256": {
+    "viz/index.html": "6d8359279a38b3660a8e6a1ed68b269087f8c890b248616d66ae0952c9efa16f",
+    "viz/explorer.js": "385716af290d67160231c0fe22e69fd71ae1152d0dadce67f04d9f25629deb32",
+    "viz/explorer.css": "90d29de99fcfaaf0b3a07cf7a0a11d5536d80e57a4f170f873e7ac5af52d64cb"
+  }
+}

@@ -1,4 +1,20 @@
 # Bubble move pause - 2026-10-16
+## Browser and publication continuation - 2026-10-17 18:50 PDT
+
+Ted confirmed browser control and publication while preserving existing Git
+history. Actual desktop/mobile Chrome checks are complete. Browser findings
+were repaired and the six Node tests pass. The supervised publisher is waiting
+for the existing finisher. It commits only the generated freshness and v2
+engine files after completion, protects the original staged work, and verifies
+the remote workflow and deployed file hashes. Its 14 focused tests pass.
+
+The active logs are acquisition-resumed-document-fix.log, finish-refresh.log
+and publish-refresh.log under data/refresh_2026-10-17. Do not launch duplicates.
+The publication start record is exclusive. The raw acquisition and adjudicated
+June core remain distinct: no new current bubble probability is claimed.
+The first checkpoint push has not run at the time of this entry.
+See analysis/refresh_operations_2026-10-17.md for checks and preserved evidence.
+
 ## Continued public refresh - 2026-10-17 17:18 PDT
 
 The main acquisition and its supervised finishing process are active.

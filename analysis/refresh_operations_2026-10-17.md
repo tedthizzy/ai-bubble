@@ -1,5 +1,72 @@
 # Bubble refresh operations, October 17, 2026
 
+## Browser and publication checkpoint - 2026-10-17 18:50 PDT
+
+The later dated checkpoints supersede the earlier pending states below.
+Ted's latest confirmation authorizes using his existing Chrome and publishing
+this work while retaining the existing published Git history. The exception
+covers the 136 existing attribution matches. New commits must have zero matches.
+No history rewrite is authorized or needed.
+
+The explorer was rendered in the existing Chrome 155 session. Desktop and
+390px mobile screenshots were viewed. Search, keyboard selection, core cards,
+raw-point selection, all 459 connections on the largest raw-entity card, deal
+cards and cascade controls were exercised. Reduced motion, ten rapid cascade
+clicks, long mixed-script names, empty data and unavailable sources were checked.
+At 150ms latency and 100,000 bytes/second with graph and overlay requests blocked,
+the saved 28-entity core loaded with explicit unavailable-data messages.
+
+Browser checks found and repaired synchronous render-resume recursion when
+returning to a paused tab, an unclosed report definition list, and an empty
+library tooltip. Grey lines now dim during selection. Header and legend
+backgrounds preserve contrast over graph objects. Computed fonts are Arial at
+14px and 18px; minimum checked text contrast is 6.0123:1.
+
+After settling, Chrome rendered zero frames in five seconds. A post-cascade
+sample taken during the remaining camera tween rendered 26 frames in five
+seconds; a later settled sample rendered zero. The latter sample had 56 draw
+calls in its last rendered frame, 7,687 points, zero textures and a 12,900,476-byte
+JavaScript heap. These are observations on this browser, not a device-independent
+speedup estimate. The full old renderer was not loaded for a comparative
+benchmark, to avoid allocating its thousands of label textures in Ted's browser.
+
+Exact observations, screenshot hashes and source hashes are recorded in
+analysis/viz_browser_validation_2026-10-17.json. Local screenshots and test drivers
+remain in data/refresh_2026-10-17/browser-validation/. The Node suite now has six
+passing tests, including a regression for synchronous resume callbacks.
+
+The existing finisher remains responsible for acquisition completion, retry,
+full-byte merge, coverage audit, capital graph and dated engine v2. A separate
+supervised scripts/publish_public_refresh.py process now waits for that exact
+finisher PID. It requires its completion record and a drained queue. It verifies
+the exact browser-checked UI hashes, preserves the original staged-diff digest,
+and commits only freshness.json and the dated engine v2 JSON/Markdown outputs.
+It accepts only a fast-forward of the known market-overlay files. Divergence,
+unrelated incoming edits, source changes or stage failures stop publication.
+It never restarts acquisition, retries a push, forces history or deletes files.
+
+The publisher checks attribution, dry-runs and performs the authorized main push,
+observes the Pages workflow, and compares the deployed freshness and explorer
+file hashes. It publishes honest coverage gaps if sources remain unavailable;
+publication does not mean every URL was acquired or the June core was recarded.
+Its 14 focused tests passed, including preservation of an unrelated staged
+addition in a real temporary Git repository. Mypy and Ruff passed. The first
+Mypy run found one missing JSON-result annotation; that annotation was corrected.
+The already-running process differs only by that inert type annotation; its
+exact launch source is retained in .codex/refresh-2026-10-17/publisher-running-source.py.
+
+Check the existing processes before starting anything:
+
+    tail -n 6 data/refresh_2026-10-17/acquisition-resumed-document-fix.log
+    tail -n 6 data/refresh_2026-10-17/finish-refresh.log
+    tail -n 6 data/refresh_2026-10-17/publish-refresh.log
+
+The publisher records publication-start.json and, after finishing, either
+publication-result.json or publication-stopped.json in that run directory.
+The exclusive start record prevents accidental duplicate launches. A partial
+push is unknown until fresh remote state is checked; do not replay it blindly.
+This checkpoint precedes the first push. Deployment is not yet verified here.
+
 Bubble is at /Users/ted/Projects/bubble. The former Documents/dev-archive/bubble
 location is absent. The move evidence remains in .codex/relocation-2026-10-17/.
 Do not create a second checkout as a substitute for resuming this one.

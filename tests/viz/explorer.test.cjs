@@ -35,7 +35,10 @@ function load(input=data,reduced=false) {
       if(name==='graphData' && args.length) state.graphData=args[0];
       if(name==='cameraPosition') state.cameraArgs=args;
       if(name==='pauseAnimation') state.pauses=(state.pauses||0)+1;
-      if(name==='resumeAnimation') state.resumes=(state.resumes||0)+1;
+      if(name==='resumeAnimation') {
+        state.resumes=(state.resumes||0)+1;
+        state.onResume?.();
+      }
       if(name.startsWith('on')) callbacks.set(name,args[0]);
       return graph;
     };
@@ -72,6 +75,16 @@ test('all saved entities and links remain accessible while only core enters the 
   assert.ok(app.state.pauses>0,'idle rendering pauses');
   app.eval('wake()');
   assert.ok(app.state.resumes>0,'interaction wakes rendering');
+});
+
+test('resuming can emit a synchronous controls change without recursively resuming',() => {
+  const app=load();
+  app.settle();
+  const before=app.state.resumes||0;
+  app.state.onResume=() => app.eval('wake()');
+  app.eval('wake()');
+  assert.equal(app.state.resumes,before+1);
+  assert.equal(app.eval('paused'),false);
 });
 
 test('search reaches raw entities and every selected connection can open its evidence card',() => {

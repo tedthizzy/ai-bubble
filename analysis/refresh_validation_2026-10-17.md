@@ -1,5 +1,29 @@
 # Refresh verification checkpoint, October 17, 2026
 
+The browser/publication checkpoint at 18:50 PDT in the operations record
+supersedes the earlier pending browser statements below. Actual Chrome
+observations and screenshot/source hashes are in
+[viz_browser_validation_2026-10-17.json](viz_browser_validation_2026-10-17.json).
+The current commands reported:
+
+    node --test tests/viz/explorer.test.cjs
+    tests 6; pass 6; fail 0
+
+    .venv/bin/python -B scripts/run_with_memory_budget.py --budget-mib 512 --report data/refresh_2026-10-17/publication-tests-v2-memory.jsonl -- .venv/bin/python -B -m pytest -o 'addopts=-ra --strict-markers' --no-cov -p no:cacheprovider -q tests/test_publish_public_refresh.py tests/test_finish_public_refresh.py
+    14 passed in 0.36s
+
+    .venv/bin/mypy --follow-imports=silent scripts/publish_public_refresh.py
+    Success: no issues found in 1 source file
+
+    .venv/bin/ruff check scripts/publish_public_refresh.py tests/test_publish_public_refresh.py
+    All checks passed!
+
+The required whole-history attribution scan returned 136 existing matches.
+The new-commit scan returned zero. Ted authorized retaining published history
+and proceeding. The staged-diff hash remained
+df66eae0573bd34899df7e4451677d9050f1db80625921296cb8651112e2bf7d.
+Full SEC acquisition, final processing and publication remain separate stages.
+
 This checkpoint is partial. It does not establish that the full data refresh,
 browser verification, or publication has finished. The operations and recovery
 record is [refresh_operations_2026-10-17.md](refresh_operations_2026-10-17.md).

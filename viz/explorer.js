@@ -24,7 +24,7 @@ let selectedSearch=0, searchMatches=[], searchVersion=0;
 function wake(milliseconds=200) {
   if (!G) return;
   renderDeadline=Math.max(renderDeadline, performance.now()+milliseconds);
-  if (paused) { G.resumeAnimation(); paused=false; }
+  if (paused) { paused=false; G.resumeAnimation(); }
   if (renderTimer) return;
   const settle=() => {
     if (dragging || performance.now()<renderDeadline) { renderTimer=setTimeout(settle,80); return; }
@@ -201,7 +201,7 @@ function fieldLayer() {
   const points=new THREE.Points(geometry(positions(fieldNodes)),pointMaterial);
   points.raycast=() => {};
   const lines=new THREE.LineSegments(geometry(linePositions(fieldLinks)),
-    new THREE.LineBasicMaterial({color:'#687b94',transparent:true,opacity:.1,depthWrite:false}));
+    new THREE.LineBasicMaterial({color:'#687b94',transparent:true,opacity:.03,depthWrite:false}));
   lines.raycast=() => {};
   group.add(points,lines,highlight);
   G.scene().add(group);
@@ -224,6 +224,7 @@ function fieldLayer() {
         const object=highlight.children[0]; highlight.remove(object); object.geometry.dispose(); object.material.dispose();
       }
       pointMaterial.opacity=selection || cascadeOn ? .15 : .45;
+      lines.material.opacity=selection || cascadeOn ? .012 : .03;
       if (!selection) return;
       const ns=[...selection.nodes].filter(n => n.field), ls=[...selection.links].filter(l => l.field);
       if (ns.length) highlight.add(new THREE.Points(geometry(positions(ns)),
@@ -298,7 +299,7 @@ function sourcePanel(data,fallback) {
     ['Layout',data.layout ? data.layout.algorithm : 'Deterministic fallback placement']
   ];
   $('panel').innerHTML='<h2>Sources and dates</h2><p>Report judgments retain their evidence date. Market observations have separate dates.</p>'+
-    '<dl>'+facts.map(([key,value]) => '<dt>'+esc(key)+'</dt><dd>'+esc(value==null?'Unavailable':value)+'</dd>').join('')+
+    '<dl>'+facts.map(([key,value]) => '<dt>'+esc(key)+'</dt><dd>'+esc(value==null?'Unavailable':value)+'</dd>').join('')+'</dl>'+
     '<div id="credit-details"></div><div id="freshness-details"></div>'+
     '<h3>Evidence limits</h3><ul>'+[...(meta.honest_caveats||[]),...((data.field||{}).note ? [data.field.note] : [])]
       .map(c => '<li>'+esc(c)+'</li>').join('')+'</ul>';

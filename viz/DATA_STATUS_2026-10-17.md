@@ -18,8 +18,12 @@ The complete latest ownership graph is a separate source layer. It does not
 imply a join to the adjudicated capital graph. Public-source retrieval dates
 are separate from reporting periods.
 
-The implementation is awaiting browser verification and publication. A git
-commit alone does not establish the live site's runtime state.
+At the earlier source checkpoint, browser verification and publication were
+pending. Desktop and mobile Chrome checks subsequently completed at 18:50 PDT.
+The evidence is recorded in
+[viz_browser_validation_2026-10-17.json](../analysis/viz_browser_validation_2026-10-17.json).
+GitHub deployment remains a separate stage with its own workflow and live-file
+checks. A git commit alone does not establish the live site's runtime state.
 
 The October dated engine snapshot is
 [dated_engine_2026-10-17_v1.md](../analysis/dated_engine_2026-10-17_v1.md).
