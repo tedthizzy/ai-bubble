@@ -18,7 +18,7 @@ const sourceLinks = item => (item.sources||[]).filter(s => /^https:\/\//.test(s.
   .map((s,i) => '<a href="'+esc(s.source_uri)+'" target="_blank" rel="noopener noreferrer">Source'+
     ((item.sources||[]).length>1 ? ' '+(i+1) : '')+(s.filing_date ? ' / '+esc(s.filing_date) : '')+'</a>').join(' / ');
 const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
-let G, meta={}, types={}, byId={}, nodes=[], links=[], fieldNodes=[], fieldLinks=[];
+let G, meta={}, byId={}, nodes=[], links=[], fieldNodes=[], fieldLinks=[];
 let live={}, sel=null, hovered=null, active=null, cascadeOn=false, cascadeTimer=null;
 let revealed=new Set(), hops=[], trigger='', cascadeIds=new Set(), sceneField;
 let renderDeadline=0, renderTimer=null, paused=false, dragging=false;
@@ -105,23 +105,49 @@ function vendorConnections(edges) {
   return paired;
 }
 function nodeButton(n) { return '<button class="cpc" data-id="'+esc(n.id)+'">'+esc(n.label)+'</button>'; }
+const sentenceSegments = new Intl.Segmenter('en',{granularity:'sentence'});
+const noteSentences = note => [...sentenceSegments.segment(String(note||''))].map(s=>s.segment.trim()).filter(Boolean);
+function cardMetrics(items) {
+  return items.length ? '<dl class="card-metrics">'+items.map(([label,value,detail]) =>
+    '<div><dt>'+esc(label)+'</dt><dd>'+esc(value)+'</dd>'+
+    (detail ? (Array.isArray(detail) ? detail : [detail]).map(line=>'<span>'+esc(line)+'</span>').join('') : '')+'</div>').join('')+'</dl>' : '';
+}
+function cardNotes(note,omit,limit=2) {
+  const bullets=noteSentences(note).filter(s=>!omit || !omit(s)).slice(0,limit);
+  return bullets.length ? '<ul class="card-notes">'+bullets.map(s=>'<li dir="auto">'+esc(s)+'</li>').join('')+'</ul>' : '';
+}
+function selectedEvidence(item,title) {
+  $('selected-evidence').innerHTML='<h3 dir="auto">'+esc(title)+'</h3>'+
+    (item.fieldDeals && !item.field ? cardMetrics([['Extracted deals',item.fieldDeals.toLocaleString('en-US')],
+      ['Raw, unadjudicated',item.fieldUsd>0 ? '$'+fmtB(item.fieldUsd) : 'amount unmeasured']]) : '')+
+    (item.note ? '<ul>'+noteSentences(item.note).map(s=>'<li dir="auto">'+esc(s)+'</li>').join('')+'</ul>' : '')+
+    (sourceLinks(item) ? '<p>'+sourceLinks(item)+'</p>' : '');
+}
 function showCard(n) {
   const quoteId=n.id==='Google' ? 'Alphabet' : n.id;
   const q=(live.quotes||{})[n.id]||(live.adjacent||{})[quoteId];
   const filing=(live.edgar||{})[n.id]||(live.edgar_last_observed||{})[n.id];
-  const neighbors=[...new Set(n.neighbors)].sort((a,b) => b.usd-a.usd).slice(0,5);
+  const cash=String(n.note||'').match(/Cash after capex: ([-+$\d.,BMKT]+) over (\d{4}-\d{2}-\d{2} to \d{4}-\d{2}-\d{2})\./);
+  const metrics=[];
+  if (n.usd) {
+    const [label,period]=String(n.amount_label||'Amount').split(' / ');
+    metrics.push([label,'$'+fmtB(n.usd),period]);
+  }
+  if (cash) metrics.push(['Cash after capex',cash[1],cash[2].split(' to ').map((date,i)=>i ? 'to '+date : date)]);
+  if (n.field && n.fieldDeals) {
+    metrics.push(['Extracted deals',n.fieldDeals.toLocaleString('en-US')]);
+    metrics.push(['Raw, unadjudicated',n.fieldUsd>0 ? '$'+fmtB(n.fieldUsd) : 'amount unmeasured']);
+  }
+  if (q && Number.isFinite(q.chg_pct)) metrics.push([q.sym,'$'+finite(q.close).toFixed(2),
+    [(q.chg_pct>=0?'+':'')+q.chg_pct.toFixed(1)+'%',q.date]]);
+  selectedEvidence(n,n.label);
   $('card').innerHTML='<div class="nm" dir="auto">'+esc(n.label)+'</div>'+
-    '<div class="ty">'+esc(n.field ? 'Extracted party / raw layer' : types[n.type]||n.type||'Entity')+'</div>'+
-    (n.note ? '<div class="nt" dir="auto">'+esc(n.note)+'</div>' : '')+
-    (n.usd ? '<div class="usd">$'+fmtB(n.usd)+' '+esc(n.amount_label||'amount; see evidence date')+'</div>' : '')+
-    (sourceLinks(n) ? '<div class="fl">'+sourceLinks(n)+'</div>' : '')+
-    (n.fieldDeals ? '<div class="fl">'+n.fieldDeals.toLocaleString('en-US')+' extracted deals / '+
-      (n.fieldUsd>0 ? '$'+fmtB(n.fieldUsd)+' raw, unadjudicated' : 'amount unmeasured')+'</div>' : '')+
-    (q && Number.isFinite(q.chg_pct) ? '<div class="pl">'+esc(q.sym)+' $'+finite(q.close).toFixed(2)+
-      ' / '+(q.chg_pct>=0?'+':'')+q.chg_pct.toFixed(1)+'% / '+esc(q.date)+'</div>' : '')+
+    (n.field ? '<div class="ty">Extracted party</div>' : '')+
+    cardMetrics(metrics)+
+    cardNotes(n.note,s=>Boolean(n.usd && /^Reported consolidated borrowing and note balances at /.test(s)) ||
+      Boolean(cash && /^Cash after capex: /.test(s)) || /^The old /.test(s),cash ? 1 : 2)+
     (filing && filing.new_8k_7d ? '<div class="fl">'+finite(filing.new_8k_7d)+' new 8-K in 7 days'+
       (filing.observed_as_of ? ' / observed '+esc(filing.observed_as_of) : '')+'</div>' : '')+
-    (neighbors.length ? '<div class="cps">'+neighbors.map(nodeButton).join('')+'</div>' : '')+
     (n.nlinks.length ? '<details id="connections"><summary>All connections ('+n.nlinks.length+
       ')</summary><div id="connection-list"></div></details>' : '<div class="fl">No saved connections.</div>');
   $('card').style.display='block';
@@ -159,17 +185,20 @@ function dealCard(l) {
   const badge=l.field ? 'Raw extracted / unadjudicated' : l.tier==='filing_verified' ? 'Filing-verified role / measure' :
     l.tier==='issuer_announced' ? 'Issuer announcement' : l.tier==='historical' ? 'Historical relationship' :
     l.tier==='unconfirmed' ? 'Unconfirmed current relationship / scenario' : l.press ? 'Press-only / non-binding' : 'Source-backed';
+  selectedEvidence(l,l.fromLabel+' / '+l.toLabel);
   $('card').innerHTML='<div class="nm" dir="auto">'+esc(l.fromLabel)+' / '+esc(l.toLabel)+'</div>'+
-    '<div class="ty">'+esc(l.field ? 'Collapsed deal link / obligor to risk-bearer' : l.type.replace(/_/g,' '))+'</div>'+
-    '<span class="bdg">'+esc(badge)+'</span>'+dealTags(l).map(t => '<span class="bdg">'+esc(t)+'</span>').join('')+
-    (l.usd ? '<div class="usd">$'+fmtB(l.usd)+(l.field ? ' raw / '+l.count+' extracted deals' : ' '+esc(l.amount_label||'amount; see source'))+'</div>' : '')+
-    (l.note ? '<div class="nt" dir="auto">'+esc(l.note)+'</div>' : '')+
-    (sourceLinks(l) ? '<div class="fl">'+sourceLinks(l)+'</div>' : '')+
+    '<div class="ty">'+esc(l.field ? 'Raw extracted' : l.type.replace(/_/g,' '))+'</div>'+
+    (['historical','unconfirmed','press_reported','issuer_announced'].includes(l.tier) ? '<div class="bdg">'+esc(badge)+'</div>' : '')+
+    cardMetrics(l.field ? [['Extracted deals',l.count],['Raw, unadjudicated',l.usd ? '$'+fmtB(l.usd) : 'amount unmeasured']] :
+      l.usd ? [[l.amount_label||'Amount','$'+fmtB(l.usd)]] : [])+
+    cardNotes(l.note)+
+    (l.circular ? '<div class="fl">Potential vendor round-trip</div>' : '')+
     '<div class="cps">'+[byId[lid(l)],byId[ltd(l)]].filter(Boolean).map(nodeButton).join('')+'</div>';
   $('card').style.display='block';
 }
-function clearSelection() {
+function clearSelection(keepEvidence=false) {
   $('card').style.display='none'; sel=null; active=null; hovered=null;
+  if (!keepEvidence) $('selected-evidence').innerHTML='';
   if (!cascadeOn) refresh();
 }
 function closePanels() {
@@ -260,11 +289,6 @@ function fieldLayer() {
       if (ls.length) highlight.add(new THREE.LineSegments(geometry(linePositions(ls)),
         new THREE.LineBasicMaterial({color:'#adb8c8',transparent:true,opacity:.65})));
       highlight.children.forEach(object => { object.raycast=() => {}; });
-    },
-    update() {
-      points.geometry.setAttribute('position',new THREE.BufferAttribute(positions(fieldNodes),3));
-      lines.geometry.dispose(); lines.geometry=geometry(linePositions(fieldLinks));
-      this.highlight(active);
     }
   };
 }
@@ -329,6 +353,7 @@ function sourcePanel(data,fallback) {
     ['Extracted field cutoff',(data.field||{}).evidence_date||'Unverified / retained field']
   ];
   $('panel').innerHTML='<h2>Sources and dates</h2>'+
+    '<section id="selected-evidence"></section>'+
     '<dl>'+facts.map(([key,value]) => '<dt>'+esc(key)+'</dt><dd>'+esc(value==null?'Unavailable':value)+'</dd>').join('')+'</dl>'+
     '<div id="credit-details"></div><div id="freshness-details"></div>'+
     '<h3>Evidence limits</h3><ul>'+[...(meta.honest_caveats||[]),...((data.field||{}).note ? [data.field.note] : [])]
@@ -382,7 +407,7 @@ function place(n,position,index,total,field=false) {
 }
 function boot(data,fallback=false) {
   if (!data || !Array.isArray(data.nodes) || !Array.isArray(data.edges)) throw new Error('Invalid graph data');
-  meta=data.meta||{}; types=(data.legend||{}).node_types||{};
+  meta=data.meta||{};
   const layout=data.layout||{};
   nodes=data.nodes.map((n,i) => {
     const frg=Math.max(0,Math.min(1,finite(n.fragility)));
@@ -425,6 +450,7 @@ function boot(data,fallback=false) {
   const cascade=data.cascade||{}; trigger=cascade.trigger||''; hops=cascade.hops||[];
   cascadeIds=new Set([trigger,...hops.flatMap(h => h.nodes||[])]);
   G=ForceGraph3D()($('g')).backgroundColor('#05070c').showNavInfo(false)
+    .enableNodeDrag(false)
     .warmupTicks(0).cooldownTicks(0).cooldownTime(0)
     .graphData({nodes:nodes.filter(n => !n.field),links:links.filter(l => !l.field)})
     .nodeLabel(n => esc(n.label)).nodeColor(nodeColor).nodeVal(n => n.val).nodeOpacity(.95)
@@ -433,9 +459,7 @@ function boot(data,fallback=false) {
     .onNodeHover(onHover).onNodeClick(focusNode).onLinkClick(focusDeal)
     .onBackgroundClick(event => {
       const node=sceneField.pick(event); if (node) focusNode(node); else clearSelection();
-    })
-    .onNodeDrag(() => { dragging=true; sceneField.update(); wake(); })
-    .onNodeDragEnd(() => { dragging=false; sceneField.update(); wake(); });
+    });
   G.d3Force('charge',null); G.d3Force('link',null); G.d3Force('center',null);
   G.renderer().setPixelRatio(Math.min(window.devicePixelRatio||1,2));
   const controls=G.controls(); controls.staticMoving=true;
@@ -474,7 +498,7 @@ function boot(data,fallback=false) {
   const toggle=(button,panel) => {
     const open=panel.style.display!=='block';
     closePanels();
-    if (open) clearSelection();
+    if (open) clearSelection(button===$('info'));
     panel.style.display=open ? 'block' : 'none';
     button.setAttribute('aria-expanded',String(open));
   };

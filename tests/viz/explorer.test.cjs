@@ -172,7 +172,9 @@ test('raw candidates without a measured amount do not show a zero-dollar exposur
   raw[1]=0;raw[2]=27;
   const app=load(fixture);
   app.eval('showCard(fieldNodes[0])');
-  assert.match(app.elements.get('card').innerHTML,/27 extracted deals \/ amount unmeasured/);
+  assert.match(app.elements.get('card').innerHTML,/<dd>27<\/dd>/);
+  assert.match(app.elements.get('card').innerHTML,/amount unmeasured/);
+  assert.match(app.elements.get('card').innerHTML,/Raw, unadjudicated/);
   assert.ok(!app.elements.get('card').innerHTML.includes('$0 raw'));
 });
 
@@ -180,9 +182,11 @@ test('new core counterparties can use existing dated adjacent quotes',() => {
   const app=load();
   app.eval('live={adjacent:{SpaceX:{sym:"SPCX",close:100,chg_pct:1,date:"2026-10-16"},Alphabet:{sym:"GOOGL",close:200,chg_pct:2,date:"2026-10-16"}}}');
   app.eval('showCard(byId.SpaceX)');
-  assert.match(app.elements.get('card').innerHTML,/SPCX \$100\.00/);
+  assert.match(app.elements.get('card').innerHTML,/SPCX/);
+  assert.match(app.elements.get('card').innerHTML,/\$100\.00/);
   app.eval('showCard(byId.Google)');
-  assert.match(app.elements.get('card').innerHTML,/GOOGL \$200\.00/);
+  assert.match(app.elements.get('card').innerHTML,/GOOGL/);
+  assert.match(app.elements.get('card').innerHTML,/\$200\.00/);
   assert.match(app.elements.get('card').innerHTML,/2026-10-16/);
 });
 
@@ -202,9 +206,14 @@ test('sources, deals and selection remain readable without overlapping panels',(
   const app=load();
   app.eval('focusNode(nodes[0])');
   assert.equal(app.elements.get('card').style.display,'block');
+  assert.ok(!app.elements.get('card').innerHTML.includes('<a '),'citations stay outside the details card');
+  const evidence=app.elements.get('selected-evidence').innerHTML;
+  assert.ok(evidence.includes(data.nodes[0].sources[0].source_uri));
+  assert.match(evidence,/Neither August draw is included/,'the full note remains available');
   app.elements.get('info').onclick();
   assert.equal(app.elements.get('card').style.display,'none');
   assert.equal(app.elements.get('panel').style.display,'block');
+  assert.equal(app.elements.get('selected-evidence').innerHTML,evidence,'Sources retains selected evidence when it closes the card');
   app.elements.get('deals').onclick();
   assert.equal(app.elements.get('panel').style.display,'none');
   assert.equal(app.elements.get('dpanel').style.display,'block');

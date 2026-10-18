@@ -1,5 +1,58 @@
 # Bubble refresh operations, October 17, 2026
 
+## Camera gestures and compact details, 2026-10-18T08:45:19.950437-07:00
+
+Bubble dragging was the graph library's enabled default. It is now disabled.
+Dragging over a bubble rotates the view. Click selection and camera pan remain.
+The obsolete node-drag callbacks and their whole-field geometry rebuild were
+removed. The financial graph SHA256 remains
+f40f41d0ba786af1b6c1dfae78db422ea85a0d50f73c07800440fd0c4a9413e3.
+
+Entity and deal details now use metric tiles and short bullets. Debt and cash
+periods remain explicit. Repeated neighbor shortcuts were removed; All connections
+retains every connection. Cards contain no citation links. The existing Sources
+panel retains the selected entity or deal's full note and citation links, including
+the issuer's longer subsequent-financing notes. Raw zero sentinels remain labeled
+amount unmeasured. Arial 14/18 remains in use. The CoreWeave card fits its full
+371px content inside the 390x844 mobile view without scrolling. Desktop and mobile
+screenshots were rendered in the existing Chrome session and viewed. The computed
+text and placeholder contrast minimum is 9.2095:1 over 27 compact-card checks.
+
+The first timing comparison used different browser zoom levels and was withdrawn.
+It remains retained in ui-interaction-review/. The corrected native pointer tests
+verify the same 1440x900 CSS viewport, renderer ratio 1, initial camera and actual
+CoreWeave pointer coordinates. Original: the node moved, the camera stayed fixed,
+and script work was 0.982691 seconds over 4.3621 seconds. Updated: no node moved,
+the camera rotated, and script work was 0.376391 seconds over 4.306 seconds. This
+is about 62 percent less script work for that gesture, with both versions near
+59 actual renderer calls per second. The corrected pan test also changes the
+camera and target, with 257 render calls over 4.2969 seconds. Background rotation
+and pan did not reproduce a separate low frame rate on this host. These are not
+a general FPS speedup claim. Actual render counts are separate from display
+animation callbacks; an early duplicate-callback sample was discarded.
+
+node --test tests/viz/explorer.test.cjs: eleven passed, zero failed.
+The source links/full-note preservation assertions pass. node --check and git
+diff --check pass. The first test run found two assertions tied to the old card
+copy and one missing raw-extraction label. The copy assertions now check the
+same values in the new structure, and the raw label is restored. Failed passes
+remain in the session record. No Python production code changed; complete CI
+and deployment are checked separately for the publication commit.
+
+Color remains a historical judgment, not a recomputed October measurement:
+green 0, yellow 0.5, red 1. Twenty-eight core entities have assigned values;
+79 core entities and the unmatched raw field remain unscored grey. No financial
+source or risk judgment was changed by this interface work.
+
+The retained source snapshots are named in
+ui-interaction-review/snapshot.json under the refresh directory. Corrected
+performance records are controlled-baseline.json, controlled-candidate.json and
+controlled-pan.json in that directory. Initial browser debugging read true in
+this pass; enhanced accessibility read false. Preserve that observed baseline
+when closing only the owned QA targets and preview. Publication and restoration
+have separate completion receipts. No secret files or GitHub authentication
+settings were read or changed.
+
 ## Completed refresh and environment operation, 2026-10-18T04:44:21.915754-07:00
 
 The final selected-document merge and source audit completed with 306,838 of

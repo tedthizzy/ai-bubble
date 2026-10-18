@@ -1,7 +1,7 @@
 {
-  "checked_at_pacific": "2026-10-18T04:49:24.989391-07:00",
+  "checked_at_pacific": "2026-10-18T08:45:19.950437-07:00",
   "browser": "existing Chrome/155.0.8059.82",
-  "preview": "https://tedthizzy.github.io/ai-bubble/",
+  "preview": "http://127.0.0.1:8765/",
   "new_browser_launched": false,
   "screenshots": [
     {
@@ -103,6 +103,26 @@
     {
       "path": "data/refresh_2026-10-17/browser-validation/final-sources-no-layout-mobile-v2.png",
       "sha256": "cfe369a66aa409d016361963e304ef6cef9d0c0574ac393c0363a3cf40a988fb"
+    },
+    {
+      "path": "data/refresh_2026-10-17/ui-interaction-review/compact-coreweave-mobile-v2.png",
+      "sha256": "2ceaef2902d8a39e95c1c17556e85ce64390f3e9a51158be2ea368cfca0ac898"
+    },
+    {
+      "path": "data/refresh_2026-10-17/ui-interaction-review/compact-coreweave-desktop-v2.png",
+      "sha256": "31fe24785241819e81a7014ddab72fb047242891f5537435c299ea0942d27ef4"
+    },
+    {
+      "path": "data/refresh_2026-10-17/ui-interaction-review/compact-coreweave-final-source.png",
+      "sha256": "cd0f75c0cbf6546a6543035112975d402bb916d553d13895c3e63e24ca2508a2"
+    },
+    {
+      "path": "data/refresh_2026-10-17/ui-interaction-review/compact-deal-mobile.png",
+      "sha256": "067bf0c1feabb190f251aec6580e30f7c07fe69925114f513eec5527e8f3f6ee"
+    },
+    {
+      "path": "data/refresh_2026-10-17/ui-interaction-review/compact-selected-sources-mobile.png",
+      "sha256": "1d66e82943a6c4aa7083906927319589bcd3ce61da65c9b3c17b6f37887bfde7"
     }
   ],
   "observed": {
@@ -139,14 +159,20 @@
     "verified_source_replacements": 2,
     "unresolved_source_errors": 0,
     "selected_documents_acquired": 306838,
-    "selected_documents_missing": 0
+    "selected_documents_missing": 0,
+    "node_drag_enabled": false,
+    "details_format": "Metric tiles and short bullets; all connections remain accessible",
+    "details_source_links": 0,
+    "selected_evidence_location": "Sources panel",
+    "mobile_card_full_height": 371,
+    "mobile_card_visible_height": 371
   },
   "text_contrast": {
-    "checked_text_elements": 485,
+    "checked_text_elements": 27,
     "minimum_ratio": 9.209496376474931,
     "placeholder_ratio": 9.209496376474931,
     "below_4_5": 0,
-    "method": "Computed foreground and declared surface colors for visible text; final spacing cleanup retains those colors."
+    "method": "Computed foreground and declared surface colors in the compact card."
   },
   "minimum_text_contrast": 9.209496376474931,
   "repairs_found_by_browser": [
@@ -164,18 +190,22 @@
     "Initial emulated mobile click coordinates needed adjustment for the existing 125 percent Chrome zoom.",
     "A final search probe assumed data-id on result buttons; the actual result buttons use data-result. The corrected real search click passed.",
     "A projected grey point shared its screen position with a nearer core node. The actual click correctly selected the core node. A separate unobstructed grey point was then selected through mouseMoved, mousePressed and mouseReleased.",
-    "The first local presentation-cleanup view reused cached JS. Cache-disabled reload showed no Layout row and the exact new source hash. No cached view was treated as passing evidence."
+    "The first local presentation-cleanup view reused cached JS. Cache-disabled reload showed no Layout row and the exact new source hash. No cached view was treated as passing evidence.",
+    "An initial performance comparison had different browser zoom levels and CSS viewports. Its speedup claim was withdrawn. The corrected comparison verifies matching CSS viewports, pixel ratios and actual native pointer coordinates.",
+    "An initial pan started outside the local CSS viewport. It did not pan and is not counted as passing evidence; the matched-viewport repeat changes camera and target.",
+    "A diagnostic Runtime.evaluate expression had an extra parenthesis. It failed before application changes; the corrected probe passed."
   ],
   "limits": [
-    "Extracted candidate amounts remain unadjudicated and can repeat across filings.",
-    "Historical fragility colors and confidence are dated judgments, not calibrated probabilities.",
-    "The full field was checked on the deployed site. The final removal of the implementation-only Layout row was then rendered locally against the exact source hashes above; final HTTP publication proof is recorded separately."
+    "The financial graph and historical fragility judgments are unchanged. Grey means unscored.",
+    "The controlled tests used a visible existing Chrome session, a 1440x900 CSS viewport and renderer pixel ratio 1. This is no general claim about all hosts or FPS improvement.",
+    "An initial timing comparison used different localhost and Pages zoom levels and is superseded. The initial sampler counted display callbacks; the corrected comparison also counts actual renderer calls.",
+    "Local browser verification covers these exact frontend source hashes. Deployment is checked separately."
   ],
   "local_interaction_verified": true,
   "source_sha256": {
     "viz/index.html": "f413ee64164a67696abc95a516bb9c2444ec87813be6bdbaf3679223c423c532",
-    "viz/explorer.js": "e77c3ac2a429fc0f07d665ad8b27b4c23dc850ef0eedabbb1556076edee292c6",
-    "viz/explorer.css": "d0a56a3e99a25cfa7f3b0ccd77fe2f0c00e64e0aa0c231dfb8e67ad4bce17809"
+    "viz/explorer.js": "b705e2b35280328fe5db9d5347d2779761551f13d24584991db8d04c83c9d76b",
+    "viz/explorer.css": "b95b3621c9e3bb913ef143d7afa28d2902f88dc7460b81fdce356535ab849395"
   },
   "first_deployment": {
     "commit": "0a7ff8c86cb7446bf250cf95c45c1f19662de360",
@@ -986,6 +1016,215 @@
       {
         "path": "data/refresh_2026-10-17/browser-validation/final-sources-no-layout-mobile-v2.png",
         "sha256": "cfe369a66aa409d016361963e304ef6cef9d0c0574ac393c0363a3cf40a988fb"
+      }
+    ]
+  },
+  "before_compact_cards_source_sha256": {
+    "viz/index.html": "f413ee64164a67696abc95a516bb9c2444ec87813be6bdbaf3679223c423c532",
+    "viz/explorer.js": "e77c3ac2a429fc0f07d665ad8b27b4c23dc850ef0eedabbb1556076edee292c6",
+    "viz/explorer.css": "d0a56a3e99a25cfa7f3b0ccd77fe2f0c00e64e0aa0c231dfb8e67ad4bce17809"
+  },
+  "before_compact_cards_limits": [
+    "Extracted candidate amounts remain unadjudicated and can repeat across filings.",
+    "Historical fragility colors and confidence are dated judgments, not calibrated probabilities.",
+    "The full field was checked on the deployed site. The final removal of the implementation-only Layout row was then rendered locally against the exact source hashes above; final HTTP publication proof is recorded separately."
+  ],
+  "before_compact_cards_text_contrast": {
+    "checked_text_elements": 485,
+    "minimum_ratio": 9.209496376474931,
+    "placeholder_ratio": 9.209496376474931,
+    "below_4_5": 0,
+    "method": "Computed foreground and declared surface colors for visible text; final spacing cleanup retains those colors."
+  },
+  "ui_interaction_review": {
+    "checked_at_pacific": "2026-10-18T08:45:19.950437-07:00",
+    "scope": "Remove bubble dragging, compact details, preserve selected full evidence in Sources, diagnose reported rotation/pan lag",
+    "source_sha256": {
+      "viz/index.html": "f413ee64164a67696abc95a516bb9c2444ec87813be6bdbaf3679223c423c532",
+      "viz/explorer.js": "b705e2b35280328fe5db9d5347d2779761551f13d24584991db8d04c83c9d76b",
+      "viz/explorer.css": "b95b3621c9e3bb913ef143d7afa28d2902f88dc7460b81fdce356535ab849395"
+    },
+    "financial_graph_changed": false,
+    "controlled_baseline": {
+      "css_viewport": [
+        1440,
+        900
+      ],
+      "renderer_pixel_ratio": 1,
+      "node_start_world": [
+        46.38,
+        -41.18,
+        -9.66
+      ],
+      "node_start_pointer": [
+        742.2714233398438,
+        469.7744140625
+      ],
+      "pointer_target": "CANVAS",
+      "gesture_delta": [
+        140,
+        70
+      ],
+      "steps": 120,
+      "interval_ms": 16,
+      "elapsed_ms": 4362.100000008941,
+      "renderer_calls": 259,
+      "renderer_calls_per_second": 59.37507163968481,
+      "display_callback_fps": 59.833566401381226,
+      "frame_p95_ms": 18.700000000000728,
+      "script_seconds": 0.982691,
+      "task_seconds": 1.0813229999999998,
+      "moved_nodes": [
+        "CoreWeave"
+      ],
+      "camera_before": [
+        0,
+        0,
+        2000
+      ],
+      "camera_after": [
+        0,
+        0,
+        2000
+      ],
+      "visibility": "visible throughout"
+    },
+    "controlled_candidate": {
+      "css_viewport": [
+        1440,
+        900
+      ],
+      "renderer_pixel_ratio": 1,
+      "node_start_world": [
+        46.38,
+        -41.18,
+        -9.66
+      ],
+      "node_start_pointer": [
+        742.2714233398438,
+        469.7744140625
+      ],
+      "pointer_target": "CANVAS",
+      "gesture_delta": [
+        140,
+        70
+      ],
+      "steps": 120,
+      "interval_ms": 16,
+      "elapsed_ms": 4306,
+      "renderer_calls": 256,
+      "renderer_calls_per_second": 59.451927542963304,
+      "display_callback_fps": 59.91639572689271,
+      "frame_p95_ms": 18.400000000023283,
+      "script_seconds": 0.3763909999999999,
+      "task_seconds": 0.5505849999999999,
+      "moved_nodes": [],
+      "camera_before": [
+        0,
+        0,
+        2000
+      ],
+      "camera_after": [
+        -1545.8740983781188,
+        772.9370927727812,
+        1006.4002795009542
+      ],
+      "visibility": "visible throughout",
+      "script_work_reduction_fraction": 0.6169792946104117,
+      "interpretation": "The new gesture rotates the camera and leaves all bubble positions fixed. Measured script work fell about 62 percent for this controlled comparison. Both paths submitted about 59 rendered frames per second; this does not establish a general FPS speedup."
+    },
+    "controlled_pan": {
+      "css_viewport": [
+        1440,
+        900
+      ],
+      "renderer_pixel_ratio": 1,
+      "elapsed_ms": 4296.9000000059605,
+      "renderer_calls": 257,
+      "renderer_calls_per_second": 59.81056110210697,
+      "frame_p95_ms": 18.400000000023283,
+      "script_seconds": 0.38318300000000005,
+      "moved_nodes": [],
+      "camera_before": [
+        -1545.8740983781188,
+        772.9370927727812,
+        1006.4002795009542
+      ],
+      "camera_after": [
+        -1404.8500549386658,
+        652.4250697052343,
+        1315.5751029716798
+      ],
+      "target_after": [
+        141.02404343945275,
+        -120.51202306754692,
+        309.17482347072576
+      ],
+      "visibility": "visible throughout"
+    },
+    "real_browser_observations": {
+      "node_drag": false,
+      "bubble_positions_after_gesture": "unchanged",
+      "camera_rotation_after_same_gesture": "changed",
+      "pan_camera_and_target": "changed",
+      "entity_detail_links": 0,
+      "deal_detail_links": 0,
+      "selected_issuer_sources": 8,
+      "selected_deal_sources": 1,
+      "full_note_retained_in_sources": true,
+      "coreweave_mobile_card_pixels": [
+        371,
+        371
+      ],
+      "mobile_body_and_viewport_width": [
+        390,
+        390
+      ],
+      "fonts": [
+        "Arial, sans-serif / 14px",
+        "Arial, sans-serif / 18px"
+      ],
+      "application_exception_events": []
+    },
+    "color_scale": {
+      "basis": "Historical June 3, 2026 fragility judgments",
+      "green": 0,
+      "yellow": 0.5,
+      "red": 1,
+      "grey": "unscored",
+      "scored_core_entities": 28,
+      "unscored_core_entities": 79
+    },
+    "node_tests": {
+      "command": "node --test tests/viz/explorer.test.cjs",
+      "passed": 11,
+      "failed": 0,
+      "log": "data/refresh_2026-10-17/ui-interaction-review/node-tests-final.log"
+    },
+    "baseline_browser_state": {
+      "remote_debugging_after_initial_navigation": true,
+      "enhanced_accessibility_before": false
+    },
+    "screenshots": [
+      {
+        "path": "data/refresh_2026-10-17/ui-interaction-review/compact-coreweave-mobile-v2.png",
+        "sha256": "2ceaef2902d8a39e95c1c17556e85ce64390f3e9a51158be2ea368cfca0ac898"
+      },
+      {
+        "path": "data/refresh_2026-10-17/ui-interaction-review/compact-coreweave-desktop-v2.png",
+        "sha256": "31fe24785241819e81a7014ddab72fb047242891f5537435c299ea0942d27ef4"
+      },
+      {
+        "path": "data/refresh_2026-10-17/ui-interaction-review/compact-coreweave-final-source.png",
+        "sha256": "cd0f75c0cbf6546a6543035112975d402bb916d553d13895c3e63e24ca2508a2"
+      },
+      {
+        "path": "data/refresh_2026-10-17/ui-interaction-review/compact-deal-mobile.png",
+        "sha256": "067bf0c1feabb190f251aec6580e30f7c07fe69925114f513eec5527e8f3f6ee"
+      },
+      {
+        "path": "data/refresh_2026-10-17/ui-interaction-review/compact-selected-sources-mobile.png",
+        "sha256": "1d66e82943a6c4aa7083906927319589bcd3ce61da65c9b3c17b6f37887bfde7"
       }
     ]
   }
