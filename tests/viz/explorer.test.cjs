@@ -221,3 +221,64 @@ test('sources, deals and selection remain readable without overlapping panels',(
   assert.equal(app.elements.get('dpanel').style.display,'none');
   assert.equal(app.elements.get('card').style.display,'block');
 });
+
+test('facility details stay collapsed and sources retain payment schedules and assumptions',() => {
+  const app=load();
+  app.eval('focusNode(byId["Hut 8"])');
+  const card=app.elements.get('card').innerHTML;
+  assert.match(card,/Facilities \(3\)/);
+  assert.match(card,/DSCR: Unmeasured/);
+  assert.match(card,/15-year base term/);
+  assert.match(card,/Forecast \/ 2025-12-17/);
+  assert.ok(!card.includes('<a '),'source links stay out of the concise card');
+  assert.ok(!card.includes('Scheduled debt payments'),'the full schedule stays in Sources');
+  assert.ok(!/<details[^>]+\bopen\b/.test(card),'facility folds do not open automatically');
+  const evidence=app.elements.get('selected-evidence').innerHTML;
+  assert.match(evidence,/Scheduled debt payments/);
+  assert.match(evidence,/61\.4% cash margin/);
+  assert.match(evidence,/Cash sensitivity assumptions/);
+  assert.match(evidence,/fixed baseline cash costs/i);
+  assert.match(evidence,/tm2613163d1_ex4-1.htm/);
+  assert.match(evidence,/no parent, tenant or lease-guarantor guarantee/);
+  app.elements.get('info').onclick();
+  assert.equal(app.elements.get('panel').style.display,'block');
+});
+
+test('partial interest and redacted installments never become full facility coverage',() => {
+  const app=load();
+  app.eval('focusNode(byId.IREN)');
+  const card=app.elements.get('card').innerHTML;
+  assert.match(card,/Known interest \/ year/);
+  assert.match(card,/Incomplete debt payments/);
+  assert.match(card,/DSCR: Unmeasured/);
+  assert.ok(!card.includes('Interest requires'));
+  assert.match(app.elements.get('selected-evidence').innerHTML,/redact/i);
+  app.eval('focusNode(byId.CoreWeave)');
+  assert.ok(!app.elements.get('card').innerHTML.includes('Interest / year'),'effective accounting rates are not cash coupons');
+});
+
+test('quarterly colocation revenue remains dated and is not assigned to the financing pool',() => {
+  const app=load();
+  app.eval('focusNode(byId["Core Scientific"])');
+  const card=app.elements.get('card').innerHTML;
+  assert.match(card,/Quarter revenue/);
+  assert.match(card,/2026-Q2/);
+  assert.ok(!card.includes('Contract avg. / year'));
+  assert.match(app.elements.get('selected-evidence').innerHTML,/Total colocation revenue is not assigned/);
+});
+
+test('facility labels escape long Unicode input and older graphs need no facility layer',() => {
+  const fixture=structuredClone(data);
+  const c=fixture.facility_cashflows.cases.find(c=>c.entity==='Hut 8');
+  c.project='Facility '.repeat(30)+'漢字 العربية 😀 <img src=x onerror=bad()>';
+  const app=load(fixture);
+  app.eval('focusNode(byId["Hut 8"])');
+  const card=app.elements.get('card').innerHTML;
+  assert.ok(card.includes('漢字 العربية 😀'));
+  assert.ok(card.includes('&lt;img'));
+  assert.ok(!card.includes('<img'));
+  delete fixture.facility_cashflows;
+  const old=load(fixture);
+  old.eval('focusNode(byId["Hut 8"])');
+  assert.ok(!old.elements.get('card').innerHTML.includes('Facilities ('));
+});

@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from bubble.analysis.scenario_stress import stress_cluster
+from bubble.analysis.scenario_stress import _stress_issuer, stress_cluster
 
 
 def _issuer(entity, *, revenue, ebitda, interest, overall="source_backed"):
@@ -45,7 +45,26 @@ def test_revenue_miss_drives_negative_ebitda_and_breach() -> None:
     issuers = [_issuer("Miner", revenue=1000, ebitda=120, interest=80)]
     out = stress_cluster(issuers)
     by_name = {s["scenario"]: s for s in out["scenarios"]}
-    # severe: ebitda 120 - 0.40*1000 - 1.0*0.05*1000 = 120-400-50 = -330 -> negative
+    # severe: EBITDA 120 - 0.40*1000 = -280; depreciation stays separate.
     assert by_name["severe"]["issuers_negative_ebitda"] == 1
     assert by_name["severe"]["issuers_breaching"] == 1
     assert out["first_majority_breach_scenario"] in {"adverse", "severe", "tail"}
+
+
+def test_accounting_depreciation_does_not_change_ebitda_or_cash_interest_coverage() -> None:
+    issuer = _issuer("Operator", revenue=1000, ebitda=300, interest=100)
+    base = {"utilization_miss": 0, "rate_shock_bps": 0, "depr_accel": 0}
+    accelerated = {**base, "depr_accel": 2}
+    first = _stress_issuer(issuer, base)
+    second = _stress_issuer(issuer, accelerated)
+    assert first["stressed_ebitda_usd"] == second["stressed_ebitda_usd"] == 300
+    assert first["stressed_interest_coverage"] == second["stressed_interest_coverage"] == 3
+    assert second["modeled_incremental_depreciation_usd"] == 100
+
+
+def test_missing_ebitda_does_not_become_zero_or_a_false_breach() -> None:
+    issuer = _issuer("Missing", revenue=1000, ebitda=300, interest=100)
+    del issuer["ebitda_usd"]
+    out = stress_cluster([issuer])
+    assert out["status"] == "blocked_no_source_backed_financials"
+    assert out["excluded_issuers"] == ["Missing"]

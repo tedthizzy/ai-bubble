@@ -117,11 +117,57 @@ function cardNotes(note,omit,limit=2) {
   return bullets.length ? '<ul class="card-notes">'+bullets.map(s=>'<li dir="auto">'+esc(s)+'</li>').join('')+'</ul>' : '';
 }
 function selectedEvidence(item,title) {
+  const facilities=item.facilityCases||[];
+  const citations=[...(item.sources||[])];
+  facilities.forEach(c=>Object.values(c.facts||{}).forEach(f=>{
+    const source=facilitySources[f.source_id];if(source)citations.push(source);
+  }));
+  facilities.forEach(c=>(c.instruments||[]).forEach(d=>{
+    [...Object.values(d.facts||{}),...(d.loss_route||[]),...(d.principal_payments||[]).map(p=>p.amount)].forEach(f=>{
+      const source=facilitySources[f.source_id];if(source)citations.push(source);
+    });
+  }));
+  const unique=[...new Map(citations.map(s=>[s.source_uri,s])).values()];
   $('selected-evidence').innerHTML='<h3 dir="auto">'+esc(title)+'</h3>'+
     (item.fieldDeals && !item.field ? cardMetrics([['Extracted deals',item.fieldDeals.toLocaleString('en-US')],
       ['Raw, unadjudicated',item.fieldUsd>0 ? '$'+fmtB(item.fieldUsd) : 'amount unmeasured']]) : '')+
     (item.note ? '<ul>'+noteSentences(item.note).map(s=>'<li dir="auto">'+esc(s)+'</li>').join('')+'</ul>' : '')+
-    (sourceLinks(item) ? '<p>'+sourceLinks(item)+'</p>' : '');
+    facilitySections(item,true)+
+    (sourceLinks({sources:unique}) ? '<p>'+sourceLinks({sources:unique})+'</p>' : '');
+}
+let facilitySources={};
+function facilitySections(n,full=false) {
+  const cases=n.facilityCases||[];
+  if(!cases.length)return '';
+  const eventLabels={power_ready:'Power delivered',service_start:'First service',service_full:'Full service',contract_end:'Contract end',debt_maturity:'Debt maturity'};
+  return '<details class="facility-list"><summary>Facilities ('+cases.length+')</summary>'+cases.map(c=>{
+    const f=c.facts||{}, metrics=[];
+    if(f.energized_it_mw)metrics.push(['Energized IT',fmtB(f.energized_it_mw.value)+' MW',f.energized_it_mw.observed_on]);
+    else if(f.contracted_it_mw)metrics.push(['Contracted IT',fmtB(f.contracted_it_mw.value)+' MW']);
+    if(f.quarterly_revenue_usd)metrics.push(['Quarter revenue','$'+fmtB(f.quarterly_revenue_usd.value),f.quarterly_revenue_usd.period]);
+    if(c.annual_contract_average_usd!=null)metrics.push(['Contract avg. / year','$'+fmtB(c.annual_contract_average_usd),f.base_contract_years ? f.base_contract_years.value+'-year base term' : '']);
+    if(f.annual_noi_usd)metrics.push(['Avg. NOI / year','$'+fmtB(f.annual_noi_usd.value),(f.annual_noi_usd.kind==='issuer_forecast' ? 'Forecast' : 'Reported')+' / '+f.annual_noi_usd.observed_on]);
+    if(c.annual_interest_run_rate_usd!=null)metrics.push(['Interest / year','$'+fmtB(c.annual_interest_run_rate_usd),[...new Set(c.instruments.map(d=>d.principal_as_of).filter(Boolean))].join(', ')]);
+    else if(c.known_cash_interest_floor_usd>0)metrics.push(['Known interest / year','$'+fmtB(c.known_cash_interest_floor_usd),'Incomplete debt payments']);
+    const dscr=c.debt_service_coverage_ratio==null ? 'Unmeasured' : c.debt_service_coverage_ratio.toFixed(2)+'x';
+    const timeline=(c.timeline||[]).map(t=>'<li>'+esc(eventLabels[t.event]||t.event)+': '+esc(t.value)+(t.kind==='issuer_forecast' ? ' (forecast)' : '')+'</li>').join('');
+    const threshold=c.thresholds?.cash_margin_required_for_interest_pct;
+    let extra='';
+    if(full) {
+      extra=(c.instruments||[]).map(d=>'<p>'+esc(d.borrower)+(d.principal_usd!=null ? ': $'+fmtB(d.principal_usd)+' principal / '+esc(d.principal_as_of) : '')+'</p>'+
+        (d.facts?.principal_schedule_status ? '<p>'+esc(d.facts.principal_schedule_status.value)+'</p>' : '')+
+        (d.loss_route?.length ? '<ul>'+d.loss_route.map(r=>'<li>'+esc(r.value)+'</li>').join('')+'</ul>' : '')).join('')+
+        (f.contract_obligor ? '<p>'+esc(f.contract_obligor.value)+'</p>' : '')+
+        (c.notes?.length ? '<ul>'+c.notes.map(note=>'<li>'+esc(note)+'</li>').join('')+'</ul>' : '')+
+        '<ul>'+c.missing_inputs.map(gap=>'<li>'+esc(gap)+'</li>').join('')+'</ul>';
+      if(c.annual_scheduled_debt_service?.length)extra+='<details><summary>Scheduled debt payments</summary><p>Original indenture schedule; assumes no optional redemptions, additional notes or later amendments. These are scheduled payments, not confirmed payments.</p><ul>'+c.annual_scheduled_debt_service.map(y=>'<li>'+esc(y.year)+': $'+fmtB(y.principal_usd)+' principal + $'+fmtB(y.interest_usd)+' interest'+(y.cash_margin_on_contract_average_pct==null ? '' : '; requires '+y.cash_margin_on_contract_average_pct.toFixed(1)+'% cash margin on base-contract average')+'</li>').join('')+'</ul></details>';
+      if(c.sensitivities?.length)extra+='<details><summary>Cash sensitivity assumptions</summary><p>Fixed baseline cash costs and reserves. Lower receipts model nonpayment or rollover.</p><ul>'+c.sensitivities.map(s=>'<li>'+s.assumptions.cash_margin_pct+'% starting cash margin; '+Math.round(s.assumptions.revenue_factor*100)+'% receipts: '+(Number.isFinite(s.interest_coverage) ? s.interest_coverage.toFixed(2)+'x interest coverage' : 'no interest ratio')+(s.listed_debt_service_coverage==null ? '' : '; '+s.listed_debt_service_coverage.toFixed(2)+'x listed debt payments')+'</li>').join('')+'</ul></details>';
+    }
+    return '<details class="facility-case"><summary dir="auto">'+esc(c.project)+'</summary>'+cardMetrics(metrics)+
+      '<p>DSCR: '+esc(dscr)+(c.debt_service_coverage_basis==='issuer_forecast' ? ' (forecast inputs)' : '')+'</p>'+
+      (threshold!=null ? '<p>Interest requires '+threshold.toFixed(1)+'% cash margin on '+esc(c.thresholds.revenue_basis)+'. Principal payments and unlisted debt are additional.</p>' : '')+
+      (timeline ? '<ul class="card-notes">'+timeline+'</ul>' : '')+extra+'</details>';
+  }).join('')+'</details>';
 }
 function showCard(n) {
   const quoteId=n.id==='Google' ? 'Alphabet' : n.id;
@@ -146,6 +192,7 @@ function showCard(n) {
     cardMetrics(metrics)+
     cardNotes(n.note,s=>Boolean(n.usd && /^Reported consolidated borrowing and note balances at /.test(s)) ||
       Boolean(cash && /^Cash after capex: /.test(s)) || /^The old /.test(s),cash ? 1 : 2)+
+    facilitySections(n)+
     (filing && filing.new_8k_7d ? '<div class="fl">'+finite(filing.new_8k_7d)+' new 8-K in 7 days'+
       (filing.observed_as_of ? ' / observed '+esc(filing.observed_as_of) : '')+'</div>' : '')+
     (n.nlinks.length ? '<details id="connections"><summary>All connections ('+n.nlinks.length+
@@ -416,6 +463,13 @@ function boot(data,fallback=false) {
     place(node,(layout.core||{})[node.id],i,data.nodes.length); return node;
   });
   byId=Object.assign(Object.create(null),Object.fromEntries(nodes.map(n => [n.id,n])));
+  facilitySources=data.facility_cashflows?.sources||{};
+  const facilityByEntity=new Map();
+  (data.facility_cashflows?.cases||[]).forEach(c=>{
+    if(!facilityByEntity.has(c.entity))facilityByEntity.set(c.entity,[]);
+    facilityByEntity.get(c.entity).push(c);
+  });
+  nodes.forEach(n=>{n.facilityCases=facilityByEntity.get(n.id)||[];});
   const vendorPairs=vendorConnections(data.edges);
   links=data.edges.filter(e => byId[e.from] && byId[e.to]).map(e => {
     const a=byId[e.from], b=byId[e.to], press=e.tier==='press_reported';

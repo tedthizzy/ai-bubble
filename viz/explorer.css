@@ -78,6 +78,10 @@ h3, h4 { font-size: var(--text); margin: 0 0 10px; }
 #card .bdg { display: inline-block; color: var(--muted); margin: 0 8px 6px 0; }
 #card details { border-top: 1px solid var(--border); padding-top: 10px; margin-top: 14px; }
 #card summary { cursor: pointer; }
+.facility-list { border-top: 1px solid var(--border); padding-top: 10px; margin-top: 14px; }
+.facility-list summary { cursor: pointer; }
+.facility-case { border-top: 1px solid var(--border); padding-top: 8px; margin-top: 10px; }
+.facility-case p { margin: 8px 0; }
 .connection { display: block; border: 0; border-bottom: 1px solid var(--border); background: transparent; width: 100%; text-align: start; padding: 8px 0; overflow-wrap: anywhere; content-visibility: auto; contain-intrinsic-size: auto 38px; }
 .connection:hover { color: var(--accent); }
 .scene-container .scene-tooltip { font-family: var(--font) !important; font-size: var(--text) !important; color: var(--ink) !important; background: var(--surface) !important; max-width: 320px; white-space: normal !important; overflow-wrap: anywhere; padding: 6px 8px; border-radius: 4px; }

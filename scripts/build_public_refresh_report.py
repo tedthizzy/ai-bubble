@@ -17,6 +17,7 @@ from bubble.ingestion.compute.loader import load_compute_economics
 from bubble.market_signals import evaluate_signals
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+from build_facility_cashflows import build as build_facilities
 from build_refresh_status import build, dated_market
 from derive_public_refresh import file_record
 from refresh_live_overlay import _demand_baskets, _issuance_latest
@@ -89,6 +90,8 @@ def report(run: Path, root: Path) -> dict[str, Any]:
     if set(counts) != expected or read(gpu / "gpu_pricing_acquisition.summary.json")["errors"]:
         raise ValueError("Incomplete parsed GPU provider coverage")
     compute = analyze_compute_economics(load_compute_economics(gpu)).to_dict()
+    facility_input = root / "analysis" / f"facility_inputs_{as_of}.json"
+    facilities = build_facilities(facility_input, root) if facility_input.is_file() else None
     graphs: dict[str, Any] = {}
     inputs = [
         live_path,
@@ -106,6 +109,8 @@ def report(run: Path, root: Path) -> dict[str, Any]:
     replacements = run / "edgar_merged_current/source_document_replacements.json"
     if replacements.exists():
         inputs.append(replacements)
+    if facilities is not None:
+        inputs.append(facility_input)
     for mode in ("complete", "ferc_only", "ownership_current"):
         path = root / "data" / f"capital_graph_refresh_{as_of}" / mode / "input_manifest.json"
         if path.exists():
@@ -161,6 +166,7 @@ def report(run: Path, root: Path) -> dict[str, Any]:
         "physical_capacity": read(physical_path),
         "public_derivation": read(derived_manifest)["source_selection"],
         "compute_economics": compute,
+        "facility_cashflows": facilities,
         "gpu_providers": dict(counts),
         "gpu_observation_dates": sorted({row["observed_date"] for row in quotes}),
         "capital_graph": graphs,
@@ -219,6 +225,17 @@ def markdown(value: dict[str, Any]) -> str:
         f"- {item['id']}: {item['status']}." for item in value["registered_market"]["components"]
     ]
     lines += [f"- {name}: unmeasured." for name in value["registered_market"]["unmeasured"]]
+    if value.get("facility_cashflows"):
+        facilities = value["facility_cashflows"]["summary"]
+        lines += [
+            "",
+            "Facility cash flows:",
+            "",
+            f"- {facilities['facility_cases']} cases across {facilities['issuers_with_cases']} issuers; all {facilities['issuer_count']} reviewed issuers have coverage entries.",
+            f"- {facilities['cases_with_interest_run_rate']} dated interest run rates; {facilities['cases_with_contract_average']} base-contract averages.",
+            f"- {facilities['cases_with_complete_original_debt_schedule']} original debt schedules contain {facilities['verified_principal_installments']} verified principal installments.",
+            f"- {facilities['cases_with_dscr']} measured DSCRs. Matched cash available and complete facility debt perimeters remain unmeasured.",
+        ]
     lines += ["", "Limits:", ""]
     lines += [f"- {text}" for text in value["registered_market"]["limits"] + value["limits"]]
     return "\n".join(lines) + "\n"

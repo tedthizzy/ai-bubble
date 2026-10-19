@@ -1,5 +1,38 @@
 # Explorer source status, October 17, 2026
 
+## Facility calculations added after the source refresh
+
+The [v3 report](../analysis/dated_engine_2026-10-17_v3.md) adds 26 dated cases
+across 12 issuers. All 13 reviewed issuers have coverage entries. The facility
+inputs use 29 primary sources with verified raw and normalized hashes and
+quoted numeric conversions. MARA has no verified facility/debt join in the
+selected statements and event exhibits. CleanSpark's Sandersville financing
+is included without inferring its tenant or AI use from the financing filing.
+
+Seventeen instruments retain their stated borrower and project scope. Twelve
+cases support an annual cash-interest run rate on a dated principal snapshot;
+eight support a base-contract annual average. Neither measure is current
+cash available for debt service. Core Scientific's quarterly colocation
+revenue stays separate from its narrower note-collateral pool.
+
+Hut 8's River Bend and Beacon Point Phase 1 indentures provide 56 principal
+installments. Their original interest schedules include irregular first
+coupons and declining principal. They assume no optional redemptions,
+additional issuance or later amendments. IREN's filed amortization tables
+redact the dates and amounts. Effective accounting interest rates are not
+used as cash coupons, and undrawn commitments are not treated as principal.
+
+No case has sufficient matched cash flow and a verified complete debt
+perimeter for actual DSCR. Cash sensitivities state their assumed starting
+margin and hold baseline costs and reserves fixed. They are not default
+probabilities. The [facility report](../analysis/facility_cashflows_2026-10-17.md)
+records scope, source dates, contractual loss routes and missing inputs.
+
+Selected entities have collapsed Facilities disclosures in the card. Sources retains the
+full schedules, assumptions and citations. The new evidence adds no scene
+nodes or edges; the core, raw field, layout and historical graph are identical
+to the previous checkpoint. Arial 14px and 18px remain the only UI font sizes.
+
 ## Completed October 17 source refresh, 2026-10-18T04:44:21.915754-07:00
 
 The selected-source refresh is complete. The v2 report and full raw field were

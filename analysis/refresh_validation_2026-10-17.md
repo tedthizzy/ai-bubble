@@ -1,5 +1,68 @@
 # Refresh verification checkpoint, October 17, 2026
 
+## Facility calculations and visualization extension
+
+The [facility input](facility_inputs_2026-10-17.json),
+[calculated report](facility_cashflows_2026-10-17.json) and
+[dated engine v3](dated_engine_2026-10-17_v3.md) retain the October 17 cutoff.
+The source builder verified all 29 raw and normalized hashes, quote locations
+and numeric conversions. It produced 26 cases, 17 linked instruments, eight
+contract averages, two original debt schedules and 56 principal installments.
+Actual DSCR is absent in all cases because matched cash flow and a complete
+facility debt perimeter remain unmeasured.
+
+Changed code: the facility model and analyzer, the source-verifying report
+builder, the contract-discovery driver, the dated-engine and visualization
+producers, and the explorer disclosures. The existing earnings-stress model
+now reports accelerated depreciation separately from EBITDA. Incomplete or
+unverified issuer financials are excluded from that stress calculation.
+
+Local commands and observed results:
+
+- `scripts/build_facility_cashflows.py --input analysis/facility_inputs_2026-10-17.json --output-prefix analysis/facility_cashflows_2026-10-17`: exit 0 under 512 MiB; 39,715,296-byte observed peak. Outputs are create-only. Use a new prefix for a later verification run.
+- `scripts/build_public_refresh_report.py --run data/refresh_2026-10-17 --output-prefix analysis/dated_engine_2026-10-17_v3`: exit 0; selected-source acquisition complete, 88 GPU quotes and 47,232 PPA rows. Observed peak 162,464,440 bytes under 512 MiB.
+- `scripts/update_current_visualization.py --as-of 2026-10-17`: exit 0; 107 core nodes and 161 connections. The existing nodes, edges, raw field, layout and historical core compare equal to HEAD before this change.
+- `.venv/bin/python -m pytest -q --tb=line`: exit 0, 989 successful test markers and 87% branch-enabled combined coverage. Observed peak 844,941,136 bytes under 1 GiB supervision. Twenty-seven focused checks also passed.
+- `node --test tests/viz/explorer.test.cjs`: 15 passed, zero failed. Checks include full-size graph handling, missing data, old graph fallback, escaped long Unicode names, redacted payment terms and reduced motion.
+- `ruff check src tests` plus the four changed drivers: all checks passed. `ruff format --check` reported 308 files formatted.
+- Focused strict Mypy on the three changed source modules passed. Full-source local Mypy stopped at its 512 MiB and 1 GiB limits; the supervisor terminated only its workload. Full-source typing is also required by the repository's CI workflow. An optional test-collection pass stopped at 512 MiB; the completed full test run above is the execution evidence.
+
+Actual Chrome 155 checks used the existing browser. Native search and Enter
+selected Hut 8. Facility disclosures and Sources opened; Sources closed the
+card and showed the original payment schedule. River Bend's first coupon is
+$109,005,000, and its 2028 scheduled principal plus interest is $286,346,252.95.
+Those payments require 61.4% of the base-contract annual average, which is
+not a forecast of 2028 receipts or a measured DSCR.
+
+Desktop 1462x724 and mobile 390x844 screenshots were rendered and viewed.
+IREN showed partial known cash interest with DSCR unmeasured. Mobile body
+width remained 390px. All inspected card text used Arial at 14px or 18px.
+The weakest new-card text contrast was 8.8246:1, calculated against the
+translucent panel over a worst-case white backdrop. Citations stay in Sources.
+
+Native rotate and pan gestures changed the camera while preserving every core
+node position. After settling, the renderer produced zero frames in 5002.4 ms,
+with 18,769,995 bytes of JavaScript heap and rendering paused. All 20,002
+entities remained searchable. No runtime exceptions were observed. The gesture
+helper's frame-rate samples are not used as a performance benchmark because
+its back-to-back animation samplers can overlap.
+
+Local logs and screenshots are retained under
+`data/refresh_2026-10-17/facility_cashflows/` and
+`/tmp/bubble-browser-checks-20261017/facility-*-20261019.png`.
+The first browser probe used a previously closed test target. A fresh owned
+target in the same browser completed the checks. A diagnostic that assumed
+raw points had facility metadata was corrected; it was not an app exception.
+Native pointer capture established that this browser uses unscaled CSS
+coordinates; an earlier zoom-based click missed the input.
+
+The committed calculation records both input and code hashes. A fresh clone
+can rebuild the visualization from that matching artifact without the ignored
+raw corpus. Primary-source revalidation still requires the saved corpus.
+Missing site costs, GPU utilization, economic life, collateral resale values
+and ultimate creditor holdings remain explicit limits. Historical June risk
+colors and probabilities have not been recalibrated.
+
 ## Completed source and runtime verification, 2026-10-18T04:44:21.915754-07:00
 
 The October 17 selected-source refresh completed and was published in

@@ -1021,3 +1021,46 @@ The local environment continuation remains supervised at 512 MiB and waits for
 successful final publication. Main .venv installation and its actual undo/reapply
 checks remain pending. The original project path was rechecked absent, with the
 current checkout inode 70378520. No second checkout was created.
+
+## Facility economics extension, 2026-10-19T08:30:51-07:00
+
+Added a source-verified facility model and its deterministic calculations to
+the dated engine and explorer. The October 17 cutoff is unchanged. The input
+contains 26 cases across 12 issuers, with coverage entries for all 13 issuers.
+Twenty-nine primary sources support 17 distinct financing instruments. Two
+original Hut 8 debt schedules contain 56 principal installments; IREN's filed
+amortization schedules are explicitly redacted. Contract averages, dated
+principal balances, cash coupons and issuer forecasts remain separate.
+
+The reviewed Core Scientific colocation revenue and its narrower debt
+collateral pool are separate cases. CleanSpark's Sandersville note offering
+is dated September 25 and is not added to June carrying amounts. TeraWulf's
+sold Abernathy interest stays in the retired-interest record. No case has
+matched cash available and a verified full debt perimeter for actual DSCR.
+
+The previous stress calculation incorrectly reduced EBITDA by accelerated
+depreciation. Incremental depreciation now has a separate output, and missing
+or unverified financials do not become zero earnings. Source-backed tests cover
+the accounting distinction, incomplete payments and contractual scopes.
+
+The facility builder checks source bytes, normalized bytes, quote substrings
+and numeric multipliers. Its artifact records input and calculation-code
+hashes. The visualization accepts only a matching committed calculation;
+a fresh clone does not need the raw corpus to rebuild the UI. All original
+inputs and code states were snapshotted before writes. No snapshot, data,
+log, staged September file or previous report was removed.
+
+Actual desktop and mobile Chrome checks passed for the disclosures and
+Sources schedules, with Arial 14px/18px and no horizontal body overflow.
+Native camera gestures left node positions fixed. Settled rendering produced
+zero frames over five seconds. The facility layer adds 122,830 uncompressed
+JSON bytes and no scene geometry. The full test command exited 0 with 989
+passing markers; all 15 Node checks passed. Focused strict typing passed.
+The full-source local type checker exceeded bounded 512 MiB and 1 GiB runs;
+complete source typing remains enforced by CI. The supervisor stopped only
+those workloads. No global memory limit or browser setting was changed.
+
+The exact commands, known failed probes and remaining data limits are in
+[the verification record](refresh_validation_2026-10-17.md). The source audit
+and calculations are in [the facility report](facility_cashflows_2026-10-17.md)
+and [dated engine v3](dated_engine_2026-10-17_v3.md).

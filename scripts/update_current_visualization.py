@@ -9,12 +9,16 @@ import hashlib
 import json
 import re
 import shutil
+import sys
 import time
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
     from collections.abc import Callable
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from build_facility_cashflows import load_calculated_report, public_projection
 
 ROOT = Path(__file__).resolve().parents[1]
 ISSUERS = {
@@ -368,6 +372,9 @@ def update(
     )
     if field_builder is not None:
         graph["field"], graph["layout"] = field_builder(graph)
+    facility_input = root / "analysis" / f"facility_inputs_{as_of}.json"
+    if facility_input.is_file():
+        graph["facility_cashflows"] = public_projection(load_calculated_report(root, as_of))
     graph["meta"]["review_sha256"] = hashlib.sha256(review_path.read_bytes()).hexdigest()
     graph["meta"]["relationship_review_sha256"] = hashlib.sha256(
         relationships_path.read_bytes()
