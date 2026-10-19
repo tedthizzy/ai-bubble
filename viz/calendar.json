@@ -2,7 +2,7 @@
  "all": [
   {
    "date": "2026-07-06",
-   "days_until": -104,
+   "days_until": -105,
    "kind": "legal",
    "label": "FSK securities class-action lead-plaintiff deadline",
    "status": "past",
@@ -10,7 +10,7 @@
   },
   {
    "date": "2026-08-10",
-   "days_until": -69,
+   "days_until": -70,
    "kind": "recard",
    "label": "Q2-2026 BDC NAV re-card",
    "recurs": "quarterly",
@@ -19,7 +19,7 @@
   },
   {
    "date": "2026-09-30",
-   "days_until": -18,
+   "days_until": -19,
    "kind": "freeze",
    "label": "Signal-semantics freeze",
    "status": "past",
@@ -27,7 +27,7 @@
   },
   {
    "date": "2026-10-01",
-   "days_until": -17,
+   "days_until": -18,
    "kind": "contract",
    "label": "Google -> SpaceX compute contract revenue start",
    "status": "past",
@@ -35,7 +35,7 @@
   },
   {
    "date": "2026-11-10",
-   "days_until": 23,
+   "days_until": 22,
    "kind": "recard",
    "label": "Q3-2026 BDC NAV re-card",
    "recurs": "quarterly",
@@ -44,7 +44,7 @@
   },
   {
    "date": "2026-12-18",
-   "days_until": 61,
+   "days_until": 60,
    "kind": "adjudication",
    "label": "2026-Q4 TIMING-KILL adjudication",
    "status": "approaching",
@@ -52,7 +52,7 @@
   },
   {
    "date": "2027-01-01",
-   "days_until": 75,
+   "days_until": 74,
    "kind": "contract",
    "label": "SpaceX contract termination window opens (90-day notice)",
    "status": "approaching",
@@ -60,7 +60,7 @@
   },
   {
    "date": "2027-02-10",
-   "days_until": 115,
+   "days_until": 114,
    "kind": "recard",
    "label": "Q4-2026 BDC NAV re-card",
    "recurs": "quarterly",
@@ -69,7 +69,7 @@
   },
   {
    "date": "2027-09-30",
-   "days_until": 347,
+   "days_until": 346,
    "kind": "adjudication",
    "label": "P_real outcome window closes",
    "status": "scheduled",
@@ -77,7 +77,7 @@
   },
   {
    "date": "2030-01-01",
-   "days_until": 1171,
+   "days_until": 1170,
    "kind": "wall",
    "label": "Maturity wall 2030-2033 begins",
    "status": "scheduled",
@@ -85,17 +85,17 @@
   },
   {
    "date": "2030-10-01",
-   "days_until": 1444,
+   "days_until": 1443,
    "kind": "contract",
    "label": "CoreWeave-OpenAI commitment expiry",
    "status": "scheduled",
    "why": "The contract servicing the maturity wall is itself up for renewal as the wall peaks -- backlog quality becomes terminal."
   }
  ],
- "as_of": "2026-10-18",
+ "as_of": "2026-10-19",
  "next": {
   "date": "2026-11-10",
-  "days_until": 23,
+  "days_until": 22,
   "kind": "recard",
   "label": "Q3-2026 BDC NAV re-card",
   "recurs": "quarterly",
@@ -105,7 +105,7 @@
  "upcoming": [
   {
    "date": "2026-11-10",
-   "days_until": 23,
+   "days_until": 22,
    "kind": "recard",
    "label": "Q3-2026 BDC NAV re-card",
    "recurs": "quarterly",
@@ -114,7 +114,7 @@
   },
   {
    "date": "2026-12-18",
-   "days_until": 61,
+   "days_until": 60,
    "kind": "adjudication",
    "label": "2026-Q4 TIMING-KILL adjudication",
    "status": "approaching",
@@ -122,7 +122,7 @@
   },
   {
    "date": "2027-01-01",
-   "days_until": 75,
+   "days_until": 74,
    "kind": "contract",
    "label": "SpaceX contract termination window opens (90-day notice)",
    "status": "approaching",
@@ -130,7 +130,7 @@
   },
   {
    "date": "2027-02-10",
-   "days_until": 115,
+   "days_until": 114,
    "kind": "recard",
    "label": "Q4-2026 BDC NAV re-card",
    "recurs": "quarterly",
