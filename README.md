@@ -685,6 +685,16 @@ Run `uv sync --locked --all-extras` to apply the lock to another checkout.
 `uv run --locked pytest tests/security -q --no-cov` checks the removed trust anchor.
 The same review requires `aiohttp>=3.14.5` for three additional dependency
 advisories. Its regression test checks that shared Secure cookies stay on HTTPS.
+It also requires `pillow>=13.0.0` and `virtualenv>=21.14.12` for the image-decoder
+and Bash-activation advisories. Pillow 13 needs Docling changes that are merged
+upstream but not yet in its published packages. The lock therefore pins
+hash-verified source archives for [docling-core PR 907](https://github.com/docling-project/docling-core/pull/907)
+at `e1b282ab8d61b19f458c99ef7d6549f6a03fb86f` and
+[Docling PR 4929](https://github.com/docling-project/docling/pull/4929)
+at `ed66a3c8520933221c977292b875a0d8d939b6fd`.
+Streamlit and Prefect also move to compatible releases. Regression tests check
+that document-image PNG exports preserve pixel values and environment names
+cannot execute a command when Bash draws its prompt.
 The existing Accelerate advisory still has no verified fix; the HTML-only filing
 converter rejects checkpoint files and prevents them from starting a model loader.
 Selected-source acquisition and earlier dependency installation are documented

@@ -2,15 +2,18 @@
 
 from __future__ import annotations
 
+import base64
 from io import BytesIO
 from types import SimpleNamespace
 from typing import TYPE_CHECKING, Any
 
 import pytest
 import requests
+from docling.backend.utils.image import normalize_image_for_png
 from docling.datamodel.base_models import DocumentStream
 from docling.exceptions import ConversionError
 from docling.pipeline.standard_pdf_pipeline import StandardPdfPipeline
+from docling_core.types.doc import DoclingDocument, ImageRef, ImageRefMode
 from PIL import Image
 
 from bubble.ingestion.edgar.documents import get_filing_converter
@@ -19,6 +22,26 @@ from bubble.ingestion.edgar.extractor import EdgarExtractor
 if TYPE_CHECKING:
     from collections.abc import Iterator
     from pathlib import Path
+
+
+def test_integer_document_images_preserve_png_values(tmp_path: Path) -> None:
+    original = Image.new("I", (6, 1))
+    original.putdata([-1, 0, 255, 256, 65535, 65536])
+    expected = [0, 0, 255, 256, 65535, 65535]
+    reference = ImageRef.from_pil(original, dpi=72)
+    embedded = BytesIO(base64.b64decode(str(reference.uri).split(",", 1)[1]))
+    document = DoclingDocument(name="Integer image compatibility")
+    document.add_picture(image=reference)
+    document.save_as_markdown(tmp_path / "document.md", image_mode=ImageRefMode.REFERENCED)
+    [referenced] = tmp_path.rglob("*.png")
+    normalized = BytesIO()
+    normalize_image_for_png(original).save(normalized, format="PNG")
+    normalized.seek(0)
+    for source in [embedded, referenced, normalized]:
+        with Image.open(source) as decoded:
+            assert [decoded.getpixel((x, 0)) for x in range(6)] == expected
+    assert original.mode == "I"
+    assert original.getpixel((0, 0)) == -1
 
 
 @pytest.fixture

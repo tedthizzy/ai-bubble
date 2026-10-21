@@ -14,6 +14,7 @@ dependencies = [
     "edgartools>=2.10",
     # Document intelligence (2026 gold standard for PDFs/tables/layout)
     "docling>=2.132.0",
+    "docling-core>=2.103.1",
     # LLM structured extraction (instructor for Pydantic enforcement)
     "instructor>=1.7",
     "anthropic>=0.45",
@@ -56,6 +57,7 @@ dev = [
     "pytest-asyncio>=0.25",
     "pre-commit>=4.0",
     "vcrpy>=8.2.1",  # for cached real SEC filings in tests (no network)
+    "gitpython>=3.1.62",  # Git-config security regression fixture
     "types-requests",
     "types-beautifulsoup4",
     "lxml-stubs>=0.5.1",
@@ -86,7 +88,7 @@ Homepage = "https://github.com/your-org/bubble"
 
 [tool.uv]
 # Security minimums for transitive dependencies, reviewed 2026-10-17.
-# The 2026-10-21 update covers certifi CA distrust and additional aiohttp advisories.
+# The 2026-10-21 update covers CA distrust and new dependency advisories.
 # Accelerate has no verified fix; the EDGAR converter accepts HTML only.
 constraint-dependencies = [
     "aiohttp>=3.14.5",
@@ -101,7 +103,7 @@ constraint-dependencies = [
     "mako>=1.4.2",
     "multidict>=6.9.1",
     "oauthlib>=4.0.0",
-    "pillow>=12.3.0",
+    "pillow>=13.0.0",
     "python-multipart>=0.0.31",
     "setuptools>=83.0.0",
     "soupsieve>=2.9.0",
@@ -109,8 +111,14 @@ constraint-dependencies = [
     "torch>=2.13.0",
     "transformers>=5.10.1",
     "urllib3>=2.8.0",
-    "virtualenv>=21.7.12",
+    "virtualenv>=21.14.12",
 ]
+
+[tool.uv.sources]
+# Merged Pillow 13 compatibility fixes, pending published Docling releases.
+docling-core = { url = "https://github.com/docling-project/docling-core/archive/e1b282ab8d61b19f458c99ef7d6549f6a03fb86f.tar.gz" }
+docling-slim = { url = "https://github.com/docling-project/docling/archive/ed66a3c8520933221c977292b875a0d8d939b6fd.tar.gz" }
+
 # Modern dependency groups (2026 uv standard)
 [dependency-groups]
 dev = [
@@ -121,6 +129,7 @@ dev = [
     "pytest-asyncio>=0.25",
     "pre-commit>=4.0",
     "vcrpy>=8.2.1",
+    "gitpython>=3.1.62",
     "types-requests",
     "types-beautifulsoup4",
     "lxml-stubs>=0.5.1",
