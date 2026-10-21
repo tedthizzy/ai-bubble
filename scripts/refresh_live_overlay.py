@@ -21,15 +21,21 @@ untouched so the page never shows a falsely-advanced timestamp.
 from __future__ import annotations
 
 import csv
+import hashlib
+import importlib.metadata
 import io
 import json
 import re
 import shutil
+import ssl
 import sys
 import time
+import tomllib
 import urllib.parse
 import urllib.request
+import zipfile
 from datetime import UTC, date, datetime, timedelta
+from functools import cache
 from pathlib import Path
 from typing import Any
 from xml.sax.saxutils import escape
@@ -160,9 +166,35 @@ def _reported_bdc_nav() -> dict[str, tuple[float, str, str]]:
     return navs
 
 
+@cache
+def _https_context() -> ssl.SSLContext:
+    """Use the locked CA bundle without falling back to the host's trust store."""
+    lock = tomllib.loads((ROOT / "uv.lock").read_text())
+    package = next(item for item in lock["package"] if item["name"] == "certifi")
+    try:
+        installed = importlib.metadata.distribution("certifi")
+    except importlib.metadata.PackageNotFoundError:
+        installed = None
+    if installed is not None and installed.version == package["version"]:
+        pem = installed.locate_file("certifi/cacert.pem").read_text(encoding="ascii")
+    else:
+        # GitHub's overlay job uses standard-library Python without project dependencies.
+        # Verify the locked wheel before reading its public CA bundle; execute no package code.
+        wheel = package["wheels"][0]
+        with urllib.request.urlopen(wheel["url"], timeout=20) as response:
+            payload = response.read(wheel["size"] + 1)
+        if "sha256:" + hashlib.sha256(payload).hexdigest() != wheel["hash"]:
+            raise ValueError("Certificate bundle wheel does not match uv.lock")
+        with zipfile.ZipFile(io.BytesIO(payload)) as archive:
+            pem = archive.read("certifi/cacert.pem").decode("ascii")
+    context = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
+    context.load_verify_locations(cadata=pem)
+    return context
+
+
 def _get(url: str, timeout: float = 20.0, headers: dict[str, str] | None = None) -> str:
     req = urllib.request.Request(url, headers=headers or UA)
-    with urllib.request.urlopen(req, timeout=timeout) as resp:
+    with urllib.request.urlopen(req, timeout=timeout, context=_https_context()) as resp:
         return str(resp.read().decode("utf-8", errors="replace"))
 
 

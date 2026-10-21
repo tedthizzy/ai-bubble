@@ -676,5 +676,12 @@ Built with extreme prejudice toward hidden risk and optimistic narrative.
 
 Valuation inputs: [October 17 source review](analysis/expectations_inversion.md).
 Dependency checks: [October 17 audit](analysis/dependency_security_audit_2026-10-17.md).
-The complete-source acquisition and final local dependency installation remain
-in progress; see the dated operations record above.
+The October 21 certificate fix requires `certifi>=2026.10.19` and removes trust
+in emSign ECC Root CA - G3 after the eMudhra intermediate-CA compromise. The
+refresh script uses the locked bundle without system-store fallback. If that
+release is absent, it downloads the wheel specified in `uv.lock`, verifies its
+hash, and reads the public CA bundle in memory without installing a package.
+Run `uv sync --locked --all-extras` to apply the lock to another checkout.
+`uv run --locked pytest tests/security -q --no-cov` checks the removed trust anchor.
+Selected-source acquisition and earlier dependency installation are documented
+in the [dated operations record](analysis/refresh_operations_2026-10-17.md).

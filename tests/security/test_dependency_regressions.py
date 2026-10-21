@@ -2,9 +2,12 @@
 
 from __future__ import annotations
 
+import hashlib
+import ssl
 import subprocess
 from typing import TYPE_CHECKING, Any
 
+import certifi
 import pytest
 from git.config import GitConfigParser
 from starlette.formparsers import MultiPartException
@@ -16,6 +19,18 @@ if TYPE_CHECKING:
     from pathlib import Path
 
     from starlette.types import Message
+
+
+def test_certifi_distrusts_compromised_emudhra_root() -> None:
+    # Mozilla removed emSign ECC Root CA - G3 after the October 2026 incident.
+    compromised_root = "86a1ecba089c4a8d3bbe2734c612ba341d813e043cf9e8a862cd5c57a36bbe6b"
+    context = ssl.create_default_context(cafile=certifi.where())
+    trusted_roots = {
+        hashlib.sha256(certificate).hexdigest()
+        for certificate in context.get_ca_certs(binary_form=True)
+    }
+    assert trusted_roots
+    assert compromised_root not in trusted_roots
 
 
 def test_git_config_rewrite_does_not_inject_directives(tmp_path: Path) -> None:
