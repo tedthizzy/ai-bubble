@@ -683,5 +683,9 @@ release is absent, it downloads the wheel specified in `uv.lock`, verifies its
 hash, and reads the public CA bundle in memory without installing a package.
 Run `uv sync --locked --all-extras` to apply the lock to another checkout.
 `uv run --locked pytest tests/security -q --no-cov` checks the removed trust anchor.
+The same review requires `aiohttp>=3.14.5` for three additional dependency
+advisories. Its regression test checks that shared Secure cookies stay on HTTPS.
+The existing Accelerate advisory still has no verified fix; the HTML-only filing
+converter rejects checkpoint files and prevents them from starting a model loader.
 Selected-source acquisition and earlier dependency installation are documented
 in the [dated operations record](analysis/refresh_operations_2026-10-17.md).

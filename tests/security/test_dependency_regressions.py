@@ -5,15 +5,18 @@ from __future__ import annotations
 import hashlib
 import ssl
 import subprocess
+from http.cookies import SimpleCookie
 from typing import TYPE_CHECKING, Any
 
 import certifi
 import pytest
+from aiohttp import CookieJar
 from git.config import GitConfigParser
 from starlette.formparsers import MultiPartException
 from starlette.requests import Request
 from vcr.serializers import yamlserializer
 from yaml.constructor import ConstructorError
+from yarl import URL
 
 if TYPE_CHECKING:
     from pathlib import Path
@@ -31,6 +34,21 @@ def test_certifi_distrusts_compromised_emudhra_root() -> None:
     }
     assert trusted_roots
     assert compromised_root not in trusted_roots
+
+
+@pytest.mark.asyncio
+async def test_secure_shared_cookie_is_never_sent_over_http() -> None:
+    cookies: SimpleCookie[str] = SimpleCookie()
+    cookies["session"] = "synthetic-security-test"
+    cookies["session"]["secure"] = True
+    jar = CookieJar()
+    jar.update_cookies(cookies)
+
+    assert "session" not in jar.filter_cookies(URL("http://example.invalid/"))
+    assert jar.filter_cookies(URL("https://example.invalid/"))["session"].value == (
+        "synthetic-security-test"
+    )
+    assert "session" not in jar.filter_cookies(URL("http://example.invalid/"))
 
 
 def test_git_config_rewrite_does_not_inject_directives(tmp_path: Path) -> None:

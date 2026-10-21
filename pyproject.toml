@@ -86,10 +86,10 @@ Homepage = "https://github.com/your-org/bubble"
 
 [tool.uv]
 # Security minimums for transitive dependencies, reviewed 2026-10-17.
-# The 2026-10-21 certifi minimum removes the compromised eMudhra trust path.
+# The 2026-10-21 update covers certifi CA distrust and additional aiohttp advisories.
 # Accelerate has no verified fix; the EDGAR converter accepts HTML only.
 constraint-dependencies = [
-    "aiohttp>=3.14.3",
+    "aiohttp>=3.14.5",
     "anyio>=4.14.2",
     "certifi>=2026.10.19",
     "cryptography>=50.0.1",
